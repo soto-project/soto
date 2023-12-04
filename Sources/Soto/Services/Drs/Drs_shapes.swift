@@ -26,7 +26,7 @@ import Foundation
 extension Drs {
     // MARK: Enums
 
-    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failedToAttachStagingDisks = "FAILED_TO_ATTACH_STAGING_DISKS"
         case failedToAuthenticateWithService = "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
@@ -44,7 +44,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attachStagingDisks = "ATTACH_STAGING_DISKS"
         case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
         case bootReplicationServer = "BOOT_REPLICATION_SERVER"
@@ -59,7 +59,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -68,7 +68,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backlog = "BACKLOG"
         case continuous = "CONTINUOUS"
         case creatingSnapshot = "CREATING_SNAPSHOT"
@@ -82,7 +82,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum EC2InstanceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EC2InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notFound = "NOT_FOUND"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -93,20 +93,20 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExtensionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExtensionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case extended = "EXTENDED"
         case extensionError = "EXTENSION_ERROR"
         case notExtended = "NOT_EXTENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackLaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailbackLaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case drill = "DRILL"
         case recovery = "RECOVERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackReplicationError: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailbackReplicationError: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failbackClientNotSeen = "FAILBACK_CLIENT_NOT_SEEN"
         case failedGettingReplicationState = "FAILED_GETTING_REPLICATION_STATE"
@@ -131,7 +131,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackState: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailbackState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failbackCompleted = "FAILBACK_COMPLETED"
         case failbackError = "FAILBACK_ERROR"
         case failbackInProgress = "FAILBACK_IN_PROGRESS"
@@ -142,52 +142,65 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associateNetworkRecovery = "ASSOCIATE_NETWORK_RECOVERY"
+        case createNetworkRecovery = "CREATE_NETWORK_RECOVERY"
         case diagnostic = "DIAGNOSTIC"
         case failback = "FAILBACK"
         case startDrill = "START_DRILL"
         case startRecovery = "START_RECOVERY"
         case targetAccount = "TARGET_ACCOUNT"
         case terminateRecoveryInstances = "TERMINATE_RECOVERY_INSTANCES"
+        case updateNetworkRecovery = "UPDATE_NETWORK_RECOVERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cleanupEnd = "CLEANUP_END"
         case cleanupFail = "CLEANUP_FAIL"
         case cleanupStart = "CLEANUP_START"
         case conversionEnd = "CONVERSION_END"
         case conversionFail = "CONVERSION_FAIL"
         case conversionStart = "CONVERSION_START"
+        case deployNetworkConfigurationEnd = "DEPLOY_NETWORK_CONFIGURATION_END"
+        case deployNetworkConfigurationFailed = "DEPLOY_NETWORK_CONFIGURATION_FAILED"
+        case deployNetworkConfigurationStart = "DEPLOY_NETWORK_CONFIGURATION_START"
         case jobCancel = "JOB_CANCEL"
         case jobEnd = "JOB_END"
         case jobStart = "JOB_START"
         case launchFailed = "LAUNCH_FAILED"
         case launchStart = "LAUNCH_START"
+        case networkRecoveryFail = "NETWORK_RECOVERY_FAIL"
         case serverSkipped = "SERVER_SKIPPED"
         case snapshotEnd = "SNAPSHOT_END"
         case snapshotFail = "SNAPSHOT_FAIL"
         case snapshotStart = "SNAPSHOT_START"
+        case updateLaunchTemplateEnd = "UPDATE_LAUNCH_TEMPLATE_END"
+        case updateLaunchTemplateFailed = "UPDATE_LAUNCH_TEMPLATE_FAILED"
+        case updateLaunchTemplateStart = "UPDATE_LAUNCH_TEMPLATE_START"
+        case updateNetworkConfigurationEnd = "UPDATE_NETWORK_CONFIGURATION_END"
+        case updateNetworkConfigurationFailed = "UPDATE_NETWORK_CONFIGURATION_FAILED"
+        case updateNetworkConfigurationStart = "UPDATE_NETWORK_CONFIGURATION_START"
         case usingPreviousSnapshot = "USING_PREVIOUS_SNAPSHOT"
         case usingPreviousSnapshotFailed = "USING_PREVIOUS_SNAPSHOT_FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case pending = "PENDING"
         case started = "STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createConvertedSnapshot = "CREATE_CONVERTED_SNAPSHOT"
         case launch = "LAUNCH"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastLaunchResult: String, CustomStringConvertible, Codable, Sendable {
+    public enum LastLaunchResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -195,19 +208,47 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum LastLaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LastLaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case drill = "DRILL"
         case recovery = "RECOVERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchActionCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configuration = "CONFIGURATION"
+        case monitoring = "MONITORING"
+        case other = "OTHER"
+        case security = "SECURITY"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamic = "DYNAMIC"
+        case ssmStore = "SSM_STORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ssmAutomation = "SSM_AUTOMATION"
+        case ssmCommand = "SSM_COMMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case launched = "LAUNCHED"
@@ -216,20 +257,20 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginEnvironment: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case onPremises = "ON_PREMISES"
         public var description: String { return self.rawValue }
     }
 
-    public enum PITPolicyRuleUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum PITPolicyRuleUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case hour = "HOUR"
         case minute = "MINUTE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecoveryInstanceDataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attachStagingDisks = "ATTACH_STAGING_DISKS"
         case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
         case bootReplicationServer = "BOOT_REPLICATION_SERVER"
@@ -251,7 +292,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecoveryInstanceDataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -260,7 +301,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecoveryInstanceDataReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backlog = "BACKLOG"
         case continuous = "CONTINUOUS"
         case creatingSnapshot = "CREATING_SNAPSHOT"
@@ -276,19 +317,30 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoverySnapshotsOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecoveryResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associateFail = "ASSOCIATE_FAIL"
+        case associateSuccess = "ASSOCIATE_SUCCESS"
+        case fail = "FAIL"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoverySnapshotsOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case privateIp = "PRIVATE_IP"
         case publicIp = "PUBLIC_IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
@@ -296,13 +348,14 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case `default` = "DEFAULT"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
@@ -313,14 +366,23 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationDirection: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failback = "FAILBACK"
         case failover = "FAILOVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
+        case protected = "PROTECTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
+        case inAws = "IN_AWS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -337,6 +399,45 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case accountID = "accountID"
+        }
+    }
+
+    public struct AssociateSourceNetworkStackRequest: AWSEncodableShape {
+        /// CloudFormation template to associate with a Source Network.
+        public let cfnStackName: String
+        /// The Source Network ID to associate with CloudFormation template.
+        public let sourceNetworkID: String
+
+        public init(cfnStackName: String, sourceNetworkID: String) {
+            self.cfnStackName = cfnStackName
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, max: 128)
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, min: 1)
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*$")
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfnStackName = "cfnStackName"
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct AssociateSourceNetworkStackResponse: AWSDecodableShape {
+        /// The Source Network association Job.
+        public let job: Job?
+
+        public init(job: Job? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
         }
     }
 
@@ -431,25 +532,37 @@ extension Drs {
         public let copyPrivateIp: Bool?
         /// Copy tags.
         public let copyTags: Bool?
+        /// S3 bucket ARN to export Source Network templates.
+        public let exportBucketArn: String?
         /// Launch disposition.
         public let launchDisposition: LaunchDisposition?
+        /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+        public let launchIntoSourceInstance: Bool?
         /// Licensing.
         public let licensing: Licensing?
+        /// Whether we want to activate post-launch actions.
+        public let postLaunchEnabled: Bool?
         /// Request to associate tags during creation of a Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
+            self.exportBucketArn = exportBucketArn
             self.launchDisposition = launchDisposition
+            self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, max: 2048)
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, min: 20)
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, pattern: "^arn:.{16,2044}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -459,8 +572,11 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
+            case exportBucketArn = "exportBucketArn"
             case launchDisposition = "launchDisposition"
+            case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -573,6 +689,59 @@ extension Drs {
             case stagingAreaTags = "stagingAreaTags"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+        }
+    }
+
+    public struct CreateSourceNetworkRequest: AWSEncodableShape {
+        /// Account containing the VPC to protect.
+        public let originAccountID: String
+        /// Region containing the VPC to protect.
+        public let originRegion: String
+        /// A set of tags to be associated with the Source Network resource.
+        public let tags: [String: String]?
+        /// Which VPC ID to protect.
+        public let vpcID: String
+
+        public init(originAccountID: String, originRegion: String, tags: [String: String]? = nil, vpcID: String) {
+            self.originAccountID = originAccountID
+            self.originRegion = originRegion
+            self.tags = tags
+            self.vpcID = vpcID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, max: 12)
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.vpcID, name: "vpcID", parent: name, max: 21)
+            try self.validate(self.vpcID, name: "vpcID", parent: name, min: 12)
+            try self.validate(self.vpcID, name: "vpcID", parent: name, pattern: "^vpc-[0-9a-fA-F]{8,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccountID = "originAccountID"
+            case originRegion = "originRegion"
+            case tags = "tags"
+            case vpcID = "vpcID"
+        }
+    }
+
+    public struct CreateSourceNetworkResponse: AWSDecodableShape {
+        /// ID of the created Source Network.
+        public let sourceNetworkID: String?
+
+        public init(sourceNetworkID: String? = nil) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
         }
     }
 
@@ -720,6 +889,32 @@ extension Drs {
         public init() {}
     }
 
+    public struct DeleteLaunchActionRequest: AWSEncodableShape {
+        public let actionId: String
+        public let resourceId: String
+
+        public init(actionId: String, resourceId: String) {
+            self.actionId = actionId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 64)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct DeleteLaunchActionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteLaunchConfigurationTemplateRequest: AWSEncodableShape {
         /// The ID of the Launch Configuration Template to be deleted.
         public let launchConfigurationTemplateID: String
@@ -782,6 +977,29 @@ extension Drs {
     }
 
     public struct DeleteReplicationConfigurationTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSourceNetworkRequest: AWSEncodableShape {
+        /// ID of the Source Network to delete.
+        public let sourceNetworkID: String
+
+        public init(sourceNetworkID: String) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct DeleteSourceNetworkResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1189,6 +1407,85 @@ extension Drs {
         }
     }
 
+    public struct DescribeSourceNetworksRequest: AWSEncodableShape {
+        /// A set of filters by which to return Source Networks.
+        public let filters: DescribeSourceNetworksRequestFilters?
+        /// Maximum number of Source Networks to retrieve.
+        public let maxResults: Int?
+        /// The token of the next Source Networks to retrieve.
+        public let nextToken: String?
+
+        public init(filters: DescribeSourceNetworksRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeSourceNetworksRequestFilters: AWSEncodableShape {
+        /// Filter Source Networks by account ID containing the protected VPCs.
+        public let originAccountID: String?
+        /// Filter Source Networks by the region containing the protected VPCs.
+        public let originRegion: String?
+        /// An array of Source Network IDs that should be returned. An empty array means all Source Networks.
+        public let sourceNetworkIDs: [String]?
+
+        public init(originAccountID: String? = nil, originRegion: String? = nil, sourceNetworkIDs: [String]? = nil) {
+            self.originAccountID = originAccountID
+            self.originRegion = originRegion
+            self.sourceNetworkIDs = sourceNetworkIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, max: 12)
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
+            try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.sourceNetworkIDs?.forEach {
+                try validate($0, name: "sourceNetworkIDs[]", parent: name, max: 20)
+                try validate($0, name: "sourceNetworkIDs[]", parent: name, min: 20)
+                try validate($0, name: "sourceNetworkIDs[]", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.sourceNetworkIDs, name: "sourceNetworkIDs", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccountID = "originAccountID"
+            case originRegion = "originRegion"
+            case sourceNetworkIDs = "sourceNetworkIDs"
+        }
+    }
+
+    public struct DescribeSourceNetworksResponse: AWSDecodableShape {
+        /// An array of Source Networks.
+        public let items: [SourceNetwork]?
+        /// The token of the next Source Networks to retrieve.
+        public let nextToken: String?
+
+        public init(items: [SourceNetwork]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeSourceServersRequest: AWSEncodableShape {
         /// A set of filters by which to return Source Servers.
         public let filters: DescribeSourceServersRequestFilters?
@@ -1325,6 +1622,38 @@ extension Drs {
         }
     }
 
+    public struct ExportSourceNetworkCfnTemplateRequest: AWSEncodableShape {
+        /// The Source Network ID to export its CloudFormation template to an S3 bucket.
+        public let sourceNetworkID: String
+
+        public init(sourceNetworkID: String) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct ExportSourceNetworkCfnTemplateResponse: AWSDecodableShape {
+        /// S3 bucket URL where the Source Network CloudFormation template was exported to.
+        public let s3DestinationUrl: String?
+
+        public init(s3DestinationUrl: String? = nil) {
+            self.s3DestinationUrl = s3DestinationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DestinationUrl = "s3DestinationUrl"
+        }
+    }
+
     public struct GetFailbackReplicationConfigurationRequest: AWSEncodableShape {
         /// The ID of the Recovery Instance whose failback replication configuration should be returned.
         public let recoveryInstanceID: String
@@ -1451,6 +1780,8 @@ extension Drs {
         public let initiatedBy: InitiatedBy?
         /// The ID of the Job.
         public let jobID: String
+        /// A list of resources that the Job is acting upon.
+        public let participatingResources: [ParticipatingResource]?
         /// A list of servers that the Job is acting upon.
         public let participatingServers: [ParticipatingServer]?
         /// The status of the Job.
@@ -1460,12 +1791,13 @@ extension Drs {
         /// The type of the Job.
         public let type: JobType?
 
-        public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, initiatedBy: InitiatedBy? = nil, jobID: String, participatingServers: [ParticipatingServer]? = nil, status: JobStatus? = nil, tags: [String: String]? = nil, type: JobType? = nil) {
+        public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, initiatedBy: InitiatedBy? = nil, jobID: String, participatingResources: [ParticipatingResource]? = nil, participatingServers: [ParticipatingServer]? = nil, status: JobStatus? = nil, tags: [String: String]? = nil, type: JobType? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.initiatedBy = initiatedBy
             self.jobID = jobID
+            self.participatingResources = participatingResources
             self.participatingServers = participatingServers
             self.status = status
             self.tags = tags
@@ -1478,6 +1810,7 @@ extension Drs {
             case endDateTime = "endDateTime"
             case initiatedBy = "initiatedBy"
             case jobID = "jobID"
+            case participatingResources = "participatingResources"
             case participatingServers = "participatingServers"
             case status = "status"
             case tags = "tags"
@@ -1511,6 +1844,8 @@ extension Drs {
         public let conversionProperties: ConversionProperties?
         /// The ID of a conversion server.
         public let conversionServerID: String?
+        /// Properties of resource related to a job event.
+        public let eventResourceData: EventResourceData?
         /// A string representing a job error.
         public let rawError: String?
         /// The ID of a Source Server.
@@ -1518,9 +1853,10 @@ extension Drs {
         /// The ID of a Recovery Instance.
         public let targetInstanceID: String?
 
-        public init(conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+        public init(conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, eventResourceData: EventResourceData? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
+            self.eventResourceData = eventResourceData
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
@@ -1529,9 +1865,143 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case conversionProperties = "conversionProperties"
             case conversionServerID = "conversionServerID"
+            case eventResourceData = "eventResourceData"
             case rawError = "rawError"
             case sourceServerID = "sourceServerID"
             case targetInstanceID = "targetInstanceID"
+        }
+    }
+
+    public struct LaunchAction: AWSDecodableShape {
+        /// Launch action code.
+        public let actionCode: String?
+        public let actionId: String?
+        public let actionVersion: String?
+        /// Whether the launch action is active.
+        public let active: Bool?
+        public let category: LaunchActionCategory?
+        public let description: String?
+        public let name: String?
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool?
+        public let order: Int?
+        public let parameters: [String: LaunchActionParameter]?
+        /// Launch action type.
+        public let type: LaunchActionType?
+
+        public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, type: LaunchActionType? = nil) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case type = "type"
+        }
+    }
+
+    public struct LaunchActionParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Type.
+        public let type: LaunchActionParameterType?
+        /// Value.
+        public let value: String?
+
+        public init(type: LaunchActionParameterType? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1011)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z0-9.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case value = "value"
+        }
+    }
+
+    public struct LaunchActionRun: AWSDecodableShape {
+        /// Action.
+        public let action: LaunchAction?
+        /// Failure reason.
+        public let failureReason: String?
+        /// Run Id.
+        public let runId: String?
+        /// Run status.
+        public let status: LaunchActionRunStatus?
+
+        public init(action: LaunchAction? = nil, failureReason: String? = nil, runId: String? = nil, status: LaunchActionRunStatus? = nil) {
+            self.action = action
+            self.failureReason = failureReason
+            self.runId = runId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case failureReason = "failureReason"
+            case runId = "runId"
+            case status = "status"
+        }
+    }
+
+    public struct LaunchActionsRequestFilters: AWSEncodableShape {
+        /// Launch actions Ids.
+        public let actionIds: [String]?
+
+        public init(actionIds: [String]? = nil) {
+            self.actionIds = actionIds
+        }
+
+        public func validate(name: String) throws {
+            try self.actionIds?.forEach {
+                try validate($0, name: "actionIds[]", parent: name, max: 64)
+                try validate($0, name: "actionIds[]", parent: name, min: 1)
+                try validate($0, name: "actionIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            }
+            try self.validate(self.actionIds, name: "actionIds", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIds = "actionIds"
+        }
+    }
+
+    public struct LaunchActionsStatus: AWSDecodableShape {
+        /// List of post launch action status.
+        public let runs: [LaunchActionRun]?
+        /// Time where the AWS Systems Manager was detected as running on the launched instance.
+        public let ssmAgentDiscoveryDatetime: String?
+
+        public init(runs: [LaunchActionRun]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
+            self.runs = runs
+            self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runs = "runs"
+            case ssmAgentDiscoveryDatetime = "ssmAgentDiscoveryDatetime"
         }
     }
 
@@ -1544,22 +2014,28 @@ extension Drs {
         public let ec2LaunchTemplateID: String?
         /// The state of the Recovery Instance in EC2 after the recovery operation.
         public let launchDisposition: LaunchDisposition?
+        /// Launch into existing instance properties.
+        public let launchIntoInstanceProperties: LaunchIntoInstanceProperties?
         /// The licensing configuration to be used for this launch configuration.
         public let licensing: Licensing?
         /// The name of the launch configuration.
         public let name: String?
+        /// Whether we want to activate post-launch actions for the Source Server.
+        public let postLaunchEnabled: Bool?
         /// The ID of the Source Server for this launch configuration.
         public let sourceServerID: String?
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.launchDisposition = launchDisposition
+            self.launchIntoInstanceProperties = launchIntoInstanceProperties
             self.licensing = licensing
             self.name = name
+            self.postLaunchEnabled = postLaunchEnabled
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -1569,8 +2045,10 @@ extension Drs {
             case copyTags = "copyTags"
             case ec2LaunchTemplateID = "ec2LaunchTemplateID"
             case launchDisposition = "launchDisposition"
+            case launchIntoInstanceProperties = "launchIntoInstanceProperties"
             case licensing = "licensing"
             case name = "name"
+            case postLaunchEnabled = "postLaunchEnabled"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -1583,24 +2061,33 @@ extension Drs {
         public let copyPrivateIp: Bool?
         /// Copy tags.
         public let copyTags: Bool?
+        /// S3 bucket ARN to export Source Network templates.
+        public let exportBucketArn: String?
         /// ID of the Launch Configuration Template.
         public let launchConfigurationTemplateID: String?
         /// Launch disposition.
         public let launchDisposition: LaunchDisposition?
+        /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+        public let launchIntoSourceInstance: Bool?
         /// Licensing.
         public let licensing: Licensing?
+        /// Post-launch actions activated.
+        public let postLaunchEnabled: Bool?
         /// Tags of the Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
+            self.exportBucketArn = exportBucketArn
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
+            self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -1609,11 +2096,32 @@ extension Drs {
             case arn = "arn"
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
+            case exportBucketArn = "exportBucketArn"
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
+            case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
+        }
+    }
+
+    public struct LaunchIntoInstanceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback.
+        public let launchIntoEC2InstanceID: String?
+
+        public init(launchIntoEC2InstanceID: String? = nil) {
+            self.launchIntoEC2InstanceID = launchIntoEC2InstanceID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.launchIntoEC2InstanceID, name: "launchIntoEC2InstanceID", parent: name, max: 255)
+            try self.validate(self.launchIntoEC2InstanceID, name: "launchIntoEC2InstanceID", parent: name, pattern: "^i-[0-9a-fA-F]{8,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchIntoEC2InstanceID = "launchIntoEC2InstanceID"
         }
     }
 
@@ -1734,6 +2242,55 @@ extension Drs {
         public let nextToken: String?
 
         public init(items: [StagingSourceServer]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLaunchActionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing resource launch actions.
+        public let filters: LaunchActionsRequestFilters?
+        /// Maximum amount of items to return when listing resource launch actions.
+        public let maxResults: Int?
+        /// Next token to use when listing resource launch actions.
+        public let nextToken: String?
+        public let resourceId: String
+
+        public init(filters: LaunchActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct ListLaunchActionsResponse: AWSDecodableShape {
+        /// List of resource launch actions.
+        public let items: [LaunchAction]?
+        /// Next token returned when listing resource launch actions.
+        public let nextToken: String?
+
+        public init(items: [LaunchAction]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1891,7 +2448,26 @@ extension Drs {
         }
     }
 
+    public struct ParticipatingResource: AWSDecodableShape {
+        /// The launch status of a participating resource.
+        public let launchStatus: LaunchStatus?
+        /// The ID of a participating resource.
+        public let participatingResourceID: ParticipatingResourceID?
+
+        public init(launchStatus: LaunchStatus? = nil, participatingResourceID: ParticipatingResourceID? = nil) {
+            self.launchStatus = launchStatus
+            self.participatingResourceID = participatingResourceID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchStatus = "launchStatus"
+            case participatingResourceID = "participatingResourceID"
+        }
+    }
+
     public struct ParticipatingServer: AWSDecodableShape {
+        /// The post-launch action runs of a participating server.
+        public let launchActionsStatus: LaunchActionsStatus?
         /// The launch status of a participating server.
         public let launchStatus: LaunchStatus?
         /// The Recovery Instance ID of a participating server.
@@ -1899,16 +2475,139 @@ extension Drs {
         /// The Source Server ID of a participating server.
         public let sourceServerID: String?
 
-        public init(launchStatus: LaunchStatus? = nil, recoveryInstanceID: String? = nil, sourceServerID: String? = nil) {
+        public init(launchActionsStatus: LaunchActionsStatus? = nil, launchStatus: LaunchStatus? = nil, recoveryInstanceID: String? = nil, sourceServerID: String? = nil) {
+            self.launchActionsStatus = launchActionsStatus
             self.launchStatus = launchStatus
             self.recoveryInstanceID = recoveryInstanceID
             self.sourceServerID = sourceServerID
         }
 
         private enum CodingKeys: String, CodingKey {
+            case launchActionsStatus = "launchActionsStatus"
             case launchStatus = "launchStatus"
             case recoveryInstanceID = "recoveryInstanceID"
             case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct PutLaunchActionRequest: AWSEncodableShape {
+        /// Launch action code.
+        public let actionCode: String
+        public let actionId: String
+        public let actionVersion: String
+        /// Whether the launch action is active.
+        public let active: Bool
+        public let category: LaunchActionCategory
+        public let description: String
+        public let name: String
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool
+        public let order: Int
+        public let parameters: [String: LaunchActionParameter]?
+        public let resourceId: String
+
+        public init(actionCode: String, actionId: String, actionVersion: String, active: Bool, category: LaunchActionCategory, description: String, name: String, optional: Bool, order: Int = 0, parameters: [String: LaunchActionParameter]? = nil, resourceId: String) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionCode, name: "actionCode", parent: name, max: 1011)
+            try self.validate(self.actionCode, name: "actionCode", parent: name, min: 1)
+            try self.validate(self.actionCode, name: "actionCode", parent: name, pattern: "^([A-Za-z0-9-/:])+$")
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 64)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, max: 10)
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, min: 1)
+            try self.validate(self.actionVersion, name: "actionVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9a-zA-Z ():/.,'-_#*;\n]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9 /_-]*$")
+            try self.validate(self.order, name: "order", parent: name, max: 10000)
+            try self.validate(self.order, name: "order", parent: name, min: 2)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct PutLaunchActionResponse: AWSDecodableShape {
+        /// Launch action code.
+        public let actionCode: String?
+        public let actionId: String?
+        public let actionVersion: String?
+        /// Whether the launch action is active.
+        public let active: Bool?
+        public let category: LaunchActionCategory?
+        public let description: String?
+        public let name: String?
+        /// Whether the launch will not be marked as failed if this action fails.
+        public let optional: Bool?
+        public let order: Int?
+        public let parameters: [String: LaunchActionParameter]?
+        public let resourceId: String?
+        /// Launch action type.
+        public let type: LaunchActionType?
+
+        public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, resourceId: String? = nil, type: LaunchActionType? = nil) {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.optional = optional
+            self.order = order
+            self.parameters = parameters
+            self.resourceId = resourceId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCode = "actionCode"
+            case actionId = "actionId"
+            case actionVersion = "actionVersion"
+            case active = "active"
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case optional = "optional"
+            case order = "order"
+            case parameters = "parameters"
+            case resourceId = "resourceId"
+            case type = "type"
         }
     }
 
@@ -2198,6 +2897,27 @@ extension Drs {
             case networkInterfaces = "networkInterfaces"
             case os = "os"
             case ramBytes = "ramBytes"
+        }
+    }
+
+    public struct RecoveryLifeCycle: AWSDecodableShape {
+        /// The date and time the last Source Network recovery was initiated.
+        public let apiCallDateTime: Date?
+        /// The ID of the Job that was used to last recover the Source Network.
+        public let jobID: String?
+        /// The status of the last recovery status of this Source Network.
+        public let lastRecoveryResult: RecoveryResult?
+
+        public init(apiCallDateTime: Date? = nil, jobID: String? = nil, lastRecoveryResult: RecoveryResult? = nil) {
+            self.apiCallDateTime = apiCallDateTime
+            self.jobID = jobID
+            self.lastRecoveryResult = lastRecoveryResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiCallDateTime = "apiCallDateTime"
+            case jobID = "jobID"
+            case lastRecoveryResult = "lastRecoveryResult"
         }
     }
 
@@ -2495,6 +3215,84 @@ extension Drs {
         }
     }
 
+    public struct SourceNetwork: AWSDecodableShape {
+        /// The ARN of the Source Network.
+        public let arn: String?
+        /// CloudFormation stack name that was deployed for recovering the Source Network.
+        public let cfnStackName: String?
+        /// An object containing information regarding the last recovery of the Source Network.
+        public let lastRecovery: RecoveryLifeCycle?
+        /// ID of the recovered VPC following Source Network recovery.
+        public let launchedVpcID: String?
+        /// Status of Source Network Replication. Possible values: (a) STOPPED - Source Network is not replicating. (b) IN_PROGRESS - Source Network is being replicated. (c) PROTECTED - Source Network was replicated successfully and is being synchronized for changes. (d) ERROR - Source Network replication has failed
+        public let replicationStatus: ReplicationStatus?
+        /// Error details in case Source Network replication status is ERROR.
+        public let replicationStatusDetails: String?
+        /// Account ID containing the VPC protected by the Source Network.
+        public let sourceAccountID: String?
+        /// Source Network ID.
+        public let sourceNetworkID: String?
+        /// Region containing the VPC protected by the Source Network.
+        public let sourceRegion: String?
+        /// VPC ID protected by the Source Network.
+        public let sourceVpcID: String?
+        /// A list of tags associated with the Source Network.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cfnStackName: String? = nil, lastRecovery: RecoveryLifeCycle? = nil, launchedVpcID: String? = nil, replicationStatus: ReplicationStatus? = nil, replicationStatusDetails: String? = nil, sourceAccountID: String? = nil, sourceNetworkID: String? = nil, sourceRegion: String? = nil, sourceVpcID: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cfnStackName = cfnStackName
+            self.lastRecovery = lastRecovery
+            self.launchedVpcID = launchedVpcID
+            self.replicationStatus = replicationStatus
+            self.replicationStatusDetails = replicationStatusDetails
+            self.sourceAccountID = sourceAccountID
+            self.sourceNetworkID = sourceNetworkID
+            self.sourceRegion = sourceRegion
+            self.sourceVpcID = sourceVpcID
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cfnStackName = "cfnStackName"
+            case lastRecovery = "lastRecovery"
+            case launchedVpcID = "launchedVpcID"
+            case replicationStatus = "replicationStatus"
+            case replicationStatusDetails = "replicationStatusDetails"
+            case sourceAccountID = "sourceAccountID"
+            case sourceNetworkID = "sourceNetworkID"
+            case sourceRegion = "sourceRegion"
+            case sourceVpcID = "sourceVpcID"
+            case tags = "tags"
+        }
+    }
+
+    public struct SourceNetworkData: AWSDecodableShape {
+        /// Source Network ID.
+        public let sourceNetworkID: String?
+        /// VPC ID protected by the Source Network.
+        public let sourceVpc: String?
+        /// CloudFormation stack name that was deployed for recovering the Source Network.
+        public let stackName: String?
+        /// ID of the recovered VPC following Source Network recovery.
+        public let targetVpc: String?
+
+        public init(sourceNetworkID: String? = nil, sourceVpc: String? = nil, stackName: String? = nil, targetVpc: String? = nil) {
+            self.sourceNetworkID = sourceNetworkID
+            self.sourceVpc = sourceVpc
+            self.stackName = stackName
+            self.targetVpc = targetVpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
+            case sourceVpc = "sourceVpc"
+            case stackName = "stackName"
+            case targetVpc = "targetVpc"
+        }
+    }
+
     public struct SourceProperties: AWSDecodableShape {
         /// An array of CPUs.
         public let cpus: [CPU]?
@@ -2557,6 +3355,8 @@ extension Drs {
         public let reversedDirectionSourceServerArn: String?
         /// Source cloud properties of the Source Server.
         public let sourceCloudProperties: SourceCloudProperties?
+        /// ID of the Source Network which is protecting this Source Server's network.
+        public let sourceNetworkID: String?
         /// The source properties of the Source Server.
         public let sourceProperties: SourceProperties?
         /// The ID of the Source Server.
@@ -2566,7 +3366,7 @@ extension Drs {
         /// The tags associated with the Source Server.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, replicationDirection: ReplicationDirection? = nil, reversedDirectionSourceServerArn: String? = nil, sourceCloudProperties: SourceCloudProperties? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, replicationDirection: ReplicationDirection? = nil, reversedDirectionSourceServerArn: String? = nil, sourceCloudProperties: SourceCloudProperties? = nil, sourceNetworkID: String? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.lastLaunchResult = lastLaunchResult
@@ -2575,6 +3375,7 @@ extension Drs {
             self.replicationDirection = replicationDirection
             self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
             self.sourceCloudProperties = sourceCloudProperties
+            self.sourceNetworkID = sourceNetworkID
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.stagingArea = stagingArea
@@ -2590,6 +3391,7 @@ extension Drs {
             case replicationDirection = "replicationDirection"
             case reversedDirectionSourceServerArn = "reversedDirectionSourceServerArn"
             case sourceCloudProperties = "sourceCloudProperties"
+            case sourceNetworkID = "sourceNetworkID"
             case sourceProperties = "sourceProperties"
             case sourceServerID = "sourceServerID"
             case stagingArea = "stagingArea"
@@ -2791,6 +3593,110 @@ extension Drs {
         }
     }
 
+    public struct StartSourceNetworkRecoveryRequest: AWSEncodableShape {
+        /// Don't update existing CloudFormation Stack, recover the network using a new stack.
+        public let deployAsNew: Bool?
+        /// The Source Networks that we want to start a Recovery Job for.
+        public let sourceNetworks: [StartSourceNetworkRecoveryRequestNetworkEntry]
+        /// The tags to be associated with the Source Network recovery Job.
+        public let tags: [String: String]?
+
+        public init(deployAsNew: Bool? = nil, sourceNetworks: [StartSourceNetworkRecoveryRequestNetworkEntry], tags: [String: String]? = nil) {
+            self.deployAsNew = deployAsNew
+            self.sourceNetworks = sourceNetworks
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceNetworks.forEach {
+                try $0.validate(name: "\(name).sourceNetworks[]")
+            }
+            try self.validate(self.sourceNetworks, name: "sourceNetworks", parent: name, max: 100)
+            try self.validate(self.sourceNetworks, name: "sourceNetworks", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployAsNew = "deployAsNew"
+            case sourceNetworks = "sourceNetworks"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartSourceNetworkRecoveryRequestNetworkEntry: AWSEncodableShape {
+        /// CloudFormation stack name to be used for recovering the network.
+        public let cfnStackName: String?
+        /// The ID of the Source Network you want to recover.
+        public let sourceNetworkID: String
+
+        public init(cfnStackName: String? = nil, sourceNetworkID: String) {
+            self.cfnStackName = cfnStackName
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, max: 128)
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, min: 1)
+            try self.validate(self.cfnStackName, name: "cfnStackName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*$")
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfnStackName = "cfnStackName"
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct StartSourceNetworkRecoveryResponse: AWSDecodableShape {
+        /// The Source Network recovery Job.
+        public let job: Job?
+
+        public init(job: Job? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct StartSourceNetworkReplicationRequest: AWSEncodableShape {
+        /// ID of the Source Network to replicate.
+        public let sourceNetworkID: String
+
+        public init(sourceNetworkID: String) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct StartSourceNetworkReplicationResponse: AWSDecodableShape {
+        /// Source Network which was requested for replication.
+        public let sourceNetwork: SourceNetwork?
+
+        public init(sourceNetwork: SourceNetwork? = nil) {
+            self.sourceNetwork = sourceNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetwork = "sourceNetwork"
+        }
+    }
+
     public struct StopFailbackRequest: AWSEncodableShape {
         /// The ID of the Recovery Instance we want to stop failback for.
         public let recoveryInstanceID: String
@@ -2839,6 +3745,38 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case sourceServer = "sourceServer"
+        }
+    }
+
+    public struct StopSourceNetworkReplicationRequest: AWSEncodableShape {
+        /// ID of the Source Network to stop replication.
+        public let sourceNetworkID: String
+
+        public init(sourceNetworkID: String) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, max: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, min: 20)
+            try self.validate(self.sourceNetworkID, name: "sourceNetworkID", parent: name, pattern: "^sn-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
+        }
+    }
+
+    public struct StopSourceNetworkReplicationResponse: AWSDecodableShape {
+        /// Source Network which was requested to stop replication.
+        public let sourceNetwork: SourceNetwork?
+
+        public init(sourceNetwork: SourceNetwork? = nil) {
+            self.sourceNetwork = sourceNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetwork = "sourceNetwork"
         }
     }
 
@@ -2981,26 +3919,33 @@ extension Drs {
         public let copyTags: Bool?
         /// The state of the Recovery Instance in EC2 after the recovery operation.
         public let launchDisposition: LaunchDisposition?
+        /// Launch into existing instance properties.
+        public let launchIntoInstanceProperties: LaunchIntoInstanceProperties?
         /// The licensing configuration to be used for this launch configuration.
         public let licensing: Licensing?
         /// The name of the launch configuration.
         public let name: String?
+        /// Whether we want to enable post-launch actions for the Source Server.
+        public let postLaunchEnabled: Bool?
         /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
         public let sourceServerID: String
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.launchDisposition = launchDisposition
+            self.launchIntoInstanceProperties = launchIntoInstanceProperties
             self.licensing = licensing
             self.name = name
+            self.postLaunchEnabled = postLaunchEnabled
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         public func validate(name: String) throws {
+            try self.launchIntoInstanceProperties?.validate(name: "\(name).launchIntoInstanceProperties")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
@@ -3011,8 +3956,10 @@ extension Drs {
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
             case launchDisposition = "launchDisposition"
+            case launchIntoInstanceProperties = "launchIntoInstanceProperties"
             case licensing = "licensing"
             case name = "name"
+            case postLaunchEnabled = "postLaunchEnabled"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -3023,25 +3970,37 @@ extension Drs {
         public let copyPrivateIp: Bool?
         /// Copy tags.
         public let copyTags: Bool?
+        /// S3 bucket ARN to export Source Network templates.
+        public let exportBucketArn: String?
         /// Launch Configuration Template ID.
         public let launchConfigurationTemplateID: String
         /// Launch disposition.
         public let launchDisposition: LaunchDisposition?
+        /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+        public let launchIntoSourceInstance: Bool?
         /// Licensing.
         public let licensing: Licensing?
+        /// Whether we want to activate post-launch actions.
+        public let postLaunchEnabled: Bool?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
+            self.exportBucketArn = exportBucketArn
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
+            self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, max: 2048)
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, min: 20)
+            try self.validate(self.exportBucketArn, name: "exportBucketArn", parent: name, pattern: "^arn:.{16,2044}$")
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
@@ -3050,9 +4009,12 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
+            case exportBucketArn = "exportBucketArn"
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
+            case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
+            case postLaunchEnabled = "postLaunchEnabled"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
@@ -3279,6 +4241,32 @@ extension Drs {
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
+        }
+    }
+
+    public struct EventResourceData: AWSDecodableShape {
+        /// Source Network properties.
+        public let sourceNetworkData: SourceNetworkData?
+
+        public init(sourceNetworkData: SourceNetworkData? = nil) {
+            self.sourceNetworkData = sourceNetworkData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkData = "sourceNetworkData"
+        }
+    }
+
+    public struct ParticipatingResourceID: AWSDecodableShape {
+        /// Source Network ID.
+        public let sourceNetworkID: String?
+
+        public init(sourceNetworkID: String? = nil) {
+            self.sourceNetworkID = sourceNetworkID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceNetworkID = "sourceNetworkID"
         }
     }
 }

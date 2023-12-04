@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MWAA service.
 ///
-/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.    CreateCliToken     CreateWebLoginToken       ops.airflow.{region}.amazonaws.com - This endpoint is used to push environment metrics that track environment health.    PublishMetrics       Regions  For a list of regions that Amazon MWAA supports, see Region availability in the Amazon MWAA User Guide.
+/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.    CreateCliToken     CreateWebLoginToken       Regions  For a list of supported regions, see Amazon MWAA endpoints and quotas in the Amazon Web Services General Reference.
 public struct MWAA: AWSService {
     // MARK: Member variables
 
@@ -172,6 +172,7 @@ public struct MWAA: AWSService {
     }
 
     ///  Internal only. Publishes environment health metrics to Amazon CloudWatch.
+    @available(*, deprecated, message: "This API is for internal use and not meant for public use, and is no longer available.")
     @Sendable
     public func publishMetrics(_ input: PublishMetricsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishMetricsOutput {
         return try await self.client.execute(

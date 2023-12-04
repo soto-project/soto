@@ -230,6 +230,19 @@ public struct Grafana: AWSService {
         )
     }
 
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    @Sendable
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListVersions", 
+            path: "/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     @Sendable
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
@@ -354,6 +367,25 @@ extension Grafana {
         )
     }
 
+    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listVersionsPaginator(
+        _ input: ListVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVersionsRequest, ListVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listVersions,
+            inputKey: \ListVersionsRequest.nextToken,
+            outputKey: \ListVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     /// Return PaginatorSequence for operation.
     ///
@@ -382,6 +414,16 @@ extension Grafana.ListPermissionsRequest: AWSPaginateToken {
             nextToken: token,
             userId: self.userId,
             userType: self.userType,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension Grafana.ListVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Grafana.ListVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
             workspaceId: self.workspaceId
         )
     }

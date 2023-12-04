@@ -26,19 +26,19 @@ import Foundation
 extension VPCLattice {
     // MARK: Enums
 
-    public enum AuthPolicyState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthPolicyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsIam = "AWS_IAM"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckProtocolVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum HealthCheckProtocolVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates use of HTTP/1.1 to send requests to target
         case http1 = "HTTP1"
         /// Indicates use of HTTP/2 to send requests to target
@@ -46,7 +46,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates IPv4 address type
         case ipv4 = "IPV4"
         /// Indicates IPv6 address type
@@ -54,7 +54,15 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListenerProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaEventStructureVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// This is the default lambda event structure version
+        case v1 = "V1"
+        /// Indicates use of lambda event structure version 2
+        case v2 = "V2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListenerProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates HTTP protocol
         case http = "HTTP"
         /// Indicates HTTPS protocol
@@ -62,7 +70,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNetworkServiceAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceNetworkServiceAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// ServiceNetwork and Service association is active
         case active = "ACTIVE"
         /// ServiceNetwork and Service association creation failed.
@@ -76,7 +84,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNetworkVpcAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceNetworkVpcAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// ServiceNetwork and Vpc association is active
         case active = "ACTIVE"
         /// ServiceNetwork and Vpc association creation failed.
@@ -94,7 +102,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Service is active.
         case active = "ACTIVE"
         /// Service creation failed
@@ -108,7 +116,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetGroupProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetGroupProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates HTTP protocol
         case http = "HTTP"
         /// Indicates HTTPS protocol
@@ -116,7 +124,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetGroupProtocolVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetGroupProtocolVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates use of gRPC to send requests to target
         case grpc = "GRPC"
         /// Indicates use of HTTP/1.1 to send requests to target
@@ -126,7 +134,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetGroupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// TargetGroup is active
         case active = "ACTIVE"
         /// TargetGroup creation failed.
@@ -140,7 +148,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetGroupType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates target in this target group is an ALB
         case alb = "ALB"
         /// Indicates targets in this target group are EC2 instances
@@ -152,7 +160,7 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// The target is deregistering and connection draining is in process.
         case draining = "DRAINING"
         /// The target is healthy.
@@ -749,7 +757,7 @@ extension VPCLattice {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!servicenetwork-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1681,7 +1689,7 @@ extension VPCLattice {
         public var lastUpdatedAt: Date?
         /// The auth policy.
         public let policy: String?
-        /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
+        /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
         public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, policy: String? = nil, state: AuthPolicyState? = nil) {
@@ -1781,7 +1789,7 @@ extension VPCLattice {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service network or service.
+        /// An IAM policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1804,7 +1812,7 @@ extension VPCLattice {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
-        /// An IAM policy.
+        /// The Amazon Resource Name (ARN) of the service network or service.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -3012,7 +3020,7 @@ extension VPCLattice {
     }
 
     public struct PutAuthPolicyRequest: AWSEncodableShape {
-        /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
+        /// The auth policy.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceIdentifier: String
@@ -3031,7 +3039,6 @@ extension VPCLattice {
 
         public func validate(name: String) throws {
             try self.validate(self.policy, name: "policy", parent: name, max: 10000)
-            try self.validate(self.policy, name: "policy", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
@@ -3043,9 +3050,9 @@ extension VPCLattice {
     }
 
     public struct PutAuthPolicyResponse: AWSDecodableShape {
-        /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
+        /// The auth policy.
         public let policy: String?
-        /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
+        /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
         public init(policy: String? = nil, state: AuthPolicyState? = nil) {
@@ -3060,7 +3067,7 @@ extension VPCLattice {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
+        /// An IAM policy.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceArn: String
@@ -3561,18 +3568,21 @@ extension VPCLattice {
         public let healthCheck: HealthCheckConfig?
         /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public let ipAddressType: IpAddressType?
+        /// Lambda event structure version
+        public let lambdaEventStructureVersion: LambdaEventStructureVersion?
         /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443
-        public let port: Int
+        public let port: Int?
         /// The protocol to use for routing traffic to the targets. Default is the protocol of a target group.
-        public let `protocol`: TargetGroupProtocol
+        public let `protocol`: TargetGroupProtocol?
         /// The protocol version. Default value is HTTP1.
         public let protocolVersion: TargetGroupProtocolVersion?
         /// The ID of the VPC.
-        public let vpcIdentifier: String
+        public let vpcIdentifier: String?
 
-        public init(healthCheck: HealthCheckConfig? = nil, ipAddressType: IpAddressType? = nil, port: Int, protocol: TargetGroupProtocol, protocolVersion: TargetGroupProtocolVersion? = nil, vpcIdentifier: String) {
+        public init(healthCheck: HealthCheckConfig? = nil, ipAddressType: IpAddressType? = nil, lambdaEventStructureVersion: LambdaEventStructureVersion? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, protocolVersion: TargetGroupProtocolVersion? = nil, vpcIdentifier: String? = nil) {
             self.healthCheck = healthCheck
             self.ipAddressType = ipAddressType
+            self.lambdaEventStructureVersion = lambdaEventStructureVersion
             self.port = port
             self.`protocol` = `protocol`
             self.protocolVersion = protocolVersion
@@ -3591,6 +3601,7 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "healthCheck"
             case ipAddressType = "ipAddressType"
+            case lambdaEventStructureVersion = "lambdaEventStructureVersion"
             case port = "port"
             case `protocol` = "protocol"
             case protocolVersion = "protocolVersion"
@@ -3608,6 +3619,8 @@ extension VPCLattice {
         public let id: String?
         /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public let ipAddressType: IpAddressType?
+        /// Lambda event structure version
+        public let lambdaEventStructureVersion: LambdaEventStructureVersion?
         /// The date and time that the target group was last updated, specified in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
@@ -3626,11 +3639,12 @@ extension VPCLattice {
         /// The ID of the VPC of the target group.
         public let vpcIdentifier: String?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, serviceArns: [String]? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil, vpcIdentifier: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, lambdaEventStructureVersion: LambdaEventStructureVersion? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, serviceArns: [String]? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.lambdaEventStructureVersion = lambdaEventStructureVersion
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.port = port
@@ -3646,6 +3660,7 @@ extension VPCLattice {
             case createdAt = "createdAt"
             case id = "id"
             case ipAddressType = "ipAddressType"
+            case lambdaEventStructureVersion = "lambdaEventStructureVersion"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case port = "port"
@@ -4005,7 +4020,7 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        /// The IDs of the security groups.
+        /// The IDs of the security groups. Once you add a security group, it cannot be removed.
         public let securityGroupIds: [String]
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String

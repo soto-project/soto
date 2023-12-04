@@ -26,7 +26,7 @@ import Foundation
 extension CloudFront {
     // MARK: Enums
 
-    public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -34,13 +34,13 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -48,26 +48,26 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CachePolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acm = "acm"
         case cloudfront = "cloudfront"
         case iam = "iam"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singleHeader = "SingleHeader"
         case singleWeight = "SingleWeight"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case originRequest = "origin-request"
         case originResponse = "origin-response"
         case viewerRequest = "viewer-request"
@@ -75,36 +75,37 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case urlEncoded = "URLEncoded"
         public var description: String { return self.rawValue }
     }
 
-    public enum FrameOptionsList: String, CustomStringConvertible, Codable, Sendable {
+    public enum FrameOptionsList: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deny = "DENY"
         case sameorigin = "SAMEORIGIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionRuntime: String, CustomStringConvertible, Codable, Sendable {
+    public enum FunctionRuntime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudfrontJs10 = "cloudfront-js-1.0"
+        case cloudfrontJs20 = "cloudfront-js-2.0"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionStage: String, CustomStringConvertible, Codable, Sendable {
+    public enum FunctionStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case development = "DEVELOPMENT"
         case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoRestrictionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeoRestrictionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blacklist = "blacklist"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http11 = "http1.1"
         case http2 = "http2"
         case http2and3 = "http2and3"
@@ -112,21 +113,26 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approved = "APPROVED"
         case pending = "PENDING"
         case suspended = "SUSPENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemSelection: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ItemSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum Method: String, CustomStringConvertible, Codable, Sendable {
+    public enum Method: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
@@ -137,7 +143,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssLv3 = "SSLv3"
         case tlSv1 = "TLSv1"
         case tlSv112016 = "TLSv1.1_2016"
@@ -148,32 +154,32 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mediastore = "mediastore"
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case always = "always"
         case never = "never"
         case noOverride = "no-override"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sigv4 = "sigv4"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
         case matchViewer = "match-viewer"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -181,7 +187,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allExcept = "allExcept"
         case allViewer = "allViewer"
         case allViewerAndWhitelistCloudFront = "allViewerAndWhitelistCloudFront"
@@ -190,7 +196,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -198,26 +204,26 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum PriceClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum PriceClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case priceClass100 = "PriceClass_100"
         case priceClass200 = "PriceClass_200"
         case priceClassAll = "PriceClass_All"
         public var description: String { return self.rawValue }
     }
 
-    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferrerPolicyList: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReferrerPolicyList: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noReferrer = "no-referrer"
         case noReferrerWhenDowngrade = "no-referrer-when-downgrade"
         case origin = "origin"
@@ -229,7 +235,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseHeadersPolicyAccessControlAllowMethodsValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResponseHeadersPolicyAccessControlAllowMethodsValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case delete = "DELETE"
         case get = "GET"
@@ -241,20 +247,20 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum SSLSupportMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum SSLSupportMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sniOnly = "sni-only"
         case staticIp = "static-ip"
         case vip = "vip"
         public var description: String { return self.rawValue }
     }
 
-    public enum SslProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum SslProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssLv3 = "SSLv3"
         case tlSv1 = "TLSv1"
         case tlSv11 = "TLSv1.1"
@@ -262,13 +268,13 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http11 = "HTTP1_1"
         case http2 = "HTTP2"
         public var description: String { return self.rawValue }
     }
 
-    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAll = "allow-all"
         case httpsOnly = "https-only"
         case redirectToHttps = "redirect-to-https"
@@ -307,9 +313,8 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Signer" }
 
-        /// This field is true if any of the Amazon Web Services accounts in the list have active
-        /// 			CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed
-        /// 			cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
+        /// 			trusted signers. If not, this field is false.
         public let enabled: Bool
         /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account
         /// 			that CloudFront can use to verify the signatures of signed URLs and signed cookies.
@@ -1299,6 +1304,11 @@ extension CloudFront {
         /// 			CloudFront from creating a duplicate resource if you accidentally resubmit an identical
         /// 			request.
         public let callerReference: String
+        /// A Boolean flag to specify the state of the staging distribution when it's
+        /// 			created. When you set this value to True, the staging
+        /// 			distribution is enabled. When you set this value to False, the
+        /// 			staging distribution is disabled. If you omit this field, the default value is True.
+        public let enabled: Bool?
         /// The version identifier of the primary distribution whose configuration you are
         /// 			copying. This is the ETag value returned in the response to
         /// 				GetDistribution and GetDistributionConfig.
@@ -1311,8 +1321,9 @@ extension CloudFront {
         /// 			distribution.
         public let staging: Bool?
 
-        public init(callerReference: String, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
+        public init(callerReference: String, enabled: Bool? = nil, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
             self.callerReference = callerReference
+            self.enabled = enabled
             self.ifMatch = ifMatch
             self.primaryDistributionId = primaryDistributionId
             self.staging = staging
@@ -1322,6 +1333,7 @@ extension CloudFront {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.callerReference, forKey: .callerReference)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
             request.encodeHeader(self.ifMatch, key: "If-Match")
             request.encodePath(self.primaryDistributionId, key: "PrimaryDistributionId")
             request.encodeHeader(self.staging, key: "Staging")
@@ -1329,6 +1341,7 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
+            case enabled = "Enabled"
         }
     }
 
@@ -1681,6 +1694,7 @@ extension CloudFront {
         public func validate(name: String) throws {
             try self.validate(self.functionCode, name: "functionCode", parent: name, max: 40960)
             try self.validate(self.functionCode, name: "functionCode", parent: name, min: 1)
+            try self.functionConfig.validate(name: "\(name).functionConfig")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
@@ -1799,6 +1813,59 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.keyGroup = try container.decode(KeyGroup.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateKeyValueStoreRequest: AWSEncodableShape {
+        /// The comment of the Key Value Store.
+        public let comment: String?
+        /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
+        public let importSource: ImportSource?
+        /// The name of the Key Value Store. The maximum length of the name is 32 characters.
+        public let name: String
+
+        public init(comment: String? = nil, importSource: ImportSource? = nil, name: String) {
+            self.comment = comment
+            self.importSource = importSource
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case importSource = "ImportSource"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateKeyValueStoreResult: AWSDecodableShape {
+        /// The ETag in the resulting Key Value Store.
+        public let eTag: String?
+        /// The resulting Key Value Store.
+        public let keyValueStore: KeyValueStore
+        /// The location of the resulting Key Value Store.
+        public let location: String?
+
+        public init(eTag: String? = nil, keyValueStore: KeyValueStore, location: String? = nil) {
+            self.eTag = eTag
+            self.keyValueStore = keyValueStore
+            self.location = location
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyValueStore = try container.decode(KeyValueStore.self)
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
@@ -2672,6 +2739,33 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteKeyValueStoreRequest: AWSEncodableShape {
+        /// The Key Value Store to delete, if a match occurs.
+        public let ifMatch: String
+        /// The name of the Key Value Store.
+        public let name: String
+
+        public init(ifMatch: String, name: String) {
+            self.ifMatch = ifMatch
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteMonitoringSubscriptionRequest: AWSEncodableShape {
         /// The ID of the distribution that you are disabling metrics for.
         public let distributionId: String
@@ -2862,6 +2956,50 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.functionSummary = try container.decode(FunctionSummary.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKeyValueStoreRequest: AWSEncodableShape {
+        /// The name of the Key Value Store.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKeyValueStoreResult: AWSDecodableShape {
+        /// The ETag of the resulting Key Value Store.
+        public let eTag: String?
+        /// The resulting Key Value Store.
+        public let keyValueStore: KeyValueStore
+
+        public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
+            self.eTag = eTag
+            self.keyValueStore = keyValueStore
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyValueStore = try container.decode(KeyValueStore.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3558,7 +3696,7 @@ extension CloudFront {
         public let encryptionEntities: EncryptionEntities
         /// ID for the field-level encryption profile summary.
         public let id: String
-        /// The time when the the field-level encryption profile summary was last updated.
+        /// The time when the  field-level encryption profile summary was last updated.
         public let lastModifiedTime: Date
         /// Name for the field-level encryption profile summary.
         public let name: String
@@ -3748,17 +3886,24 @@ extension CloudFront {
     public struct FunctionConfig: AWSEncodableShape & AWSDecodableShape {
         /// A comment to describe the function.
         public let comment: String
-        /// The function's runtime environment. The only valid value is
-        /// 				cloudfront-js-1.0.
+        /// The configuration for the Key Value Store associations.
+        public let keyValueStoreAssociations: KeyValueStoreAssociations?
+        /// The function's runtime environment version.
         public let runtime: FunctionRuntime
 
-        public init(comment: String, runtime: FunctionRuntime) {
+        public init(comment: String, keyValueStoreAssociations: KeyValueStoreAssociations? = nil, runtime: FunctionRuntime) {
             self.comment = comment
+            self.keyValueStoreAssociations = keyValueStoreAssociations
             self.runtime = runtime
+        }
+
+        public func validate(name: String) throws {
+            try self.keyValueStoreAssociations?.validate(name: "\(name).keyValueStoreAssociations")
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
+            case keyValueStoreAssociations = "KeyValueStoreAssociations"
             case runtime = "Runtime"
         }
     }
@@ -5008,6 +5153,23 @@ extension CloudFront {
         }
     }
 
+    public struct ImportSource: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the import source for the Key Value Store.
+        public let sourceARN: String
+        /// The source type of the import source for the Key Value Store.
+        public let sourceType: ImportSourceType
+
+        public init(sourceARN: String, sourceType: ImportSourceType) {
+            self.sourceARN = sourceARN
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceARN = "SourceARN"
+            case sourceType = "SourceType"
+        }
+    }
+
     public struct Invalidation: AWSDecodableShape {
         /// The date and time the invalidation request was first made.
         public let createTime: Date
@@ -5250,6 +5412,111 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct KeyValueStore: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Key Value Store.
+        public let arn: String
+        /// A comment for the Key Value Store.
+        public let comment: String
+        /// The unique Id for the Key Value Store.
+        public let id: String
+        /// The last-modified time of the Key Value Store.
+        public let lastModifiedTime: Date
+        /// The name of the Key Value Store.
+        public let name: String
+        /// The status of the Key Value Store.
+        public let status: String?
+
+        public init(arn: String, comment: String, id: String, lastModifiedTime: Date, name: String, status: String? = nil) {
+            self.arn = arn
+            self.comment = comment
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case comment = "Comment"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct KeyValueStoreAssociation: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Key Value Store association.
+        public let keyValueStoreARN: String
+
+        public init(keyValueStoreARN: String) {
+            self.keyValueStoreARN = keyValueStoreARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyValueStoreARN, name: "keyValueStoreARN", parent: name, max: 85)
+            try self.validate(self.keyValueStoreARN, name: "keyValueStoreARN", parent: name, pattern: "^arn:aws:cloudfront::[0-9]{12}:key-value-store\\/[0-9a-fA-F-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyValueStoreARN = "KeyValueStoreARN"
+        }
+    }
+
+    public struct KeyValueStoreAssociations: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyValueStoreAssociation" }
+
+        /// The items of the Key Value Store association.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, KeyValueStoreAssociation>>
+        public var items: [KeyValueStoreAssociation]?
+        /// The quantity of Key Value Store associations.
+        public let quantity: Int
+
+        public init(items: [KeyValueStoreAssociation]? = nil, quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct KeyValueStoreList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyValueStore" }
+
+        /// The items of the Key Value Store list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, KeyValueStore>>
+        public var items: [KeyValueStore]?
+        /// The maximum number of items in the Key Value Store list.
+        public let maxItems: Int
+        /// The next marker associated with the Key Value Store list.
+        public let nextMarker: String?
+        /// The quantity of the Key Value Store list.
+        public let quantity: Int
+
+        public init(items: [KeyValueStore]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
             case quantity = "Quantity"
         }
     }
@@ -6038,6 +6305,47 @@ extension CloudFront {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.keyGroupList = try container.decode(KeyGroupList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListKeyValueStoresRequest: AWSEncodableShape {
+        /// The marker associated with the Key Value Stores list.
+        public let marker: String?
+        /// The maximum number of items in the Key Value Stores list.
+        public let maxItems: Int?
+        /// The status of the request for the Key Value Stores list.
+        public let status: String?
+
+        public init(marker: String? = nil, maxItems: Int? = nil, status: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.status, key: "Status")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListKeyValueStoresResult: AWSDecodableShape {
+        /// The resulting Key Value Stores list.
+        public let keyValueStoreList: KeyValueStoreList
+
+        public init(keyValueStoreList: KeyValueStoreList) {
+            self.keyValueStoreList = keyValueStoreList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.keyValueStoreList = try container.decode(KeyValueStoreList.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8604,9 +8912,8 @@ extension CloudFront {
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AwsAccountNumber" }
 
-        /// This field is true if any of the Amazon Web Services accounts have public keys that
-        /// 			CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this
-        /// 			field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
+        /// 			trusted signers. If not, this field is false.
         public let enabled: Bool
         /// A list of Amazon Web Services account identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -9032,6 +9339,7 @@ extension CloudFront {
         public func validate(name: String) throws {
             try self.validate(self.functionCode, name: "functionCode", parent: name, max: 40960)
             try self.validate(self.functionCode, name: "functionCode", parent: name, min: 1)
+            try self.functionConfig.validate(name: "\(name).functionConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9104,6 +9412,61 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.keyGroup = try container.decode(KeyGroup.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateKeyValueStoreRequest: AWSEncodableShape {
+        /// The comment of the Key Value Store to update.
+        public let comment: String
+        /// The Key Value Store to update, if a match occurs.
+        public let ifMatch: String
+        /// The name of the Key Value Store to update.
+        public let name: String
+
+        public init(comment: String, ifMatch: String, name: String) {
+            self.comment = comment
+            self.ifMatch = ifMatch
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.comment, forKey: .comment)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+        }
+    }
+
+    public struct UpdateKeyValueStoreResult: AWSDecodableShape {
+        /// The ETag of the resulting Key Value Store.
+        public let eTag: String?
+        /// The resulting Key Value Store to update.
+        public let keyValueStore: KeyValueStore
+
+        public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
+            self.eTag = eTag
+            self.keyValueStore = keyValueStore
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyValueStore = try container.decode(KeyValueStore.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9497,6 +9860,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case cachePolicyAlreadyExists = "CachePolicyAlreadyExists"
         case cachePolicyInUse = "CachePolicyInUse"
         case cannotChangeImmutablePublicKeyFields = "CannotChangeImmutablePublicKeyFields"
+        case cannotDeleteEntityWhileInUse = "CannotDeleteEntityWhileInUse"
         case cloudFrontOriginAccessIdentityAlreadyExists = "CloudFrontOriginAccessIdentityAlreadyExists"
         case cloudFrontOriginAccessIdentityInUse = "CloudFrontOriginAccessIdentityInUse"
         case cnameAlreadyExists = "CNAMEAlreadyExists"
@@ -9504,6 +9868,10 @@ public struct CloudFrontErrorType: AWSErrorType {
         case continuousDeploymentPolicyInUse = "ContinuousDeploymentPolicyInUse"
         case distributionAlreadyExists = "DistributionAlreadyExists"
         case distributionNotDisabled = "DistributionNotDisabled"
+        case entityAlreadyExists = "EntityAlreadyExists"
+        case entityLimitExceeded = "EntityLimitExceeded"
+        case entityNotFound = "EntityNotFound"
+        case entitySizeLimitExceeded = "EntitySizeLimitExceeded"
         case fieldLevelEncryptionConfigAlreadyExists = "FieldLevelEncryptionConfigAlreadyExists"
         case fieldLevelEncryptionConfigInUse = "FieldLevelEncryptionConfigInUse"
         case fieldLevelEncryptionProfileAlreadyExists = "FieldLevelEncryptionProfileAlreadyExists"
@@ -9668,6 +10036,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
     /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
+    /// The Key Value Store entity cannot be deleted while it is in use.
+    public static var cannotDeleteEntityWhileInUse: Self { .init(.cannotDeleteEntityWhileInUse) }
     /// If the CallerReference is a value you already sent in a previous request
     /// 			to create an identity but the content of the
     /// 				CloudFrontOriginAccessIdentityConfig is different from the original
@@ -9689,6 +10059,15 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// The specified CloudFront distribution is not disabled. You must disable the distribution
     /// 			before you can delete it.
     public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
+    /// The Key Value Store entity already exists. You must provide a unique Key Value Store
+    /// 			entity.
+    public static var entityAlreadyExists: Self { .init(.entityAlreadyExists) }
+    /// The Key Value Store entity limit has been exceeded.
+    public static var entityLimitExceeded: Self { .init(.entityLimitExceeded) }
+    /// The Key Value Store entity was not found.
+    public static var entityNotFound: Self { .init(.entityNotFound) }
+    /// The Key Value Store entity size limit was exceeded.
+    public static var entitySizeLimitExceeded: Self { .init(.entitySizeLimitExceeded) }
     /// The specified configuration for field-level encryption already exists.
     public static var fieldLevelEncryptionConfigAlreadyExists: Self { .init(.fieldLevelEncryptionConfigAlreadyExists) }
     /// The specified configuration for field-level encryption is in use.

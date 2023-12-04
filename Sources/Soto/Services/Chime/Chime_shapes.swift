@@ -26,13 +26,13 @@ import Foundation
 extension Chime {
     // MARK: Enums
 
-    public enum AccountStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enterpriseDirectory = "EnterpriseDirectory"
         case enterpriseLWA = "EnterpriseLWA"
         case enterpriseOIDC = "EnterpriseOIDC"
@@ -40,30 +40,30 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppInstanceDataType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppInstanceDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case channel = "Channel"
         case channelMessage = "ChannelMessage"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactsState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactsState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioMuxType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioMuxType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioOnly = "AudioOnly"
         case audioWithActiveSpeakerVideo = "AudioWithActiveSpeakerVideo"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case chatBot = "ChatBot"
         public var description: String { return self.rawValue }
     }
 
-    public enum CallingNameStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CallingNameStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case unassigned = "Unassigned"
         case updateFailed = "UpdateFailed"
         case updateInProgress = "UpdateInProgress"
@@ -71,55 +71,55 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum Capability: String, CustomStringConvertible, Codable, Sendable {
+    public enum Capability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sms = "SMS"
         case voice = "Voice"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelMembershipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelMembershipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case hidden = "HIDDEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelMessagePersistenceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelMessagePersistenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nonPersistent = "NON_PERSISTENT"
         case persistent = "PERSISTENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelMessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case control = "CONTROL"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case restricted = "RESTRICTED"
         case unrestricted = "UNRESTRICTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelPrivacy: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelPrivacy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentMuxType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentMuxType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentOnly = "ContentOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmailStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EmailStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case notSent = "NotSent"
         case sent = "Sent"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case badRequest = "BadRequest"
         case conflict = "Conflict"
@@ -138,20 +138,20 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoMatchLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeoMatchLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case areaCode = "AreaCode"
         case country = "Country"
         public var description: String { return self.rawValue }
     }
 
-    public enum InviteStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum InviteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "Accepted"
         case failed = "Failed"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum License: String, CustomStringConvertible, Codable, Sendable {
+    public enum License: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "Basic"
         case plus = "Plus"
         case pro = "Pro"
@@ -159,17 +159,17 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaPipelineSinkType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MediaPipelineSinkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3Bucket = "S3Bucket"
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaPipelineSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MediaPipelineSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case chimeSdkMeeting = "ChimeSdkMeeting"
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaPipelineStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MediaPipelineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case initializing = "Initializing"
@@ -178,40 +178,40 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bot = "Bot"
         case user = "User"
         case webhook = "Webhook"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationTarget: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventBridge = "EventBridge"
         case sns = "SNS"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case avoidSticky = "AvoidSticky"
         case preferSticky = "PreferSticky"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderedPhoneNumberStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderedPhoneNumberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acquired = "Acquired"
         case failed = "Failed"
         case processing = "Processing"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginationRouteProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginationRouteProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case sipRuleId = "SipRuleId"
         case userId = "UserId"
@@ -220,7 +220,7 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberOrderStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberOrderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case partial = "Partial"
         case processing = "Processing"
@@ -228,14 +228,14 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberProductType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberProductType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case businessCalling = "BusinessCalling"
         case sipMediaApplicationDialIn = "SipMediaApplicationDialIn"
         case voiceConnector = "VoiceConnector"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acquireFailed = "AcquireFailed"
         case acquireInProgress = "AcquireInProgress"
         case assigned = "Assigned"
@@ -247,55 +247,55 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case local = "Local"
         case tollFree = "TollFree"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProxySessionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProxySessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closed = "Closed"
         case inProgress = "InProgress"
         case open = "Open"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case registered = "Registered"
         case suspended = "Suspended"
         case unregistered = "Unregistered"
         public var description: String { return self.rawValue }
     }
 
-    public enum RoomMembershipRole: String, CustomStringConvertible, Codable, Sendable {
+    public enum RoomMembershipRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case administrator = "Administrator"
         case member = "Member"
         public var description: String { return self.rawValue }
     }
 
-    public enum SipRuleTriggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SipRuleTriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case requestUriHostname = "RequestUriHostname"
         case toPhoneNumber = "ToPhoneNumber"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -313,17 +313,17 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enUs = "en-US"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apSoutheast2 = "ap-southeast-2"
         case auto = "auto"
         case caCentral1 = "ca-central-1"
@@ -334,7 +334,7 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
         case oncology = "ONCOLOGY"
@@ -344,20 +344,20 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "high"
         case low = "low"
         case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSoutheast2 = "ap-southeast-2"
@@ -373,25 +373,25 @@ extension Chime {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mask = "mask"
         case remove = "remove"
         case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case privateUser = "PrivateUser"
         case sharedDevice = "SharedDevice"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoMuxType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VideoMuxType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case videoOnly = "VideoOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceConnectorAwsRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum VoiceConnectorAwsRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case usEast1 = "us-east-1"
         case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
@@ -7582,15 +7582,15 @@ extension Chime {
         public let audioHostUrl: String?
         /// The event ingestion URL to which you send client meeting events.
         public let eventIngestionUrl: String?
-        /// The screen data URL.
+        /// The screen data URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let screenDataUrl: String?
-        /// The screen sharing URL.
+        /// The screen sharing URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK..
         public let screenSharingUrl: String?
-        /// The screen viewing URL.
+        /// The screen viewing URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let screenViewingUrl: String?
         /// The signaling URL.
         public let signalingUrl: String?
-        /// The turn control URL.
+        /// The turn control URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let turnControlUrl: String?
 
         public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {

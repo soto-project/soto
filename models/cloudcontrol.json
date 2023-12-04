@@ -187,9 +187,188 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "tree",
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "type": "tree",
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudcontrolapi-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudcontrolapi-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -202,15 +381,50 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://cloudcontrolapi.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
+                                                }
+                                            ]
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
+                                                "url": "https://cloudcontrolapi.{Region}.{PartitionResult#dnsSuffix}",
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -222,258 +436,8 @@
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudcontrolapi-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudcontrolapi-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://cloudcontrolapi.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://cloudcontrolapi.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
-                                }
-                            ]
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -488,8 +452,8 @@
                             },
                             "params": {
                                 "Region": "af-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -501,8 +465,8 @@
                             },
                             "params": {
                                 "Region": "ap-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -514,8 +478,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -527,8 +491,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -540,8 +504,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-3",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -553,8 +517,8 @@
                             },
                             "params": {
                                 "Region": "ap-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -566,8 +530,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -579,8 +543,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -592,8 +556,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-3",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -605,8 +569,8 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -618,8 +582,8 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -631,8 +595,8 @@
                             },
                             "params": {
                                 "Region": "eu-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -644,8 +608,8 @@
                             },
                             "params": {
                                 "Region": "eu-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -657,8 +621,8 @@
                             },
                             "params": {
                                 "Region": "eu-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -670,8 +634,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -683,8 +647,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -696,8 +660,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-3",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -709,8 +673,8 @@
                             },
                             "params": {
                                 "Region": "me-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -722,8 +686,8 @@
                             },
                             "params": {
                                 "Region": "sa-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -735,8 +699,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -748,8 +712,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -761,8 +725,8 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -774,8 +738,8 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -787,8 +751,8 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -800,8 +764,8 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -813,8 +777,8 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -826,8 +790,8 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -839,8 +803,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -852,8 +816,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -865,8 +829,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -878,8 +842,8 @@
                             },
                             "params": {
                                 "Region": "cn-northwest-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -891,8 +855,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -904,8 +868,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -917,8 +881,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -930,8 +894,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -943,8 +907,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -956,8 +920,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -969,8 +933,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -982,8 +946,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -995,8 +959,19 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -1008,8 +983,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -1021,8 +1007,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -1034,8 +1031,19 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -1047,8 +1055,8 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -1060,8 +1068,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1073,8 +1081,8 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1085,8 +1093,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": true,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1097,9 +1105,15 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
                                 "UseFIPS": false,
+                                "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
@@ -1225,26 +1239,26 @@
                 "TypeVersionId": {
                     "target": "com.amazonaws.cloudcontrol#TypeVersionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.</p>"
+                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource\n                                     operation. If you do not specify a resource version, CloudFormation\n                                     uses the default version.</p>"
                     }
                 },
                 "RoleArn": {
                     "target": "com.amazonaws.cloudcontrol#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code> section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management\n                                    (IAM) role for Cloud Control API to use when performing this resource\n                                    operation. The role specified must have the permissions required for this\n                                    operation. The necessary permissions for each event handler are defined in the\n                                    <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code>\n                                    section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type\n                                    definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using\n                                    your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying\n                                    credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
                     }
                 },
                 "ClientToken": {
                     "target": "com.amazonaws.cloudcontrol#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request.</p>\n         <p>If you do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a\n                                     best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can\n                                     accurately distinguish between request retries and new resource requests. You\n                                     might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource\n                                     request with the same client token is treated as a new request.</p>\n         <p>If you\n                                     do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring\n                                     resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User\n                                     Guide</i>.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
                 "DesiredState": {
                     "target": "com.amazonaws.cloudcontrol#Properties",
                     "traits": {
-                        "smithy.api#documentation": "<p>Structured data format representing the desired state of the resource, consisting of that\n      resource's properties and their desired values.</p>\n         <note>\n            <p>Cloud Control API currently supports JSON as a structured data format.</p>\n         </note>\n    \n         <p>Specify the desired state as one of the following:</p>\n         <ul>\n            <li>\n               <p>A JSON blob</p>\n            </li>\n            <li>\n               <p>A local path containing the desired state in JSON data format</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html#resource-operations-create-desiredstate\">Composing the desired state of the resource</a> in the <i>Amazon Web Services Cloud Control API User\n        Guide</i>.</p>\n         <p>For more information about the properties of a specific resource, refer to the related\n      topic for the resource in the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html\">Resource and property types reference</a> in the <i>CloudFormation Users Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>Structured data format representing the desired state of the resource, consisting of that\n      resource's properties and their desired values.</p>\n         <note>\n            <p>Cloud Control API currently supports JSON as a structured data format.</p>\n         </note>\n         <p>Specify the desired state as one of the following:</p>\n         <ul>\n            <li>\n               <p>A JSON blob</p>\n            </li>\n            <li>\n               <p>A local path containing the desired state in JSON data format</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html#resource-operations-create-desiredstate\">Composing the desired state of the resource</a> in the <i>Amazon Web Services Cloud Control API User\n        Guide</i>.</p>\n         <p>For more information about the properties of a specific resource, refer to the related\n      topic for the resource in the <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html\">Resource and property types reference</a> in the <i>CloudFormation Users Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -1345,26 +1359,26 @@
                 "TypeVersionId": {
                     "target": "com.amazonaws.cloudcontrol#TypeVersionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.</p>"
+                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource\n                                     operation. If you do not specify a resource version, CloudFormation\n                                     uses the default version.</p>"
                     }
                 },
                 "RoleArn": {
                     "target": "com.amazonaws.cloudcontrol#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code> section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management\n                                    (IAM) role for Cloud Control API to use when performing this resource\n                                    operation. The role specified must have the permissions required for this\n                                    operation. The necessary permissions for each event handler are defined in the\n                                    <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code>\n                                    section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type\n                                    definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using\n                                    your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying\n                                    credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
                     }
                 },
                 "ClientToken": {
                     "target": "com.amazonaws.cloudcontrol#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request.</p>\n         <p>If you do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a\n                                     best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can\n                                     accurately distinguish between request retries and new resource requests. You\n                                     might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource\n                                     request with the same client token is treated as a new request.</p>\n         <p>If you\n                                     do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring\n                                     resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User\n                                     Guide</i>.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
                 "Identifier": {
                     "target": "com.amazonaws.cloudcontrol#Identifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values <i>in the order they are specified</i> in the primary identifier definition, separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier\n                                            defined for the resource type in its resource schema. You can only specify\n                                            one identifier. Primary identifiers can be specified as a string or JSON;\n                                            secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of\n                                            multiple resource properties strung together), to specify the primary\n                                            identifier as a string, list the property values <i>in the order\n                                            they are specified</i> in the primary identifier definition,\n                                            separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying\n                                            resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -1486,19 +1500,19 @@
                 "TypeVersionId": {
                     "target": "com.amazonaws.cloudcontrol#TypeVersionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.</p>"
+                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource\n                                     operation. If you do not specify a resource version, CloudFormation\n                                     uses the default version.</p>"
                     }
                 },
                 "RoleArn": {
                     "target": "com.amazonaws.cloudcontrol#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code> section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management\n                                    (IAM) role for Cloud Control API to use when performing this resource\n                                    operation. The role specified must have the permissions required for this\n                                    operation. The necessary permissions for each event handler are defined in the\n                                    <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code>\n                                    section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type\n                                    definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using\n                                    your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying\n                                    credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
                     }
                 },
                 "Identifier": {
                     "target": "com.amazonaws.cloudcontrol#Identifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values <i>in the order they are specified</i> in the primary identifier definition, separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier\n                                            defined for the resource type in its resource schema. You can only specify\n                                            one identifier. Primary identifiers can be specified as a string or JSON;\n                                            secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of\n                                            multiple resource properties strung together), to specify the primary\n                                            identifier as a string, list the property values <i>in the order\n                                            they are specified</i> in the primary identifier definition,\n                                            separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying\n                                            resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -1781,7 +1795,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.cloudcontrol#NextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results, the response object's <code>NextToken</code> parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's <code>NextToken</code> parameter. If there are no remaining results, the previous response object's <code>NextToken</code> parameter is set to <code>null</code>.</p>"
+                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results,\n                                   the response object's <code>NextToken</code> parameter value is set to a token.\n                                   To retrieve the next set of results, call this action again and assign that token to\n                                   the request object's <code>NextToken</code> parameter. If there are no remaining\n                                   results, the previous response object's <code>NextToken</code> parameter is set to\n                                   <code>null</code>.</p>"
                     }
                 },
                 "ResourceRequestStatusFilter": {
@@ -1804,7 +1818,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.cloudcontrol#NextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>If the request doesn't return all of the remaining results, <code>NextToken</code> is set to a token. To retrieve the next set of results, call <code>ListResources</code> again and assign that token to the request object's <code>NextToken</code> parameter. If the request returns all results, <code>NextToken</code> is set to null.</p>"
+                        "smithy.api#documentation": "<p>If the request doesn't return all of the remaining results,\n                                    <code>NextToken</code> is set to a token. To retrieve the next set of results, call\n                                    <code>ListResources</code> again and assign that token to the request object's\n                                    <code>NextToken</code> parameter. If the request returns all results,\n                                    <code>NextToken</code> is set to null.</p>"
                     }
                 }
             },
@@ -1896,19 +1910,19 @@
                 "TypeVersionId": {
                     "target": "com.amazonaws.cloudcontrol#TypeVersionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.</p>"
+                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource\n                                     operation. If you do not specify a resource version, CloudFormation\n                                     uses the default version.</p>"
                     }
                 },
                 "RoleArn": {
                     "target": "com.amazonaws.cloudcontrol#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code> section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management\n                                    (IAM) role for Cloud Control API to use when performing this resource\n                                    operation. The role specified must have the permissions required for this\n                                    operation. The necessary permissions for each event handler are defined in the\n                                    <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code>\n                                    section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type\n                                    definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using\n                                    your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying\n                                    credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
                     }
                 },
                 "NextToken": {
                     "target": "com.amazonaws.cloudcontrol#HandlerNextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results, the response object's <code>NextToken</code> parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's <code>NextToken</code> parameter. If there are no remaining results, the previous response object's <code>NextToken</code> parameter is set to <code>null</code>.</p>"
+                        "smithy.api#documentation": "<p>If the previous paginated request didn't return all of the remaining results,\n                                   the response object's <code>NextToken</code> parameter value is set to a token.\n                                   To retrieve the next set of results, call this action again and assign that token to\n                                   the request object's <code>NextToken</code> parameter. If there are no remaining\n                                   results, the previous response object's <code>NextToken</code> parameter is set to\n                                   <code>null</code>.</p>"
                     }
                 },
                 "MaxResults": {
@@ -1943,7 +1957,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.cloudcontrol#HandlerNextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>If the request doesn't return all of the remaining results, <code>NextToken</code> is set to a token. To retrieve the next set of results, call <code>ListResources</code> again and assign that token to the request object's <code>NextToken</code> parameter. If the request returns all results, <code>NextToken</code> is set to null.</p>"
+                        "smithy.api#documentation": "<p>If the request doesn't return all of the remaining results,\n                                    <code>NextToken</code> is set to a token. To retrieve the next set of results, call\n                                    <code>ListResources</code> again and assign that token to the request object's\n                                    <code>NextToken</code> parameter. If the request returns all results,\n                                    <code>NextToken</code> is set to null.</p>"
                     }
                 }
             },
@@ -2515,26 +2529,26 @@
                 "TypeVersionId": {
                     "target": "com.amazonaws.cloudcontrol#TypeVersionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.</p>"
+                        "smithy.api#documentation": "<p>For private resource types, the type version to use in this resource\n                                     operation. If you do not specify a resource version, CloudFormation\n                                     uses the default version.</p>"
                     }
                 },
                 "RoleArn": {
                     "target": "com.amazonaws.cloudcontrol#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code> section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Identity and Access Management\n                                    (IAM) role for Cloud Control API to use when performing this resource\n                                    operation. The role specified must have the permissions required for this\n                                    operation. The necessary permissions for each event handler are defined in the\n                                    <code>\n               <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers\">handlers</a>\n            </code>\n                                    section of the <a href=\"https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html\">resource type\n                                    definition schema</a>.</p>\n         <p>If you do not specify a role, Cloud Control API uses a temporary session created using\n                                    your Amazon Web Services user credentials.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions\">Specifying\n                                    credentials</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>"
                     }
                 },
                 "ClientToken": {
                     "target": "com.amazonaws.cloudcontrol#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request.</p>\n         <p>If you do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>A unique identifier to ensure the idempotency of the resource request. As a\n                                     best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can\n                                     accurately distinguish between request retries and new resource requests. You\n                                     might retry a resource request to ensure that it was successfully received.</p>\n         <p>A client token is valid for 36 hours once used. After that, a resource\n                                     request with the same client token is treated as a new request.</p>\n         <p>If you\n                                     do not specify a client token, one is generated for inclusion in the request.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency\">Ensuring\n                                     resource operation requests are unique</a> in the <i>Amazon Web Services Cloud Control API User\n                                     Guide</i>.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
                 "Identifier": {
                     "target": "com.amazonaws.cloudcontrol#Identifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values <i>in the order they are specified</i> in the primary identifier definition, separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The identifier for the resource.</p>\n         <p>You can specify the primary identifier, or any secondary identifier\n                                            defined for the resource type in its resource schema. You can only specify\n                                            one identifier. Primary identifiers can be specified as a string or JSON;\n                                            secondary identifiers must be specified as JSON.</p>\n         <p>For compound primary identifiers (that is, one that consists of\n                                            multiple resource properties strung together), to specify the primary\n                                            identifier as a string, list the property values <i>in the order\n                                            they are specified</i> in the primary identifier definition,\n                                            separated by <code>|</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html\">Identifying\n                                            resources</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 },

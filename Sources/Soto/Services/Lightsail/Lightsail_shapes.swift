@@ -26,19 +26,19 @@ import Foundation
 extension Lightsail {
     // MARK: Enums
 
-    public enum AccessDirection: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inbound = "inbound"
         case outbound = "outbound"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "private"
         case `public` = "public"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountLevelBpaSyncStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountLevelBpaSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaulted = "Defaulted"
         case failed = "Failed"
         case inSync = "InSync"
@@ -46,25 +46,25 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddOnType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AddOnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoSnapshot = "AutoSnapshot"
         case stopInstanceOnIdle = "StopInstanceOnIdle"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlarmState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlarmState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alarm = "ALARM"
         case insufficientData = "INSUFFICIENT_DATA"
         case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lfR = "LfR"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMountStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoMountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case mounted = "Mounted"
         case notMounted = "NotMounted"
@@ -72,7 +72,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case notFound = "NotFound"
@@ -80,7 +80,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum BPAStatusMessage: String, CustomStringConvertible, Codable, Sendable {
+    public enum BPAStatusMessage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultedForSlrMissing = "DEFAULTED_FOR_SLR_MISSING"
         case defaultedForSlrMissingOnHold = "DEFAULTED_FOR_SLR_MISSING_ON_HOLD"
         case syncOnHold = "SYNC_ON_HOLD"
@@ -88,32 +88,32 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum BehaviorEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum BehaviorEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cacheSetting = "cache"
         case dontCacheSetting = "dont-cache"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlueprintType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BlueprintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case app = "app"
         case os = "os"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum BucketMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucketSizeBytes = "BucketSizeBytes"
         case numberOfObjects = "NumberOfObjects"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateDomainValidationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateDomainValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expired = "EXPIRED"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -124,12 +124,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exportSnapshotRecord = "ExportSnapshotRecord"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
         case greaterThanThreshold = "GreaterThanThreshold"
         case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
@@ -137,25 +137,25 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactMethodStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactMethodStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalid = "Invalid"
         case pendingVerification = "PendingVerification"
         case valid = "Valid"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactMethodVerificationProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactMethodVerificationProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case email = "Email"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case email = "Email"
         case sms = "SMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServiceDeploymentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServiceDeploymentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case failed = "FAILED"
@@ -163,13 +163,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServiceMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServiceMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpuUtilization = "CPUUtilization"
         case memoryUtilization = "MemoryUtilization"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServicePowerName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServicePowerName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "large"
         case medium = "medium"
         case micro = "micro"
@@ -179,7 +179,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServiceProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServiceProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http = "HTTP"
         case https = "HTTPS"
         case tcp = "TCP"
@@ -187,7 +187,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServiceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServiceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case deploying = "DEPLOYING"
         case disabled = "DISABLED"
@@ -198,7 +198,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerServiceStateDetailCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerServiceStateDetailCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activatingDeployment = "ACTIVATING_DEPLOYMENT"
         case certificateLimitExceeded = "CERTIFICATE_LIMIT_EXCEEDED"
         case creatingDeployment = "CREATING_DEPLOYMENT"
@@ -211,12 +211,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskSnapshotState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiskSnapshotState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case error = "error"
         case pending = "pending"
@@ -224,7 +224,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiskState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case error = "error"
         case inUse = "in-use"
@@ -233,7 +233,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DistributionMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum DistributionMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bytesDownloaded = "BytesDownloaded"
         case bytesUploaded = "BytesUploaded"
         case http4xxErrorRate = "Http4xxErrorRate"
@@ -243,27 +243,27 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsRecordCreationStateCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DnsRecordCreationStateCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case started = "STARTED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case diskSnapshot = "DiskSnapshot"
         case instanceSnapshot = "InstanceSnapshot"
         public var description: String { return self.rawValue }
     }
 
-    public enum ForwardValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum ForwardValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case allowList = "allow-list"
         case none = "none"
         public var description: String { return self.rawValue }
     }
 
-    public enum HeaderEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum HeaderEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accept = "Accept"
         case acceptCharset = "Accept-Charset"
         case acceptDatetime = "Accept-Datetime"
@@ -282,31 +282,31 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpEndpoint: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpEndpoint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpProtocolIpv6: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpProtocolIpv6: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpTokens: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpTokens: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "optional"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rdp = "rdp"
         case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceHealthReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceHealthReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceDeregistrationInProgress = "Instance.DeregistrationInProgress"
         case instanceFailedHealthChecks = "Instance.FailedHealthChecks"
         case instanceInvalidState = "Instance.InvalidState"
@@ -321,7 +321,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceHealthState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceHealthState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case draining = "draining"
         case healthy = "healthy"
         case initial = "initial"
@@ -331,13 +331,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceMetadataState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applied = "applied"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
         case cpuUtilization = "CPUUtilization"
@@ -350,26 +350,26 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstancePlatform: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstancePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linuxUnix = "LINUX_UNIX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case error = "error"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthCheckPath = "HealthCheckPath"
         case httpsRedirectionEnabled = "HttpsRedirectionEnabled"
         case sessionStickinessEnabled = "SessionStickinessEnabled"
@@ -378,7 +378,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
         case healthyHostCount = "HealthyHostCount"
         case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
@@ -394,13 +394,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http = "HTTP"
         case httpHttps = "HTTP_HTTPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case activeImpaired = "active_impaired"
         case failed = "failed"
@@ -409,21 +409,21 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateDnsRecordCreationStateCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateDnsRecordCreationStateCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case started = "STARTED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
         case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
         case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
@@ -432,7 +432,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
         case pendingValidation = "PENDING_VALIDATION"
@@ -440,7 +440,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aaCompromise = "A_A_COMPROMISE"
         case affiliationChanged = "AFFILIATION_CHANGED"
         case caCompromise = "CA_COMPROMISE"
@@ -454,7 +454,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expired = "EXPIRED"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -466,7 +466,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
@@ -495,7 +495,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -504,7 +504,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -535,7 +535,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum NameServersUpdateStateCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum NameServersUpdateStateCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case started = "STARTED"
@@ -543,7 +543,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case icmp = "icmp"
         case tcp = "tcp"
@@ -551,7 +551,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case notStarted = "NotStarted"
@@ -560,7 +560,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allocateStaticIp = "AllocateStaticIp"
         case attachCertificateToDistribution = "AttachCertificateToDistribution"
         case attachDisk = "AttachDisk"
@@ -646,19 +646,19 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginProtocolPolicyEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginProtocolPolicyEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortAccessType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PortAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case `public` = "Public"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortInfoSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PortInfoSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case closed = "CLOSED"
         case instance = "INSTANCE"
@@ -666,13 +666,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum PortState: String, CustomStringConvertible, Codable, Sendable {
+    public enum PortState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closed = "closed"
         case open = "open"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum PricingUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bundles = "Bundles"
         case gb = "GB"
         case gbMo = "GB-Mo"
@@ -681,7 +681,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum R53HostedZoneDeletionStateCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum R53HostedZoneDeletionStateCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case started = "STARTED"
@@ -689,14 +689,14 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecordState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case started = "Started"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionName: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegionName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSouth1 = "ap-south-1"
@@ -715,12 +715,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mysql = "mysql"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpuUtilization = "CPUUtilization"
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
@@ -730,14 +730,14 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case current = "CURRENT"
         case pending = "PENDING"
         case previous = "PREVIOUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RenewalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RenewalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case pendingAutoRenewal = "PendingAutoRenewal"
         case pendingValidation = "PendingValidation"
@@ -745,13 +745,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceBucketAccess: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceBucketAccess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "allow"
         case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alarm = "Alarm"
         case bucket = "Bucket"
         case certificate = "Certificate"
@@ -775,7 +775,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failedInstanceCreation = "failedInstanceCreation"
         case failedStartingGUISession = "failedStartingGUISession"
         case failedStoppingGUISession = "failedStoppingGUISession"
@@ -789,13 +789,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum TreatMissingData: String, CustomStringConvertible, Codable, Sendable {
+    public enum TreatMissingData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case breaching = "breaching"
         case ignore = "ignore"
         case missing = "missing"
@@ -5291,7 +5291,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(bucketName: String, endTime: Date, metricName: BucketMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(bucketName: String, endTime: Date, metricName: BucketMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.bucketName = bucketName
             self.endTime = endTime
             self.metricName = metricName
@@ -5430,30 +5430,38 @@ extension Lightsail {
         public let certificateStatuses: [CertificateStatus]?
         /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
         public let includeCertificateDetails: Bool?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetCertificates request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
 
-        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil) {
+        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil, pageToken: String? = nil) {
             self.certificateName = certificateName
             self.certificateStatuses = certificateStatuses
             self.includeCertificateDetails = includeCertificateDetails
+            self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateName = "certificateName"
             case certificateStatuses = "certificateStatuses"
             case includeCertificateDetails = "includeCertificateDetails"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetCertificatesResult: AWSDecodableShape {
         /// An object that describes certificates.
         public let certificates: [CertificateSummary]?
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextPageToken: String?
 
-        public init(certificates: [CertificateSummary]? = nil) {
+        public init(certificates: [CertificateSummary]? = nil, nextPageToken: String? = nil) {
             self.certificates = certificates
+            self.nextPageToken = nextPageToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificates = "certificates"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5676,7 +5684,7 @@ extension Lightsail {
         /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
 
-        public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int = 0, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
+        public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period
@@ -5765,11 +5773,11 @@ extension Lightsail {
     }
 
     public struct GetCostEstimateRequest: AWSEncodableShape {
-        /// The cost estimate end time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The cost estimate end time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let endTime: Date
         /// The resource name.
         public let resourceName: String
-        /// The cost estimate start time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The cost estimate start time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let startTime: Date
 
         public init(endTime: Date, resourceName: String, startTime: Date) {
@@ -5989,7 +5997,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(distributionName: String, endTime: Date, metricName: DistributionMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(distributionName: String, endTime: Date, metricName: DistributionMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.distributionName = distributionName
             self.endTime = endTime
             self.metricName = metricName
@@ -6207,7 +6215,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units to specify with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, instanceName: String, metricName: InstanceMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.instanceName = instanceName
             self.metricName = metricName
@@ -6511,7 +6519,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.loadBalancerName = loadBalancerName
             self.metricName = metricName
@@ -7062,7 +7070,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, metricName: RelationalDatabaseMetricName, period: Int = 0, relationalDatabaseName: String, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period

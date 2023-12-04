@@ -26,7 +26,7 @@ import Foundation
 extension RedshiftData {
     // MARK: Enums
 
-    public enum StatementStatusString: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatementStatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case finished = "FINISHED"
@@ -36,7 +36,7 @@ extension RedshiftData {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusString: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aborted = "ABORTED"
         case all = "ALL"
         case failed = "FAILED"

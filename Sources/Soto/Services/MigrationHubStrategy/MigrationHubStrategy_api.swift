@@ -203,6 +203,19 @@ public struct MigrationHubStrategy: AWSService {
         )
     }
 
+    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
+    @Sendable
+    public func listAnalyzableServers(_ input: ListAnalyzableServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyzableServersResponse {
+        return try await self.client.execute(
+            operation: "ListAnalyzableServers", 
+            path: "/list-analyzable-servers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Retrieves a list of all the application components (processes).
     @Sendable
     public func listApplicationComponents(_ input: ListApplicationComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationComponentsResponse {
@@ -379,6 +392,25 @@ extension MigrationHubStrategy {
         )
     }
 
+    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAnalyzableServersPaginator(
+        _ input: ListAnalyzableServersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnalyzableServersRequest, ListAnalyzableServersResponse> {
+        return .init(
+            input: input,
+            command: self.listAnalyzableServers,
+            inputKey: \ListAnalyzableServersRequest.nextToken,
+            outputKey: \ListAnalyzableServersResponse.nextToken,
+            logger: logger
+        )
+    }
+
     ///  Retrieves a list of all the application components (processes).
     /// Return PaginatorSequence for operation.
     ///
@@ -462,6 +494,16 @@ extension MigrationHubStrategy.GetServerDetailsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serverId: self.serverId
+        )
+    }
+}
+
+extension MigrationHubStrategy.ListAnalyzableServersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MigrationHubStrategy.ListAnalyzableServersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort
         )
     }
 }

@@ -26,39 +26,39 @@ import Foundation
 extension SSMContacts {
     // MARK: Enums
 
-    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable, Sendable {
+    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enforce = "ENFORCE"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceptType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AcceptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delivered = "DELIVERED"
         case read = "READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActivationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActivationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case notActivated = "NOT_ACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case email = "EMAIL"
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case escalation = "ESCALATION"
         case oncallSchedule = "ONCALL_SCHEDULE"
         case personal = "PERSONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fri = "FRI"
         case mon = "MON"
         case sat = "SAT"
@@ -69,7 +69,7 @@ extension SSMContacts {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReceiptType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReceiptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delivered = "DELIVERED"
         case error = "ERROR"
         case read = "READ"
@@ -78,7 +78,7 @@ extension SSMContacts {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShiftType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShiftType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case overridden = "OVERRIDDEN"
         case regular = "REGULAR"
         public var description: String { return self.rawValue }

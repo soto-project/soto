@@ -438,6 +438,19 @@ public struct AppSync: AWSService {
         )
     }
 
+    /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
+    @Sendable
+    public func getDataSourceIntrospection(_ input: GetDataSourceIntrospectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceIntrospectionResponse {
+        return try await self.client.execute(
+            operation: "GetDataSourceIntrospection", 
+            path: "/v1/datasources/introspections/{introspectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a custom DomainName object.
     @Sendable
     public func getDomainName(_ input: GetDomainNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainNameResponse {
@@ -679,6 +692,19 @@ public struct AppSync: AWSService {
             operation: "ListTypesByAssociation", 
             path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
+    @Sendable
+    public func startDataSourceIntrospection(_ input: StartDataSourceIntrospectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataSourceIntrospectionResponse {
+        return try await self.client.execute(
+            operation: "StartDataSourceIntrospection", 
+            path: "/v1/datasources/introspections", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

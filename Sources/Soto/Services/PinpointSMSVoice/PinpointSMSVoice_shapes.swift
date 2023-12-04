@@ -26,7 +26,7 @@ import Foundation
 extension PinpointSMSVoice {
     // MARK: Enums
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case answered = "ANSWERED"
         case busy = "BUSY"
         case completedCall = "COMPLETED_CALL"

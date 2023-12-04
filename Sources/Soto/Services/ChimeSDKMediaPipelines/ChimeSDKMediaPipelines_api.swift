@@ -147,6 +147,32 @@ public struct ChimeSDKMediaPipelines: AWSService {
         )
     }
 
+    /// Creates an Kinesis video stream pool for the media pipeline.
+    @Sendable
+    public func createMediaPipelineKinesisVideoStreamPool(_ input: CreateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaPipelineKinesisVideoStreamPoolResponse {
+        return try await self.client.execute(
+            operation: "CreateMediaPipelineKinesisVideoStreamPool", 
+            path: "/media-pipeline-kinesis-video-stream-pools", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a streaming media pipeline.
+    @Sendable
+    public func createMediaStreamPipeline(_ input: CreateMediaStreamPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaStreamPipelineResponse {
+        return try await self.client.execute(
+            operation: "CreateMediaStreamPipeline", 
+            path: "/sdk-media-stream-pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the media pipeline.
     @Sendable
     public func deleteMediaCapturePipeline(_ input: DeleteMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -179,6 +205,19 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return try await self.client.execute(
             operation: "DeleteMediaPipeline", 
             path: "/sdk-media-pipelines/{MediaPipelineId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Kinesis video stream pool.
+    @Sendable
+    public func deleteMediaPipelineKinesisVideoStreamPool(_ input: DeleteMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteMediaPipelineKinesisVideoStreamPool", 
+            path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -225,6 +264,45 @@ public struct ChimeSDKMediaPipelines: AWSService {
         )
     }
 
+    /// Gets an Kinesis video stream pool.
+    @Sendable
+    public func getMediaPipelineKinesisVideoStreamPool(_ input: GetMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaPipelineKinesisVideoStreamPoolResponse {
+        return try await self.client.execute(
+            operation: "GetMediaPipelineKinesisVideoStreamPool", 
+            path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the details of the specified speaker search task.
+    @Sendable
+    public func getSpeakerSearchTask(_ input: GetSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSpeakerSearchTaskResponse {
+        return try await self.client.execute(
+            operation: "GetSpeakerSearchTask", 
+            path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks/{SpeakerSearchTaskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the details of a voice tone analysis task.
+    @Sendable
+    public func getVoiceToneAnalysisTask(_ input: GetVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceToneAnalysisTaskResponse {
+        return try await self.client.execute(
+            operation: "GetVoiceToneAnalysisTask", 
+            path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of media pipelines.
     @Sendable
     public func listMediaCapturePipelines(_ input: ListMediaCapturePipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaCapturePipelinesResponse {
@@ -244,6 +322,19 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return try await self.client.execute(
             operation: "ListMediaInsightsPipelineConfigurations", 
             path: "/media-insights-pipeline-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the video stream pools in the media pipeline.
+    @Sendable
+    public func listMediaPipelineKinesisVideoStreamPools(_ input: ListMediaPipelineKinesisVideoStreamPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaPipelineKinesisVideoStreamPoolsResponse {
+        return try await self.client.execute(
+            operation: "ListMediaPipelineKinesisVideoStreamPools", 
+            path: "/media-pipeline-kinesis-video-stream-pools", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -271,6 +362,58 @@ public struct ChimeSDKMediaPipelines: AWSService {
             operation: "ListTagsForResource", 
             path: "/tags", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a speaker search task.  Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK.
+    @Sendable
+    public func startSpeakerSearchTask(_ input: StartSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSpeakerSearchTaskResponse {
+        return try await self.client.execute(
+            operation: "StartSpeakerSearchTask", 
+            path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks?operation=start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a voice tone analysis task. For more information about voice tone analysis, see Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide.  Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK.
+    @Sendable
+    public func startVoiceToneAnalysisTask(_ input: StartVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVoiceToneAnalysisTaskResponse {
+        return try await self.client.execute(
+            operation: "StartVoiceToneAnalysisTask", 
+            path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks?operation=start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops a speaker search task.
+    @Sendable
+    public func stopSpeakerSearchTask(_ input: StopSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "StopSpeakerSearchTask", 
+            path: "/media-insights-pipelines/{Identifier}/speaker-search-tasks/{SpeakerSearchTaskId}?operation=stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops a voice tone analysis task.
+    @Sendable
+    public func stopVoiceToneAnalysisTask(_ input: StopVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "StopVoiceToneAnalysisTask", 
+            path: "/media-insights-pipelines/{Identifier}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}?operation=stop", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -322,6 +465,19 @@ public struct ChimeSDKMediaPipelines: AWSService {
         return try await self.client.execute(
             operation: "UpdateMediaInsightsPipelineStatus", 
             path: "/media-insights-pipeline-status/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an Kinesis video stream pool in a media pipeline.
+    @Sendable
+    public func updateMediaPipelineKinesisVideoStreamPool(_ input: UpdateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMediaPipelineKinesisVideoStreamPoolResponse {
+        return try await self.client.execute(
+            operation: "UpdateMediaPipelineKinesisVideoStreamPool", 
+            path: "/media-pipeline-kinesis-video-stream-pools/{Identifier}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -381,6 +537,25 @@ extension ChimeSDKMediaPipelines {
         )
     }
 
+    /// Lists the video stream pools in the media pipeline.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMediaPipelineKinesisVideoStreamPoolsPaginator(
+        _ input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsRequest, ListMediaPipelineKinesisVideoStreamPoolsResponse> {
+        return .init(
+            input: input,
+            command: self.listMediaPipelineKinesisVideoStreamPools,
+            inputKey: \ListMediaPipelineKinesisVideoStreamPoolsRequest.nextToken,
+            outputKey: \ListMediaPipelineKinesisVideoStreamPoolsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of media pipelines.
     /// Return PaginatorSequence for operation.
     ///
@@ -412,6 +587,15 @@ extension ChimeSDKMediaPipelines.ListMediaCapturePipelinesRequest: AWSPaginateTo
 
 extension ChimeSDKMediaPipelines.ListMediaInsightsPipelineConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ChimeSDKMediaPipelines.ListMediaInsightsPipelineConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKMediaPipelines.ListMediaPipelineKinesisVideoStreamPoolsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMediaPipelines.ListMediaPipelineKinesisVideoStreamPoolsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

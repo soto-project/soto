@@ -26,25 +26,25 @@ import Foundation
 extension ComputeOptimizer {
     // MARK: Enums
 
-    public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case targetTrackingScalingCpu = "TargetTrackingScalingCpu"
         case targetTrackingScalingMemory = "TargetTrackingScalingMemory"
         public var description: String { return self.rawValue }
     }
 
-    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable, Sendable {
+    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsArm64 = "AWS_ARM64"
         case current = "CURRENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cny = "CNY"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable, Sendable {
+    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
@@ -52,18 +52,37 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomizableMetricHeadroom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case percent0 = "PERCENT_0"
+        case percent20 = "PERCENT_20"
+        case percent30 = "PERCENT_30"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomizableMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cpuUtilization = "CpuUtilization"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomizableMetricThreshold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case p90 = "P90"
+        case p95 = "P95"
+        case p995 = "P99_5"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EBSFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "Finding"
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSFinding: String, CustomStringConvertible, Codable, Sendable {
+    public enum EBSFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum EBSMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case volumeReadBytesPerSecond = "VolumeReadBytesPerSecond"
         case volumeReadOpsPerSecond = "VolumeReadOpsPerSecond"
         case volumeWriteBytesPerSecond = "VolumeWriteBytesPerSecond"
@@ -71,38 +90,52 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceLaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EBSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costExplorerRightsizing = "CostExplorerRightsizing"
+        case costOptimizationHub = "CostOptimizationHub"
+        case publicPricing = "PublicPricing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ECSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costExplorerRightsizing = "CostExplorerRightsizing"
+        case costOptimizationHub = "CostOptimizationHub"
+        case publicPricing = "PublicPricing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ECSServiceLaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "Fargate"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ECSServiceMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpu = "Cpu"
         case memory = "Memory"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum ECSServiceMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ECSServiceRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "Finding"
         case findingReasonCode = "FindingReasonCode"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFinding: String, CustomStringConvertible, Codable, Sendable {
+    public enum ECSServiceRecommendationFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optimized = "Optimized"
         case overProvisioned = "Overprovisioned"
         case underProvisioned = "Underprovisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ECSServiceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpuOverProvisioned = "CPUOverprovisioned"
         case cpuUnderProvisioned = "CPUUnderprovisioned"
         case memoryOverProvisioned = "MemoryOverprovisioned"
@@ -110,18 +143,18 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case autoScalingGroupArn = "AutoScalingGroupArn"
         case autoScalingGroupName = "AutoScalingGroupName"
@@ -129,6 +162,7 @@ extension ComputeOptimizer {
         case currentConfigurationInstanceType = "CurrentConfigurationInstanceType"
         case currentConfigurationMaxSize = "CurrentConfigurationMaxSize"
         case currentConfigurationMinSize = "CurrentConfigurationMinSize"
+        case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
         case currentMemory = "CurrentMemory"
         case currentNetwork = "CurrentNetwork"
         case currentOnDemandPrice = "CurrentOnDemandPrice"
@@ -140,6 +174,9 @@ extension ComputeOptimizer {
         case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
         case effectiveRecommendationPreferencesInferredWorkloadTypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
+        case effectiveRecommendationPreferencesPreferredResources = "EffectiveRecommendationPreferencesPreferredResources"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
         case finding = "Finding"
         case inferredWorkloadTypes = "InferredWorkloadTypes"
         case lastRefreshTimestamp = "LastRefreshTimestamp"
@@ -149,14 +186,20 @@ extension ComputeOptimizer {
         case recommendationOptionsConfigurationMaxSize = "RecommendationOptionsConfigurationMaxSize"
         case recommendationOptionsConfigurationMinSize = "RecommendationOptionsConfigurationMinSize"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+        case recommendationOptionsInstanceGpuInfo = "RecommendationOptionsInstanceGpuInfo"
         case recommendationOptionsMemory = "RecommendationOptionsMemory"
         case recommendationOptionsMigrationEffort = "RecommendationOptionsMigrationEffort"
         case recommendationOptionsNetwork = "RecommendationOptionsNetwork"
         case recommendationOptionsOnDemandPrice = "RecommendationOptionsOnDemandPrice"
         case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case recommendationOptionsProjectedUtilizationMetricsGpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -171,6 +214,8 @@ extension ComputeOptimizer {
         case utilizationMetricsEbsReadOpsPerSecondMaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
         case utilizationMetricsEbsWriteBytesPerSecondMaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
         case utilizationMetricsEbsWriteOpsPerSecondMaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationMetricsGpuMemoryPercentageMaximum = "UtilizationMetricsGpuMemoryPercentageMaximum"
+        case utilizationMetricsGpuPercentageMaximum = "UtilizationMetricsGpuPercentageMaximum"
         case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
         case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
         case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -179,7 +224,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableECSServiceField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportableECSServiceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case currentPerformanceRisk = "CurrentPerformanceRisk"
         case currentServiceConfigurationAutoScalingConfiguration = "CurrentServiceConfigurationAutoScalingConfiguration"
@@ -187,6 +232,7 @@ extension ComputeOptimizer {
         case currentServiceConfigurationMemory = "CurrentServiceConfigurationMemory"
         case currentServiceConfigurationTaskDefinitionArn = "CurrentServiceConfigurationTaskDefinitionArn"
         case currentServiceContainerConfigurations = "CurrentServiceContainerConfigurations"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
         case finding = "Finding"
         case findingReasonCodes = "FindingReasonCodes"
         case lastRefreshTimestamp = "LastRefreshTimestamp"
@@ -195,10 +241,13 @@ extension ComputeOptimizer {
         case recommendationOptionsContainerRecommendations = "RecommendationOptionsContainerRecommendations"
         case recommendationOptionsCpu = "RecommendationOptionsCpu"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
         case recommendationOptionsMemory = "RecommendationOptionsMemory"
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case serviceArn = "ServiceArn"
         case tags = "Tags"
@@ -207,8 +256,9 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableInstanceField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportableInstanceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
+        case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
         case currentInstanceType = "CurrentInstanceType"
         case currentMemory = "CurrentMemory"
         case currentNetwork = "CurrentNetwork"
@@ -222,10 +272,15 @@ extension ComputeOptimizer {
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
         case effectiveRecommendationPreferencesExternalMetricsSource = "EffectiveRecommendationPreferencesExternalMetricsSource"
         case effectiveRecommendationPreferencesInferredWorkloadTypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
+        case effectiveRecommendationPreferencesPreferredResources = "EffectiveRecommendationPreferencesPreferredResources"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
+        case effectiveRecommendationPreferencesUtilizationPreferences = "EffectiveRecommendationPreferencesUtilizationPreferences"
         case externalMetricStatusCode = "ExternalMetricStatusCode"
         case externalMetricStatusReason = "ExternalMetricStatusReason"
         case finding = "Finding"
         case findingReasonCodes = "FindingReasonCodes"
+        case idle = "Idle"
         case inferredWorkloadTypes = "InferredWorkloadTypes"
         case instanceArn = "InstanceArn"
         case instanceName = "InstanceName"
@@ -233,7 +288,10 @@ extension ComputeOptimizer {
         case lastRefreshTimestamp = "LastRefreshTimestamp"
         case lookbackPeriodInDays = "LookbackPeriodInDays"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+        case recommendationOptionsInstanceGpuInfo = "RecommendationOptionsInstanceGpuInfo"
         case recommendationOptionsInstanceType = "RecommendationOptionsInstanceType"
         case recommendationOptionsMemory = "RecommendationOptionsMemory"
         case recommendationOptionsMigrationEffort = "RecommendationOptionsMigrationEffort"
@@ -242,7 +300,10 @@ extension ComputeOptimizer {
         case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
         case recommendationOptionsPlatformDifferences = "RecommendationOptionsPlatformDifferences"
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
+        case recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -260,6 +321,8 @@ extension ComputeOptimizer {
         case utilizationMetricsEbsReadOpsPerSecondMaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
         case utilizationMetricsEbsWriteBytesPerSecondMaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
         case utilizationMetricsEbsWriteOpsPerSecondMaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationMetricsGpuMemoryPercentageMaximum = "UtilizationMetricsGpuMemoryPercentageMaximum"
+        case utilizationMetricsGpuPercentageMaximum = "UtilizationMetricsGpuPercentageMaximum"
         case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
         case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
         case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -268,13 +331,14 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableLambdaFunctionField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportableLambdaFunctionField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case currentConfigurationMemorySize = "CurrentConfigurationMemorySize"
         case currentConfigurationTimeout = "CurrentConfigurationTimeout"
         case currentCostAverage = "CurrentCostAverage"
         case currentCostTotal = "CurrentCostTotal"
         case currentPerformanceRisk = "CurrentPerformanceRisk"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
         case finding = "Finding"
         case findingReasonCodes = "FindingReasonCodes"
         case functionArn = "FunctionArn"
@@ -286,10 +350,13 @@ extension ComputeOptimizer {
         case recommendationOptionsCostHigh = "RecommendationOptionsCostHigh"
         case recommendationOptionsCostLow = "RecommendationOptionsCostLow"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
         case recommendationOptionsProjectedUtilizationMetricsDurationExpected = "RecommendationOptionsProjectedUtilizationMetricsDurationExpected"
         case recommendationOptionsProjectedUtilizationMetricsDurationLowerBound = "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
         case recommendationOptionsProjectedUtilizationMetricsDurationUpperBound = "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case tags = "Tags"
         case utilizationMetricsDurationAverage = "UtilizationMetricsDurationAverage"
@@ -299,8 +366,34 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableVolumeField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportableLicenseField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
+        case currentLicenseConfigurationInstanceType = "CurrentLicenseConfigurationInstanceType"
+        case currentLicenseConfigurationLicenseEdition = "CurrentLicenseConfigurationLicenseEdition"
+        case currentLicenseConfigurationLicenseModel = "CurrentLicenseConfigurationLicenseModel"
+        case currentLicenseConfigurationLicenseName = "CurrentLicenseConfigurationLicenseName"
+        case currentLicenseConfigurationLicenseVersion = "CurrentLicenseConfigurationLicenseVersion"
+        case currentLicenseConfigurationMetricsSource = "CurrentLicenseConfigurationMetricsSource"
+        case currentLicenseConfigurationNumberOfCores = "CurrentLicenseConfigurationNumberOfCores"
+        case currentLicenseConfigurationOperatingSystem = "CurrentLicenseConfigurationOperatingSystem"
+        case lastRefreshTimestamp = "LastRefreshTimestamp"
+        case licenseFinding = "Finding"
+        case licenseFindingReasonCodes = "FindingReasonCodes"
+        case lookbackPeriodInDays = "LookbackPeriodInDays"
+        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsLicenseEdition = "RecommendationOptionsLicenseEdition"
+        case recommendationOptionsLicenseModel = "RecommendationOptionsLicenseModel"
+        case recommendationOptionsOperatingSystem = "RecommendationOptionsOperatingSystem"
+        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
+        case resourceArn = "ResourceArn"
+        case tags = "Tags"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportableVolumeField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "AccountId"
+        case currentConfigurationRootVolume = "CurrentConfigurationRootVolume"
         case currentConfigurationVolumeBaselineIops = "CurrentConfigurationVolumeBaselineIOPS"
         case currentConfigurationVolumeBaselineThroughput = "CurrentConfigurationVolumeBaselineThroughput"
         case currentConfigurationVolumeBurstIops = "CurrentConfigurationVolumeBurstIOPS"
@@ -309,6 +402,7 @@ extension ComputeOptimizer {
         case currentConfigurationVolumeType = "CurrentConfigurationVolumeType"
         case currentMonthlyPrice = "CurrentMonthlyPrice"
         case currentPerformanceRisk = "CurrentPerformanceRisk"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
         case finding = "Finding"
         case lastRefreshTimestamp = "LastRefreshTimestamp"
         case lookbackPeriodInDays = "LookbackPeriodInDays"
@@ -319,9 +413,12 @@ extension ComputeOptimizer {
         case recommendationOptionsConfigurationVolumeSize = "RecommendationOptionsConfigurationVolumeSize"
         case recommendationOptionsConfigurationVolumeType = "RecommendationOptionsConfigurationVolumeType"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
         case recommendationOptionsMonthlyPrice = "RecommendationOptionsMonthlyPrice"
         case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case rootVolume = "RootVolume"
         case tags = "Tags"
@@ -333,7 +430,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExternalMetricStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExternalMetricStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case datadogIntegrationError = "DATADOG_INTEGRATION_ERROR"
         case dynatraceIntegrationError = "DYNATRACE_INTEGRATION_ERROR"
         case instanaIntegrationError = "INSTANA_INTEGRATION_ERROR"
@@ -347,7 +444,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExternalMetricsSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExternalMetricsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
         case instana = "Instana"
@@ -355,12 +452,12 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "Csv"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "Finding"
         case findingReasonCodes = "FindingReasonCodes"
         case inferredWorkloadTypes = "InferredWorkloadTypes"
@@ -368,7 +465,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Finding: String, CustomStringConvertible, Codable, Sendable {
+    public enum Finding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         case overProvisioned = "Overprovisioned"
@@ -376,13 +473,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case memoryOverProvisioned = "MemoryOverprovisioned"
         case memoryUnderProvisioned = "MemoryUnderprovisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferredWorkloadType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InferredWorkloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonEmr = "AmazonEmr"
         case apacheCassandra = "ApacheCassandra"
         case apacheHadoop = "ApacheHadoop"
@@ -395,13 +492,19 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable, Sendable {
+    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceIdle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `false` = "False"
+        case `true` = "True"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpuOverProvisioned = "CPUOverprovisioned"
         case cpuUnderProvisioned = "CPUUnderprovisioned"
         case diskIopsOverProvisioned = "DiskIOPSOverprovisioned"
@@ -412,6 +515,10 @@ extension ComputeOptimizer {
         case ebsIopsUnderProvisioned = "EBSIOPSUnderprovisioned"
         case ebsThroughputOverProvisioned = "EBSThroughputOverprovisioned"
         case ebsThroughputUnderProvisioned = "EBSThroughputUnderprovisioned"
+        case gpuMemoryOverProvisioned = "GPUMemoryOverprovisioned"
+        case gpuMemoryUnderProvisioned = "GPUMemoryUnderprovisioned"
+        case gpuOverProvisioned = "GPUOverprovisioned"
+        case gpuUnderProvisioned = "GPUUnderprovisioned"
         case memoryOverProvisioned = "MemoryOverprovisioned"
         case memoryUnderProvisioned = "MemoryUnderprovisioned"
         case networkBandwidthOverProvisioned = "NetworkBandwidthOverprovisioned"
@@ -421,7 +528,14 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costExplorerRightsizing = "CostExplorerRightsizing"
+        case costOptimizationHub = "CostOptimizationHub"
+        case publicPricing = "PublicPricing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "pending"
         case running = "running"
         case shuttingDown = "shutting-down"
@@ -431,13 +545,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jobStatus = "JobStatus"
         case resourceType = "ResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "Complete"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -445,44 +559,44 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMemoryMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionMemoryMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duration = "Duration"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMemoryMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionMemoryMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expected = "Expected"
         case lowerBound = "LowerBound"
         case upperBound = "UpperBound"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duration = "Duration"
         case memory = "Memory"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "Finding"
         case findingReasonCode = "FindingReasonCode"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFinding: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionRecommendationFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         case unavailable = "Unavailable"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaFunctionRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inconclusive = "Inconclusive"
         case insufficientData = "InsufficientData"
         case memoryOverProvisioned = "MemoryOverprovisioned"
@@ -490,7 +604,62 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricName: String, CustomStringConvertible, Codable, Sendable {
+    public enum LambdaSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costExplorerRightsizing = "CostExplorerRightsizing"
+        case costOptimizationHub = "CostOptimizationHub"
+        case publicPricing = "PublicPricing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseEdition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enterprise = "Enterprise"
+        case free = "Free"
+        case noLicenseEditionFound = "NoLicenseEditionFound"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insufficientMetrics = "InsufficientMetrics"
+        case notOptimized = "NotOptimized"
+        case optimized = "Optimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cwAppInsightsDisabled = "InvalidCloudWatchApplicationInsightsSetup"
+        case cwAppInsightsError = "CloudWatchApplicationInsightsError"
+        case licenseOverProvisioned = "LicenseOverprovisioned"
+        case optimized = "Optimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bringYourOwnLicense = "BringYourOwnLicense"
+        case licenseIncluded = "LicenseIncluded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sqlserver = "SQLServer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case licenseFinding = "Finding"
+        case licenseFindingReasonCode = "FindingReasonCode"
+        case licenseName = "LicenseName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LookBackPeriodPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days14 = "DAYS_14"
+        case days32 = "DAYS_32"
+        case days93 = "DAYS_93"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpu = "Cpu"
         case diskReadBytesPerSecond = "DISK_READ_BYTES_PER_SECOND"
         case diskReadOpsPerSecond = "DISK_READ_OPS_PER_SECOND"
@@ -500,6 +669,8 @@ extension ComputeOptimizer {
         case ebsReadOpsPerSecond = "EBS_READ_OPS_PER_SECOND"
         case ebsWriteBytesPerSecond = "EBS_WRITE_BYTES_PER_SECOND"
         case ebsWriteOpsPerSecond = "EBS_WRITE_OPS_PER_SECOND"
+        case gpuMemoryPercentage = "GPU_MEMORY_PERCENTAGE"
+        case gpuPercentage = "GPU_PERCENTAGE"
         case memory = "Memory"
         case networkInBytesPerSecond = "NETWORK_IN_BYTES_PER_SECOND"
         case networkOutBytesPerSecond = "NETWORK_OUT_BYTES_PER_SECOND"
@@ -508,13 +679,18 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricSourceProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudWatchAppInsights = "CloudWatchApplicationInsights"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationEffort: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationEffort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
@@ -522,7 +698,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case architecture = "Architecture"
         case hypervisor = "Hypervisor"
         case instanceStoreAvailability = "InstanceStoreAvailability"
@@ -532,40 +708,56 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, Sendable {
+    public enum PreferredResourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2InstanceTypes = "Ec2InstanceTypes"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enhancedInfrastructureMetrics = "EnhancedInfrastructureMetrics"
         case externalMetricsPreference = "ExternalMetricsPreference"
         case inferredWorkloadTypes = "InferredWorkloadTypes"
+        case lookbackPeriodPreference = "LookBackPeriodPreference"
+        case preferredResources = "PreferredResources"
+        case utilizationPreferences = "UtilizationPreferences"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoScalingGroup = "AutoScalingGroup"
         case ebsVolume = "EbsVolume"
         case ec2Instance = "Ec2Instance"
         case ecsService = "EcsService"
         case lambdaFunction = "LambdaFunction"
+        case license = "License"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoScalingGroup = "AutoScalingGroup"
         case ebsVolume = "EbsVolume"
         case ec2Instance = "Ec2Instance"
         case ecsService = "EcsService"
         case lambdaFunction = "LambdaFunction"
+        case license = "License"
         case notApplicable = "NotApplicable"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsEstimationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case afterDiscounts = "AfterDiscounts"
+        case beforeDiscounts = "BeforeDiscounts"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScopeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case organization = "Organization"
         case resourceArn = "ResourceArn"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case failed = "Failed"
         case inactive = "Inactive"
@@ -625,6 +817,23 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct AutoScalingGroupEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
     public struct AutoScalingGroupRecommendation: AWSDecodableShape {
         /// The Amazon Web Services account ID of the Auto Scaling group.
         public let accountId: String?
@@ -634,6 +843,8 @@ extension ComputeOptimizer {
         public let autoScalingGroupName: String?
         /// An array of objects that describe the current configuration of the Auto Scaling group.
         public let currentConfiguration: AutoScalingGroupConfiguration?
+        ///  Describes the GPU accelerator settings for the current instance type of the Auto Scaling group.
+        public let currentInstanceGpuInfo: GpuInfo?
         /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
         /// An object that describes the effective recommendation preferences for the Auto Scaling group.
@@ -651,11 +862,12 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentInstanceGpuInfo: GpuInfo? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
             self.currentConfiguration = currentConfiguration
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
@@ -671,6 +883,7 @@ extension ComputeOptimizer {
             case autoScalingGroupArn = "autoScalingGroupArn"
             case autoScalingGroupName = "autoScalingGroupName"
             case currentConfiguration = "currentConfiguration"
+            case currentInstanceGpuInfo = "currentInstanceGpuInfo"
             case currentPerformanceRisk = "currentPerformanceRisk"
             case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case finding = "finding"
@@ -685,6 +898,8 @@ extension ComputeOptimizer {
     public struct AutoScalingGroupRecommendationOption: AWSDecodableShape {
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
+        ///  Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
+        public let instanceGpuInfo: GpuInfo?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
         public let migrationEffort: MigrationEffort?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
@@ -695,23 +910,46 @@ extension ComputeOptimizer {
         public let rank: Int?
         /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
+        ///  An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts.  Savings opportunity includes the estimated monthly savings and percentage.
+        public let savingsOpportunityAfterDiscounts: AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
-        public init(configuration: AutoScalingGroupConfiguration? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(configuration: AutoScalingGroupConfiguration? = nil, instanceGpuInfo: GpuInfo? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: AutoScalingGroupSavingsOpportunityAfterDiscounts? = nil) {
             self.configuration = configuration
+            self.instanceGpuInfo = instanceGpuInfo
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case instanceGpuInfo = "instanceGpuInfo"
             case migrationEffort = "migrationEffort"
             case performanceRisk = "performanceRisk"
             case projectedUtilizationMetrics = "projectedUtilizationMetrics"
             case rank = "rank"
             case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
+        }
+    }
+
+    public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the  Savings Plans and Reserved Instances pricing discounts.
+        public let estimatedMonthlySavings: AutoScalingGroupEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be  achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: AutoScalingGroupEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
         }
     }
 
@@ -779,6 +1017,23 @@ extension ComputeOptimizer {
             case low = "low"
             case medium = "medium"
             case veryLow = "veryLow"
+        }
+    }
+
+    public struct CustomizableMetricParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The headroom threshold value in percentage used for the specified metric parameter.
+        public let headroom: CustomizableMetricHeadroom?
+        ///  The threshold value used for the specified metric parameter.
+        public let threshold: CustomizableMetricThreshold?
+
+        public init(headroom: CustomizableMetricHeadroom? = nil, threshold: CustomizableMetricThreshold? = nil) {
+            self.headroom = headroom
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headroom = "headroom"
+            case threshold = "threshold"
         }
     }
 
@@ -854,6 +1109,36 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct EBSEffectiveRecommendationPreferences: AWSDecodableShape {
+        ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
+        public let savingsEstimationMode: EBSSavingsEstimationMode?
+
+        public init(savingsEstimationMode: EBSSavingsEstimationMode? = nil) {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsEstimationMode = "savingsEstimationMode"
+        }
+    }
+
+    public struct EBSEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
     public struct EBSFilter: AWSEncodableShape {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). You can filter your Amazon EBS volume recommendations by tag:key  and tag-key tags. A tag:key is a key and value combination of a tag assigned to your  Amazon EBS volume recommendations. Use the tag key in the filter name and the tag value  as the filter value. For example, to find all Amazon EBS volume recommendations that have  a tag with the key of Owner and the value of TeamA,  specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon EBS volume recommendations. Use  this filter to find all of your Amazon EBS volume recommendations that have a tag with a  specific key. This doesn’t consider the tag value. For example, you can find  your Amazon EBS volume recommendations with a tag key value of Owner or without any tag  keys assigned.
         public let name: EBSFilterName?
@@ -868,6 +1153,36 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case values = "values"
+        }
+    }
+
+    public struct EBSSavingsEstimationMode: AWSDecodableShape {
+        ///  Describes the source for calculating the savings opportunity for Amazon EBS volumes.
+        public let source: EBSSavingsEstimationModeSource?
+
+        public init(source: EBSSavingsEstimationModeSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct EBSSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon EBS volume  recommendations. This saving includes any applicable discounts.
+        public let estimatedMonthlySavings: EBSEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost after applying the specific discounts.  This saving can be achieved by adopting Compute Optimizer’s Amazon EBS volume recommendations.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: EBSEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
         }
     }
 
@@ -889,6 +1204,66 @@ extension ComputeOptimizer {
             case name = "name"
             case statistic = "statistic"
             case value = "value"
+        }
+    }
+
+    public struct ECSEffectiveRecommendationPreferences: AWSDecodableShape {
+        ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
+        public let savingsEstimationMode: ECSSavingsEstimationMode?
+
+        public init(savingsEstimationMode: ECSSavingsEstimationMode? = nil) {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsEstimationMode = "savingsEstimationMode"
+        }
+    }
+
+    public struct ECSEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings for Amazon ECS services.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
+    public struct ECSSavingsEstimationMode: AWSDecodableShape {
+        ///  Describes the source for calculating the savings opportunity for Amazon ECS services.
+        public let source: ECSSavingsEstimationModeSource?
+
+        public init(source: ECSSavingsEstimationModeSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct ECSSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  The estimated monthly savings possible by adopting Compute Optimizer’s Amazon ECS service recommendations.  This includes any applicable Savings Plans discounts.
+        public let estimatedMonthlySavings: ECSEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: ECSEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
         }
     }
 
@@ -949,6 +1324,8 @@ extension ComputeOptimizer {
         public let currentPerformanceRisk: CurrentPerformanceRisk?
         ///  The configuration of the current Amazon ECS service.
         public let currentServiceConfiguration: ServiceConfiguration?
+        ///  Describes the effective recommendation preferences for Amazon ECS services.
+        public let effectiveRecommendationPreferences: ECSEffectiveRecommendationPreferences?
         ///  The finding classification of an Amazon ECS service.  Findings for Amazon ECS services include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough memory or CPU, an Amazon ECS  service is considered under-provisioned. An under-provisioned service might  result in poor application performance.     Overprovisioned —  When Compute Optimizer detects that there’s excessive memory or CPU, an Amazon ECS  service is considered over-provisioned. An over-provisioned service might  result in additional infrastructure costs.      Optimized —  When both the CPU and memory of your Amazon ECS service meet the performance requirements  of your workload, the service is considered optimized.
         public let finding: ECSServiceRecommendationFinding?
         ///  The reason for the finding classification of an Amazon ECS service.  Finding reason codes for Amazon ECS services include:     CPUUnderprovisioned —  The service CPU configuration can be sized up to enhance the performance of  your workload. This is identified by analyzing the CPUUtilization metric of the  current service during the look-back period.     CPUOverprovisioned —  The service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization  metric of the current service during the look-back period.      MemoryUnderprovisioned —  The service memory configuration  can be sized up to enhance the performance of  your workload. This is identified by analyzing the MemoryUtilization metric of the  current service during the look-back period.     MemoryOverprovisioned —  The service memory configuration can be sized down while still meeting the  performance requirements of your workload. This is identified by analyzing the  MemoryUtilization metric of the current service during the look-back period.
@@ -968,10 +1345,11 @@ extension ComputeOptimizer {
         ///  An array of objects that describe the utilization metrics of the Amazon ECS service.
         public let utilizationMetrics: [ECSServiceUtilizationMetric]?
 
-        public init(accountId: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, currentServiceConfiguration: ServiceConfiguration? = nil, finding: ECSServiceRecommendationFinding? = nil, findingReasonCodes: [ECSServiceRecommendationFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, launchType: ECSServiceLaunchType? = nil, lookbackPeriodInDays: Double? = nil, serviceArn: String? = nil, serviceRecommendationOptions: [ECSServiceRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [ECSServiceUtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, currentServiceConfiguration: ServiceConfiguration? = nil, effectiveRecommendationPreferences: ECSEffectiveRecommendationPreferences? = nil, finding: ECSServiceRecommendationFinding? = nil, findingReasonCodes: [ECSServiceRecommendationFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, launchType: ECSServiceLaunchType? = nil, lookbackPeriodInDays: Double? = nil, serviceArn: String? = nil, serviceRecommendationOptions: [ECSServiceRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [ECSServiceUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentPerformanceRisk = currentPerformanceRisk
             self.currentServiceConfiguration = currentServiceConfiguration
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.lastRefreshTimestamp = lastRefreshTimestamp
@@ -987,6 +1365,7 @@ extension ComputeOptimizer {
             case accountId = "accountId"
             case currentPerformanceRisk = "currentPerformanceRisk"
             case currentServiceConfiguration = "currentServiceConfiguration"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case finding = "finding"
             case findingReasonCodes = "findingReasonCodes"
             case lastRefreshTimestamp = "lastRefreshTimestamp"
@@ -1026,13 +1405,16 @@ extension ComputeOptimizer {
         ///  An array of objects that describe the projected utilization metrics of the Amazon ECS service recommendation option.
         public let projectedUtilizationMetrics: [ECSServiceProjectedUtilizationMetric]?
         public let savingsOpportunity: SavingsOpportunity?
+        ///  Describes the savings opportunity for Amazon ECS service recommendations or for the recommendation option.  Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts.  You can achieve this by implementing a given Compute Optimizer recommendation.
+        public let savingsOpportunityAfterDiscounts: ECSSavingsOpportunityAfterDiscounts?
 
-        public init(containerRecommendations: [ContainerRecommendation]? = nil, cpu: Int? = nil, memory: Int? = nil, projectedUtilizationMetrics: [ECSServiceProjectedUtilizationMetric]? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(containerRecommendations: [ContainerRecommendation]? = nil, cpu: Int? = nil, memory: Int? = nil, projectedUtilizationMetrics: [ECSServiceProjectedUtilizationMetric]? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: ECSSavingsOpportunityAfterDiscounts? = nil) {
             self.containerRecommendations = containerRecommendations
             self.cpu = cpu
             self.memory = memory
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1041,6 +1423,7 @@ extension ComputeOptimizer {
             case memory = "memory"
             case projectedUtilizationMetrics = "projectedUtilizationMetrics"
             case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
         }
     }
 
@@ -1086,6 +1469,31 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct EffectivePreferredResource: AWSDecodableShape {
+        ///  The expanded version of your preferred resource's include list.
+        public let effectiveIncludeList: [String]?
+        ///  The list of preferred resources values that you want excluded from rightsizing recommendation candidates.
+        public let excludeList: [String]?
+        ///  The list of preferred resource values that you want considered as rightsizing recommendation candidates.
+        public let includeList: [String]?
+        ///  The name of the preferred resource list.
+        public let name: PreferredResourceName?
+
+        public init(effectiveIncludeList: [String]? = nil, excludeList: [String]? = nil, includeList: [String]? = nil, name: PreferredResourceName? = nil) {
+            self.effectiveIncludeList = effectiveIncludeList
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectiveIncludeList = "effectiveIncludeList"
+            case excludeList = "excludeList"
+            case includeList = "includeList"
+            case name = "name"
+        }
+    }
+
     public struct EffectiveRecommendationPreferences: AWSDecodableShape {
         /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
         public let cpuVendorArchitectures: [CpuVendorArchitecture]?
@@ -1095,12 +1503,24 @@ extension ComputeOptimizer {
         public let externalMetricsPreference: ExternalMetricsPreference?
         /// Describes the activation status of the inferred workload types preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
         public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
+        ///  The number of days the utilization metrics of the Amazon Web Services resource are analyzed.
+        public let lookBackPeriod: LookBackPeriodPreference?
+        ///  The resource type values that are considered as candidates when generating rightsizing recommendations.
+        public let preferredResources: [EffectivePreferredResource]?
+        ///  Describes the savings estimation mode applied for calculating savings opportunity for a resource.
+        public let savingsEstimationMode: InstanceSavingsEstimationMode?
+        ///  The resource’s CPU utilization threshold preferences, such as threshold and headroom, that  are used to generate rightsizing recommendations.    This preference is only available for the Amazon EC2 instance resource type.
+        public let utilizationPreferences: [UtilizationPreference]?
 
-        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil) {
+        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, savingsEstimationMode: InstanceSavingsEstimationMode? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
+            self.savingsEstimationMode = savingsEstimationMode
+            self.utilizationPreferences = utilizationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1108,6 +1528,10 @@ extension ComputeOptimizer {
             case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
             case externalMetricsPreference = "externalMetricsPreference"
             case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case lookBackPeriod = "lookBackPeriod"
+            case preferredResources = "preferredResources"
+            case savingsEstimationMode = "savingsEstimationMode"
+            case utilizationPreferences = "utilizationPreferences"
         }
     }
 
@@ -1396,6 +1820,54 @@ extension ComputeOptimizer {
 
     public struct ExportLambdaFunctionRecommendationsResponse: AWSDecodableShape {
         /// The identification number of the export job. Use the DescribeRecommendationExportJobs action, and specify the job ID to view the status of an export job.
+        public let jobId: String?
+        public let s3Destination: S3Destination?
+
+        public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
+            self.jobId = jobId
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
+        }
+    }
+
+    public struct ExportLicenseRecommendationsRequest: AWSEncodableShape {
+        /// The IDs of the Amazon Web Services accounts for which to export license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations  for member accounts aren't included in the export. You can specify multiple account IDs per request.
+        public let accountIds: [String]?
+        /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
+        public let fieldsToExport: [ExportableLicenseField]?
+        /// The format of the export file. A CSV file is the only export format currently supported.
+        public let fileFormat: FileFormat?
+        ///  An array of objects to specify a filter that exports a more specific set of license recommendations.
+        public let filters: [LicenseRecommendationFilter]?
+        /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization  aren't included in the export file . This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive.
+        public let includeMemberAccounts: Bool?
+        public let s3DestinationConfig: S3DestinationConfig
+
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableLicenseField]? = nil, fileFormat: FileFormat? = nil, filters: [LicenseRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+            self.accountIds = accountIds
+            self.fieldsToExport = fieldsToExport
+            self.fileFormat = fileFormat
+            self.filters = filters
+            self.includeMemberAccounts = includeMemberAccounts
+            self.s3DestinationConfig = s3DestinationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
+        }
+    }
+
+    public struct ExportLicenseRecommendationsResponse: AWSDecodableShape {
+        ///  The identification number of the export job.  To view the status of an export job, use the DescribeRecommendationExportJobs  action and specify the job ID.
         public let jobId: String?
         public let s3Destination: S3Destination?
 
@@ -1791,15 +2263,27 @@ extension ComputeOptimizer {
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
         /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetEC2InstanceRecommendations actions. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let externalMetricsPreference: ExternalMetricsPreference?
+        ///  The number of days the utilization metrics of the Amazon Web Services resource are analyzed.   To validate that the preference is applied to your last generated set of recommendations, review  the effectiveRecommendationPreferences value in the response of the  GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+        public let lookBackPeriod: LookBackPeriodPreference?
+        ///  The resource type values that are considered as candidates when generating rightsizing recommendations.  This object resolves any wildcard expressions and returns the effective list of candidate resource type  values. It also considers all applicable preferences that you set at the resource, account, and  organization level.  To validate that the preference is applied to your last generated set of recommendations, review the  effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations  or GetEC2InstanceRecommendations actions.
+        public let preferredResources: [EffectivePreferredResource]?
+        ///  The resource’s CPU utilization threshold preferences, such as threshold and headroom,  that were used to generate rightsizing recommendations. It considers all applicable preferences  that you set at the resource, account, and organization level.  To validate that the preference is applied to your last generated set of recommendations, review the  effectiveRecommendationPreferences value in the response of the  GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+        public let utilizationPreferences: [UtilizationPreference]?
 
-        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil) {
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
+            self.utilizationPreferences = utilizationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
             case externalMetricsPreference = "externalMetricsPreference"
+            case lookBackPeriod = "lookBackPeriod"
+            case preferredResources = "preferredResources"
+            case utilizationPreferences = "utilizationPreferences"
         }
     }
 
@@ -1930,6 +2414,61 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct GetLicenseRecommendationsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account for which to return license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return license recommendations. Only one account ID can be specified per request.
+        public let accountIds: [String]?
+        ///  An array of objects to specify a filter that returns a more specific list of license recommendations.
+        public let filters: [LicenseRecommendationFilter]?
+        ///  The maximum number of license recommendations to return with a single request.   To retrieve the remaining results, make another request with the returned nextToken value.
+        public let maxResults: Int?
+        ///  The token to advance to the next page of license recommendations.
+        public let nextToken: String?
+        ///  The ARN that identifies the Amazon EC2 instance.   The following is the format of the ARN:   arn:aws:ec2:region:aws_account_id:instance/instance-id
+        public let resourceArns: [String]?
+
+        public init(accountIds: [String]? = nil, filters: [LicenseRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil) {
+            self.accountIds = accountIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArns = resourceArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArns = "resourceArns"
+        }
+    }
+
+    public struct GetLicenseRecommendationsResponse: AWSDecodableShape {
+        ///  An array of objects that describe errors of the request.
+        public let errors: [GetRecommendationError]?
+        ///  An array of objects that describe license recommendations.
+        public let licenseRecommendations: [LicenseRecommendation]?
+        ///  The token to use to advance to the next page of license recommendations.
+        public let nextToken: String?
+
+        public init(errors: [GetRecommendationError]? = nil, licenseRecommendations: [LicenseRecommendation]? = nil, nextToken: String? = nil) {
+            self.errors = errors
+            self.licenseRecommendations = licenseRecommendations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case licenseRecommendations = "licenseRecommendations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetRecommendationError: AWSDecodableShape {
         /// The error code.
         public let code: String?
@@ -2041,6 +2580,36 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct Gpu: AWSDecodableShape {
+        ///  The number of GPUs for the instance type.
+        public let gpuCount: Int?
+        ///  The total size of the memory for the GPU accelerators for the instance type, in MiB.
+        public let gpuMemorySizeInMiB: Int?
+
+        public init(gpuCount: Int? = nil, gpuMemorySizeInMiB: Int? = nil) {
+            self.gpuCount = gpuCount
+            self.gpuMemorySizeInMiB = gpuMemorySizeInMiB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gpuCount = "gpuCount"
+            case gpuMemorySizeInMiB = "gpuMemorySizeInMiB"
+        }
+    }
+
+    public struct GpuInfo: AWSDecodableShape {
+        ///  Describes the GPU accelerators for the instance type.
+        public let gpus: [Gpu]?
+
+        public init(gpus: [Gpu]? = nil) {
+            self.gpus = gpus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gpus = "gpus"
+        }
+    }
+
     public struct InferredWorkloadSaving: AWSDecodableShape {
         /// An object that describes the estimated monthly savings amount possible by adopting Compute Optimizer recommendations for a given resource. This is based on the On-Demand instance pricing.
         public let estimatedMonthlySavings: EstimatedMonthlySavings?
@@ -2058,9 +2627,28 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct InstanceEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
     public struct InstanceRecommendation: AWSDecodableShape {
         /// The Amazon Web Services account ID of the instance.
         public let accountId: String?
+        ///  Describes the GPU accelerator settings for the current instance type.
+        public let currentInstanceGpuInfo: GpuInfo?
         /// The instance type of the current instance.
         public let currentInstanceType: String?
         /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current instance cannot meet the performance requirements of its workload.
@@ -2073,6 +2661,8 @@ extension ComputeOptimizer {
         public let finding: Finding?
         /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
         public let findingReasonCodes: [InstanceRecommendationFindingReasonCode]?
+        ///  Describes if an Amazon EC2 instance is idle.
+        public let idle: InstanceIdle?
         /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:    AmazonEmr - Infers that Amazon EMR might be running on the instance.    ApacheCassandra - Infers that Apache Cassandra might be running on the instance.    ApacheHadoop - Infers that Apache Hadoop might be running on the instance.    Memcached - Infers that Memcached might be running on the instance.    NGINX - Infers that NGINX might be running on the instance.    PostgreSql - Infers that PostgreSQL might be running on the instance.    Redis - Infers that Redis might be running on the instance.    Kafka - Infers that Kafka might be running on the instance.    SQLServer - Infers that SQLServer might be running on the instance.
         public let inferredWorkloadTypes: [InferredWorkloadType]?
         /// The Amazon Resource Name (ARN) of the current instance.
@@ -2094,14 +2684,16 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, externalMetricStatus: ExternalMetricStatus? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, instanceState: InstanceState? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, tags: [Tag]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentInstanceGpuInfo: GpuInfo? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, externalMetricStatus: ExternalMetricStatus? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, idle: InstanceIdle? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, instanceState: InstanceState? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, tags: [Tag]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.externalMetricStatus = externalMetricStatus
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
+            self.idle = idle
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
@@ -2116,12 +2708,14 @@ extension ComputeOptimizer {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case currentInstanceGpuInfo = "currentInstanceGpuInfo"
             case currentInstanceType = "currentInstanceType"
             case currentPerformanceRisk = "currentPerformanceRisk"
             case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case externalMetricStatus = "externalMetricStatus"
             case finding = "finding"
             case findingReasonCodes = "findingReasonCodes"
+            case idle = "idle"
             case inferredWorkloadTypes = "inferredWorkloadTypes"
             case instanceArn = "instanceArn"
             case instanceName = "instanceName"
@@ -2136,6 +2730,8 @@ extension ComputeOptimizer {
     }
 
     public struct InstanceRecommendationOption: AWSDecodableShape {
+        ///  Describes the GPU accelerator settings for the recommended instance type.
+        public let instanceGpuInfo: GpuInfo?
         /// The instance type of the instance recommendation.
         public let instanceType: String?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
@@ -2150,8 +2746,11 @@ extension ComputeOptimizer {
         public let rank: Int?
         /// An object that describes the savings opportunity for the instance recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
+        ///  An object that describes the savings opportunity for the instance recommendation option that includes Savings Plans and Reserved Instances  discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public let savingsOpportunityAfterDiscounts: InstanceSavingsOpportunityAfterDiscounts?
 
-        public init(instanceType: String? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(instanceGpuInfo: GpuInfo? = nil, instanceType: String? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: InstanceSavingsOpportunityAfterDiscounts? = nil) {
+            self.instanceGpuInfo = instanceGpuInfo
             self.instanceType = instanceType
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
@@ -2159,9 +2758,11 @@ extension ComputeOptimizer {
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceGpuInfo = "instanceGpuInfo"
             case instanceType = "instanceType"
             case migrationEffort = "migrationEffort"
             case performanceRisk = "performanceRisk"
@@ -2169,6 +2770,37 @@ extension ComputeOptimizer {
             case projectedUtilizationMetrics = "projectedUtilizationMetrics"
             case rank = "rank"
             case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
+        }
+    }
+
+    public struct InstanceSavingsEstimationMode: AWSDecodableShape {
+        ///  Describes the source for calculating the savings opportunity for Amazon EC2 instances.
+        public let source: InstanceSavingsEstimationModeSource?
+
+        public init(source: InstanceSavingsEstimationModeSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct InstanceSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is  based on pricing after applying the Savings Plans and Reserved Instances discounts.
+        public let estimatedMonthlySavings: InstanceEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts.  This saving can be achieved by adopting Compute Optimizer’s EC2 instance recommendations.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: InstanceEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
         }
     }
 
@@ -2186,6 +2818,36 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case values = "values"
+        }
+    }
+
+    public struct LambdaEffectiveRecommendationPreferences: AWSDecodableShape {
+        ///  Describes the savings estimation mode applied for calculating savings opportunity for Lambda functions.
+        public let savingsEstimationMode: LambdaSavingsEstimationMode?
+
+        public init(savingsEstimationMode: LambdaSavingsEstimationMode? = nil) {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsEstimationMode = "savingsEstimationMode"
+        }
+    }
+
+    public struct LambdaEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
         }
     }
 
@@ -2219,12 +2881,15 @@ extension ComputeOptimizer {
         public let rank: Int?
         /// An object that describes the savings opportunity for the Lambda function recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
+        ///  An object that describes the savings opportunity for the Lambda recommendation option which includes Saving Plans  discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public let savingsOpportunityAfterDiscounts: LambdaSavingsOpportunityAfterDiscounts?
 
-        public init(memorySize: Int? = nil, projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(memorySize: Int? = nil, projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: LambdaSavingsOpportunityAfterDiscounts? = nil) {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2232,6 +2897,7 @@ extension ComputeOptimizer {
             case projectedUtilizationMetrics = "projectedUtilizationMetrics"
             case rank = "rank"
             case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
         }
     }
 
@@ -2242,6 +2908,8 @@ extension ComputeOptimizer {
         public let currentMemorySize: Int?
         /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
+        ///  Describes the effective recommendation preferences for Lambda functions.
+        public let effectiveRecommendationPreferences: LambdaEffectiveRecommendationPreferences?
         /// The finding classification of the function. Findings for functions include:     Optimized — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.     NotOptimized — The function is performing at a higher level (over-provisioned) or at a lower level (under-provisioned) than required for your workload because its current configuration is not optimal. Over-provisioned resources might lead to unnecessary infrastructure cost, and under-provisioned resources might lead to poor application performance. This finding classification can include the MemoryUnderprovisioned and MemoryUnderprovisioned finding reason codes.     Unavailable — Compute Optimizer was unable to generate a recommendation for the function. This could be because the function has not accumulated sufficient metric data, or the function does not qualify for a recommendation. This finding classification can include the InsufficientData and Inconclusive finding reason codes.  Functions with a finding of unavailable are not returned unless you specify the filter parameter with a value of Unavailable in your GetLambdaFunctionRecommendations request.
         public let finding: LambdaFunctionRecommendationFinding?
         /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Finding reason codes for functions include:     MemoryOverprovisioned — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive — The function does not qualify for a recommendation because Compute Optimizer cannot generate a recommendation with a high degree of confidence. This finding reason code is part of the Unavailable finding classification.
@@ -2263,10 +2931,11 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the function.
         public let utilizationMetrics: [LambdaFunctionUtilizationMetric]?
 
-        public init(accountId: String? = nil, currentMemorySize: Int? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, finding: LambdaFunctionRecommendationFinding? = nil, findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]? = nil, functionArn: String? = nil, functionVersion: String? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]? = nil, numberOfInvocations: Int64? = nil, tags: [Tag]? = nil, utilizationMetrics: [LambdaFunctionUtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentMemorySize: Int? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: LambdaEffectiveRecommendationPreferences? = nil, finding: LambdaFunctionRecommendationFinding? = nil, findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]? = nil, functionArn: String? = nil, functionVersion: String? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]? = nil, numberOfInvocations: Int64? = nil, tags: [Tag]? = nil, utilizationMetrics: [LambdaFunctionUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.functionArn = functionArn
@@ -2283,6 +2952,7 @@ extension ComputeOptimizer {
             case accountId = "accountId"
             case currentMemorySize = "currentMemorySize"
             case currentPerformanceRisk = "currentPerformanceRisk"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case finding = "finding"
             case findingReasonCodes = "findingReasonCodes"
             case functionArn = "functionArn"
@@ -2334,6 +3004,167 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct LambdaSavingsEstimationMode: AWSDecodableShape {
+        ///  Describes the source for calculation of savings opportunity for Lambda functions.
+        public let source: LambdaSavingsEstimationModeSource?
+
+        public init(source: LambdaSavingsEstimationModeSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct LambdaSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  The estimated monthly savings possible by adopting Compute Optimizer’s Lambda function recommendations. This  includes any applicable Savings Plans discounts.
+        public let estimatedMonthlySavings: LambdaEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Lambda  function recommendations. This includes any applicable Savings Plans discounts.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: LambdaEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
+        }
+    }
+
+    public struct LicenseConfiguration: AWSDecodableShape {
+        ///  The instance type used in the license.
+        public let instanceType: String?
+        ///  The edition of the license for the application that runs on the instance.
+        public let licenseEdition: LicenseEdition?
+        ///  The license type associated with the instance.
+        public let licenseModel: LicenseModel?
+        ///  The name of the license for the application that runs on the instance.
+        public let licenseName: LicenseName?
+        ///  The version of the license for the application that runs on the instance.
+        public let licenseVersion: String?
+        ///  The list of metric sources required to generate recommendations for commercial software licenses.
+        public let metricsSource: [MetricSource]?
+        ///  The current number of cores associated with the instance.
+        public let numberOfCores: Int?
+        ///  The operating system of the instance.
+        public let operatingSystem: String?
+
+        public init(instanceType: String? = nil, licenseEdition: LicenseEdition? = nil, licenseModel: LicenseModel? = nil, licenseName: LicenseName? = nil, licenseVersion: String? = nil, metricsSource: [MetricSource]? = nil, numberOfCores: Int? = nil, operatingSystem: String? = nil) {
+            self.instanceType = instanceType
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.licenseName = licenseName
+            self.licenseVersion = licenseVersion
+            self.metricsSource = metricsSource
+            self.numberOfCores = numberOfCores
+            self.operatingSystem = operatingSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "instanceType"
+            case licenseEdition = "licenseEdition"
+            case licenseModel = "licenseModel"
+            case licenseName = "licenseName"
+            case licenseVersion = "licenseVersion"
+            case metricsSource = "metricsSource"
+            case numberOfCores = "numberOfCores"
+            case operatingSystem = "operatingSystem"
+        }
+    }
+
+    public struct LicenseRecommendation: AWSDecodableShape {
+        ///  The Amazon Web Services account ID of the license.
+        public let accountId: String?
+        ///  An object that describes the current configuration of an instance that runs on a license.
+        public let currentLicenseConfiguration: LicenseConfiguration?
+        ///  The finding classification for an instance that runs on a license.  Findings include:    InsufficentMetrics — When Compute Optimizer detects that your CloudWatch Application Insights isn't enabled or is enabled with insufficient permissions.     NotOptimized — When Compute Optimizer detects that your EC2 infrastructure  isn't using any of the SQL server license features you're paying for, a license is considered  not optimized.    Optimized — When Compute Optimizer detects that all specifications of your  license meet the performance requirements of your workload.
+        public let finding: LicenseFinding?
+        ///  The reason for the finding classification for an instance that runs on a license.  Finding reason codes include:    Optimized — All specifications of your  license meet the performance requirements of your workload.     LicenseOverprovisioned — A license is considered over-provisioned when your license can be  downgraded while still meeting the performance requirements of your workload.    InvalidCloudwatchApplicationInsights — CloudWatch Application Insights isn't configured properly.    CloudwatchApplicationInsightsError — There is a CloudWatch Application Insights error.
+        public let findingReasonCodes: [LicenseFindingReasonCode]?
+        ///  The timestamp of when the license recommendation was last generated.
+        public let lastRefreshTimestamp: Date?
+        ///  An array of objects that describe the license recommendation options.
+        public let licenseRecommendationOptions: [LicenseRecommendationOption]?
+        ///  The number of days for which utilization metrics were analyzed for an instance that runs on a license.
+        public let lookbackPeriodInDays: Double?
+        ///  The ARN that identifies the Amazon EC2 instance.
+        public let resourceArn: String?
+        ///  A list of tags assigned to an EC2 instance.
+        public let tags: [Tag]?
+
+        public init(accountId: String? = nil, currentLicenseConfiguration: LicenseConfiguration? = nil, finding: LicenseFinding? = nil, findingReasonCodes: [LicenseFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, licenseRecommendationOptions: [LicenseRecommendationOption]? = nil, lookbackPeriodInDays: Double? = nil, resourceArn: String? = nil, tags: [Tag]? = nil) {
+            self.accountId = accountId
+            self.currentLicenseConfiguration = currentLicenseConfiguration
+            self.finding = finding
+            self.findingReasonCodes = findingReasonCodes
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.licenseRecommendationOptions = licenseRecommendationOptions
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case currentLicenseConfiguration = "currentLicenseConfiguration"
+            case finding = "finding"
+            case findingReasonCodes = "findingReasonCodes"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case licenseRecommendationOptions = "licenseRecommendationOptions"
+            case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct LicenseRecommendationFilter: AWSEncodableShape {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key  and tag-key tags. A tag:key is a key and value combination of a tag assigned to your  license recommendations. Use the tag key in the filter name and the tag value  as the filter value. For example, to find all license recommendations that have  a tag with the key of Owner and the value of TeamA,  specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recommendations. Use  this filter to find all of your license recommendations that have a tag with a  specific key. This doesn’t consider the tag value. For example, you can find  your license recommendations with a tag key value of Owner or without any tag  keys assigned.
+        public let name: LicenseRecommendationFilterName?
+        /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   If you specify the name parameter as Finding, then specify Optimized, NotOptimized, or InsufficentMetrics.   If you specify the name parameter as FindingReasonCode, then specify Optimized, LicenseOverprovisioned, InvalidCloudwatchApplicationInsights, or CloudwatchApplicationInsightsError.
+        public let values: [String]?
+
+        public init(name: LicenseRecommendationFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct LicenseRecommendationOption: AWSDecodableShape {
+        ///  The recommended edition of the license for the application that runs on the instance.
+        public let licenseEdition: LicenseEdition?
+        ///  The recommended license type associated with the instance.
+        public let licenseModel: LicenseModel?
+        ///  The operating system of a license recommendation option.
+        public let operatingSystem: String?
+        ///  The rank of the license recommendation option.   The top recommendation option is ranked as 1.
+        public let rank: Int?
+        public let savingsOpportunity: SavingsOpportunity?
+
+        public init(licenseEdition: LicenseEdition? = nil, licenseModel: LicenseModel? = nil, operatingSystem: String? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.operatingSystem = operatingSystem
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseEdition = "licenseEdition"
+            case licenseModel = "licenseModel"
+            case operatingSystem = "operatingSystem"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
+        }
+    }
+
     public struct MemorySizeConfiguration: AWSDecodableShape {
         ///  The amount of memory in the container.
         public let memory: Int?
@@ -2351,8 +3182,46 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct MetricSource: AWSDecodableShape {
+        ///  The name of the metric source provider.
+        public let provider: MetricSourceProvider?
+        ///  The ARN of the metric source provider.
+        public let providerArn: String?
+
+        public init(provider: MetricSourceProvider? = nil, providerArn: String? = nil) {
+            self.provider = provider
+            self.providerArn = providerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provider = "provider"
+            case providerArn = "providerArn"
+        }
+    }
+
+    public struct PreferredResource: AWSEncodableShape {
+        ///  The preferred resource type values to exclude from the recommendation candidates. If this isn’t specified, all supported  resources are included by default. You can specify up to 1000 values in this list.
+        public let excludeList: [String]?
+        ///  The preferred resource type values to include in the recommendation candidates. You can specify the exact resource type value,  such as m5.large, or use wild card expressions, such as m5. If this isn’t specified, all supported resources are included by default.  You can specify up to 1000 values in this list.
+        public let includeList: [String]?
+        ///  The type of preferred resource to customize.   Compute Optimizer only supports the customization of Ec2InstanceTypes.
+        public let name: PreferredResourceName?
+
+        public init(excludeList: [String]? = nil, includeList: [String]? = nil, name: PreferredResourceName? = nil) {
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeList = "excludeList"
+            case includeList = "includeList"
+            case name = "name"
+        }
+    }
+
     public struct ProjectedMetric: AWSDecodableShape {
-        /// The name of the projected utilization metric. The following projected utilization metrics are returned:    Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
+        /// The name of the projected utilization metric. The following projected utilization metrics are returned:    Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core.    Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent  The Memory metric is only returned for resources with the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.     GPU - The projected percentage of allocated GPUs if you adjust your configurations to Compute Optimizer's recommendation option.    GPU_MEMORY - The projected percentage of total GPU memory if you adjust your configurations to Compute Optimizer's recommendation option.  The GPU and GPU_MEMORY metrics are only returned for resources  with the unified CloudWatch Agent installed on them. For more information, see  Enabling NVIDIA GPU  utilization with the CloudWatch Agent.
         public let name: MetricName?
         /// The timestamps of the projected utilization metric.
         public let timestamps: [Date]?
@@ -2379,25 +3248,41 @@ extension ComputeOptimizer {
         public let externalMetricsPreference: ExternalMetricsPreference?
         /// The status of the inferred workload types recommendation preference to create or update.  The inferred workload type feature is active by default. To deactivate it, create a recommendation preference.  Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see Inferred workload types in the Compute Optimizer User Guide.
         public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
+        ///  The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed.  When this preference isn't specified, we use the default value DAYS_14.   You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+        public let lookBackPeriod: LookBackPeriodPreference?
+        ///  The preference to control which resource type values are considered when generating rightsizing recommendations.  You can specify this preference as a combination of include and exclude lists. You must specify either an  includeList or excludeList. If the preference is an empty set of resource type values,  an error occurs.   You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+        public let preferredResources: [PreferredResource]?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.  The valid values for this parameter are Ec2Instance and AutoScalingGroup.
         public let resourceType: ResourceType
+        ///  The status of the savings estimation mode preference to create or update.  Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see  Savings estimation mode in the Compute Optimizer User Guide.
+        public let savingsEstimationMode: SavingsEstimationMode?
         /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
         public let scope: Scope?
+        ///  The preference to control the resource’s CPU utilization thresholds - threshold and headroom. When this  preference isn't specified, we use the following default values:     P99_5 for threshold    PERCENT_17 for headroom    You can only set this preference for the Amazon EC2 instance resource type.
+        public let utilizationPreferences: [UtilizationPreference]?
 
-        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, resourceType: ResourceType, scope: Scope? = nil) {
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [PreferredResource]? = nil, resourceType: ResourceType, savingsEstimationMode: SavingsEstimationMode? = nil, scope: Scope? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
             self.resourceType = resourceType
+            self.savingsEstimationMode = savingsEstimationMode
             self.scope = scope
+            self.utilizationPreferences = utilizationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
             case externalMetricsPreference = "externalMetricsPreference"
             case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case lookBackPeriod = "lookBackPeriod"
+            case preferredResources = "preferredResources"
             case resourceType = "resourceType"
+            case savingsEstimationMode = "savingsEstimationMode"
             case scope = "scope"
+            case utilizationPreferences = "utilizationPreferences"
         }
     }
 
@@ -2479,25 +3364,41 @@ extension ComputeOptimizer {
         public let externalMetricsPreference: ExternalMetricsPreference?
         /// The status of the inferred workload types recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations.
         public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
+        ///  The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed.  If the preference isn’t set, this object is null.
+        public let lookBackPeriod: LookBackPeriodPreference?
+        ///  The preference to control which resource type values are considered when generating rightsizing recommendations.  This object resolves any wildcard expressions and returns the effective list of candidate resource type values.  If the preference isn’t set, this object is null.
+        public let preferredResources: [EffectivePreferredResource]?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType?
+        ///  Describes the savings estimation mode used for calculating savings opportunity.   Only the account manager or delegated administrator of your organization can activate this preference.
+        public let savingsEstimationMode: SavingsEstimationMode?
         /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
+        ///  The preference to control the resource’s CPU utilization thresholds - threshold and headroom.  If the preference isn’t set, this object is null.    This preference is only available for the Amazon EC2 instance resource type.
+        public let utilizationPreferences: [UtilizationPreference]?
 
-        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, resourceType: ResourceType? = nil, scope: Scope? = nil) {
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, resourceType: ResourceType? = nil, savingsEstimationMode: SavingsEstimationMode? = nil, scope: Scope? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
             self.resourceType = resourceType
+            self.savingsEstimationMode = savingsEstimationMode
             self.scope = scope
+            self.utilizationPreferences = utilizationPreferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
             case externalMetricsPreference = "externalMetricsPreference"
             case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case lookBackPeriod = "lookBackPeriod"
+            case preferredResources = "preferredResources"
             case resourceType = "resourceType"
+            case savingsEstimationMode = "savingsEstimationMode"
             case scope = "scope"
+            case utilizationPreferences = "utilizationPreferences"
         }
     }
 
@@ -2523,7 +3424,7 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// An object that describes the performance risk ratings for a given resource type.
         public let currentPerformanceRiskRatings: CurrentPerformanceRiskRatings?
-        ///  An array of objects that describes the estimated monthly saving amounts for the instances running on the specified  inferredWorkloadTypes. The array contains the top three savings opportunites for the instances running  inferred workload types.
+        ///  An array of objects that describes the estimated monthly saving amounts for the instances running on the specified  inferredWorkloadTypes. The array contains the top five savings opportunites for the instances that run  inferred workload types.
         public let inferredWorkloadSavings: [InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
         public let recommendationResourceType: RecommendationSourceType?
@@ -2746,7 +3647,7 @@ extension ComputeOptimizer {
     }
 
     public struct UtilizationMetric: AWSDecodableShape {
-        /// The name of the utilization metric. The following utilization metrics are available:    Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.     EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_WRITE_OPS_PER_SECOND - The completed write operations to all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_READ_BYTES_PER_SECOND - The bytes read from all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    EBS_WRITE_BYTES_PER_SECOND - The bytes written to all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    DISK_READ_OPS_PER_SECOND - The completed read operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_OPS_PER_SECOND - The completed write operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_READ_BYTES_PER_SECOND - The bytes read from all instance store volumes available to the instance. This metric is used to determine the volume of the data the application reads from the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_BYTES_PER_SECOND - The bytes written to all instance store volumes available to the instance. This metric is used to determine the volume of the data the application writes onto the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    NETWORK_IN_BYTES_PER_SECOND - The number of bytes received by the instance on all network interfaces. This metric identifies the volume of incoming network traffic to a single instance.    NETWORK_OUT_BYTES_PER_SECOND - The number of bytes sent out by the instance on all network interfaces. This metric identifies the volume of outgoing network traffic from a single instance.    NETWORK_PACKETS_IN_PER_SECOND - The number of packets received by the instance on all network interfaces. This metric identifies the volume of incoming traffic in terms of the number of packets on a single instance.    NETWORK_PACKETS_OUT_PER_SECOND - The number of packets sent out by the instance on all network interfaces. This metric identifies the volume of outgoing traffic in terms of the number of packets on a single instance.
+        /// The name of the utilization metric. The following utilization metrics are available:    Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.     GPU - The percentage of allocated GPUs that currently run on  the instance.    GPU_MEMORY - The percentage of total GPU memory that currently runs on  the instance.  The GPU and GPU_MEMORY metrics are only returned for resources  with the unified CloudWatch Agent installed on them. For more information, see  Enabling NVIDIA GPU  utilization with the CloudWatch Agent.     EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_WRITE_OPS_PER_SECOND - The completed write operations to all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_READ_BYTES_PER_SECOND - The bytes read from all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    EBS_WRITE_BYTES_PER_SECOND - The bytes written to all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    DISK_READ_OPS_PER_SECOND - The completed read operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_OPS_PER_SECOND - The completed write operations from all instance store volumes available to the instance in a specified period of time. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_READ_BYTES_PER_SECOND - The bytes read from all instance store volumes available to the instance. This metric is used to determine the volume of the data the application reads from the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    DISK_WRITE_BYTES_PER_SECOND - The bytes written to all instance store volumes available to the instance. This metric is used to determine the volume of the data the application writes onto the disk of the instance. This can be used to determine the speed of the application. If there are no instance store volumes, either the value is 0 or the metric is not reported.    NETWORK_IN_BYTES_PER_SECOND - The number of bytes received by the instance on all network interfaces. This metric identifies the volume of incoming network traffic to a single instance.    NETWORK_OUT_BYTES_PER_SECOND - The number of bytes sent out by the instance on all network interfaces. This metric identifies the volume of outgoing network traffic from a single instance.    NETWORK_PACKETS_IN_PER_SECOND - The number of packets received by the instance on all network interfaces. This metric identifies the volume of incoming traffic in terms of the number of packets on a single instance.    NETWORK_PACKETS_OUT_PER_SECOND - The number of packets sent out by the instance on all network interfaces. This metric identifies the volume of outgoing traffic in terms of the number of packets on a single instance.
         public let name: MetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: MetricStatistic?
@@ -2763,6 +3664,23 @@ extension ComputeOptimizer {
             case name = "name"
             case statistic = "statistic"
             case value = "value"
+        }
+    }
+
+    public struct UtilizationPreference: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the resource utilization metric name to customize.    Compute Optimizer only supports CpuUtilization.
+        public let metricName: CustomizableMetricName?
+        ///  The parameters to set when customizing the resource utilization thresholds.
+        public let metricParameters: CustomizableMetricParameters?
+
+        public init(metricName: CustomizableMetricName? = nil, metricParameters: CustomizableMetricParameters? = nil) {
+            self.metricName = metricName
+            self.metricParameters = metricParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "metricName"
+            case metricParameters = "metricParameters"
         }
     }
 
@@ -2810,6 +3728,8 @@ extension ComputeOptimizer {
         public let currentConfiguration: VolumeConfiguration?
         /// The risk of the current EBS volume not meeting the performance needs of its workloads. The higher the risk, the more likely the current EBS volume doesn't have sufficient capacity.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
+        ///  Describes the effective recommendation preferences for Amazon EBS volume.
+        public let effectiveRecommendationPreferences: EBSEffectiveRecommendationPreferences?
         /// The finding classification of the volume. Findings for volumes include:     NotOptimized —A volume is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An volume is considered optimized when Compute Optimizer determines that the volume is correctly provisioned to run your workload based on the chosen volume type. For optimized resources, Compute Optimizer might recommend a new generation volume type.
         public let finding: EBSFinding?
         /// The timestamp of when the volume recommendation was last generated.
@@ -2825,10 +3745,11 @@ extension ComputeOptimizer {
         /// An array of objects that describe the recommendation options for the volume.
         public let volumeRecommendationOptions: [VolumeRecommendationOption]?
 
-        public init(accountId: String? = nil, currentConfiguration: VolumeConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, finding: EBSFinding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, tags: [Tag]? = nil, utilizationMetrics: [EBSUtilizationMetric]? = nil, volumeArn: String? = nil, volumeRecommendationOptions: [VolumeRecommendationOption]? = nil) {
+        public init(accountId: String? = nil, currentConfiguration: VolumeConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EBSEffectiveRecommendationPreferences? = nil, finding: EBSFinding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, tags: [Tag]? = nil, utilizationMetrics: [EBSUtilizationMetric]? = nil, volumeArn: String? = nil, volumeRecommendationOptions: [VolumeRecommendationOption]? = nil) {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
@@ -2842,6 +3763,7 @@ extension ComputeOptimizer {
             case accountId = "accountId"
             case currentConfiguration = "currentConfiguration"
             case currentPerformanceRisk = "currentPerformanceRisk"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case finding = "finding"
             case lastRefreshTimestamp = "lastRefreshTimestamp"
             case lookBackPeriodInDays = "lookBackPeriodInDays"
@@ -2861,12 +3783,15 @@ extension ComputeOptimizer {
         public let rank: Int?
         /// An object that describes the savings opportunity for the EBS volume recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
+        ///  An object that describes the savings opportunity for the Amazon EBS volume recommendation option with specific discounts. Savings  opportunity includes the estimated monthly savings  and percentage.
+        public let savingsOpportunityAfterDiscounts: EBSSavingsOpportunityAfterDiscounts?
 
-        public init(configuration: VolumeConfiguration? = nil, performanceRisk: Double? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(configuration: VolumeConfiguration? = nil, performanceRisk: Double? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: EBSSavingsOpportunityAfterDiscounts? = nil) {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2874,6 +3799,7 @@ extension ComputeOptimizer {
             case performanceRisk = "performanceRisk"
             case rank = "rank"
             case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
         }
     }
 }

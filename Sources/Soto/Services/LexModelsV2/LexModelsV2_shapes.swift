@@ -26,35 +26,222 @@ import Foundation
 extension LexModelsV2 {
     // MARK: Enums
 
-    public enum AggregatedUtterancesFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregatedUtterancesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case utterance = "Utterance"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedUtterancesFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregatedUtterancesFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hitCount = "HitCount"
         case missedCount = "MissedCount"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnalyticsBinByName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conversationStartTime = "ConversationStartTime"
+        case utteranceTimestamp = "UtteranceTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsCommonFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botAliasId = "BotAliasId"
+        case botVersion = "BotVersion"
+        case channel = "Channel"
+        case localeId = "LocaleId"
+        case modality = "Modality"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQ"
+        case greaterThan = "GT"
+        case lessThan = "LT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intentEndState = "IntentEndState"
+        case intentLevel = "IntentLevel"
+        case intentName = "IntentName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botAliasId = "BotAliasId"
+        case botVersion = "BotVersion"
+        case channel = "Channel"
+        case intentEndState = "IntentEndState"
+        case intentName = "IntentName"
+        case localeId = "LocaleId"
+        case modality = "Modality"
+        case originatingRequestId = "OriginatingRequestId"
+        case sessionId = "SessionId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case count = "Count"
+        case dropped = "Dropped"
+        case failure = "Failure"
+        case success = "Success"
+        case switched = "Switched"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentStageField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intentStageName = "IntentStageName"
+        case switchedToIntent = "SwitchedToIntent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentStageFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botAliasId = "BotAliasId"
+        case botVersion = "BotVersion"
+        case channel = "Channel"
+        case intentName = "IntentName"
+        case intentStageName = "IntentStageName"
+        case localeId = "LocaleId"
+        case modality = "Modality"
+        case originatingRequestId = "OriginatingRequestId"
+        case sessionId = "SessionId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsIntentStageMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case count = "Count"
+        case dropped = "Dropped"
+        case failed = "Failed"
+        case retry = "Retry"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsInterval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oneDay = "OneDay"
+        case oneHour = "OneHour"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avg = "Avg"
+        case max = "Max"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dtmf = "DTMF"
+        case multiMode = "MultiMode"
+        case speech = "Speech"
+        case text = "Text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exit = "Exit"
+        case inner = "Inner"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsSessionField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conversationEndState = "ConversationEndState"
+        case localeId = "LocaleId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsSessionFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botAliasId = "BotAliasId"
+        case botVersion = "BotVersion"
+        case channel = "Channel"
+        case conversationEndState = "ConversationEndState"
+        case duration = "Duration"
+        case intentPath = "IntentPath"
+        case localeId = "LocaleId"
+        case modality = "Modality"
+        case originatingRequestId = "OriginatingRequestId"
+        case sessionId = "SessionId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsSessionMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case concurrency = "Concurrency"
+        case count = "Count"
+        case dropped = "Dropped"
+        case duration = "Duration"
+        case failure = "Failure"
+        case success = "Success"
+        case turnsPerConversation = "TurnsPerConversation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsSessionSortByName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conversationStartTime = "ConversationStartTime"
+        case duration = "Duration"
+        case numberOfTurns = "NumberOfTurns"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsUtteranceAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lastUsedIntent = "LastUsedIntent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsUtteranceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case utteranceState = "UtteranceState"
+        case utteranceText = "UtteranceText"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsUtteranceFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botAliasId = "BotAliasId"
+        case botVersion = "BotVersion"
+        case channel = "Channel"
+        case localeId = "LocaleId"
+        case modality = "Modality"
+        case originatingRequestId = "OriginatingRequestId"
+        case sessionId = "SessionId"
+        case utteranceState = "UtteranceState"
+        case utteranceText = "UtteranceText"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsUtteranceMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case count = "Count"
+        case detected = "Detected"
+        case missed = "Missed"
+        case utteranceTimestamp = "UtteranceTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsUtteranceSortByName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case utteranceTimestamp = "UtteranceTimestamp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intentId = "IntentId"
         case slotTypeId = "SlotTypeId"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case useSlotValuesAsCustomVocabulary = "UseSlotValuesAsCustomVocabulary"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotAliasStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotAliasStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -62,36 +249,36 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case botName = "BotName"
         case botType = "BotType"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         case notEquals = "NE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotLocaleFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotLocaleFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotLocaleSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotLocaleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case building = "Building"
         case built = "Built"
         case creating = "Creating"
@@ -104,7 +291,7 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotRecommendationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotRecommendationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -117,12 +304,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case botName = "BotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -134,34 +321,41 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bot = "Bot"
         case botNetwork = "BotNetwork"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotVersionSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum BotVersionSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case botVersion = "BotVersion"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuiltInIntentSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum BuiltInIntentSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intentSignature = "IntentSignature"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuiltInSlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum BuiltInSlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case slotTypeSignature = "SlotTypeSignature"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConversationLogsInputModeFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConversationEndState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dropped = "Dropped"
+        case failure = "Failure"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConversationLogsInputModeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case speech = "Speech"
         case text = "Text"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "Creating"
         case deleting = "Deleting"
         case exporting = "Exporting"
@@ -170,7 +364,7 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closeIntent = "CloseIntent"
         case confirmIntent = "ConfirmIntent"
         case elicitIntent = "ElicitIntent"
@@ -183,13 +377,13 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Effect: String, CustomStringConvertible, Codable, Sendable {
+    public enum Effect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "Allow"
         case deny = "Deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateInput = "DUPLICATE_INPUT"
         case internalServerFailure = "INTERNAL_SERVER_FAILURE"
         case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
@@ -197,23 +391,23 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exportResourceType = "ExportResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -221,25 +415,38 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportExportFileFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum GenerationSortByAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationStartTime = "creationStartTime"
+        case lastUpdatedTime = "lastUpdatedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "Complete"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportExportFileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case lexJson = "LexJson"
         case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case importResourceType = "ImportResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bot = "Bot"
         case botLocale = "BotLocale"
         case customVocabulary = "CustomVocabulary"
@@ -247,12 +454,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -260,43 +467,53 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intentName = "IntentName"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntentFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntentSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intentName = "IntentName"
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case fulfilled = "Fulfilled"
+        case fulfillmentInProgress = "FulfillmentInProgress"
+        case inProgress = "InProgress"
+        case readyForFulfillment = "ReadyForFulfillment"
+        case waiting = "Waiting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case append = "Append"
         case failOnConflict = "FailOnConflict"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageSelectionStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageSelectionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ordered = "Ordered"
         case random = "Random"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultObfuscation = "DefaultObfuscation"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum PromptAttempt: String, CustomStringConvertible, Codable, Sendable {
+    public enum PromptAttempt: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initial = "Initial"
         case retry1 = "Retry1"
         case retry2 = "Retry2"
@@ -306,42 +523,48 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "Optional"
         case required = "Required"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotShape: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "Default"
+        case enhancedFallback = "EnhancedFallback"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlotShape: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotTypeCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case composite = "Composite"
         case custom = "Custom"
         case extended = "Extended"
@@ -349,56 +572,56 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotTypeFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case externalSourceType = "ExternalSourceType"
         case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotTypeFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotValueResolutionStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotValueResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case concatenation = "Concatenation"
         case originalValue = "OriginalValue"
         case topResolution = "TopResolution"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestExecutionApiMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestExecutionApiMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nonStreaming = "NonStreaming"
         case streaming = "Streaming"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestExecutionModality: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestExecutionModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "Audio"
         case text = "Text"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestExecutionSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestExecutionSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationDateTime = "CreationDateTime"
         case testSetName = "TestSetName"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -409,14 +632,14 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestResultMatchStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestResultMatchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case executionError = "ExecutionError"
         case matched = "Matched"
         case mismatched = "Mismatched"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestResultTypeFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestResultTypeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conversationLevelTestResults = "ConversationLevelTestResults"
         case intentClassificationTestResults = "IntentClassificationTestResults"
         case overallTestResults = "OverallTestResults"
@@ -425,14 +648,14 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestSetDiscrepancyReportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestSetDiscrepancyReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestSetGenerationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestSetGenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case generating = "Generating"
         case pending = "Pending"
@@ -440,19 +663,19 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestSetModality: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestSetModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "Audio"
         case text = "Text"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestSetSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestSetSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case testSetName = "TestSetName"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestSetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "Deleting"
         case importing = "Importing"
         case pendingAnnotation = "PendingAnnotation"
@@ -461,19 +684,27 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeDimension: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeDimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "Days"
         case hours = "Hours"
         case weeks = "Weeks"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscriptFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum TranscriptFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lex = "Lex"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceEngine: String, CustomStringConvertible, Codable, Sendable {
+    public enum UtteranceContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customPayload = "CustomPayload"
+        case imageResponseCard = "ImageResponseCard"
+        case plainText = "PlainText"
+        case ssml = "SSML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoiceEngine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case neural = "neural"
         case standard = "standard"
         public var description: String { return self.rawValue }
@@ -646,6 +877,605 @@ extension LexModelsV2 {
         }
     }
 
+    public struct AnalyticsBinBySpecification: AWSEncodableShape {
+        /// Specifies the interval of time by which to bin the analytics data.
+        public let interval: AnalyticsInterval
+        /// Specifies the time metric by which to bin the analytics data.
+        public let name: AnalyticsBinByName
+        /// Specifies whether to bin the analytics data in ascending or descending order. If this field is left blank, the default order is by the key of the bin in descending order.
+        public let order: AnalyticsSortOrder?
+
+        public init(interval: AnalyticsInterval, name: AnalyticsBinByName, order: AnalyticsSortOrder? = nil) {
+            self.interval = interval
+            self.name = name
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "interval"
+            case name = "name"
+            case order = "order"
+        }
+    }
+
+    public struct AnalyticsBinKey: AWSDecodableShape {
+        /// The criterion by which to bin the results.
+        public let name: AnalyticsBinByName?
+        /// The value of the criterion that defines the bin.
+        public let value: Int64?
+
+        public init(name: AnalyticsBinByName? = nil, value: Int64? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsIntentFilter: AWSEncodableShape {
+        /// The category by which to filter the intents. The descriptions for each option are as follows:    BotAlias – The name of the bot alias.    BotVersion – The version of the bot.    LocaleId – The locale of the bot.    Modality – The modality of the session with the bot (audio, DTMF, or text).    Channel – The channel that the bot is integrated with.    SessionId – The identifier of the session with the bot.    OriginatingRequestId – The identifier of the first request in a session.    IntentName – The name of the intent.    IntentEndState – The final state of the intent.
+        public let name: AnalyticsIntentFilterName
+        /// The operation by which to filter the category. The following operations are possible:    CO – Contains    EQ – Equals    GT – Greater than    LT – Less than   The operators that each filter supports are listed below:    BotAlias – EQ.    BotVersion – EQ.    LocaleId – EQ.    Modality – EQ.    Channel – EQ.    SessionId – EQ.    OriginatingRequestId – EQ.    IntentName – EQ, CO.    IntentEndState – EQ, CO.
+        public let `operator`: AnalyticsFilterOperator
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        public let values: [String]
+
+        public init(name: AnalyticsIntentFilterName, operator: AnalyticsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct AnalyticsIntentGroupByKey: AWSDecodableShape {
+        /// A category by which the intent analytics were grouped.
+        public let name: AnalyticsIntentField?
+        /// A member of the category by which the intent analytics were grouped.
+        public let value: String?
+
+        public init(name: AnalyticsIntentField? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsIntentGroupBySpecification: AWSEncodableShape {
+        /// Specifies whether to group the intent stages by their name or their end state.
+        public let name: AnalyticsIntentField
+
+        public init(name: AnalyticsIntentField) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AnalyticsIntentMetric: AWSEncodableShape {
+        /// The metric for which you want to get intent summary statistics.    Count – The number of times the intent was invoked.    Success – The number of times the intent succeeded.    Failure – The number of times the intent failed.    Switched – The number of times there was a switch to a different intent.    Dropped – The number of times the user dropped the intent.
+        public let name: AnalyticsIntentMetricName
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let order: AnalyticsSortOrder?
+        /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intents in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic
+
+        public init(name: AnalyticsIntentMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+            case statistic = "statistic"
+        }
+    }
+
+    public struct AnalyticsIntentMetricResult: AWSDecodableShape {
+        /// The metric that you requested. See Key definitions for more details about these metrics.    Count – The number of times the intent was invoked.    Success – The number of times the intent succeeded.    Failure – The number of times the intent failed.    Switched – The number of times there was a switch to a different intent.    Dropped – The number of times the user dropped the intent.
+        public let name: AnalyticsIntentMetricName?
+        /// The statistic that you requested to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intents in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public let value: Double?
+
+        public init(name: AnalyticsIntentMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsIntentNodeSummary: AWSDecodableShape {
+        /// The total number of sessions that follow the given path to the given intent.
+        public let intentCount: Int?
+        /// The number of intents up to and including the requested path.
+        public let intentLevel: Int?
+        /// The name of the intent at the end of the requested path.
+        public let intentName: String?
+        /// The path.
+        public let intentPath: String?
+        /// Specifies whether the node is the end of a path (Exit) or not (Inner).
+        public let nodeType: AnalyticsNodeType?
+
+        public init(intentCount: Int? = nil, intentLevel: Int? = nil, intentName: String? = nil, intentPath: String? = nil, nodeType: AnalyticsNodeType? = nil) {
+            self.intentCount = intentCount
+            self.intentLevel = intentLevel
+            self.intentName = intentName
+            self.intentPath = intentPath
+            self.nodeType = nodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentCount = "intentCount"
+            case intentLevel = "intentLevel"
+            case intentName = "intentName"
+            case intentPath = "intentPath"
+            case nodeType = "nodeType"
+        }
+    }
+
+    public struct AnalyticsIntentResult: AWSDecodableShape {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public let binKeys: [AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the groups.
+        public let groupByKeys: [AnalyticsIntentGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metricsResults: [AnalyticsIntentMetricResult]?
+
+        public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsIntentGroupByKey]? = nil, metricsResults: [AnalyticsIntentMetricResult]? = nil) {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binKeys = "binKeys"
+            case groupByKeys = "groupByKeys"
+            case metricsResults = "metricsResults"
+        }
+    }
+
+    public struct AnalyticsIntentStageFilter: AWSEncodableShape {
+        /// The category by which to filter the intent stages. The descriptions for each option are as follows:    BotAlias – The name of the bot alias.    BotVersion – The version of the bot.    LocaleId – The locale of the bot.    Modality – The modality of the session with the bot (audio, DTMF, or text).    Channel – The channel that the bot is integrated with.    SessionId – The identifier of the session with the bot.    OriginatingRequestId – The identifier of the first request in a session.    IntentName – The name of the intent.    IntentStageName – The stage in the intent.
+        public let name: AnalyticsIntentStageFilterName
+        /// The operation by which to filter the category. The following operations are possible:    CO – Contains    EQ – Equals    GT – Greater than    LT – Less than   The operators that each filter supports are listed below:    BotAlias – EQ.    BotVersion – EQ.    LocaleId – EQ.    Modality – EQ.    Channel – EQ.    SessionId – EQ.    OriginatingRequestId – EQ.    IntentName – EQ, CO.    IntentStageName – EQ, CO.
+        public let `operator`: AnalyticsFilterOperator
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        public let values: [String]
+
+        public init(name: AnalyticsIntentStageFilterName, operator: AnalyticsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct AnalyticsIntentStageGroupByKey: AWSDecodableShape {
+        /// A category by which the intent stage analytics were grouped.
+        public let name: AnalyticsIntentStageField?
+        /// A member of the category by which the intent stage analytics were grouped.
+        public let value: String?
+
+        public init(name: AnalyticsIntentStageField? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsIntentStageGroupBySpecification: AWSEncodableShape {
+        /// Specifies whether to group the intent stages by their name or the intent to which the session was switched.
+        public let name: AnalyticsIntentStageField
+
+        public init(name: AnalyticsIntentStageField) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AnalyticsIntentStageMetric: AWSEncodableShape {
+        /// The metric for which you want to get intent stage summary statistics. See Key definitions for more details about these metrics.    Count – The number of times the intent stage occurred.    Success – The number of times the intent stage succeeded.    Failure – The number of times the intent stage failed.    Dropped – The number of times the user dropped the intent stage.    Retry – The number of times the bot tried to elicit a response from the user at this stage.
+        public let name: AnalyticsIntentStageMetricName
+        /// Specifies whether to sort the results in ascending or descending order of the summary statistic (value in the response).
+        public let order: AnalyticsSortOrder?
+        /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intent stages in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic
+
+        public init(name: AnalyticsIntentStageMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+            case statistic = "statistic"
+        }
+    }
+
+    public struct AnalyticsIntentStageMetricResult: AWSDecodableShape {
+        /// The metric that you requested.    Count – The number of times the intent stage occurred.    Success – The number of times the intent stage succeeded.    Failure – The number of times the intent stage failed.    Dropped – The number of times the user dropped the intent stage.    Retry – The number of times the bot tried to elicit a response from the user at this stage.
+        public let name: AnalyticsIntentStageMetricName?
+        /// The summary statistic that you requested to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intent stages in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public let value: Double?
+
+        public init(name: AnalyticsIntentStageMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsIntentStageResult: AWSDecodableShape {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public let binKeys: [AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public let groupByKeys: [AnalyticsIntentStageGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metricsResults: [AnalyticsIntentStageMetricResult]?
+
+        public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsIntentStageGroupByKey]? = nil, metricsResults: [AnalyticsIntentStageMetricResult]? = nil) {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binKeys = "binKeys"
+            case groupByKeys = "groupByKeys"
+            case metricsResults = "metricsResults"
+        }
+    }
+
+    public struct AnalyticsPathFilter: AWSEncodableShape {
+        /// The category by which to filter the intent paths. The descriptions for each option are as follows:    BotAlias – The name of the bot alias.    BotVersion – The version of the bot.    LocaleId – The locale of the bot.    Modality – The modality of the session with the bot (audio, DTMF, or text).    Channel – The channel that the bot is integrated with.
+        public let name: AnalyticsCommonFilterName
+        /// The operation by which to filter the category. The following operations are possible:    CO – Contains    EQ – Equals    GT – Greater than    LT – Less than   The operators that each filter supports are listed below:    BotAlias – EQ.    BotVersion – EQ.    LocaleId – EQ.    Modality – EQ.    Channel – EQ.
+        public let `operator`: AnalyticsFilterOperator
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        public let values: [String]
+
+        public init(name: AnalyticsCommonFilterName, operator: AnalyticsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct AnalyticsSessionFilter: AWSEncodableShape {
+        /// The category by which to filter the sessions. The descriptions for each option are as follows:    BotAlias – The name of the bot alias.    BotVersion – The version of the bot.    LocaleId – The locale of the bot.    Modality – The modality of the session with the bot (audio, DTMF, or text).    Channel – The channel that the bot is integrated with.    Duration – The duration of the session.    conversationEndState – The final state of the session.    SessionId – The identifier of the session with the bot.    OriginatingRequestId – The identifier of the first request in a session.    IntentPath – The order of intents taken in a session.
+        public let name: AnalyticsSessionFilterName
+        /// The operation by which to filter the category. The following operations are possible:    CO – Contains    EQ – Equals    GT – Greater than    LT – Less than   The operators that each filter supports are listed below:    BotAlias – EQ.    BotVersion – EQ.    LocaleId – EQ.    Modality – EQ.    Channel – EQ.    Duration – EQ, GT, LT.    conversationEndState – EQ, CO.    SessionId – EQ.    OriginatingRequestId – EQ.    IntentPath – EQ.
+        public let `operator`: AnalyticsFilterOperator
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        public let values: [String]
+
+        public init(name: AnalyticsSessionFilterName, operator: AnalyticsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct AnalyticsSessionGroupByKey: AWSDecodableShape {
+        /// The category by which the session analytics were grouped.
+        public let name: AnalyticsSessionField?
+        /// A member of the category by which the session analytics were grouped.
+        public let value: String?
+
+        public init(name: AnalyticsSessionField? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsSessionGroupBySpecification: AWSEncodableShape {
+        /// Specifies whether to group the session by their end state or their locale.
+        public let name: AnalyticsSessionField
+
+        public init(name: AnalyticsSessionField) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AnalyticsSessionMetric: AWSEncodableShape {
+        /// The metric for which you want to get session summary statistics.    Count – The number of sessions.    Success – The number of sessions that succeeded.    Failure – The number of sessions that failed.    Dropped – The number of sessions that the user dropped.    Duration – The duration of sessions.    TurnsPerSession – The number of turns in the sessions.    Concurrency – The number of sessions occurring in the same period of time.
+        public let name: AnalyticsSessionMetricName
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let order: AnalyticsSortOrder?
+        /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of sessions in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic
+
+        public init(name: AnalyticsSessionMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+            case statistic = "statistic"
+        }
+    }
+
+    public struct AnalyticsSessionMetricResult: AWSDecodableShape {
+        /// The metric that you requested.    Count – The number of sessions.    Success – The number of sessions that succeeded.    Failure – The number of sessions that failed.    Dropped – The number of sessions that the user dropped.    Duration – The duration of sessions.    TurnPersession – The number of turns in the sessions.    Concurrency – The number of sessions occurring in the same period of time.
+        public let name: AnalyticsSessionMetricName?
+        /// The summary statistic that you requested to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of sessions in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public let value: Double?
+
+        public init(name: AnalyticsSessionMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsSessionResult: AWSDecodableShape {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public let binKeys: [AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public let groupByKeys: [AnalyticsSessionGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metricsResults: [AnalyticsSessionMetricResult]?
+
+        public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsSessionGroupByKey]? = nil, metricsResults: [AnalyticsSessionMetricResult]? = nil) {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binKeys = "binKeys"
+            case groupByKeys = "groupByKeys"
+            case metricsResults = "metricsResults"
+        }
+    }
+
+    public struct AnalyticsUtteranceAttribute: AWSEncodableShape {
+        /// An attribute to return. The only available attribute is the intent that the bot mapped the utterance to.
+        public let name: AnalyticsUtteranceAttributeName
+
+        public init(name: AnalyticsUtteranceAttributeName) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AnalyticsUtteranceAttributeResult: AWSDecodableShape {
+        /// The intent that the bot mapped the utterance to.
+        public let lastUsedIntent: String?
+
+        public init(lastUsedIntent: String? = nil) {
+            self.lastUsedIntent = lastUsedIntent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUsedIntent = "lastUsedIntent"
+        }
+    }
+
+    public struct AnalyticsUtteranceFilter: AWSEncodableShape {
+        /// The category by which to filter the utterances. The descriptions for each option are as follows:    BotAlias – The name of the bot alias.    BotVersion – The version of the bot.    LocaleId – The locale of the bot.    Modality – The modality of the session with the bot (audio, DTMF, or text).    Channel – The channel that the bot is integrated with.    SessionId – The identifier of the session with the bot.    OriginatingRequestId – The identifier of the first request in a session.    UtteranceState – The state of the utterance.    UtteranceText – The text in the utterance.
+        public let name: AnalyticsUtteranceFilterName
+        /// The operation by which to filter the category. The following operations are possible:    CO – Contains    EQ – Equals    GT – Greater than    LT – Less than   The operators that each filter supports are listed below:    BotAlias – EQ.    BotVersion – EQ.    LocaleId – EQ.    Modality – EQ.    Channel – EQ.    SessionId – EQ.    OriginatingRequestId – EQ.    UtteranceState – EQ.    UtteranceText – EQ, CO.
+        public let `operator`: AnalyticsFilterOperator
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        public let values: [String]
+
+        public init(name: AnalyticsUtteranceFilterName, operator: AnalyticsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct AnalyticsUtteranceGroupByKey: AWSDecodableShape {
+        /// The category by which the utterance analytics were grouped.
+        public let name: AnalyticsUtteranceField?
+        /// A member of the category by which the utterance analytics were grouped.
+        public let value: String?
+
+        public init(name: AnalyticsUtteranceField? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsUtteranceGroupBySpecification: AWSEncodableShape {
+        /// Specifies whether to group the utterances by their text or their state.
+        public let name: AnalyticsUtteranceField
+
+        public init(name: AnalyticsUtteranceField) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AnalyticsUtteranceMetric: AWSEncodableShape {
+        /// The metric for which you want to get utterance summary statistics.    Count – The number of utterances.    Missed – The number of utterances that Amazon Lex failed to recognize.    Detected – The number of utterances that Amazon Lex managed to detect.    UtteranceTimestamp – The date and time of the utterance.
+        public let name: AnalyticsUtteranceMetricName
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let order: AnalyticsSortOrder?
+        /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of utterances in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic
+
+        public init(name: AnalyticsUtteranceMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+            case statistic = "statistic"
+        }
+    }
+
+    public struct AnalyticsUtteranceMetricResult: AWSDecodableShape {
+        /// The metric that you requested.    Count – The number of utterances.    Missed – The number of utterances that Amazon Lex failed to recognize.    Detected – The number of utterances that Amazon Lex managed to detect.    UtteranceTimestamp – The date and time of the utterance.
+        public let name: AnalyticsUtteranceMetricName?
+        /// The summary statistic that you requested to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of utterances in the category you provide in name.    Max – The highest count in the category you provide in name.
+        public let statistic: AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public let value: Double?
+
+        public init(name: AnalyticsUtteranceMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
+        }
+    }
+
+    public struct AnalyticsUtteranceResult: AWSDecodableShape {
+        /// A list of objects containing information about the last used intent at the time of an utterance.
+        public let attributeResults: [AnalyticsUtteranceAttributeResult]?
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public let binKeys: [AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public let groupByKeys: [AnalyticsUtteranceGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metricsResults: [AnalyticsUtteranceMetricResult]?
+
+        public init(attributeResults: [AnalyticsUtteranceAttributeResult]? = nil, binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsUtteranceGroupByKey]? = nil, metricsResults: [AnalyticsUtteranceMetricResult]? = nil) {
+            self.attributeResults = attributeResults
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeResults = "attributeResults"
+            case binKeys = "binKeys"
+            case groupByKeys = "groupByKeys"
+            case metricsResults = "metricsResults"
+        }
+    }
+
     public struct AssociatedTranscript: AWSDecodableShape {
         /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see Output transcript format.
         public let transcript: String?
@@ -734,10 +1564,13 @@ extension LexModelsV2 {
         public let destination: AudioLogDestination
         /// Determines whether audio logging in enabled for the bot.
         public let enabled: Bool
+        /// The option to enable selective conversation log capture for audio.
+        public let selectiveLoggingEnabled: Bool?
 
-        public init(destination: AudioLogDestination, enabled: Bool) {
+        public init(destination: AudioLogDestination, enabled: Bool, selectiveLoggingEnabled: Bool? = nil) {
             self.destination = destination
             self.enabled = enabled
+            self.selectiveLoggingEnabled = selectiveLoggingEnabled
         }
 
         public func validate(name: String) throws {
@@ -747,6 +1580,7 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
             case enabled = "enabled"
+            case selectiveLoggingEnabled = "selectiveLoggingEnabled"
         }
     }
 
@@ -991,6 +1825,23 @@ extension LexModelsV2 {
             case errors = "errors"
             case localeId = "localeId"
             case resources = "resources"
+        }
+    }
+
+    public struct BedrockModelSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the foundation model used in descriptive bot building.
+        public let modelArn: String
+
+        public init(modelArn: String) {
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model\\/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
         }
     }
 
@@ -1674,6 +2525,27 @@ extension LexModelsV2 {
         }
     }
 
+    public struct BuildtimeSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An object containing specifications for the descriptive bot building feature.
+        public let descriptiveBotBuilder: DescriptiveBotBuilderSpecification?
+        public let sampleUtteranceGeneration: SampleUtteranceGenerationSpecification?
+
+        public init(descriptiveBotBuilder: DescriptiveBotBuilderSpecification? = nil, sampleUtteranceGeneration: SampleUtteranceGenerationSpecification? = nil) {
+            self.descriptiveBotBuilder = descriptiveBotBuilder
+            self.sampleUtteranceGeneration = sampleUtteranceGeneration
+        }
+
+        public func validate(name: String) throws {
+            try self.descriptiveBotBuilder?.validate(name: "\(name).descriptiveBotBuilder")
+            try self.sampleUtteranceGeneration?.validate(name: "\(name).sampleUtteranceGeneration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case descriptiveBotBuilder = "descriptiveBotBuilder"
+            case sampleUtteranceGeneration = "sampleUtteranceGeneration"
+        }
+    }
+
     public struct BuiltInIntentSortBy: AWSEncodableShape {
         /// The attribute to use to sort the list of built-in intents.
         public let attribute: BuiltInIntentSortAttribute
@@ -2237,6 +3109,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// A description of the bot locale. Use this to help identify the bot locale in lists.
         public let description: String?
+        public let generativeAISettings: GenerativeAISettings?
         /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
@@ -2244,10 +3117,11 @@ extension LexModelsV2 {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.voiceSettings = voiceSettings
@@ -2259,6 +3133,7 @@ extension LexModelsV2 {
             request.encodePath(self.botId, key: "botId")
             request.encodePath(self.botVersion, key: "botVersion")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             try container.encode(self.localeId, forKey: .localeId)
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
             try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
@@ -2272,12 +3147,14 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case generativeAISettings = "generativeAISettings"
             case localeId = "localeId"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case voiceSettings = "voiceSettings"
@@ -2295,6 +3172,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The specified description of the bot locale.
         public let description: String?
+        public let generativeAISettings: GenerativeAISettings?
         /// The specified locale identifier.
         public let localeId: String?
         /// The specified locale name.
@@ -2304,12 +3182,13 @@ extension LexModelsV2 {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
@@ -2322,6 +3201,7 @@ extension LexModelsV2 {
             case botVersion = "botVersion"
             case creationDateTime = "creationDateTime"
             case description = "description"
+            case generativeAISettings = "generativeAISettings"
             case localeId = "localeId"
             case localeName = "localeName"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
@@ -3393,7 +4273,7 @@ extension LexModelsV2 {
             try self.validate(self.phrase, name: "phrase", parent: name, max: 100)
             try self.validate(self.phrase, name: "phrase", parent: name, min: 1)
             try self.validate(self.weight, name: "weight", parent: name, max: 3)
-            try self.validate(self.weight, name: "weight", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4273,6 +5153,8 @@ extension LexModelsV2 {
         public let description: String?
         /// if botLocaleStatus is Failed, Amazon Lex explains why it failed to build the bot.
         public let failureReasons: [String]?
+        /// Contains settings for Amazon Bedrock's generative AI features for your bot locale.
+        public let generativeAISettings: GenerativeAISettings?
         /// The number of intents defined for the locale.
         public let intentsCount: Int?
         /// The date and time that the locale was last submitted for building.
@@ -4292,7 +5174,7 @@ extension LexModelsV2 {
         /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
             self.botLocaleStatus = botLocaleStatus
@@ -4300,6 +5182,7 @@ extension LexModelsV2 {
             self.creationDateTime = creationDateTime
             self.description = description
             self.failureReasons = failureReasons
+            self.generativeAISettings = generativeAISettings
             self.intentsCount = intentsCount
             self.lastBuildSubmittedDateTime = lastBuildSubmittedDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4319,6 +5202,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case description = "description"
             case failureReasons = "failureReasons"
+            case generativeAISettings = "generativeAISettings"
             case intentsCount = "intentsCount"
             case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -4446,6 +5330,100 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBotResourceGenerationRequest: AWSEncodableShape {
+        /// The unique identifier of the bot for which to return the generation details.
+        public let botId: String
+        /// The version of the bot for which to return the generation details.
+        public let botVersion: String
+        /// The unique identifier of the generation request for which to  return the generation details.
+        public let generationId: String
+        /// The locale of the bot for which to return the generation details.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, generationId: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.generationId = generationId
+            self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.generationId, key: "generationId")
+            request.encodePath(self.localeId, key: "localeId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.validate(self.generationId, name: "generationId", parent: name, max: 10)
+            try self.validate(self.generationId, name: "generationId", parent: name, min: 10)
+            try self.validate(self.generationId, name: "generationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBotResourceGenerationResponse: AWSDecodableShape {
+        /// The unique identifier of the bot for which the generation request was  made.
+        public let botId: String?
+        /// The version of the bot for which the generation request was made.
+        public let botVersion: String?
+        /// The date and time at which the item was generated.
+        public let creationDateTime: Date?
+        /// A list of reasons why the generation of bot resources through natural language description failed.
+        public let failureReasons: [String]?
+        /// The Amazon S3 location of the generated bot locale configuration.
+        public let generatedBotLocaleUrl: String?
+        /// The generation ID for which to return the generation details.
+        public let generationId: String?
+        /// The prompt used in the generation request.
+        public let generationInputPrompt: String?
+        /// The status of the generation request.
+        public let generationStatus: GenerationStatus?
+        /// The date and time at which the generated item was updated.
+        public let lastUpdatedDateTime: Date?
+        /// The locale of the bot for which the generation request was made.
+        public let localeId: String?
+        /// The ARN of the model used to generate the bot resources.
+        public let modelArn: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, generatedBotLocaleUrl: String? = nil, generationId: String? = nil, generationInputPrompt: String? = nil, generationStatus: GenerationStatus? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, modelArn: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.generatedBotLocaleUrl = generatedBotLocaleUrl
+            self.generationId = generationId
+            self.generationInputPrompt = generationInputPrompt
+            self.generationStatus = generationStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.localeId = localeId
+            self.modelArn = modelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case failureReasons = "failureReasons"
+            case generatedBotLocaleUrl = "generatedBotLocaleUrl"
+            case generationId = "generationId"
+            case generationInputPrompt = "generationInputPrompt"
+            case generationStatus = "generationStatus"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case modelArn = "modelArn"
+        }
     }
 
     public struct DescribeBotResponse: AWSDecodableShape {
@@ -5466,6 +6444,27 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DescriptiveBotBuilderSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// An object containing information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
+        public let bedrockModelSpecification: BedrockModelSpecification?
+        /// Specifies whether the descriptive bot building feature is activated or not.
+        public let enabled: Bool
+
+        public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockModelSpecification?.validate(name: "\(name).bedrockModelSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModelSpecification = "bedrockModelSpecification"
+            case enabled = "enabled"
+        }
+    }
+
     public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
         /// If the dialog action is ElicitSlot, defines the slot to elicit from the user.
         public let slotToElicit: String?
@@ -5906,6 +6905,140 @@ extension LexModelsV2 {
             case startResponse = "startResponse"
             case timeoutInSeconds = "timeoutInSeconds"
             case updateResponse = "updateResponse"
+        }
+    }
+
+    public struct GenerateBotElementRequest: AWSEncodableShape {
+        /// The bot unique Id for the bot request to generate utterances.
+        public let botId: String
+        /// The bot version for the bot request to generate utterances.
+        public let botVersion: String
+        /// The intent unique Id for the bot request to generate utterances.
+        public let intentId: String
+        /// The unique locale Id for the bot request to generate utterances.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, intentId: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.intentId = intentId
+            self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.intentId, forKey: .intentId)
+            request.encodePath(self.localeId, key: "localeId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.validate(self.intentId, name: "intentId", parent: name, max: 10)
+            try self.validate(self.intentId, name: "intentId", parent: name, min: 10)
+            try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentId = "intentId"
+        }
+    }
+
+    public struct GenerateBotElementResponse: AWSDecodableShape {
+        /// The unique bot Id for the bot which received the response.
+        public let botId: String?
+        /// The unique bot version for the bot which received the response.
+        public let botVersion: String?
+        /// The unique intent Id for the bot which received the response.
+        public let intentId: String?
+        /// The unique locale Id for the bot which received the response.
+        public let localeId: String?
+        /// The sample utterances for the bot which received the response.
+        public let sampleUtterances: [SampleUtterance]?
+
+        public init(botId: String? = nil, botVersion: String? = nil, intentId: String? = nil, localeId: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.intentId = intentId
+            self.localeId = localeId
+            self.sampleUtterances = sampleUtterances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case intentId = "intentId"
+            case localeId = "localeId"
+            case sampleUtterances = "sampleUtterances"
+        }
+    }
+
+    public struct GenerationSortBy: AWSEncodableShape {
+        /// The attribute by which to sort the generation request information. You can sort by the following attributes.    creationStartTime – The time at which the generation request was created.    lastUpdatedTime – The time at which the generation request was last updated.
+        public let attribute: GenerationSortByAttribute
+        /// The order by which to sort the generation request information.
+        public let order: SortOrder
+
+        public init(attribute: GenerationSortByAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case order = "order"
+        }
+    }
+
+    public struct GenerationSummary: AWSDecodableShape {
+        /// The date and time at which the generation request was made.
+        public let creationDateTime: Date?
+        /// The unique identifier of the generation request.
+        public let generationId: String?
+        /// The status of the generation request.
+        public let generationStatus: GenerationStatus?
+        /// The date and time at which the generation request was last updated.
+        public let lastUpdatedDateTime: Date?
+
+        public init(creationDateTime: Date? = nil, generationId: String? = nil, generationStatus: GenerationStatus? = nil, lastUpdatedDateTime: Date? = nil) {
+            self.creationDateTime = creationDateTime
+            self.generationId = generationId
+            self.generationStatus = generationStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case generationId = "generationId"
+            case generationStatus = "generationStatus"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+        }
+    }
+
+    public struct GenerativeAISettings: AWSEncodableShape & AWSDecodableShape {
+        public let buildtimeSettings: BuildtimeSettings?
+        public let runtimeSettings: RuntimeSettings?
+
+        public init(buildtimeSettings: BuildtimeSettings? = nil, runtimeSettings: RuntimeSettings? = nil) {
+            self.buildtimeSettings = buildtimeSettings
+            self.runtimeSettings = runtimeSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.buildtimeSettings?.validate(name: "\(name).buildtimeSettings")
+            try self.runtimeSettings?.validate(name: "\(name).runtimeSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildtimeSettings = "buildtimeSettings"
+            case runtimeSettings = "runtimeSettings"
         }
     }
 
@@ -6546,6 +7679,19 @@ extension LexModelsV2 {
         }
     }
 
+    public struct InvokedIntentSample: AWSDecodableShape {
+        /// The name of an intent that was invoked.
+        public let intentName: String?
+
+        public init(intentName: String? = nil) {
+            self.intentName = intentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+        }
+    }
+
     public struct KendraConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot.
         public let kendraIndex: String
@@ -6951,6 +8097,87 @@ extension LexModelsV2 {
             case botId = "botId"
             case botRecommendationSummaries = "botRecommendationSummaries"
             case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBotResourceGenerationsRequest: AWSEncodableShape {
+        /// The unique identifier of the bot whose generation  requests you want to view.
+        public let botId: String
+        /// The version of the bot whose generation  requests you want to view.
+        public let botVersion: String
+        /// The locale of the bot whose generation  requests you want to view.
+        public let localeId: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the number  specified in the maxResults, the response returns a token  in the nextToken field. Use this token when making a request to  return the next batch of results.
+        public let nextToken: String?
+        /// An object containing information about the attribute and the  method by which to sort the results
+        public let sortBy: GenerationSortBy?
+
+        public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: GenerationSortBy? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+        }
+    }
+
+    public struct ListBotResourceGenerationsResponse: AWSDecodableShape {
+        /// The unique identifier of the bot for which the generation requests were made.
+        public let botId: String?
+        /// The version of the bot for which the generation requests were made.
+        public let botVersion: String?
+        /// A list of objects, each containing information about a generation request for the bot locale.
+        public let generationSummaries: [GenerationSummary]?
+        /// The locale of the bot for which the generation requests were made.
+        public let localeId: String?
+        /// If the total number of results is greater than the number  specified in the maxResults, the response returns a token  in the nextToken field. Use this token when making a request to  return the next batch of results.
+        public let nextToken: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, generationSummaries: [GenerationSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.generationSummaries = generationSummaries
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case generationSummaries = "generationSummaries"
             case localeId = "localeId"
             case nextToken = "nextToken"
         }
@@ -7428,6 +8655,266 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListIntentMetricsRequest: AWSEncodableShape {
+        /// A list of objects, each of which contains specifications for organizing the results by time.
+        public let binBy: [AnalyticsBinBySpecification]?
+        /// The identifier for the bot for which you want to retrieve intent metrics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see intent metrics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsIntentFilter]?
+        /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:    IntentName – The name of the intent.    IntentEndState – The final state of the intent. The possible end states are detailed in Key definitions in the user guide.
+        public let groupBy: [AnalyticsIntentGroupBySpecification]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the order by which to organize the results.
+        public let metrics: [AnalyticsIntentMetric]
+        /// If the response from the ListIntentMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentMetrics request to return the next page of results. For a complete set of results, call the ListIntentMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The timestamp that marks the beginning of the range of time for which you want to see intent metrics.
+        public let startDateTime: Date
+
+        public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsIntentFilter]? = nil, groupBy: [AnalyticsIntentGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsIntentMetric], nextToken: String? = nil, startDateTime: Date) {
+            self.binBy = binBy
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metrics = metrics
+            self.nextToken = nextToken
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.binBy, forKey: .binBy)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.metrics, forKey: .metrics)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.binBy, name: "binBy", parent: name, max: 1)
+            try self.validate(self.binBy, name: "binBy", parent: name, min: 1)
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 9)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 3)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 5)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binBy = "binBy"
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case metrics = "metrics"
+            case nextToken = "nextToken"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListIntentMetricsResponse: AWSDecodableShape {
+        /// The identifier for the bot for which you retrieved intent metrics.
+        public let botId: String?
+        /// If the response from the ListIntentMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentMetrics request to return the next page of results. For a complete set of results, call the ListIntentMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The results for the intent metrics.
+        public let results: [AnalyticsIntentResult]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsIntentResult]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
+    public struct ListIntentPathsRequest: AWSEncodableShape {
+        /// The identifier for the bot for which you want to retrieve intent path metrics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see intent path metrics.
+        public let endDateTime: Date
+        /// A list of objects, each describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsPathFilter]?
+        /// The intent path for which you want to retrieve metrics. Use a forward slash to separate intents in the path. For example:   /BookCar   /BookCar/BookHotel   /BookHotel/BookCar
+        public let intentPath: String
+        /// The date and time that marks the beginning of the range of time for which you want to see intent path metrics.
+        public let startDateTime: Date
+
+        public init(botId: String, endDateTime: Date, filters: [AnalyticsPathFilter]? = nil, intentPath: String, startDateTime: Date) {
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.intentPath = intentPath
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encode(self.intentPath, forKey: .intentPath)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.intentPath, name: "intentPath", parent: name, max: 1024)
+            try self.validate(self.intentPath, name: "intentPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case intentPath = "intentPath"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListIntentPathsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains information about a node in the intent path for which you requested metrics.
+        public let nodeSummaries: [AnalyticsIntentNodeSummary]?
+
+        public init(nodeSummaries: [AnalyticsIntentNodeSummary]? = nil) {
+            self.nodeSummaries = nodeSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeSummaries = "nodeSummaries"
+        }
+    }
+
+    public struct ListIntentStageMetricsRequest: AWSEncodableShape {
+        /// A list of objects, each of which contains specifications for organizing the results by time.
+        public let binBy: [AnalyticsBinBySpecification]?
+        /// The identifier for the bot for which you want to retrieve intent stage metrics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see intent stage metrics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsIntentStageFilter]?
+        /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:    IntentStageName – The name of the intent stage.    SwitchedToIntent – The intent to which the conversation was switched (if any).
+        public let groupBy: [AnalyticsIntentStageGroupBySpecification]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metrics: [AnalyticsIntentStageMetric]
+        /// If the response from the ListIntentStageMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to return the next page of results. For a complete set of results, call the ListIntentStageMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The date and time that marks the beginning of the range of time for which you want to see intent stage metrics.
+        public let startDateTime: Date
+
+        public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsIntentStageFilter]? = nil, groupBy: [AnalyticsIntentStageGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsIntentStageMetric], nextToken: String? = nil, startDateTime: Date) {
+            self.binBy = binBy
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metrics = metrics
+            self.nextToken = nextToken
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.binBy, forKey: .binBy)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.metrics, forKey: .metrics)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.binBy, name: "binBy", parent: name, max: 1)
+            try self.validate(self.binBy, name: "binBy", parent: name, min: 1)
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 9)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 2)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 5)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binBy = "binBy"
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case metrics = "metrics"
+            case nextToken = "nextToken"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListIntentStageMetricsResponse: AWSDecodableShape {
+        /// The identifier for the bot for which you retrieved intent stage metrics.
+        public let botId: String?
+        /// If the response from the ListIntentStageMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to return the next page of results. For a complete set of results, call the ListIntentStageMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The results for the intent stage metrics.
+        public let results: [AnalyticsIntentStageResult]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsIntentStageResult]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
     public struct ListIntentsRequest: AWSEncodableShape {
         /// The unique identifier of the bot that contains the intent.
         public let botId: String
@@ -7603,6 +9090,186 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case nextToken = "nextToken"
             case summaryList = "summaryList"
+        }
+    }
+
+    public struct ListSessionAnalyticsDataRequest: AWSEncodableShape {
+        /// The identifier for the bot for which you want to retrieve session analytics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see session analytics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsSessionFilter]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// An object specifying the measure and method by which to sort the session analytics data.
+        public let sortBy: SessionDataSortBy?
+        /// The date and time that marks the beginning of the range of time for which you want to see session analytics.
+        public let startDateTime: Date
+
+        public init(botId: String, endDateTime: Date, filters: [AnalyticsSessionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SessionDataSortBy? = nil, startDateTime: Date) {
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListSessionAnalyticsDataResponse: AWSDecodableShape {
+        /// The unique identifier of the bot that the sessions belong to.
+        public let botId: String?
+        /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// A list of objects, each of which contains information about a session with the bot.
+        public let sessions: [SessionSpecification]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, sessions: [SessionSpecification]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case sessions = "sessions"
+        }
+    }
+
+    public struct ListSessionMetricsRequest: AWSEncodableShape {
+        /// A list of objects, each of which contains specifications for organizing the results by time.
+        public let binBy: [AnalyticsBinBySpecification]?
+        /// The identifier for the bot for which you want to retrieve session metrics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see session metrics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsSessionFilter]?
+        /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:    ConversationEndState – The final state of the conversation. The possible end states are detailed in Key definitions in the user guide.    LocaleId – The unique identifier of the bot locale.
+        public let groupBy: [AnalyticsSessionGroupBySpecification]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metrics: [AnalyticsSessionMetric]
+        /// If the response from the ListSessionMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionMetrics request to return the next page of results. For a complete set of results, call the ListSessionMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The date and time that marks the beginning of the range of time for which you want to see session metrics.
+        public let startDateTime: Date
+
+        public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsSessionFilter]? = nil, groupBy: [AnalyticsSessionGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsSessionMetric], nextToken: String? = nil, startDateTime: Date) {
+            self.binBy = binBy
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metrics = metrics
+            self.nextToken = nextToken
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.binBy, forKey: .binBy)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.metrics, forKey: .metrics)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.binBy, name: "binBy", parent: name, max: 1)
+            try self.validate(self.binBy, name: "binBy", parent: name, min: 1)
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 2)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 7)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binBy = "binBy"
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case metrics = "metrics"
+            case nextToken = "nextToken"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListSessionMetricsResponse: AWSDecodableShape {
+        /// The identifier for the bot for which you retrieved session metrics.
+        public let botId: String?
+        /// If the response from the ListSessionMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionMetrics request to return the next page of results. For a complete set of results, call the ListSessionMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The results for the session metrics.
+        public let results: [AnalyticsSessionResult]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsSessionResult]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case results = "results"
         }
     }
 
@@ -8031,6 +9698,193 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListUtteranceAnalyticsDataRequest: AWSEncodableShape {
+        /// The identifier for the bot for which you want to retrieve utterance analytics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see utterance analytics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsUtteranceFilter]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// An object specifying the measure and method by which to sort the utterance analytics data.
+        public let sortBy: UtteranceDataSortBy?
+        /// The date and time that marks the beginning of the range of time for which you want to see utterance analytics.
+        public let startDateTime: Date
+
+        public init(botId: String, endDateTime: Date, filters: [AnalyticsUtteranceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UtteranceDataSortBy? = nil, startDateTime: Date) {
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 9)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListUtteranceAnalyticsDataResponse: AWSDecodableShape {
+        /// The unique identifier of the bot that the utterances belong to.
+        public let botId: String?
+        /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// A list of objects, each of which contains information about an utterance in a user session with your bot.
+        public let utterances: [UtteranceSpecification]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, utterances: [UtteranceSpecification]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.utterances = utterances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case utterances = "utterances"
+        }
+    }
+
+    public struct ListUtteranceMetricsRequest: AWSEncodableShape {
+        /// A list containing attributes related to the utterance that you want the response to return. The following attributes are possible:    LastUsedIntent – The last used intent at the time of the utterance.
+        public let attributes: [AnalyticsUtteranceAttribute]?
+        /// A list of objects, each of which contains specifications for organizing the results by time.
+        public let binBy: [AnalyticsBinBySpecification]?
+        /// The identifier for the bot for which you want to retrieve utterance metrics.
+        public let botId: String
+        /// The date and time that marks the end of the range of time for which you want to see utterance metrics.
+        public let endDateTime: Date
+        /// A list of objects, each of which describes a condition by which you want to filter the results.
+        public let filters: [AnalyticsUtteranceFilter]?
+        /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:    UtteranceText – The transcription of the utterance.    UtteranceState – The state of the utterance. The possible states are detailed in Key definitions in the user guide.
+        public let groupBy: [AnalyticsUtteranceGroupBySpecification]?
+        /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public let metrics: [AnalyticsUtteranceMetric]
+        /// If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
+        public let startDateTime: Date
+
+        public init(attributes: [AnalyticsUtteranceAttribute]? = nil, binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsUtteranceFilter]? = nil, groupBy: [AnalyticsUtteranceGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsUtteranceMetric], nextToken: String? = nil, startDateTime: Date) {
+            self.attributes = attributes
+            self.binBy = binBy
+            self.botId = botId
+            self.endDateTime = endDateTime
+            self.filters = filters
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metrics = metrics
+            self.nextToken = nextToken
+            self.startDateTime = startDateTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.binBy, forKey: .binBy)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.endDateTime, forKey: .endDateTime)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.metrics, forKey: .metrics)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.startDateTime, forKey: .startDateTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 1)
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+            try self.validate(self.binBy, name: "binBy", parent: name, max: 1)
+            try self.validate(self.binBy, name: "binBy", parent: name, min: 1)
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 9)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 2)
+            try self.validate(self.groupBy, name: "groupBy", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 4)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case binBy = "binBy"
+            case endDateTime = "endDateTime"
+            case filters = "filters"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case metrics = "metrics"
+            case nextToken = "nextToken"
+            case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct ListUtteranceMetricsResponse: AWSDecodableShape {
+        /// The identifier for the bot for which you retrieved utterance metrics.
+        public let botId: String?
+        /// If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
+        public let nextToken: String?
+        /// The results for the utterance metrics.
+        public let results: [AnalyticsUtteranceResult]?
+
+        public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsUtteranceResult]? = nil) {
+            self.botId = botId
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
     public struct Message: AWSEncodableShape & AWSDecodableShape {
         /// A message in a custom format defined by the client application.
         public let customPayload: CustomPayload?
@@ -8121,7 +9975,7 @@ extension LexModelsV2 {
             try self.validate(self.phrase, name: "phrase", parent: name, max: 100)
             try self.validate(self.phrase, name: "phrase", parent: name, min: 1)
             try self.validate(self.weight, name: "weight", parent: name, max: 3)
-            try self.validate(self.weight, name: "weight", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8587,6 +10441,23 @@ extension LexModelsV2 {
         }
     }
 
+    public struct RuntimeSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An object containing specifications for the assisted slot resolution feature.
+        public let slotResolutionImprovement: SlotResolutionImprovementSpecification?
+
+        public init(slotResolutionImprovement: SlotResolutionImprovementSpecification? = nil) {
+            self.slotResolutionImprovement = slotResolutionImprovement
+        }
+
+        public func validate(name: String) throws {
+            try self.slotResolutionImprovement?.validate(name: "\(name).slotResolutionImprovement")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotResolutionImprovement = "slotResolutionImprovement"
+        }
+    }
+
     public struct S3BucketLogDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
         public let kmsKeyArn: String?
@@ -8685,6 +10556,26 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case utterance = "utterance"
+        }
+    }
+
+    public struct SampleUtteranceGenerationSpecification: AWSEncodableShape & AWSDecodableShape {
+        public let bedrockModelSpecification: BedrockModelSpecification?
+        /// Specifies whether to enable sample utterance generation or not.
+        public let enabled: Bool
+
+        public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockModelSpecification?.validate(name: "\(name).bedrockModelSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModelSpecification = "bedrockModelSpecification"
+            case enabled = "enabled"
         }
     }
 
@@ -8824,6 +10715,84 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case detectSentiment = "detectSentiment"
+        }
+    }
+
+    public struct SessionDataSortBy: AWSEncodableShape {
+        /// The measure by which to sort the session analytics data.    conversationStartTime – The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.    numberOfTurns – The number of turns that the session took.    conversationDurationSeconds – The duration of the conversation in seconds.
+        public let name: AnalyticsSessionSortByName
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let order: AnalyticsSortOrder
+
+        public init(name: AnalyticsSessionSortByName, order: AnalyticsSortOrder) {
+            self.name = name
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+        }
+    }
+
+    public struct SessionSpecification: AWSDecodableShape {
+        /// The identifier of the alias of the bot that the session was held with.
+        public let botAliasId: String?
+        /// The version of the bot that the session was held with.
+        public let botVersion: String?
+        /// The channel that is integrated with the bot that the session was held with.
+        public let channel: String?
+        /// The duration of the conversation in seconds. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationDurationSeconds: Int64?
+        /// The final state of the conversation. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationEndState: ConversationEndState?
+        /// The date and time when the conversation ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationEndTime: Date?
+        /// The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationStartTime: Date?
+        /// A list of objects containing the name of an intent that was invoked.
+        public let invokedIntentSamples: [InvokedIntentSample]?
+        /// The locale of the bot that the session was held with.
+        public let localeId: String?
+        /// The mode of the session. The possible values are as follows:    Speech – The session was spoken.    Text – The session was written.    DTMF – The session used a touch-tone keypad (Dual Tone Multi-Frequency).    MultiMode – The session used multiple modes.
+        public let mode: AnalyticsModality?
+        /// The number of turns that the session took.
+        public let numberOfTurns: Int64?
+        /// The identifier of the first request in a session.
+        public let originatingRequestId: String?
+        /// The identifier of the session.
+        public let sessionId: String?
+
+        public init(botAliasId: String? = nil, botVersion: String? = nil, channel: String? = nil, conversationDurationSeconds: Int64? = nil, conversationEndState: ConversationEndState? = nil, conversationEndTime: Date? = nil, conversationStartTime: Date? = nil, invokedIntentSamples: [InvokedIntentSample]? = nil, localeId: String? = nil, mode: AnalyticsModality? = nil, numberOfTurns: Int64? = nil, originatingRequestId: String? = nil, sessionId: String? = nil) {
+            self.botAliasId = botAliasId
+            self.botVersion = botVersion
+            self.channel = channel
+            self.conversationDurationSeconds = conversationDurationSeconds
+            self.conversationEndState = conversationEndState
+            self.conversationEndTime = conversationEndTime
+            self.conversationStartTime = conversationStartTime
+            self.invokedIntentSamples = invokedIntentSamples
+            self.localeId = localeId
+            self.mode = mode
+            self.numberOfTurns = numberOfTurns
+            self.originatingRequestId = originatingRequestId
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasId = "botAliasId"
+            case botVersion = "botVersion"
+            case channel = "channel"
+            case conversationDurationSeconds = "conversationDurationSeconds"
+            case conversationEndState = "conversationEndState"
+            case conversationEndTime = "conversationEndTime"
+            case conversationStartTime = "conversationStartTime"
+            case invokedIntentSamples = "invokedIntentSamples"
+            case localeId = "localeId"
+            case mode = "mode"
+            case numberOfTurns = "numberOfTurns"
+            case originatingRequestId = "originatingRequestId"
+            case sessionId = "sessionId"
         }
     }
 
@@ -8968,6 +10937,40 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case priority = "priority"
             case slotId = "slotId"
+        }
+    }
+
+    public struct SlotResolutionImprovementSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// An object containing information about the Amazon Bedrock model used to assist slot resolution.
+        public let bedrockModelSpecification: BedrockModelSpecification?
+        /// Specifies whether assisted slot resolution is turned on or off.
+        public let enabled: Bool
+
+        public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockModelSpecification?.validate(name: "\(name).bedrockModelSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModelSpecification = "bedrockModelSpecification"
+            case enabled = "enabled"
+        }
+    }
+
+    public struct SlotResolutionSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
+        public let slotResolutionStrategy: SlotResolutionStrategy
+
+        public init(slotResolutionStrategy: SlotResolutionStrategy) {
+            self.slotResolutionStrategy = slotResolutionStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotResolutionStrategy = "slotResolutionStrategy"
         }
     }
 
@@ -9211,14 +11214,17 @@ extension LexModelsV2 {
         public let slotCaptureSetting: SlotCaptureSetting?
         /// Specifies whether the slot is required or optional.
         public let slotConstraint: SlotConstraint
+        /// An object containing information about whether assisted slot resolution is turned on for the slot or not.
+        public let slotResolutionSetting: SlotResolutionSetting?
         public let waitAndContinueSpecification: WaitAndContinueSpecification?
 
-        public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification? = nil, sampleUtterances: [SampleUtterance]? = nil, slotCaptureSetting: SlotCaptureSetting? = nil, slotConstraint: SlotConstraint, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
+        public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification? = nil, sampleUtterances: [SampleUtterance]? = nil, slotCaptureSetting: SlotCaptureSetting? = nil, slotConstraint: SlotConstraint, slotResolutionSetting: SlotResolutionSetting? = nil, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
             self.sampleUtterances = sampleUtterances
             self.slotCaptureSetting = slotCaptureSetting
             self.slotConstraint = slotConstraint
+            self.slotResolutionSetting = slotResolutionSetting
             self.waitAndContinueSpecification = waitAndContinueSpecification
         }
 
@@ -9235,6 +11241,7 @@ extension LexModelsV2 {
             case sampleUtterances = "sampleUtterances"
             case slotCaptureSetting = "slotCaptureSetting"
             case slotConstraint = "slotConstraint"
+            case slotResolutionSetting = "slotResolutionSetting"
             case waitAndContinueSpecification = "waitAndContinueSpecification"
         }
     }
@@ -9419,6 +11426,85 @@ extension LexModelsV2 {
             case encryptionSetting = "encryptionSetting"
             case localeId = "localeId"
             case transcriptSourceSetting = "transcriptSourceSetting"
+        }
+    }
+
+    public struct StartBotResourceGenerationRequest: AWSEncodableShape {
+        /// The unique identifier of the bot for which to generate intents and slot types.
+        public let botId: String
+        /// The version of the bot for which to generate intents and slot types.
+        public let botVersion: String
+        /// The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help generate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process.
+        public let generationInputPrompt: String
+        /// The locale of the bot for which to generate intents and slot types.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, generationInputPrompt: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.generationInputPrompt = generationInputPrompt
+            self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.generationInputPrompt, forKey: .generationInputPrompt)
+            request.encodePath(self.localeId, key: "localeId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.validate(self.generationInputPrompt, name: "generationInputPrompt", parent: name, max: 2000)
+            try self.validate(self.generationInputPrompt, name: "generationInputPrompt", parent: name, min: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationInputPrompt = "generationInputPrompt"
+        }
+    }
+
+    public struct StartBotResourceGenerationResponse: AWSDecodableShape {
+        /// The unique identifier of the bot for which the generation request was made.
+        public let botId: String?
+        /// The version of the bot for which the generation request was made.
+        public let botVersion: String?
+        /// The date and time at which the generation request was made.
+        public let creationDateTime: Date?
+        /// The unique identifier of the generation request.
+        public let generationId: String?
+        /// The prompt that was used generate intents and slot types for the bot locale.
+        public let generationInputPrompt: String?
+        /// The status of the generation request.
+        public let generationStatus: GenerationStatus?
+        /// The locale of the bot for which the generation request was made.
+        public let localeId: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, generationId: String? = nil, generationInputPrompt: String? = nil, generationStatus: GenerationStatus? = nil, localeId: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.generationId = generationId
+            self.generationInputPrompt = generationInputPrompt
+            self.generationStatus = generationStatus
+            self.localeId = localeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case generationId = "generationId"
+            case generationInputPrompt = "generationInputPrompt"
+            case generationStatus = "generationStatus"
+            case localeId = "localeId"
         }
     }
 
@@ -10405,10 +12491,13 @@ extension LexModelsV2 {
         public let destination: TextLogDestination
         /// Determines whether conversation logs should be stored for an alias.
         public let enabled: Bool
+        /// The option to enable selective conversation log capture for text.
+        public let selectiveLoggingEnabled: Bool?
 
-        public init(destination: TextLogDestination, enabled: Bool) {
+        public init(destination: TextLogDestination, enabled: Bool, selectiveLoggingEnabled: Bool? = nil) {
             self.destination = destination
             self.enabled = enabled
+            self.selectiveLoggingEnabled = selectiveLoggingEnabled
         }
 
         public func validate(name: String) throws {
@@ -10418,6 +12507,7 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
             case enabled = "enabled"
+            case selectiveLoggingEnabled = "selectiveLoggingEnabled"
         }
     }
 
@@ -10634,6 +12724,8 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The new description of the locale.
         public let description: String?
+        /// Contains settings for generative AI features powered by Amazon Bedrock for your bot locale. Use this object to turn generative AI features on and off. Pricing  may differ if you turn a feature on. For more information, see LINK.
+        public let generativeAISettings: GenerativeAISettings?
         /// The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
@@ -10641,10 +12733,11 @@ extension LexModelsV2 {
         /// The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.voiceSettings = voiceSettings
@@ -10656,6 +12749,7 @@ extension LexModelsV2 {
             request.encodePath(self.botId, key: "botId")
             request.encodePath(self.botVersion, key: "botVersion")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             request.encodePath(self.localeId, key: "localeId")
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
             try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
@@ -10669,12 +12763,14 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case generativeAISettings = "generativeAISettings"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case voiceSettings = "voiceSettings"
         }
@@ -10693,6 +12789,8 @@ extension LexModelsV2 {
         public let description: String?
         /// If the botLocaleStatus is Failed, the failureReasons field lists the errors that occurred while building the bot.
         public let failureReasons: [String]?
+        /// Contains settings for generative AI features powered by Amazon Bedrock for your bot locale.
+        public let generativeAISettings: GenerativeAISettings?
         /// A timestamp of the date and time that the locale was last updated.
         public let lastUpdatedDateTime: Date?
         /// The language and locale of the updated bot locale.
@@ -10706,13 +12804,14 @@ extension LexModelsV2 {
         /// The updated Amazon Polly voice to use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
             self.failureReasons = failureReasons
+            self.generativeAISettings = generativeAISettings
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.localeName = localeName
@@ -10728,6 +12827,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case description = "description"
             case failureReasons = "failureReasons"
+            case generativeAISettings = "generativeAISettings"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case localeId = "localeId"
             case localeName = "localeName"
@@ -11848,6 +13948,43 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UtteranceBotResponse: AWSDecodableShape {
+        /// The text of the response to the utterance from the bot.
+        public let content: String?
+        /// The type of the response. The following values are possible:    PlainText – A plain text string.    CustomPayload – A response string that you can customize to include data or metadata for your application.    SSML – A string that includes Speech Synthesis Markup Language to customize the audio response.    ImageResponseCard – An image with buttons that the customer can select. See ImageResponseCard for more information.
+        public let contentType: UtteranceContentType?
+        public let imageResponseCard: ImageResponseCard?
+
+        public init(content: String? = nil, contentType: UtteranceContentType? = nil, imageResponseCard: ImageResponseCard? = nil) {
+            self.content = content
+            self.contentType = contentType
+            self.imageResponseCard = imageResponseCard
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case contentType = "contentType"
+            case imageResponseCard = "imageResponseCard"
+        }
+    }
+
+    public struct UtteranceDataSortBy: AWSEncodableShape {
+        /// The measure by which to sort the utterance analytics data.    Count – The number of utterances.    UtteranceTimestamp – The date and time of the utterance.
+        public let name: AnalyticsUtteranceSortByName
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let order: AnalyticsSortOrder
+
+        public init(name: AnalyticsUtteranceSortByName, order: AnalyticsSortOrder) {
+            self.name = name
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+        }
+    }
+
     public struct UtteranceInputSpecification: AWSDecodableShape {
         /// Contains information about the audio input for an utterance.
         public let audioInput: UtteranceAudioInputSpecification?
@@ -11896,6 +14033,103 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case items = "items"
+        }
+    }
+
+    public struct UtteranceSpecification: AWSDecodableShape {
+        /// The name of the intent that the utterance is associated to.
+        public let associatedIntentName: String?
+        /// The name of the slot that the utterance is associated to.
+        public let associatedSlotName: String?
+        /// The duration in milliseconds of the audio associated with the utterance.
+        public let audioVoiceDurationMillis: Int64?
+        /// The identifier of the alias of the bot that the utterance was made to.
+        public let botAliasId: String?
+        /// The identifier for the audio of the bot response.
+        public let botResponseAudioVoiceId: String?
+        /// A list of objects containing information about the bot response to the utterance.
+        public let botResponses: [UtteranceBotResponse]?
+        /// The version of the bot that the utterance was made to.
+        public let botVersion: String?
+        /// The channel that is integrated with the bot that the utterance was made to.
+        public let channel: String?
+        /// The date and time when the conversation in which the utterance took place ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationEndTime: Date?
+        /// The date and time when the conversation in which the utterance took place began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public let conversationStartTime: Date?
+        /// The type of dialog action that the utterance is associated to. See the type field in DialogAction for more information.
+        public let dialogActionType: String?
+        /// The input type of the utterance. The possible values are as follows:   PCM format: audio data must be in little-endian byte order.    audio/l16; rate=16000; channels=1     audio/x-l16; sample-rate=16000; channel-count=1     audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false      Opus format    audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4      Text format    text/plain; charset=utf-8
+        public let inputType: String?
+        /// The state of the intent that the utterance is associated to.
+        public let intentState: IntentState?
+        /// The locale of the bot that the utterance was made to.
+        public let localeId: String?
+        /// The mode of the session. The possible values are as follows:    Speech – The session consisted of spoken dialogue.    Text – The session consisted of written dialogue.    DTMF – The session consisted of touch-tone keypad (Dual Tone Multi-Frequency) key presses.    MultiMode – The session consisted of multiple modes.
+        public let mode: AnalyticsModality?
+        /// The output type of the utterance. The possible values are as follows:    audio/mpeg     audio/ogg     audio/pcm (16 KHz)     audio/ (defaults to mpeg)    text/plain; charset=utf-8
+        public let outputType: String?
+        /// The identifier of the session that the utterance was made in.
+        public let sessionId: String?
+        /// The slots that have been filled in the session by the time of the utterance.
+        public let slotsFilledInSession: String?
+        /// The text of the utterance.
+        public let utterance: String?
+        /// The identifier of the request associated with the utterance.
+        public let utteranceRequestId: String?
+        /// The date and time when the utterance took place.
+        public let utteranceTimestamp: Date?
+        /// Specifies whether the bot understood the utterance or not.
+        public let utteranceUnderstood: Bool?
+
+        public init(associatedIntentName: String? = nil, associatedSlotName: String? = nil, audioVoiceDurationMillis: Int64? = nil, botAliasId: String? = nil, botResponseAudioVoiceId: String? = nil, botResponses: [UtteranceBotResponse]? = nil, botVersion: String? = nil, channel: String? = nil, conversationEndTime: Date? = nil, conversationStartTime: Date? = nil, dialogActionType: String? = nil, inputType: String? = nil, intentState: IntentState? = nil, localeId: String? = nil, mode: AnalyticsModality? = nil, outputType: String? = nil, sessionId: String? = nil, slotsFilledInSession: String? = nil, utterance: String? = nil, utteranceRequestId: String? = nil, utteranceTimestamp: Date? = nil, utteranceUnderstood: Bool? = nil) {
+            self.associatedIntentName = associatedIntentName
+            self.associatedSlotName = associatedSlotName
+            self.audioVoiceDurationMillis = audioVoiceDurationMillis
+            self.botAliasId = botAliasId
+            self.botResponseAudioVoiceId = botResponseAudioVoiceId
+            self.botResponses = botResponses
+            self.botVersion = botVersion
+            self.channel = channel
+            self.conversationEndTime = conversationEndTime
+            self.conversationStartTime = conversationStartTime
+            self.dialogActionType = dialogActionType
+            self.inputType = inputType
+            self.intentState = intentState
+            self.localeId = localeId
+            self.mode = mode
+            self.outputType = outputType
+            self.sessionId = sessionId
+            self.slotsFilledInSession = slotsFilledInSession
+            self.utterance = utterance
+            self.utteranceRequestId = utteranceRequestId
+            self.utteranceTimestamp = utteranceTimestamp
+            self.utteranceUnderstood = utteranceUnderstood
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedIntentName = "associatedIntentName"
+            case associatedSlotName = "associatedSlotName"
+            case audioVoiceDurationMillis = "audioVoiceDurationMillis"
+            case botAliasId = "botAliasId"
+            case botResponseAudioVoiceId = "botResponseAudioVoiceId"
+            case botResponses = "botResponses"
+            case botVersion = "botVersion"
+            case channel = "channel"
+            case conversationEndTime = "conversationEndTime"
+            case conversationStartTime = "conversationStartTime"
+            case dialogActionType = "dialogActionType"
+            case inputType = "inputType"
+            case intentState = "intentState"
+            case localeId = "localeId"
+            case mode = "mode"
+            case outputType = "outputType"
+            case sessionId = "sessionId"
+            case slotsFilledInSession = "slotsFilledInSession"
+            case utterance = "utterance"
+            case utteranceRequestId = "utteranceRequestId"
+            case utteranceTimestamp = "utteranceTimestamp"
+            case utteranceUnderstood = "utteranceUnderstood"
         }
     }
 

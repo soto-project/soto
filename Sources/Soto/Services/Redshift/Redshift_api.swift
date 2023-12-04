@@ -333,6 +333,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the  cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
+    @Sendable
+    public func createCustomDomainAssociation(_ input: CreateCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomDomainAssociationResult {
+        return try await self.client.execute(
+            operation: "CreateCustomDomainAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a Redshift-managed VPC endpoint.
     @Sendable
     public func createEndpointAccess(_ input: CreateEndpointAccessMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EndpointAccess {
@@ -377,6 +390,19 @@ public struct Redshift: AWSService {
     public func createHsmConfiguration(_ input: CreateHsmConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHsmConfigurationResult {
         return try await self.client.execute(
             operation: "CreateHsmConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an Amazon Redshift application for use with IAM Identity Center.
+    @Sendable
+    public func createRedshiftIdcApplication(_ input: CreateRedshiftIdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRedshiftIdcApplicationResult {
+        return try await self.client.execute(
+            operation: "CreateRedshiftIdcApplication", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -553,6 +579,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Contains information about deleting a custom domain association for a cluster.
+    @Sendable
+    public func deleteCustomDomainAssociation(_ input: DeleteCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteCustomDomainAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a Redshift-managed VPC endpoint.
     @Sendable
     public func deleteEndpointAccess(_ input: DeleteEndpointAccessMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EndpointAccess {
@@ -610,6 +649,32 @@ public struct Redshift: AWSService {
     public func deletePartner(_ input: PartnerIntegrationInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PartnerIntegrationOutputMessage {
         return try await self.client.execute(
             operation: "DeletePartner", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Amazon Redshift IAM Identity Center application.
+    @Sendable
+    public func deleteRedshiftIdcApplication(_ input: DeleteRedshiftIdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteRedshiftIdcApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the resource policy for a specified resource.
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -841,6 +906,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Contains information about custom domain associations for a cluster.
+    @Sendable
+    public func describeCustomDomainAssociations(_ input: DescribeCustomDomainAssociationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CustomDomainAssociationsMessage {
+        return try await self.client.execute(
+            operation: "DescribeCustomDomainAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Shows the status of any inbound or outbound datashares available in the specified account.
     @Sendable
     public func describeDataShares(_ input: DescribeDataSharesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSharesResult {
@@ -987,6 +1065,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Returns a list of inbound integrations.
+    @Sendable
+    public func describeInboundIntegrations(_ input: DescribeInboundIntegrationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> InboundIntegrationsMessage {
+        return try await self.client.execute(
+            operation: "DescribeInboundIntegrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     @Sendable
     public func describeLoggingStatus(_ input: DescribeLoggingStatusMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> LoggingStatus {
@@ -1034,6 +1125,19 @@ public struct Redshift: AWSService {
     public func describePartners(_ input: DescribePartnersInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePartnersOutputMessage {
         return try await self.client.execute(
             operation: "DescribePartners", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the Amazon Redshift IAM Identity Center applications.
+    @Sendable
+    public func describeRedshiftIdcApplications(_ input: DescribeRedshiftIdcApplicationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRedshiftIdcApplicationsResult {
+        return try await self.client.execute(
+            operation: "DescribeRedshiftIdcApplications", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1255,6 +1359,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
+    @Sendable
+    public func failoverPrimaryCompute(_ input: FailoverPrimaryComputeInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverPrimaryComputeResult {
+        return try await self.client.execute(
+            operation: "FailoverPrimaryCompute", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True. You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Using IAM Authentication to Generate Database User Credentials in the Amazon Redshift Cluster Management Guide. The Identity and Access Management (IAM) user or role that runs GetClusterCredentials must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see Resource Policies for GetClusterCredentials in the Amazon Redshift Cluster Management Guide. If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups.  In addition, if the AutoCreate parameter is set to True, then the policy must include the redshift:CreateClusterUser permission. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     @Sendable
     public func getClusterCredentials(_ input: GetClusterCredentialsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ClusterCredentials {
@@ -1299,6 +1416,19 @@ public struct Redshift: AWSService {
     public func getReservedNodeExchangeOfferings(_ input: GetReservedNodeExchangeOfferingsInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReservedNodeExchangeOfferingsOutputMessage {
         return try await self.client.execute(
             operation: "GetReservedNodeExchangeOfferings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the resource policy for a specified resource.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResult {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1443,6 +1573,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// Contains information for changing a custom domain association.
+    @Sendable
+    public func modifyCustomDomainAssociation(_ input: ModifyCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyCustomDomainAssociationResult {
+        return try await self.client.execute(
+            operation: "ModifyCustomDomainAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Modifies a Redshift-managed VPC endpoint.
     @Sendable
     public func modifyEndpointAccess(_ input: ModifyEndpointAccessMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EndpointAccess {
@@ -1461,6 +1604,19 @@ public struct Redshift: AWSService {
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEventSubscriptionResult {
         return try await self.client.execute(
             operation: "ModifyEventSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Changes an existing Amazon Redshift IAM Identity Center application.
+    @Sendable
+    public func modifyRedshiftIdcApplication(_ input: ModifyRedshiftIdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyRedshiftIdcApplicationResult {
+        return try await self.client.execute(
+            operation: "ModifyRedshiftIdcApplication", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1542,6 +1698,19 @@ public struct Redshift: AWSService {
     public func purchaseReservedNodeOffering(_ input: PurchaseReservedNodeOfferingMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedNodeOfferingResult {
         return try await self.client.execute(
             operation: "PurchaseReservedNodeOffering", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the resource policy for a specified resource.
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResult {
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1918,6 +2087,25 @@ extension Redshift {
         )
     }
 
+    /// Contains information about custom domain associations for a cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeCustomDomainAssociationsPaginator(
+        _ input: DescribeCustomDomainAssociationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCustomDomainAssociationsMessage, CustomDomainAssociationsMessage> {
+        return .init(
+            input: input,
+            command: self.describeCustomDomainAssociations,
+            inputKey: \DescribeCustomDomainAssociationsMessage.marker,
+            outputKey: \CustomDomainAssociationsMessage.marker,
+            logger: logger
+        )
+    }
+
     /// Shows the status of any inbound or outbound datashares available in the specified account.
     /// Return PaginatorSequence for operation.
     ///
@@ -2111,6 +2299,25 @@ extension Redshift {
         )
     }
 
+    /// Returns a list of inbound integrations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeInboundIntegrationsPaginator(
+        _ input: DescribeInboundIntegrationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInboundIntegrationsMessage, InboundIntegrationsMessage> {
+        return .init(
+            input: input,
+            command: self.describeInboundIntegrations,
+            inputKey: \DescribeInboundIntegrationsMessage.marker,
+            outputKey: \InboundIntegrationsMessage.marker,
+            logger: logger
+        )
+    }
+
     /// Returns properties of possible node configurations such as node type, number of nodes, and  disk usage for the specified action type.
     /// Return PaginatorSequence for operation.
     ///
@@ -2148,6 +2355,25 @@ extension Redshift {
             command: self.describeOrderableClusterOptions,
             inputKey: \DescribeOrderableClusterOptionsMessage.marker,
             outputKey: \OrderableClusterOptionsMessage.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the Amazon Redshift IAM Identity Center applications.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeRedshiftIdcApplicationsPaginator(
+        _ input: DescribeRedshiftIdcApplicationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRedshiftIdcApplicationsMessage, DescribeRedshiftIdcApplicationsResult> {
+        return .init(
+            input: input,
+            command: self.describeRedshiftIdcApplications,
+            inputKey: \DescribeRedshiftIdcApplicationsMessage.marker,
+            outputKey: \DescribeRedshiftIdcApplicationsResult.marker,
             logger: logger
         )
     }
@@ -2478,6 +2704,17 @@ extension Redshift.DescribeClustersMessage: AWSPaginateToken {
     }
 }
 
+extension Redshift.DescribeCustomDomainAssociationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeCustomDomainAssociationsMessage {
+        return .init(
+            customDomainCertificateArn: self.customDomainCertificateArn,
+            customDomainName: self.customDomainName,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension Redshift.DescribeDataSharesForConsumerMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesForConsumerMessage {
         return .init(
@@ -2595,6 +2832,17 @@ extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateToken {
     }
 }
 
+extension Redshift.DescribeInboundIntegrationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeInboundIntegrationsMessage {
+        return .init(
+            integrationArn: self.integrationArn,
+            marker: token,
+            maxRecords: self.maxRecords,
+            targetArn: self.targetArn
+        )
+    }
+}
+
 extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeNodeConfigurationOptionsMessage {
         return .init(
@@ -2617,6 +2865,16 @@ extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             nodeType: self.nodeType
+        )
+    }
+}
+
+extension Redshift.DescribeRedshiftIdcApplicationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeRedshiftIdcApplicationsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            redshiftIdcApplicationArn: self.redshiftIdcApplicationArn
         )
     }
 }

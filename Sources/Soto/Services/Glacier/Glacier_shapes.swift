@@ -26,14 +26,14 @@ import Foundation
 extension Glacier {
     // MARK: Enums
 
-    public enum ActionCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archiveRetrieval = "ArchiveRetrieval"
         case inventoryRetrieval = "InventoryRetrieval"
         case select = "Select"
         public var description: String { return self.rawValue }
     }
 
-    public enum CannedACL: String, CustomStringConvertible, Codable, Sendable {
+    public enum CannedACL: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -44,25 +44,25 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "aws:kms"
         case s3 = "AES256"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignore = "IGNORE"
         case none = "NONE"
         case use = "USE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -71,27 +71,27 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuoteFields: String, CustomStringConvertible, Codable, Sendable {
+    public enum QuoteFields: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case always = "ALWAYS"
         case asNeeded = "ASNEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case reducedRedundancy = "REDUCED_REDUNDANCY"
         case standard = "STANDARD"
         case standardInfrequentAccess = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonCustomerByEmail = "AmazonCustomerByEmail"
         case canonicalUser = "CanonicalUser"
         case group = "Group"

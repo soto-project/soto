@@ -26,7 +26,7 @@ import Foundation
 extension MarketplaceEntitlementService {
     // MARK: Enums
 
-    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerIdentifier = "CUSTOMER_IDENTIFIER"
         case dimension = "DIMENSION"
         public var description: String { return self.rawValue }
@@ -109,7 +109,9 @@ extension MarketplaceEntitlementService {
             try self.filter?.forEach {
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
         }

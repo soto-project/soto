@@ -26,13 +26,13 @@ import Foundation
 extension ECR {
     // MARK: Enums
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingSeverity: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case informational = "INFORMATIONAL"
@@ -42,12 +42,12 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expire = "EXPIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case imageNotFound = "ImageNotFound"
         case imageReferencedByManifestList = "ImageReferencedByManifestList"
         case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
@@ -55,28 +55,31 @@ extension ECR {
         case invalidImageTag = "InvalidImageTag"
         case kmsError = "KmsError"
         case missingDigestAndTag = "MissingDigestAndTag"
+        case upstreamAccessDenied = "UpstreamAccessDenied"
+        case upstreamTooManyRequests = "UpstreamTooManyRequests"
+        case upstreamUnavailable = "UpstreamUnavailable"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageTagMutability: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageTagMutability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case immutable = "IMMUTABLE"
         case mutable = "MUTABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable {
+    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidLayerDigest = "InvalidLayerDigest"
         case missingLayerDigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case expired = "EXPIRED"
         case failed = "FAILED"
@@ -84,26 +87,26 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RepositoryFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case prefixMatch = "PREFIX_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanFrequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case continuousScan = "CONTINUOUS_SCAN"
         case manual = "MANUAL"
         case scanOnPush = "SCAN_ON_PUSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -115,26 +118,36 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case enhanced = "ENHANCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanningConfigurationFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanningConfigurationFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case repositoryNotFound = "REPOSITORY_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanningRepositoryFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanningRepositoryFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case wildcard = "WILDCARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum TagStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TagStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case any = "ANY"
         case tagged = "TAGGED"
         case untagged = "UNTAGGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpstreamRegistry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azureContainerRegistry = "azure-container-registry"
+        case dockerHub = "docker-hub"
+        case ecrPublic = "ecr-public"
+        case gitHubContainerRegistry = "github-container-registry"
+        case k8s = "k8s"
+        case quay = "quay"
         public var description: String { return self.rawValue }
     }
 
@@ -479,29 +492,40 @@ extension ECR {
     }
 
     public struct CreatePullThroughCacheRuleRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
+        public let credentialArn: String?
         /// The repository name prefix to use when caching images from the source registry.
         public let ecrRepositoryPrefix: String
         /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule.
+        /// The name of the upstream registry.
+        public let upstreamRegistry: UpstreamRegistry?
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
         public let upstreamRegistryUrl: String
 
-        public init(ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistryUrl: String) {
+        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String) {
+            self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
+            self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 20)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
+            case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
@@ -509,24 +533,32 @@ extension ECR {
     public struct CreatePullThroughCacheRuleResponse: AWSDecodableShape {
         /// The date and time, in JavaScript date format, when the pull through cache rule was created.
         public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+        public let credentialArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The registry ID associated with the request.
         public let registryId: String?
+        /// The name of the upstream registry associated with the pull through cache rule.
+        public let upstreamRegistry: UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
-        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
+            self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
+            self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case credentialArn = "credentialArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
+            case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
@@ -540,7 +572,7 @@ extension ECR {
         public let imageTagMutability: ImageTagMutability?
         /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
+        /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
         public let repositoryName: String
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
@@ -717,9 +749,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 20)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
@@ -732,6 +764,8 @@ extension ECR {
     public struct DeletePullThroughCacheRuleResponse: AWSDecodableShape {
         /// The timestamp associated with the pull through cache rule.
         public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+        public let credentialArn: String?
         /// The Amazon ECR repository prefix associated with the request.
         public let ecrRepositoryPrefix: String?
         /// The registry ID associated with the request.
@@ -739,8 +773,9 @@ extension ECR {
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
-        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
+            self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.upstreamRegistryUrl = upstreamRegistryUrl
@@ -748,6 +783,7 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case credentialArn = "credentialArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
@@ -821,7 +857,7 @@ extension ECR {
     }
 
     public struct DeleteRepositoryRequest: AWSEncodableShape {
-        ///  If a repository contains images, forces the deletion.
+        /// If true, deleting the repository force deletes the contents of the repository. If false, the repository must be empty before attempting to delete it.
         public let force: Bool?
         /// The Amazon Web Services account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1075,9 +1111,9 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.ecrRepositoryPrefixes?.forEach {
-                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, max: 20)
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, max: 30)
                 try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, min: 2)
-                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
             }
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, max: 100)
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, min: 1)
@@ -2143,24 +2179,36 @@ extension ECR {
     public struct PullThroughCacheRule: AWSDecodableShape {
         /// The date and time the pull through cache was created.
         public let createdAt: Date?
+        /// The ARN of the Secrets Manager secret associated with the pull through cache rule.
+        public let credentialArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The Amazon Web Services account ID associated with the registry the pull through cache rule is associated with.
         public let registryId: String?
+        /// The date and time, in JavaScript date format, when the pull through cache rule was last updated.
+        public let updatedAt: Date?
+        /// The name of the upstream source registry associated with the pull through cache rule.
+        public let upstreamRegistry: UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
-        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
+            self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
+            self.updatedAt = updatedAt
+            self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case credentialArn = "credentialArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
+            case updatedAt = "updatedAt"
+            case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
@@ -2509,7 +2557,7 @@ extension ECR {
     public struct RegistryScanningRule: AWSEncodableShape & AWSDecodableShape {
         /// The repository filters associated with the scanning configuration for a private registry.
         public let repositoryFilters: [ScanningRepositoryFilter]
-        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH and MANUAL scan frequencies are supported.
+        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not specified, then the MANUAL scan frequency is set by default.
         public let scanFrequency: ScanFrequency
 
         public init(repositoryFilters: [ScanningRepositoryFilter], scanFrequency: ScanFrequency) {
@@ -2626,7 +2674,7 @@ extension ECR {
         public let imageTagMutability: ImageTagMutability?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
         public let repositoryArn: String?
         /// The name of the repository.
         public let repositoryName: String?
@@ -2966,11 +3014,11 @@ extension ECR {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
-        public let key: String?
+        public let key: String
         /// A value acts as a descriptor within a tag category (key).
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -3021,6 +3069,62 @@ extension ECR {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdatePullThroughCacheRuleRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
+        public let credentialArn: String
+        /// The repository name prefix to use when caching images from the source registry.
+        public let ecrRepositoryPrefix: String
+        /// The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(credentialArn: String, ecrRepositoryPrefix: String, registryId: String? = nil) {
+            self.credentialArn = credentialArn
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct UpdatePullThroughCacheRuleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+        public let credentialArn: String?
+        /// The Amazon ECR repository prefix associated with the pull through cache rule.
+        public let ecrRepositoryPrefix: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The date and time, in JavaScript date format, when the pull through cache rule was updated.
+        public let updatedAt: Date?
+
+        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil) {
+            self.credentialArn = credentialArn
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+            case updatedAt = "updatedAt"
+        }
     }
 
     public struct UploadLayerPartRequest: AWSEncodableShape {
@@ -3089,6 +3193,63 @@ extension ECR {
             case registryId = "registryId"
             case repositoryName = "repositoryName"
             case uploadId = "uploadId"
+        }
+    }
+
+    public struct ValidatePullThroughCacheRuleRequest: AWSEncodableShape {
+        /// The repository name prefix associated with the pull through cache rule.
+        public let ecrRepositoryPrefix: String
+        /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(ecrRepositoryPrefix: String, registryId: String? = nil) {
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct ValidatePullThroughCacheRuleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+        public let credentialArn: String?
+        /// The Amazon ECR repository prefix associated with the pull through cache rule.
+        public let ecrRepositoryPrefix: String?
+        /// The reason the validation failed. For more details about possible causes and how to address them, see Using pull through cache rules in the Amazon Elastic Container Registry User Guide.
+        public let failure: String?
+        /// Whether or not the pull through cache rule was validated. If true, Amazon ECR was able to reach the upstream registry and authentication was successful. If false, there was an issue and validation failed. The failure reason indicates the cause.
+        public let isValid: Bool?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The upstream registry URL associated with the pull through cache rule.
+        public let upstreamRegistryUrl: String?
+
+        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, failure: String? = nil, isValid: Bool? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+            self.credentialArn = credentialArn
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.failure = failure
+            self.isValid = isValid
+            self.registryId = registryId
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case failure = "failure"
+            case isValid = "isValid"
+            case registryId = "registryId"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
 
@@ -3166,8 +3327,13 @@ public struct ECRErrorType: AWSErrorType {
         case repositoryNotFoundException = "RepositoryNotFoundException"
         case repositoryPolicyNotFoundException = "RepositoryPolicyNotFoundException"
         case scanNotFoundException = "ScanNotFoundException"
+        case secretNotFoundException = "SecretNotFoundException"
         case serverException = "ServerException"
         case tooManyTagsException = "TooManyTagsException"
+        case unableToAccessSecretException = "UnableToAccessSecretException"
+        case unableToDecryptSecretValueException = "UnableToDecryptSecretValueException"
+        case unableToGetUpstreamImageException = "UnableToGetUpstreamImageException"
+        case unableToGetUpstreamLayerException = "UnableToGetUpstreamLayerException"
         case unsupportedImageTypeException = "UnsupportedImageTypeException"
         case unsupportedUpstreamRegistryException = "UnsupportedUpstreamRegistryException"
         case uploadNotFoundException = "UploadNotFoundException"
@@ -3246,10 +3412,20 @@ public struct ECRErrorType: AWSErrorType {
     public static var repositoryPolicyNotFoundException: Self { .init(.repositoryPolicyNotFoundException) }
     /// The specified image scan could not be found. Ensure that image scanning is enabled on the repository and try again.
     public static var scanNotFoundException: Self { .init(.scanNotFoundException) }
+    /// The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
+    public static var secretNotFoundException: Self { .init(.secretNotFoundException) }
     /// These errors are usually caused by a server-side issue.
     public static var serverException: Self { .init(.serverException) }
     /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
+    public static var unableToAccessSecretException: Self { .init(.unableToAccessSecretException) }
+    /// The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
+    public static var unableToDecryptSecretValueException: Self { .init(.unableToDecryptSecretValueException) }
+    /// The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
+    public static var unableToGetUpstreamImageException: Self { .init(.unableToGetUpstreamImageException) }
+    /// There was an issue getting the upstream layer matching the pull through cache rule.
+    public static var unableToGetUpstreamLayerException: Self { .init(.unableToGetUpstreamLayerException) }
     /// The image is of a type that cannot be scanned.
     public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
     /// The specified upstream registry isn't supported.

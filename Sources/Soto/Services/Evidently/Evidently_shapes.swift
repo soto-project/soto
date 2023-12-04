@@ -26,29 +26,29 @@ import Foundation
 extension Evidently {
     // MARK: Enums
 
-    public enum ChangeDirectionEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeDirectionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case decrease = "DECREASE"
         case increase = "INCREASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsEvidentlyCustom = "aws.evidently.custom"
         case awsEvidentlyEvaluation = "aws.evidently.evaluation"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentBaseStat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentBaseStat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mean = "Mean"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentReportName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentReportName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bayesianInference = "BayesianInference"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentResultRequestType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentResultRequestType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case baseStat = "BaseStat"
         case confidenceInterval = "ConfidenceInterval"
         case pValue = "PValue"
@@ -56,7 +56,7 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentResultResponseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentResultResponseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confidenceIntervalLowerBound = "ConfidenceIntervalLowerBound"
         case confidenceIntervalUpperBound = "ConfidenceIntervalUpperBound"
         case mean = "Mean"
@@ -65,7 +65,7 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case created = "CREATED"
@@ -74,30 +74,30 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStopDesiredState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentStopDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsEvidentlyOnlineab = "aws.evidently.onlineab"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureEvaluationStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum FeatureEvaluationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allRules = "ALL_RULES"
         case defaultVariation = "DEFAULT_VARIATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case created = "CREATED"
@@ -106,30 +106,30 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStopDesiredState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchStopDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsEvidentlySplits = "aws.evidently.splits"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProjectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentReferenceResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SegmentReferenceResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case experiment = "EXPERIMENT"
         case launch = "LAUNCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum VariationValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VariationValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case long = "LONG"

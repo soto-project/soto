@@ -308,6 +308,19 @@ public struct Proton: AWSService {
         )
     }
 
+    /// Delete the deployment.
+    @Sendable
+    public func deleteDeployment(_ input: DeleteDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeploymentOutput {
+        return try await self.client.execute(
+            operation: "DeleteDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Delete an environment.
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentOutput {
@@ -456,6 +469,19 @@ public struct Proton: AWSService {
     public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentOutput {
         return try await self.client.execute(
             operation: "GetComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get detailed data for a deployment.
+    @Sendable
+    public func getDeployment(_ input: GetDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentOutput {
+        return try await self.client.execute(
+            operation: "GetDeployment", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -703,6 +729,19 @@ public struct Proton: AWSService {
     public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsOutput {
         return try await self.client.execute(
             operation: "ListComponents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    @Sendable
+    public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentsOutput {
+        return try await self.client.execute(
+            operation: "ListDeployments", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1237,6 +1276,25 @@ extension Proton {
         )
     }
 
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDeploymentsPaginator(
+        _ input: ListDeploymentsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
+        return .init(
+            input: input,
+            command: self.listDeployments,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -1565,6 +1623,7 @@ extension Proton.ListComponentOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListComponentOutputsInput {
         return .init(
             componentName: self.componentName,
+            deploymentId: self.deploymentId,
             nextToken: token
         )
     }
@@ -1591,6 +1650,19 @@ extension Proton.ListComponentsInput: AWSPaginateToken {
     }
 }
 
+extension Proton.ListDeploymentsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListDeploymentsInput {
+        return .init(
+            componentName: self.componentName,
+            environmentName: self.environmentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceInstanceName: self.serviceInstanceName,
+            serviceName: self.serviceName
+        )
+    }
+}
+
 extension Proton.ListEnvironmentAccountConnectionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentAccountConnectionsInput {
         return .init(
@@ -1606,6 +1678,7 @@ extension Proton.ListEnvironmentAccountConnectionsInput: AWSPaginateToken {
 extension Proton.ListEnvironmentOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             environmentName: self.environmentName,
             nextToken: token
         )
@@ -1674,6 +1747,7 @@ extension Proton.ListRepositorySyncDefinitionsInput: AWSPaginateToken {
 extension Proton.ListServiceInstanceOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstanceOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             nextToken: token,
             serviceInstanceName: self.serviceInstanceName,
             serviceName: self.serviceName
@@ -1707,6 +1781,7 @@ extension Proton.ListServiceInstancesInput: AWSPaginateToken {
 extension Proton.ListServicePipelineOutputsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServicePipelineOutputsInput {
         return .init(
+            deploymentId: self.deploymentId,
             nextToken: token,
             serviceName: self.serviceName
         )

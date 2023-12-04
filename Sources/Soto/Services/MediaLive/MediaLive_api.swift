@@ -368,6 +368,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Describe account configuration
+    @Sendable
+    public func describeAccountConfiguration(_ input: DescribeAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeAccountConfiguration", 
+            path: "/prod/accountConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets details about a channel
     @Sendable
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
@@ -491,6 +504,19 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "DescribeSchedule", 
             path: "/prod/channels/{ChannelId}/schedule", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describe the latest thumbnails data.
+    @Sendable
+    public func describeThumbnails(_ input: DescribeThumbnailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThumbnailsResponse {
+        return try await self.client.execute(
+            operation: "DescribeThumbnails", 
+            path: "/prod/channels/{ChannelId}/thumbnails", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -680,6 +706,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
+    @Sendable
+    public func startInputDevice(_ input: StartInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInputDeviceResponse {
+        return try await self.client.execute(
+            operation: "StartInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     @Sendable
     public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInputDeviceMaintenanceWindowResponse {
@@ -719,6 +758,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
+    @Sendable
+    public func stopInputDevice(_ input: StopInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInputDeviceResponse {
+        return try await self.client.execute(
+            operation: "StopInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     @Sendable
     public func stopMultiplex(_ input: StopMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMultiplexResponse {
@@ -739,6 +791,19 @@ public struct MediaLive: AWSService {
             operation: "TransferInputDevice", 
             path: "/prod/inputDevices/{InputDeviceId}/transfer", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update account configuration
+    @Sendable
+    public func updateAccountConfiguration(_ input: UpdateAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateAccountConfiguration", 
+            path: "/prod/accountConfiguration", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

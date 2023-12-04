@@ -29,23 +29,21 @@ extension SSOOIDC {
     // MARK: Shapes
 
     public struct CreateTokenRequest: AWSEncodableShape {
-        /// The unique identifier string for each client. This value should come from the persisted result of the RegisterClient API.
+        /// The unique identifier string for the client or application. This value comes from the result of the RegisterClient API.
         public let clientId: String
         /// A secret string generated for the client. This value should come from the persisted result of the RegisterClient API.
         public let clientSecret: String
-        /// The authorization code received from the authorization service. This parameter is required to perform an authorization grant request to get access to a token.
+        /// Used only when calling this API for the Authorization Code grant type. The short-term code is used to identify this authorization request. This grant type is currently unsupported for the CreateToken API.
         public let code: String?
-        /// Used only when calling this API for the device code grant type. This short-term code is used to identify this authentication attempt. This should come from an in-memory reference to the result of the StartDeviceAuthorization API.
+        /// Used only when calling this API for the Device Code grant type. This short-term code is used to identify this authorization request. This comes from the result of the StartDeviceAuthorization API.
         public let deviceCode: String?
-        /// Supports grant types for the authorization code, refresh token, and device code request. For device code requests, specify the following value:
-        ///   urn:ietf:params:oauth:grant-type:device_code
-        ///  For information about how to obtain the device code, see the StartDeviceAuthorization topic.
+        /// Supports the following OAuth grant types: Device Code and Refresh Token. Specify either of the following values, depending on the grant type that you want: * Device Code - urn:ietf:params:oauth:grant-type:device_code  * Refresh Token - refresh_token  For information about how to obtain the device code, see the StartDeviceAuthorization topic.
         public let grantType: String
-        /// The location of the application that will receive the authorization code. Users authorize the service to send the request to this location.
+        /// Used only when calling this API for the Authorization Code grant type. This value specifies the location of the client or application that has registered to receive the authorization code.
         public let redirectUri: String?
-        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. The token used to obtain an access token in the event that the access token is invalid or expired.
+        /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-term tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference.
         public let refreshToken: String?
-        /// The list of scopes that is defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
+        /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If this value is not specified, IAM Identity Center authorizes all scopes that are configured for the client during the call to RegisterClient.
         public let scope: [String]?
 
         public init(clientId: String, clientSecret: String, code: String? = nil, deviceCode: String? = nil, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, scope: [String]? = nil) {
@@ -72,15 +70,15 @@ extension SSOOIDC {
     }
 
     public struct CreateTokenResponse: AWSDecodableShape {
-        /// An opaque token to access IAM Identity Center resources assigned to a user.
+        /// A bearer token to access AWS accounts and applications assigned to a user.
         public let accessToken: String?
         /// Indicates the time in seconds when an access token will expire.
         public let expiresIn: Int?
-        /// Currently, idToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. The identifier of the user that associated with the access token, if present.
+        /// The idToken is not implemented or supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. A JSON Web Token (JWT) that identifies who is associated with the issued access token.
         public let idToken: String?
-        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. A token that, if present, can be used to refresh a previously issued access token that might have expired.
+        /// A token that, if present, can be used to refresh a previously issued access token that might have expired. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference.
         public let refreshToken: String?
-        /// Used to notify the client that the returned token is an access token. The supported type is BearerToken.
+        /// Used to notify the client that the returned token is an access token. The supported token type is Bearer.
         public let tokenType: String?
 
         public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
@@ -96,6 +94,92 @@ extension SSOOIDC {
             case expiresIn = "expiresIn"
             case idToken = "idToken"
             case refreshToken = "refreshToken"
+            case tokenType = "tokenType"
+        }
+    }
+
+    public struct CreateTokenWithIAMRequest: AWSEncodableShape {
+        /// Used only when calling this API for the JWT Bearer grant type. This value specifies the JSON Web Token (JWT) issued by a trusted token issuer. To authorize a trusted token issuer, configure the JWT Bearer GrantOptions for the application.
+        public let assertion: String?
+        /// The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.
+        public let clientId: String
+        /// Used only when calling this API for the Authorization Code grant type. This short-term code is used to identify this authorization request. The code is obtained through a redirect from IAM Identity Center to a redirect URI persisted in the Authorization Code GrantOptions for the application.
+        public let code: String?
+        /// Supports the following OAuth grant types: Authorization Code, Refresh Token, JWT Bearer, and Token Exchange. Specify one of the following values, depending on the grant type that you want: * Authorization Code - authorization_code  * Refresh Token - refresh_token  * JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer  * Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange
+        public let grantType: String
+        /// Used only when calling this API for the Authorization Code grant type. This value specifies the location of the client or application that has registered to receive the authorization code.
+        public let redirectUri: String?
+        /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-term tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference.
+        public let refreshToken: String?
+        /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that the requester can receive. The following values are supported: * Access Token - urn:ietf:params:oauth:token-type:access_token  * Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+        public let requestedTokenType: String?
+        /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If the value is not specified, IAM Identity Center authorizes all scopes configured for the application, including the following default scopes: openid, aws, sts:identity_context.
+        public let scope: [String]?
+        /// Used only when calling this API for the Token Exchange grant type. This value specifies the subject of the exchange. The value of the subject token must be an access token issued by IAM Identity Center to a different client or application. The access token must have authorized scopes that indicate the requested application as a target audience.
+        public let subjectToken: String?
+        /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: * Access Token - urn:ietf:params:oauth:token-type:access_token
+        public let subjectTokenType: String?
+
+        public init(assertion: String? = nil, clientId: String, code: String? = nil, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, requestedTokenType: String? = nil, scope: [String]? = nil, subjectToken: String? = nil, subjectTokenType: String? = nil) {
+            self.assertion = assertion
+            self.clientId = clientId
+            self.code = code
+            self.grantType = grantType
+            self.redirectUri = redirectUri
+            self.refreshToken = refreshToken
+            self.requestedTokenType = requestedTokenType
+            self.scope = scope
+            self.subjectToken = subjectToken
+            self.subjectTokenType = subjectTokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assertion = "assertion"
+            case clientId = "clientId"
+            case code = "code"
+            case grantType = "grantType"
+            case redirectUri = "redirectUri"
+            case refreshToken = "refreshToken"
+            case requestedTokenType = "requestedTokenType"
+            case scope = "scope"
+            case subjectToken = "subjectToken"
+            case subjectTokenType = "subjectTokenType"
+        }
+    }
+
+    public struct CreateTokenWithIAMResponse: AWSDecodableShape {
+        /// A bearer token to access AWS accounts and applications assigned to a user.
+        public let accessToken: String?
+        /// Indicates the time in seconds when an access token will expire.
+        public let expiresIn: Int?
+        /// A JSON Web Token (JWT) that identifies the user associated with the issued access token.
+        public let idToken: String?
+        /// Indicates the type of tokens that are issued by IAM Identity Center. The following values are supported:  * Access Token - urn:ietf:params:oauth:token-type:access_token  * Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+        public let issuedTokenType: String?
+        /// A token that, if present, can be used to refresh a previously issued access token that might have expired. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference.
+        public let refreshToken: String?
+        /// The list of scopes for which authorization is granted. The access token that is issued is limited to the scopes that are granted.
+        public let scope: [String]?
+        /// Used to notify the requester that the returned token is an access token. The supported token type is Bearer.
+        public let tokenType: String?
+
+        public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, issuedTokenType: String? = nil, refreshToken: String? = nil, scope: [String]? = nil, tokenType: String? = nil) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.idToken = idToken
+            self.issuedTokenType = issuedTokenType
+            self.refreshToken = refreshToken
+            self.scope = scope
+            self.tokenType = tokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "accessToken"
+            case expiresIn = "expiresIn"
+            case idToken = "idToken"
+            case issuedTokenType = "issuedTokenType"
+            case refreshToken = "refreshToken"
+            case scope = "scope"
             case tokenType = "tokenType"
         }
     }
@@ -122,7 +206,7 @@ extension SSOOIDC {
     }
 
     public struct RegisterClientResponse: AWSDecodableShape {
-        /// The endpoint where the client can request authorization.
+        /// An endpoint that the client can use to request authorization.
         public let authorizationEndpoint: String?
         /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
         public let clientId: String?
@@ -132,7 +216,7 @@ extension SSOOIDC {
         public let clientSecret: String?
         /// Indicates the time at which the clientId and clientSecret will become invalid.
         public let clientSecretExpiresAt: Int64?
-        /// The endpoint where the client can get an access token.
+        /// An endpoint that the client can use to create tokens.
         public let tokenEndpoint: String?
 
         public init(authorizationEndpoint: String? = nil, clientId: String? = nil, clientIdIssuedAt: Int64? = nil, clientSecret: String? = nil, clientSecretExpiresAt: Int64? = nil, tokenEndpoint: String? = nil) {
@@ -159,7 +243,7 @@ extension SSOOIDC {
         public let clientId: String
         /// A secret string that is generated for the client. This value should come from the persisted result of the RegisterClient API operation.
         public let clientSecret: String
-        /// The URL for the AWS access portal. For more information, see Using the AWS access portal in the IAM Identity Center User Guide.
+        /// The URL for the Amazon Web Services access portal. For more information, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide.
         public let startUrl: String
 
         public init(clientId: String, clientSecret: String, startUrl: String) {
@@ -222,6 +306,7 @@ public struct SSOOIDCErrorType: AWSErrorType {
         case invalidClientMetadataException = "InvalidClientMetadataException"
         case invalidGrantException = "InvalidGrantException"
         case invalidRequestException = "InvalidRequestException"
+        case invalidRequestRegionException = "InvalidRequestRegionException"
         case invalidScopeException = "InvalidScopeException"
         case slowDownException = "SlowDownException"
         case unauthorizedClientException = "UnauthorizedClientException"
@@ -262,6 +347,8 @@ public struct SSOOIDCErrorType: AWSErrorType {
     public static var invalidGrantException: Self { .init(.invalidGrantException) }
     /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// Indicates that a token provided as input to the request was issued by and is only usable by calling IAM Identity Center endpoints in another region.
+    public static var invalidRequestRegionException: Self { .init(.invalidRequestRegionException) }
     /// Indicates that the scope provided in the request is invalid.
     public static var invalidScopeException: Self { .init(.invalidScopeException) }
     /// Indicates that the client is making the request too frequently and is more than the service can handle.

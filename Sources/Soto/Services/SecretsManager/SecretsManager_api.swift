@@ -87,6 +87,19 @@ public struct SecretsManager: AWSService {
 
     // MARK: API Calls
 
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets.  To retrieve a single secret, call GetSecretValue.  To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each secret you request when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:BatchGetSecretValue, and you must have secretsmanager:GetSecretValue for each secret. If you use filters, you must also have secretsmanager:ListSecrets. If the secrets are encrypted using customer-managed keys instead of the Amazon Web Services managed key  aws/secretsmanager, then you also need kms:Decrypt permissions for the keys. For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    @Sendable
+    public func batchGetSecretValue(_ input: BatchGetSecretValueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSecretValueResponse {
+        return try await self.client.execute(
+            operation: "BatchGetSecretValue", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage labels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version.  You also need to determine whether to roll back to the previous version of the secret  by moving the staging label AWSCURRENT to the version that has AWSPENDING. To determine  which version has a specific staging label, call ListSecretVersionIds. Then use  UpdateSecretVersionStage to change staging labels.  For more information, see How rotation works. To turn on automatic rotation again, call RotateSecret. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:CancelRotateSecret.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func cancelRotateSecret(_ input: CancelRotateSecretRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelRotateSecretResponse {
@@ -179,7 +192,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. We recommend that you cache your secret values by using client-side caching.  Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for  your applications. To retrieve the previous version of a secret, use VersionStage and specify  AWSPREVIOUS. To revert to the previous version of a secret, call UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:GetSecretValue.  If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key  aws/secretsmanager, then you also need kms:Decrypt permissions for that key. For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. To retrieve the values for a group of secrets, call BatchGetSecretValue. We recommend that you cache your secret values by using client-side caching.  Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for  your applications. To retrieve the previous version of a secret, use VersionStage and specify  AWSPREVIOUS. To revert to the previous version of a secret, call UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:GetSecretValue.  If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key  aws/secretsmanager, then you also need kms:Decrypt permissions for that key. For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func getSecretValue(_ input: GetSecretValueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecretValueResponse {
         return try await self.client.execute(
@@ -205,7 +218,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To get the secret value from SecretString or SecretBinary,  call GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func listSecrets(_ input: ListSecretsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecretsResponse {
         return try await self.client.execute(
@@ -309,7 +322,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the  secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. The following restrictions apply to tags:   Maximum number of tags per secret: 50   Maximum key length: 127 Unicode characters in UTF-8   Maximum value length: 255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or values because Amazon Web Services reserves it for Amazon Web Services use. You can't edit or delete tag names or values with this  prefix. Tags with this prefix do not count against your tags per secret limit.   If you use your tagging schema across multiple services and resources, other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.    If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this operation would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error.  Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:TagResource.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the  secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General  Reference guide.  If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this operation would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error.  Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:TagResource.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -335,7 +348,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use PutSecretValue. To change the rotation configuration of a secret, use RotateSecret instead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See Secrets Manager secrets managed by other Amazon Web Services services. We recommend you avoid calling UpdateSecret at a sustained rate of more than  once every 10 minutes. When you call UpdateSecret to update the secret value, Secrets Manager creates a new version  of the secret. Secrets Manager removes outdated versions when there are more than 100, but it does not  remove versions created less than 24 hours ago. If you update the secret value more  than once every 10 minutes, you create more versions than Secrets Manager removes, and you will reach  the quota for secret versions. If you include SecretString or SecretBinary to create a new secret version, Secrets Manager automatically moves the staging label AWSCURRENT to the new version. Then it attaches the label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you call this operation with a ClientRequestToken that matches an existing version's  VersionId, the operation results in an error. You can't modify an existing  version, you can only create a new version. To remove a version, remove all staging labels from it. See  UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters except SecretBinary or SecretString because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:UpdateSecret.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.  If you use a customer managed key, you must also have kms:GenerateDataKey and  kms:Decrypt permissions on the key. For more information, see  Secret encryption and decryption.
+    /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use PutSecretValue. To change the rotation configuration of a secret, use RotateSecret instead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See Secrets Manager secrets managed by other Amazon Web Services services. We recommend you avoid calling UpdateSecret at a sustained rate of more than  once every 10 minutes. When you call UpdateSecret to update the secret value, Secrets Manager creates a new version  of the secret. Secrets Manager removes outdated versions when there are more than 100, but it does not  remove versions created less than 24 hours ago. If you update the secret value more  than once every 10 minutes, you create more versions than Secrets Manager removes, and you will reach  the quota for secret versions. If you include SecretString or SecretBinary to create a new secret version, Secrets Manager automatically moves the staging label AWSCURRENT to the new version. Then it attaches the label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you call this operation with a ClientRequestToken that matches an existing version's  VersionId, the operation results in an error. You can't modify an existing  version, you can only create a new version. To remove a version, remove all staging labels from it. See  UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters except SecretBinary or SecretString because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:UpdateSecret.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.  If you use a customer managed key, you must also have kms:GenerateDataKey, kms:Encrypt, and  kms:Decrypt permissions on the key. If you change the KMS key and you don't have kms:Encrypt permission to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more information, see  Secret encryption and decryption.
     @Sendable
     public func updateSecret(_ input: UpdateSecretRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecretResponse {
         return try await self.client.execute(
@@ -388,6 +401,25 @@ extension SecretsManager {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecretsManager {
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets.  To retrieve a single secret, call GetSecretValue.  To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each secret you request when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:BatchGetSecretValue, and you must have secretsmanager:GetSecretValue for each secret. If you use filters, you must also have secretsmanager:ListSecrets. If the secrets are encrypted using customer-managed keys instead of the Amazon Web Services managed key  aws/secretsmanager, then you also need kms:Decrypt permissions for the keys. For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func batchGetSecretValuePaginator(
+        _ input: BatchGetSecretValueRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<BatchGetSecretValueRequest, BatchGetSecretValueResponse> {
+        return .init(
+            input: input,
+            command: self.batchGetSecretValue,
+            inputKey: \BatchGetSecretValueRequest.nextToken,
+            outputKey: \BatchGetSecretValueResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions  of a secret. For more information, see  Secrets Manager concepts: Versions. To list the secrets in the account, use ListSecrets. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecretVersionIds.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     /// Return PaginatorSequence for operation.
     ///
@@ -407,7 +439,7 @@ extension SecretsManager {
         )
     }
 
-    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To get the secret value from SecretString or SecretBinary,  call GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -423,6 +455,17 @@ extension SecretsManager {
             inputKey: \ListSecretsRequest.nextToken,
             outputKey: \ListSecretsResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension SecretsManager.BatchGetSecretValueRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SecretsManager.BatchGetSecretValueRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secretIdList: self.secretIdList
         )
     }
 }

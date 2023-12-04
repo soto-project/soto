@@ -26,32 +26,37 @@ import Foundation
 extension Braket {
     // MARK: Enums
 
-    public enum CancellationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CancellationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case offline = "OFFLINE"
         case online = "ONLINE"
         case retired = "RETIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case qpu = "QPU"
         case simulator = "SIMULATOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HybridJobAdditionalAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case queueInfo = "QueueInfo"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -94,7 +99,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobEventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case deprioritizedDueToInactivity = "DEPRIORITIZED_DUE_TO_INACTIVITY"
@@ -109,7 +114,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -119,7 +124,12 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuantumTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum QuantumTaskAdditionalAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case queueInfo = "QueueInfo"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuantumTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -130,7 +140,19 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueueName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jobsQueue = "JOBS_QUEUE"
+        case quantumTasksQueue = "QUANTUM_TASKS_QUEUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueuePriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case normal = "Normal"
+        case priority = "Priority"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         case contains = "CONTAINS"
         case equal = "EQUAL"
@@ -141,7 +163,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         case equal = "EQUAL"
         case gt = "GT"
@@ -235,7 +257,6 @@ extension Braket {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, max: 256)
-            try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,6 +490,27 @@ extension Braket {
         }
     }
 
+    public struct DeviceQueueInfo: AWSDecodableShape {
+        /// The name of the queue.
+        public let queue: QueueName
+        /// Optional. Specifies the priority of the queue. Tasks in a priority queue are processed before the tasks in a normal queue.
+        public let queuePriority: QueuePriority?
+        /// The number of jobs or tasks in the queue for a given device.
+        public let queueSize: String
+
+        public init(queue: QueueName, queuePriority: QueuePriority? = nil, queueSize: String) {
+            self.queue = queue
+            self.queuePriority = queuePriority
+            self.queueSize = queueSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queue = "queue"
+            case queuePriority = "queuePriority"
+            case queueSize = "queueSize"
+        }
+    }
+
     public struct DeviceSummary: AWSDecodableShape {
         /// The ARN of the device.
         public let deviceArn: String
@@ -527,6 +569,8 @@ extension Braket {
         public let deviceCapabilities: String
         /// The name of the device.
         public let deviceName: String
+        /// List of information about tasks and jobs queued on a device.
+        public let deviceQueueInfo: [DeviceQueueInfo]?
         /// The status of the device.
         public let deviceStatus: DeviceStatus
         /// The type of the device.
@@ -534,10 +578,11 @@ extension Braket {
         /// The name of the partner company for the device.
         public let providerName: String
 
-        public init(deviceArn: String, deviceCapabilities: String, deviceName: String, deviceStatus: DeviceStatus, deviceType: DeviceType, providerName: String) {
+        public init(deviceArn: String, deviceCapabilities: String, deviceName: String, deviceQueueInfo: [DeviceQueueInfo]? = nil, deviceStatus: DeviceStatus, deviceType: DeviceType, providerName: String) {
             self.deviceArn = deviceArn
             self.deviceCapabilities = deviceCapabilities
             self.deviceName = deviceName
+            self.deviceQueueInfo = deviceQueueInfo
             self.deviceStatus = deviceStatus
             self.deviceType = deviceType
             self.providerName = providerName
@@ -547,6 +592,7 @@ extension Braket {
             case deviceArn = "deviceArn"
             case deviceCapabilities = "deviceCapabilities"
             case deviceName = "deviceName"
+            case deviceQueueInfo = "deviceQueueInfo"
             case deviceStatus = "deviceStatus"
             case deviceType = "deviceType"
             case providerName = "providerName"
@@ -554,16 +600,20 @@ extension Braket {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
+        /// A list of attributes to return information for.
+        public let additionalAttributeNames: [HybridJobAdditionalAttributeName]?
         /// The ARN of the job to retrieve.
         public let jobArn: String
 
-        public init(jobArn: String) {
+        public init(additionalAttributeNames: [HybridJobAdditionalAttributeName]? = nil, jobArn: String) {
+            self.additionalAttributeNames = additionalAttributeNames
             self.jobArn = jobArn
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.additionalAttributeNames, key: "additionalAttributeNames")
             request.encodePath(self.jobArn, key: "jobArn")
         }
 
@@ -603,6 +653,8 @@ extension Braket {
         public let jobName: String
         /// The path to the S3 location where job artifacts are stored and the encryption key used to store them there.
         public let outputDataConfig: JobOutputDataConfig
+        /// Queue information for the requested job. Only returned if  QueueInfo is specified in the additionalAttributeNames" field in the GetJob API request.
+        public let queueInfo: HybridJobQueueInfo?
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the s3 buckets of a user.
         public let roleArn: String
         /// The date and time that the Amazon Braket job was started.
@@ -614,7 +666,7 @@ extension Braket {
         /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
         public let tags: [String: String]?
 
-        public init(algorithmSpecification: AlgorithmSpecification, billableDuration: Int? = nil, checkpointConfig: JobCheckpointConfig? = nil, createdAt: Date, deviceConfig: DeviceConfig? = nil, endedAt: Date? = nil, events: [JobEventDetails]? = nil, failureReason: String? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobArn: String, jobName: String, outputDataConfig: JobOutputDataConfig, roleArn: String, startedAt: Date? = nil, status: JobPrimaryStatus, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, billableDuration: Int? = nil, checkpointConfig: JobCheckpointConfig? = nil, createdAt: Date, deviceConfig: DeviceConfig? = nil, endedAt: Date? = nil, events: [JobEventDetails]? = nil, failureReason: String? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobArn: String, jobName: String, outputDataConfig: JobOutputDataConfig, queueInfo: HybridJobQueueInfo? = nil, roleArn: String, startedAt: Date? = nil, status: JobPrimaryStatus, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.billableDuration = billableDuration
             self.checkpointConfig = checkpointConfig
@@ -629,6 +681,7 @@ extension Braket {
             self.jobArn = jobArn
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.queueInfo = queueInfo
             self.roleArn = roleArn
             self.startedAt = startedAt
             self.status = status
@@ -651,6 +704,7 @@ extension Braket {
             case jobArn = "jobArn"
             case jobName = "jobName"
             case outputDataConfig = "outputDataConfig"
+            case queueInfo = "queueInfo"
             case roleArn = "roleArn"
             case startedAt = "startedAt"
             case status = "status"
@@ -660,22 +714,25 @@ extension Braket {
     }
 
     public struct GetQuantumTaskRequest: AWSEncodableShape {
+        /// A list of attributes to return information for.
+        public let additionalAttributeNames: [QuantumTaskAdditionalAttributeName]?
         /// the ARN of the task to retrieve.
         public let quantumTaskArn: String
 
-        public init(quantumTaskArn: String) {
+        public init(additionalAttributeNames: [QuantumTaskAdditionalAttributeName]? = nil, quantumTaskArn: String) {
+            self.additionalAttributeNames = additionalAttributeNames
             self.quantumTaskArn = quantumTaskArn
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.additionalAttributeNames, key: "additionalAttributeNames")
             request.encodePath(self.quantumTaskArn, key: "quantumTaskArn")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, max: 256)
-            try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -700,6 +757,8 @@ extension Braket {
         public let outputS3Directory: String
         /// The ARN of the task.
         public let quantumTaskArn: String
+        /// Queue information for the requested quantum task. Only returned if  QueueInfo is specified in the additionalAttributeNames" field in the GetQuantumTask API request.
+        public let queueInfo: QuantumTaskQueueInfo?
         /// The number of shots used in the task.
         public let shots: Int64
         /// The status of the task.
@@ -707,7 +766,7 @@ extension Braket {
         /// The tags that belong to this task.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
@@ -717,6 +776,7 @@ extension Braket {
             self.outputS3Bucket = outputS3Bucket
             self.outputS3Directory = outputS3Directory
             self.quantumTaskArn = quantumTaskArn
+            self.queueInfo = queueInfo
             self.shots = shots
             self.status = status
             self.tags = tags
@@ -732,9 +792,31 @@ extension Braket {
             case outputS3Bucket = "outputS3Bucket"
             case outputS3Directory = "outputS3Directory"
             case quantumTaskArn = "quantumTaskArn"
+            case queueInfo = "queueInfo"
             case shots = "shots"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct HybridJobQueueInfo: AWSDecodableShape {
+        /// Optional. Provides more information about the queue position. For example, if the job is complete and no longer in the queue, the message field contains that information.
+        public let message: String?
+        /// Current position of the job in the jobs queue.
+        public let position: String
+        /// The name of the queue.
+        public let queue: QueueName
+
+        public init(message: String? = nil, position: String, queue: QueueName) {
+            self.message = message
+            self.position = position
+            self.queue = queue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case position = "position"
+            case queue = "queue"
         }
     }
 
@@ -938,6 +1020,31 @@ extension Braket {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct QuantumTaskQueueInfo: AWSDecodableShape {
+        /// Optional. Provides more information about the queue position. For example, if the task is complete and no longer in the queue, the message field contains that information.
+        public let message: String?
+        /// Current position of the task in the quantum tasks queue.
+        public let position: String
+        /// The name of the queue.
+        public let queue: QueueName
+        /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the tasks in a normal queue.
+        public let queuePriority: QueuePriority?
+
+        public init(message: String? = nil, position: String, queue: QueueName, queuePriority: QueuePriority? = nil) {
+            self.message = message
+            self.position = position
+            self.queue = queue
+            self.queuePriority = queuePriority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case position = "position"
+            case queue = "queue"
+            case queuePriority = "queuePriority"
         }
     }
 

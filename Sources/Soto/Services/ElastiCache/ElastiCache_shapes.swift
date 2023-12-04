@@ -26,33 +26,33 @@ import Foundation
 extension ElastiCache {
     // MARK: Enums
 
-    public enum AZMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AZMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crossAz = "cross-az"
         case singleAz = "single-az"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rotating = "ROTATING"
         case setting = "SETTING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case rotate = "ROTATE"
         case set = "SET"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "iam"
         case noPassword = "no-password"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"
@@ -60,45 +60,50 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case immediate = "immediate"
         case requiresReboot = "requires-reboot"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClusterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compatible = "compatible"
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataStorageUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gb = "GB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudWatchLogs = "cloudwatch-logs"
         case kinesisFirehose = "kinesis-firehose"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "iam"
         case noPassword = "no-password-required"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpDiscovery: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpDiscovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case disabling = "disabling"
         case enabling = "enabling"
@@ -107,38 +112,38 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "json"
         case text = "text"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case engineLog = "engine-log"
         case slowLog = "slow-log"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiAZStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MultiAZStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualStack = "dual_stack"
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customer = "customer"
         case system = "system"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "not-applied"
@@ -148,19 +153,19 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutpostMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutpostMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crossOutpost = "cross-outpost"
         case singleOutpost = "single-outpost"
         public var description: String { return self.rawValue }
     }
 
-    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "critical"
         case important = "important"
         case low = "low"
@@ -168,43 +173,45 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case cancelled = "cancelled"
         case expired = "expired"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case securityUpdate = "security-update"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlaMet: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlaMet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case na = "n/a"
         case no = "no"
         case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cacheCluster = "cache-cluster"
         case cacheParameterGroup = "cache-parameter-group"
         case cacheSecurityGroup = "cache-security-group"
         case cacheSubnetGroup = "cache-subnet-group"
         case replicationGroup = "replication-group"
+        case serverlessCache = "serverless-cache"
+        case serverlessCacheSnapshot = "serverless-cache-snapshot"
         case user = "user"
         case userGroup = "user-group"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitEncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preferred = "preferred"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateActionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplicable = "not-applicable"
@@ -222,13 +229,13 @@ extension ElastiCache {
     public struct AddTagsToResourceMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added,  for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster  or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
-        public let resourceName: String
-        /// A list of tags to be added to this resource. A tag is a key-value pair.  A tag key must be accompanied by a tag value, although null is accepted.
-        @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
-        public var tags: [Tag]
+        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
+        public let resourceName: String?
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(resourceName: String, tags: [Tag]) {
+        public init(resourceName: String? = nil, tags: [Tag]? = nil) {
             self.resourceName = resourceName
             self.tags = tags
         }
@@ -240,10 +247,10 @@ extension ElastiCache {
     }
 
     public struct AllowedNodeTypeModificationsMessage: AWSDecodableShape {
-        /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group.  When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
+        /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scaleDownModifications: [String]?
-        /// A string list, each element of which specifies a cache node type which you can use  to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup,  use a value from this list for the CacheNodeType parameter.
+        /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scaleUpModifications: [String]?
 
@@ -299,13 +306,13 @@ extension ElastiCache {
 
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSEncodableShape {
         /// The cache security group that allows network ingress.
-        public let cacheSecurityGroupName: String
+        public let cacheSecurityGroupName: String?
         /// The Amazon EC2 security group to be authorized for ingress to the cache security group.
-        public let ec2SecurityGroupName: String
-        /// The Amazon account number of the Amazon EC2 security group owner.  Note that this is not the same thing as an Amazon access key ID -  you must provide a valid Amazon account number for this parameter.
-        public let ec2SecurityGroupOwnerId: String
+        public let ec2SecurityGroupName: String?
+        /// The Amazon account number of the Amazon EC2 security group owner. Note that this is not the same thing as an Amazon access key ID - you must provide a valid Amazon account number for this parameter.
+        public let ec2SecurityGroupOwnerId: String?
 
-        public init(cacheSecurityGroupName: String, ec2SecurityGroupName: String, ec2SecurityGroupOwnerId: String) {
+        public init(cacheSecurityGroupName: String? = nil, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -351,9 +358,9 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
-        public let serviceUpdateName: String
+        public let serviceUpdateName: String?
 
-        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String) {
+        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil) {
             self.cacheClusterIds = cacheClusterIds
             self.replicationGroupIds = replicationGroupIds
             self.serviceUpdateName = serviceUpdateName
@@ -379,9 +386,9 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
-        public let serviceUpdateName: String
+        public let serviceUpdateName: String?
 
-        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String) {
+        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil) {
             self.cacheClusterIds = cacheClusterIds
             self.replicationGroupIds = replicationGroupIds
             self.serviceUpdateName = serviceUpdateName
@@ -416,16 +423,14 @@ extension ElastiCache {
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the cluster was created.
         public let cacheClusterCreateTime: Date?
-        /// The user-supplied identifier of the cluster.  This identifier is a unique key that identifies a cluster.
+        /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
         public let cacheClusterId: String?
-        /// The current state of this cluster, one of the following values:  available,  creating,  deleted,  deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or  snapshotting.
+        /// The current state of this cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cluster nodes, restore-failed, or snapshotting.
         public let cacheClusterStatus: String?
         /// A list of cache nodes that are members of the cluster.
         @OptionalCustomCoding<ArrayCoder<_CacheNodesEncoding, CacheNode>>
         public var cacheNodes: [CacheNode]?
-        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -433,20 +438,27 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
         /// Status of the cache parameter group.
         public let cacheParameterGroup: CacheParameterGroupStatus?
@@ -459,38 +471,38 @@ extension ElastiCache {
         public let clientDownloadLandingPage: String?
         /// Represents a Memcached cluster endpoint which can be used by an application to connect to any node in the cluster. The configuration endpoint will always have .cfg in it. Example: mem-3.9dvc4r.cfg.usw2.cache.amazonaws.com:11211
         public let configurationEndpoint: Endpoint?
-        /// The name of the cache engine (memcached or  redis) to be used for this cluster.
+        /// The name of the cache engine (memcached or redis) to be used for this cluster.
         public let engine: String?
         /// The version of the cache engine that is used in this cluster.
         public let engineVersion: String?
-        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Returns the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [LogDeliveryConfiguration]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let networkType: NetworkType?
-        /// Describes a notification topic and its status.  Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
+        /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
         public let notificationConfiguration: NotificationConfiguration?
-        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached,  this value must be between 1 and 40.
+        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
         public let pendingModifiedValues: PendingModifiedValues?
-        /// The name of the Availability Zone in which the cluster is located or "Multiple"  if the cache nodes are located in different Availability Zones.
+        /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
         public let preferredAvailabilityZone: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
         /// The outpost ARN in which the cache cluster is created.
         public let preferredOutpostArn: String?
-        /// The replication group to which this cluster belongs.  If this field is empty, the cluster is not associated with any replication group.
+        /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public let replicationGroupId: String?
         /// A boolean value indicating whether log delivery is enabled for the replication group.
         public let replicationGroupLogDeliveryEnabled: Bool?
         /// A list of VPC Security Groups associated with the cluster.
         @OptionalCustomCoding<StandardArrayCoder<SecurityGroupMembership>>
         public var securityGroups: [SecurityGroupMembership]?
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5,  a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a  daily snapshot of your cluster. Example: 05:00-09:00
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00
         public let snapshotWindow: String?
         /// A flag that enables in-transit encryption when set to true.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
@@ -595,7 +607,7 @@ extension ElastiCache {
         public let cacheEngineDescription: String?
         /// The description of the cache engine version.
         public let cacheEngineVersionDescription: String?
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x | redis7
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public let cacheParameterGroupFamily: String?
         /// The name of the cache engine.
         public let engine: String?
@@ -622,7 +634,7 @@ extension ElastiCache {
     public struct CacheEngineVersionMessage: AWSDecodableShape {
         public struct _CacheEngineVersionsEncoding: ArrayCoderProperties { public static let member = "CacheEngineVersion" }
 
-        /// A list of cache engine version details.  Each element in the list contains detailed information about one cache engine version.
+        /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
         @OptionalCustomCoding<ArrayCoder<_CacheEngineVersionsEncoding, CacheEngineVersion>>
         public var cacheEngineVersions: [CacheEngineVersion]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -654,7 +666,7 @@ extension ElastiCache {
         public let endpoint: Endpoint?
         /// The status of the parameter group applied to this cache node.
         public let parameterGroupStatus: String?
-        /// The ID of the primary node to which this read replica node is synchronized.  If this field is empty, this node is not associated with a primary cluster.
+        /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cluster.
         public let sourceCacheNodeId: String?
 
         public init(cacheNodeCreateTime: Date? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, customerAvailabilityZone: String? = nil, customerOutpostArn: String? = nil, endpoint: Endpoint? = nil, parameterGroupStatus: String? = nil, sourceCacheNodeId: String? = nil) {
@@ -688,7 +700,7 @@ extension ElastiCache {
         /// A list of cache node types and their corresponding values for this parameter.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificValuesEncoding, CacheNodeTypeSpecificValue>>
         public var cacheNodeTypeSpecificValues: [CacheNodeTypeSpecificValue]?
-        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied.  You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
+        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
         public let changeType: ChangeType?
         /// The valid data type for the parameter.
         public let dataType: String?
@@ -789,7 +801,7 @@ extension ElastiCache {
     public struct CacheParameterGroup: AWSDecodableShape {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public let arn: String?
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |  redis7
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public let cacheParameterGroupFamily: String?
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -819,7 +831,7 @@ extension ElastiCache {
         public struct _CacheNodeTypeSpecificParametersEncoding: ArrayCoderProperties { public static let member = "CacheNodeTypeSpecificParameter" }
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
-        /// A list of parameters specific to a particular cache node type.  Each element in the list contains detailed information about one parameter.
+        /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -857,7 +869,7 @@ extension ElastiCache {
     public struct CacheParameterGroupStatus: AWSDecodableShape {
         public struct _CacheNodeIdsToRebootEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
 
-        /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied.  A node ID is a numeric identifier (0001, 0002, etc.).
+        /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
         @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
         public var cacheNodeIdsToReboot: [String]?
         /// The name of the cache parameter group.
@@ -881,7 +893,7 @@ extension ElastiCache {
     public struct CacheParameterGroupsMessage: AWSDecodableShape {
         public struct _CacheParameterGroupsEncoding: ArrayCoderProperties { public static let member = "CacheParameterGroup" }
 
-        /// A list of cache parameter groups. Each element in the list contains detailed information  about one cache parameter group.
+        /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
         @OptionalCustomCoding<ArrayCoder<_CacheParameterGroupsEncoding, CacheParameterGroup>>
         public var cacheParameterGroups: [CacheParameterGroup]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -979,7 +991,7 @@ extension ElastiCache {
         /// A list of subnets associated with the cache subnet group.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
@@ -1024,6 +1036,22 @@ extension ElastiCache {
         }
     }
 
+    public struct CacheUsageLimits: AWSEncodableShape & AWSDecodableShape {
+        ///   The maximum data storage limit in the cache, expressed in Gigabytes.
+        public let dataStorage: DataStorage?
+        public let ecpuPerSecond: ECPUPerSecond?
+
+        public init(dataStorage: DataStorage? = nil, ecpuPerSecond: ECPUPerSecond? = nil) {
+            self.dataStorage = dataStorage
+            self.ecpuPerSecond = ecpuPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataStorage = "DataStorage"
+            case ecpuPerSecond = "ECPUPerSecond"
+        }
+    }
+
     public struct CloudWatchLogsDestinationDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name of the CloudWatch Logs log group.
         public let logGroup: String?
@@ -1041,9 +1069,9 @@ extension ElastiCache {
         /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
         public let force: Bool?
         /// The ID of the replication group to which data is being migrated.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
 
-        public init(force: Bool? = nil, replicationGroupId: String) {
+        public init(force: Bool? = nil, replicationGroupId: String? = nil) {
             self.force = force
             self.replicationGroupId = replicationGroupId
         }
@@ -1070,18 +1098,18 @@ extension ElastiCache {
         public struct _PreferredAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "PreferredAvailabilityZone" }
         public struct _PreferredOutpostArnsEncoding: ArrayCoderProperties { public static let member = "PreferredOutpostArn" }
 
-        /// The number of replicas you want  in this node group at the end of this operation.  The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ: 1   If Multi-AZ: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
-        public let newReplicaCount: Int
-        /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled)  replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s  node group's (shard's) id, see Finding a Shard's Id.
-        public let nodeGroupId: String
-        /// A list of PreferredAvailabilityZone strings that specify which availability zones the  replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must  equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of  ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for   each of the replicas.
+        /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ: 1   If Multi-AZ: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
+        public let newReplicaCount: Int?
+        /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
+        public let nodeGroupId: String?
+        /// A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for each of the replicas.
         @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
         /// The outpost ARNs in which the cache cluster is created.
         @OptionalCustomCoding<ArrayCoder<_PreferredOutpostArnsEncoding, String>>
         public var preferredOutpostArns: [String]?
 
-        public init(newReplicaCount: Int = 0, nodeGroupId: String, preferredAvailabilityZones: [String]? = nil, preferredOutpostArns: [String]? = nil) {
+        public init(newReplicaCount: Int? = nil, nodeGroupId: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredOutpostArns: [String]? = nil) {
             self.newReplicaCount = newReplicaCount
             self.nodeGroupId = nodeGroupId
             self.preferredAvailabilityZones = preferredAvailabilityZones
@@ -1102,22 +1130,63 @@ extension ElastiCache {
         }
     }
 
+    public struct CopyServerlessCacheSnapshotRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The identifier of the KMS key used to encrypt the target snapshot. Available for Redis only.
+        public let kmsKeyId: String?
+        /// The identifier of the existing serverless cache’s snapshot to be copied. Available for Redis only.
+        public let sourceServerlessCacheSnapshotName: String?
+        /// A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Redis only. Default: NULL
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The identifier for the snapshot to be created. Available for Redis only.
+        public let targetServerlessCacheSnapshotName: String?
+
+        public init(kmsKeyId: String? = nil, sourceServerlessCacheSnapshotName: String? = nil, tags: [Tag]? = nil, targetServerlessCacheSnapshotName: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.sourceServerlessCacheSnapshotName = sourceServerlessCacheSnapshotName
+            self.tags = tags
+            self.targetServerlessCacheSnapshotName = targetServerlessCacheSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case sourceServerlessCacheSnapshotName = "SourceServerlessCacheSnapshotName"
+            case tags = "Tags"
+            case targetServerlessCacheSnapshotName = "TargetServerlessCacheSnapshotName"
+        }
+    }
+
+    public struct CopyServerlessCacheSnapshotResponse: AWSDecodableShape {
+        /// The response for the attempt to copy the serverless cache snapshot. Available for Redis only.
+        public let serverlessCacheSnapshot: ServerlessCacheSnapshot?
+
+        public init(serverlessCacheSnapshot: ServerlessCacheSnapshot? = nil) {
+            self.serverlessCacheSnapshot = serverlessCacheSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+        }
+    }
+
     public struct CopySnapshotMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The ID of the KMS key used to encrypt the target snapshot.
         public let kmsKeyId: String?
         /// The name of an existing snapshot from which to make a copy.
-        public let sourceSnapshotName: String
+        public let sourceSnapshotName: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot,  be sure Amazon ElastiCache has the needed permissions to this S3 bucket.  For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
+        /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
         public let targetBucket: String?
         /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
-        public let targetSnapshotName: String
+        public let targetSnapshotName: String?
 
-        public init(kmsKeyId: String? = nil, sourceSnapshotName: String, tags: [Tag]? = nil, targetBucket: String? = nil, targetSnapshotName: String) {
+        public init(kmsKeyId: String? = nil, sourceSnapshotName: String? = nil, tags: [Tag]? = nil, targetBucket: String? = nil, targetSnapshotName: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.sourceSnapshotName = sourceSnapshotName
             self.tags = tags
@@ -1155,17 +1224,15 @@ extension ElastiCache {
         public struct _SnapshotArnsEncoding: ArrayCoderProperties { public static let member = "SnapshotArn" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        ///  Reserved parameter.   The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
+        ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
-        /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or  created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified,  ElastiCache assumes single-az mode.
+        /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
         public let azMode: AZMode?
         /// The node group (shard) identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 50 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
-        public let cacheClusterId: String
-        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        public let cacheClusterId: String?
+        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -1173,50 +1240,57 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
-        /// The name of the parameter group to associate with this cluster.  If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
+        /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
         public let cacheParameterGroupName: String?
         /// A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
-        /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC,  you need to create a subnet group before you start creating a cluster.  For more information, see Subnets and Subnet Groups.
+        /// The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
         public let cacheSubnetGroupName: String?
         /// The name of the cache engine to be used for this cluster. Valid values for this parameter are: memcached | redis
         public let engine: String?
-        /// The version number of the cache engine to be used for this cluster.  To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version,  you must delete the existing cluster or replication group and create it anew with the earlier engine version.
+        /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let networkType: NetworkType?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic  to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
-        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1.  For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster,  please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
+        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
         public let numCacheNodes: Int?
         /// Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts.
         public let outpostMode: OutpostMode?
-        /// The port number on which each of the cache nodes  accepts connections.
+        /// The port number on which each of the cache nodes accepts connections.
         public let port: Int?
-        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this cluster are placed in the preferred Availability Zone.  If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
+        /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
         public let preferredAvailabilityZone: String?
-        /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or  repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
+        /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
         @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
@@ -1231,14 +1305,14 @@ extension ElastiCache {
         /// One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
-        /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies  a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard).  The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
+        /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
         @OptionalCustomCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
         public var snapshotArns: [String]?
         /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotName: String?
-        /// The number of days for which ElastiCache retains automatic snapshots before deleting them.  For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
         public let snapshotRetentionLimit: Int?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache  automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotWindow: String?
         /// A list of tags to be added to this resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1246,7 +1320,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true.
         public let transitEncryptionEnabled: Bool?
 
-        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, networkType: NetworkType? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, networkType: NetworkType? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.authToken = authToken
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.azMode = azMode
@@ -1328,17 +1402,17 @@ extension ElastiCache {
     public struct CreateCacheParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x | redis7
-        public let cacheParameterGroupFamily: String
+        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
+        public let cacheParameterGroupFamily: String?
         /// A user-specified name for the cache parameter group.
-        public let cacheParameterGroupName: String
+        public let cacheParameterGroupName: String?
         /// A user-specified description for the cache parameter group.
-        public let description: String
+        public let description: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(cacheParameterGroupFamily: String, cacheParameterGroupName: String, description: String, tags: [Tag]? = nil) {
+        public init(cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.cacheParameterGroupName = cacheParameterGroupName
             self.description = description
@@ -1369,14 +1443,14 @@ extension ElastiCache {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup
-        public let cacheSecurityGroupName: String
+        public let cacheSecurityGroupName: String?
         /// A description for the cache security group.
-        public let description: String
+        public let description: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(cacheSecurityGroupName: String, description: String, tags: [Tag]? = nil) {
+        public init(cacheSecurityGroupName: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.description = description
             self.tags = tags
@@ -1406,17 +1480,17 @@ extension ElastiCache {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A description for the cache subnet group.
-        public let cacheSubnetGroupDescription: String
+        public let cacheSubnetGroupDescription: String?
         /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
-        public let cacheSubnetGroupName: String
+        public let cacheSubnetGroupName: String?
         /// A list of VPC subnet IDs for the cache subnet group.
-        @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
-        public var subnetIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(cacheSubnetGroupDescription: String, cacheSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
+        public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnetIds = subnetIds
@@ -1446,12 +1520,12 @@ extension ElastiCache {
     public struct CreateGlobalReplicationGroupMessage: AWSEncodableShape {
         /// Provides details of the Global datastore
         public let globalReplicationGroupDescription: String?
-        /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix  to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.   For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
-        public let globalReplicationGroupIdSuffix: String
+        /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
+        public let globalReplicationGroupIdSuffix: String?
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
-        public let primaryReplicationGroupId: String
+        public let primaryReplicationGroupId: String?
 
-        public init(globalReplicationGroupDescription: String? = nil, globalReplicationGroupIdSuffix: String, primaryReplicationGroupId: String) {
+        public init(globalReplicationGroupDescription: String? = nil, globalReplicationGroupIdSuffix: String? = nil, primaryReplicationGroupId: String? = nil) {
             self.globalReplicationGroupDescription = globalReplicationGroupDescription
             self.globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffix
             self.primaryReplicationGroupId = primaryReplicationGroupId
@@ -1485,17 +1559,15 @@ extension ElastiCache {
         public struct _SnapshotArnsEncoding: ArrayCoderProperties { public static let member = "SnapshotArn" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created.  To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to  true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let atRestEncryptionEnabled: Bool?
-        ///  Reserved parameter.   The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is  true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true,  an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
+        ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
         /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false
         public let automaticFailoverEnabled: Bool?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
-        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -1503,39 +1575,46 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
-        /// The name of the parameter group to associate with this replication group.  If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group,  we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
+        /// The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
         public let cacheParameterGroupName: String?
         /// A list of cache security group names to associate with this replication group.
         @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
-        /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC,  you need to create a subnet group before you start creating a cluster.  For more information, see Subnets and Subnet Groups.
+        /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
         public let cacheSubnetGroupName: String?
-        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible.  Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTieringEnabled: Bool?
         /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
         public let engine: String?
-        /// The version number of the cache engine to be used for the clusters in this replication group.  To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide,  but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version,  you must delete the existing cluster or replication group and  create it anew with the earlier engine version.
+        /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
         /// The name of the Global datastore
         public let globalReplicationGroupId: String?
-        /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
@@ -1544,20 +1623,20 @@ extension ElastiCache {
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
         public let multiAZEnabled: Bool?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let networkType: NetworkType?
-        /// A list of node group (shard) configuration options.  Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and  Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to  individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a  Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter  because you must specify the slots for each node group.
+        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
         @OptionalCustomCoding<ArrayCoder<_NodeGroupConfigurationEncoding, NodeGroupConfiguration>>
         public var nodeGroupConfiguration: [NodeGroupConfiguration]?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS)  topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
-        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard).   You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
+        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
         public let numCacheClusters: Int?
-        /// An optional parameter that specifies the number of node groups (shards) for this Redis (cluster mode enabled) replication group.  For Redis (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
+        /// An optional parameter that specifies the number of node groups (shards) for this Redis (cluster mode enabled) replication group. For Redis (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
         public let numNodeGroups: Int?
         /// The port number on which each member of the replication group accepts connections.
         public let port: Int?
-        /// A list of EC2 Availability Zones in which the replication group's clusters are created.  The order of the Availability Zones in the list is the order in which clusters are allocated.  The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard).   You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended),  you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
+        /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
         @OptionalCustomCoding<ArrayCoder<_PreferredCacheClusterAZsEncoding, String>>
         public var preferredCacheClusterAZs: [String]?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
@@ -1567,33 +1646,35 @@ extension ElastiCache {
         /// An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.
         public let replicasPerNodeGroup: Int?
         /// A user-created description for the replication group.
-        public let replicationGroupDescription: String
+        public let replicationGroupDescription: String?
         /// The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 40 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
         /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
-        /// A list of Amazon Resource Names (ARN) that uniquely identify  the Redis RDB snapshot files stored in Amazon S3.  The snapshot files are used to populate the new replication group.  The Amazon S3 object name in the ARN cannot contain any commas.  The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless  of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
+        /// The name of the snapshot used to create a replication group. Available for Redis only.
+        public let serverlessCacheSnapshotName: String?
+        /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
         @OptionalCustomCoding<ArrayCoder<_SnapshotArnsEncoding, String>>
         public var snapshotArns: [String]?
         /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
         public let snapshotName: String?
-        /// The number of days for which ElastiCache retains automatic snapshots before deleting them.  For example, if you set SnapshotRetentionLimit to 5,  a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
         public let snapshotRetentionLimit: Int?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache  automatically chooses an appropriate time range.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
-        /// A list of tags to be added to this resource.  Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following:  Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication groups will be replicated to all nodes.
+        /// A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication groups will be replicated to all nodes.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for  CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true,  an AuthToken, and a CacheSubnetGroup.
+        /// A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
         public let transitEncryptionEnabled: Bool?
-        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred,  after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
         public let transitEncryptionMode: TransitEncryptionMode?
         /// The user group to associate with the replication group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIds: [String]?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, clusterMode: ClusterMode? = nil, dataTieringEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, networkType: NetworkType? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, clusterMode: ClusterMode? = nil, dataTieringEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, networkType: NetworkType? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, serverlessCacheSnapshotName: String? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1624,6 +1705,7 @@ extension ElastiCache {
             self.replicationGroupDescription = replicationGroupDescription
             self.replicationGroupId = replicationGroupId
             self.securityGroupIds = securityGroupIds
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
             self.snapshotArns = snapshotArns
             self.snapshotName = snapshotName
             self.snapshotRetentionLimit = snapshotRetentionLimit
@@ -1676,6 +1758,7 @@ extension ElastiCache {
             case replicationGroupDescription = "ReplicationGroupDescription"
             case replicationGroupId = "ReplicationGroupId"
             case securityGroupIds = "SecurityGroupIds"
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
             case snapshotArns = "SnapshotArns"
             case snapshotName = "SnapshotName"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
@@ -1699,6 +1782,130 @@ extension ElastiCache {
         }
     }
 
+    public struct CreateServerlessCacheRequest: AWSEncodableShape {
+        public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
+        public struct _SnapshotArnsToRestoreEncoding: ArrayCoderProperties { public static let member = "SnapshotArn" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetId" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
+        public let cacheUsageLimits: CacheUsageLimits?
+        /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Redis only.
+        public let dailySnapshotTime: String?
+        /// User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
+        public let description: String?
+        /// The name of the cache engine to be used for creating the serverless cache.
+        public let engine: String?
+        /// ARN of the customer managed key for encrypting the data at rest. If no KMS key is provided, a default service key is used.
+        public let kmsKeyId: String?
+        /// The version of the cache engine that will be used to create the serverless cache.
+        public let majorEngineVersion: String?
+        /// A list of the one or more VPC security groups to be associated with the serverless cache.  The security group will authorize traffic access for the VPC end-point (private-link).  If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC  end-point.
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        public var securityGroupIds: [String]?
+        /// User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
+        public let serverlessCacheName: String?
+        /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Redis only.
+        @OptionalCustomCoding<ArrayCoder<_SnapshotArnsToRestoreEncoding, String>>
+        public var snapshotArnsToRestore: [String]?
+        /// The number of snapshots that will be retained for the serverless cache that is being created.  As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Redis only.
+        public let snapshotRetentionLimit: Int?
+        /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed.  All the subnetIds must belong to the same VPC.
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
+        /// The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The identifier of the UserGroup to be associated with the serverless cache.  Available for Redis only. Default is NULL.
+        public let userGroupId: String?
+
+        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
+            self.cacheUsageLimits = cacheUsageLimits
+            self.dailySnapshotTime = dailySnapshotTime
+            self.description = description
+            self.engine = engine
+            self.kmsKeyId = kmsKeyId
+            self.majorEngineVersion = majorEngineVersion
+            self.securityGroupIds = securityGroupIds
+            self.serverlessCacheName = serverlessCacheName
+            self.snapshotArnsToRestore = snapshotArnsToRestore
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.userGroupId = userGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheUsageLimits = "CacheUsageLimits"
+            case dailySnapshotTime = "DailySnapshotTime"
+            case description = "Description"
+            case engine = "Engine"
+            case kmsKeyId = "KmsKeyId"
+            case majorEngineVersion = "MajorEngineVersion"
+            case securityGroupIds = "SecurityGroupIds"
+            case serverlessCacheName = "ServerlessCacheName"
+            case snapshotArnsToRestore = "SnapshotArnsToRestore"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case userGroupId = "UserGroupId"
+        }
+    }
+
+    public struct CreateServerlessCacheResponse: AWSDecodableShape {
+        /// The response for the attempt to create the serverless cache.
+        public let serverlessCache: ServerlessCache?
+
+        public init(serverlessCache: ServerlessCache? = nil) {
+            self.serverlessCache = serverlessCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCache = "ServerlessCache"
+        }
+    }
+
+    public struct CreateServerlessCacheSnapshotRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The ID of the KMS key used to encrypt the snapshot.  Available for Redis only. Default: NULL
+        public let kmsKeyId: String?
+        /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Redis only.
+        public let serverlessCacheName: String?
+        /// The name for the snapshot being created. Must be unique for the customer account. Available for Redis only. Must be between 1 and 255 characters.
+        public let serverlessCacheSnapshotName: String?
+        /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Redis only.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(kmsKeyId: String? = nil, serverlessCacheName: String? = nil, serverlessCacheSnapshotName: String? = nil, tags: [Tag]? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.serverlessCacheName = serverlessCacheName
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case serverlessCacheName = "ServerlessCacheName"
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateServerlessCacheSnapshotResponse: AWSDecodableShape {
+        /// The state of a serverless cache snapshot at a specific point in time, to the millisecond. Available for Redis only.
+        public let serverlessCacheSnapshot: ServerlessCacheSnapshot?
+
+        public init(serverlessCacheSnapshot: ServerlessCacheSnapshot? = nil) {
+            self.serverlessCacheSnapshot = serverlessCacheSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+        }
+    }
+
     public struct CreateSnapshotMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
@@ -1709,12 +1916,12 @@ extension ElastiCache {
         /// The identifier of an existing replication group. The snapshot is created from this replication group.
         public let replicationGroupId: String?
         /// A name for the snapshot being created.
-        public let snapshotName: String
+        public let snapshotName: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(cacheClusterId: String? = nil, kmsKeyId: String? = nil, replicationGroupId: String? = nil, snapshotName: String, tags: [Tag]? = nil) {
+        public init(cacheClusterId: String? = nil, kmsKeyId: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, tags: [Tag]? = nil) {
             self.cacheClusterId = cacheClusterId
             self.kmsKeyId = kmsKeyId
             self.replicationGroupId = replicationGroupId
@@ -1747,17 +1954,17 @@ extension ElastiCache {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The current supported value is Redis.
-        public let engine: String
-        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        public let engine: String?
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Redis only.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The ID of the user group.
-        public let userGroupId: String
+        public let userGroupId: String?
         /// The list of user IDs that belong to the user group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIds: [String]?
 
-        public init(engine: String, tags: [Tag]? = nil, userGroupId: String, userIds: [String]? = nil) {
+        public init(engine: String? = nil, tags: [Tag]? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
             self.engine = engine
             self.tags = tags
             self.userGroupId = userGroupId
@@ -1785,11 +1992,11 @@ extension ElastiCache {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Access permissions string used for this user.
-        public let accessString: String
+        public let accessString: String?
         /// Specifies how to authenticate the user.
         public let authenticationMode: AuthenticationMode?
         /// The current supported value is Redis.
-        public let engine: String
+        public let engine: String?
         /// Indicates a password is not required for this user.
         public let noPasswordRequired: Bool?
         /// Passwords used for this user. You can create up to two passwords for each user.
@@ -1799,11 +2006,11 @@ extension ElastiCache {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The ID of the user.
-        public let userId: String
+        public let userId: String?
         /// The username of the user.
-        public let userName: String
+        public let userName: String?
 
-        public init(accessString: String, authenticationMode: AuthenticationMode? = nil, engine: String, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, tags: [Tag]? = nil, userId: String, userName: String) {
+        public init(accessString: String? = nil, authenticationMode: AuthenticationMode? = nil, engine: String? = nil, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, tags: [Tag]? = nil, userId: String? = nil, userName: String? = nil) {
             self.accessString = accessString
             self.authenticationMode = authenticationMode
             self.engine = engine
@@ -1853,25 +2060,41 @@ extension ElastiCache {
         }
     }
 
+    public struct DataStorage: AWSEncodableShape & AWSDecodableShape {
+        /// The upper limit for data storage the cache is set to use.
+        public let maximum: Int?
+        /// The unit that the storage is measured in, in GB.
+        public let unit: DataStorageUnit?
+
+        public init(maximum: Int? = nil, unit: DataStorageUnit? = nil) {
+            self.maximum = maximum
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
+            case unit = "Unit"
+        }
+    }
+
     public struct DecreaseNodeGroupsInGlobalReplicationGroupMessage: AWSEncodableShape {
         public struct _GlobalNodeGroupsToRemoveEncoding: ArrayCoderProperties { public static let member = "GlobalNodeGroupId" }
         public struct _GlobalNodeGroupsToRetainEncoding: ArrayCoderProperties { public static let member = "GlobalNodeGroupId" }
 
         /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
-        public let applyImmediately: Bool
-        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.  ElastiCache for Redis will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
+        public let applyImmediately: Bool?
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
         @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRemoveEncoding, String>>
         public var globalNodeGroupsToRemove: [String]?
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache for Redis will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster.
-        ///
         @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRetainEncoding, String>>
         public var globalNodeGroupsToRetain: [String]?
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
         /// The number of node groups (shards) that results from the modification of the shard configuration
-        public let nodeGroupCount: Int
+        public let nodeGroupCount: Int?
 
-        public init(applyImmediately: Bool = false, globalNodeGroupsToRemove: [String]? = nil, globalNodeGroupsToRetain: [String]? = nil, globalReplicationGroupId: String, nodeGroupCount: Int = 0) {
+        public init(applyImmediately: Bool? = nil, globalNodeGroupsToRemove: [String]? = nil, globalNodeGroupsToRetain: [String]? = nil, globalReplicationGroupId: String? = nil, nodeGroupCount: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.globalNodeGroupsToRemove = globalNodeGroupsToRemove
             self.globalNodeGroupsToRetain = globalNodeGroupsToRetain
@@ -1903,10 +2126,9 @@ extension ElastiCache {
     public struct DecreaseReplicaCountMessage: AWSEncodableShape {
         public struct _ReplicaConfigurationEncoding: ArrayCoderProperties { public static let member = "ConfigureShard" }
 
-        /// If True, the number of replica nodes is decreased immediately.
-        ///  ApplyImmediately=False is not currently supported.
-        public let applyImmediately: Bool
-        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of  replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
+        /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
+        public let applyImmediately: Bool?
+        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
         public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
@@ -1915,9 +2137,9 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicasToRemove: [String]?
         /// The id of the replication group from which you want to remove replica nodes.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
 
-        public init(applyImmediately: Bool = false, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicasToRemove: [String]? = nil, replicationGroupId: String) {
+        public init(applyImmediately: Bool? = nil, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicasToRemove: [String]? = nil, replicationGroupId: String? = nil) {
             self.applyImmediately = applyImmediately
             self.newReplicaCount = newReplicaCount
             self.replicaConfiguration = replicaConfiguration
@@ -1954,11 +2176,11 @@ extension ElastiCache {
 
     public struct DeleteCacheClusterMessage: AWSEncodableShape {
         /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
-        public let cacheClusterId: String
-        /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot.  ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
+        public let cacheClusterId: String?
+        /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
         public let finalSnapshotIdentifier: String?
 
-        public init(cacheClusterId: String, finalSnapshotIdentifier: String? = nil) {
+        public init(cacheClusterId: String? = nil, finalSnapshotIdentifier: String? = nil) {
             self.cacheClusterId = cacheClusterId
             self.finalSnapshotIdentifier = finalSnapshotIdentifier
         }
@@ -1983,9 +2205,9 @@ extension ElastiCache {
 
     public struct DeleteCacheParameterGroupMessage: AWSEncodableShape {
         /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any clusters.
-        public let cacheParameterGroupName: String
+        public let cacheParameterGroupName: String?
 
-        public init(cacheParameterGroupName: String) {
+        public init(cacheParameterGroupName: String? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
@@ -1996,9 +2218,9 @@ extension ElastiCache {
 
     public struct DeleteCacheSecurityGroupMessage: AWSEncodableShape {
         /// The name of the cache security group to delete.  You cannot delete the default security group.
-        public let cacheSecurityGroupName: String
+        public let cacheSecurityGroupName: String?
 
-        public init(cacheSecurityGroupName: String) {
+        public init(cacheSecurityGroupName: String? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
@@ -2009,9 +2231,9 @@ extension ElastiCache {
 
     public struct DeleteCacheSubnetGroupMessage: AWSEncodableShape {
         /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
-        public let cacheSubnetGroupName: String
+        public let cacheSubnetGroupName: String?
 
-        public init(cacheSubnetGroupName: String) {
+        public init(cacheSubnetGroupName: String? = nil) {
             self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
@@ -2022,11 +2244,11 @@ extension ElastiCache {
 
     public struct DeleteGlobalReplicationGroupMessage: AWSEncodableShape {
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
         /// The primary replication group is retained as a standalone replication group.
-        public let retainPrimaryReplicationGroup: Bool
+        public let retainPrimaryReplicationGroup: Bool?
 
-        public init(globalReplicationGroupId: String, retainPrimaryReplicationGroup: Bool = false) {
+        public init(globalReplicationGroupId: String? = nil, retainPrimaryReplicationGroup: Bool? = nil) {
             self.globalReplicationGroupId = globalReplicationGroupId
             self.retainPrimaryReplicationGroup = retainPrimaryReplicationGroup
         }
@@ -2050,14 +2272,14 @@ extension ElastiCache {
     }
 
     public struct DeleteReplicationGroupMessage: AWSEncodableShape {
-        /// The name of a final node group (shard) snapshot.  ElastiCache creates the snapshot from the primary node in the cluster,  rather than one of the replicas; this is to ensure that it captures the freshest data.  After the final snapshot is taken, the replication group is immediately deleted.
+        /// The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
         public let finalSnapshotIdentifier: String?
         /// The identifier for the cluster to be deleted. This parameter is not case sensitive.
-        public let replicationGroupId: String
-        /// If set to true, all of the read replicas are deleted,  but the primary node is retained.
+        public let replicationGroupId: String?
+        /// If set to true, all of the read replicas are deleted, but the primary node is retained.
         public let retainPrimaryCluster: Bool?
 
-        public init(finalSnapshotIdentifier: String? = nil, replicationGroupId: String, retainPrimaryCluster: Bool? = nil) {
+        public init(finalSnapshotIdentifier: String? = nil, replicationGroupId: String? = nil, retainPrimaryCluster: Bool? = nil) {
             self.finalSnapshotIdentifier = finalSnapshotIdentifier
             self.replicationGroupId = replicationGroupId
             self.retainPrimaryCluster = retainPrimaryCluster
@@ -2082,11 +2304,67 @@ extension ElastiCache {
         }
     }
 
+    public struct DeleteServerlessCacheRequest: AWSEncodableShape {
+        /// Name of the final snapshot to be taken before the serverless cache is deleted.  Available for Redis only. Default: NULL, i.e. a final snapshot is not taken.
+        public let finalSnapshotName: String?
+        /// The identifier of the serverless cache to be deleted.
+        public let serverlessCacheName: String?
+
+        public init(finalSnapshotName: String? = nil, serverlessCacheName: String? = nil) {
+            self.finalSnapshotName = finalSnapshotName
+            self.serverlessCacheName = serverlessCacheName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalSnapshotName = "FinalSnapshotName"
+            case serverlessCacheName = "ServerlessCacheName"
+        }
+    }
+
+    public struct DeleteServerlessCacheResponse: AWSDecodableShape {
+        /// Provides the details of the specified serverless cache that is about to be deleted.
+        public let serverlessCache: ServerlessCache?
+
+        public init(serverlessCache: ServerlessCache? = nil) {
+            self.serverlessCache = serverlessCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCache = "ServerlessCache"
+        }
+    }
+
+    public struct DeleteServerlessCacheSnapshotRequest: AWSEncodableShape {
+        /// Idenfitier of the snapshot to be deleted. Available for Redis only.
+        public let serverlessCacheSnapshotName: String?
+
+        public init(serverlessCacheSnapshotName: String? = nil) {
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+        }
+    }
+
+    public struct DeleteServerlessCacheSnapshotResponse: AWSDecodableShape {
+        /// The snapshot to be deleted. Available for Redis only.
+        public let serverlessCacheSnapshot: ServerlessCacheSnapshot?
+
+        public init(serverlessCacheSnapshot: ServerlessCacheSnapshot? = nil) {
+            self.serverlessCacheSnapshot = serverlessCacheSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+        }
+    }
+
     public struct DeleteSnapshotMessage: AWSEncodableShape {
         /// The name of the snapshot to be deleted.
-        public let snapshotName: String
+        public let snapshotName: String?
 
-        public init(snapshotName: String) {
+        public init(snapshotName: String? = nil) {
             self.snapshotName = snapshotName
         }
 
@@ -2109,9 +2387,9 @@ extension ElastiCache {
 
     public struct DeleteUserGroupMessage: AWSEncodableShape {
         /// The ID of the user group.
-        public let userGroupId: String
+        public let userGroupId: String?
 
-        public init(userGroupId: String) {
+        public init(userGroupId: String? = nil) {
             self.userGroupId = userGroupId
         }
 
@@ -2122,9 +2400,9 @@ extension ElastiCache {
 
     public struct DeleteUserMessage: AWSEncodableShape {
         /// The ID of the user.
-        public let userId: String
+        public let userId: String?
 
-        public init(userId: String) {
+        public init(userId: String? = nil) {
             self.userId = userId
         }
 
@@ -2141,13 +2419,13 @@ extension ElastiCache {
     public struct DescribeCacheClustersMessage: AWSEncodableShape {
         /// The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
         public let cacheClusterId: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
         /// An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
         public let showCacheClustersNotInReplicationGroups: Bool?
-        /// An optional flag that can be included in the DescribeCacheCluster request  to retrieve information about the individual cache nodes.
+        /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
         public let showCacheNodeInfo: Bool?
 
         public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil, showCacheNodeInfo: Bool? = nil) {
@@ -2168,7 +2446,7 @@ extension ElastiCache {
     }
 
     public struct DescribeCacheEngineVersionsMessage: AWSEncodableShape {
-        /// The name of a specific cache parameter group family to return details for. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |  redis6.2 | redis7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+        /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
         public let cacheParameterGroupFamily: String?
         /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
         public let defaultOnly: Bool?
@@ -2176,7 +2454,7 @@ extension ElastiCache {
         public let engine: String?
         /// The cache engine version to return. Example: 1.4.14
         public let engineVersion: String?
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
@@ -2203,7 +2481,7 @@ extension ElastiCache {
     public struct DescribeCacheParameterGroupsMessage: AWSEncodableShape {
         /// The name of a specific cache parameter group to return details for.
         public let cacheParameterGroupName: String?
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
@@ -2223,15 +2501,15 @@ extension ElastiCache {
 
     public struct DescribeCacheParametersMessage: AWSEncodableShape {
         /// The name of a specific cache parameter group to return details for.
-        public let cacheParameterGroupName: String
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let cacheParameterGroupName: String?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
         /// The parameter types to return. Valid values: user | system | engine-default
         public let source: String?
 
-        public init(cacheParameterGroupName: String, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
+        public init(cacheParameterGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2270,7 +2548,7 @@ extension ElastiCache {
     public struct DescribeCacheSubnetGroupsMessage: AWSEncodableShape {
         /// The name of the cache subnet group to return details for.
         public let cacheSubnetGroupName: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
@@ -2289,14 +2567,14 @@ extension ElastiCache {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSEncodableShape {
-        /// The name of the cache parameter group family. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |  redis6.2 | redis7
-        public let cacheParameterGroupFamily: String
+        /// The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7
+        public let cacheParameterGroupFamily: String?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
 
-        public init(cacheParameterGroupFamily: String, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(cacheParameterGroupFamily: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2326,13 +2604,13 @@ extension ElastiCache {
         public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let endTime: Date?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
-        /// The identifier of the event source for which events are returned.  If not specified, all sources are included in the response.
+        /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
-        /// The event source to retrieve events for.  If no value is specified, all events are returned.
+        /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let startTime: Date?
@@ -2425,9 +2703,7 @@ extension ElastiCache {
     }
 
     public struct DescribeReservedCacheNodesMessage: AWSEncodableShape {
-        /// The cache node type filter value.  Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -2435,34 +2711,41 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
-        /// The duration filter value, specified in years or seconds.  Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000
+        /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000
         public let duration: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
-        /// The offering type filter value.  Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization"|"All Upfront"|"Partial Upfront"| "No Upfront"
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization"|"All Upfront"|"Partial Upfront"| "No Upfront"
         public let offeringType: String?
         /// The product description filter value. Use this parameter to show only those reservations matching the specified product description.
         public let productDescription: String?
-        /// The reserved cache node identifier filter value.  Use this parameter to show only the reservation that matches the specified reservation ID.
+        /// The reserved cache node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
         public let reservedCacheNodeId: String?
-        /// The offering identifier filter value.  Use this parameter to show only purchased reservations matching the specified offering identifier.
+        /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedCacheNodesOfferingId: String?
 
         public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
@@ -2489,9 +2772,7 @@ extension ElastiCache {
     }
 
     public struct DescribeReservedCacheNodesOfferingsMessage: AWSEncodableShape {
-        /// The cache node type filter value.  Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -2499,32 +2780,39 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
-        /// Duration filter value, specified in years or seconds.  Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000
+        /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000
         public let duration: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
-        /// The offering type filter value.  Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" |"All Upfront"|"Partial Upfront"| "No Upfront"
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" |"All Upfront"|"Partial Upfront"| "No Upfront"
         public let offeringType: String?
-        /// The product description filter value.  Use this parameter to show only the available offerings matching the specified product description.
+        /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
         public let productDescription: String?
-        /// The offering identifier filter value.  Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
+        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
         public let reservedCacheNodesOfferingId: String?
 
         public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
@@ -2548,8 +2836,96 @@ extension ElastiCache {
         }
     }
 
+    public struct DescribeServerlessCacheSnapshotsRequest: AWSEncodableShape {
+        /// The maximum number of records to include in the response. If more records exist than  the specified max-results value, a market is included in the response so that remaining results  can be retrieved. Available for Redis only.The default is 50. The Validation Constraints are a maximum of 50.
+        public let maxResults: Int?
+        /// An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by max-results. Available for Redis only.
+        public let nextToken: String?
+        /// The identifier of serverless cache. If this parameter is specified,  only snapshots associated with that specific serverless cache are described. Available for Redis only.
+        public let serverlessCacheName: String?
+        /// The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Redis only.
+        public let serverlessCacheSnapshotName: String?
+        /// The type of snapshot that is being described. Available for Redis only.
+        public let snapshotType: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverlessCacheName: String? = nil, serverlessCacheSnapshotName: String? = nil, snapshotType: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverlessCacheName = serverlessCacheName
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+            self.snapshotType = snapshotType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverlessCacheName = "ServerlessCacheName"
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+            case snapshotType = "SnapshotType"
+        }
+    }
+
+    public struct DescribeServerlessCacheSnapshotsResponse: AWSDecodableShape {
+        public struct _ServerlessCacheSnapshotsEncoding: ArrayCoderProperties { public static let member = "ServerlessCacheSnapshot" }
+
+        /// An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by max-results. Available for Redis only.
+        public let nextToken: String?
+        /// The serverless caches snapshots associated with a given description request. Available for Redis only.
+        @OptionalCustomCoding<ArrayCoder<_ServerlessCacheSnapshotsEncoding, ServerlessCacheSnapshot>>
+        public var serverlessCacheSnapshots: [ServerlessCacheSnapshot]?
+
+        public init(nextToken: String? = nil, serverlessCacheSnapshots: [ServerlessCacheSnapshot]? = nil) {
+            self.nextToken = nextToken
+            self.serverlessCacheSnapshots = serverlessCacheSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serverlessCacheSnapshots = "ServerlessCacheSnapshots"
+        }
+    }
+
+    public struct DescribeServerlessCachesRequest: AWSEncodableShape {
+        /// The maximum number of records in the response. If more records exist than the specified max-records value,  the next token is included in the response so that remaining results can be retrieved.  The default is 50.
+        public let maxResults: Int?
+        /// An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The identifier for the serverless cache. If this parameter is specified,  only information about that specific serverless cache is returned. Default: NULL
+        public let serverlessCacheName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverlessCacheName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverlessCacheName = serverlessCacheName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverlessCacheName = "ServerlessCacheName"
+        }
+    }
+
+    public struct DescribeServerlessCachesResponse: AWSDecodableShape {
+        /// An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The serverless caches associated with a given description request.
+        @OptionalCustomCoding<StandardArrayCoder<ServerlessCache>>
+        public var serverlessCaches: [ServerlessCache]?
+
+        public init(nextToken: String? = nil, serverlessCaches: [ServerlessCache]? = nil) {
+            self.nextToken = nextToken
+            self.serverlessCaches = serverlessCaches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serverlessCaches = "ServerlessCaches"
+        }
+    }
+
     public struct DescribeServiceUpdatesMessage: AWSEncodableShape {
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
@@ -2581,7 +2957,7 @@ extension ElastiCache {
     public struct DescribeSnapshotsListMessage: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { public static let member = "Snapshot" }
 
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
         @OptionalCustomCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>>
@@ -2599,9 +2975,9 @@ extension ElastiCache {
     }
 
     public struct DescribeSnapshotsMessage: AWSEncodableShape {
-        /// A user-supplied cluster identifier.  If this parameter is specified, only snapshots associated with that specific cluster are described.
+        /// A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
         public let cacheClusterId: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
         public let maxRecords: Int?
@@ -2609,9 +2985,9 @@ extension ElastiCache {
         public let replicationGroupId: String?
         /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
         public let showNodeGroupConfig: Bool?
-        /// A user-supplied name of the snapshot.  If this parameter is specified, only this snapshot are described.
+        /// A user-supplied name of the snapshot. If this parameter is specified, only this snapshot are described.
         public let snapshotName: String?
-        /// If set to system, the output shows snapshots that were automatically created by ElastiCache.  If set to user the output shows snapshots that were manually created.  If omitted, the output shows both automatically and manually created snapshots.
+        /// If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
         public let snapshotSource: String?
 
         public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupId: String? = nil, showNodeGroupConfig: Bool? = nil, snapshotName: String? = nil, snapshotSource: String? = nil) {
@@ -2641,7 +3017,7 @@ extension ElastiCache {
         public var cacheClusterIds: [String]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
@@ -2810,13 +3186,13 @@ extension ElastiCache {
 
     public struct DisassociateGlobalReplicationGroupMessage: AWSEncodableShape {
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
         /// The name of the secondary cluster you wish to remove from the Global datastore
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
         /// The Amazon region of secondary cluster you wish to remove from the Global datastore
-        public let replicationGroupRegion: String
+        public let replicationGroupRegion: String?
 
-        public init(globalReplicationGroupId: String, replicationGroupId: String, replicationGroupRegion: String) {
+        public init(globalReplicationGroupId: String? = nil, replicationGroupId: String? = nil, replicationGroupRegion: String? = nil) {
             self.globalReplicationGroupId = globalReplicationGroupId
             self.replicationGroupId = replicationGroupId
             self.replicationGroupRegion = replicationGroupRegion
@@ -2862,6 +3238,19 @@ extension ElastiCache {
         }
     }
 
+    public struct ECPUPerSecond: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the maximum number of ECPUs the cache can consume per second.
+        public let maximum: Int?
+
+        public init(maximum: Int? = nil) {
+            self.maximum = maximum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
+        }
+    }
+
     public struct Endpoint: AWSDecodableShape {
         /// The DNS hostname of the cache node.
         public let address: String?
@@ -2886,7 +3275,7 @@ extension ElastiCache {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.x |  redis7
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x | redis7
         public let cacheParameterGroupFamily: String?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -2914,7 +3303,7 @@ extension ElastiCache {
         public let date: Date?
         /// The text of the event.
         public let message: String?
-        /// The identifier for the source of the event.  For example, if the event occurred at the cluster level,  the identifier would be the name of the cluster.
+        /// The identifier for the source of the event. For example, if the event occurred at the cluster level, the identifier would be the name of the cluster.
         public let sourceIdentifier: String?
         /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
@@ -2954,15 +3343,45 @@ extension ElastiCache {
         }
     }
 
+    public struct ExportServerlessCacheSnapshotRequest: AWSEncodableShape {
+        /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region  as the snapshot. Available for Redis only.
+        public let s3BucketName: String?
+        /// The identifier of the serverless cache snapshot to be exported to S3. Available for Redis only.
+        public let serverlessCacheSnapshotName: String?
+
+        public init(s3BucketName: String? = nil, serverlessCacheSnapshotName: String? = nil) {
+            self.s3BucketName = s3BucketName
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+        }
+    }
+
+    public struct ExportServerlessCacheSnapshotResponse: AWSDecodableShape {
+        /// The state of a serverless cache at a specific point in time, to the millisecond. Available for Redis only.
+        public let serverlessCacheSnapshot: ServerlessCacheSnapshot?
+
+        public init(serverlessCacheSnapshot: ServerlessCacheSnapshot? = nil) {
+            self.serverlessCacheSnapshot = serverlessCacheSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+        }
+    }
+
     public struct FailoverGlobalReplicationGroupMessage: AWSEncodableShape {
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
         /// The Amazon region of the primary cluster of the Global datastore
-        public let primaryRegion: String
+        public let primaryRegion: String?
         /// The name of the primary replication group
-        public let primaryReplicationGroupId: String
+        public let primaryReplicationGroupId: String?
 
-        public init(globalReplicationGroupId: String, primaryRegion: String, primaryReplicationGroupId: String) {
+        public init(globalReplicationGroupId: String? = nil, primaryRegion: String? = nil, primaryReplicationGroupId: String? = nil) {
             self.globalReplicationGroupId = globalReplicationGroupId
             self.primaryRegion = primaryRegion
             self.primaryReplicationGroupId = primaryReplicationGroupId
@@ -2989,19 +3408,19 @@ extension ElastiCache {
 
     public struct Filter: AWSEncodableShape {
         /// The property being filtered. For example, UserId.
-        public let name: String
+        public let name: String?
         /// The property values to filter on. For example, "user-123".
-        @CustomCoding<StandardArrayCoder<String>>
-        public var values: [String]
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var values: [String]?
 
-        public init(name: String, values: [String]) {
+        public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
-            try self.values.forEach {
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: "\\S")
             }
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3036,7 +3455,7 @@ extension ElastiCache {
 
         /// The ARN (Amazon Resource Name) of the global replication group.
         public let arn: String?
-        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created.  To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to  true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
+        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false
         public let authTokenEnabled: Bool?
@@ -3146,16 +3565,16 @@ extension ElastiCache {
         public struct _RegionalConfigurationsEncoding: ArrayCoderProperties { public static let member = "RegionalConfiguration" }
 
         /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
-        public let applyImmediately: Bool
+        public let applyImmediately: Bool?
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
-        /// The number of node groups you wish to add
-        public let nodeGroupCount: Int
+        public let globalReplicationGroupId: String?
+        /// Total number of node groups you want
+        public let nodeGroupCount: Int?
         /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore
         @OptionalCustomCoding<ArrayCoder<_RegionalConfigurationsEncoding, RegionalConfiguration>>
         public var regionalConfigurations: [RegionalConfiguration]?
 
-        public init(applyImmediately: Bool = false, globalReplicationGroupId: String, nodeGroupCount: Int = 0, regionalConfigurations: [RegionalConfiguration]? = nil) {
+        public init(applyImmediately: Bool? = nil, globalReplicationGroupId: String? = nil, nodeGroupCount: Int? = nil, regionalConfigurations: [RegionalConfiguration]? = nil) {
             self.applyImmediately = applyImmediately
             self.globalReplicationGroupId = globalReplicationGroupId
             self.nodeGroupCount = nodeGroupCount
@@ -3191,18 +3610,17 @@ extension ElastiCache {
     public struct IncreaseReplicaCountMessage: AWSEncodableShape {
         public struct _ReplicaConfigurationEncoding: ArrayCoderProperties { public static let member = "ConfigureShard" }
 
-        /// If True, the number of replica nodes is increased immediately.
-        ///  ApplyImmediately=False is not currently supported.
-        public let applyImmediately: Bool
-        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of  replica nodes in each of the replication group's node groups.
+        /// If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
+        public let applyImmediately: Bool?
+        /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
         public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
         public var replicaConfiguration: [ConfigureShard]?
         /// The id of the replication group to which you want to add replica nodes.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
 
-        public init(applyImmediately: Bool = false, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicationGroupId: String) {
+        public init(applyImmediately: Bool? = nil, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicationGroupId: String? = nil) {
             self.applyImmediately = applyImmediately
             self.newReplicaCount = newReplicaCount
             self.replicaConfiguration = replicaConfiguration
@@ -3249,7 +3667,7 @@ extension ElastiCache {
     }
 
     public struct ListAllowedNodeTypeModificationsMessage: AWSEncodableShape {
-        /// The name of the cluster you want to scale up to a larger node instanced type.  ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId.
+        /// The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId.
         public let cacheClusterId: String?
         /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId.
         public let replicationGroupId: String?
@@ -3266,10 +3684,10 @@ extension ElastiCache {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags,  for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster  or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
-        public let resourceName: String
+        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+        public let resourceName: String?
 
-        public init(resourceName: String) {
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
@@ -3347,55 +3765,55 @@ extension ElastiCache {
         public struct _NewAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "PreferredAvailabilityZone" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
 
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied,  the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false
+        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false
         public let applyImmediately: Bool?
-        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'     For more information, see AUTH password at AUTH.
+        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
         public let authToken: String?
-        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set   For more information, see Authenticating Users with Redis AUTH
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
-        /// Specifies whether the new nodes in this Memcached cluster are all created in a  single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones.             If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones.
+        /// Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones.
         public let azMode: AZMode?
         /// The cluster identifier. This value is stored as a lowercase string.
-        public let cacheClusterId: String
-        /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this  ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
+        public let cacheClusterId: String?
+        /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
         public var cacheNodeIdsToRemove: [String]?
         /// A valid cache node type that you want to scale this cluster up to.
         public let cacheNodeType: String?
         /// The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
-        /// A list of cache security group names to authorize on this cluster.  This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
+        /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
         @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
-        /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version  (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version,  you must delete the existing cluster and create it anew with the earlier engine version.
+        /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
-        ///  This option is only supported on Memcached clusters.  The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater  than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero).  The number of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes.  Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones  for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation  (from the scenario 1 call) and want to add 1 more node.  Specify NumCacheNodes=6 ((3 + 2) + 1) and  optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations.  Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation,  add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone.  Only newly created nodes can be located in different Availability Zones.  For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes,  all creates are performed immediately.  If the new create request is Apply Immediately - No,  all creates are pending.
+        ///  This option is only supported on Memcached clusters.  The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
         @OptionalCustomCoding<ArrayCoder<_NewAvailabilityZonesEncoding, String>>
         public var newAvailabilityZones: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
         public let notificationTopicArn: String?
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive
         public let notificationTopicStatus: String?
-        /// The number of cache nodes that the cluster should have.  If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and  the number of cache nodes pending creation (which may be zero), more nodes are added.  If the value is less than the number of existing cache nodes,  nodes are removed.  If the value is equal to the number of current cache nodes,  any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1.  For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window,  whether by adding or removing nodes in accordance with the scale out architecture, is not queued.  The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the  number of cache nodes in the cluster.  For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes.  Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa.  As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement,  a request to add nodes does not automatically override a previous pending operation to add nodes.  The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and  retry the new request.  To cancel pending operations to modify the number of cache nodes in a cluster,  use the ModifyCacheCluster request and  set NumCacheNodes equal to the number of cache nodes currently in the cluster.
+        /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
         public let numCacheNodes: Int?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
         /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5,  a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
-        /// The daily time range (in UTC) during which ElastiCache  begins taking a daily snapshot of your cluster.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3460,12 +3878,12 @@ extension ElastiCache {
         public struct _ParameterNameValuesEncoding: ArrayCoderProperties { public static let member = "ParameterNameValue" }
 
         /// The name of the cache parameter group to modify.
-        public let cacheParameterGroupName: String
+        public let cacheParameterGroupName: String?
         /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
-        @CustomCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
-        public var parameterNameValues: [ParameterNameValue]
+        @OptionalCustomCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
+        public var parameterNameValues: [ParameterNameValue]?
 
-        public init(cacheParameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
+        public init(cacheParameterGroupName: String? = nil, parameterNameValues: [ParameterNameValue]? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.parameterNameValues = parameterNameValues
         }
@@ -3482,12 +3900,12 @@ extension ElastiCache {
         /// A description of the cache subnet group.
         public let cacheSubnetGroupDescription: String?
         /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
-        public let cacheSubnetGroupName: String
+        public let cacheSubnetGroupName: String?
         /// The EC2 subnet IDs for the cache subnet group.
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
-        public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String, subnetIds: [String]? = nil) {
+        public init(cacheSubnetGroupDescription: String? = nil, cacheSubnetGroupName: String? = nil, subnetIds: [String]? = nil) {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnetIds = subnetIds
@@ -3513,8 +3931,8 @@ extension ElastiCache {
     }
 
     public struct ModifyGlobalReplicationGroupMessage: AWSEncodableShape {
-        /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global  Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
-        public let applyImmediately: Bool
+        /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
+        public let applyImmediately: Bool?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
         public let automaticFailoverEnabled: Bool?
         /// A valid cache node type that you want to scale this Global datastore to.
@@ -3526,9 +3944,9 @@ extension ElastiCache {
         /// A description of the Global datastore
         public let globalReplicationGroupDescription: String?
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
 
-        public init(applyImmediately: Bool = false, automaticFailoverEnabled: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, engineVersion: String? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String) {
+        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, engineVersion: String? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String? = nil) {
             self.applyImmediately = applyImmediately
             self.automaticFailoverEnabled = automaticFailoverEnabled
             self.cacheNodeType = cacheNodeType
@@ -3568,9 +3986,9 @@ extension ElastiCache {
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false
         public let applyImmediately: Bool?
-        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'     For more information, see AUTH password at AUTH.
+        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
         public let authToken: String?
-        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set   For more information, see Authenticating Users with Redis AUTH
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
         public let automaticFailoverEnabled: Bool?
@@ -3578,16 +3996,16 @@ extension ElastiCache {
         public let autoMinorVersionUpgrade: Bool?
         /// A valid cache node type that you want to scale this replication group to.
         public let cacheNodeType: String?
-        /// The name of the cache parameter group to apply to all of the clusters in this replication group.  This change is asynchronously applied as soon as possible for parameters when the  ApplyImmediately parameter is specified as true for this request.
+        /// The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
         /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
         @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
-        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible.  Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
-        /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version,  you must delete the existing replication group and create it anew with the earlier engine version.
+        /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
@@ -3598,31 +4016,30 @@ extension ElastiCache {
         public let nodeGroupId: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.
         public let notificationTopicArn: String?
-        /// The status of the Amazon SNS notification topic for the replication group.  Notifications are sent only if the status is active. Valid values: active | inactive
+        /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive
         public let notificationTopicStatus: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
-        /// For replication groups with a single primary,  if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role.  The nodes of all other clusters in the replication group are read replicas.
+        /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
         public let primaryClusterId: String?
         /// Removes the user group associated with this replication group.
         public let removeUserGroups: Bool?
         /// A description for the replication group. Maximum length is 255 characters.
         public let replicationGroupDescription: String?
         /// The identifier of the replication group to modify.
-        public let replicationGroupId: String
-        /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in  an Amazon Virtual Private Cloud (Amazon VPC).
+        public let replicationGroupId: String?
+        /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
-        /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0),  backups are turned off.
+        /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
         /// The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
         public let snapshottingClusterId: String?
-        /// The daily time range (in UTC) during which ElastiCache  begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache  automatically chooses an appropriate time range.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
         /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred.
         public let transitEncryptionEnabled: Bool?
-        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and
-        /// unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to  preferred, after that you can set  TransitEncryptionMode to required.
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required.
         public let transitEncryptionMode: TransitEncryptionMode?
         /// The ID of the user group you are associating with the replication group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -3631,7 +4048,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIdsToRemove: [String]?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3664,7 +4081,7 @@ extension ElastiCache {
         }
 
         @available(*, deprecated, message: "Members nodeGroupId have been deprecated")
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3757,23 +4174,23 @@ extension ElastiCache {
         public struct _NodeGroupsToRetainEncoding: ArrayCoderProperties { public static let member = "NodeGroupToRetain" }
         public struct _ReshardingConfigurationEncoding: ArrayCoderProperties { public static let member = "ReshardingConfiguration" }
 
-        /// Indicates that the shard reconfiguration process begins immediately.  At present, the only permitted value for this parameter is true. Value: true
-        public let applyImmediately: Bool
+        /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
+        public let applyImmediately: Bool?
         /// The number of node groups (shards) that results from the modification of the shard configuration.
-        public let nodeGroupCount: Int
-        /// If the value of NodeGroupCount is less than the  current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove  from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
+        public let nodeGroupCount: Int?
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
         @OptionalCustomCoding<ArrayCoder<_NodeGroupsToRemoveEncoding, String>>
         public var nodeGroupsToRemove: [String]?
-        /// If the value of NodeGroupCount is less than the  current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain  in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
         @OptionalCustomCoding<ArrayCoder<_NodeGroupsToRetainEncoding, String>>
         public var nodeGroupsToRetain: [String]?
         /// The name of the Redis (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
-        public let replicationGroupId: String
-        /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred  availability zones of the cluster's shards.  If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
+        public let replicationGroupId: String?
+        /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
         @OptionalCustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
         public var reshardingConfiguration: [ReshardingConfiguration]?
 
-        public init(applyImmediately: Bool = false, nodeGroupCount: Int = 0, nodeGroupsToRemove: [String]? = nil, nodeGroupsToRetain: [String]? = nil, replicationGroupId: String, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
+        public init(applyImmediately: Bool? = nil, nodeGroupCount: Int? = nil, nodeGroupsToRemove: [String]? = nil, nodeGroupsToRetain: [String]? = nil, replicationGroupId: String? = nil, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
             self.applyImmediately = applyImmediately
             self.nodeGroupCount = nodeGroupCount
             self.nodeGroupsToRemove = nodeGroupsToRemove
@@ -3820,9 +4237,66 @@ extension ElastiCache {
         }
     }
 
+    public struct ModifyServerlessCacheRequest: AWSEncodableShape {
+        public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
+
+        /// Modify the cache usage limit for the serverless cache.
+        public let cacheUsageLimits: CacheUsageLimits?
+        /// The daily time during which Elasticache begins taking a daily snapshot of the serverless cache.  Available for Redis only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
+        public let dailySnapshotTime: String?
+        /// User provided description for the serverless cache.  Default = NULL, i.e. the existing description is not removed/modified.  The description has a maximum length of 255 characters.
+        public let description: String?
+        /// The identifier of the UserGroup to be removed from association with the Redis serverless cache.  Available for Redis only. Default is NULL.
+        public let removeUserGroup: Bool?
+        /// The new list of VPC security groups to be associated with the serverless cache.  Populating this list means the current VPC security groups will be removed.  This security group is used to authorize traffic access for the VPC end-point (private-link).  Default = NULL -  the existing list of VPC security groups is not removed.
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        public var securityGroupIds: [String]?
+        /// User-provided identifier for the serverless cache to be modified.
+        public let serverlessCacheName: String?
+        /// The number of days for which Elasticache retains automatic snapshots before deleting them.  Available for Redis only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or modified.  The maximum value allowed is 35 days.
+        public let snapshotRetentionLimit: Int?
+        /// The identifier of the UserGroup to be associated with the serverless cache. Available for Redis only.  Default is NULL -  the existing UserGroup is not removed.
+        public let userGroupId: String?
+
+        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, removeUserGroup: Bool? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, userGroupId: String? = nil) {
+            self.cacheUsageLimits = cacheUsageLimits
+            self.dailySnapshotTime = dailySnapshotTime
+            self.description = description
+            self.removeUserGroup = removeUserGroup
+            self.securityGroupIds = securityGroupIds
+            self.serverlessCacheName = serverlessCacheName
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.userGroupId = userGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheUsageLimits = "CacheUsageLimits"
+            case dailySnapshotTime = "DailySnapshotTime"
+            case description = "Description"
+            case removeUserGroup = "RemoveUserGroup"
+            case securityGroupIds = "SecurityGroupIds"
+            case serverlessCacheName = "ServerlessCacheName"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case userGroupId = "UserGroupId"
+        }
+    }
+
+    public struct ModifyServerlessCacheResponse: AWSDecodableShape {
+        /// The response for the attempt to modify the serverless cache.
+        public let serverlessCache: ServerlessCache?
+
+        public init(serverlessCache: ServerlessCache? = nil) {
+            self.serverlessCache = serverlessCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCache = "ServerlessCache"
+        }
+    }
+
     public struct ModifyUserGroupMessage: AWSEncodableShape {
         /// The ID of the user group.
-        public let userGroupId: String
+        public let userGroupId: String?
         /// The list of user IDs to add to the user group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToAdd: [String]?
@@ -3830,7 +4304,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToRemove: [String]?
 
-        public init(userGroupId: String, userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
+        public init(userGroupId: String? = nil, userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
             self.userGroupId = userGroupId
             self.userIdsToAdd = userIdsToAdd
             self.userIdsToRemove = userIdsToRemove
@@ -3869,9 +4343,9 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var passwords: [String]?
         /// The ID of the user.
-        public let userId: String
+        public let userId: String?
 
-        public init(accessString: String? = nil, appendAccessString: String? = nil, authenticationMode: AuthenticationMode? = nil, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, userId: String) {
+        public init(accessString: String? = nil, appendAccessString: String? = nil, authenticationMode: AuthenticationMode? = nil, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, userId: String? = nil) {
             self.accessString = accessString
             self.appendAccessString = appendAccessString
             self.authenticationMode = authenticationMode
@@ -3913,7 +4387,7 @@ extension ElastiCache {
         public let readerEndpoint: Endpoint?
         /// The keyspace for this node group (shard).
         public let slots: String?
-        /// The current state of this replication group - creating,  available, modifying, deleting.
+        /// The current state of this replication group - creating, available, modifying, deleting.
         public let status: String?
 
         public init(nodeGroupId: String? = nil, nodeGroupMembers: [NodeGroupMember]? = nil, primaryEndpoint: Endpoint? = nil, readerEndpoint: Endpoint? = nil, slots: String? = nil, status: String? = nil) {
@@ -3939,7 +4413,7 @@ extension ElastiCache {
         public struct _ReplicaAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
         public struct _ReplicaOutpostArnsEncoding: ArrayCoderProperties { public static let member = "OutpostArn" }
 
-        /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these  configuration values apply to.
+        /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
         public let nodeGroupId: String?
         /// The Availability Zone where the primary node of this node group (shard) is launched.
         public let primaryAvailabilityZone: String?
@@ -3988,7 +4462,7 @@ extension ElastiCache {
         public let cacheClusterId: String?
         /// The ID of the node within its cluster. A node ID is a numeric identifier (0001, 0002, etc.).
         public let cacheNodeId: String?
-        /// The role that is currently assigned to the node - primary or  replica. This member is only applicable for Redis (cluster mode disabled)  replication groups.
+        /// The role that is currently assigned to the node - primary or replica. This member is only applicable for Redis (cluster mode disabled) replication groups.
         public let currentRole: String?
         /// The name of the Availability Zone in which the node is located.
         public let preferredAvailabilityZone: String?
@@ -4138,13 +4612,13 @@ extension ElastiCache {
     public struct Parameter: AWSDecodableShape {
         /// The valid range of values for the parameter.
         public let allowedValues: String?
-        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied.  You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
+        /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
         public let changeType: ChangeType?
         /// The valid data type for the parameter.
         public let dataType: String?
         /// A description of the parameter.
         public let description: String?
-        /// Indicates whether (true) or not (false) the parameter can be modified.  Some parameters have security or operational implications that prevent them from being changed.
+        /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
         public let isModifiable: Bool?
         /// The earliest cache engine version to which the parameter can apply.
         public let minimumEngineVersion: String?
@@ -4227,17 +4701,17 @@ extension ElastiCache {
 
         /// The auth token status
         public let authTokenStatus: AuthTokenUpdateStatus?
-        /// A list of cache node IDs that are being removed (or will be removed) from the cluster.  A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
+        /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
         @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRemoveEncoding, String>>
         public var cacheNodeIdsToRemove: [String]?
         /// The cache node type that this cluster or replication group is scaled to.
         public let cacheNodeType: String?
-        /// The new cache engine version that the cluster  runs.
+        /// The new cache engine version that the cluster runs.
         public let engineVersion: String?
         /// The log delivery configurations being modified
         @OptionalCustomCoding<StandardArrayCoder<PendingLogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
-        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1.  For clusters running Memcached, this value must be between 1 and 40.
+        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
         /// A flag that enables in-transit encryption when set to true.
         public let transitEncryptionEnabled: Bool?
@@ -4297,15 +4771,15 @@ extension ElastiCache {
 
         /// The number of cache node instances to reserve. Default: 1
         public let cacheNodeCount: Int?
-        /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation.  If this parameter is not specified,  ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
+        /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
         public let reservedCacheNodeId: String?
         /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
-        public let reservedCacheNodesOfferingId: String
+        public let reservedCacheNodesOfferingId: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(cacheNodeCount: Int? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String, tags: [Tag]? = nil) {
+        public init(cacheNodeCount: Int? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, tags: [Tag]? = nil) {
             self.cacheNodeCount = cacheNodeCount
             self.reservedCacheNodeId = reservedCacheNodeId
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
@@ -4334,11 +4808,11 @@ extension ElastiCache {
 
     public struct RebalanceSlotsInGlobalReplicationGroupMessage: AWSEncodableShape {
         /// If True, redistribution is applied immediately.
-        public let applyImmediately: Bool
+        public let applyImmediately: Bool?
         /// The name of the Global datastore
-        public let globalReplicationGroupId: String
+        public let globalReplicationGroupId: String?
 
-        public init(applyImmediately: Bool = false, globalReplicationGroupId: String) {
+        public init(applyImmediately: Bool? = nil, globalReplicationGroupId: String? = nil) {
             self.applyImmediately = applyImmediately
             self.globalReplicationGroupId = globalReplicationGroupId
         }
@@ -4365,12 +4839,12 @@ extension ElastiCache {
         public struct _CacheNodeIdsToRebootEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
 
         /// The cluster identifier. This parameter is stored as a lowercase string.
-        public let cacheClusterId: String
+        public let cacheClusterId: String?
         /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
-        @CustomCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
-        public var cacheNodeIdsToReboot: [String]
+        @OptionalCustomCoding<ArrayCoder<_CacheNodeIdsToRebootEncoding, String>>
+        public var cacheNodeIdsToReboot: [String]?
 
-        public init(cacheClusterId: String, cacheNodeIdsToReboot: [String]) {
+        public init(cacheClusterId: String? = nil, cacheNodeIdsToReboot: [String]? = nil) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
         }
@@ -4414,21 +4888,21 @@ extension ElastiCache {
         public struct _ReshardingConfigurationEncoding: ArrayCoderProperties { public static let member = "ReshardingConfiguration" }
 
         /// The name of the secondary cluster
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
         /// The Amazon region where the cluster is stored
-        public let replicationGroupRegion: String
+        public let replicationGroupRegion: String?
         /// A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster.
-        @CustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
-        public var reshardingConfiguration: [ReshardingConfiguration]
+        @OptionalCustomCoding<ArrayCoder<_ReshardingConfigurationEncoding, ReshardingConfiguration>>
+        public var reshardingConfiguration: [ReshardingConfiguration]?
 
-        public init(replicationGroupId: String, replicationGroupRegion: String, reshardingConfiguration: [ReshardingConfiguration]) {
+        public init(replicationGroupId: String? = nil, replicationGroupRegion: String? = nil, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
             self.replicationGroupId = replicationGroupId
             self.replicationGroupRegion = replicationGroupRegion
             self.reshardingConfiguration = reshardingConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.reshardingConfiguration.forEach {
+            try self.reshardingConfiguration?.forEach {
                 try $0.validate(name: "\(name).reshardingConfiguration[]")
             }
         }
@@ -4441,13 +4915,13 @@ extension ElastiCache {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed,  for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster  or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
-        public let resourceName: String
+        /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
+        public let resourceName: String?
         /// A list of TagKeys identifying the tags you want removed from the named resource.
-        @CustomCoding<StandardArrayCoder<String>>
-        public var tagKeys: [String]
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var tagKeys: [String]?
 
-        public init(resourceName: String, tagKeys: [String]) {
+        public init(resourceName: String? = nil, tagKeys: [String]? = nil) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
         }
@@ -4478,11 +4952,11 @@ extension ElastiCache {
         public let autoMinorVersionUpgrade: Bool?
         /// The name of the compute and memory capacity node type for each node in the replication group.
         public let cacheNodeType: String?
-        /// A flag indicating whether or not this replication group is cluster enabled;  i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false
+        /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false
         public let clusterEnabled: Bool?
-        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible.  Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
-        /// The configuration endpoint for this replication group.  Use the configuration endpoint to connect to this replication group.
+        /// The configuration endpoint for this replication group. Use the configuration endpoint to connect to this replication group.
         public let configurationEndpoint: Endpoint?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTiering: DataTieringStatus?
@@ -4490,7 +4964,7 @@ extension ElastiCache {
         public let description: String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public let globalReplicationGroupInfo: GlobalReplicationGroupInfo?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
@@ -4505,24 +4979,24 @@ extension ElastiCache {
         public var memberClustersOutpostArns: [String]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ
         public let multiAZ: MultiAZStatus?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         public let networkType: NetworkType?
         /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
         @OptionalCustomCoding<ArrayCoder<_NodeGroupsEncoding, NodeGroup>>
         public var nodeGroups: [NodeGroup]?
-        /// A group of settings to be applied to the replication group,  either immediately or during the next maintenance window.
+        /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
         /// The date and time when the cluster was created.
         public let replicationGroupCreateTime: Date?
         /// The identifier for the replication group.
         public let replicationGroupId: String?
-        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
+        /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
         /// The cluster ID that is used as the daily snapshot source for the replication group.
         public let snapshottingClusterId: String?
-        /// The daily time range (in UTC) during which ElastiCache  begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache  automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotWindow: String?
-        /// The current state of this replication group -  creating,  available,  modifying,  deleting,  create-failed, snapshotting.
+        /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
         public let status: String?
         /// A flag that enables in-transit encryption when set to true.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
@@ -4626,12 +5100,12 @@ extension ElastiCache {
         public let authTokenStatus: AuthTokenUpdateStatus?
         /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
-        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible.  Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
         /// The log delivery configurations being modified
         @OptionalCustomCoding<StandardArrayCoder<PendingLogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
-        /// The primary cluster ID that is applied immediately (if --apply-immediately  was specified), or during the next maintenance window.
+        /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public let primaryClusterId: String?
         /// The status of an online resharding operation.
         public let resharding: ReshardingStatus?
@@ -4672,9 +5146,7 @@ extension ElastiCache {
 
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int?
-        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -4682,20 +5154,27 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
         /// The duration of the reservation in seconds.
         public let duration: Int?
@@ -4777,9 +5256,7 @@ extension ElastiCache {
     public struct ReservedCacheNodesOffering: AWSDecodableShape {
         public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
 
-        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -4787,20 +5264,27 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
         /// The duration of the offering. in seconds.
         public let duration: Int?
@@ -4865,14 +5349,14 @@ extension ElastiCache {
         public struct _ParameterNameValuesEncoding: ArrayCoderProperties { public static let member = "ParameterNameValue" }
 
         /// The name of the cache parameter group to reset.
-        public let cacheParameterGroupName: String
-        /// An array of parameter names to reset to their default values.  If ResetAllParameters is true,  do not use ParameterNameValues. If ResetAllParameters is false,  you must specify the name of at least one parameter to reset.
+        public let cacheParameterGroupName: String?
+        /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
         @OptionalCustomCoding<ArrayCoder<_ParameterNameValuesEncoding, ParameterNameValue>>
         public var parameterNameValues: [ParameterNameValue]?
-        /// If true,  all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false
+        /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false
         public let resetAllParameters: Bool?
 
-        public init(cacheParameterGroupName: String, parameterNameValues: [ParameterNameValue]? = nil, resetAllParameters: Bool? = nil) {
+        public init(cacheParameterGroupName: String? = nil, parameterNameValues: [ParameterNameValue]? = nil, resetAllParameters: Bool? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.parameterNameValues = parameterNameValues
             self.resetAllParameters = resetAllParameters
@@ -4888,7 +5372,7 @@ extension ElastiCache {
     public struct ReshardingConfiguration: AWSEncodableShape {
         public struct _PreferredAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
 
-        /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these  configuration values apply to.
+        /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
         public let nodeGroupId: String?
         /// A list of preferred availability zones for the nodes in this cluster.
         @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
@@ -4926,13 +5410,13 @@ extension ElastiCache {
 
     public struct RevokeCacheSecurityGroupIngressMessage: AWSEncodableShape {
         /// The name of the cache security group to revoke ingress from.
-        public let cacheSecurityGroupName: String
+        public let cacheSecurityGroupName: String?
         /// The name of the Amazon EC2 security group to revoke access from.
-        public let ec2SecurityGroupName: String
-        /// The Amazon account number of the Amazon EC2 security group owner.  Note that this is not the same thing as an Amazon access key ID - you must provide  a valid Amazon account number for this parameter.
-        public let ec2SecurityGroupOwnerId: String
+        public let ec2SecurityGroupName: String?
+        /// The Amazon account number of the Amazon EC2 security group owner. Note that this is not the same thing as an Amazon access key ID - you must provide a valid Amazon account number for this parameter.
+        public let ec2SecurityGroupOwnerId: String?
 
-        public init(cacheSecurityGroupName: String, ec2SecurityGroupName: String, ec2SecurityGroupOwnerId: String) {
+        public init(cacheSecurityGroupName: String? = nil, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -4960,7 +5444,7 @@ extension ElastiCache {
     public struct SecurityGroupMembership: AWSDecodableShape {
         /// The identifier of the cache security group.
         public let securityGroupId: String?
-        /// The status of the cache security group membership.  The status changes whenever a cache security group is modified,  or when the cache security groups assigned to a cluster are modified.
+        /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
         public let status: String?
 
         public init(securityGroupId: String? = nil, status: String? = nil) {
@@ -4970,6 +5454,152 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupId = "SecurityGroupId"
+            case status = "Status"
+        }
+    }
+
+    public struct ServerlessCache: AWSDecodableShape {
+        public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetId" }
+
+        /// The Amazon Resource Name (ARN) of the serverless cache.
+        public let arn: String?
+        /// The cache usage limit for the serverless cache.
+        public let cacheUsageLimits: CacheUsageLimits?
+        /// When the serverless cache was created.
+        public let createTime: Date?
+        /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Redis only.
+        public let dailySnapshotTime: String?
+        /// A description of the serverless cache.
+        public let description: String?
+        public let endpoint: Endpoint?
+        /// The engine the serverless cache is compatible with.
+        public let engine: String?
+        /// The name and version number of the engine the serverless cache is compatible with.
+        public let fullEngineVersion: String?
+        /// The ID of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt data at rest in the serverless cache.
+        public let kmsKeyId: String?
+        /// The version number of the engine the serverless cache is compatible with.
+        public let majorEngineVersion: String?
+        public let readerEndpoint: Endpoint?
+        /// The IDs of the EC2 security groups associated with the serverless  cache.
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        public var securityGroupIds: [String]?
+        /// The unique identifier of the serverless cache.
+        public let serverlessCacheName: String?
+        /// The current setting for the number of serverless cache snapshots the system will retain. Available for Redis only.
+        public let snapshotRetentionLimit: Int?
+        /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
+        public let status: String?
+        /// If no subnet IDs are given and your VPC is in SFO, then ElastiCache will select 2 default subnets across AZs in your VPC.  For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
+        /// The identifier of the user group associated with the serverless cache. Available for Redis only. Default is NULL.
+        public let userGroupId: String?
+
+        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
+            self.arn = arn
+            self.cacheUsageLimits = cacheUsageLimits
+            self.createTime = createTime
+            self.dailySnapshotTime = dailySnapshotTime
+            self.description = description
+            self.endpoint = endpoint
+            self.engine = engine
+            self.fullEngineVersion = fullEngineVersion
+            self.kmsKeyId = kmsKeyId
+            self.majorEngineVersion = majorEngineVersion
+            self.readerEndpoint = readerEndpoint
+            self.securityGroupIds = securityGroupIds
+            self.serverlessCacheName = serverlessCacheName
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.status = status
+            self.subnetIds = subnetIds
+            self.userGroupId = userGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case cacheUsageLimits = "CacheUsageLimits"
+            case createTime = "CreateTime"
+            case dailySnapshotTime = "DailySnapshotTime"
+            case description = "Description"
+            case endpoint = "Endpoint"
+            case engine = "Engine"
+            case fullEngineVersion = "FullEngineVersion"
+            case kmsKeyId = "KmsKeyId"
+            case majorEngineVersion = "MajorEngineVersion"
+            case readerEndpoint = "ReaderEndpoint"
+            case securityGroupIds = "SecurityGroupIds"
+            case serverlessCacheName = "ServerlessCacheName"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case status = "Status"
+            case subnetIds = "SubnetIds"
+            case userGroupId = "UserGroupId"
+        }
+    }
+
+    public struct ServerlessCacheConfiguration: AWSDecodableShape {
+        /// The engine that the serverless cache is configured with.
+        public let engine: String?
+        /// The engine version number that the serverless cache is configured with.
+        public let majorEngineVersion: String?
+        /// The identifier of a serverless cache.
+        public let serverlessCacheName: String?
+
+        public init(engine: String? = nil, majorEngineVersion: String? = nil, serverlessCacheName: String? = nil) {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.serverlessCacheName = serverlessCacheName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case majorEngineVersion = "MajorEngineVersion"
+            case serverlessCacheName = "ServerlessCacheName"
+        }
+    }
+
+    public struct ServerlessCacheSnapshot: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for Redis only.
+        public let arn: String?
+        /// The total size of a serverless cache snapshot, in bytes. Available for Redis only.
+        public let bytesUsedForCache: String?
+        /// The date and time that the source serverless cache's metadata and cache data set was obtained for the snapshot. Available for Redis only.
+        public let createTime: Date?
+        /// The time that the serverless cache snapshot will expire. Available for Redis only.
+        public let expiryTime: Date?
+        /// The ID of the Amazon Web Services Key Management Service (KMS) key of a serverless cache snapshot. Available for Redis only.
+        public let kmsKeyId: String?
+        /// The configuration of the serverless cache, at the time the snapshot was taken. Available for Redis only.
+        public let serverlessCacheConfiguration: ServerlessCacheConfiguration?
+        /// The identifier of a serverless cache snapshot. Available for Redis only.
+        public let serverlessCacheSnapshotName: String?
+        /// The type of snapshot of serverless cache. Available for Redis only.
+        public let snapshotType: String?
+        /// The current status of the serverless cache. Available for Redis only.
+        public let status: String?
+
+        public init(arn: String? = nil, bytesUsedForCache: String? = nil, createTime: Date? = nil, expiryTime: Date? = nil, kmsKeyId: String? = nil, serverlessCacheConfiguration: ServerlessCacheConfiguration? = nil, serverlessCacheSnapshotName: String? = nil, snapshotType: String? = nil, status: String? = nil) {
+            self.arn = arn
+            self.bytesUsedForCache = bytesUsedForCache
+            self.createTime = createTime
+            self.expiryTime = expiryTime
+            self.kmsKeyId = kmsKeyId
+            self.serverlessCacheConfiguration = serverlessCacheConfiguration
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+            self.snapshotType = snapshotType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case bytesUsedForCache = "BytesUsedForCache"
+            case createTime = "CreateTime"
+            case expiryTime = "ExpiryTime"
+            case kmsKeyId = "KmsKeyId"
+            case serverlessCacheConfiguration = "ServerlessCacheConfiguration"
+            case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+            case snapshotType = "SnapshotType"
             case status = "Status"
         }
     }
@@ -5034,7 +5664,7 @@ extension ElastiCache {
     public struct ServiceUpdatesMessage: AWSDecodableShape {
         public struct _ServiceUpdatesEncoding: ArrayCoderProperties { public static let member = "ServiceUpdate" }
 
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of service updates
         @OptionalCustomCoding<ArrayCoder<_ServiceUpdatesEncoding, ServiceUpdate>>
@@ -5077,9 +5707,7 @@ extension ElastiCache {
         public let cacheClusterCreateTime: Date?
         /// The user-supplied identifier of the source cluster.
         public let cacheClusterId: String?
-        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache.
-        /// 				Generally speaking, the current generation types provide more memory and computational power
-        /// 			at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
         ///
         /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
@@ -5087,20 +5715,27 @@ extension ElastiCache {
         /// 							cache.m6g.4xlarge,
         /// 							cache.m6g.8xlarge,
         /// 							cache.m6g.12xlarge,
-        /// 							cache.m6g.16xlarge   For region availability, see Supported Node Types    M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 							cache.m6g.16xlarge   M5 node types: cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge   M4 node types: cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge   T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
         /// 					        cache.t4g.micro,
         /// 					        cache.t4g.small,
         /// 					        cache.t4g.medium   T3 node types: cache.t3.micro,  						cache.t3.small, 						cache.t3.medium   T2 node types: cache.t2.micro,  						cache.t2.small, 						cache.t2.medium    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small,
         /// 						   cache.m1.medium,
         /// 						   cache.m1.large,
-        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large,
+        /// 						   cache.m1.xlarge   M3 node types: cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R7g node types:
+        /// 							cache.r7g.large,
+        /// 							cache.r7g.xlarge,
+        /// 							cache.r7g.2xlarge,
+        /// 							cache.r7g.4xlarge,
+        /// 							cache.r7g.8xlarge,
+        /// 							cache.r7g.12xlarge,
+        /// 							cache.r7g.16xlarge   For region availability, see Supported Node Types    R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 							cache.r6g.large,
         /// 							cache.r6g.xlarge,
         /// 							cache.r6g.2xlarge,
         /// 							cache.r6g.4xlarge,
         /// 							cache.r6g.8xlarge,
         /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge   For region availability, see Supported Node Types    R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
-        /// 				appendfsync are not supported on Redis version 2.8.22 and later.
+        /// 							cache.r6g.16xlarge   R5 node types: cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge   R4 node types: cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge    Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types: cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge   R3 node types: cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public let cacheNodeType: String?
         /// The cache parameter group that is associated with the source cluster.
         public let cacheParameterGroupName: String?
@@ -5108,7 +5743,7 @@ extension ElastiCache {
         public let cacheSubnetGroupName: String?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTiering: DataTieringStatus?
-        /// The name of the cache engine (memcached or  redis) used by the source cluster.
+        /// The name of the cache engine (memcached or redis) used by the source cluster.
         public let engine: String?
         /// The version of the cache engine version that is used by the source cluster.
         public let engineVersion: String?
@@ -5117,9 +5752,9 @@ extension ElastiCache {
         /// A list of the cache nodes in the source cluster.
         @OptionalCustomCoding<ArrayCoder<_NodeSnapshotsEncoding, NodeSnapshot>>
         public var nodeSnapshots: [NodeSnapshot]?
-        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1.  For clusters running Memcached, this value must be between 1 and 40.
+        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
-        /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored  replication group must be the same.
+        /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored replication group must be the same.
         public let numNodeGroups: Int?
         /// The port number used by each cache nodes in the source cluster.
         public let port: Int?
@@ -5133,11 +5768,11 @@ extension ElastiCache {
         public let replicationGroupDescription: String?
         /// The unique identifier of the source replication group.
         public let replicationGroupId: String?
-        /// The name of a snapshot.  For an automatic snapshot, the name is system-generated.   For a manual snapshot, this is the user-provided name.
+        /// The name of a snapshot. For an automatic snapshot, the name is system-generated. For a manual snapshot, this is the user-provided name.
         public let snapshotName: String?
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
-        /// Indicates whether the snapshot is from an automatic backup (automated)  or was created manually (manual).
+        /// Indicates whether the snapshot is from an automatic backup (automated) or was created manually (manual).
         public let snapshotSource: String?
         /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
         public let snapshotStatus: String?
@@ -5213,12 +5848,12 @@ extension ElastiCache {
 
     public struct StartMigrationMessage: AWSEncodableShape {
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
-        @CustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
-        public var customerNodeEndpointList: [CustomerNodeEndpoint]
+        @OptionalCustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
+        public var customerNodeEndpointList: [CustomerNodeEndpoint]?
         /// The ID of the replication group to which data should be migrated.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
 
-        public init(customerNodeEndpointList: [CustomerNodeEndpoint], replicationGroupId: String) {
+        public init(customerNodeEndpointList: [CustomerNodeEndpoint]? = nil, replicationGroupId: String? = nil) {
             self.customerNodeEndpointList = customerNodeEndpointList
             self.replicationGroupId = replicationGroupId
         }
@@ -5248,7 +5883,7 @@ extension ElastiCache {
         public let subnetIdentifier: String?
         /// The outpost ARN of the subnet.
         public let subnetOutpost: SubnetOutpost?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
         @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
 
@@ -5315,11 +5950,11 @@ extension ElastiCache {
 
     public struct TestFailoverMessage: AWSEncodableShape {
         /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
-        public let nodeGroupId: String
+        public let nodeGroupId: String?
         /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
-        public let replicationGroupId: String
+        public let replicationGroupId: String?
 
-        public init(nodeGroupId: String, replicationGroupId: String) {
+        public init(nodeGroupId: String? = nil, replicationGroupId: String? = nil) {
             self.nodeGroupId = nodeGroupId
             self.replicationGroupId = replicationGroupId
         }
@@ -5337,6 +5972,36 @@ extension ElastiCache {
     }
 
     public struct TestFailoverResult: AWSDecodableShape {
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
+    public struct TestMigrationMessage: AWSEncodableShape {
+        ///  List of endpoints from which data should be migrated. List should have only one element.
+        @OptionalCustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
+        public var customerNodeEndpointList: [CustomerNodeEndpoint]?
+        ///  The ID of the replication group to which data is to be migrated.
+        public let replicationGroupId: String?
+
+        public init(customerNodeEndpointList: [CustomerNodeEndpoint]? = nil, replicationGroupId: String? = nil) {
+            self.customerNodeEndpointList = customerNodeEndpointList
+            self.replicationGroupId = replicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerNodeEndpointList = "CustomerNodeEndpointList"
+            case replicationGroupId = "ReplicationGroupId"
+        }
+    }
+
+    public struct TestMigrationResponse: AWSDecodableShape {
         public let replicationGroup: ReplicationGroup?
 
         public init(replicationGroup: ReplicationGroup? = nil) {
@@ -5501,7 +6166,7 @@ extension ElastiCache {
     public struct UpdateActionsMessage: AWSDecodableShape {
         public struct _UpdateActionsEncoding: ArrayCoderProperties { public static let member = "UpdateAction" }
 
-        /// An optional marker returned from a prior request.  Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// Returns a list of update actions
         @OptionalCustomCoding<ArrayCoder<_UpdateActionsEncoding, UpdateAction>>
@@ -5576,6 +6241,9 @@ extension ElastiCache {
         /// A list of replication groups that the user group can access.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroups: [String]?
+        /// Indicates which serverless caches the specified user group is associated with. Available for Redis only.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var serverlessCaches: [String]?
         /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
         public let status: String?
         /// The ID of the user group.
@@ -5584,12 +6252,13 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIds: [String]?
 
-        public init(arn: String? = nil, engine: String? = nil, minimumEngineVersion: String? = nil, pendingChanges: UserGroupPendingChanges? = nil, replicationGroups: [String]? = nil, status: String? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
+        public init(arn: String? = nil, engine: String? = nil, minimumEngineVersion: String? = nil, pendingChanges: UserGroupPendingChanges? = nil, replicationGroups: [String]? = nil, serverlessCaches: [String]? = nil, status: String? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
             self.arn = arn
             self.engine = engine
             self.minimumEngineVersion = minimumEngineVersion
             self.pendingChanges = pendingChanges
             self.replicationGroups = replicationGroups
+            self.serverlessCaches = serverlessCaches
             self.status = status
             self.userGroupId = userGroupId
             self.userIds = userIds
@@ -5601,6 +6270,7 @@ extension ElastiCache {
             case minimumEngineVersion = "MinimumEngineVersion"
             case pendingChanges = "PendingChanges"
             case replicationGroups = "ReplicationGroups"
+            case serverlessCaches = "ServerlessCaches"
             case status = "Status"
             case userGroupId = "UserGroupId"
             case userIds = "UserIds"
@@ -5678,11 +6348,14 @@ public struct ElastiCacheErrorType: AWSErrorType {
         case invalidCacheClusterStateFault = "InvalidCacheClusterState"
         case invalidCacheParameterGroupStateFault = "InvalidCacheParameterGroupState"
         case invalidCacheSecurityGroupStateFault = "InvalidCacheSecurityGroupState"
+        case invalidCredentialsException = "InvalidCredentialsException"
         case invalidGlobalReplicationGroupStateFault = "InvalidGlobalReplicationGroupState"
         case invalidKMSKeyFault = "InvalidKMSKeyFault"
         case invalidParameterCombinationException = "InvalidParameterCombination"
         case invalidParameterValueException = "InvalidParameterValue"
         case invalidReplicationGroupStateFault = "InvalidReplicationGroupState"
+        case invalidServerlessCacheSnapshotStateFault = "InvalidServerlessCacheSnapshotStateFault"
+        case invalidServerlessCacheStateFault = "InvalidServerlessCacheStateFault"
         case invalidSnapshotStateFault = "InvalidSnapshotState"
         case invalidSubnet = "InvalidSubnet"
         case invalidUserGroupStateFault = "InvalidUserGroupState"
@@ -5701,6 +6374,12 @@ public struct ElastiCacheErrorType: AWSErrorType {
         case reservedCacheNodeNotFoundFault = "ReservedCacheNodeNotFound"
         case reservedCacheNodeQuotaExceededFault = "ReservedCacheNodeQuotaExceeded"
         case reservedCacheNodesOfferingNotFoundFault = "ReservedCacheNodesOfferingNotFound"
+        case serverlessCacheAlreadyExistsFault = "ServerlessCacheAlreadyExistsFault"
+        case serverlessCacheNotFoundFault = "ServerlessCacheNotFoundFault"
+        case serverlessCacheQuotaForCustomerExceededFault = "ServerlessCacheQuotaForCustomerExceededFault"
+        case serverlessCacheSnapshotAlreadyExistsFault = "ServerlessCacheSnapshotAlreadyExistsFault"
+        case serverlessCacheSnapshotNotFoundFault = "ServerlessCacheSnapshotNotFoundFault"
+        case serverlessCacheSnapshotQuotaExceededFault = "ServerlessCacheSnapshotQuotaExceededFault"
         case serviceLinkedRoleNotFoundFault = "ServiceLinkedRoleNotFoundFault"
         case serviceUpdateNotFoundFault = "ServiceUpdateNotFoundFault"
         case snapshotAlreadyExistsFault = "SnapshotAlreadyExistsFault"
@@ -5792,6 +6471,8 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var invalidCacheParameterGroupStateFault: Self { .init(.invalidCacheParameterGroupStateFault) }
     /// The current state of the cache security group does not allow deletion.
     public static var invalidCacheSecurityGroupStateFault: Self { .init(.invalidCacheSecurityGroupStateFault) }
+    /// You must enter valid credentials.
+    public static var invalidCredentialsException: Self { .init(.invalidCredentialsException) }
     /// The Global datastore is not available or in primary-only state.
     public static var invalidGlobalReplicationGroupStateFault: Self { .init(.invalidGlobalReplicationGroupStateFault) }
     /// The KMS key supplied is not valid.
@@ -5802,6 +6483,10 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// The requested replication group is not in the available state.
     public static var invalidReplicationGroupStateFault: Self { .init(.invalidReplicationGroupStateFault) }
+    /// The state of the serverless cache snapshot was not received. Available for Redis only.
+    public static var invalidServerlessCacheSnapshotStateFault: Self { .init(.invalidServerlessCacheSnapshotStateFault) }
+    /// The account for these credentials is not currently active.
+    public static var invalidServerlessCacheStateFault: Self { .init(.invalidServerlessCacheStateFault) }
     /// The current state of the snapshot does not allow the requested operation to occur.
     public static var invalidSnapshotStateFault: Self { .init(.invalidSnapshotStateFault) }
     /// An invalid subnet identifier was specified.
@@ -5838,6 +6523,18 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var reservedCacheNodeQuotaExceededFault: Self { .init(.reservedCacheNodeQuotaExceededFault) }
     /// The requested cache node offering does not exist.
     public static var reservedCacheNodesOfferingNotFoundFault: Self { .init(.reservedCacheNodesOfferingNotFoundFault) }
+    /// A serverless cache with this name already exists.
+    public static var serverlessCacheAlreadyExistsFault: Self { .init(.serverlessCacheAlreadyExistsFault) }
+    /// The serverless cache was not found or does not exist.
+    public static var serverlessCacheNotFoundFault: Self { .init(.serverlessCacheNotFoundFault) }
+    /// The number of serverless caches exceeds the customer quota.
+    public static var serverlessCacheQuotaForCustomerExceededFault: Self { .init(.serverlessCacheQuotaForCustomerExceededFault) }
+    /// A serverless cache snapshot with this name already exists. Available for Redis only.
+    public static var serverlessCacheSnapshotAlreadyExistsFault: Self { .init(.serverlessCacheSnapshotAlreadyExistsFault) }
+    /// This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+    public static var serverlessCacheSnapshotNotFoundFault: Self { .init(.serverlessCacheSnapshotNotFoundFault) }
+    /// The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
+    public static var serverlessCacheSnapshotQuotaExceededFault: Self { .init(.serverlessCacheSnapshotQuotaExceededFault) }
     /// The specified service linked role (SLR) was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
     /// The service update doesn't exist

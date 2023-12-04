@@ -234,6 +234,19 @@ public struct Route53RecoveryControlConfig: AWSService {
         )
     }
 
+    /// Get information about the resource policy for a cluster.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/resourcePolicy/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
     @Sendable
     public func listAssociatedRoute53HealthChecks(_ input: ListAssociatedRoute53HealthChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedRoute53HealthChecksResponse {

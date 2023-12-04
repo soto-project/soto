@@ -26,31 +26,31 @@ import Foundation
 extension Rbin {
     // MARK: Enums
 
-    public enum LockState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case locked = "locked"
         case pendingUnlock = "pending_unlock"
         case unlocked = "unlocked"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebsSnapshot = "EBS_SNAPSHOT"
         case ec2Image = "EC2_IMAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionPeriodUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum RetentionPeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
@@ -118,12 +118,14 @@ extension Rbin {
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
         /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
@@ -131,6 +133,7 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
             self.status = status
             self.tags = tags
         }
@@ -143,6 +146,7 @@ extension Rbin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
             case status = "Status"
             case tags = "Tags"
         }
@@ -211,10 +215,12 @@ extension Rbin {
         public let resourceType: ResourceType?
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
@@ -223,6 +229,7 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
             self.status = status
         }
 
@@ -235,6 +242,7 @@ extension Rbin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
             case status = "Status"
         }
     }
@@ -390,10 +398,12 @@ extension Rbin {
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
@@ -401,6 +411,7 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
             self.status = status
         }
 
@@ -412,6 +423,7 @@ extension Rbin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
             case status = "Status"
         }
     }
@@ -469,12 +481,15 @@ extension Rbin {
         public let lockState: LockState?
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
 
-        public init(description: String? = nil, identifier: String? = nil, lockState: LockState? = nil, retentionPeriod: RetentionPeriod? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockState: LockState? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockState = lockState
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -482,6 +497,7 @@ extension Rbin {
             case identifier = "Identifier"
             case lockState = "LockState"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
         }
     }
 
@@ -605,10 +621,12 @@ extension Rbin {
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
@@ -617,6 +635,7 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
             self.status = status
         }
 
@@ -629,6 +648,7 @@ extension Rbin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
             case status = "Status"
         }
     }
@@ -731,10 +751,12 @@ extension Rbin {
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
+        /// The Amazon Resource Name (ARN) of the retention rule.
+        public let ruleArn: String?
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
             self.lockEndTime = lockEndTime
@@ -742,6 +764,7 @@ extension Rbin {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
+            self.ruleArn = ruleArn
             self.status = status
         }
 
@@ -753,6 +776,7 @@ extension Rbin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
+            case ruleArn = "RuleArn"
             case status = "Status"
         }
     }

@@ -84,11 +84,11 @@ extension ApiGatewayManagementApi {
 
     public struct Identity: AWSDecodableShape {
         /// The source IP address of the TCP connection making the request to API Gateway.
-        public let sourceIp: String
+        public let sourceIp: String?
         /// The User Agent of the API caller.
-        public let userAgent: String
+        public let userAgent: String?
 
-        public init(sourceIp: String, userAgent: String) {
+        public init(sourceIp: String? = nil, userAgent: String? = nil) {
             self.sourceIp = sourceIp
             self.userAgent = userAgent
         }
@@ -103,9 +103,9 @@ extension ApiGatewayManagementApi {
         /// The identifier of the connection that a specific client is using.
         public let connectionId: String
         /// The data to be sent to the client specified by its connection id.
-        public let data: AWSHTTPBody
+        public let data: AWSHTTPBody?
 
-        public init(connectionId: String, data: AWSHTTPBody) {
+        public init(connectionId: String, data: AWSHTTPBody? = nil) {
             self.connectionId = connectionId
             self.data = data
         }

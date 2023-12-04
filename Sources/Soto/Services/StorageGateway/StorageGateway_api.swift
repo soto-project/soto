@@ -19,16 +19,7 @@
 
 /// Service object for interacting with AWS StorageGateway service.
 ///
-/// Storage Gateway Service
-///  Storage Gateway is the service that connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization's on-premises IT environment and the Amazon Web Services storage infrastructure. The service enables you to securely upload data to the Amazon Web Services Cloud for cost effective backup and rapid disaster recovery.
-///  Use the following links to get started using the Storage Gateway Service API Reference:
-///     Storage Gateway required request headers: Describes the required headers that you must send with every POST request to Storage Gateway.    Signing requests: Storage Gateway requires that you authenticate every request you send; this topic describes how sign such a request.    Error responses: Provides reference information about Storage Gateway errors.    Operations in Storage Gateway: Contains detailed descriptions of all Storage Gateway operations, their request parameters, response elements, possible errors, and examples of requests and responses.    Storage Gateway endpoints and quotas: Provides a list of each Amazon Web Services Region and the endpoints available for use with Storage Gateway.
-///   Storage Gateway resource IDs are in uppercase. When you use these resource IDs with the Amazon EC2 API, EC2 expects resource IDs in lowercase. You must change your resource ID to lowercase to use it with the EC2 API. For example, in Storage Gateway the ID for a volume might be vol-AA22BB012345DAF670. When you use this ID with the EC2 API, you must change it to vol-aa22bb012345daf670. Otherwise, the EC2 API might not behave as expected.
-///   IDs for Storage Gateway volumes and Amazon EBS snapshots created from gateway volumes are changing to a longer format. Starting in December 2016, all new volumes and snapshots will be created with a 17-character string. Starting in April 2016, you will be able to use these longer IDs so you can test your systems with the new format. For more information, see Longer EC2 and EBS resource IDs.
-///  For example, a volume Amazon Resource Name (ARN) with the longer volume ID format looks like the following:
-///   arn:aws:storagegateway:us-west-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABBCCDDEEFFG.
-///  A snapshot ID with the longer ID format looks like the following: snap-78e226633445566ee.
-///  For more information, see Announcement: Heads-up – Longer Storage Gateway volume and snapshot IDs coming in 2016.
+/// Storage Gateway Service Storage Gateway is the service that connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization's on-premises IT environment and the Amazon Web Services storage infrastructure. The service enables you to securely upload data to the Amazon Web Services Cloud for cost effective backup and rapid disaster recovery. Use the following links to get started using the Storage Gateway Service API Reference:    Storage Gateway required request headers: Describes the required headers that you must send with every POST request to Storage Gateway.    Signing requests: Storage Gateway requires that you authenticate every request you send; this topic describes how sign such a request.    Error responses: Provides reference information about Storage Gateway errors.    Operations in Storage Gateway: Contains detailed descriptions of all Storage Gateway operations, their request parameters, response elements, possible errors, and examples of requests and responses.    Storage Gateway endpoints and quotas: Provides a list of each Amazon Web Services Region and the endpoints available for use with Storage Gateway.    Storage Gateway resource IDs are in uppercase. When you use these resource IDs with the Amazon EC2 API, EC2 expects resource IDs in lowercase. You must change your resource ID to lowercase to use it with the EC2 API. For example, in Storage Gateway the ID for a volume might be vol-AA22BB012345DAF670. When you use this ID with the EC2 API, you must change it to vol-aa22bb012345daf670. Otherwise, the EC2 API might not behave as expected.   IDs for Storage Gateway volumes and Amazon EBS snapshots created from gateway volumes are changing to a longer format. Starting in December 2016, all new volumes and snapshots will be created with a 17-character string. Starting in April 2016, you will be able to use these longer IDs so you can test your systems with the new format. For more information, see Longer EC2 and EBS resource IDs. For example, a volume Amazon Resource Name (ARN) with the longer volume ID format looks like the following:  arn:aws:storagegateway:us-west-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABBCCDDEEFFG. A snapshot ID with the longer ID format looks like the following: snap-78e226633445566ee. For more information, see Announcement: Heads-up – Longer Storage Gateway volume and snapshot IDs coming in 2016.
 public struct StorageGateway: AWSService {
     // MARK: Member variables
 
@@ -110,8 +101,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Configures one or more gateway local disks as cache for a gateway. This operation is only supported in the cached volume, tape, and file gateway type (see How Storage Gateway works (architecture).
-    ///  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add cache, and one or more disk IDs that you want to configure as cache.
+    /// Configures one or more gateway local disks as cache for a gateway. This operation is only supported in the cached volume, tape, and file gateway type (see How Storage Gateway works (architecture). In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add cache, and one or more disk IDs that you want to configure as cache.
     @Sendable
     public func addCache(_ input: AddCacheInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddCacheOutput {
         return try await self.client.execute(
@@ -124,9 +114,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environment, or team. Each tag consists of a key and a value, which you define. You can add tags to the following Storage Gateway resources:
-    ///    Storage gateways of all types   Storage volumes   Virtual tapes   NFS and SMB file shares   File System associations
-    ///  You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes that are recovered to a new gateway maintain their tags.
+    /// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environment, or team. Each tag consists of a key and a value, which you define. You can add tags to the following Storage Gateway resources:   Storage gateways of all types   Storage volumes   Virtual tapes   NFS and SMB file shares   File System associations   You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes that are recovered to a new gateway maintain their tags.
     @Sendable
     public func addTagsToResource(_ input: AddTagsToResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsToResourceOutput {
         return try await self.client.execute(
@@ -139,8 +127,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Configures one or more gateway local disks as upload buffer for a specified gateway. This operation is supported for the stored volume, cached volume, and tape gateway types.
-    ///  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload buffer, and one or more disk IDs that you want to configure as upload buffer.
+    /// Configures one or more gateway local disks as upload buffer for a specified gateway. This operation is supported for the stored volume, cached volume, and tape gateway types. In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload buffer, and one or more disk IDs that you want to configure as upload buffer.
     @Sendable
     public func addUploadBuffer(_ input: AddUploadBufferInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddUploadBufferOutput {
         return try await self.client.execute(
@@ -153,9 +140,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Configures one or more gateway local disks as working storage for a gateway. This operation is only supported in the stored volume gateway type. This operation is deprecated in cached volume API version 20120630. Use AddUploadBuffer instead.
-    ///   Working storage is also referred to as upload buffer. You can also use the AddUploadBuffer operation to add upload buffer to a stored volume gateway.
-    ///  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add working storage, and one or more disk IDs that you want to configure as working storage.
+    /// Configures one or more gateway local disks as working storage for a gateway. This operation is only supported in the stored volume gateway type. This operation is deprecated in cached volume API version 20120630. Use AddUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the AddUploadBuffer operation to add upload buffer to a stored volume gateway.  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add working storage, and one or more disk IDs that you want to configure as working storage.
     @Sendable
     public func addWorkingStorage(_ input: AddWorkingStorageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddWorkingStorageOutput {
         return try await self.client.execute(
@@ -233,10 +218,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway type.
-    ///   Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway.
-    ///  In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume and returns information about it. This information includes the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
-    ///  Optionally, you can provide the ARN for an existing volume as the SourceVolumeARN for this cached volume, which creates an exact copy of the existing volume’s latest recovery point. The VolumeSizeInBytes value must be equal to or larger than the size of the copied volume, in bytes.
+    /// Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway type.  Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway.  In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume and returns information about it. This information includes the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target. Optionally, you can provide the ARN for an existing volume as the SourceVolumeARN for this cached volume, which creates an exact copy of the existing volume’s latest recovery point. The VolumeSizeInBytes value must be equal to or larger than the size of the copied volume, in bytes.
     @Sendable
     public func createCachediSCSIVolume(_ input: CreateCachediSCSIVolumeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCachediSCSIVolumeOutput {
         return try await self.client.execute(
@@ -249,9 +231,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an NFS interface. This operation is only supported for S3 File Gateways.
-    ///   S3 File gateway requires Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your S3 File Gateway in. If Amazon Web Services STS is not activated in the Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide.
-    ///  S3 File Gateways do not support creating hard or symbolic links on a file share.
+    /// Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an NFS interface. This operation is only supported for S3 File Gateways.  S3 File gateway requires Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your S3 File Gateway in. If Amazon Web Services STS is not activated in the Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide. S3 File Gateways do not support creating hard or symbolic links on a file share.
     @Sendable
     public func createNFSFileShare(_ input: CreateNFSFileShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNFSFileShareOutput {
         return try await self.client.execute(
@@ -264,9 +244,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an SMB interface. This operation is only supported for S3 File Gateways.
-    ///   S3 File Gateways require Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure that Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your S3 File Gateway in. If Amazon Web Services STS is not activated in this Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide.
-    ///  File gateways don't support creating hard or symbolic links on a file share.
+    /// Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an SMB interface. This operation is only supported for S3 File Gateways.  S3 File Gateways require Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure that Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your S3 File Gateway in. If Amazon Web Services STS is not activated in this Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share.
     @Sendable
     public func createSMBFileShare(_ input: CreateSMBFileShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSMBFileShareOutput {
         return try await self.client.execute(
@@ -279,11 +257,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Initiates a snapshot of a volume.
-    ///  Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you to take an ad hoc snapshot. For more information, see Editing a snapshot schedule.
-    ///  In the CreateSnapshot request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the Storage Gateway console. In response, Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway type.
-    ///   To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.
-    ///   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page.
+    /// Initiates a snapshot of a volume. Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you to take an ad hoc snapshot. For more information, see Editing a snapshot schedule. In the CreateSnapshot request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the Storage Gateway console. In response, Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway type.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotOutput {
         return try await self.client.execute(
@@ -296,10 +270,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Initiates a snapshot of a gateway from a volume recovery point. This operation is only supported in the cached volume gateway type.
-    ///  A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To get a list of volume recovery point for cached volume gateway, use ListVolumeRecoveryPoints.
-    ///  In the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and its description appear in the Storage Gateway console. In response, the gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.
-    ///   To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.
+    /// Initiates a snapshot of a gateway from a volume recovery point. This operation is only supported in the cached volume gateway type. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To get a list of volume recovery point for cached volume gateway, use ListVolumeRecoveryPoints. In the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and its description appear in the Storage Gateway console. In response, the gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.
     @Sendable
     public func createSnapshotFromVolumeRecoveryPoint(_ input: CreateSnapshotFromVolumeRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotFromVolumeRecoveryPointOutput {
         return try await self.client.execute(
@@ -312,9 +283,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type.
-    ///  The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased.
-    ///  In the request, you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
+    /// Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
     @Sendable
     public func createStorediSCSIVolume(_ input: CreateStorediSCSIVolumeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStorediSCSIVolumeOutput {
         return try await self.client.execute(
@@ -340,8 +309,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type.
-    ///   Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway.
+    /// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway.
     @Sendable
     public func createTapeWithBarcode(_ input: CreateTapeWithBarcodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTapeWithBarcodeOutput {
         return try await self.client.execute(
@@ -354,8 +322,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway type.
-    ///   Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway.
+    /// Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway.
     @Sendable
     public func createTapes(_ input: CreateTapesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTapesOutput {
         return try await self.client.execute(
@@ -420,9 +387,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name (ARN) of the gateway in your request. The operation deletes the gateway; however, it does not delete the gateway virtual machine (VM) from your host computer.
-    ///  After you delete a gateway, you cannot reactivate it. Completed snapshots of the gateway volumes are not deleted upon deleting the gateway, however, pending snapshots will not complete. After you delete a gateway, your next step is to remove it from your environment.
-    ///   You no longer pay software charges after the gateway is deleted; however, your existing Amazon EBS snapshots persist and you will continue to be billed for these snapshots. You can choose to remove all remaining Amazon EBS snapshots by canceling your Amazon EC2 subscription.  If you prefer not to cancel your Amazon EC2 subscription, you can delete your snapshots using the Amazon EC2 console. For more information, see the Storage Gateway detail page.
+    /// Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name (ARN) of the gateway in your request. The operation deletes the gateway; however, it does not delete the gateway virtual machine (VM) from your host computer. After you delete a gateway, you cannot reactivate it. Completed snapshots of the gateway volumes are not deleted upon deleting the gateway, however, pending snapshots will not complete. After you delete a gateway, your next step is to remove it from your environment.  You no longer pay software charges after the gateway is deleted; however, your existing Amazon EBS snapshots persist and you will continue to be billed for these snapshots. You can choose to remove all remaining Amazon EBS snapshots by canceling your Amazon EC2 subscription.  If you prefer not to cancel your Amazon EC2 subscription, you can delete your snapshots using the Amazon EC2 console. For more information, see the Storage Gateway detail page.
     @Sendable
     public func deleteGateway(_ input: DeleteGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayOutput {
         return try await self.client.execute(
@@ -435,10 +400,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Deletes a snapshot of a volume.
-    ///  You can take snapshots of your gateway volumes on a scheduled or ad hoc basis. This API action enables you to delete a snapshot schedule for a volume. For more information, see Backing up your volumes. In the DeleteSnapshotSchedule request, you identify the volume by providing its Amazon Resource Name (ARN). This operation is only supported for cached volume gateway types.
-    ///
-    ///  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
+    /// Deletes a snapshot of a volume. You can take snapshots of your gateway volumes on a scheduled or ad hoc basis. This API action enables you to delete a snapshot schedule for a volume. For more information, see Backing up your volumes. In the DeleteSnapshotSchedule request, you identify the volume by providing its Amazon Resource Name (ARN). This operation is only supported for cached volume gateway types.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
     @Sendable
     public func deleteSnapshotSchedule(_ input: DeleteSnapshotScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSnapshotScheduleOutput {
         return try await self.client.execute(
@@ -490,9 +452,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. This operation is only supported in the cached volume and stored volume types. For stored volume gateways, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume.
-    ///  Before you delete a volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make sure there is no snapshot in progress. You can use the Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and check the snapshot status. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-    ///  In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you want to delete.
+    /// Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. This operation is only supported in the cached volume and stored volume types. For stored volume gateways, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume. Before you delete a volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make sure there is no snapshot in progress. You can use the Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and check the snapshot status. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference. In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you want to delete.
     @Sendable
     public func deleteVolume(_ input: DeleteVolumeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVolumeOutput {
         return try await self.client.execute(
@@ -518,8 +478,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported only for the stored volume, cached volume, and tape gateway types. To describe bandwidth rate limits for S3 file gateways, use DescribeBandwidthRateLimitSchedule.
-    ///  This operation returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+    /// Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported only for the stored volume, cached volume, and tape gateway types. To describe bandwidth rate limits for S3 file gateways, use DescribeBandwidthRateLimitSchedule. This operation returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
     @Sendable
     public func describeBandwidthRateLimit(_ input: DescribeBandwidthRateLimitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBandwidthRateLimitOutput {
         return try await self.client.execute(
@@ -532,10 +491,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    ///  Returns information about the bandwidth rate limit schedule of a gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. This operation is supported only for volume, tape and S3 file gateways. FSx file gateways do not support bandwidth rate limits.
-    ///  This operation returns information about a gateway's bandwidth rate limit schedule. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.
-    ///  A bandwidth rate limit interval consists of one or more days of the week, a start hour and minute, an ending hour and minute, and bandwidth rate limits for uploading and downloading
-    ///  If no bandwidth rate limit schedule intervals are set for the gateway, this operation returns an empty response. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+    ///  Returns information about the bandwidth rate limit schedule of a gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. This operation is supported only for volume, tape and S3 file gateways. FSx file gateways do not support bandwidth rate limits. This operation returns information about a gateway's bandwidth rate limit schedule. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.  A bandwidth rate limit interval consists of one or more days of the week, a start hour and minute, an ending hour and minute, and bandwidth rate limits for uploading and downloading  If no bandwidth rate limit schedule intervals are set for the gateway, this operation returns an empty response. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
     @Sendable
     public func describeBandwidthRateLimitSchedule(_ input: DescribeBandwidthRateLimitScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBandwidthRateLimitScheduleOutput {
         return try await self.client.execute(
@@ -548,8 +504,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns information about the cache of a gateway. This operation is only supported in the cached volume, tape, and file gateway types.
-    ///  The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
+    /// Returns information about the cache of a gateway. This operation is only supported in the cached volume, tape, and file gateway types. The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
     @Sendable
     public func describeCache(_ input: DescribeCacheInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCacheOutput {
         return try await self.client.execute(
@@ -562,8 +517,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types.
-    ///  The list of gateway volumes in the request must be from one gateway. In the response, Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
+    /// Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types. The list of gateway volumes in the request must be from one gateway. In the response, Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
     @Sendable
     public func describeCachediSCSIVolumes(_ input: DescribeCachediSCSIVolumesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCachediSCSIVolumesOutput {
         return try await self.client.execute(
@@ -602,7 +556,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns metadata about a gateway such as its name, network interfaces, configured time zone, and the state (whether the gateway is running or not). To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+    /// Returns metadata about a gateway such as its name, network interfaces, time zone, status, and software version. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
     @Sendable
     public func describeGatewayInformation(_ input: DescribeGatewayInformationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayInformationOutput {
         return try await self.client.execute(
@@ -693,8 +647,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type.
-    ///  If a specific TapeARN is not specified, Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
+    /// Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
     @Sendable
     public func describeTapeArchives(_ input: DescribeTapeArchivesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTapeArchivesOutput {
         return try await self.client.execute(
@@ -707,8 +660,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns a list of virtual tape recovery points that are available for the specified tape gateway.
-    ///  A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway type.
+    /// Returns a list of virtual tape recovery points that are available for the specified tape gateway. A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway type.
     @Sendable
     public func describeTapeRecoveryPoints(_ input: DescribeTapeRecoveryPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTapeRecoveryPointsOutput {
         return try await self.client.execute(
@@ -734,8 +686,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns information about the upload buffer of a gateway. This operation is supported for the stored volume, cached volume, and tape gateway types.
-    ///  The response includes disk IDs that are configured as upload buffer space, and it includes the amount of upload buffer space allocated and used.
+    /// Returns information about the upload buffer of a gateway. This operation is supported for the stored volume, cached volume, and tape gateway types. The response includes disk IDs that are configured as upload buffer space, and it includes the amount of upload buffer space allocated and used.
     @Sendable
     public func describeUploadBuffer(_ input: DescribeUploadBufferInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUploadBufferOutput {
         return try await self.client.execute(
@@ -748,8 +699,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, Storage Gateway returns VTL device information.
-    ///  This operation is only supported in the tape gateway type.
+    /// Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, Storage Gateway returns VTL device information. This operation is only supported in the tape gateway type.
     @Sendable
     public func describeVTLDevices(_ input: DescribeVTLDevicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVTLDevicesOutput {
         return try await self.client.execute(
@@ -762,9 +712,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns information about the working storage of a gateway. This operation is only supported in the stored volumes gateway type. This operation is deprecated in cached volumes API version (20120630). Use DescribeUploadBuffer instead.
-    ///   Working storage is also referred to as upload buffer. You can also use the DescribeUploadBuffer operation to add upload buffer to a stored volume gateway.
-    ///  The response includes disk IDs that are configured as working storage, and it includes the amount of working storage allocated and used.
+    /// Returns information about the working storage of a gateway. This operation is only supported in the stored volumes gateway type. This operation is deprecated in cached volumes API version (20120630). Use DescribeUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the DescribeUploadBuffer operation to add upload buffer to a stored volume gateway.  The response includes disk IDs that are configured as working storage, and it includes the amount of working storage allocated and used.
     @Sendable
     public func describeWorkingStorage(_ input: DescribeWorkingStorageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkingStorageOutput {
         return try await self.client.execute(
@@ -790,9 +738,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Disables a tape gateway when the gateway is no longer functioning. For example, if your gateway VM is damaged, you can disable the gateway so you can recover virtual tapes.
-    ///  Use this operation for a tape gateway that is not reachable or not functioning. This operation is only supported in the tape gateway type.
-    ///   After a gateway is disabled, it cannot be enabled.
+    /// Disables a tape gateway when the gateway is no longer functioning. For example, if your gateway VM is damaged, you can disable the gateway so you can recover virtual tapes. Use this operation for a tape gateway that is not reachable or not functioning. This operation is only supported in the tape gateway type.  After a gateway is disabled, it cannot be enabled.
     @Sendable
     public func disableGateway(_ input: DisableGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableGatewayOutput {
         return try await self.client.execute(
@@ -818,7 +764,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Adds a file gateway to an Active Directory domain. This operation is only supported for file gateways that support the SMB file protocol.
+    /// Adds a file gateway to an Active Directory domain. This operation is only supported for file gateways that support the SMB file protocol.  Joining a domain creates an Active Directory computer account in the default organizational unit, using the gateway's Gateway ID as the account name (for example, SGW-1234ADE). If your Active Directory environment requires that you pre-stage accounts to facilitate the join domain process, you will need to create this account ahead of time. To create the gateway's computer account in an organizational unit other than the default, you must specify the organizational unit when joining the domain.
     @Sendable
     public func joinDomain(_ input: JoinDomainInput, logger: Logger = AWSClient.loggingDisabled) async throws -> JoinDomainOutput {
         return try await self.client.execute(
@@ -831,8 +777,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists the automatic tape creation policies for a gateway. If there are no automatic tape creation policies for the gateway, it returns an empty list.
-    ///  This operation is only supported for tape gateways.
+    /// Lists the automatic tape creation policies for a gateway. If there are no automatic tape creation policies for the gateway, it returns an empty list. This operation is only supported for tape gateways.
     @Sendable
     public func listAutomaticTapeCreationPolicies(_ input: ListAutomaticTapeCreationPoliciesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomaticTapeCreationPoliciesOutput {
         return try await self.client.execute(
@@ -845,7 +790,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling user account. This operation is only supported for S3 File Gateways.
+    /// Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling Amazon Web Services account. This operation is only supported for S3 File Gateways.
     @Sendable
     public func listFileShares(_ input: ListFileSharesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFileSharesOutput {
         return try await self.client.execute(
@@ -871,9 +816,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN).
-    ///  By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response.
-    ///  If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
+    /// Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
     @Sendable
     public func listGateways(_ input: ListGatewaysInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewaysOutput {
         return try await self.client.execute(
@@ -886,8 +829,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Returns a list of the gateway's local disks. To specify which gateway to describe, you use the Amazon Resource Name (ARN) of the gateway in the body of the request.
-    ///  The request returns a list of all disks, specifying which are configured as working storage, cache storage, or stored volume or not configured at all. The response includes a DiskStatus field. This field can have a value of present (the disk is available to use), missing (the disk is no longer connected to the gateway), or mismatch (the disk node is occupied by a disk that has incorrect metadata or the disk content is corrupted).
+    /// Returns a list of the gateway's local disks. To specify which gateway to describe, you use the Amazon Resource Name (ARN) of the gateway in the body of the request. The request returns a list of all disks, specifying which are configured as working storage, cache storage, or stored volume or not configured at all. The response includes a DiskStatus field. This field can have a value of present (the disk is available to use), missing (the disk is no longer connected to the gateway), or mismatch (the disk node is occupied by a disk that has incorrect metadata or the disk content is corrupted).
     @Sendable
     public func listLocalDisks(_ input: ListLocalDisksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLocalDisksOutput {
         return try await self.client.execute(
@@ -913,8 +855,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists custom tape pools. You specify custom tape pools to list by specifying one or more custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN, the operation lists all custom tape pools.
-    ///  This operation supports pagination. You can optionally specify the Limit parameter in the body to limit the number of tape pools in the response. If the number of tape pools returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tape pools.
+    /// Lists custom tape pools. You specify custom tape pools to list by specifying one or more custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN, the operation lists all custom tape pools. This operation supports pagination. You can optionally specify the Limit parameter in the body to limit the number of tape pools in the response. If the number of tape pools returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tape pools.
     @Sendable
     public func listTapePools(_ input: ListTapePoolsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTapePoolsOutput {
         return try await self.client.execute(
@@ -927,8 +868,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS.
-    ///  This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway type.
+    /// Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS. This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway type.
     @Sendable
     public func listTapes(_ input: ListTapesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTapesOutput {
         return try await self.client.execute(
@@ -954,8 +894,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists the recovery points for a specified gateway. This operation is only supported in the cached volume gateway type.
-    ///  Each cache volume has one recovery point. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot or clone a new cached volume from a source volume. To create a snapshot from a volume recovery point use the CreateSnapshotFromVolumeRecoveryPoint operation.
+    /// Lists the recovery points for a specified gateway. This operation is only supported in the cached volume gateway type. Each cache volume has one recovery point. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot or clone a new cached volume from a source volume. To create a snapshot from a volume recovery point use the CreateSnapshotFromVolumeRecoveryPoint operation.
     @Sendable
     public func listVolumeRecoveryPoints(_ input: ListVolumeRecoveryPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVolumeRecoveryPointsOutput {
         return try await self.client.execute(
@@ -968,8 +907,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API.
-    ///  The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway types.
+    /// Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API. The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway types.
     @Sendable
     public func listVolumes(_ input: ListVolumesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVolumesOutput {
         return try await self.client.execute(
@@ -982,10 +920,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Sends you notification through CloudWatch Events when all files written to your file share have been uploaded to S3. Amazon S3.
-    ///  Storage Gateway can send a notification through Amazon CloudWatch Events when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways.
-    ///
-    ///  For more information, see Getting file upload notification in the Storage Gateway User Guide.
+    /// Sends you notification through CloudWatch Events when all files written to your file share have been uploaded to S3. Amazon S3. Storage Gateway can send a notification through Amazon CloudWatch Events when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways. For more information, see Getting file upload notification in the Amazon S3 File Gateway User Guide.
     @Sendable
     public func notifyWhenUploaded(_ input: NotifyWhenUploadedInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyWhenUploadedOutput {
         return try await self.client.execute(
@@ -998,14 +933,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's contents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types.
-    ///  You can subscribe to be notified through an Amazon CloudWatch event when your RefreshCache operation completes. For more information, see Getting notified about file operations in the Storage Gateway User Guide. This operation is Only supported for S3 File Gateways.
-    ///  When this API is called, it only initiates the refresh operation. When the API call completes and returns a success code, it doesn't necessarily mean that the file refresh has completed. You should use the refresh-complete notification to determine that the operation has completed before you check for new files on the gateway file share. You can subscribe to be notified through a CloudWatch event when your RefreshCache operation completes.
-    ///  Throttle limit: This API is asynchronous, so the gateway will accept no more than two refreshes at any time. We recommend using the refresh-complete CloudWatch event notification before issuing additional requests. For more information, see Getting notified about file operations in the Storage Gateway User Guide.
-    ///     Wait at least 60 seconds between consecutive RefreshCache API requests.   RefreshCache does not evict cache entries if invoked consecutively within 60 seconds of a previous RefreshCache request.   If you invoke the RefreshCache API when two requests are already being processed, any new request will cause an InvalidGatewayRequestException error because too many requests were sent to the server.
-    ///   The S3 bucket name does not need to be included when entering the list of folders in the FolderList parameter.
-    ///
-    ///  For more information, see Getting notified about file operations in the Storage Gateway User Guide.
+    /// Refreshes the cached inventory of objects for the specified file share. This operation finds objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the bucket's contents and cached the results. This operation does not import files into the S3 File Gateway cache storage. It only updates the cached inventory to reflect changes in the inventory of the objects in the S3 bucket. This operation is only supported in the S3 File Gateway types. You can subscribe to be notified through an Amazon CloudWatch event when your RefreshCache operation completes. For more information, see Getting notified about file operations in the Storage Gateway User Guide. This operation is Only supported for S3 File Gateways. When this API is called, it only initiates the refresh operation. When the API call completes and returns a success code, it doesn't necessarily mean that the file refresh has completed. You should use the refresh-complete notification to determine that the operation has completed before you check for new files on the gateway file share. You can subscribe to be notified through a CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is asynchronous, so the gateway will accept no more than two refreshes at any time. We recommend using the refresh-complete CloudWatch event notification before issuing additional requests. For more information, see Getting notified about file operations in the Storage Gateway User Guide.    Wait at least 60 seconds between consecutive RefreshCache API requests.   If you invoke the RefreshCache API when two requests are already being processed, any new request will cause an InvalidGatewayRequestException error because too many requests were sent to the server.     The S3 bucket name does not need to be included when entering the list of folders in the FolderList parameter.  For more information, see Getting notified about file operations in the Storage Gateway User Guide.
     @Sendable
     public func refreshCache(_ input: RefreshCacheInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RefreshCacheOutput {
         return try await self.client.execute(
@@ -1031,8 +959,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Resets all cache disks that have encountered an error and makes the disks available for reconfiguration as cache storage. If your cache disk encounters an error, the gateway prevents read and write operations on virtual tapes in the gateway. For example, an error can occur when a disk is corrupted or removed from the gateway. When a cache is reset, the gateway loses its cache storage. At this point, you can reconfigure the disks as cache disks. This operation is only supported in the cached volume and tape types.
-    ///   If the cache disk you are resetting contains data that has not been uploaded to Amazon S3 yet, that data can be lost. After you reset cache disks, there will be no configured cache disks left in the gateway, so you must configure at least one new cache disk for your gateway to function properly.
+    /// Resets all cache disks that have encountered an error and makes the disks available for reconfiguration as cache storage. If your cache disk encounters an error, the gateway prevents read and write operations on virtual tapes in the gateway. For example, an error can occur when a disk is corrupted or removed from the gateway. When a cache is reset, the gateway loses its cache storage. At this point, you can reconfigure the disks as cache disks. This operation is only supported in the cached volume and tape types.  If the cache disk you are resetting contains data that has not been uploaded to Amazon S3 yet, that data can be lost. After you reset cache disks, there will be no configured cache disks left in the gateway, so you must configure at least one new cache disk for your gateway to function properly.
     @Sendable
     public func resetCache(_ input: ResetCacheInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetCacheOutput {
         return try await self.client.execute(
@@ -1045,8 +972,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape gateway. Virtual tapes archived in the VTS are not associated with any gateway. However after a tape is retrieved, it is associated with a gateway, even though it is also listed in the VTS, that is, archive. This operation is only supported in the tape gateway type.
-    ///  Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another gateway. You must archive the tape again before you can retrieve it to another gateway. This operation is only supported in the tape gateway type.
+    /// Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape gateway. Virtual tapes archived in the VTS are not associated with any gateway. However after a tape is retrieved, it is associated with a gateway, even though it is also listed in the VTS, that is, archive. This operation is only supported in the tape gateway type. Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another gateway. You must archive the tape again before you can retrieve it to another gateway. This operation is only supported in the tape gateway type.
     @Sendable
     public func retrieveTapeArchive(_ input: RetrieveTapeArchiveInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveTapeArchiveOutput {
         return try await self.client.execute(
@@ -1059,9 +985,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Retrieves the recovery point for the specified virtual tape. This operation is only supported in the tape gateway type.
-    ///  A recovery point is a point in time view of a virtual tape at which all the data on the tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.
-    ///   The virtual tape can be retrieved to only one gateway. The retrieved tape is read-only. The virtual tape can be retrieved to only a tape gateway. There is no charge for retrieving recovery points.
+    /// Retrieves the recovery point for the specified virtual tape. This operation is only supported in the tape gateway type. A recovery point is a point in time view of a virtual tape at which all the data on the tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.  The virtual tape can be retrieved to only one gateway. The retrieved tape is read-only. The virtual tape can be retrieved to only a tape gateway. There is no charge for retrieving recovery points.
     @Sendable
     public func retrieveTapeRecoveryPoint(_ input: RetrieveTapeRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveTapeRecoveryPointOutput {
         return try await self.client.execute(
@@ -1100,12 +1024,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request.
-    ///  The operation shuts down the gateway service component running in the gateway's virtual machine (VM) and not the host VM.
-    ///   If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpredictable conditions.
-    ///  After the gateway is shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation, and ListGateways. For more information, see ActivateGateway. Your applications cannot read from or write to the gateway's storage volumes, and there are no snapshots taken.
-    ///   When you make a shutdown request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to shut down. You can call the DescribeGatewayInformation API to check the status. For more information, see ActivateGateway.
-    ///  If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the gateway.
+    /// Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request. The operation shuts down the gateway service component running in the gateway's virtual machine (VM) and not the host VM.  If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpredictable conditions.  After the gateway is shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation, and ListGateways. For more information, see ActivateGateway. Your applications cannot read from or write to the gateway's storage volumes, and there are no snapshots taken.  When you make a shutdown request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to shut down. You can call the DescribeGatewayInformation API to check the status. For more information, see ActivateGateway.  If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the gateway.
     @Sendable
     public func shutdownGateway(_ input: ShutdownGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ShutdownGatewayOutput {
         return try await self.client.execute(
@@ -1131,9 +1050,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Starts a gateway that you previously shut down (see ShutdownGateway). After the gateway starts, you can then make other API calls, your applications can read from or write to the gateway's storage volumes and you will be able to take snapshot backups.
-    ///   When you make a request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to be ready. You should call DescribeGatewayInformation and check the status before making any additional API calls. For more information, see ActivateGateway.
-    ///  To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your request.
+    /// Starts a gateway that you previously shut down (see ShutdownGateway). After the gateway starts, you can then make other API calls, your applications can read from or write to the gateway's storage volumes and you will be able to take snapshot backups.  When you make a request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to be ready. You should call DescribeGatewayInformation and check the status before making any additional API calls. For more information, see ActivateGateway.  To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your request.
     @Sendable
     public func startGateway(_ input: StartGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartGatewayOutput {
         return try await self.client.execute(
@@ -1146,9 +1063,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates the automatic tape creation policy of a gateway. Use this to update the policy with a new set of automatic tape creation rules. This is only supported for tape gateways.
-    ///  By default, there is no automatic tape creation policy.
-    ///   A gateway can have only one automatic tape creation policy.
+    /// Updates the automatic tape creation policy of a gateway. Use this to update the policy with a new set of automatic tape creation rules. This is only supported for tape gateways. By default, there is no automatic tape creation policy.  A gateway can have only one automatic tape creation policy.
     @Sendable
     public func updateAutomaticTapeCreationPolicy(_ input: UpdateAutomaticTapeCreationPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomaticTapeCreationPolicyOutput {
         return try await self.client.execute(
@@ -1161,9 +1076,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. This operation is supported only for the stored volume, cached volume, and tape gateway types. To update bandwidth rate limits for S3 file gateways, use UpdateBandwidthRateLimitSchedule.
-    ///  By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the gateway does not have any limitations on its bandwidth usage and could potentially use the maximum available bandwidth.
-    ///  To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
+    /// Updates the bandwidth rate limits of a gateway. You can update both the upload and download bandwidth rate limit or specify only one of the two. If you don't set a bandwidth rate limit, the existing rate limit remains. This operation is supported only for the stored volume, cached volume, and tape gateway types. To update bandwidth rate limits for S3 file gateways, use UpdateBandwidthRateLimitSchedule. By default, a gateway's bandwidth rate limits are not set. If you don't set any limit, the gateway does not have any limitations on its bandwidth usage and could potentially use the maximum available bandwidth. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
     @Sendable
     public func updateBandwidthRateLimit(_ input: UpdateBandwidthRateLimitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBandwidthRateLimitOutput {
         return try await self.client.execute(
@@ -1176,7 +1089,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    ///  Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This operation is supported only for volume, tape and S3 file gateways. FSx file gateways do not support bandwidth rate limits.
+    ///  Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This operation is supported for volume, tape, and S3 file gateways. S3 file gateways support bandwidth rate limits for upload only. FSx file gateways do not support bandwidth rate limits.
     @Sendable
     public func updateBandwidthRateLimitSchedule(_ input: UpdateBandwidthRateLimitScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBandwidthRateLimitScheduleOutput {
         return try await self.client.execute(
@@ -1189,8 +1102,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it. This operation is supported in the volume and tape gateway types.
-    ///   When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new credentials.
+    /// Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it. This operation is supported in the volume and tape gateway types.  When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new credentials.
     @Sendable
     public func updateChapCredentials(_ input: UpdateChapCredentialsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChapCredentialsOutput {
         return try await self.client.execute(
@@ -1216,8 +1128,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates a gateway's metadata, which includes the gateway's name and time zone. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
-    ///   For gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN.
+    /// Updates a gateway's metadata, which includes the gateway's name and time zone. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.  For gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN.
     @Sendable
     public func updateGatewayInformation(_ input: UpdateGatewayInformationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayInformationOutput {
         return try await self.client.execute(
@@ -1230,9 +1141,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.
-    ///   When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. You can call DescribeGatewayInformation to verify the gateway is in the STATE_RUNNING state.
-    ///   A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by increasing your iSCSI Initiators' timeouts. For more information about increasing iSCSI Initiator timeouts for Windows and Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. You can call DescribeGatewayInformation to verify the gateway is in the STATE_RUNNING state.   A software update forces a system restart of your gateway. You can minimize the chance of any disruption to your applications by increasing your iSCSI Initiators' timeouts. For more information about increasing iSCSI Initiator timeouts for Windows and Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
     @Sendable
     public func updateGatewaySoftwareNow(_ input: UpdateGatewaySoftwareNowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewaySoftwareNowOutput {
         return try await self.client.execute(
@@ -1258,10 +1167,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates a Network File System (NFS) file share. This operation is only supported in S3 File Gateways.
-    ///   To leave a file share field unchanged, set the corresponding input field to null.
-    ///  Updates the following file share settings:
-    ///    Default storage class for your S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share   Squash settings   Write status of your file share
+    /// Updates a Network File System (NFS) file share. This operation is only supported in S3 File Gateways.  To leave a file share field unchanged, set the corresponding input field to null.  Updates the following file share settings:   Default storage class for your S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share   Squash settings   Write status of your file share
     @Sendable
     public func updateNFSFileShare(_ input: UpdateNFSFileShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNFSFileShareOutput {
         return try await self.client.execute(
@@ -1274,10 +1180,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates a Server Message Block (SMB) file share. This operation is only supported for S3 File Gateways.
-    ///   To leave a file share field unchanged, set the corresponding input field to null.
-    ///   File gateways require Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure that Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your file gateway in. If Amazon Web Services STS is not activated in this Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide.
-    ///  File gateways don't support creating hard or symbolic links on a file share.
+    /// Updates a Server Message Block (SMB) file share. This operation is only supported for S3 File Gateways.  To leave a file share field unchanged, set the corresponding input field to null.   File gateways require Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure that Amazon Web Services STS is activated in the Amazon Web Services Region you are creating your file gateway in. If Amazon Web Services STS is not activated in this Amazon Web Services Region, activate it. For information about how to activate Amazon Web Services STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share.
     @Sendable
     public func updateSMBFileShare(_ input: UpdateSMBFileShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSMBFileShareOutput {
         return try await self.client.execute(
@@ -1316,9 +1219,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates the SMB security strategy on a file gateway. This action is only supported in file gateways.
-    ///   This API is called Security level in the User Guide.
-    ///  A higher security level can affect performance of the gateway.
+    /// Updates the SMB security strategy on a file gateway. This action is only supported in file gateways.  This API is called Security level in the User Guide. A higher security level can affect performance of the gateway.
     @Sendable
     public func updateSMBSecurityStrategy(_ input: UpdateSMBSecurityStrategyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSMBSecurityStrategyOutput {
         return try await self.client.execute(
@@ -1331,9 +1232,7 @@ public struct StorageGateway: AWSService {
         )
     }
 
-    /// Updates a snapshot schedule configured for a gateway volume. This operation is only supported in the cached volume and stored volume gateway types.
-    ///  The default snapshot schedule for volume is once every 24 hours, starting at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume.
-    ///  In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snapshot to begin on a day and the frequency (in hours) of snapshots.
+    /// Updates a snapshot schedule configured for a gateway volume. This operation is only supported in the cached volume and stored volume gateway types. The default snapshot schedule for volume is once every 24 hours, starting at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume. In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snapshot to begin on a day and the frequency (in hours) of snapshots.
     @Sendable
     public func updateSnapshotSchedule(_ input: UpdateSnapshotScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSnapshotScheduleOutput {
         return try await self.client.execute(
@@ -1373,8 +1272,7 @@ extension StorageGateway {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension StorageGateway {
-    /// Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type.
-    ///  If a specific TapeARN is not specified, Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
+    /// Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1393,8 +1291,7 @@ extension StorageGateway {
         )
     }
 
-    /// Returns a list of virtual tape recovery points that are available for the specified tape gateway.
-    ///  A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway type.
+    /// Returns a list of virtual tape recovery points that are available for the specified tape gateway. A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1432,8 +1329,7 @@ extension StorageGateway {
         )
     }
 
-    /// Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, Storage Gateway returns VTL device information.
-    ///  This operation is only supported in the tape gateway type.
+    /// Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, Storage Gateway returns VTL device information. This operation is only supported in the tape gateway type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1452,7 +1348,7 @@ extension StorageGateway {
         )
     }
 
-    /// Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling user account. This operation is only supported for S3 File Gateways.
+    /// Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling Amazon Web Services account. This operation is only supported for S3 File Gateways.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1490,9 +1386,7 @@ extension StorageGateway {
         )
     }
 
-    /// Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN).
-    ///  By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response.
-    ///  If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
+    /// Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1530,8 +1424,7 @@ extension StorageGateway {
         )
     }
 
-    /// Lists custom tape pools. You specify custom tape pools to list by specifying one or more custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN, the operation lists all custom tape pools.
-    ///  This operation supports pagination. You can optionally specify the Limit parameter in the body to limit the number of tape pools in the response. If the number of tape pools returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tape pools.
+    /// Lists custom tape pools. You specify custom tape pools to list by specifying one or more custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN, the operation lists all custom tape pools. This operation supports pagination. You can optionally specify the Limit parameter in the body to limit the number of tape pools in the response. If the number of tape pools returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tape pools.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1550,8 +1443,7 @@ extension StorageGateway {
         )
     }
 
-    /// Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS.
-    ///  This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway type.
+    /// Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS. This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1570,8 +1462,7 @@ extension StorageGateway {
         )
     }
 
-    /// Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API.
-    ///  The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway types.
+    /// Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API. The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway types.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

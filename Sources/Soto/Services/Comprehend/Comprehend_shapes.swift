@@ -26,74 +26,74 @@ import Foundation
 extension Comprehend {
     // MARK: Enums
 
-    public enum AugmentedManifestsDocumentTypeFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum AugmentedManifestsDocumentTypeFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case plainTextDocument = "PLAIN_TEXT_DOCUMENT"
         case semiStructuredDocument = "SEMI_STRUCTURED_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BlockType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case line = "LINE"
         case word = "WORD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case creating = "CREATING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case test = "TEST"
         case train = "TRAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentClassifierDocumentTypeFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentClassifierDocumentTypeFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case plainTextDocument = "PLAIN_TEXT_DOCUMENT"
         case semiStructuredDocument = "SEMI_STRUCTURED_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiClass = "MULTI_CLASS"
         case multiLabel = "MULTI_LABEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentReadAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case textractAnalyzeDocument = "TEXTRACT_ANALYZE_DOCUMENT"
         case textractDetectDocumentText = "TEXTRACT_DETECT_DOCUMENT_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadFeatureTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentReadFeatureTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forms = "FORMS"
         case tables = "TABLES"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentReadMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forceDocumentReadAction = "FORCE_DOCUMENT_READ_ACTION"
         case serviceDefault = "SERVICE_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case image = "IMAGE"
         case msWord = "MS_WORD"
         case nativePdf = "NATIVE_PDF"
@@ -104,7 +104,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -113,13 +113,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commercialItem = "COMMERCIAL_ITEM"
         case date = "DATE"
         case event = "EVENT"
@@ -132,7 +132,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlywheelIterationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FlywheelIterationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case evaluating = "EVALUATING"
         case failed = "FAILED"
@@ -142,7 +142,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlywheelStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FlywheelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -151,13 +151,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneDocPerFile = "ONE_DOC_PER_FILE"
         case oneDocPerLine = "ONE_DOC_PER_LINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -167,7 +167,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ar = "ar"
         case de = "de"
         case en = "en"
@@ -183,7 +183,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case inError = "IN_ERROR"
         case stopRequested = "STOP_REQUESTED"
@@ -195,13 +195,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case documentClassifier = "DOCUMENT_CLASSIFIER"
         case entityRecognizer = "ENTITY_RECOGNIZER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PageBasedErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PageBasedErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServerError = "INTERNAL_SERVER_ERROR"
         case pageCharactersExceeded = "PAGE_CHARACTERS_EXCEEDED"
         case pageSizeExceeded = "PAGE_SIZE_EXCEEDED"
@@ -210,13 +210,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum PageBasedWarningCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PageBasedWarningCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inferencingNativeDocumentWithPlaintextTrainedModel = "INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL"
         case inferencingPlaintextWithNativeTrainedModel = "INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adj = "ADJ"
         case adp = "ADP"
         case adv = "ADV"
@@ -238,19 +238,19 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntitiesDetectionMaskMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PiiEntitiesDetectionMaskMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mask = "MASK"
         case replaceWithPiiEntityType = "REPLACE_WITH_PII_ENTITY_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onlyOffsets = "ONLY_OFFSETS"
         case onlyRedaction = "ONLY_REDACTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case address = "ADDRESS"
         case age = "AGE"
         case all = "ALL"
@@ -291,12 +291,12 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case child = "CHILD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -304,13 +304,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum Split: String, CustomStringConvertible, Codable, Sendable {
+    public enum Split: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case test = "TEST"
         case train = "TRAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case de = "de"
         case en = "en"
         case es = "es"
@@ -320,7 +320,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetedSentimentEntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetedSentimentEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attribute = "ATTRIBUTE"
         case book = "BOOK"
         case brand = "BRAND"
@@ -338,6 +338,17 @@ extension Comprehend {
         case personalTitle = "PERSONAL_TITLE"
         case quantity = "QUANTITY"
         case software = "SOFTWARE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToxicContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case graphic = "GRAPHIC"
+        case harassmentOrAbuse = "HARASSMENT_OR_ABUSE"
+        case hateSpeech = "HATE_SPEECH"
+        case insult = "INSULT"
+        case profanity = "PROFANITY"
+        case sexual = "SEXUAL"
+        case violenceOrThreat = "VIOLENCE_OR_THREAT"
         public var description: String { return self.rawValue }
     }
 
@@ -930,11 +941,11 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentRequest: AWSEncodableShape {
-        /// Use the Bytes parameter to input a text, PDF, Word or image file. You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you.  The maximum length of this field depends on the input document type. For details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text parameter.
+        /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you.  The maximum length of this field depends on the input document type. For details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text parameter.
         public let bytes: AWSBase64Data?
         /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
         public let documentReaderConfig: DocumentReaderConfig?
-        /// The Amazon Resource Number (ARN) of the endpoint. For information about endpoints, see Managing endpoints.
+        /// The Amazon Resource Number (ARN) of the endpoint.  For prompt classification, Amazon Comprehend provides the endpoint ARN: zzz. For custom classification, you create an endpoint for your custom model. For more information,  see Using Amazon Comprehend endpoints.
         public let endpointArn: String
         /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
         public let text: String?
@@ -950,7 +961,7 @@ extension Comprehend {
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.documentReaderConfig?.validate(name: "\(name).documentReaderConfig")
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
-            try self.validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 
@@ -963,7 +974,7 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentResponse: AWSDecodableShape {
-        /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
+        /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.  For prompt classification, the response includes a single class (UNDESIRED_PROMPT), along with a confidence score.  A higher confidence score indicates that the input prompt is undesired in nature.
         public let classes: [DocumentClass]?
         /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
         public let documentMetadata: DocumentMetadata?
@@ -1112,7 +1123,7 @@ extension Comprehend {
         public let modelKmsKeyId: String?
         /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another Amazon Web Services account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy:  "{\"attribute\": \"value\", \"attribute\": [\"value\"]}"  To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values:  '{"attribute": "value", "attribute": ["value"]}'
         public let modelPolicy: String?
-        /// Specifies the location for the output files from a custom classifier job. This parameter is required for a request that creates a native classifier model.
+        /// Specifies the location for the output files from a custom classifier job. This parameter is required for a request that creates a native document model.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
         /// Tags to associate with the document classifier. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
@@ -1360,7 +1371,7 @@ extension Comprehend {
     }
 
     public struct CreateFlywheelRequest: AWSEncodableShape {
-        /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version.
+        /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you specify an ActiveModelArn.
         public let activeModelArn: String?
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -1372,11 +1383,11 @@ extension Comprehend {
         public let dataSecurityConfig: DataSecurityConfig?
         /// Name for the flywheel.
         public let flywheelName: String
-        /// The model type.
+        /// The model type. You need to set ModelType if you are creating a flywheel for a new model.
         public let modelType: ModelType?
         /// The tags to associate with this flywheel.
         public let tags: [Tag]?
-        /// Configuration about the custom classifier associated with the flywheel.
+        /// Configuration about the model associated with the flywheel. You need to set TaskConfig if you are creating a flywheel for a new model.
         public let taskConfig: TaskConfig?
 
         public init(activeModelArn: String? = nil, clientRequestToken: String? = CreateFlywheelRequest.idempotencyToken(), dataAccessRoleArn: String, dataLakeS3Uri: String, dataSecurityConfig: DataSecurityConfig? = nil, flywheelName: String, modelType: ModelType? = nil, tags: [Tag]? = nil, taskConfig: TaskConfig? = nil) {
@@ -2641,6 +2652,43 @@ extension Comprehend {
         }
     }
 
+    public struct DetectToxicContentRequest: AWSEncodableShape {
+        /// The language of the input text. Currently, English is the only supported language.
+        public let languageCode: LanguageCode
+        /// A list of up to 10 text strings. The maximum size for the list is 10 KB.
+        public let textSegments: [TextSegment]
+
+        public init(languageCode: LanguageCode, textSegments: [TextSegment]) {
+            self.languageCode = languageCode
+            self.textSegments = textSegments
+        }
+
+        public func validate(name: String) throws {
+            try self.textSegments.forEach {
+                try $0.validate(name: "\(name).textSegments[]")
+            }
+            try self.validate(self.textSegments, name: "textSegments", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case textSegments = "TextSegments"
+        }
+    }
+
+    public struct DetectToxicContentResponse: AWSDecodableShape {
+        /// Results of the content moderation analysis. Each entry in the results list contains a list of toxic content types identified in  the text, along with a confidence score for each content type.  The results list also includes a toxicity score for each entry in the results list.
+        public let resultList: [ToxicLabels]?
+
+        public init(resultList: [ToxicLabels]? = nil) {
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultList = "ResultList"
+        }
+    }
+
     public struct DocumentClass: AWSDecodableShape {
         /// The name of the class.
         public let name: String?
@@ -2843,15 +2891,15 @@ extension Comprehend {
         /// The format of your training data:    COMPREHEND_CSV: A two-column CSV file, where labels are provided in the first column, and documents are provided in the second. If you use this value, you must provide the S3Uri parameter in your request.    AUGMENTED_MANIFEST: A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line is a complete JSON object that contains a training document and its associated labels.  If you use this value, you must provide the AugmentedManifests parameter in your request.   If you don't specify a value, Amazon Comprehend uses COMPREHEND_CSV as the default.
         public let dataFormat: DocumentClassifierDataFormat?
         public let documentReaderConfig: DocumentReaderConfig?
-        /// The S3 location of the training documents.   This parameter is required in a request to create a native classifier model.
+        /// The S3 location of the training documents.   This parameter is required in a request to create a native document model.
         public let documents: DocumentClassifierDocuments?
-        /// The type of input documents for training the model. Provide plain-text documents to create a plain-text model, and provide semi-structured documents to create a native model.
+        /// The type of input documents for training the model. Provide plain-text documents to create a plain-text model, and provide semi-structured documents to create a native document model.
         public let documentType: DocumentClassifierDocumentTypeFormat?
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public let labelDelimiter: String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public let s3Uri: String?
-        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
+        /// This specifies the Amazon S3 location that contains the test annotations for the document classifier.  The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
         public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, documentReaderConfig: DocumentReaderConfig? = nil, documents: DocumentClassifierDocuments? = nil, documentType: DocumentClassifierDocumentTypeFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil, testS3Uri: String? = nil) {
@@ -4113,7 +4161,7 @@ extension Comprehend {
         public let modelType: ModelType?
         /// The status of the flywheel.
         public let status: FlywheelStatus?
-        /// Configuration about the custom classifier associated with the flywheel.
+        /// Configuration about the model associated with a flywheel.
         public let taskConfig: TaskConfig?
 
         public init(activeModelArn: String? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, dataLakeS3Uri: String? = nil, dataSecurityConfig: DataSecurityConfig? = nil, flywheelArn: String? = nil, lastModifiedTime: Date? = nil, latestFlywheelIteration: String? = nil, message: String? = nil, modelType: ModelType? = nil, status: FlywheelStatus? = nil, taskConfig: TaskConfig? = nil) {
@@ -5232,7 +5280,7 @@ extension Comprehend {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public let kmsKeyId: String?
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.  For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
@@ -6984,7 +7032,7 @@ extension Comprehend {
     }
 
     public struct TaskConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration required for a classification model.
+        /// Configuration required for a document classification model.
         public let documentClassificationConfig: DocumentClassificationConfig?
         /// Configuration required for an entity recognition model.
         public let entityRecognitionConfig: EntityRecognitionConfig?
@@ -7006,6 +7054,23 @@ extension Comprehend {
             case documentClassificationConfig = "DocumentClassificationConfig"
             case entityRecognitionConfig = "EntityRecognitionConfig"
             case languageCode = "LanguageCode"
+        }
+    }
+
+    public struct TextSegment: AWSEncodableShape {
+        /// The text content.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
         }
     }
 
@@ -7097,6 +7162,40 @@ extension Comprehend {
             case submitTime = "SubmitTime"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct ToxicContent: AWSDecodableShape {
+        /// The name of the toxic content type.
+        public let name: ToxicContentType?
+        ///   Model confidence in the detected content type. Value range is zero to one, where one is highest confidence.
+        public let score: Float?
+
+        public init(name: ToxicContentType? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
+        }
+    }
+
+    public struct ToxicLabels: AWSDecodableShape {
+        /// Array of toxic content types identified in the string.
+        public let labels: [ToxicContent]?
+        /// Overall toxicity score for the string.
+        public let toxicity: Float?
+
+        public init(labels: [ToxicContent]? = nil, toxicity: Float? = nil) {
+            self.labels = labels
+            self.toxicity = toxicity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case toxicity = "Toxicity"
         }
     }
 

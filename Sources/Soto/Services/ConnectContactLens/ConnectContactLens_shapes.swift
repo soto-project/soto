@@ -26,7 +26,7 @@ import Foundation
 extension ConnectContactLens {
     // MARK: Enums
 
-    public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
         case positive = "POSITIVE"
@@ -37,11 +37,11 @@ extension ConnectContactLens {
 
     public struct Categories: AWSDecodableShape {
         /// The category rules that have been matched in the analyzed segment.
-        public let matchedCategories: [String]
+        public let matchedCategories: [String]?
         /// The category rule that was matched and when it occurred in the transcript.
-        public let matchedDetails: [String: CategoryDetails]
+        public let matchedDetails: [String: CategoryDetails]?
 
-        public init(matchedCategories: [String], matchedDetails: [String: CategoryDetails]) {
+        public init(matchedCategories: [String]? = nil, matchedDetails: [String: CategoryDetails]? = nil) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
         }
@@ -54,9 +54,9 @@ extension ConnectContactLens {
 
     public struct CategoryDetails: AWSDecodableShape {
         /// The section of audio where the category rule was detected.
-        public let pointsOfInterest: [PointOfInterest]
+        public let pointsOfInterest: [PointOfInterest]?
 
-        public init(pointsOfInterest: [PointOfInterest]) {
+        public init(pointsOfInterest: [PointOfInterest]? = nil) {
             self.pointsOfInterest = pointsOfInterest
         }
 
@@ -67,11 +67,11 @@ extension ConnectContactLens {
 
     public struct CharacterOffsets: AWSDecodableShape {
         /// The beginning of the issue.
-        public let beginOffsetChar: Int
+        public let beginOffsetChar: Int?
         /// The end of the issue.
-        public let endOffsetChar: Int
+        public let endOffsetChar: Int?
 
-        public init(beginOffsetChar: Int, endOffsetChar: Int) {
+        public init(beginOffsetChar: Int? = nil, endOffsetChar: Int? = nil) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
         }
@@ -84,9 +84,9 @@ extension ConnectContactLens {
 
     public struct IssueDetected: AWSDecodableShape {
         /// The offset for when the issue was detected in the segment.
-        public let characterOffsets: CharacterOffsets
+        public let characterOffsets: CharacterOffsets?
 
-        public init(characterOffsets: CharacterOffsets) {
+        public init(characterOffsets: CharacterOffsets? = nil) {
             self.characterOffsets = characterOffsets
         }
 
@@ -97,16 +97,16 @@ extension ConnectContactLens {
 
     public struct ListRealtimeContactAnalysisSegmentsRequest: AWSEncodableShape {
         /// The identifier of the contact.
-        public let contactId: String
+        public let contactId: String?
         /// The identifier of the Amazon Connect instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(contactId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(contactId: String? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactId = contactId
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -116,15 +116,15 @@ extension ConnectContactLens {
         public func validate(name: String) throws {
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
-            try self.validate(self.contactId, name: "contactId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "\\S")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 256)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
-            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "\\S")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -139,9 +139,9 @@ extension ConnectContactLens {
         /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:   There are more segments so another call is required to get them.   There are no more segments at this time, but more may be available later (real-time analysis is in progress) so the client should call the operation again to get new segments.   If response does not include nextToken, the analysis is completed (successfully or failed) and there are no more segments to retrieve.
         public let nextToken: String?
         /// An analyzed transcript or category.
-        public let segments: [RealtimeContactAnalysisSegment]
+        public let segments: [RealtimeContactAnalysisSegment]?
 
-        public init(nextToken: String? = nil, segments: [RealtimeContactAnalysisSegment]) {
+        public init(nextToken: String? = nil, segments: [RealtimeContactAnalysisSegment]? = nil) {
             self.nextToken = nextToken
             self.segments = segments
         }
@@ -154,11 +154,11 @@ extension ConnectContactLens {
 
     public struct PointOfInterest: AWSDecodableShape {
         /// The beginning offset in milliseconds where the category rule was detected.
-        public let beginOffsetMillis: Int
+        public let beginOffsetMillis: Int?
         /// The ending offset in milliseconds where the category rule was detected.
-        public let endOffsetMillis: Int
+        public let endOffsetMillis: Int?
 
-        public init(beginOffsetMillis: Int, endOffsetMillis: Int) {
+        public init(beginOffsetMillis: Int? = nil, endOffsetMillis: Int? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
         }
@@ -188,23 +188,23 @@ extension ConnectContactLens {
 
     public struct Transcript: AWSDecodableShape {
         /// The beginning offset in the contact for this transcript.
-        public let beginOffsetMillis: Int
+        public let beginOffsetMillis: Int?
         /// The content of the transcript.
-        public let content: String
+        public let content: String?
         /// The end offset in the contact for this transcript.
-        public let endOffsetMillis: Int
+        public let endOffsetMillis: Int?
         /// The identifier of the transcript.
-        public let id: String
+        public let id: String?
         /// List of positions where issues were detected on the transcript.
         public let issuesDetected: [IssueDetected]?
         /// The identifier of the participant.
-        public let participantId: String
+        public let participantId: String?
         /// The role of participant. For example, is it a customer, agent, or system.
-        public let participantRole: String
+        public let participantRole: String?
         /// The sentiment of the detected for this piece of transcript.
-        public let sentiment: SentimentValue
+        public let sentiment: SentimentValue?
 
-        public init(beginOffsetMillis: Int, content: String, endOffsetMillis: Int, id: String, issuesDetected: [IssueDetected]? = nil, participantId: String, participantRole: String, sentiment: SentimentValue) {
+        public init(beginOffsetMillis: Int? = nil, content: String? = nil, endOffsetMillis: Int? = nil, id: String? = nil, issuesDetected: [IssueDetected]? = nil, participantId: String? = nil, participantRole: String? = nil, sentiment: SentimentValue? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.content = content
             self.endOffsetMillis = endOffsetMillis

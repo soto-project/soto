@@ -309,7 +309,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    /// Deletes resources linked to an external ID.
+    /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation.   It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     @Sendable
     public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcesByExternalIdOutput {
         return try await self.client.execute(
@@ -453,7 +453,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the user or Amazon Web Services account.
     @Sendable
     public func listApplications(_ input: ListApplicationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsOutput {
         return try await self.client.execute(
@@ -466,7 +466,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the user or Amazon Web Services account.
     @Sendable
     public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentConfigsOutput {
         return try await self.client.execute(
@@ -479,7 +479,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     @Sendable
     public func listDeploymentGroups(_ input: ListDeploymentGroupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentGroupsOutput {
         return try await self.client.execute(
@@ -492,7 +492,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     @Sendable
     public func listDeploymentInstances(_ input: ListDeploymentInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentInstancesOutput {
@@ -519,7 +519,7 @@ public struct CodeDeploy: AWSService {
         )
     }
 
-    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     @Sendable
     public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentsOutput {
         return try await self.client.execute(
@@ -735,7 +735,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the user or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -754,7 +754,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the user or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -773,7 +773,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -792,7 +792,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the user or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -812,7 +812,7 @@ extension CodeDeploy {
         )
     }
 
-    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

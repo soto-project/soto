@@ -26,7 +26,7 @@ import Foundation
 extension MarketplaceMetering {
     // MARK: Enums
 
-    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerNotSubscribed = "CustomerNotSubscribed"
         case duplicateRecord = "DuplicateRecord"
         case success = "Success"

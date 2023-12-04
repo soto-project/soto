@@ -26,20 +26,37 @@ import Foundation
 extension PinpointSMSVoiceV2 {
     // MARK: Enums
 
-    public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountTier = "ACCOUNT_TIER"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountLimitName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationSets = "CONFIGURATION_SETS"
         case optOutLists = "OPT_OUT_LISTS"
         case phoneNumbers = "PHONE_NUMBERS"
         case pools = "POOLS"
+        case registrations = "REGISTRATIONS"
+        case registrationAttachments = "REGISTRATION_ATTACHMENTS"
+        case senderIds = "SENDER_IDS"
+        case verifiedDestinationNumbers = "VERIFIED_DESTINATION_NUMBERS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        case uploadComplete = "UPLOAD_COMPLETE"
+        case uploadFailed = "UPLOAD_FAILED"
+        case uploadInProgress = "UPLOAD_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentUploadErrorReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultMessageType = "default-message-type"
         case defaultSenderId = "default-sender-id"
         case eventDestinationName = "event-destination-name"
@@ -47,13 +64,13 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationCountryParameterKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationCountryParameterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inEntityId = "IN_ENTITY_ID"
         case inTemplateId = "IN_TEMPLATE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case textAll = "TEXT_ALL"
         case textBlocked = "TEXT_BLOCKED"
@@ -82,31 +99,62 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeywordAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum FieldRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conditional = "CONDITIONAL"
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachment = "ATTACHMENT"
+        case select = "SELECT"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeywordAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automaticResponse = "AUTOMATIC_RESPONSE"
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeywordFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeywordFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case keywordAction = "keyword-action"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deDe = "DE_DE"
+        case enGb = "EN_GB"
+        case enUs = "EN_US"
+        case es419 = "ES_419"
+        case esEs = "ES_ES"
+        case frCa = "FR_CA"
+        case frFr = "FR_FR"
+        case itIt = "IT_IT"
+        case jaJp = "JA_JP"
+        case koKr = "KO_KR"
+        case ptBr = "PT_BR"
+        case zhCn = "ZH_CN"
+        case zhTw = "ZH_TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case promotional = "PROMOTIONAL"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable {
+    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NumberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
         case deleted = "DELETED"
@@ -115,20 +163,21 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case longCode = "LONG_CODE"
         case shortCode = "SHORT_CODE"
+        case simulator = "SIMULATOR"
         case tenDlc = "TEN_DLC"
         case tollFree = "TOLL_FREE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OptedOutFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum OptedOutFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case endUserOptedOut = "end-user-opted-out"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deletionProtectionEnabled = "deletion-protection-enabled"
         case isoCountryCode = "iso-country-code"
         case messageType = "message-type"
@@ -137,55 +186,143 @@ extension PinpointSMSVoiceV2 {
         case optOutListName = "opt-out-list-name"
         case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
         case status = "status"
+        case twoWayChannelArn = "two-way-channel-arn"
         case twoWayEnabled = "two-way-enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum PoolFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deletionProtectionEnabled = "deletion-protection-enabled"
         case messageType = "message-type"
         case optOutListName = "opt-out-list-name"
         case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
         case sharedRoutesEnabled = "shared-routes-enabled"
         case status = "status"
+        case twoWayChannelArn = "two-way-channel-arn"
         case twoWayEnabled = "two-way-enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolOriginationIdentitiesFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum PoolOriginationIdentitiesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isoCountryCode = "iso-country-code"
         case numberCapability = "number-capability"
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PoolStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestableNumberType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegistrationAssociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associateAfterComplete = "ASSOCIATE_AFTER_COMPLETE"
+        case associateBeforeSubmit = "ASSOCIATE_BEFORE_SUBMIT"
+        case associateOnApproval = "ASSOCIATE_ON_APPROVAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationAssociationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case isoCountryCode = "iso-country-code"
+        case resourceType = "resource-type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationAttachmentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachmentStatus = "attachment-status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationDisassociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleteRegistrationDisassociates = "DELETE_REGISTRATION_DISASSOCIATES"
+        case disassociateAllAllowsDeleteRegistration = "DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION"
+        case disassociateAllClosesRegistration = "DISASSOCIATE_ALL_CLOSES_REGISTRATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case registrationStatus = "registration-status"
+        case registrationType = "registration-type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case closed = "CLOSED"
+        case complete = "COMPLETE"
+        case created = "CREATED"
+        case deleted = "DELETED"
+        case provisioning = "PROVISIONING"
+        case requiresUpdates = "REQUIRES_UPDATES"
+        case reviewing = "REVIEWING"
+        case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationTypeFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case supportedAssociationIsoCountryCode = "supported-association-iso-country-code"
+        case supportedAssociationResourceType = "supported-association-resource-type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationVersionFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case registrationVersionStatus = "registration-version-status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case archived = "ARCHIVED"
+        case denied = "DENIED"
+        case discarded = "DISCARDED"
+        case draft = "DRAFT"
+        case reviewing = "REVIEWING"
+        case revoked = "REVOKED"
+        case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestableNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case longCode = "LONG_CODE"
+        case simulator = "SIMULATOR"
         case tenDlc = "TEN_DLC"
         case tollFree = "TOLL_FREE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SenderIdFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SenderIdFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deletionProtectionEnabled = "deletion-protection-enabled"
         case isoCountryCode = "iso-country-code"
         case messageType = "message-type"
+        case registered = "registered"
         case senderId = "sender-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case textMessageMonthlySpendLimit = "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
         case voiceMessageMonthlySpendLimit = "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable {
+    public enum VerificationChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case text = "TEXT"
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pending = "PENDING"
+        case verified = "VERIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerifiedDestinationNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case status = "status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amy = "AMY"
         case astrid = "ASTRID"
         case bianca = "BIANCA"
@@ -248,7 +385,7 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceMessageBodyTextType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VoiceMessageBodyTextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssml = "SSML"
         case text = "TEXT"
         public var description: String { return self.rawValue }
@@ -404,7 +541,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -519,7 +656,7 @@ extension PinpointSMSVoiceV2 {
         public let eventDestinationName: String
         /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// An array of event types that determine which events to log. If "ALL" is used, then Amazon Pinpoint logs every event type.
+        /// An array of event types that determine which events to log. If "ALL" is used, then Amazon Pinpoint logs every event type.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]
         /// An object that contains information about an event destination for logging to Amazon SNS.
         public let snsDestination: SnsDestination?
@@ -714,10 +851,12 @@ extension PinpointSMSVoiceV2 {
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.messageType = messageType
@@ -729,6 +868,7 @@ extension PinpointSMSVoiceV2 {
             self.status = status
             self.tags = tags
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -744,7 +884,334 @@ extension PinpointSMSVoiceV2 {
             case status = "Status"
             case tags = "Tags"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct CreateRegistrationAssociationRequest: AWSEncodableShape {
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+        public let resourceId: String
+
+        public init(registrationId: String, resourceId: String) {
+            self.registrationId = registrationId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct CreateRegistrationAssociationResult: AWSDecodableShape {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+        /// The phone number associated with the registration in E.164 format.
+        public let phoneNumber: String?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// The Amazon Resource Name (ARN) of the origination identity that is associated with the registration.
+        public let resourceArn: String
+        /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+        public let resourceId: String
+        /// The registration type or origination identity type.
+        public let resourceType: String
+
+        public init(isoCountryCode: String? = nil, phoneNumber: String? = nil, registrationArn: String, registrationId: String, registrationType: String, resourceArn: String, resourceId: String, resourceType: String) {
+            self.isoCountryCode = isoCountryCode
+            self.phoneNumber = phoneNumber
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case phoneNumber = "PhoneNumber"
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationType = "RegistrationType"
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct CreateRegistrationAttachmentRequest: AWSEncodableShape {
+        /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
+        public let attachmentBody: AWSBase64Data?
+        /// A URL to the required registration file.  For example, you can provide the S3 object URL.
+        public let attachmentUrl: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// An array of tags (key and value pairs) to associate with the registration attachment.
+        public let tags: [Tag]?
+
+        public init(attachmentBody: AWSBase64Data? = nil, attachmentUrl: String? = nil, clientToken: String? = CreateRegistrationAttachmentRequest.idempotencyToken(), tags: [Tag]? = nil) {
+            self.attachmentBody = attachmentBody
+            self.attachmentUrl = attachmentUrl
+            self.clientToken = clientToken
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, max: 1572864)
+            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, min: 1)
+            try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, max: 2048)
+            try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, min: 1)
+            try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentBody = "AttachmentBody"
+            case attachmentUrl = "AttachmentUrl"
+            case clientToken = "ClientToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRegistrationAttachmentResult: AWSDecodableShape {
+        /// The status of the registration attachment.     UPLOAD_IN_PROGRESS The attachment is being uploaded.    UPLOAD_COMPLETE The attachment has been uploaded.    UPLOAD_FAILED The attachment failed to uploaded.    DELETED The attachment has been deleted..
+        public let attachmentStatus: AttachmentStatus
+        /// The time when the registration attachment was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The Amazon Resource Name (ARN) for the registration attachment.
+        public let registrationAttachmentArn: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String
+        /// An array of tags (key and value pairs) to associate with the registration attachment.
+        public let tags: [Tag]?
+
+        public init(attachmentStatus: AttachmentStatus, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String, tags: [Tag]? = nil) {
+            self.attachmentStatus = attachmentStatus
+            self.createdTimestamp = createdTimestamp
+            self.registrationAttachmentArn = registrationAttachmentArn
+            self.registrationAttachmentId = registrationAttachmentId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentStatus = "AttachmentStatus"
+            case createdTimestamp = "CreatedTimestamp"
+            case registrationAttachmentArn = "RegistrationAttachmentArn"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRegistrationRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The type of registration form to create. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// An array of tags (key and value pairs) to associate with the registration.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateRegistrationRequest.idempotencyToken(), registrationType: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.registrationType = registrationType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.registrationType, name: "registrationType", parent: name, max: 64)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, min: 1)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case registrationType = "RegistrationType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRegistrationResult: AWSDecodableShape {
+        /// Metadata about a given registration which is specific to that registration type.
+        public let additionalAttributes: [String: String]?
+        /// The time when the registration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The current version number of the registration.
+        public let currentVersionNumber: Int64
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        public let registrationStatus: RegistrationStatus
+        /// The type of registration form to create. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// An array of tags (key and value pairs) to associate with the registration.
+        public let tags: [Tag]?
+
+        public init(additionalAttributes: [String: String]? = nil, createdTimestamp: Date, currentVersionNumber: Int64, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String, tags: [Tag]? = nil) {
+            self.additionalAttributes = additionalAttributes
+            self.createdTimestamp = createdTimestamp
+            self.currentVersionNumber = currentVersionNumber
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationStatus = registrationStatus
+            self.registrationType = registrationType
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "AdditionalAttributes"
+            case createdTimestamp = "CreatedTimestamp"
+            case currentVersionNumber = "CurrentVersionNumber"
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationStatus = "RegistrationStatus"
+            case registrationType = "RegistrationType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRegistrationVersionRequest: AWSEncodableShape {
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(registrationId: String) {
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct CreateRegistrationVersionResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        public let registrationVersionStatus: RegistrationVersionStatus
+        /// A RegistrationVersionStatusHistory object that contains timestamps for the registration.
+        public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
+        /// The new version number of the registration.
+        public let versionNumber: Int64
+
+        public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationVersionStatus = registrationVersionStatus
+            self.registrationVersionStatusHistory = registrationVersionStatusHistory
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationVersionStatus = "RegistrationVersionStatus"
+            case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct CreateVerifiedDestinationNumberRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The verified destination phone number, in E.164 format.
+        public let destinationPhoneNumber: String
+        /// An array of tags (key and value pairs) to associate with the destination number.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateVerifiedDestinationNumberRequest.idempotencyToken(), destinationPhoneNumber: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateVerifiedDestinationNumberResult: AWSDecodableShape {
+        /// The time when the verified phone number was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The verified destination phone number, in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The status of the verified destination phone number.    PENDING: The phone number hasn't been verified yet.    VERIFIED: The phone number is verified and can receive messages.
+        public let status: VerificationStatus
+        /// An array of tags (key and value pairs) to associate with the destination number.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) for the verified destination phone number.
+        public let verifiedDestinationNumberArn: String
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, tags: [Tag]? = nil, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.status = status
+            self.tags = tags
+            self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case status = "Status"
+            case tags = "Tags"
+            case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
         }
     }
 
@@ -1115,10 +1582,12 @@ extension PinpointSMSVoiceV2 {
         public let status: PoolStatus?
         /// The Amazon Resource Name (ARN) of the TwoWayChannel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.messageType = messageType
             self.optOutListName = optOutListName
@@ -1128,6 +1597,7 @@ extension PinpointSMSVoiceV2 {
             self.sharedRoutesEnabled = sharedRoutesEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -1141,7 +1611,183 @@ extension PinpointSMSVoiceV2 {
             case sharedRoutesEnabled = "SharedRoutesEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct DeleteRegistrationAttachmentRequest: AWSEncodableShape {
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String
+
+        public init(registrationAttachmentId: String) {
+            self.registrationAttachmentId = registrationAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, max: 256)
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, min: 1)
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationAttachmentId = "RegistrationAttachmentId"
+        }
+    }
+
+    public struct DeleteRegistrationAttachmentResult: AWSDecodableShape {
+        /// The status of the registration attachment.     UPLOAD_IN_PROGRESS The attachment is being uploaded.    UPLOAD_COMPLETE The attachment has been uploaded.    UPLOAD_FAILED The attachment failed to uploaded.    DELETED The attachment has been deleted..
+        public let attachmentStatus: AttachmentStatus
+        /// The error message if the upload failed.
+        public let attachmentUploadErrorReason: AttachmentUploadErrorReason?
+        /// The time when the registration attachment was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The Amazon Resource Name (ARN) for the registration attachment.
+        public let registrationAttachmentArn: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String
+
+        public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
+            self.attachmentStatus = attachmentStatus
+            self.attachmentUploadErrorReason = attachmentUploadErrorReason
+            self.createdTimestamp = createdTimestamp
+            self.registrationAttachmentArn = registrationAttachmentArn
+            self.registrationAttachmentId = registrationAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentStatus = "AttachmentStatus"
+            case attachmentUploadErrorReason = "AttachmentUploadErrorReason"
+            case createdTimestamp = "CreatedTimestamp"
+            case registrationAttachmentArn = "RegistrationAttachmentArn"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+        }
+    }
+
+    public struct DeleteRegistrationFieldValueRequest: AWSEncodableShape {
+        /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+        public let fieldPath: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(fieldPath: String, registrationId: String) {
+            self.fieldPath = fieldPath
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, max: 100)
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, min: 1)
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, pattern: "^[A-Za-z0-9_\\.]+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPath = "FieldPath"
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct DeleteRegistrationFieldValueResult: AWSDecodableShape {
+        /// The path to the registration form field.
+        public let fieldPath: String
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// An array of values for the form field.
+        public let selectChoices: [String]?
+        /// The text data for a free form field.
+        public let textValue: String?
+        /// The version number of the registration.
+        public let versionNumber: Int64
+
+        public init(fieldPath: String, registrationArn: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil, versionNumber: Int64) {
+            self.fieldPath = fieldPath
+            self.registrationArn = registrationArn
+            self.registrationAttachmentId = registrationAttachmentId
+            self.registrationId = registrationId
+            self.selectChoices = selectChoices
+            self.textValue = textValue
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPath = "FieldPath"
+            case registrationArn = "RegistrationArn"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+            case registrationId = "RegistrationId"
+            case selectChoices = "SelectChoices"
+            case textValue = "TextValue"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DeleteRegistrationRequest: AWSEncodableShape {
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(registrationId: String) {
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct DeleteRegistrationResult: AWSDecodableShape {
+        /// Metadata about a given registration which is specific to that registration type.
+        public let additionalAttributes: [String: String]?
+        /// The version number of the registration that was approved.
+        public let approvedVersionNumber: Int64?
+        /// The time when the registration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The current version number of the registration.
+        public let currentVersionNumber: Int64
+        /// The latest version number of the registration that was denied.
+        public let latestDeniedVersionNumber: Int64?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        public let registrationStatus: RegistrationStatus
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+
+        public init(additionalAttributes: [String: String]? = nil, approvedVersionNumber: Int64? = nil, createdTimestamp: Date, currentVersionNumber: Int64, latestDeniedVersionNumber: Int64? = nil, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String) {
+            self.additionalAttributes = additionalAttributes
+            self.approvedVersionNumber = approvedVersionNumber
+            self.createdTimestamp = createdTimestamp
+            self.currentVersionNumber = currentVersionNumber
+            self.latestDeniedVersionNumber = latestDeniedVersionNumber
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationStatus = registrationStatus
+            self.registrationType = registrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "AdditionalAttributes"
+            case approvedVersionNumber = "ApprovedVersionNumber"
+            case createdTimestamp = "CreatedTimestamp"
+            case currentVersionNumber = "CurrentVersionNumber"
+            case latestDeniedVersionNumber = "LatestDeniedVersionNumber"
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationStatus = "RegistrationStatus"
+            case registrationType = "RegistrationType"
         }
     }
 
@@ -1159,6 +1805,50 @@ extension PinpointSMSVoiceV2 {
 
         private enum CodingKeys: String, CodingKey {
             case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
+    public struct DeleteVerifiedDestinationNumberRequest: AWSEncodableShape {
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(verifiedDestinationNumberId: String) {
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, max: 256)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, min: 1)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+        }
+    }
+
+    public struct DeleteVerifiedDestinationNumberResult: AWSDecodableShape {
+        /// The time when the destination phone number was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The verified destination phone number, in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The Amazon Resource Name (ARN) for the verified destination phone number.
+        public let verifiedDestinationNumberArn: String
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
         }
     }
 
@@ -1645,6 +2335,477 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DescribeRegistrationAttachmentsRequest: AWSEncodableShape {
+        /// An array of RegistrationAttachmentFilter objects to filter the results.
+        public let filters: [RegistrationAttachmentFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier of registration attachments to find. This is an array of RegistrationAttachmentId.
+        public let registrationAttachmentIds: [String]?
+
+        public init(filters: [RegistrationAttachmentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationAttachmentIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationAttachmentIds = registrationAttachmentIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.registrationAttachmentIds?.forEach {
+                try validate($0, name: "registrationAttachmentIds[]", parent: name, max: 256)
+                try validate($0, name: "registrationAttachmentIds[]", parent: name, min: 1)
+                try validate($0, name: "registrationAttachmentIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.registrationAttachmentIds, name: "registrationAttachmentIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationAttachmentIds = "RegistrationAttachmentIds"
+        }
+    }
+
+    public struct DescribeRegistrationAttachmentsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of RegistrationAttachments objects that contain the details for the requested registration attachments.
+        public let registrationAttachments: [RegistrationAttachmentsInformation]
+
+        public init(nextToken: String? = nil, registrationAttachments: [RegistrationAttachmentsInformation]) {
+            self.nextToken = nextToken
+            self.registrationAttachments = registrationAttachments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationAttachments = "RegistrationAttachments"
+        }
+    }
+
+    public struct DescribeRegistrationFieldDefinitionsRequest: AWSEncodableShape {
+        /// An array of paths to the registration form field.
+        public let fieldPaths: [String]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// The path to the section of the registration.
+        public let sectionPath: String?
+
+        public init(fieldPaths: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationType: String, sectionPath: String? = nil) {
+            self.fieldPaths = fieldPaths
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationType = registrationType
+            self.sectionPath = sectionPath
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldPaths?.forEach {
+                try validate($0, name: "fieldPaths[]", parent: name, max: 100)
+                try validate($0, name: "fieldPaths[]", parent: name, min: 1)
+                try validate($0, name: "fieldPaths[]", parent: name, pattern: "^[A-Za-z0-9_\\.]+$")
+            }
+            try self.validate(self.fieldPaths, name: "fieldPaths", parent: name, max: 5)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.registrationType, name: "registrationType", parent: name, max: 64)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, min: 1)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, max: 100)
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, min: 1)
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, pattern: "^[A-Za-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPaths = "FieldPaths"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationType = "RegistrationType"
+            case sectionPath = "SectionPath"
+        }
+    }
+
+    public struct DescribeRegistrationFieldDefinitionsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of RegistrationFieldDefinitions objects that contain the details for the requested fields.
+        public let registrationFieldDefinitions: [RegistrationFieldDefinition]
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+
+        public init(nextToken: String? = nil, registrationFieldDefinitions: [RegistrationFieldDefinition], registrationType: String) {
+            self.nextToken = nextToken
+            self.registrationFieldDefinitions = registrationFieldDefinitions
+            self.registrationType = registrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationFieldDefinitions = "RegistrationFieldDefinitions"
+            case registrationType = "RegistrationType"
+        }
+    }
+
+    public struct DescribeRegistrationFieldValuesRequest: AWSEncodableShape {
+        /// An array of paths to the registration form field.
+        public let fieldPaths: [String]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The path to the section of the registration.
+        public let sectionPath: String?
+        /// The version number of the registration.
+        public let versionNumber: Int64?
+
+        public init(fieldPaths: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String, sectionPath: String? = nil, versionNumber: Int64? = nil) {
+            self.fieldPaths = fieldPaths
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationId = registrationId
+            self.sectionPath = sectionPath
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldPaths?.forEach {
+                try validate($0, name: "fieldPaths[]", parent: name, max: 100)
+                try validate($0, name: "fieldPaths[]", parent: name, min: 1)
+                try validate($0, name: "fieldPaths[]", parent: name, pattern: "^[A-Za-z0-9_\\.]+$")
+            }
+            try self.validate(self.fieldPaths, name: "fieldPaths", parent: name, max: 5)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, max: 100)
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, min: 1)
+            try self.validate(self.sectionPath, name: "sectionPath", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, max: 100000)
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPaths = "FieldPaths"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationId = "RegistrationId"
+            case sectionPath = "SectionPath"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DescribeRegistrationFieldValuesResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// An array of RegistrationFieldValues objects that contain the values for the requested registration.
+        public let registrationFieldValues: [RegistrationFieldValueInformation]
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The current version of the registration.
+        public let versionNumber: Int64
+
+        public init(nextToken: String? = nil, registrationArn: String, registrationFieldValues: [RegistrationFieldValueInformation], registrationId: String, versionNumber: Int64) {
+            self.nextToken = nextToken
+            self.registrationArn = registrationArn
+            self.registrationFieldValues = registrationFieldValues
+            self.registrationId = registrationId
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationArn = "RegistrationArn"
+            case registrationFieldValues = "RegistrationFieldValues"
+            case registrationId = "RegistrationId"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DescribeRegistrationSectionDefinitionsRequest: AWSEncodableShape {
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// An array of paths for the registration form section.
+        public let sectionPaths: [String]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registrationType: String, sectionPaths: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationType = registrationType
+            self.sectionPaths = sectionPaths
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.registrationType, name: "registrationType", parent: name, max: 64)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, min: 1)
+            try self.validate(self.registrationType, name: "registrationType", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            try self.sectionPaths?.forEach {
+                try validate($0, name: "sectionPaths[]", parent: name, max: 100)
+                try validate($0, name: "sectionPaths[]", parent: name, min: 1)
+                try validate($0, name: "sectionPaths[]", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            }
+            try self.validate(self.sectionPaths, name: "sectionPaths", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationType = "RegistrationType"
+            case sectionPaths = "SectionPaths"
+        }
+    }
+
+    public struct DescribeRegistrationSectionDefinitionsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of  RegistrationSectionDefinition objects.
+        public let registrationSectionDefinitions: [RegistrationSectionDefinition]
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+
+        public init(nextToken: String? = nil, registrationSectionDefinitions: [RegistrationSectionDefinition], registrationType: String) {
+            self.nextToken = nextToken
+            self.registrationSectionDefinitions = registrationSectionDefinitions
+            self.registrationType = registrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationSectionDefinitions = "RegistrationSectionDefinitions"
+            case registrationType = "RegistrationType"
+        }
+    }
+
+    public struct DescribeRegistrationTypeDefinitionsRequest: AWSEncodableShape {
+        /// An array of RegistrationFilter objects to filter the results.
+        public let filters: [RegistrationTypeFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationTypes: [String]?
+
+        public init(filters: [RegistrationTypeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationTypes: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationTypes = registrationTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.registrationTypes?.forEach {
+                try validate($0, name: "registrationTypes[]", parent: name, max: 64)
+                try validate($0, name: "registrationTypes[]", parent: name, min: 1)
+                try validate($0, name: "registrationTypes[]", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            }
+            try self.validate(self.registrationTypes, name: "registrationTypes", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationTypes = "RegistrationTypes"
+        }
+    }
+
+    public struct DescribeRegistrationTypeDefinitionsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationTypeDefinitions: [RegistrationTypeDefinition]
+
+        public init(nextToken: String? = nil, registrationTypeDefinitions: [RegistrationTypeDefinition]) {
+            self.nextToken = nextToken
+            self.registrationTypeDefinitions = registrationTypeDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationTypeDefinitions = "RegistrationTypeDefinitions"
+        }
+    }
+
+    public struct DescribeRegistrationVersionsRequest: AWSEncodableShape {
+        /// An array of RegistrationVersionFilter objects to filter the results.
+        public let filters: [RegistrationVersionFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// An array of registration version numbers.
+        public let versionNumbers: [Int64]?
+
+        public init(filters: [RegistrationVersionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String, versionNumbers: [Int64]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationId = registrationId
+            self.versionNumbers = versionNumbers
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.versionNumbers?.forEach {
+                try validate($0, name: "versionNumbers[]", parent: name, max: 100000)
+                try validate($0, name: "versionNumbers[]", parent: name, min: 1)
+            }
+            try self.validate(self.versionNumbers, name: "versionNumbers", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationId = "RegistrationId"
+            case versionNumbers = "VersionNumbers"
+        }
+    }
+
+    public struct DescribeRegistrationVersionsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// An array of RegistrationVersions objects.
+        public let registrationVersions: [RegistrationVersionInformation]
+
+        public init(nextToken: String? = nil, registrationArn: String, registrationId: String, registrationVersions: [RegistrationVersionInformation]) {
+            self.nextToken = nextToken
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationVersions = registrationVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationVersions = "RegistrationVersions"
+        }
+    }
+
+    public struct DescribeRegistrationsRequest: AWSEncodableShape {
+        /// An array of RegistrationFilter objects to filter the results.
+        public let filters: [RegistrationFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of unique identifiers for each registration.
+        public let registrationIds: [String]?
+
+        public init(filters: [RegistrationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationIds = registrationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.registrationIds?.forEach {
+                try validate($0, name: "registrationIds[]", parent: name, max: 256)
+                try validate($0, name: "registrationIds[]", parent: name, min: 1)
+                try validate($0, name: "registrationIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.registrationIds, name: "registrationIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationIds = "RegistrationIds"
+        }
+    }
+
+    public struct DescribeRegistrationsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of RegistrationInformation objects.
+        public let registrations: [RegistrationInformation]
+
+        public init(nextToken: String? = nil, registrations: [RegistrationInformation]) {
+            self.nextToken = nextToken
+            self.registrations = registrations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrations = "Registrations"
+        }
+    }
+
     public struct DescribeSenderIdsRequest: AWSEncodableShape {
         /// An array of SenderIdFilter objects to filter the results.
         public let filters: [SenderIdFilter]?
@@ -1745,6 +2906,76 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DescribeVerifiedDestinationNumbersRequest: AWSEncodableShape {
+        /// An array of verified destination phone number, in E.164 format.
+        public let destinationPhoneNumbers: [String]?
+        /// An array of VerifiedDestinationNumberFilter objects to filter the results.
+        public let filters: [VerifiedDestinationNumberFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of VerifiedDestinationNumberid to retreive.
+        public let verifiedDestinationNumberIds: [String]?
+
+        public init(destinationPhoneNumbers: [String]? = nil, filters: [VerifiedDestinationNumberFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedDestinationNumberIds: [String]? = nil) {
+            self.destinationPhoneNumbers = destinationPhoneNumbers
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.verifiedDestinationNumberIds = verifiedDestinationNumberIds
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationPhoneNumbers?.forEach {
+                try validate($0, name: "destinationPhoneNumbers[]", parent: name, max: 20)
+                try validate($0, name: "destinationPhoneNumbers[]", parent: name, min: 1)
+                try validate($0, name: "destinationPhoneNumbers[]", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            }
+            try self.validate(self.destinationPhoneNumbers, name: "destinationPhoneNumbers", parent: name, max: 5)
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.verifiedDestinationNumberIds?.forEach {
+                try validate($0, name: "verifiedDestinationNumberIds[]", parent: name, max: 256)
+                try validate($0, name: "verifiedDestinationNumberIds[]", parent: name, min: 1)
+                try validate($0, name: "verifiedDestinationNumberIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.verifiedDestinationNumberIds, name: "verifiedDestinationNumberIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPhoneNumbers = "DestinationPhoneNumbers"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case verifiedDestinationNumberIds = "VerifiedDestinationNumberIds"
+        }
+    }
+
+    public struct DescribeVerifiedDestinationNumbersResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of VerifiedDestinationNumberInformation objects
+        public let verifiedDestinationNumbers: [VerifiedDestinationNumberInformation]
+
+        public init(nextToken: String? = nil, verifiedDestinationNumbers: [VerifiedDestinationNumberInformation]) {
+            self.nextToken = nextToken
+            self.verifiedDestinationNumbers = verifiedDestinationNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case verifiedDestinationNumbers = "VerifiedDestinationNumbers"
+        }
+    }
+
     public struct DisassociateOriginationIdentityRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
@@ -1814,6 +3045,54 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DiscardRegistrationVersionRequest: AWSEncodableShape {
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(registrationId: String) {
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct DiscardRegistrationVersionResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration version.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        public let registrationVersionStatus: RegistrationVersionStatus
+        /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+        public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
+        /// The version number of the registration.
+        public let versionNumber: Int64
+
+        public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationVersionStatus = registrationVersionStatus
+            self.registrationVersionStatusHistory = registrationVersionStatusHistory
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationVersionStatus = "RegistrationVersionStatus"
+            case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
     public struct EventDestination: AWSDecodableShape {
         /// An object that contains information about an event destination that sends logging events to Amazon CloudWatch logs.
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
@@ -1823,7 +3102,7 @@ extension PinpointSMSVoiceV2 {
         public let eventDestinationName: String
         /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// An array of event types that determine which events to log.
+        /// An array of event types that determine which events to log.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]
         /// An object that contains information about an event destination that sends logging events to Amazon SNS.
         public let snsDestination: SnsDestination?
@@ -1862,7 +3141,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -1986,6 +3265,75 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct ListRegistrationAssociationsRequest: AWSEncodableShape {
+        /// An array of RegistrationAssociationFilter to apply to the results that are returned.
+        public let filters: [RegistrationAssociationFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(filters: [RegistrationAssociationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct ListRegistrationAssociationsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// An array of RegistrationAssociationMetadata objects.
+        public let registrationAssociations: [RegistrationAssociationMetadata]
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+
+        public init(nextToken: String? = nil, registrationArn: String, registrationAssociations: [RegistrationAssociationMetadata], registrationId: String, registrationType: String) {
+            self.nextToken = nextToken
+            self.registrationArn = registrationArn
+            self.registrationAssociations = registrationAssociations
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registrationArn = "RegistrationArn"
+            case registrationAssociations = "RegistrationAssociations"
+            case registrationId = "RegistrationId"
+            case registrationType = "RegistrationType"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to query for.
         public let resourceArn: String
@@ -2058,7 +3406,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -2100,12 +3448,15 @@ extension PinpointSMSVoiceV2 {
         public let originationIdentity: String
         /// The Amazon Resource Name (ARN) associated with the origination identity.
         public let originationIdentityArn: String
+        /// The phone number in E.164 format.
+        public let phoneNumber: String?
 
-        public init(isoCountryCode: String, numberCapabilities: [NumberCapability], originationIdentity: String, originationIdentityArn: String) {
+        public init(isoCountryCode: String, numberCapabilities: [NumberCapability], originationIdentity: String, originationIdentityArn: String, phoneNumber: String? = nil) {
             self.isoCountryCode = isoCountryCode
             self.numberCapabilities = numberCapabilities
             self.originationIdentity = originationIdentity
             self.originationIdentityArn = originationIdentityArn
+            self.phoneNumber = phoneNumber
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2113,6 +3464,7 @@ extension PinpointSMSVoiceV2 {
             case numberCapabilities = "NumberCapabilities"
             case originationIdentity = "OriginationIdentity"
             case originationIdentityArn = "OriginationIdentityArn"
+            case phoneNumber = "PhoneNumber"
         }
     }
 
@@ -2131,7 +3483,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -2168,16 +3520,20 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberId: String?
         /// The unique identifier of the pool associated with the phone number.
         public let poolId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String?
         /// When set to false an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see Self-managed opt-outs
         public let selfManagedOptOutsEnabled: Bool
         /// The current status of the phone number.
         public let status: NumberStatus
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         public let twoWayEnabled: Bool
 
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayEnabled: Bool) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -2190,9 +3546,11 @@ extension PinpointSMSVoiceV2 {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.poolId = poolId
+            self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -2209,9 +3567,11 @@ extension PinpointSMSVoiceV2 {
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
             case poolId = "PoolId"
+            case registrationId = "RegistrationId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
         }
     }
@@ -2231,7 +3591,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -2264,10 +3624,12 @@ extension PinpointSMSVoiceV2 {
         public let status: PoolStatus
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         public let twoWayEnabled: Bool
 
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, messageType: MessageType, optOutListName: String, poolArn: String, poolId: String, selfManagedOptOutsEnabled: Bool, sharedRoutesEnabled: Bool, status: PoolStatus, twoWayChannelArn: String? = nil, twoWayEnabled: Bool) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, messageType: MessageType, optOutListName: String, poolArn: String, poolId: String, selfManagedOptOutsEnabled: Bool, sharedRoutesEnabled: Bool, status: PoolStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.messageType = messageType
@@ -2278,6 +3640,7 @@ extension PinpointSMSVoiceV2 {
             self.sharedRoutesEnabled = sharedRoutesEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -2292,6 +3655,7 @@ extension PinpointSMSVoiceV2 {
             case sharedRoutesEnabled = "SharedRoutesEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
         }
     }
@@ -2311,7 +3675,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -2326,9 +3690,9 @@ extension PinpointSMSVoiceV2 {
     public struct PutKeywordRequest: AWSEncodableShape {
         /// The new keyword to add.
         public let keyword: String
-        /// The action to perform for the new keyword when it is received.
+        /// The action to perform for the new keyword when it is received.   AUTOMATIC_RESPONSE: A message is sent to the recipient.   OPT_OUT: Keeps the recipient from receiving future messages.   OPT_IN: The recipient wants to receive future messages.
         public let keywordAction: KeywordAction?
-        /// The message associated with the keyword.   AUTOMATIC_RESPONSE: A message is sent to the recipient.   OPT_OUT: Keeps the recipient from receiving future messages.   OPT_IN: The recipient wants to receive future messages.
+        /// The message associated with the keyword.
         public let keywordMessage: String
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
         public let originationIdentity: String
@@ -2444,6 +3808,627 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct PutRegistrationFieldValueRequest: AWSEncodableShape {
+        /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+        public let fieldPath: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// An array of values for the form field.
+        public let selectChoices: [String]?
+        /// The text data for a free form field.
+        public let textValue: String?
+
+        public init(fieldPath: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil) {
+            self.fieldPath = fieldPath
+            self.registrationAttachmentId = registrationAttachmentId
+            self.registrationId = registrationId
+            self.selectChoices = selectChoices
+            self.textValue = textValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, max: 100)
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, min: 1)
+            try self.validate(self.fieldPath, name: "fieldPath", parent: name, pattern: "^[A-Za-z0-9_\\.]+$")
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, max: 256)
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, min: 1)
+            try self.validate(self.registrationAttachmentId, name: "registrationAttachmentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.selectChoices?.forEach {
+                try validate($0, name: "selectChoices[]", parent: name, max: 256)
+                try validate($0, name: "selectChoices[]", parent: name, min: 1)
+            }
+            try self.validate(self.selectChoices, name: "selectChoices", parent: name, max: 100)
+            try self.validate(self.textValue, name: "textValue", parent: name, max: 2048)
+            try self.validate(self.textValue, name: "textValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPath = "FieldPath"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+            case registrationId = "RegistrationId"
+            case selectChoices = "SelectChoices"
+            case textValue = "TextValue"
+        }
+    }
+
+    public struct PutRegistrationFieldValueResult: AWSDecodableShape {
+        /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+        public let fieldPath: String
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// An array of values for the form field.
+        public let selectChoices: [String]?
+        /// The text data for a free form field.
+        public let textValue: String?
+        /// The version number of the registration.
+        public let versionNumber: Int64
+
+        public init(fieldPath: String, registrationArn: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil, versionNumber: Int64) {
+            self.fieldPath = fieldPath
+            self.registrationArn = registrationArn
+            self.registrationAttachmentId = registrationAttachmentId
+            self.registrationId = registrationId
+            self.selectChoices = selectChoices
+            self.textValue = textValue
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPath = "FieldPath"
+            case registrationArn = "RegistrationArn"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+            case registrationId = "RegistrationId"
+            case selectChoices = "SelectChoices"
+            case textValue = "TextValue"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct RegistrationAssociationFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RegistrationAssociationFilterName
+        /// An array of values to filter for.
+        public let values: [String]
+
+        public init(name: RegistrationAssociationFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RegistrationAssociationMetadata: AWSDecodableShape {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+        /// The phone number associated with the registration in E.164 format.
+        public let phoneNumber: String?
+        /// The Amazon Resource Name (ARN) of the origination identity that is associated with the registration.
+        public let resourceArn: String
+        /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
+        public let resourceId: String
+        /// The origination identity type.
+        public let resourceType: String
+
+        public init(isoCountryCode: String? = nil, phoneNumber: String? = nil, resourceArn: String, resourceId: String, resourceType: String) {
+            self.isoCountryCode = isoCountryCode
+            self.phoneNumber = phoneNumber
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case phoneNumber = "PhoneNumber"
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct RegistrationAttachmentFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RegistrationAttachmentFilterName
+        /// An array of values to filter on.
+        public let values: [String]
+
+        public init(name: RegistrationAttachmentFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RegistrationAttachmentsInformation: AWSDecodableShape {
+        /// The status of the registration attachment.     UPLOAD_IN_PROGRESS The attachment is being uploaded.    UPLOAD_COMPLETE The attachment has been uploaded.    UPLOAD_FAILED The attachment failed to uploaded.    DELETED The attachment has been deleted..
+        public let attachmentStatus: AttachmentStatus
+        /// A description of why the upload didn't successfully complete.
+        public let attachmentUploadErrorReason: AttachmentUploadErrorReason?
+        /// The time when the registration attachment was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The Amazon Resource Name (ARN) for the registration attachment.
+        public let registrationAttachmentArn: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String
+
+        public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
+            self.attachmentStatus = attachmentStatus
+            self.attachmentUploadErrorReason = attachmentUploadErrorReason
+            self.createdTimestamp = createdTimestamp
+            self.registrationAttachmentArn = registrationAttachmentArn
+            self.registrationAttachmentId = registrationAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentStatus = "AttachmentStatus"
+            case attachmentUploadErrorReason = "AttachmentUploadErrorReason"
+            case createdTimestamp = "CreatedTimestamp"
+            case registrationAttachmentArn = "RegistrationAttachmentArn"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+        }
+    }
+
+    public struct RegistrationDeniedReasonInformation: AWSDecodableShape {
+        /// The link to the document.
+        public let documentationLink: String?
+        /// The title of the document.
+        public let documentationTitle: String?
+        /// A long description of the rejection reason.
+        public let longDescription: String?
+        /// The reason a registration was rejected.
+        public let reason: String
+        /// A short description of the rejection reason.
+        public let shortDescription: String
+
+        public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, reason: String, shortDescription: String) {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.reason = reason
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentationLink = "DocumentationLink"
+            case documentationTitle = "DocumentationTitle"
+            case longDescription = "LongDescription"
+            case reason = "Reason"
+            case shortDescription = "ShortDescription"
+        }
+    }
+
+    public struct RegistrationFieldDefinition: AWSDecodableShape {
+        /// An array of RegistrationFieldDisplayHints objects for the field.
+        public let displayHints: RegistrationFieldDisplayHints
+        /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+        public let fieldPath: String
+        /// Specifies if the field for the registration form is required, conditional or optional.
+        public let fieldRequirement: FieldRequirement
+        /// The type of field.
+        public let fieldType: FieldType
+        /// The section path of the field.
+        public let sectionPath: String
+        /// The validation rules for a select field.
+        public let selectValidation: SelectValidation?
+        /// The validation rules for a text field.
+        public let textValidation: TextValidation?
+
+        public init(displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
+            self.displayHints = displayHints
+            self.fieldPath = fieldPath
+            self.fieldRequirement = fieldRequirement
+            self.fieldType = fieldType
+            self.sectionPath = sectionPath
+            self.selectValidation = selectValidation
+            self.textValidation = textValidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayHints = "DisplayHints"
+            case fieldPath = "FieldPath"
+            case fieldRequirement = "FieldRequirement"
+            case fieldType = "FieldType"
+            case sectionPath = "SectionPath"
+            case selectValidation = "SelectValidation"
+            case textValidation = "TextValidation"
+        }
+    }
+
+    public struct RegistrationFieldDisplayHints: AWSDecodableShape {
+        /// The link to the document the display hint is associated with.
+        public let documentationLink: String?
+        /// The title of the document the display hint is associated with.
+        public let documentationTitle: String?
+        /// Example text of what the value of a field should contain.
+        public let exampleTextValue: String?
+        /// A full description of the display hint.
+        public let longDescription: String?
+        /// An array of SelectOptionDescription objects.
+        public let selectOptionDescriptions: [SelectOptionDescription]?
+        /// A short description of the display hint.
+        public let shortDescription: String
+        /// The validation rules for the text field.
+        public let textValidationDescription: String?
+        /// The title of the display hint.
+        public let title: String
+
+        public init(documentationLink: String? = nil, documentationTitle: String? = nil, exampleTextValue: String? = nil, longDescription: String? = nil, selectOptionDescriptions: [SelectOptionDescription]? = nil, shortDescription: String, textValidationDescription: String? = nil, title: String) {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.exampleTextValue = exampleTextValue
+            self.longDescription = longDescription
+            self.selectOptionDescriptions = selectOptionDescriptions
+            self.shortDescription = shortDescription
+            self.textValidationDescription = textValidationDescription
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentationLink = "DocumentationLink"
+            case documentationTitle = "DocumentationTitle"
+            case exampleTextValue = "ExampleTextValue"
+            case longDescription = "LongDescription"
+            case selectOptionDescriptions = "SelectOptionDescriptions"
+            case shortDescription = "ShortDescription"
+            case textValidationDescription = "TextValidationDescription"
+            case title = "Title"
+        }
+    }
+
+    public struct RegistrationFieldValueInformation: AWSDecodableShape {
+        /// A description of why the registration was denied.
+        public let deniedReason: String?
+        /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+        public let fieldPath: String
+        /// The unique identifier for the registration attachment.
+        public let registrationAttachmentId: String?
+        /// An array of values for the form field.
+        public let selectChoices: [String]?
+        /// The text data for a free form field.
+        public let textValue: String?
+
+        public init(deniedReason: String? = nil, fieldPath: String, registrationAttachmentId: String? = nil, selectChoices: [String]? = nil, textValue: String? = nil) {
+            self.deniedReason = deniedReason
+            self.fieldPath = fieldPath
+            self.registrationAttachmentId = registrationAttachmentId
+            self.selectChoices = selectChoices
+            self.textValue = textValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deniedReason = "DeniedReason"
+            case fieldPath = "FieldPath"
+            case registrationAttachmentId = "RegistrationAttachmentId"
+            case selectChoices = "SelectChoices"
+            case textValue = "TextValue"
+        }
+    }
+
+    public struct RegistrationFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RegistrationFilterName
+        /// An array of values to filter on.
+        public let values: [String]
+
+        public init(name: RegistrationFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RegistrationInformation: AWSDecodableShape {
+        /// Metadata about a given registration which is specific to that registration type.
+        public let additionalAttributes: [String: String]?
+        /// The version number of the registration that was approved.
+        public let approvedVersionNumber: Int64?
+        /// The time when the registration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The current version number of the registration.
+        public let currentVersionNumber: Int64
+        /// The latest version number of the registration that was denied.
+        public let latestDeniedVersionNumber: Int64?
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        public let registrationStatus: RegistrationStatus
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+
+        public init(additionalAttributes: [String: String]? = nil, approvedVersionNumber: Int64? = nil, createdTimestamp: Date, currentVersionNumber: Int64, latestDeniedVersionNumber: Int64? = nil, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String) {
+            self.additionalAttributes = additionalAttributes
+            self.approvedVersionNumber = approvedVersionNumber
+            self.createdTimestamp = createdTimestamp
+            self.currentVersionNumber = currentVersionNumber
+            self.latestDeniedVersionNumber = latestDeniedVersionNumber
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationStatus = registrationStatus
+            self.registrationType = registrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "AdditionalAttributes"
+            case approvedVersionNumber = "ApprovedVersionNumber"
+            case createdTimestamp = "CreatedTimestamp"
+            case currentVersionNumber = "CurrentVersionNumber"
+            case latestDeniedVersionNumber = "LatestDeniedVersionNumber"
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationStatus = "RegistrationStatus"
+            case registrationType = "RegistrationType"
+        }
+    }
+
+    public struct RegistrationSectionDefinition: AWSDecodableShape {
+        /// The path to the section of the registration.
+        public let displayHints: RegistrationSectionDisplayHints
+        /// The path to the section of the registration.
+        public let sectionPath: String
+
+        public init(displayHints: RegistrationSectionDisplayHints, sectionPath: String) {
+            self.displayHints = displayHints
+            self.sectionPath = sectionPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayHints = "DisplayHints"
+            case sectionPath = "SectionPath"
+        }
+    }
+
+    public struct RegistrationSectionDisplayHints: AWSDecodableShape {
+        /// The link to the document the display hint is associated with.
+        public let documentationLink: String?
+        /// The title of the document the display hint is associated with.
+        public let documentationTitle: String?
+        /// A full description of the display hint.
+        public let longDescription: String?
+        /// A short description of the display hint.
+        public let shortDescription: String
+        /// The title of the display hint.
+        public let title: String
+
+        public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, shortDescription: String, title: String) {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.shortDescription = shortDescription
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentationLink = "DocumentationLink"
+            case documentationTitle = "DocumentationTitle"
+            case longDescription = "LongDescription"
+            case shortDescription = "ShortDescription"
+            case title = "Title"
+        }
+    }
+
+    public struct RegistrationTypeDefinition: AWSDecodableShape {
+        /// Provides help information on the registration.
+        public let displayHints: RegistrationTypeDisplayHints
+        /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+        public let registrationType: String
+        /// The supported association behavior for the registration type.
+        public let supportedAssociations: [SupportedAssociation]?
+
+        public init(displayHints: RegistrationTypeDisplayHints, registrationType: String, supportedAssociations: [SupportedAssociation]? = nil) {
+            self.displayHints = displayHints
+            self.registrationType = registrationType
+            self.supportedAssociations = supportedAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayHints = "DisplayHints"
+            case registrationType = "RegistrationType"
+            case supportedAssociations = "SupportedAssociations"
+        }
+    }
+
+    public struct RegistrationTypeDisplayHints: AWSDecodableShape {
+        /// The link to the document the display hint is associated with.
+        public let documentationLink: String?
+        /// The title of the document the display hint is associated with.
+        public let documentationTitle: String?
+        /// A full description of the display hint.
+        public let longDescription: String?
+        /// A short description of the display hint.
+        public let shortDescription: String?
+        /// The title of the display hint.
+        public let title: String
+
+        public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, shortDescription: String? = nil, title: String) {
+            self.documentationLink = documentationLink
+            self.documentationTitle = documentationTitle
+            self.longDescription = longDescription
+            self.shortDescription = shortDescription
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentationLink = "DocumentationLink"
+            case documentationTitle = "DocumentationTitle"
+            case longDescription = "LongDescription"
+            case shortDescription = "ShortDescription"
+            case title = "Title"
+        }
+    }
+
+    public struct RegistrationTypeFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RegistrationTypeFilterName
+        /// An array of values to filter on.
+        public let values: [String]
+
+        public init(name: RegistrationTypeFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RegistrationVersionFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RegistrationVersionFilterName
+        /// An array of values to filter on.
+        public let values: [String]
+
+        public init(name: RegistrationVersionFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RegistrationVersionInformation: AWSDecodableShape {
+        /// An array of RegistrationDeniedReasonInformation objects.
+        public let deniedReasons: [RegistrationDeniedReasonInformation]?
+        /// The status of the registration.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        public let registrationVersionStatus: RegistrationVersionStatus
+        /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+        public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
+        /// The version number of the registration.
+        public let versionNumber: Int64
+
+        public init(deniedReasons: [RegistrationDeniedReasonInformation]? = nil, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
+            self.deniedReasons = deniedReasons
+            self.registrationVersionStatus = registrationVersionStatus
+            self.registrationVersionStatusHistory = registrationVersionStatusHistory
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deniedReasons = "DeniedReasons"
+            case registrationVersionStatus = "RegistrationVersionStatus"
+            case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct RegistrationVersionStatusHistory: AWSDecodableShape {
+        /// The time when the registration was in the approved state, in UNIX epoch time format.
+        public let approvedTimestamp: Date?
+        /// The time when the registration was in the archived state, in UNIX epoch time format.
+        public let archivedTimestamp: Date?
+        /// The time when the registration was in the denied state, in UNIX epoch time format.
+        public let deniedTimestamp: Date?
+        /// The time when the registration was in the discarded state, in UNIX epoch time format.
+        public let discardedTimestamp: Date?
+        /// The time when the registration was in the draft state, in UNIX epoch time format.
+        public let draftTimestamp: Date
+        /// The time when the registration was in the reviewing state, in UNIX epoch time format.
+        public let reviewingTimestamp: Date?
+        /// The time when the registration was in the revoked state, in UNIX epoch time format.
+        public let revokedTimestamp: Date?
+        /// The time when the registration was in the submitted state, in UNIX epoch time format.
+        public let submittedTimestamp: Date?
+
+        public init(approvedTimestamp: Date? = nil, archivedTimestamp: Date? = nil, deniedTimestamp: Date? = nil, discardedTimestamp: Date? = nil, draftTimestamp: Date, reviewingTimestamp: Date? = nil, revokedTimestamp: Date? = nil, submittedTimestamp: Date? = nil) {
+            self.approvedTimestamp = approvedTimestamp
+            self.archivedTimestamp = archivedTimestamp
+            self.deniedTimestamp = deniedTimestamp
+            self.discardedTimestamp = discardedTimestamp
+            self.draftTimestamp = draftTimestamp
+            self.reviewingTimestamp = reviewingTimestamp
+            self.revokedTimestamp = revokedTimestamp
+            self.submittedTimestamp = submittedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvedTimestamp = "ApprovedTimestamp"
+            case archivedTimestamp = "ArchivedTimestamp"
+            case deniedTimestamp = "DeniedTimestamp"
+            case discardedTimestamp = "DiscardedTimestamp"
+            case draftTimestamp = "DraftTimestamp"
+            case reviewingTimestamp = "ReviewingTimestamp"
+            case revokedTimestamp = "RevokedTimestamp"
+            case submittedTimestamp = "SubmittedTimestamp"
+        }
+    }
+
     public struct ReleasePhoneNumberRequest: AWSEncodableShape {
         /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.
         public let phoneNumberId: String
@@ -2484,16 +4469,20 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberArn: String?
         /// The PhoneNumberId of the phone number that was released.
         public let phoneNumberId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String?
         /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// The current status of the request.
         public let status: NumberStatus?
         /// The Amazon Resource Name (ARN) of the TwoWayChannel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
@@ -2504,9 +4493,11 @@ extension PinpointSMSVoiceV2 {
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
+            self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -2521,10 +4512,75 @@ extension PinpointSMSVoiceV2 {
             case phoneNumber = "PhoneNumber"
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
+            case registrationId = "RegistrationId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct ReleaseSenderIdRequest: AWSEncodableShape {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The sender ID to release.
+        public let senderId: String
+
+        public init(isoCountryCode: String, senderId: String) {
+            self.isoCountryCode = isoCountryCode
+            self.senderId = senderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.senderId, name: "senderId", parent: name, max: 256)
+            try self.validate(self.senderId, name: "senderId", parent: name, min: 1)
+            try self.validate(self.senderId, name: "senderId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case senderId = "SenderId"
+        }
+    }
+
+    public struct ReleaseSenderIdResult: AWSDecodableShape {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        public let messageTypes: [MessageType]
+        /// The monthly price, in US dollars, to lease the sender ID.
+        public let monthlyLeasingPrice: String
+        /// True if the sender ID is registered.
+        public let registered: Bool
+        /// The unique identifier for the registration.
+        public let registrationId: String?
+        /// The sender ID that was released.
+        public let senderId: String
+        /// The Amazon Resource Name (ARN) associated with the SenderId.
+        public let senderIdArn: String
+
+        public init(isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
+            self.isoCountryCode = isoCountryCode
+            self.messageTypes = messageTypes
+            self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.registered = registered
+            self.registrationId = registrationId
+            self.senderId = senderId
+            self.senderIdArn = senderIdArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case messageTypes = "MessageTypes"
+            case monthlyLeasingPrice = "MonthlyLeasingPrice"
+            case registered = "Registered"
+            case registrationId = "RegistrationId"
+            case senderId = "SenderId"
+            case senderIdArn = "SenderIdArn"
         }
     }
 
@@ -2541,7 +4597,7 @@ extension PinpointSMSVoiceV2 {
         public let numberCapabilities: [NumberCapability]
         /// The type of phone number to request.
         public let numberType: RequestableNumberType
-        /// The name of the OptOutList to associate with the phone number. You can use the OutOutListName or OptPutListArn.
+        /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.
         public let optOutListName: String?
         /// The pool to associated with the phone number. You can use the PoolId or PoolArn.
         public let poolId: String?
@@ -2578,9 +4634,9 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
-            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 64)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
             try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
-            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2626,6 +4682,8 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberId: String?
         /// The unique identifier of the pool associated with the phone number
         public let poolId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String?
         /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// The current status of the request.
@@ -2634,10 +4692,12 @@ extension PinpointSMSVoiceV2 {
         public let tags: [Tag]?
         /// The ARN used to identify the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: RequestableNumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: RequestableNumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -2650,10 +4710,12 @@ extension PinpointSMSVoiceV2 {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.poolId = poolId
+            self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
             self.tags = tags
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -2670,11 +4732,223 @@ extension PinpointSMSVoiceV2 {
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
             case poolId = "PoolId"
+            case registrationId = "RegistrationId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case status = "Status"
             case tags = "Tags"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct RequestSenderIdRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        public let deletionProtectionEnabled: Bool?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        public let messageTypes: [MessageType]?
+        /// The sender ID string to request.
+        public let senderId: String
+        /// An array of tags (key and value pairs) to associate with the sender ID.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = RequestSenderIdRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageTypes: [MessageType]? = nil, senderId: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.isoCountryCode = isoCountryCode
+            self.messageTypes = messageTypes
+            self.senderId = senderId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.messageTypes, name: "messageTypes", parent: name, max: 2)
+            try self.validate(self.senderId, name: "senderId", parent: name, max: 11)
+            try self.validate(self.senderId, name: "senderId", parent: name, min: 1)
+            try self.validate(self.senderId, name: "senderId", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case isoCountryCode = "IsoCountryCode"
+            case messageTypes = "MessageTypes"
+            case senderId = "SenderId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RequestSenderIdResult: AWSDecodableShape {
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        public let deletionProtectionEnabled: Bool
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        public let messageTypes: [MessageType]
+        /// The monthly price, in US dollars, to lease the sender ID.
+        public let monthlyLeasingPrice: String
+        /// True if the sender ID is registered.
+        public let registered: Bool
+        /// The sender ID that was requested.
+        public let senderId: String
+        /// The Amazon Resource Name (ARN) associated with the SenderId.
+        public let senderIdArn: String
+        /// An array of tags (key and value pairs) to associate with the sender ID.
+        public let tags: [Tag]?
+
+        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, senderId: String, senderIdArn: String, tags: [Tag]? = nil) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.isoCountryCode = isoCountryCode
+            self.messageTypes = messageTypes
+            self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.registered = registered
+            self.senderId = senderId
+            self.senderIdArn = senderIdArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case isoCountryCode = "IsoCountryCode"
+            case messageTypes = "MessageTypes"
+            case monthlyLeasingPrice = "MonthlyLeasingPrice"
+            case registered = "Registered"
+            case senderId = "SenderId"
+            case senderIdArn = "SenderIdArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct SelectOptionDescription: AWSDecodableShape {
+        /// A description of the option meaning.
+        public let description: String?
+        /// The value of the option.
+        public let option: String
+        /// The title of the select option.
+        public let title: String?
+
+        public init(description: String? = nil, option: String, title: String? = nil) {
+            self.description = description
+            self.option = option
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case option = "Option"
+            case title = "Title"
+        }
+    }
+
+    public struct SelectValidation: AWSDecodableShape {
+        /// The maximum number of choices for the select.
+        public let maxChoices: Int
+        /// The minimum number of choices for the select.
+        public let minChoices: Int
+        /// An array of strings for the possible selection options.
+        public let options: [String]
+
+        public init(maxChoices: Int, minChoices: Int, options: [String]) {
+            self.maxChoices = maxChoices
+            self.minChoices = minChoices
+            self.options = options
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxChoices = "MaxChoices"
+            case minChoices = "MinChoices"
+            case options = "Options"
+        }
+    }
+
+    public struct SendDestinationNumberVerificationCodeRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String?
+        /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+        public let context: [String: String]?
+        /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India.
+        public let destinationCountryParameters: [DestinationCountryParameterKey: String]?
+        /// Choose the language to use for the message.
+        public let languageCode: LanguageCode?
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+        public let originationIdentity: String?
+        /// Choose to send the verification code as an SMS or voice message.
+        public let verificationChannel: VerificationChannel
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, languageCode: LanguageCode? = nil, originationIdentity: String? = nil, verificationChannel: VerificationChannel, verifiedDestinationNumberId: String) {
+            self.configurationSetName = configurationSetName
+            self.context = context
+            self.destinationCountryParameters = destinationCountryParameters
+            self.languageCode = languageCode
+            self.originationIdentity = originationIdentity
+            self.verificationChannel = verificationChannel
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 100)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
+            }
+            try self.validate(self.context, name: "context", parent: name, max: 5)
+            try self.destinationCountryParameters?.forEach {
+                try validate($0.value, name: "destinationCountryParameters[\"\($0.key)\"]", parent: name, max: 64)
+                try validate($0.value, name: "destinationCountryParameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "destinationCountryParameters[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.destinationCountryParameters, name: "destinationCountryParameters", parent: name, max: 10)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, max: 256)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, min: 1)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case context = "Context"
+            case destinationCountryParameters = "DestinationCountryParameters"
+            case languageCode = "LanguageCode"
+            case originationIdentity = "OriginationIdentity"
+            case verificationChannel = "VerificationChannel"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+        }
+    }
+
+    public struct SendDestinationNumberVerificationCodeResult: AWSDecodableShape {
+        /// The unique identifier for the message.
+        public let messageId: String
+
+        public init(messageId: String) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
         }
     }
 
@@ -2695,7 +4969,7 @@ extension PinpointSMSVoiceV2 {
         public let maxPrice: String?
         /// The body of the text message.
         public let messageBody: String?
-        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        /// The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType?
         /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
         public let originationIdentity: String?
@@ -2726,7 +5000,7 @@ extension PinpointSMSVoiceV2 {
                 try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
             }
             try self.validate(self.context, name: "context", parent: name, max: 5)
             try self.destinationCountryParameters?.forEach {
@@ -2827,7 +5101,7 @@ extension PinpointSMSVoiceV2 {
                 try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
             }
             try self.validate(self.context, name: "context", parent: name, max: 5)
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
@@ -2914,7 +5188,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -2927,29 +5201,41 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct SenderIdInformation: AWSDecodableShape {
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        public let deletionProtectionEnabled: Bool
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageTypes: [MessageType]
         /// The monthly leasing price, in US dollars.
         public let monthlyLeasingPrice: String
+        /// True if the sender ID is registered.
+        public let registered: Bool
+        /// The unique identifier for the registration.
+        public let registrationId: String?
         /// The alphanumeric sender ID in a specific country that you'd like to describe.
         public let senderId: String
         /// The Amazon Resource Name (ARN) associated with the SenderId.
         public let senderIdArn: String
 
-        public init(isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, senderId: String, senderIdArn: String) {
+        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
             self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.registered = registered
+            self.registrationId = registrationId
             self.senderId = senderId
             self.senderIdArn = senderIdArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageTypes = "MessageTypes"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
+            case registered = "Registered"
+            case registrationId = "RegistrationId"
             case senderId = "SenderId"
             case senderIdArn = "SenderIdArn"
         }
@@ -3152,6 +5438,79 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct SubmitRegistrationVersionRequest: AWSEncodableShape {
+        /// The unique identifier for the registration.
+        public let registrationId: String
+
+        public init(registrationId: String) {
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct SubmitRegistrationVersionResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the registration.
+        public let registrationArn: String
+        /// The unique identifier for the registration.
+        public let registrationId: String
+        /// The status of the registration version.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        public let registrationVersionStatus: RegistrationVersionStatus
+        /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
+        public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
+        /// The version number of the registration.
+        public let versionNumber: Int64
+
+        public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
+            self.registrationArn = registrationArn
+            self.registrationId = registrationId
+            self.registrationVersionStatus = registrationVersionStatus
+            self.registrationVersionStatusHistory = registrationVersionStatusHistory
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationArn = "RegistrationArn"
+            case registrationId = "RegistrationId"
+            case registrationVersionStatus = "RegistrationVersionStatus"
+            case registrationVersionStatusHistory = "RegistrationVersionStatusHistory"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct SupportedAssociation: AWSDecodableShape {
+        /// The association behavior.    ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.    ASSOCIATE_ON_APPROVAL This applies to all short code registrations. The short code will be automatically provisioned once the registration is approved.    ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
+        public let associationBehavior: RegistrationAssociationBehavior
+        /// The disassociation behavior.    DISASSOCIATE_ALL_CLOSES_REGISTRATION All origination identities must be disassociated from the registration before the registration can be closed.    DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION All origination identities must be disassociated from the registration before the registration can be deleted.    DELETE_REGISTRATION_DISASSOCIATES The registration can be deleted and all origination identities will be disasscoiated.
+        public let disassociationBehavior: RegistrationDisassociationBehavior
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+        /// Defines the behavior of when an origination identity and registration can be associated with each other.
+        public let resourceType: String
+
+        public init(associationBehavior: RegistrationAssociationBehavior, disassociationBehavior: RegistrationDisassociationBehavior, isoCountryCode: String? = nil, resourceType: String) {
+            self.associationBehavior = associationBehavior
+            self.disassociationBehavior = disassociationBehavior
+            self.isoCountryCode = isoCountryCode
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationBehavior = "AssociationBehavior"
+            case disassociationBehavior = "DisassociationBehavior"
+            case isoCountryCode = "IsoCountryCode"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key identifier, or name, of the tag.
         public let key: String
@@ -3209,6 +5568,27 @@ extension PinpointSMSVoiceV2 {
         public init() {}
     }
 
+    public struct TextValidation: AWSDecodableShape {
+        /// The maximum number of characters for the text field.
+        public let maxLength: Int
+        /// The minimum number of characters for the text field.
+        public let minLength: Int
+        /// The regular expression used to validate the text field.
+        public let pattern: String
+
+        public init(maxLength: Int, minLength: Int, pattern: String) {
+            self.maxLength = maxLength
+            self.minLength = minLength
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxLength = "MaxLength"
+            case minLength = "MinLength"
+            case pattern = "Pattern"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -3254,7 +5634,7 @@ extension PinpointSMSVoiceV2 {
         public let eventDestinationName: String
         /// An object that contains information about an event destination for logging to Kinesis Data Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// An array of event types that determine which events to log.
+        /// An array of event types that determine which events to log.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]?
         /// An object that contains information about an event destination that sends data to Amazon SNS.
         public let snsDestination: SnsDestination?
@@ -3326,15 +5706,18 @@ extension PinpointSMSVoiceV2 {
         public let selfManagedOptOutsEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, phoneNumberId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, phoneNumberId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.optOutListName = optOutListName
             self.phoneNumberId = phoneNumberId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -3347,7 +5730,10 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.phoneNumberId, name: "phoneNumberId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, max: 2048)
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, min: 20)
-            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^arn:\\S+$")
+            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^\\S+$")
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, max: 2048)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, min: 20)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, pattern: "^arn:\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3356,6 +5742,7 @@ extension PinpointSMSVoiceV2 {
             case phoneNumberId = "PhoneNumberId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
         }
     }
@@ -3383,16 +5770,20 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberArn: String?
         /// The unique identifier of the phone number.
         public let phoneNumberId: String?
+        /// The unique identifier for the registration.
+        public let registrationId: String?
         /// This is true if self managed opt-out are enabled.
         public let selfManagedOptOutsEnabled: Bool?
         /// The current status of the request.
         public let status: NumberStatus?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -3404,9 +5795,11 @@ extension PinpointSMSVoiceV2 {
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
+            self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -3422,9 +5815,11 @@ extension PinpointSMSVoiceV2 {
             case phoneNumber = "PhoneNumber"
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
+            case registrationId = "RegistrationId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
         }
     }
@@ -3442,16 +5837,19 @@ extension PinpointSMSVoiceV2 {
         public let sharedRoutesEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, poolId: String, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, poolId: String, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.optOutListName = optOutListName
             self.poolId = poolId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.sharedRoutesEnabled = sharedRoutesEnabled
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -3464,7 +5862,10 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, max: 2048)
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, min: 20)
-            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^arn:\\S+$")
+            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^\\S+$")
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, max: 2048)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, min: 20)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, pattern: "^arn:\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3474,6 +5875,7 @@ extension PinpointSMSVoiceV2 {
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case sharedRoutesEnabled = "SharedRoutesEnabled"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
         }
     }
@@ -3499,10 +5901,12 @@ extension PinpointSMSVoiceV2 {
         public let status: PoolStatus?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.messageType = messageType
@@ -3513,6 +5917,7 @@ extension PinpointSMSVoiceV2 {
             self.sharedRoutesEnabled = sharedRoutesEnabled
             self.status = status
             self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
         }
 
@@ -3527,7 +5932,190 @@ extension PinpointSMSVoiceV2 {
             case sharedRoutesEnabled = "SharedRoutesEnabled"
             case status = "Status"
             case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct UpdateSenderIdRequest: AWSEncodableShape {
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        public let deletionProtectionEnabled: Bool?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The sender ID to update.
+        public let senderId: String
+
+        public init(deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, senderId: String) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.isoCountryCode = isoCountryCode
+            self.senderId = senderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.senderId, name: "senderId", parent: name, max: 256)
+            try self.validate(self.senderId, name: "senderId", parent: name, min: 1)
+            try self.validate(self.senderId, name: "senderId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case isoCountryCode = "IsoCountryCode"
+            case senderId = "SenderId"
+        }
+    }
+
+    public struct UpdateSenderIdResult: AWSDecodableShape {
+        /// By default this is set to false. When set to true the sender ID can't be deleted.
+        public let deletionProtectionEnabled: Bool
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        public let messageTypes: [MessageType]
+        /// The monthly price, in US dollars, to lease the sender ID.
+        public let monthlyLeasingPrice: String
+        /// True if the sender ID is registered..
+        public let registered: Bool
+        /// The unique identifier for the registration.
+        public let registrationId: String?
+        /// The sender ID that was updated.
+        public let senderId: String
+        /// The Amazon Resource Name (ARN) associated with the SenderId.
+        public let senderIdArn: String
+
+        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.isoCountryCode = isoCountryCode
+            self.messageTypes = messageTypes
+            self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.registered = registered
+            self.registrationId = registrationId
+            self.senderId = senderId
+            self.senderIdArn = senderIdArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case isoCountryCode = "IsoCountryCode"
+            case messageTypes = "MessageTypes"
+            case monthlyLeasingPrice = "MonthlyLeasingPrice"
+            case registered = "Registered"
+            case registrationId = "RegistrationId"
+            case senderId = "SenderId"
+            case senderIdArn = "SenderIdArn"
+        }
+    }
+
+    public struct VerifiedDestinationNumberFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: VerifiedDestinationNumberFilterName
+        /// An array of values to filter on.
+        public let values: [String]
+
+        public init(name: VerifiedDestinationNumberFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct VerifiedDestinationNumberInformation: AWSDecodableShape {
+        /// The time when the destination phone number was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The verified destination phone number, in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The status of the verified destination phone number.    PENDING: The phone number hasn't been verified yet.    VERIFIED: The phone number is verified and can receive messages.
+        public let status: VerificationStatus
+        /// The Amazon Resource Name (ARN) for the verified destination phone number.
+        public let verifiedDestinationNumberArn: String
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.status = status
+            self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case status = "Status"
+            case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+        }
+    }
+
+    public struct VerifyDestinationNumberRequest: AWSEncodableShape {
+        /// The verification code that was received by the verified destination phone number.
+        public let verificationCode: String
+        /// The unique identifier for the verififed destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(verificationCode: String, verifiedDestinationNumberId: String) {
+            self.verificationCode = verificationCode
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.verificationCode, name: "verificationCode", parent: name, max: 20)
+            try self.validate(self.verificationCode, name: "verificationCode", parent: name, min: 1)
+            try self.validate(self.verificationCode, name: "verificationCode", parent: name, pattern: "^[A-Za-z0-9]+$")
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, max: 256)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, min: 1)
+            try self.validate(self.verifiedDestinationNumberId, name: "verifiedDestinationNumberId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case verificationCode = "VerificationCode"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
+        }
+    }
+
+    public struct VerifyDestinationNumberResult: AWSDecodableShape {
+        /// The time when the destination phone number was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The status for being able to send messages to the phone number.
+        public let status: VerificationStatus
+        /// The Amazon Resource Name (ARN) for the verified destination phone number.
+        public let verifiedDestinationNumberArn: String
+        /// The unique identifier for the verified destination phone number.
+        public let verifiedDestinationNumberId: String
+
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.status = status
+            self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
+            self.verifiedDestinationNumberId = verifiedDestinationNumberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case status = "Status"
+            case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
+            case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
         }
     }
 }

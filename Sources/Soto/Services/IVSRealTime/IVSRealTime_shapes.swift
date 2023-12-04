@@ -26,12 +26,33 @@ import Foundation
 extension IVSRealTime {
     // MARK: Enums
 
-    public enum EventErrorCode: String, CustomStringConvertible, Codable, Sendable {
-        case insufficientCapabilities = "INSUFFICIENT_CAPABILITIES"
+    public enum CompositionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventName: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case reconnecting = "RECONNECTING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insufficientCapabilities = "INSUFFICIENT_CAPABILITIES"
+        case publisherNotFound = "PUBLISHER_NOT_FOUND"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case joined = "JOINED"
         case joinError = "JOIN_ERROR"
         case left = "LEFT"
@@ -44,26 +65,186 @@ extension IVSRealTime {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParticipantState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantTokenCapability: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParticipantTokenCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case publish = "PUBLISH"
         case subscribe = "SUBSCRIBE"
         public var description: String { return self.rawValue }
     }
 
+    public enum RecordingConfigurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hls = "HLS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct ChannelDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// ARN of the channel to use for broadcasting. The channel and stage resources must be in the same AWS account and region. The channel must be offline (not broadcasting).
+        public let channelArn: String
+        /// ARN of the EncoderConfiguration resource. The encoder configuration and stage resources must be in the same AWS account and region.
+        public let encoderConfigurationArn: String?
+
+        public init(channelArn: String, encoderConfigurationArn: String? = nil) {
+            self.channelArn = channelArn
+            self.encoderConfigurationArn = encoderConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.encoderConfigurationArn, name: "encoderConfigurationArn", parent: name, max: 128)
+            try self.validate(self.encoderConfigurationArn, name: "encoderConfigurationArn", parent: name, min: 1)
+            try self.validate(self.encoderConfigurationArn, name: "encoderConfigurationArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case encoderConfigurationArn = "encoderConfigurationArn"
+        }
+    }
+
+    public struct Composition: AWSDecodableShape {
+        /// ARN of the Composition resource.
+        public let arn: String
+        /// Array of Destination objects. A Composition can contain either one destination
+        /// 	        (channel or s3) or two (one channel and one s3).
+        public let destinations: [Destination]
+        /// UTC time of the Composition end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Layout object to configure composition parameters.
+        public let layout: LayoutConfiguration
+        /// ARN of the stage used as input
+        public let stageArn: String
+        /// UTC time of the Composition start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// State of the Composition.
+        public let state: CompositionState
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String, destinations: [Destination], endTime: Date? = nil, layout: LayoutConfiguration, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.destinations = destinations
+            self.endTime = endTime
+            self.layout = layout
+            self.stageArn = stageArn
+            self.startTime = startTime
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case destinations = "destinations"
+            case endTime = "endTime"
+            case layout = "layout"
+            case stageArn = "stageArn"
+            case startTime = "startTime"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct CompositionSummary: AWSDecodableShape {
+        /// ARN of the Composition resource.
+        public let arn: String
+        /// Array of Destination objects.
+        public let destinations: [DestinationSummary]
+        /// UTC time of the Composition end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// ARN of the attached stage.
+        public let stageArn: String
+        /// UTC time of the Composition start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// State of the Composition resource.
+        public let state: CompositionState
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String, destinations: [DestinationSummary], endTime: Date? = nil, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.destinations = destinations
+            self.endTime = endTime
+            self.stageArn = stageArn
+            self.startTime = startTime
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case destinations = "destinations"
+            case endTime = "endTime"
+            case stageArn = "stageArn"
+            case startTime = "startTime"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateEncoderConfigurationRequest: AWSEncodableShape {
+        /// Optional name to identify the resource.
+        public let name: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+        /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps.
+        public let video: Video?
+
+        public init(name: String? = nil, tags: [String: String]? = nil, video: Video? = nil) {
+            self.name = name
+            self.tags = tags
+            self.video = video
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.video?.validate(name: "\(name).video")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case tags = "tags"
+            case video = "video"
+        }
+    }
+
+    public struct CreateEncoderConfigurationResponse: AWSDecodableShape {
+        /// The EncoderConfiguration that was created.
+        public let encoderConfiguration: EncoderConfiguration?
+
+        public init(encoderConfiguration: EncoderConfiguration? = nil) {
+            self.encoderConfiguration = encoderConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encoderConfiguration = "encoderConfiguration"
+        }
+    }
 
     public struct CreateParticipantTokenRequest: AWSEncodableShape {
         /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let attributes: [String: String]?
         /// Set of capabilities that the user is allowed to perform in the stage. Default: PUBLISH, SUBSCRIBE.
         public let capabilities: [ParticipantTokenCapability]?
-        /// Duration (in minutes), after which the token expires. Default:  720 (12 hours).
+        /// Duration (in minutes), after which the token expires. Default: 720 (12 hours).
         public let duration: Int?
         /// ARN of the stage to which this token is scoped.
         public let stageArn: String
@@ -163,6 +344,75 @@ extension IVSRealTime {
         }
     }
 
+    public struct CreateStorageConfigurationRequest: AWSEncodableShape {
+        /// Storage configuration name. The value does not need to be unique.
+        public let name: String?
+        /// A complex type that contains a storage configuration for where recorded video will be stored.
+        public let s3: S3StorageConfiguration
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(name: String? = nil, s3: S3StorageConfiguration, tags: [String: String]? = nil) {
+            self.name = name
+            self.s3 = s3
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.s3.validate(name: "\(name).s3")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case s3 = "s3"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateStorageConfigurationResponse: AWSDecodableShape {
+        /// The StorageConfiguration that was created.
+        public let storageConfiguration: StorageConfiguration?
+
+        public init(storageConfiguration: StorageConfiguration? = nil) {
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct DeleteEncoderConfigurationRequest: AWSEncodableShape {
+        /// ARN of the EncoderConfiguration.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteEncoderConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteStageRequest: AWSEncodableShape {
         /// ARN of the stage to be deleted.
         public let arn: String
@@ -184,6 +434,134 @@ extension IVSRealTime {
 
     public struct DeleteStageResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteStorageConfigurationRequest: AWSEncodableShape {
+        /// ARN of the storage configuration to be deleted.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteStorageConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct Destination: AWSDecodableShape {
+        /// Configuration used to create this destination.
+        public let configuration: DestinationConfiguration
+        /// Optional details regarding the status of the destination.
+        public let detail: DestinationDetail?
+        /// UTC time of the destination end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Unique identifier for this destination, assigned by IVS.
+        public let id: String
+        /// UTC time of the destination start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// State of the Composition Destination.
+        public let state: DestinationState
+
+        public init(configuration: DestinationConfiguration, detail: DestinationDetail? = nil, endTime: Date? = nil, id: String, startTime: Date? = nil, state: DestinationState) {
+            self.configuration = configuration
+            self.detail = detail
+            self.endTime = endTime
+            self.id = id
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case detail = "detail"
+            case endTime = "endTime"
+            case id = "id"
+            case startTime = "startTime"
+            case state = "state"
+        }
+    }
+
+    public struct DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An IVS channel to be used for broadcasting, for server-side composition. Either a channel or an
+        /// 	  s3 must be specified.
+        public let channel: ChannelDestinationConfiguration?
+        /// Name that can be specified to help identify the destination.
+        public let name: String?
+        /// An S3 storage configuration to be used for recording video data. Either a channel
+        /// 	  or an s3 must be specified.
+        public let s3: S3DestinationConfiguration?
+
+        public init(channel: ChannelDestinationConfiguration? = nil, name: String? = nil, s3: S3DestinationConfiguration? = nil) {
+            self.channel = channel
+            self.name = name
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.channel?.validate(name: "\(name).channel")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "channel"
+            case name = "name"
+            case s3 = "s3"
+        }
+    }
+
+    public struct DestinationDetail: AWSDecodableShape {
+        /// An S3 detail object to return information about the S3 destination.
+        public let s3: S3Detail?
+
+        public init(s3: S3Detail? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct DestinationSummary: AWSDecodableShape {
+        /// UTC time of the destination end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Unique identifier for this destination, assigned by IVS.
+        public let id: String
+        /// UTC time of the destination start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// State of the Composition Destination.
+        public let state: DestinationState
+
+        public init(endTime: Date? = nil, id: String, startTime: Date? = nil, state: DestinationState) {
+            self.endTime = endTime
+            self.id = id
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case id = "id"
+            case startTime = "startTime"
+            case state = "state"
+        }
     }
 
     public struct DisconnectParticipantRequest: AWSEncodableShape {
@@ -218,8 +596,54 @@ extension IVSRealTime {
         public init() {}
     }
 
+    public struct EncoderConfiguration: AWSDecodableShape {
+        /// ARN of the EncoderConfiguration resource.
+        public let arn: String
+        /// Optional name to identify the resource.
+        public let name: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+        /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps
+        public let video: Video?
+
+        public init(arn: String, name: String? = nil, tags: [String: String]? = nil, video: Video? = nil) {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case tags = "tags"
+            case video = "video"
+        }
+    }
+
+    public struct EncoderConfigurationSummary: AWSDecodableShape {
+        /// ARN of the EncoderConfiguration resource.
+        public let arn: String
+        /// Optional name to identify the resource.
+        public let name: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
     public struct Event: AWSDecodableShape {
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in CreateParticipantToken.
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in CreateParticipantToken. QUOTA_EXCEEDED indicates that the number of participants who want to publish/subscribe to a stage exceeds the quota; for more information, see Service Quotas. PUBLISHER_NOT_FOUND indicates that the participant tried to subscribe to a publisher that doesn’t exist.
         public let errorCode: EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -248,6 +672,70 @@ extension IVSRealTime {
         }
     }
 
+    public struct GetCompositionRequest: AWSEncodableShape {
+        /// ARN of the Composition resource.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:composition/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetCompositionResponse: AWSDecodableShape {
+        /// The Composition that was returned.
+        public let composition: Composition?
+
+        public init(composition: Composition? = nil) {
+            self.composition = composition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case composition = "composition"
+        }
+    }
+
+    public struct GetEncoderConfigurationRequest: AWSEncodableShape {
+        /// ARN of the EncoderConfiguration resource.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetEncoderConfigurationResponse: AWSDecodableShape {
+        /// The EncoderConfiguration that was returned.
+        public let encoderConfiguration: EncoderConfiguration?
+
+        public init(encoderConfiguration: EncoderConfiguration? = nil) {
+            self.encoderConfiguration = encoderConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encoderConfiguration = "encoderConfiguration"
+        }
+    }
+
     public struct GetParticipantRequest: AWSEncodableShape {
         /// Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken.
         public let participantId: String
@@ -263,6 +751,8 @@ extension IVSRealTime {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
@@ -362,10 +852,173 @@ extension IVSRealTime {
         }
     }
 
+    public struct GetStorageConfigurationRequest: AWSEncodableShape {
+        /// ARN of the storage configuration to be retrieved.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetStorageConfigurationResponse: AWSDecodableShape {
+        /// The StorageConfiguration that was returned.
+        public let storageConfiguration: StorageConfiguration?
+
+        public init(storageConfiguration: StorageConfiguration? = nil) {
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct GridConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the featured slot.
+        public let featuredParticipantAttribute: String?
+
+        public init(featuredParticipantAttribute: String? = nil) {
+            self.featuredParticipantAttribute = featuredParticipantAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, max: 128)
+            try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featuredParticipantAttribute = "featuredParticipantAttribute"
+        }
+    }
+
+    public struct LayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration related to grid layout. Default: Grid layout.
+        public let grid: GridConfiguration?
+
+        public init(grid: GridConfiguration? = nil) {
+            self.grid = grid
+        }
+
+        public func validate(name: String) throws {
+            try self.grid?.validate(name: "\(name).grid")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grid = "grid"
+        }
+    }
+
+    public struct ListCompositionsRequest: AWSEncodableShape {
+        /// Filters the Composition list to match the specified EncoderConfiguration attached to at least one of its output.
+        public let filterByEncoderConfigurationArn: String?
+        /// Filters the Composition list to match the specified Stage ARN.
+        public let filterByStageArn: String?
+        /// Maximum number of results to return. Default: 100.
+        public let maxResults: Int?
+        /// The first Composition to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(filterByEncoderConfigurationArn: String? = nil, filterByStageArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterByEncoderConfigurationArn = filterByEncoderConfigurationArn
+            self.filterByStageArn = filterByStageArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterByEncoderConfigurationArn, name: "filterByEncoderConfigurationArn", parent: name, max: 128)
+            try self.validate(self.filterByEncoderConfigurationArn, name: "filterByEncoderConfigurationArn", parent: name, min: 1)
+            try self.validate(self.filterByEncoderConfigurationArn, name: "filterByEncoderConfigurationArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, max: 128)
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, min: 1)
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterByEncoderConfigurationArn = "filterByEncoderConfigurationArn"
+            case filterByStageArn = "filterByStageArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCompositionsResponse: AWSDecodableShape {
+        /// List of the matching Compositions (summary information only).
+        public let compositions: [CompositionSummary]
+        /// If there are more compositions than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        public init(compositions: [CompositionSummary], nextToken: String? = nil) {
+            self.compositions = compositions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compositions = "compositions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEncoderConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of results to return. Default: 100.
+        public let maxResults: Int?
+        /// The first encoder configuration to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEncoderConfigurationsResponse: AWSDecodableShape {
+        /// List of the matching EncoderConfigurations (summary information only).
+        public let encoderConfigurations: [EncoderConfigurationSummary]
+        /// If there are more encoder configurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        public init(encoderConfigurations: [EncoderConfigurationSummary], nextToken: String? = nil) {
+            self.encoderConfigurations = encoderConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encoderConfigurations = "encoderConfigurations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListParticipantEventsRequest: AWSEncodableShape {
         /// Maximum number of results to return. Default: 50.
         public let maxResults: Int?
-        /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
+        /// The first participant event to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
         /// Unique identifier for this participant. This is assigned by IVS and returned by CreateParticipantToken.
         public let participantId: String
@@ -387,6 +1040,8 @@ extension IVSRealTime {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
@@ -407,7 +1062,7 @@ extension IVSRealTime {
     public struct ListParticipantEventsResponse: AWSDecodableShape {
         /// List of the matching events.
         public let events: [Event]
-        /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+        /// If there are more events than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
         public init(events: [Event], nextToken: String? = nil) {
@@ -473,7 +1128,7 @@ extension IVSRealTime {
     }
 
     public struct ListParticipantsResponse: AWSDecodableShape {
-        /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+        /// If there are more participants than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
         /// List of the matching participants (summary information only).
         public let participants: [ParticipantSummary]
@@ -492,7 +1147,7 @@ extension IVSRealTime {
     public struct ListStageSessionsRequest: AWSEncodableShape {
         /// Maximum number of results to return. Default: 50.
         public let maxResults: Int?
-        /// The first stage to retrieve. This is used for pagination; see the nextToken response field.
+        /// The first stage session to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
         /// Stage ARN.
         public let stageArn: String
@@ -521,7 +1176,7 @@ extension IVSRealTime {
     }
 
     public struct ListStageSessionsResponse: AWSDecodableShape {
-        /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+        /// If there are more stage sessions than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
         /// List of matching stage sessions.
         public let stageSessions: [StageSessionSummary]
@@ -562,7 +1217,7 @@ extension IVSRealTime {
     }
 
     public struct ListStagesResponse: AWSDecodableShape {
-        /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+        /// If there are more stages than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
         /// List of the matching stages (summary information only).
         public let stages: [StageSummary]
@@ -575,6 +1230,49 @@ extension IVSRealTime {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case stages = "stages"
+        }
+    }
+
+    public struct ListStorageConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of storage configurations to return. Default: your service quota or 100,
+        /// 	  whichever is smaller.
+        public let maxResults: Int?
+        /// The first storage configuration to retrieve. This is used for pagination;
+        /// 	  see the nextToken response field.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListStorageConfigurationsResponse: AWSDecodableShape {
+        /// If there are more storage configurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+        /// List of the matching storage configurations.
+        public let storageConfigurations: [StorageConfigurationSummary]
+
+        public init(nextToken: String? = nil, storageConfigurations: [StorageConfigurationSummary]) {
+            self.nextToken = nextToken
+            self.storageConfigurations = storageConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case storageConfigurations = "storageConfigurations"
         }
     }
 
@@ -617,32 +1315,56 @@ extension IVSRealTime {
     public struct Participant: AWSDecodableShape {
         /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let attributes: [String: String]?
+        /// The participant’s browser.
+        public let browserName: String?
+        /// The participant’s browser version.
+        public let browserVersion: String?
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var firstJoinTime: Date?
+        /// The participant’s Internet Service Provider.
+        public let ispName: String?
+        /// The participant’s operating system.
+        public let osName: String?
+        /// The participant’s operating system version.
+        public let osVersion: String?
         /// Unique identifier for this participant, assigned by IVS.
         public let participantId: String?
         /// Whether the participant ever published to the stage session.
         public let published: Bool?
+        /// The participant’s SDK version.
+        public let sdkVersion: String?
         /// Whether the participant is connected to or disconnected from the stage.
         public let state: ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
-        public init(attributes: [String: String]? = nil, firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, published: Bool? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
+            self.browserName = browserName
+            self.browserVersion = browserVersion
             self.firstJoinTime = firstJoinTime
+            self.ispName = ispName
+            self.osName = osName
+            self.osVersion = osVersion
             self.participantId = participantId
             self.published = published
+            self.sdkVersion = sdkVersion
             self.state = state
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case browserName = "browserName"
+            case browserVersion = "browserVersion"
             case firstJoinTime = "firstJoinTime"
+            case ispName = "ispName"
+            case osName = "osName"
+            case osVersion = "osVersion"
             case participantId = "participantId"
             case published = "published"
+            case sdkVersion = "sdkVersion"
             case state = "state"
             case userId = "userId"
         }
@@ -683,7 +1405,7 @@ extension IVSRealTime {
         public let attributes: [String: String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public let capabilities: [ParticipantTokenCapability]?
-        /// Duration (in minutes), after which the participant token expires. Default:  720 (12 hours).
+        /// Duration (in minutes), after which the participant token expires. Default: 720 (12 hours).
         public let duration: Int?
         /// ISO 8601 timestamp (returned as a string) for when this token expires.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -745,6 +1467,89 @@ extension IVSRealTime {
             case capabilities = "capabilities"
             case duration = "duration"
             case userId = "userId"
+        }
+    }
+
+    public struct RecordingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The recording format for storing a recording in Amazon S3.
+        public let format: RecordingConfigurationFormat?
+
+        public init(format: RecordingConfigurationFormat? = nil) {
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+        }
+    }
+
+    public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// ARNs of the EncoderConfiguration resource. The encoder configuration and stage resources
+        /// 	  must be in the same AWS account and region.
+        public let encoderConfigurationArns: [String]
+        /// Array of maps, each of the form string:string (key:value).
+        /// 	  This is an optional customer specification, currently used only to specify
+        /// 	  the recording format for storing a recording in Amazon S3.
+        public let recordingConfiguration: RecordingConfiguration?
+        /// ARN of the StorageConfiguration where recorded videos will be stored.
+        public let storageConfigurationArn: String
+
+        public init(encoderConfigurationArns: [String], recordingConfiguration: RecordingConfiguration? = nil, storageConfigurationArn: String) {
+            self.encoderConfigurationArns = encoderConfigurationArns
+            self.recordingConfiguration = recordingConfiguration
+            self.storageConfigurationArn = storageConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.encoderConfigurationArns.forEach {
+                try validate($0, name: "encoderConfigurationArns[]", parent: name, max: 128)
+                try validate($0, name: "encoderConfigurationArns[]", parent: name, min: 1)
+                try validate($0, name: "encoderConfigurationArns[]", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:encoder-configuration/[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.encoderConfigurationArns, name: "encoderConfigurationArns", parent: name, max: 1)
+            try self.validate(self.encoderConfigurationArns, name: "encoderConfigurationArns", parent: name, min: 1)
+            try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, max: 128)
+            try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, min: 1)
+            try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encoderConfigurationArns = "encoderConfigurationArns"
+            case recordingConfiguration = "recordingConfiguration"
+            case storageConfigurationArn = "storageConfigurationArn"
+        }
+    }
+
+    public struct S3Detail: AWSDecodableShape {
+        /// The S3 bucket prefix under which the recording is stored.
+        public let recordingPrefix: String
+
+        public init(recordingPrefix: String) {
+            self.recordingPrefix = recordingPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordingPrefix = "recordingPrefix"
+        }
+    }
+
+    public struct S3StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Location (S3 bucket name) where recorded videos will be stored.  Note that the StorageConfiguration
+        /// 	  and S3 bucket must be in the same region as the Composition.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9-.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
         }
     }
 
@@ -840,6 +1645,142 @@ extension IVSRealTime {
             case activeSessionId = "activeSessionId"
             case arn = "arn"
             case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartCompositionRequest: AWSEncodableShape {
+        /// Array of destination configuration.
+        public let destinations: [DestinationConfiguration]
+        /// Idempotency token.
+        public let idempotencyToken: String?
+        /// Layout object to configure composition parameters.
+        public let layout: LayoutConfiguration?
+        /// ARN of the stage to be used for compositing.
+        public let stageArn: String
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(destinations: [DestinationConfiguration], idempotencyToken: String? = StartCompositionRequest.idempotencyToken(), layout: LayoutConfiguration? = nil, stageArn: String, tags: [String: String]? = nil) {
+            self.destinations = destinations
+            self.idempotencyToken = idempotencyToken
+            self.layout = layout
+            self.stageArn = stageArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 2)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 64)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.layout?.validate(name: "\(name).layout")
+            try self.validate(self.stageArn, name: "stageArn", parent: name, max: 128)
+            try self.validate(self.stageArn, name: "stageArn", parent: name, min: 1)
+            try self.validate(self.stageArn, name: "stageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case idempotencyToken = "idempotencyToken"
+            case layout = "layout"
+            case stageArn = "stageArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartCompositionResponse: AWSDecodableShape {
+        /// The Composition that was created.
+        public let composition: Composition?
+
+        public init(composition: Composition? = nil) {
+            self.composition = composition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case composition = "composition"
+        }
+    }
+
+    public struct StopCompositionRequest: AWSEncodableShape {
+        /// ARN of the Composition.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:composition/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct StopCompositionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StorageConfiguration: AWSDecodableShape {
+        /// ARN of the storage configuration.
+        public let arn: String
+        /// Name of the storage configuration.
+        public let name: String?
+        /// An S3 destination configuration where recorded videos will be stored.
+        public let s3: S3StorageConfiguration?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.s3 = s3
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case s3 = "s3"
+            case tags = "tags"
+        }
+    }
+
+    public struct StorageConfigurationSummary: AWSDecodableShape {
+        /// ARN of the storage configuration.
+        public let arn: String
+        /// Name of the storage configuration.
+        public let name: String?
+        /// An S3 destination configuration where recorded videos will be stored.
+        public let s3: S3StorageConfiguration?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.s3 = s3
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case s3 = "s3"
             case tags = "tags"
         }
     }
@@ -954,6 +1895,42 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case stage = "stage"
+        }
+    }
+
+    public struct Video: AWSEncodableShape & AWSDecodableShape {
+        /// Bitrate for generated output, in bps. Default: 2500000.
+        public let bitrate: Int?
+        /// Video frame rate, in fps. Default: 30.
+        public let framerate: Float?
+        /// Video-resolution height. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720.
+        public let height: Int?
+        /// Video-resolution width. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280.
+        public let width: Int?
+
+        public init(bitrate: Int? = nil, framerate: Float? = nil, height: Int? = nil, width: Int? = nil) {
+            self.bitrate = bitrate
+            self.framerate = framerate
+            self.height = height
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 8500000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1)
+            try self.validate(self.framerate, name: "framerate", parent: name, max: 60.0)
+            try self.validate(self.framerate, name: "framerate", parent: name, min: 1.0)
+            try self.validate(self.height, name: "height", parent: name, max: 1920)
+            try self.validate(self.height, name: "height", parent: name, min: 1)
+            try self.validate(self.width, name: "width", parent: name, max: 1920)
+            try self.validate(self.width, name: "width", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case framerate = "framerate"
+            case height = "height"
+            case width = "width"
         }
     }
 }

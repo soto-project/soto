@@ -19,8 +19,7 @@
 
 /// Service object for interacting with AWS CostAndUsageReportService service.
 ///
-/// The AWS Cost and Usage Report API enables you to programmatically create, query, and delete  AWS Cost and Usage report definitions. AWS Cost and Usage reports track the monthly AWS costs and usage  associated with your AWS account.  The report contains line items for each unique combination of AWS product, usage type, and operation that your AWS account uses.   You can configure the AWS Cost and Usage report to show only the data that you want, using the AWS Cost and Usage API.
-///  Service Endpoint The AWS Cost and Usage Report API provides the following endpoint:   cur.us-east-1.amazonaws.com
+/// You can use the Amazon Web Services Cost and Usage Report API to programmatically create, query, and delete  Amazon Web Services Cost and Usage Report definitions. Amazon Web Services Cost and Usage Report track the monthly Amazon Web Services costs and usage  associated with your Amazon Web Services account.  The report contains line items for each unique combination of Amazon Web Services product, usage type, and operation that your Amazon Web Services account uses.   You can configure the Amazon Web Services Cost and Usage Report to show only the data that you want, using the Amazon Web Services Cost and Usage Report API. Service Endpoint The Amazon Web Services Cost and Usage Report API provides the following endpoint:   cur.us-east-1.amazonaws.com
 public struct CostAndUsageReportService: AWSService {
     // MARK: Member variables
 
@@ -75,7 +74,7 @@ public struct CostAndUsageReportService: AWSService {
 
     // MARK: API Calls
 
-    /// Deletes the specified report.
+    /// Deletes the specified report. Any tags associated with the report are also deleted.
     @Sendable
     public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReportDefinitionResponse {
         return try await self.client.execute(
@@ -88,7 +87,7 @@ public struct CostAndUsageReportService: AWSService {
         )
     }
 
-    /// Lists the AWS Cost and Usage reports available to this account.
+    /// Lists the Amazon Web Services Cost and Usage Report available to this account.
     @Sendable
     public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReportDefinitionsResponse {
         return try await self.client.execute(
@@ -101,7 +100,20 @@ public struct CostAndUsageReportService: AWSService {
         )
     }
 
-    /// Allows you to programatically update your report preferences.
+    /// Lists the tags associated with the specified report definition.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Allows you to programmatically update your report preferences.
     @Sendable
     public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReportDefinitionResponse {
         return try await self.client.execute(
@@ -126,6 +138,32 @@ public struct CostAndUsageReportService: AWSService {
             logger: logger
         )
     }
+
+    /// Associates a set of tags with a report definition.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Disassociates a set of tags from a report definition.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension CostAndUsageReportService {
@@ -141,7 +179,7 @@ extension CostAndUsageReportService {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CostAndUsageReportService {
-    /// Lists the AWS Cost and Usage reports available to this account.
+    /// Lists the Amazon Web Services Cost and Usage Report available to this account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

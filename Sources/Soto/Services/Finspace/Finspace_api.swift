@@ -74,6 +74,7 @@ public struct Finspace: AWSService {
     // MARK: API Calls
 
     /// Create a new FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     @Sendable
     public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentResponse {
         return try await self.client.execute(
@@ -152,6 +153,7 @@ public struct Finspace: AWSService {
     }
 
     /// Delete an FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentResponse {
         return try await self.client.execute(
@@ -217,6 +219,7 @@ public struct Finspace: AWSService {
     }
 
     /// Returns the FinSpace environment object.
+    @available(*, deprecated, message: "This method will be discontinued.")
     @Sendable
     public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentResponse {
         return try await self.client.execute(
@@ -308,6 +311,7 @@ public struct Finspace: AWSService {
     }
 
     /// A list of all of your FinSpace environments.
+    @available(*, deprecated, message: "This method will be discontinued.")
     @Sendable
     public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsResponse {
         return try await self.client.execute(
@@ -438,11 +442,25 @@ public struct Finspace: AWSService {
     }
 
     /// Update your FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     @Sendable
     public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentResponse {
         return try await self.client.execute(
             operation: "UpdateEnvironment", 
             path: "/environment/{environmentId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster.  The configuration that you want to update will override any existing configurations on the cluster.
+    @Sendable
+    public func updateKxClusterCodeConfiguration(_ input: UpdateKxClusterCodeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxClusterCodeConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateKxClusterCodeConfiguration", 
+            path: "/kx/environments/{environmentId}/clusters/{clusterName}/configuration/code", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 

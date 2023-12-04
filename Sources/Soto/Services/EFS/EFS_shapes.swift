@@ -26,7 +26,7 @@ import Foundation
 extension EFS {
     // MARK: Enums
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case creating = "creating"
         case deleted = "deleted"
@@ -36,13 +36,20 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum PerformanceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PerformanceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case generalPurpose = "generalPurpose"
         case maxIo = "maxIO"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationOverwriteProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case replicating = "REPLICATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case enabled = "ENABLED"
         case enabling = "ENABLING"
@@ -52,19 +59,19 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum Resource: String, CustomStringConvertible, Codable, Sendable {
+    public enum Resource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fileSystem = "FILE_SYSTEM"
         case mountTarget = "MOUNT_TARGET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceIdType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case longId = "LONG_ID"
         case shortId = "SHORT_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -72,24 +79,40 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bursting = "bursting"
         case elastic = "elastic"
         case provisioned = "provisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionToIARules: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitionToArchiveRules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case after14Days = "AFTER_14_DAYS"
+        case after180Days = "AFTER_180_DAYS"
         case after1Day = "AFTER_1_DAY"
+        case after270Days = "AFTER_270_DAYS"
         case after30Days = "AFTER_30_DAYS"
+        case after365Days = "AFTER_365_DAYS"
         case after60Days = "AFTER_60_DAYS"
         case after7Days = "AFTER_7_DAYS"
         case after90Days = "AFTER_90_DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionToPrimaryStorageClassRules: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitionToIARules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case after14Days = "AFTER_14_DAYS"
+        case after180Days = "AFTER_180_DAYS"
+        case after1Day = "AFTER_1_DAY"
+        case after270Days = "AFTER_270_DAYS"
+        case after30Days = "AFTER_30_DAYS"
+        case after365Days = "AFTER_365_DAYS"
+        case after60Days = "AFTER_60_DAYS"
+        case after7Days = "AFTER_7_DAYS"
+        case after90Days = "AFTER_90_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitionToPrimaryStorageClassRules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case after1Access = "AFTER_1_ACCESS"
         public var description: String { return self.rawValue }
     }
@@ -113,7 +136,7 @@ extension EFS {
         public let ownerId: String?
         /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point that is used for all file operations by NFS clients using the access point.
         public let posixUser: PosixUser?
-        /// The directory on the Amazon EFS file system that the access point exposes as the root directory to NFS clients using the access point.
+        /// The directory on the EFS file system that the access point exposes as the root directory to NFS clients using the access point.
         public let rootDirectory: RootDirectory?
         /// The tags associated with the access point, presented as an array of Tag objects.
         public let tags: [Tag]?
@@ -146,7 +169,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.     ENABLING - EFS is turning on automatic backups for the file system.     DISABLED - Automatic back ups are turned off for the file system.     DISABLING - EFS is turning off automatic backups for the file system.
+        /// Describes the status of the file system's backup policy.     ENABLED – EFS is automatically backing up the file system.     ENABLING – EFS is turning on automatic backups for the file system.     DISABLED – Automatic back ups are turned off for the file system.     DISABLING – EFS is turning off automatic backups for the file system.
         public let status: Status
 
         public init(status: Status) {
@@ -178,7 +201,7 @@ extension EFS {
         public let fileSystemId: String
         /// The operating system user and group applied to all file system requests made using the access point.
         public let posixUser: PosixUser?
-        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory > Path specified does not exist, EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you must provide the Path, and the CreationInfo. Amazon EFS creates a root directory only if you have provided the  CreationInfo: OwnUid, OwnGID, and permissions for the directory.  If  you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount  using the access point will fail.
+        /// Specifies the directory on the EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory > Path specified does not exist, Amazon EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you must provide the Path, and the CreationInfo. Amazon EFS creates a root directory only if you have provided the  CreationInfo: OwnUid, OwnGID, and permissions for the directory.  If  you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount  using the access point will fail.
         public let rootDirectory: RootDirectory?
         /// Creates tags associated with the access point. Each tag is a key-value pair, each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -214,9 +237,9 @@ extension EFS {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
-        /// Used to create a file system that uses One Zone storage classes. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone storage classes are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
+        /// Used to create a One Zone file system. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the  Availability Zone. For more information about One Zone file systems, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
         public let availabilityZoneName: String?
-        /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a file system that uses One Zone storage classes, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName,  the default is true.  Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
+        /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a One Zone file system, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName,  the default is true.  Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
         public let backup: Bool?
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
@@ -224,13 +247,13 @@ extension EFS {
         public let encrypted: Bool?
         /// The ID of the KMS key that you want to use to protect the encrypted file system. This parameter is required only if you want to use a non-default KMS key. If this parameter is not specified, the default KMS key for Amazon EFS is used. You can specify a KMS key ID using the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If you use KmsKeyId, you must set the CreateFileSystemRequest$Encrypted  parameter to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric  KMS keys with Amazon EFS file systems.
         public let kmsKeyId: String?
-        /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.  The maxIO mode is not supported on file systems using One Zone storage classes.
+        /// The Performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems.  Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems.  Default is generalPurpose.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
+        /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
-        /// Specifies the throughput mode for the file system. The mode can be bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, with certain time restrictions. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
+        /// Specifies the throughput mode for the file system. The mode can be bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's Provisioned throughput or change between the throughput modes, with certain time restrictions. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
         public let throughputMode: ThroughputMode?
 
         public init(availabilityZoneName: String? = nil, backup: Bool? = nil, creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
@@ -280,7 +303,7 @@ extension EFS {
         public let ipAddress: String?
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
         public let securityGroups: [String]?
-        /// The ID of the subnet to add the mount target in. For file systems that use One Zone storage classes, use the subnet  that is associated with the file system's Availability Zone.
+        /// The ID of the subnet to add the mount target in. For One Zone  file systems, use the subnet that is associated with the file system's Availability Zone.
         public let subnetId: String
 
         public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
@@ -653,7 +676,7 @@ extension EFS {
     }
 
     public struct DescribeBackupPolicyRequest: AWSEncodableShape {
-        /// Specifies which EFS file system to retrieve the BackupPolicy for.
+        /// Specifies which EFS file system for which to retrieve the BackupPolicy.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
@@ -997,7 +1020,7 @@ extension EFS {
         public let lastReplicatedTimestamp: Date?
         /// The Amazon Web Services Region in which the destination file system is located.
         public let region: String
-        /// Describes the status of the destination Amazon EFS file system. If the status is ERROR, the destination file system in the replication configuration is in a failed state and is unrecoverable. To access the file system data, restore a backup of the failed file system to a new file system.
+        /// Describes the status of the destination EFS file system.   The Paused state occurs as a result of opting out of the source or destination Region after the replication configuration was created. To resume replication for the file system, you need to again opt in to the Amazon Web Services Region. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Guide.   The Error state occurs when either the source or the destination file system (or both) is in a failed state and is unrecoverable. For more information, see Monitoring replication status in the Amazon EFS User Guide. You must delete the replication configuration, and then restore the most recent backup of the failed file system (either the source or the destination) to a new file system.
         public let status: ReplicationStatus
 
         public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, region: String, status: ReplicationStatus) {
@@ -1016,15 +1039,18 @@ extension EFS {
     }
 
     public struct DestinationToCreate: AWSEncodableShape {
-        /// To create a file system that uses EFS One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
+        /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public let availabilityZoneName: String?
-        /// Specifies the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
+        /// The ID of the file system to use for the destination. The file system's replication overwrite replication must be disabled. If you do not provide an ID, then EFS creates a new file system for the replication destination.
+        public let fileSystemId: String?
+        /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
         public let kmsKeyId: String?
         /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system.
         public let region: String?
 
-        public init(availabilityZoneName: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
+        public init(availabilityZoneName: String? = nil, fileSystemId: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
             self.availabilityZoneName = availabilityZoneName
+            self.fileSystemId = fileSystemId
             self.kmsKeyId = kmsKeyId
             self.region = region
         }
@@ -1033,6 +1059,8 @@ extension EFS {
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, max: 64)
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, min: 1)
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, pattern: "^.+$")
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|mrk-[0-9a-f]{32}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(key/mrk-[0-9a-f]{32})|(alias/[a-zA-Z0-9/_-]+))))$")
             try self.validate(self.region, name: "region", parent: name, max: 64)
@@ -1042,15 +1070,16 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZoneName = "AvailabilityZoneName"
+            case fileSystemId = "FileSystemId"
             case kmsKeyId = "KmsKeyId"
             case region = "Region"
         }
     }
 
     public struct FileSystemDescription: AWSDecodableShape {
-        /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
+        /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
         public let availabilityZoneId: String?
-        /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for file systems using One Zone storage classes. For more information, see Using EFS storage classes  in the Amazon EFS User Guide.
+        /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see Using EFS storage classes in the Amazon EFS User Guide.
         public let availabilityZoneName: String?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: Date
@@ -1058,10 +1087,12 @@ extension EFS {
         public let creationToken: String
         /// A Boolean value that, if true, indicates that the file system is encrypted.
         public let encrypted: Bool?
-        /// The Amazon Resource Name (ARN) for the EFS file system, in the format  arn:aws:elasticfilesystem:region:account-id:file-system/file-system-id .  Example with sample data: arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567
+        /// The Amazon Resource Name (ARN) for the EFS file system, in the format arn:aws:elasticfilesystem:region:account-id:file-system/file-system-id . Example with sample data: arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567
         public let fileSystemArn: String?
         /// The ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
+        /// Describes the protection on the file system.
+        public let fileSystemProtection: FileSystemProtectionDescription?
         /// The ID of an KMS key used to protect the encrypted file system.
         public let kmsKeyId: String?
         /// The lifecycle phase of the file system.
@@ -1072,9 +1103,9 @@ extension EFS {
         public let numberOfMountTargets: Int
         /// The Amazon Web Services account that created the file system.
         public let ownerId: String
-        /// The performance mode of the file system.
+        /// The Performance mode of the file system.
         public let performanceMode: PerformanceMode
-        /// The amount of provisioned throughput, measured in MiB/s, for the file system. Valid for file systems using ThroughputMode set to provisioned.
+        /// The amount of provisioned throughput, measured in MiBps, for the file system. Valid for file systems using ThroughputMode set to provisioned.
         public let provisionedThroughputInMibps: Double?
         /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time.
         public let sizeInBytes: FileSystemSize
@@ -1083,7 +1114,7 @@ extension EFS {
         /// Displays the file system's throughput mode. For more information, see  Throughput modes  in the Amazon EFS User Guide.
         public let throughputMode: ThroughputMode?
 
-        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
+        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, fileSystemProtection: FileSystemProtectionDescription? = nil, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.creationTime = creationTime
@@ -1091,6 +1122,7 @@ extension EFS {
             self.encrypted = encrypted
             self.fileSystemArn = fileSystemArn
             self.fileSystemId = fileSystemId
+            self.fileSystemProtection = fileSystemProtection
             self.kmsKeyId = kmsKeyId
             self.lifeCycleState = lifeCycleState
             self.name = name
@@ -1111,6 +1143,7 @@ extension EFS {
             case encrypted = "Encrypted"
             case fileSystemArn = "FileSystemArn"
             case fileSystemId = "FileSystemId"
+            case fileSystemProtection = "FileSystemProtection"
             case kmsKeyId = "KmsKeyId"
             case lifeCycleState = "LifeCycleState"
             case name = "Name"
@@ -1141,19 +1174,35 @@ extension EFS {
         }
     }
 
+    public struct FileSystemProtectionDescription: AWSDecodableShape {
+        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
+        public let replicationOverwriteProtection: ReplicationOverwriteProtection?
+
+        public init(replicationOverwriteProtection: ReplicationOverwriteProtection? = nil) {
+            self.replicationOverwriteProtection = replicationOverwriteProtection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationOverwriteProtection = "ReplicationOverwriteProtection"
+        }
+    }
+
     public struct FileSystemSize: AWSDecodableShape {
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: Date?
         /// The latest known metered size (in bytes) of data stored in the file system.
         public let value: Int64
+        /// The latest known metered size (in bytes) of data stored in the Archive storage class.
+        public let valueInArchive: Int64?
         /// The latest known metered size (in bytes) of data stored in the Infrequent Access storage class.
         public let valueInIA: Int64?
         /// The latest known metered size (in bytes) of data stored in the Standard storage class.
         public let valueInStandard: Int64?
 
-        public init(timestamp: Date? = nil, value: Int64, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
+        public init(timestamp: Date? = nil, value: Int64, valueInArchive: Int64? = nil, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
             self.timestamp = timestamp
             self.value = value
+            self.valueInArchive = valueInArchive
             self.valueInIA = valueInIA
             self.valueInStandard = valueInStandard
         }
@@ -1161,6 +1210,7 @@ extension EFS {
         private enum CodingKeys: String, CodingKey {
             case timestamp = "Timestamp"
             case value = "Value"
+            case valueInArchive = "ValueInArchive"
             case valueInIA = "ValueInIA"
             case valueInStandard = "ValueInStandard"
         }
@@ -1180,17 +1230,21 @@ extension EFS {
     }
 
     public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
-        ///  Describes the period of time that a file is not accessed, after which it transitions to IA storage. Metadata operations such as listing the contents of a directory don't count as file access events.
+        /// The number of days after files were last accessed in primary storage (the Standard storage class) files at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
+        public let transitionToArchive: TransitionToArchiveRules?
+        /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
-        /// Describes when to transition a file from IA storage to primary storage. Metadata operations such as listing the contents of a directory don't count as file access events.
+        /// Whether to move files back to primary (Standard) storage after they are accessed in IA or Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules?
 
-        public init(transitionToIA: TransitionToIARules? = nil, transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules? = nil) {
+        public init(transitionToArchive: TransitionToArchiveRules? = nil, transitionToIA: TransitionToIARules? = nil, transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules? = nil) {
+            self.transitionToArchive = transitionToArchive
             self.transitionToIA = transitionToIA
             self.transitionToPrimaryStorageClass = transitionToPrimaryStorageClass
         }
 
         private enum CodingKeys: String, CodingKey {
+            case transitionToArchive = "TransitionToArchive"
             case transitionToIA = "TransitionToIA"
             case transitionToPrimaryStorageClass = "TransitionToPrimaryStorageClass"
         }
@@ -1365,7 +1419,7 @@ extension EFS {
     }
 
     public struct PutAccountPreferencesRequest: AWSEncodableShape {
-        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account,  in the current Amazon Web Services Region, either LONG_ID (17 characters), or  SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
+        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
         public let resourceIdType: ResourceIdType
 
         public init(resourceIdType: ResourceIdType) {
@@ -1422,7 +1476,7 @@ extension EFS {
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
         public let fileSystemId: String
-        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition.  EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see  EFS Resource-based Policies.
+        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
         public let policy: String
 
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, fileSystemId: String, policy: String) {
@@ -1456,7 +1510,8 @@ extension EFS {
     public struct PutLifecycleConfigurationRequest: AWSEncodableShape {
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
-        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle management and EFS Intelligent-Tiering of the following:   When to move files in the file system from primary storage to the IA storage class.   When to move files that are in IA storage to primary storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition, TransitionToIA, TransitionToPrimaryStorageClass. See the example requests in the following section for more information.
+        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS Lifecycle management of the following:     TransitionToIA –  When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access  (IA) storage.     TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the  Archive storage. File systems cannot transition into Archive storage before transitioning into IA  storage. Therefore,   TransitionToArchive must either not be set or must be later than TransitionToIA.  The Archive storage class is available only for file systems that use the Elastic Throughput mode
+        /// and the General Purpose Performance mode.       TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the following section for more information.
         public let lifecyclePolicies: [LifecyclePolicy]
 
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
@@ -1474,7 +1529,7 @@ extension EFS {
         public func validate(name: String) throws {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.validate(self.lifecyclePolicies, name: "lifecyclePolicies", parent: name, max: 2)
+            try self.validate(self.lifecyclePolicies, name: "lifecyclePolicies", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1487,13 +1542,13 @@ extension EFS {
         public let creationTime: Date
         /// An array of destination objects. Only one destination object is supported.
         public let destinations: [Destination]
-        /// The Amazon Resource Name (ARN) of the original source Amazon EFS  file system in the replication configuration.
+        /// The Amazon Resource Name (ARN) of the original source EFS file system in the replication configuration.
         public let originalSourceFileSystemArn: String
         /// The Amazon Resource Name (ARN) of the current source file system in the replication configuration.
         public let sourceFileSystemArn: String
         /// The ID of the source Amazon EFS file system that is being replicated.
         public let sourceFileSystemId: String
-        /// The Amazon Web Services Region in which the source Amazon EFS  file system is located.
+        /// The Amazon Web Services Region in which the source EFS file system is located.
         public let sourceFileSystemRegion: String
 
         public init(creationTime: Date, destinations: [Destination], originalSourceFileSystemArn: String, sourceFileSystemArn: String, sourceFileSystemId: String, sourceFileSystemRegion: String) {
@@ -1533,9 +1588,9 @@ extension EFS {
     }
 
     public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
-        /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory.  If the RootDirectory > Path specified does not exist,  EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.    If you do not provide CreationInfo and the specified RootDirectory > Path does not exist,  attempts to mount the file system using the access point will fail.
+        /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory > Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory > Path does not exist,  attempts to mount the file system using the access point will fail.
         public let creationInfo: CreationInfo?
-        /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories.   If the specified path does not exist, you are required to provide the CreationInfo.
+        /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
         public let path: String?
 
         public init(creationInfo: CreationInfo? = nil, path: String? = nil) {
@@ -1645,10 +1700,38 @@ extension EFS {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateFileSystemProtectionRequest: AWSEncodableShape {
+        /// The ID of the file system to update.
+        public let fileSystemId: String
+        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
+        public let replicationOverwriteProtection: ReplicationOverwriteProtection?
+
+        public init(fileSystemId: String, replicationOverwriteProtection: ReplicationOverwriteProtection? = nil) {
+            self.fileSystemId = fileSystemId
+            self.replicationOverwriteProtection = replicationOverwriteProtection
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fileSystemId, key: "FileSystemId")
+            try container.encodeIfPresent(self.replicationOverwriteProtection, forKey: .replicationOverwriteProtection)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationOverwriteProtection = "ReplicationOverwriteProtection"
+        }
+    }
+
     public struct UpdateFileSystemRequest: AWSEncodableShape {
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) Sets the amount of provisioned throughput, in MiB/s, for the file system. Valid values are 1-1024. If you are changing the throughput mode to provisioned, you must also  provide the amount of provisioned throughput. Required if ThroughputMode is changed  to provisioned on update.
+        /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned,  you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
@@ -1690,6 +1773,7 @@ public struct EFSErrorType: AWSErrorType {
         case accessPointNotFound = "AccessPointNotFound"
         case availabilityZonesMismatch = "AvailabilityZonesMismatch"
         case badRequest = "BadRequest"
+        case conflictException = "ConflictException"
         case dependencyTimeout = "DependencyTimeout"
         case fileSystemAlreadyExists = "FileSystemAlreadyExists"
         case fileSystemInUse = "FileSystemInUse"
@@ -1706,6 +1790,7 @@ public struct EFSErrorType: AWSErrorType {
         case networkInterfaceLimitExceeded = "NetworkInterfaceLimitExceeded"
         case noFreeAddressesInSubnet = "NoFreeAddressesInSubnet"
         case policyNotFound = "PolicyNotFound"
+        case replicationAlreadyExists = "ReplicationAlreadyExists"
         case replicationNotFound = "ReplicationNotFound"
         case securityGroupLimitExceeded = "SecurityGroupLimitExceeded"
         case securityGroupNotFound = "SecurityGroupNotFound"
@@ -1745,6 +1830,8 @@ public struct EFSErrorType: AWSErrorType {
     public static var availabilityZonesMismatch: Self { .init(.availabilityZonesMismatch) }
     /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     public static var badRequest: Self { .init(.badRequest) }
+    /// Returned if the source file system in a replication is encrypted but the destination file system is unencrypted.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The service timed out trying to fulfill the request, and the client should try the call again.
     public static var dependencyTimeout: Self { .init(.dependencyTimeout) }
     /// Returned if the file system you are trying to create already exists, with the creation token you provided.
@@ -1777,6 +1864,8 @@ public struct EFSErrorType: AWSErrorType {
     public static var noFreeAddressesInSubnet: Self { .init(.noFreeAddressesInSubnet) }
     /// Returned if the default file system policy is in effect for the EFS file system specified.
     public static var policyNotFound: Self { .init(.policyNotFound) }
+    /// Returned if the file system is already included in a replication configuration.>
+    public static var replicationAlreadyExists: Self { .init(.replicationAlreadyExists) }
     /// Returned if the specified file system does not have a replication configuration.
     public static var replicationNotFound: Self { .init(.replicationNotFound) }
     /// Returned if the size of SecurityGroups specified in the request is greater than five.

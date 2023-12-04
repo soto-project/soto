@@ -26,49 +26,50 @@ import Foundation
 extension Outposts {
     // MARK: Enums
 
-    public enum AddressType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case operatingAddress = "OPERATING_ADDRESS"
         case shippingAddress = "SHIPPING_ADDRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetState: String, CustomStringConvertible, Codable, Sendable {
-        case active = "ACTIVE"
-        case retiring = "RETIRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
-        case compute = "COMPUTE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CatalogItemClass: String, CustomStringConvertible, Codable, Sendable {
-        case rack = "RACK"
-        case server = "SERVER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CatalogItemStatus: String, CustomStringConvertible, Codable, Sendable {
-        case available = "AVAILABLE"
-        case discontinued = "DISCONTINUED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComputeAssetState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case isolated = "ISOLATED"
         case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FiberOpticCableType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compute = "COMPUTE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CatalogItemClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rack = "RACK"
+        case server = "SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CatalogItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case discontinued = "DISCONTINUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeAssetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case isolated = "ISOLATED"
+        case retiring = "RETIRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FiberOpticCableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiMode = "MULTI_MODE"
         case singleMode = "SINGLE_MODE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LineItemStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LineItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case building = "BUILDING"
         case cancelled = "CANCELLED"
         case delivered = "DELIVERED"
@@ -81,7 +82,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum MaximumSupportedWeightLbs: String, CustomStringConvertible, Codable, Sendable {
+    public enum MaximumSupportedWeightLbs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case max1400Lbs = "MAX_1400_LBS"
         case max1600Lbs = "MAX_1600_LBS"
         case max1800Lbs = "MAX_1800_LBS"
@@ -90,7 +91,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OpticalStandard: String, CustomStringConvertible, Codable, Sendable {
+    public enum OpticalStandard: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optic1000BaseLx = "OPTIC_1000BASE_LX"
         case optic1000BaseSx = "OPTIC_1000BASE_SX"
         case optic100GPsm4Msa = "OPTIC_100G_PSM4_MSA"
@@ -107,7 +108,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case error = "ERROR"
@@ -121,26 +122,26 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case outpost = "OUTPOST"
         case replacement = "REPLACEMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentTerm: String, CustomStringConvertible, Codable, Sendable {
+    public enum PaymentTerm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneYear = "ONE_YEAR"
         case threeYears = "THREE_YEARS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerConnector: String, CustomStringConvertible, Codable, Sendable {
+    public enum PowerConnector: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ah530p7w = "AH530P7W"
         case ah532p6w = "AH532P6W"
         case iec309 = "IEC309"
@@ -148,7 +149,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerDrawKva: String, CustomStringConvertible, Codable, Sendable {
+    public enum PowerDrawKva: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case power10Kva = "POWER_10_KVA"
         case power15Kva = "POWER_15_KVA"
         case power30Kva = "POWER_30_KVA"
@@ -156,19 +157,19 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerFeedDrop: String, CustomStringConvertible, Codable, Sendable {
+    public enum PowerFeedDrop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aboveRack = "ABOVE_RACK"
         case belowRack = "BELOW_RACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerPhase: String, CustomStringConvertible, Codable, Sendable {
+    public enum PowerPhase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singlePhase = "SINGLE_PHASE"
         case threePhase = "THREE_PHASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShipmentCarrier: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShipmentCarrier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbs = "DBS"
         case dhl = "DHL"
         case fedex = "FEDEX"
@@ -176,19 +177,19 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedHardwareType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SupportedHardwareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rack = "RACK"
         case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedStorageEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum SupportedStorageEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebs = "EBS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum UplinkCount: String, CustomStringConvertible, Codable, Sendable {
+    public enum UplinkCount: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case uplinkCount1 = "UPLINK_COUNT_1"
         case uplinkCount12 = "UPLINK_COUNT_12"
         case uplinkCount16 = "UPLINK_COUNT_16"
@@ -202,7 +203,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum UplinkGbps: String, CustomStringConvertible, Codable, Sendable {
+    public enum UplinkGbps: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case uplink100G = "UPLINK_100G"
         case uplink10G = "UPLINK_10G"
         case uplink1G = "UPLINK_1G"
@@ -407,16 +408,20 @@ extension Outposts {
     public struct ComputeAttributes: AWSDecodableShape {
         ///  The host ID of the Dedicated Host on the asset.
         public let hostId: String?
+        /// A list of the names of instance families that are currently associated with a given asset.
+        public let instanceFamilies: [String]?
         /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
         public let state: ComputeAssetState?
 
-        public init(hostId: String? = nil, state: ComputeAssetState? = nil) {
+        public init(hostId: String? = nil, instanceFamilies: [String]? = nil, state: ComputeAssetState? = nil) {
             self.hostId = hostId
+            self.instanceFamilies = instanceFamilies
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostId = "HostId"
+            case instanceFamilies = "InstanceFamilies"
             case state = "State"
         }
     }
@@ -1140,7 +1145,7 @@ extension Outposts {
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
-            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 2)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 3)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
 

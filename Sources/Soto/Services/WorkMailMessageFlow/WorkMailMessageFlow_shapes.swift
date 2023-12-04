@@ -45,7 +45,7 @@ extension WorkMailMessageFlow {
         public func validate(name: String) throws {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 120)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
-            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[a-z0-9\\-]*")
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-z0-9\\-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -90,7 +90,7 @@ extension WorkMailMessageFlow {
             try self.content.validate(name: "\(name).content")
             try self.validate(self.messageId, name: "messageId", parent: name, max: 120)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
-            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[a-z0-9\\-]*")
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-z0-9\\-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -136,13 +136,13 @@ extension WorkMailMessageFlow {
         public func validate(name: String) throws {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][a-z0-9\\-]*")
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][a-z0-9\\-]*$")
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "[a-zA-Z0-9\\-/]*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\-/]*$")
             try self.validate(self.objectVersion, name: "objectVersion", parent: name, max: 1024)
             try self.validate(self.objectVersion, name: "objectVersion", parent: name, min: 1)
-            try self.validate(self.objectVersion, name: "objectVersion", parent: name, pattern: ".+")
+            try self.validate(self.objectVersion, name: "objectVersion", parent: name, pattern: "^.+$")
         }
 
         private enum CodingKeys: String, CodingKey {

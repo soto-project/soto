@@ -26,13 +26,13 @@ import Foundation
 extension LicenseManager {
     // MARK: Enums
 
-    public enum ActivationOverrideBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActivationOverrideBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allGrantsPermittedByIssuer = "ALL_GRANTS_PERMITTED_BY_ISSUER"
         case distributedGrantsOnly = "DISTRIBUTED_GRANTS_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowedOperation: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowedOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case checkInLicense = "CheckInLicense"
         case checkoutBorrowLicense = "CheckoutBorrowLicense"
         case checkoutLicense = "CheckoutLicense"
@@ -43,18 +43,18 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckoutType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CheckoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case perpetual = "PERPETUAL"
         case provisional = "PROVISIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DigitalSignatureMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum DigitalSignatureMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jwtPs384 = "JWT_PS384"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntitlementDataUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntitlementDataUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsPerSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -85,7 +85,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntitlementUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntitlementUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsPerSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -116,7 +116,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum GrantStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum GrantStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case disabled = "DISABLED"
@@ -129,7 +129,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum InventoryFilterCondition: String, CustomStringConvertible, Codable, Sendable {
+    public enum InventoryFilterCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case beginsWith = "BEGINS_WITH"
         case contains = "CONTAINS"
         case equals = "EQUALS"
@@ -137,20 +137,20 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseConversionTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseConversionTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseCountingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseCountingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case core = "Core"
         case instance = "Instance"
         case socket = "Socket"
@@ -158,13 +158,13 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseDeletionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseDeletionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case pendingDelete = "PENDING_DELETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deactivated = "DEACTIVATED"
         case deleted = "DELETED"
@@ -175,7 +175,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReceivedStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReceivedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case disabled = "DISABLED"
@@ -187,27 +187,27 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum RenewType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RenewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case monthly = "Monthly"
         case none = "None"
         case weekly = "Weekly"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFrequencyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportFrequencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case month = "MONTH"
         case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case licenseConfigurationSummaryReport = "LicenseConfigurationSummaryReport"
         case licenseConfigurationUsageReport = "LicenseConfigurationUsageReport"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2Ami = "EC2_AMI"
         case ec2Host = "EC2_HOST"
         case ec2Instance = "EC2_INSTANCE"
@@ -216,7 +216,7 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TokenType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TokenType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case refreshToken = "REFRESH_TOKEN"
         public var description: String { return self.rawValue }
     }

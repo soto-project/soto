@@ -142,6 +142,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Creates a data provider using the provided settings. A data provider stores  a data store type and location information about your database.
+    @Sendable
+    public func createDataProvider(_ input: CreateDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProviderResponse {
+        return try await self.client.execute(
+            operation: "CreateDataProvider", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an endpoint using the provided settings.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     @Sendable
     public func createEndpoint(_ input: CreateEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointResponse {
@@ -181,7 +194,46 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.
+    /// Creates the instance profile using the specified parameters.
+    @Sendable
+    public func createInstanceProfile(_ input: CreateInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceProfileResponse {
+        return try await self.client.execute(
+            operation: "CreateInstanceProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers   using CreateInstanceProfile and CreateDataProvider.
+    @Sendable
+    public func createMigrationProject(_ input: CreateMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationProjectResponse {
+        return try await self.client.execute(
+            operation: "CreateMigrationProject", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
+    @Sendable
+    public func createReplicationConfig(_ input: CreateReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationConfigResponse {
+        return try await self.client.execute(
+            operation: "CreateReplicationConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
     @Sendable
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationInstanceResponse {
         return try await self.client.execute(
@@ -194,7 +246,7 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception.
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action  returns the following error message: The Replication Subnet Group already exists. In this case, delete  the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console,  then choose your subnet group. Next, choose Delete from Actions.
     @Sendable
     public func createReplicationSubnetGroup(_ input: CreateReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationSubnetGroupResponse {
         return try await self.client.execute(
@@ -238,6 +290,19 @@ public struct DatabaseMigrationService: AWSService {
     public func deleteConnection(_ input: DeleteConnectionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionResponse {
         return try await self.client.execute(
             operation: "DeleteConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified  before you can delete the data provider.
+    @Sendable
+    public func deleteDataProvider(_ input: DeleteDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataProviderResponse {
+        return try await self.client.execute(
+            operation: "DeleteDataProvider", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -290,6 +355,45 @@ public struct DatabaseMigrationService: AWSService {
     public func deleteFleetAdvisorDatabases(_ input: DeleteFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetAdvisorDatabasesResponse {
         return try await self.client.execute(
             operation: "DeleteFleetAdvisorDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified  before you can delete the instance profile.
+    @Sendable
+    public func deleteInstanceProfile(_ input: DeleteInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceProfileResponse {
+        return try await self.client.execute(
+            operation: "DeleteInstanceProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified migration project.  The migration project must be closed before you can delete it.
+    @Sendable
+    public func deleteMigrationProject(_ input: DeleteMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMigrationProjectResponse {
+        return try await self.client.execute(
+            operation: "DeleteMigrationProject", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
+    @Sendable
+    public func deleteReplicationConfig(_ input: DeleteReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationConfigResponse {
+        return try await self.client.execute(
+            operation: "DeleteReplicationConfig", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -402,6 +506,32 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Returns configuration parameters for a schema conversion project.
+    @Sendable
+    public func describeConversionConfiguration(_ input: DescribeConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConversionConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeConversionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of data providers for your account in the current region.
+    @Sendable
+    public func describeDataProviders(_ input: DescribeDataProvidersMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataProvidersResponse {
+        return try await self.client.execute(
+            operation: "DescribeDataProviders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     @Sendable
     public func describeEndpointSettings(_ input: DescribeEndpointSettingsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointSettingsResponse {
@@ -441,6 +571,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Returns information about the replication instance versions used in the project.
+    @Sendable
+    public func describeEngineVersions(_ input: DescribeEngineVersionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEngineVersionsResponse {
+        return try await self.client.execute(
+            operation: "DescribeEngineVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the Database Migration Service User Guide.
     @Sendable
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventCategoriesResponse {
@@ -472,6 +615,19 @@ public struct DatabaseMigrationService: AWSService {
     public func describeEvents(_ input: DescribeEventsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventsResponse {
         return try await self.client.execute(
             operation: "DescribeEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    @Sendable
+    public func describeExtensionPackAssociations(_ input: DescribeExtensionPackAssociationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExtensionPackAssociationsResponse {
+        return try await self.client.execute(
+            operation: "DescribeExtensionPackAssociations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -545,6 +701,97 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Returns a paginated list of instance profiles for your account in the current region.
+    @Sendable
+    public func describeInstanceProfiles(_ input: DescribeInstanceProfilesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceProfilesResponse {
+        return try await self.client.execute(
+            operation: "DescribeInstanceProfiles", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    @Sendable
+    public func describeMetadataModelAssessments(_ input: DescribeMetadataModelAssessmentsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelAssessmentsResponse {
+        return try await self.client.execute(
+            operation: "DescribeMetadataModelAssessments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model conversions for a migration project.
+    @Sendable
+    public func describeMetadataModelConversions(_ input: DescribeMetadataModelConversionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelConversionsResponse {
+        return try await self.client.execute(
+            operation: "DescribeMetadataModelConversions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    @Sendable
+    public func describeMetadataModelExportsAsScript(_ input: DescribeMetadataModelExportsAsScriptMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelExportsAsScriptResponse {
+        return try await self.client.execute(
+            operation: "DescribeMetadataModelExportsAsScript", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    @Sendable
+    public func describeMetadataModelExportsToTarget(_ input: DescribeMetadataModelExportsToTargetMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelExportsToTargetResponse {
+        return try await self.client.execute(
+            operation: "DescribeMetadataModelExportsToTarget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model imports.
+    @Sendable
+    public func describeMetadataModelImports(_ input: DescribeMetadataModelImportsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelImportsResponse {
+        return try await self.client.execute(
+            operation: "DescribeMetadataModelImports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of migration projects for your account in the current region.
+    @Sendable
+    public func describeMigrationProjects(_ input: DescribeMigrationProjectsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMigrationProjectsResponse {
+        return try await self.client.execute(
+            operation: "DescribeMigrationProjects", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about the replication instance types that can be created in the specified region.
     @Sendable
     public func describeOrderableReplicationInstances(_ input: DescribeOrderableReplicationInstancesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrderableReplicationInstancesResponse {
@@ -610,6 +857,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
+    @Sendable
+    public func describeReplicationConfigs(_ input: DescribeReplicationConfigsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationConfigsResponse {
+        return try await self.client.execute(
+            operation: "DescribeReplicationConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about the task logs for the specified task.
     @Sendable
     public func describeReplicationInstanceTaskLogs(_ input: DescribeReplicationInstanceTaskLogsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationInstanceTaskLogsResponse {
@@ -641,6 +901,19 @@ public struct DatabaseMigrationService: AWSService {
     public func describeReplicationSubnetGroups(_ input: DescribeReplicationSubnetGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationSubnetGroupsResponse {
         return try await self.client.execute(
             operation: "DescribeReplicationSubnetGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
+    @Sendable
+    public func describeReplicationTableStatistics(_ input: DescribeReplicationTableStatisticsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTableStatisticsResponse {
+        return try await self.client.execute(
+            operation: "DescribeReplicationTableStatistics", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -701,6 +974,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
+    @Sendable
+    public func describeReplications(_ input: DescribeReplicationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationsResponse {
+        return try await self.client.execute(
+            operation: "DescribeReplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about the schema for the specified endpoint.
     @Sendable
     public func describeSchemas(_ input: DescribeSchemasMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSchemasResponse {
@@ -719,6 +1005,19 @@ public struct DatabaseMigrationService: AWSService {
     public func describeTableStatistics(_ input: DescribeTableStatisticsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTableStatisticsResponse {
         return try await self.client.execute(
             operation: "DescribeTableStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save  your assessment report as a comma-separated value (CSV) or a PDF file.
+    @Sendable
+    public func exportMetadataModelAssessment(_ input: ExportMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportMetadataModelAssessmentResponse {
+        return try await self.client.execute(
+            operation: "ExportMetadataModelAssessment", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -753,6 +1052,32 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Modifies the specified schema conversion configuration using the provided parameters.
+    @Sendable
+    public func modifyConversionConfiguration(_ input: ModifyConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyConversionConfigurationResponse {
+        return try await self.client.execute(
+            operation: "ModifyConversionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the specified data provider using the provided settings.  You must remove the data provider from all migration projects before you can modify it.
+    @Sendable
+    public func modifyDataProvider(_ input: ModifyDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDataProviderResponse {
+        return try await self.client.execute(
+            operation: "ModifyDataProvider", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Modifies the specified endpoint.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     @Sendable
     public func modifyEndpoint(_ input: ModifyEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEndpointResponse {
@@ -771,6 +1096,45 @@ public struct DatabaseMigrationService: AWSService {
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEventSubscriptionResponse {
         return try await self.client.execute(
             operation: "ModifyEventSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted  or modified before you can modify the instance profile.
+    @Sendable
+    public func modifyInstanceProfile(_ input: ModifyInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceProfileResponse {
+        return try await self.client.execute(
+            operation: "ModifyInstanceProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the specified migration project using the provided parameters.  The migration project must be closed before you can modify it.
+    @Sendable
+    public func modifyMigrationProject(_ input: ModifyMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyMigrationProjectResponse {
+        return try await self.client.execute(
+            operation: "ModifyMigrationProject", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
+    @Sendable
+    public func modifyReplicationConfig(_ input: ModifyReplicationConfigMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationConfigResponse {
+        return try await self.client.execute(
+            operation: "ModifyReplicationConfig", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -857,6 +1221,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
+    @Sendable
+    public func reloadReplicationTables(_ input: ReloadReplicationTablesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ReloadReplicationTablesResponse {
+        return try await self.client.execute(
+            operation: "ReloadReplicationTables", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Reloads the target database table with the source data.  You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     @Sendable
     public func reloadTables(_ input: ReloadTablesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ReloadTablesResponse {
@@ -895,11 +1272,102 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Applies the extension pack to your target database. An extension pack is an add-on  module that emulates functions present in a source database that are required when  converting objects to the target database.
+    @Sendable
+    public func startExtensionPackAssociation(_ input: StartExtensionPackAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExtensionPackAssociationResponse {
+        return try await self.client.execute(
+            operation: "StartExtensionPackAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a database migration assessment report by assessing the migration complexity for  your source database. A database migration assessment report summarizes all of the schema  conversion tasks. It also details the action items for database objects that can't be converted  to the database engine of your target database instance.
+    @Sendable
+    public func startMetadataModelAssessment(_ input: StartMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelAssessmentResponse {
+        return try await self.client.execute(
+            operation: "StartMetadataModelAssessment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Converts your source database objects to a format compatible with the target database.
+    @Sendable
+    public func startMetadataModelConversion(_ input: StartMetadataModelConversionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelConversionResponse {
+        return try await self.client.execute(
+            operation: "StartMetadataModelConversion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
+    @Sendable
+    public func startMetadataModelExportAsScript(_ input: StartMetadataModelExportAsScriptMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelExportAsScriptResponse {
+        return try await self.client.execute(
+            operation: "StartMetadataModelExportAsScript", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Applies converted database objects to your target database.
+    @Sendable
+    public func startMetadataModelExportToTarget(_ input: StartMetadataModelExportToTargetMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelExportToTargetResponse {
+        return try await self.client.execute(
+            operation: "StartMetadataModelExportToTarget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+    @Sendable
+    public func startMetadataModelImport(_ input: StartMetadataModelImportMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelImportResponse {
+        return try await self.client.execute(
+            operation: "StartMetadataModelImport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
     @Sendable
     public func startRecommendations(_ input: StartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "StartRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
+    @Sendable
+    public func startReplication(_ input: StartReplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationResponse {
+        return try await self.client.execute(
+            operation: "StartReplication", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -947,6 +1415,19 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
+    @Sendable
+    public func stopReplication(_ input: StopReplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopReplicationResponse {
+        return try await self.client.execute(
+            operation: "StopReplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops the replication task.
     @Sendable
     public func stopReplicationTask(_ input: StopReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopReplicationTaskResponse {
@@ -973,7 +1454,7 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
-    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.6 or higher. If any replication instances are from versions earlier than 3.4.6, the operation raises an error and tells you to upgrade these instances to version 3.4.6 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.6, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see Migrating event subscriptions to Amazon EventBridge in the Amazon Web Services Database Migration Service User Guide.
+    /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.5, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see Migrating event subscriptions to Amazon EventBridge in the Amazon Web Services Database Migration Service User Guide.
     @Sendable
     public func updateSubscriptionsToEventBridge(_ input: UpdateSubscriptionsToEventBridgeMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriptionsToEventBridgeResponse {
         return try await self.client.execute(
@@ -1057,6 +1538,25 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns a paginated list of data providers for your account in the current region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDataProvidersPaginator(
+        _ input: DescribeDataProvidersMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDataProvidersMessage, DescribeDataProvidersResponse> {
+        return .init(
+            input: input,
+            command: self.describeDataProviders,
+            inputKey: \DescribeDataProvidersMessage.marker,
+            outputKey: \DescribeDataProvidersResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     /// Return PaginatorSequence for operation.
     ///
@@ -1114,6 +1614,25 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns information about the replication instance versions used in the project.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeEngineVersionsPaginator(
+        _ input: DescribeEngineVersionsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeEngineVersionsMessage, DescribeEngineVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeEngineVersions,
+            inputKey: \DescribeEngineVersionsMessage.marker,
+            outputKey: \DescribeEngineVersionsResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
     /// Return PaginatorSequence for operation.
     ///
@@ -1148,6 +1667,25 @@ extension DatabaseMigrationService {
             command: self.describeEvents,
             inputKey: \DescribeEventsMessage.marker,
             outputKey: \DescribeEventsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeExtensionPackAssociationsPaginator(
+        _ input: DescribeExtensionPackAssociationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeExtensionPackAssociationsMessage, DescribeExtensionPackAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeExtensionPackAssociations,
+            inputKey: \DescribeExtensionPackAssociationsMessage.marker,
+            outputKey: \DescribeExtensionPackAssociationsResponse.marker,
             logger: logger
         )
     }
@@ -1247,6 +1785,139 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns a paginated list of instance profiles for your account in the current region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeInstanceProfilesPaginator(
+        _ input: DescribeInstanceProfilesMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInstanceProfilesMessage, DescribeInstanceProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.describeInstanceProfiles,
+            inputKey: \DescribeInstanceProfilesMessage.marker,
+            outputKey: \DescribeInstanceProfilesResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMetadataModelAssessmentsPaginator(
+        _ input: DescribeMetadataModelAssessmentsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelAssessmentsMessage, DescribeMetadataModelAssessmentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelAssessments,
+            inputKey: \DescribeMetadataModelAssessmentsMessage.marker,
+            outputKey: \DescribeMetadataModelAssessmentsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model conversions for a migration project.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMetadataModelConversionsPaginator(
+        _ input: DescribeMetadataModelConversionsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelConversionsMessage, DescribeMetadataModelConversionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelConversions,
+            inputKey: \DescribeMetadataModelConversionsMessage.marker,
+            outputKey: \DescribeMetadataModelConversionsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMetadataModelExportsAsScriptPaginator(
+        _ input: DescribeMetadataModelExportsAsScriptMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelExportsAsScriptMessage, DescribeMetadataModelExportsAsScriptResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelExportsAsScript,
+            inputKey: \DescribeMetadataModelExportsAsScriptMessage.marker,
+            outputKey: \DescribeMetadataModelExportsAsScriptResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model exports.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMetadataModelExportsToTargetPaginator(
+        _ input: DescribeMetadataModelExportsToTargetMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelExportsToTargetMessage, DescribeMetadataModelExportsToTargetResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelExportsToTarget,
+            inputKey: \DescribeMetadataModelExportsToTargetMessage.marker,
+            outputKey: \DescribeMetadataModelExportsToTargetResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of metadata model imports.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMetadataModelImportsPaginator(
+        _ input: DescribeMetadataModelImportsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelImportsMessage, DescribeMetadataModelImportsResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelImports,
+            inputKey: \DescribeMetadataModelImportsMessage.marker,
+            outputKey: \DescribeMetadataModelImportsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of migration projects for your account in the current region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMigrationProjectsPaginator(
+        _ input: DescribeMigrationProjectsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMigrationProjectsMessage, DescribeMigrationProjectsResponse> {
+        return .init(
+            input: input,
+            command: self.describeMigrationProjects,
+            inputKey: \DescribeMigrationProjectsMessage.marker,
+            outputKey: \DescribeMigrationProjectsResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Returns information about the replication instance types that can be created in the specified region.
     /// Return PaginatorSequence for operation.
     ///
@@ -1323,6 +1994,25 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeReplicationConfigsPaginator(
+        _ input: DescribeReplicationConfigsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReplicationConfigsMessage, DescribeReplicationConfigsResponse> {
+        return .init(
+            input: input,
+            command: self.describeReplicationConfigs,
+            inputKey: \DescribeReplicationConfigsMessage.marker,
+            outputKey: \DescribeReplicationConfigsResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Returns information about the task logs for the specified task.
     /// Return PaginatorSequence for operation.
     ///
@@ -1376,6 +2066,25 @@ extension DatabaseMigrationService {
             command: self.describeReplicationSubnetGroups,
             inputKey: \DescribeReplicationSubnetGroupsMessage.marker,
             outputKey: \DescribeReplicationSubnetGroupsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeReplicationTableStatisticsPaginator(
+        _ input: DescribeReplicationTableStatisticsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReplicationTableStatisticsMessage, DescribeReplicationTableStatisticsResponse> {
+        return .init(
+            input: input,
+            command: self.describeReplicationTableStatistics,
+            inputKey: \DescribeReplicationTableStatisticsMessage.marker,
+            outputKey: \DescribeReplicationTableStatisticsResponse.marker,
             logger: logger
         )
     }
@@ -1456,6 +2165,25 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeReplicationsPaginator(
+        _ input: DescribeReplicationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReplicationsMessage, DescribeReplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeReplications,
+            inputKey: \DescribeReplicationsMessage.marker,
+            outputKey: \DescribeReplicationsResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Returns information about the schema for the specified endpoint.
     /// Return PaginatorSequence for operation.
     ///
@@ -1529,6 +2257,16 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateToken 
     }
 }
 
+extension DatabaseMigrationService.DescribeDataProvidersMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeDataProvidersMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeEndpointSettingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointSettingsMessage {
         return .init(
@@ -1559,6 +2297,15 @@ extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateToken {
     }
 }
 
+extension DatabaseMigrationService.DescribeEngineVersionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEngineVersionsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventSubscriptionsMessage {
         return .init(
@@ -1582,6 +2329,17 @@ extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateToken {
             sourceIdentifier: self.sourceIdentifier,
             sourceType: self.sourceType,
             startTime: self.startTime
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeExtensionPackAssociationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeExtensionPackAssociationsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
         )
     }
 }
@@ -1635,6 +2393,81 @@ extension DatabaseMigrationService.DescribeFleetAdvisorSchemasRequest: AWSPagina
     }
 }
 
+extension DatabaseMigrationService.DescribeInstanceProfilesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeInstanceProfilesMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelAssessmentsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelAssessmentsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelConversionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelConversionsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelExportsAsScriptMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelExportsAsScriptMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelExportsToTargetMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelExportsToTargetMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelImportsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelImportsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMigrationProjectsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMigrationProjectsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage {
         return .init(
@@ -1675,6 +2508,16 @@ extension DatabaseMigrationService.DescribeRecommendationsRequest: AWSPaginateTo
     }
 }
 
+extension DatabaseMigrationService.DescribeReplicationConfigsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationConfigsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage {
         return .init(
@@ -1701,6 +2544,17 @@ extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPa
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationTableStatisticsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTableStatisticsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            replicationConfigArn: self.replicationConfigArn
         )
     }
 }
@@ -1742,6 +2596,16 @@ extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateT
             marker: token,
             maxRecords: self.maxRecords,
             withoutSettings: self.withoutSettings
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeReplicationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

@@ -113,7 +113,7 @@ public struct CloudFront: AWSService {
     /// 			primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution
     /// 			to modify the staging distribution's configuration. Then you can use
     /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
-    /// 			staging distribution.
+    /// 			staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
     @Sendable
     public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyDistributionResult {
         return try await self.client.execute(
@@ -199,7 +199,8 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Create a new distribution with tags.
+    /// Create a new distribution with tags. This API operation requires the following IAM
+    /// 			permissions:    CreateDistribution     TagResource
     @Sendable
     public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionWithTagsResult {
         return try await self.client.execute(
@@ -284,6 +285,19 @@ public struct CloudFront: AWSService {
         return try await self.client.execute(
             operation: "CreateKeyGroup", 
             path: "/2020-05-31/key-group", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Specifies the Key Value Store resource to add to your account. In your account, the Key Value Store names must be unique. You can also import Key Value Store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
+    @Sendable
+    public func createKeyValueStore(_ input: CreateKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyValueStoreResult {
+        return try await self.client.execute(
+            operation: "CreateKeyValueStore", 
+            path: "/2020-05-31/key-value-store", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -544,6 +558,19 @@ public struct CloudFront: AWSService {
         )
     }
 
+    /// Specifies the Key Value Store to delete.
+    @Sendable
+    public func deleteKeyValueStore(_ input: DeleteKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteKeyValueStore", 
+            path: "/2020-05-31/key-value-store/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disables additional CloudWatch metrics for the specified CloudFront
     /// 			distribution.
     @Sendable
@@ -678,6 +705,19 @@ public struct CloudFront: AWSService {
         return try await self.client.execute(
             operation: "DescribeFunction", 
             path: "/2020-05-31/function/{Name}/describe", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Specifies the Key Value Store and its configuration.
+    @Sendable
+    public func describeKeyValueStore(_ input: DescribeKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyValueStoreResult {
+        return try await self.client.execute(
+            operation: "DescribeKeyValueStore", 
+            path: "/2020-05-31/key-value-store/{Name}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1368,6 +1408,19 @@ public struct CloudFront: AWSService {
         )
     }
 
+    /// Specifies the Key Value Stores to list.
+    @Sendable
+    public func listKeyValueStores(_ input: ListKeyValueStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyValueStoresResult {
+        return try await self.client.execute(
+            operation: "ListKeyValueStores", 
+            path: "/2020-05-31/key-value-store", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets the list of CloudFront origin access controls in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
     /// 			the total number of items in the list exceeds the maximum that you specify, or the
     /// 			default maximum, the response is paginated. To get the next page of items, send another
@@ -1629,7 +1682,7 @@ public struct CloudFront: AWSService {
     /// 			policy to move a portion of your domain name's traffic to the staging distribution and
     /// 			verifying that it works as intended, you can use this operation to copy the staging
     /// 			distribution's configuration to the primary distribution. This action will disable the
-    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution.
+    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
     @Sendable
     public func updateDistributionWithStagingConfig(_ input: UpdateDistributionWithStagingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionWithStagingConfigResult {
         return try await self.client.execute(
@@ -1695,6 +1748,19 @@ public struct CloudFront: AWSService {
         return try await self.client.execute(
             operation: "UpdateKeyGroup", 
             path: "/2020-05-31/key-group/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Specifies the Key Value Store to update.
+    @Sendable
+    public func updateKeyValueStore(_ input: UpdateKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyValueStoreResult {
+        return try await self.client.execute(
+            operation: "UpdateKeyValueStore", 
+            path: "/2020-05-31/key-value-store/{Name}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -1871,6 +1937,25 @@ extension CloudFront {
         )
     }
 
+    /// Specifies the Key Value Stores to list.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listKeyValueStoresPaginator(
+        _ input: ListKeyValueStoresRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKeyValueStoresRequest, ListKeyValueStoresResult> {
+        return .init(
+            input: input,
+            command: self.listKeyValueStores,
+            inputKey: \ListKeyValueStoresRequest.marker,
+            outputKey: \ListKeyValueStoresResult.keyValueStoreList.nextMarker,
+            logger: logger
+        )
+    }
+
     /// List streaming distributions.
     /// Return PaginatorSequence for operation.
     ///
@@ -1915,6 +2000,16 @@ extension CloudFront.ListInvalidationsRequest: AWSPaginateToken {
             distributionId: self.distributionId,
             marker: token,
             maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListKeyValueStoresRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListKeyValueStoresRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            status: self.status
         )
     }
 }

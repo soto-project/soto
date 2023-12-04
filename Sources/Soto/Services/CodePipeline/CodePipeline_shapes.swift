@@ -26,7 +26,7 @@ import Foundation
 extension CodePipeline {
     // MARK: Enums
 
-    public enum ActionCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approval = "Approval"
         case build = "Build"
         case deploy = "Deploy"
@@ -36,14 +36,14 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "Boolean"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case abandoned = "Abandoned"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -51,46 +51,46 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionOwner: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case custom = "Custom"
         case thirdParty = "ThirdParty"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApprovalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approved = "Approved"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactLocationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactStoreType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BlockerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case schedule = "Schedule"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jobWorker = "JobWorker"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationError = "ConfigurationError"
         case jobFailed = "JobFailed"
         case permissionError = "PermissionError"
@@ -100,7 +100,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "Created"
         case dispatched = "Dispatched"
         case failed = "Failed"
@@ -111,7 +111,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -122,7 +122,25 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipelineTriggerProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeStarSourceConnection = "CodeStarSourceConnection"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case v1 = "V1"
+        case v2 = "V2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceRevisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case commitId = "COMMIT_ID"
+        case imageDigest = "IMAGE_DIGEST"
+        case s3ObjectVersionId = "S3_OBJECT_VERSION_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -132,28 +150,30 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageRetryMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StageRetryMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allActions = "ALL_ACTIONS"
         case failedActions = "FAILED_ACTIONS"
         public var description: String { return self.rawValue }
     }
 
-    public enum StageTransitionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StageTransitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inbound = "Inbound"
         case outbound = "Outbound"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudWatchEvent = "CloudWatchEvent"
         case createPipeline = "CreatePipeline"
         case pollForSourceChanges = "PollForSourceChanges"
         case putActionRevision = "PutActionRevision"
         case startPipelineExecution = "StartPipelineExecution"
         case webhook = "Webhook"
+        case webhookV2 = "WebhookV2"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case githubHmac = "GITHUB_HMAC"
         case ip = "IP"
         case unauthenticated = "UNAUTHENTICATED"
@@ -1877,6 +1897,83 @@ extension CodePipeline {
         }
     }
 
+    public struct GitConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field where the repository event that will start the pipeline, such as pushing Git tags, is specified with details.  Git tags is the only supported event type.
+        public let push: [GitPushFilter]?
+        /// The name of the pipeline source action where the trigger configuration, such as Git tags, is specified. The trigger configuration will start the pipeline upon the specified change only.  You can only specify one trigger configuration per source action.
+        public let sourceActionName: String
+
+        public init(push: [GitPushFilter]? = nil, sourceActionName: String) {
+            self.push = push
+            self.sourceActionName = sourceActionName
+        }
+
+        public func validate(name: String) throws {
+            try self.push?.forEach {
+                try $0.validate(name: "\(name).push[]")
+            }
+            try self.validate(self.push, name: "push", parent: name, max: 1)
+            try self.validate(self.push, name: "push", parent: name, min: 1)
+            try self.validate(self.sourceActionName, name: "sourceActionName", parent: name, max: 100)
+            try self.validate(self.sourceActionName, name: "sourceActionName", parent: name, min: 1)
+            try self.validate(self.sourceActionName, name: "sourceActionName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case push = "push"
+            case sourceActionName = "sourceActionName"
+        }
+    }
+
+    public struct GitPushFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The field that contains the details for the Git tags trigger configuration.
+        public let tags: GitTagFilterCriteria?
+
+        public init(tags: GitTagFilterCriteria? = nil) {
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct GitTagFilterCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// The list of patterns of Git tags that, when pushed, are to be excluded from starting the pipeline.
+        public let excludes: [String]?
+        /// The list of patterns of Git tags that, when pushed, are to be included as criteria that starts the pipeline.
+        public let includes: [String]?
+
+        public init(excludes: [String]? = nil, includes: [String]? = nil) {
+            self.excludes = excludes
+            self.includes = includes
+        }
+
+        public func validate(name: String) throws {
+            try self.excludes?.forEach {
+                try validate($0, name: "excludes[]", parent: name, max: 255)
+                try validate($0, name: "excludes[]", parent: name, min: 1)
+            }
+            try self.validate(self.excludes, name: "excludes", parent: name, max: 8)
+            try self.validate(self.excludes, name: "excludes", parent: name, min: 1)
+            try self.includes?.forEach {
+                try validate($0, name: "includes[]", parent: name, max: 255)
+                try validate($0, name: "includes[]", parent: name, min: 1)
+            }
+            try self.validate(self.includes, name: "includes", parent: name, max: 8)
+            try self.validate(self.includes, name: "includes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludes = "excludes"
+            case includes = "includes"
+        }
+    }
+
     public struct InputArtifact: AWSEncodableShape & AWSDecodableShape {
         /// The name of the artifact to be worked on (for example, "My App"). Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action input artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
@@ -2399,19 +2496,28 @@ extension CodePipeline {
         public let artifactStores: [String: ArtifactStore]?
         /// The name of the pipeline.
         public let name: String
+        /// CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing.  For information about which type of pipeline to choose, see What type of pipeline is right for me?.  V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see Pipeline types in the CodePipeline User Guide.
+        public let pipelineType: PipelineType?
         /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         public let roleArn: String
         /// The stage in which to perform the action.
         public let stages: [StageDeclaration]
+        /// The trigger configuration specifying a type of event, such as Git tags, that starts the pipeline.  When a trigger configuration is specified, default change detection for repository and branch commits is disabled.
+        public let triggers: [PipelineTriggerDeclaration]?
+        /// A list that defines the pipeline variables for a pipeline resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9@\-_]+.
+        public let variables: [PipelineVariableDeclaration]?
         /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is incremented when a pipeline is updated.
         public let version: Int?
 
-        public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, name: String, roleArn: String, stages: [StageDeclaration], version: Int? = nil) {
+        public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, name: String, pipelineType: PipelineType? = nil, roleArn: String, stages: [StageDeclaration], triggers: [PipelineTriggerDeclaration]? = nil, variables: [PipelineVariableDeclaration]? = nil, version: Int? = nil) {
             self.artifactStore = artifactStore
             self.artifactStores = artifactStores
             self.name = name
+            self.pipelineType = pipelineType
             self.roleArn = roleArn
             self.stages = stages
+            self.triggers = triggers
+            self.variables = variables
             self.version = version
         }
 
@@ -2430,6 +2536,14 @@ extension CodePipeline {
             try self.stages.forEach {
                 try $0.validate(name: "\(name).stages[]")
             }
+            try self.triggers?.forEach {
+                try $0.validate(name: "\(name).triggers[]")
+            }
+            try self.validate(self.triggers, name: "triggers", parent: name, max: 20)
+            try self.variables?.forEach {
+                try $0.validate(name: "\(name).variables[]")
+            }
+            try self.validate(self.variables, name: "variables", parent: name, max: 50)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
 
@@ -2437,8 +2551,11 @@ extension CodePipeline {
             case artifactStore = "artifactStore"
             case artifactStores = "artifactStores"
             case name = "name"
+            case pipelineType = "pipelineType"
             case roleArn = "roleArn"
             case stages = "stages"
+            case triggers = "triggers"
+            case variables = "variables"
             case version = "version"
         }
     }
@@ -2456,14 +2573,19 @@ extension CodePipeline {
         public let status: PipelineExecutionStatus?
         /// A summary that contains a description of the pipeline execution status.
         public let statusSummary: String?
+        public let trigger: ExecutionTrigger?
+        /// A list of pipeline variables used for the pipeline execution.
+        public let variables: [ResolvedPipelineVariable]?
 
-        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil) {
+        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, trigger: ExecutionTrigger? = nil, variables: [ResolvedPipelineVariable]? = nil) {
             self.artifactRevisions = artifactRevisions
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
             self.status = status
             self.statusSummary = statusSummary
+            self.trigger = trigger
+            self.variables = variables
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2473,6 +2595,8 @@ extension CodePipeline {
             case pipelineVersion = "pipelineVersion"
             case status = "status"
             case statusSummary = "statusSummary"
+            case trigger = "trigger"
+            case variables = "variables"
         }
     }
 
@@ -2543,14 +2667,17 @@ extension CodePipeline {
         public let created: Date?
         /// The name of the pipeline.
         public let name: String?
+        /// CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing.  For information about which type of pipeline to choose, see What type of pipeline is right for me?.  V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see Pipeline types in the CodePipeline User Guide.
+        public let pipelineType: PipelineType?
         /// The date and time of the last update to the pipeline, in timestamp format.
         public let updated: Date?
         /// The version number of the pipeline.
         public let version: Int?
 
-        public init(created: Date? = nil, name: String? = nil, updated: Date? = nil, version: Int? = nil) {
+        public init(created: Date? = nil, name: String? = nil, pipelineType: PipelineType? = nil, updated: Date? = nil, version: Int? = nil) {
             self.created = created
             self.name = name
+            self.pipelineType = pipelineType
             self.updated = updated
             self.version = version
         }
@@ -2558,8 +2685,88 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case created = "created"
             case name = "name"
+            case pipelineType = "pipelineType"
             case updated = "updated"
             case version = "version"
+        }
+    }
+
+    public struct PipelineTriggerDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides the filter criteria and the source stage for the repository event that starts the pipeline, such as Git tags.
+        public let gitConfiguration: GitConfiguration
+        /// The source provider for the event, such as connections configured for a repository with Git tags, for the specified trigger configuration.
+        public let providerType: PipelineTriggerProviderType
+
+        public init(gitConfiguration: GitConfiguration, providerType: PipelineTriggerProviderType) {
+            self.gitConfiguration = gitConfiguration
+            self.providerType = providerType
+        }
+
+        public func validate(name: String) throws {
+            try self.gitConfiguration.validate(name: "\(name).gitConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gitConfiguration = "gitConfiguration"
+            case providerType = "providerType"
+        }
+    }
+
+    public struct PipelineVariable: AWSEncodableShape {
+        /// The name of a pipeline-level variable.
+        public let name: String
+        /// The value of a pipeline-level variable.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9@\\-_]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 1000)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct PipelineVariableDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The value of a pipeline-level variable.
+        public let defaultValue: String?
+        /// The description of a pipeline-level variable. It's used to add additional context about the variable, and not being used at time when pipeline executes.
+        public let description: String?
+        /// The name of a pipeline-level variable.
+        public let name: String
+
+        public init(defaultValue: String? = nil, description: String? = nil, name: String) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1000)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: ".*")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -2947,12 +3154,29 @@ extension CodePipeline {
         public init() {}
     }
 
+    public struct ResolvedPipelineVariable: AWSDecodableShape {
+        /// The name of a pipeline-level variable.
+        public let name: String?
+        /// The resolved value of a pipeline-level variable.
+        public let resolvedValue: String?
+
+        public init(name: String? = nil, resolvedValue: String? = nil) {
+            self.name = name
+            self.resolvedValue = resolvedValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case resolvedValue = "resolvedValue"
+        }
+    }
+
     public struct RetryStageExecutionInput: AWSEncodableShape {
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
         public let pipelineExecutionId: String
         /// The name of the pipeline that contains the failed stage.
         public let pipelineName: String
-        /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
+        /// The scope of the retry attempt.
         public let retryMode: StageRetryMode
         /// The name of the failed stage to be retried.
         public let stageName: String
@@ -3054,6 +3278,35 @@ extension CodePipeline {
         }
     }
 
+    public struct SourceRevisionOverride: AWSEncodableShape {
+        /// The name of the action where the override will be applied.
+        public let actionName: String
+        /// The type of source revision, based on the source provider. For example, the revision type for the CodeCommit action provider is the commit ID.
+        public let revisionType: SourceRevisionType
+        /// The source revision, or version of your source artifact, with the changes that you want to run in the pipeline execution.
+        public let revisionValue: String
+
+        public init(actionName: String, revisionType: SourceRevisionType, revisionValue: String) {
+            self.actionName = actionName
+            self.revisionType = revisionType
+            self.revisionValue = revisionValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 100)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.validate(self.revisionValue, name: "revisionValue", parent: name, max: 1500)
+            try self.validate(self.revisionValue, name: "revisionValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case revisionType = "revisionType"
+            case revisionValue = "revisionValue"
+        }
+    }
+
     public struct StageContext: AWSDecodableShape {
         /// The name of the stage.
         public let name: String?
@@ -3150,10 +3403,16 @@ extension CodePipeline {
         public let clientRequestToken: String?
         /// The name of the pipeline to start.
         public let name: String
+        /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution.
+        public let sourceRevisions: [SourceRevisionOverride]?
+        /// A list that overrides pipeline variables for a pipeline execution that's being started. Variable names must match [A-Za-z0-9@\-_]+,  and the values can be anything except an empty string.
+        public let variables: [PipelineVariable]?
 
-        public init(clientRequestToken: String? = StartPipelineExecutionInput.idempotencyToken(), name: String) {
+        public init(clientRequestToken: String? = StartPipelineExecutionInput.idempotencyToken(), name: String, sourceRevisions: [SourceRevisionOverride]? = nil, variables: [PipelineVariable]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
+            self.sourceRevisions = sourceRevisions
+            self.variables = variables
         }
 
         public func validate(name: String) throws {
@@ -3163,11 +3422,22 @@ extension CodePipeline {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.sourceRevisions?.forEach {
+                try $0.validate(name: "\(name).sourceRevisions[]")
+            }
+            try self.validate(self.sourceRevisions, name: "sourceRevisions", parent: name, max: 50)
+            try self.variables?.forEach {
+                try $0.validate(name: "\(name).variables[]")
+            }
+            try self.validate(self.variables, name: "variables", parent: name, max: 50)
+            try self.validate(self.variables, name: "variables", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case name = "name"
+            case sourceRevisions = "sourceRevisions"
+            case variables = "variables"
         }
     }
 

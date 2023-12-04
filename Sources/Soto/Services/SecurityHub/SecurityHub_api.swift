@@ -19,7 +19,8 @@
 
 /// Service object for interacting with AWS SecurityHub service.
 ///
-/// Security Hub provides you with a comprehensive view of the security state of your Amazon Web Services environment and resources. It also provides you with the readiness status of your environment based on controls from supported security standards. Security Hub collects security data from Amazon Web Services accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the Security HubUser Guide. When you use operations in the Security Hub API, the requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, run the same command for each Region in which you want to apply the change. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the administrator account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invitation was sent from. The following throttling limits apply to using Security Hub API operations.    BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.    GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.    BatchImportFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
+/// Security Hub provides you with a comprehensive view of the security state of your Amazon Web Services environment and resources. It also provides you with the readiness status of your environment based on controls from supported security standards. Security Hub collects security data from Amazon Web Services accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the  Security Hub User
+/// Guide . When you use operations in the Security Hub API, the requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, run the same command for each Region in which you want to apply the change. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the administrator account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invitation was sent from. The following throttling limits apply to using Security Hub API operations.    BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.    GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.    BatchImportFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
 public struct SecurityHub: AWSService {
     // MARK: Member variables
 
@@ -112,6 +113,19 @@ public struct SecurityHub: AWSService {
         )
     }
 
+    ///  Deletes one or more automation rules.
+    @Sendable
+    public func batchDeleteAutomationRules(_ input: BatchDeleteAutomationRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteAutomationRulesResponse {
+        return try await self.client.execute(
+            operation: "BatchDeleteAutomationRules", 
+            path: "/automationrules/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub User Guide.
     @Sendable
     public func batchDisableStandards(_ input: BatchDisableStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisableStandardsResponse {
@@ -131,6 +145,32 @@ public struct SecurityHub: AWSService {
         return try await self.client.execute(
             operation: "BatchEnableStandards", 
             path: "/standards/register", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Retrieves a list of details for automation rules based on rule Amazon Resource Names  (ARNs).
+    @Sendable
+    public func batchGetAutomationRules(_ input: BatchGetAutomationRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAutomationRulesResponse {
+        return try await self.client.execute(
+            operation: "BatchGetAutomationRules", 
+            path: "/automationrules/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root.  Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration  can refer to a configuration policy or to a self-managed configuration.
+    @Sendable
+    public func batchGetConfigurationPolicyAssociations(_ input: BatchGetConfigurationPolicyAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetConfigurationPolicyAssociationsResponse {
+        return try await self.client.execute(
+            operation: "BatchGetConfigurationPolicyAssociations", 
+            path: "/configurationPolicyAssociation/batchget", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -177,6 +217,19 @@ public struct SecurityHub: AWSService {
         )
     }
 
+    ///  Updates one or more automation rules based on rule Amazon Resource Names (ARNs)  and input parameters.
+    @Sendable
+    public func batchUpdateAutomationRules(_ input: BatchUpdateAutomationRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateAutomationRulesResponse {
+        return try await self.client.execute(
+            operation: "BatchUpdateAutomationRules", 
+            path: "/automationrules/update", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     @Sendable
     public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsResponse {
@@ -209,6 +262,32 @@ public struct SecurityHub: AWSService {
         return try await self.client.execute(
             operation: "CreateActionTarget", 
             path: "/actionTargets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Creates an automation rule based on input parameters.
+    @Sendable
+    public func createAutomationRule(_ input: CreateAutomationRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutomationRuleResponse {
+        return try await self.client.execute(
+            operation: "CreateAutomationRule", 
+            path: "/automationrules/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator  can invoke this operation from the home Region.
+    @Sendable
+    public func createConfigurationPolicy(_ input: CreateConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationPolicyResponse {
+        return try await self.client.execute(
+            operation: "CreateConfigurationPolicy", 
+            path: "/configurationPolicy/create", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -281,6 +360,19 @@ public struct SecurityHub: AWSService {
         )
     }
 
+    ///  Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation  from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,  organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
+    @Sendable
+    public func deleteConfigurationPolicy(_ input: DeleteConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationPolicyResponse {
+        return try await self.client.execute(
+            operation: "DeleteConfigurationPolicy", 
+            path: "/configurationPolicy/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a finding aggregator. When you delete the finding aggregator, you stop finding aggregation. When you stop finding aggregation, findings that were already aggregated to the aggregation Region are still visible from the aggregation Region. New findings and finding updates are not aggregated.
     @Sendable
     public func deleteFindingAggregator(_ input: DeleteFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFindingAggregatorResponse {
@@ -320,7 +412,7 @@ public struct SecurityHub: AWSService {
         )
     }
 
-    /// Deletes the specified member accounts from Security Hub. Can be used to delete member accounts that belong to an organization as well as member accounts that were invited manually.
+    /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this  API to delete accounts that belong to an Organizations organization.
     @Sendable
     public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembersResponse {
         return try await self.client.execute(
@@ -359,7 +451,7 @@ public struct SecurityHub: AWSService {
         )
     }
 
-    /// Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
+    /// Returns information about the way your organization is configured in Security Hub. Only the  Security Hub administrator account can invoke this operation.
     @Sendable
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
         return try await self.client.execute(
@@ -437,7 +529,7 @@ public struct SecurityHub: AWSService {
         )
     }
 
-    /// Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for an administrator account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     @Sendable
     public func disableSecurityHub(_ input: DisableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubResponse {
         return try await self.client.execute(
@@ -536,6 +628,32 @@ public struct SecurityHub: AWSService {
             operation: "GetAdministratorAccount", 
             path: "/administrator", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke  this operation from the home Region.
+    @Sendable
+    public func getConfigurationPolicy(_ input: GetConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationPolicyResponse {
+        return try await self.client.execute(
+            operation: "GetConfigurationPolicy", 
+            path: "/configurationPolicy/get/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Returns the association between a configuration and a target account, organizational unit, or the root. The  configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can  invoke this operation from the home Region.
+    @Sendable
+    public func getConfigurationPolicyAssociation(_ input: GetConfigurationPolicyAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationPolicyAssociationResponse {
+        return try await self.client.execute(
+            operation: "GetConfigurationPolicyAssociation", 
+            path: "/configurationPolicyAssociation/get", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -660,12 +778,64 @@ public struct SecurityHub: AWSService {
         )
     }
 
+    ///  Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
+    @Sendable
+    public func getSecurityControlDefinition(_ input: GetSecurityControlDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecurityControlDefinitionResponse {
+        return try await self.client.execute(
+            operation: "GetSecurityControlDefinition", 
+            path: "/securityControl/definition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated from the member account.
     @Sendable
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
         return try await self.client.execute(
             operation: "InviteMembers", 
             path: "/members/invite", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  A list of automation rules and their metadata for the calling account.
+    @Sendable
+    public func listAutomationRules(_ input: ListAutomationRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomationRulesResponse {
+        return try await self.client.execute(
+            operation: "ListAutomationRules", 
+            path: "/automationrules/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Lists the configuration policies that the Security Hub delegated administrator has created for your  organization. Only the delegated administrator can invoke this operation from the home Region.
+    @Sendable
+    public func listConfigurationPolicies(_ input: ListConfigurationPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationPoliciesResponse {
+        return try await self.client.execute(
+            operation: "ListConfigurationPolicies", 
+            path: "/configurationPolicy/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the  Security Hub delegated administrator can invoke this operation from the home Region.
+    @Sendable
+    public func listConfigurationPolicyAssociations(_ input: ListConfigurationPolicyAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationPolicyAssociationsResponse {
+        return try await self.client.execute(
+            operation: "ListConfigurationPolicyAssociations", 
+            path: "/configurationPolicyAssociation/list", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -777,6 +947,32 @@ public struct SecurityHub: AWSService {
         )
     }
 
+    ///  Associates a target account, organizational unit, or the root with a specified configuration. The target can be  associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can  invoke this operation from the home Region.
+    @Sendable
+    public func startConfigurationPolicyAssociation(_ input: StartConfigurationPolicyAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigurationPolicyAssociationResponse {
+        return try await self.client.execute(
+            operation: "StartConfigurationPolicyAssociation", 
+            path: "/configurationPolicyAssociation/associate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Disassociates a target account, organizational unit, or the root from a specified configuration. When you  disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no  configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from  a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this  operation from the home Region.
+    @Sendable
+    public func startConfigurationPolicyDisassociation(_ input: StartConfigurationPolicyDisassociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigurationPolicyDisassociationResponse {
+        return try await self.client.execute(
+            operation: "StartConfigurationPolicyDisassociation", 
+            path: "/configurationPolicyAssociation/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds one or more tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -809,6 +1005,19 @@ public struct SecurityHub: AWSService {
         return try await self.client.execute(
             operation: "UpdateActionTarget", 
             path: "/actionTargets/{ActionTargetArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Updates a configuration policy. Only the Security Hub delegated  administrator can invoke this operation from the home Region.
+    @Sendable
+    public func updateConfigurationPolicy(_ input: UpdateConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationPolicyResponse {
+        return try await self.client.execute(
+            operation: "UpdateConfigurationPolicy", 
+            path: "/configurationPolicy/{Identifier}", 
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
@@ -855,13 +1064,26 @@ public struct SecurityHub: AWSService {
         )
     }
 
-    /// Used to update the configuration related to Organizations. Can only be called from a Security Hub administrator account.
+    /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
     @Sendable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
         return try await self.client.execute(
             operation: "UpdateOrganizationConfiguration", 
             path: "/organization/configuration", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Updates the properties of a security control.
+    @Sendable
+    public func updateSecurityControl(_ input: UpdateSecurityControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityControlResponse {
+        return try await self.client.execute(
+            operation: "UpdateSecurityControl", 
+            path: "/securityControl/update", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1056,6 +1278,44 @@ extension SecurityHub {
             command: self.getInsights,
             inputKey: \GetInsightsRequest.nextToken,
             outputKey: \GetInsightsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  Lists the configuration policies that the Security Hub delegated administrator has created for your  organization. Only the delegated administrator can invoke this operation from the home Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listConfigurationPoliciesPaginator(
+        _ input: ListConfigurationPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationPoliciesRequest, ListConfigurationPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurationPolicies,
+            inputKey: \ListConfigurationPoliciesRequest.nextToken,
+            outputKey: \ListConfigurationPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the  Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listConfigurationPolicyAssociationsPaginator(
+        _ input: ListConfigurationPolicyAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationPolicyAssociationsRequest, ListConfigurationPolicyAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurationPolicyAssociations,
+            inputKey: \ListConfigurationPolicyAssociationsRequest.nextToken,
+            outputKey: \ListConfigurationPolicyAssociationsResponse.nextToken,
             logger: logger
         )
     }
@@ -1270,6 +1530,25 @@ extension SecurityHub.GetInsightsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetInsightsRequest {
         return .init(
             insightArns: self.insightArns,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.ListConfigurationPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListConfigurationPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.ListConfigurationPolicyAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListConfigurationPolicyAssociationsRequest {
+        return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )

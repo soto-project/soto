@@ -26,33 +26,33 @@ import Foundation
 extension PinpointEmail {
     // MARK: Enums
 
-    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable {
+    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rejectMessage = "REJECT_MESSAGE"
         case useDefaultValue = "USE_DEFAULT_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case disabled = "DISABLED"
         case pendingExpiration = "PENDING_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case emailHeader = "EMAIL_HEADER"
         case linkTag = "LINK_TAG"
         case messageTag = "MESSAGE_TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DkimStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -61,7 +61,7 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "BOUNCE"
         case click = "CLICK"
         case complaint = "COMPLAINT"
@@ -73,14 +73,14 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
         case managedDomain = "MANAGED_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
@@ -88,13 +88,13 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "OPTIONAL"
         case require = "REQUIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case done = "DONE"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }

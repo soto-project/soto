@@ -26,19 +26,19 @@ import Foundation
 extension Tnb {
     // MARK: Enums
 
-    public enum DescriptorContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DescriptorContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case textPlain = "text/plain"
         public var description: String { return self.rawValue }
     }
 
-    public enum LcmOperationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LcmOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instantiate = "INSTANTIATE"
         case terminate = "TERMINATE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NsLcmOperationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum NsLcmOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -47,7 +47,7 @@ extension Tnb {
         public var description: String { return self.rawValue }
     }
 
-    public enum NsState: String, CustomStringConvertible, Codable, Sendable {
+    public enum NsState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case impaired = "IMPAIRED"
         case instantiateInProgress = "INSTANTIATE_IN_PROGRESS"
@@ -59,44 +59,44 @@ extension Tnb {
         public var description: String { return self.rawValue }
     }
 
-    public enum NsdOnboardingState: String, CustomStringConvertible, Codable, Sendable {
+    public enum NsdOnboardingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case error = "ERROR"
         case onboarded = "ONBOARDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NsdOperationalState: String, CustomStringConvertible, Codable, Sendable {
+    public enum NsdOperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NsdUsageState: String, CustomStringConvertible, Codable, Sendable {
+    public enum NsdUsageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inUse = "IN_USE"
         case notInUse = "NOT_IN_USE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnboardingState: String, CustomStringConvertible, Codable, Sendable {
+    public enum OnboardingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case error = "ERROR"
         case onboarded = "ONBOARDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationalState: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applicationZip = "application/zip"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case error = "ERROR"
@@ -107,24 +107,24 @@ extension Tnb {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateSolNetworkType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateSolNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case modifyVnfInformation = "MODIFY_VNF_INFORMATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageState: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inUse = "IN_USE"
         case notInUse = "NOT_IN_USE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VnfInstantiationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum VnfInstantiationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instantiated = "INSTANTIATED"
         case notInstantiated = "NOT_INSTANTIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum VnfOperationalState: String, CustomStringConvertible, Codable, Sendable {
+    public enum VnfOperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }

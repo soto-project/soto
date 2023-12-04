@@ -26,7 +26,7 @@ import Foundation
 extension MediaPackage {
     // MARK: Enums
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daterange = "DATERANGE"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
@@ -34,7 +34,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdTriggersElement: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdTriggersElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `break` = "BREAK"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
         case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
@@ -46,7 +46,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case both = "BOTH"
         case none = "NONE"
         case restricted = "RESTRICTED"
@@ -54,43 +54,44 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aesCtr = "AES_CTR"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compact = "COMPACT"
+        case drmTopLevelCompact = "DRM_TOP_LEVEL_COMPACT"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Origination: String, CustomStringConvertible, Codable, Sendable {
+    public enum Origination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable {
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlaylistType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlaylistType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "EVENT"
         case none = "NONE"
         case vod = "VOD"
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetAudio1 = "PRESET-AUDIO-1"
         case presetAudio2 = "PRESET-AUDIO-2"
         case presetAudio3 = "PRESET-AUDIO-3"
@@ -99,7 +100,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetVideo1 = "PRESET-VIDEO-1"
         case presetVideo2 = "PRESET-VIDEO-2"
         case presetVideo3 = "PRESET-VIDEO-3"
@@ -113,7 +114,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable, Sendable {
+    public enum Profile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dvbDash2014 = "DVB_DASH_2014"
         case hbbtv15 = "HBBTV_1_5"
         case hybridcast = "HYBRIDCAST"
@@ -121,28 +122,28 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum UtcTiming: String, CustomStringConvertible, Codable, Sendable {
+    public enum UtcTiming: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHead = "HTTP-HEAD"
         case httpIso = "HTTP-ISO"
         case httpXsdate = "HTTP-XSDATE"
@@ -154,11 +155,11 @@ extension MediaPackage {
 
     public struct Authorization: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your Content Distribution Network (CDN) uses for authorization to access your endpoint.
-        public let cdnIdentifierSecret: String
+        public let cdnIdentifierSecret: String?
         /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
-        public let secretsRoleArn: String
+        public let secretsRoleArn: String?
 
-        public init(cdnIdentifierSecret: String, secretsRoleArn: String) {
+        public init(cdnIdentifierSecret: String? = nil, secretsRoleArn: String? = nil) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
         }
@@ -212,9 +213,9 @@ extension MediaPackage {
         public let encryptionMethod: CmafEncryptionMethod?
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -353,10 +354,10 @@ extension MediaPackage {
         public let description: String?
         /// The ID of the Channel. The ID must be unique within the region and it
         /// cannot be changed after a Channel is created.
-        public let id: String
+        public let id: String?
         public let tags: [String: String]?
 
-        public init(description: String? = nil, id: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
             self.tags = tags
@@ -408,18 +409,18 @@ extension MediaPackage {
 
     public struct CreateHarvestJobRequest: AWSEncodableShape {
         /// The end of the time-window which will be harvested
-        public let endTime: String
+        public let endTime: String?
         /// The ID of the HarvestJob. The ID must be unique within the region
         /// and it cannot be changed after the HarvestJob is submitted
-        public let id: String
+        public let id: String?
         /// The ID of the OriginEndpoint that the HarvestJob will harvest from.
         /// This cannot be changed after the HarvestJob is submitted.
-        public let originEndpointId: String
-        public let s3Destination: S3Destination
+        public let originEndpointId: String?
+        public let s3Destination: S3Destination?
         /// The start of the time-window which will be harvested
-        public let startTime: String
+        public let startTime: String?
 
-        public init(endTime: String, id: String, originEndpointId: String, s3Destination: S3Destination, startTime: String) {
+        public init(endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil) {
             self.endTime = endTime
             self.id = id
             self.originEndpointId = originEndpointId
@@ -488,7 +489,7 @@ extension MediaPackage {
         public let authorization: Authorization?
         /// The ID of the Channel that the OriginEndpoint will be associated with.
         /// This cannot be changed after the OriginEndpoint is created.
-        public let channelId: String
+        public let channelId: String?
         public let cmafPackage: CmafPackageCreateOrUpdateParameters?
         public let dashPackage: DashPackage?
         /// A short text description of the OriginEndpoint.
@@ -496,7 +497,7 @@ extension MediaPackage {
         public let hlsPackage: HlsPackage?
         /// The ID of the OriginEndpoint.  The ID must be unique within the region
         /// and it cannot be changed after the OriginEndpoint is created.
-        public let id: String
+        public let id: String?
         /// A short string that will be used as the filename of the OriginEndpoint URL (defaults to "index").
         public let manifestName: String?
         public let mssPackage: MssPackage?
@@ -514,7 +515,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(authorization: Authorization? = nil, channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+        public init(authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -627,9 +628,9 @@ extension MediaPackage {
     public struct DashEncryption: AWSEncodableShape & AWSDecodableShape {
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -646,7 +647,7 @@ extension MediaPackage {
         public let encryption: DashEncryption?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
-        /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
+        /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level. When set to DRM_TOP_LEVEL_COMPACT, content protection elements are placed the MPD level and referenced at the AdaptationSet level.
         public let manifestLayout: ManifestLayout?
         /// Time window (in seconds) contained in each manifest.
         public let manifestWindowSeconds: Int?
@@ -981,11 +982,11 @@ extension MediaPackage {
 
     public struct EncryptionContractConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A collection of audio encryption presets.
-        public let presetSpeke20Audio: PresetSpeke20Audio
+        public let presetSpeke20Audio: PresetSpeke20Audio?
         /// A collection of video encryption presets.
-        public let presetSpeke20Video: PresetSpeke20Video
+        public let presetSpeke20Video: PresetSpeke20Video?
 
-        public init(presetSpeke20Audio: PresetSpeke20Audio, presetSpeke20Video: PresetSpeke20Video) {
+        public init(presetSpeke20Audio: PresetSpeke20Audio? = nil, presetSpeke20Video: PresetSpeke20Video? = nil) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -1054,9 +1055,9 @@ extension MediaPackage {
         public let keyRotationIntervalSeconds: Int?
         /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
         public let repeatExtXKey: Bool?
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, repeatExtXKey: Bool? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, repeatExtXKey: Bool? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -1100,7 +1101,7 @@ extension MediaPackage {
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [AdTriggersElement]?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
-        public let id: String
+        public let id: String?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
         /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
@@ -1124,7 +1125,7 @@ extension MediaPackage {
         /// The URL of the packaged OriginEndpoint for consumption.
         public let url: String?
 
-        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, url: String? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, url: String? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
@@ -1165,7 +1166,7 @@ extension MediaPackage {
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [AdTriggersElement]?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
-        public let id: String
+        public let id: String?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
         /// An optional short string appended to the end of the OriginEndpoint URL. If not specified, defaults to the manifestName for the OriginEndpoint.
@@ -1187,7 +1188,7 @@ extension MediaPackage {
         /// it will be passed through to HLS output.
         public let programDateTimeIntervalSeconds: Int?
 
-        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
@@ -1492,9 +1493,9 @@ extension MediaPackage {
     }
 
     public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(spekeKeyProvider: SpekeKeyProvider) {
+        public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
 
@@ -1715,13 +1716,13 @@ extension MediaPackage {
 
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
         /// The name of an S3 bucket within which harvested content will be exported
-        public let bucketName: String
+        public let bucketName: String?
         /// The key in the specified S3 bucket where the harvested top-level manifest will be placed.
-        public let manifestKey: String
+        public let manifestKey: String?
         /// The IAM role used to write to the specified S3 bucket
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(bucketName: String, manifestKey: String, roleArn: String) {
+        public init(bucketName: String? = nil, manifestKey: String? = nil, roleArn: String? = nil) {
             self.bucketName = bucketName
             self.manifestKey = manifestKey
             self.roleArn = roleArn
@@ -1741,16 +1742,16 @@ extension MediaPackage {
         public let certificateArn: String?
         public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// The resource ID to include in key requests.
-        public let resourceId: String
+        public let resourceId: String?
         /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
         /// MediaPackage will assume when accessing the key provider service.
-        public let roleArn: String
+        public let roleArn: String?
         /// The system IDs to include in key requests.
-        public let systemIds: [String]
+        public let systemIds: [String]?
         /// The URL of the external key provider service.
-        public let url: String
+        public let url: String?
 
-        public init(certificateArn: String? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, resourceId: String, roleArn: String, systemIds: [String], url: String) {
+        public init(certificateArn: String? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, resourceId: String? = nil, roleArn: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.certificateArn = certificateArn
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -1792,9 +1793,9 @@ extension MediaPackage {
 
     public struct TagResourceRequest: AWSEncodableShape {
         public let resourceArn: String
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1803,7 +1804,7 @@ extension MediaPackage {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1814,9 +1815,9 @@ extension MediaPackage {
     public struct UntagResourceRequest: AWSEncodableShape {
         public let resourceArn: String
         /// The key(s) of tag to be deleted
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }

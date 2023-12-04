@@ -108,7 +108,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true.  To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.
+    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.
     @Sendable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
         return try await self.client.execute(
@@ -278,6 +278,19 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
+    /// The process of detecting profile object type mapping by using given objects.
+    @Sendable
+    public func detectProfileObjectType(_ input: DetectProfileObjectTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectProfileObjectTypeResponse {
+        return try await self.client.execute(
+            operation: "DetectProfileObjectType", 
+            path: "/domains/{DomainName}/detect/object-types", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list.  You can't view which profiles are matched and would be merged.  We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     @Sendable
     public func getAutoMergingPreview(_ input: GetAutoMergingPreviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoMergingPreviewResponse {
@@ -407,6 +420,19 @@ public struct CustomerProfiles: AWSService {
             operation: "GetProfileObjectTypeTemplate", 
             path: "/templates/{TemplateId}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a set of profiles that belong to the same matching group using the matchId or  profileId. You can also specify the type of matching that you want for finding similar profiles using  either RULE_BASED_MATCHING or ML_BASED_MATCHING.
+    @Sendable
+    public func getSimilarProfiles(_ input: GetSimilarProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSimilarProfilesResponse {
+        return try await self.client.execute(
+            operation: "GetSimilarProfiles", 
+            path: "/domains/{DomainName}/matches", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -569,6 +595,19 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
+    /// Returns a set of MatchIds that belong to the given domain.
+    @Sendable
+    public func listRuleBasedMatches(_ input: ListRuleBasedMatchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleBasedMatchesResponse {
+        return try await self.client.execute(
+            operation: "ListRuleBasedMatches", 
+            path: "/domains/{DomainName}/profiles/ruleBasedMatches", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -699,7 +738,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or CreateDomain to enable identity resolution: set Matching to true.  To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.  To add or remove tags on an existing Domain, see TagResource/UntagResource.
+    /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or CreateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.  To add or remove tags on an existing Domain, see TagResource/UntagResource.
     @Sendable
     public func updateDomain(_ input: UpdateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainResponse {
         return try await self.client.execute(

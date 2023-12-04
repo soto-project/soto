@@ -26,13 +26,13 @@ import Foundation
 extension SSMIncidents {
     // MARK: Enums
 
-    public enum IncidentRecordStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum IncidentRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case open = "OPEN"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case analysis = "ANALYSIS"
         case attachment = "ATTACHMENT"
         case automation = "AUTOMATION"
@@ -45,7 +45,7 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// All operations have completed successfully and the region is ready to use
         case active = "ACTIVE"
         /// The region is in the process of being created.
@@ -57,7 +57,7 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationSetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// All operations have completed successfully and the replication set is ready to use
         case active = "ACTIVE"
         /// Replication set is in the process of being created.
@@ -71,24 +71,24 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SsmTargetAccount: String, CustomStringConvertible, Codable, Sendable {
+    public enum SsmTargetAccount: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case impactedAccount = "IMPACTED_ACCOUNT"
         case responsePlanOwnerAccount = "RESPONSE_PLAN_OWNER_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimelineEventSort: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimelineEventSort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventTime = "EVENT_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum VariableType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case incidentRecordArn = "INCIDENT_RECORD_ARN"
         case involvedResources = "INVOLVED_RESOURCES"
         public var description: String { return self.rawValue }
@@ -267,6 +267,37 @@ extension SSMIncidents {
         }
     }
 
+    public enum FindingDetails: AWSDecodableShape, Sendable {
+        /// Information about the CloudFormation stack creation or update associated with the finding.
+        case cloudFormationStackUpdate(CloudFormationStackUpdate)
+        /// Information about the CodeDeploy deployment associated with the finding.
+        case codeDeployDeployment(CodeDeployDeployment)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cloudFormationStackUpdate:
+                let value = try container.decode(CloudFormationStackUpdate.self, forKey: .cloudFormationStackUpdate)
+                self = .cloudFormationStackUpdate(value)
+            case .codeDeployDeployment:
+                let value = try container.decode(CodeDeployDeployment.self, forKey: .codeDeployDeployment)
+                self = .codeDeployDeployment(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFormationStackUpdate = "cloudFormationStackUpdate"
+            case codeDeployDeployment = "codeDeployDeployment"
+        }
+    }
+
     public enum ItemValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource.
         case arn(String)
@@ -424,6 +455,116 @@ extension SSMIncidents {
         }
     }
 
+    public struct BatchGetIncidentFindingsError: AWSDecodableShape {
+        /// The code associated with an error that was returned for a BatchGetIncidentFindings operation.
+        public let code: String
+        /// The ID of a specified finding for which an error was returned for a BatchGetIncidentFindings operation.
+        public let findingId: String
+        /// The description for an error that was returned for a BatchGetIncidentFindings operation.
+        public let message: String
+
+        public init(code: String, findingId: String, message: String) {
+            self.code = code
+            self.findingId = findingId
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case findingId = "findingId"
+            case message = "message"
+        }
+    }
+
+    public struct BatchGetIncidentFindingsInput: AWSEncodableShape {
+        /// A list of IDs of findings for which you want to view details.
+        public let findingIds: [String]
+        /// The Amazon Resource Name (ARN) of the incident for which you want to view finding details.
+        public let incidentRecordArn: String
+
+        public init(findingIds: [String], incidentRecordArn: String) {
+            self.findingIds = findingIds
+            self.incidentRecordArn = incidentRecordArn
+        }
+
+        public func validate(name: String) throws {
+            try self.findingIds.forEach {
+                try validate($0, name: "findingIds[]", parent: name, max: 128)
+            }
+            try self.validate(self.findingIds, name: "findingIds", parent: name, max: 20)
+            try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, max: 1000)
+            try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingIds = "findingIds"
+            case incidentRecordArn = "incidentRecordArn"
+        }
+    }
+
+    public struct BatchGetIncidentFindingsOutput: AWSDecodableShape {
+        /// A list of errors encountered during the operation.
+        public let errors: [BatchGetIncidentFindingsError]
+        /// Information about the requested findings.
+        public let findings: [Finding]
+
+        public init(errors: [BatchGetIncidentFindingsError], findings: [Finding]) {
+            self.errors = errors
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case findings = "findings"
+        }
+    }
+
+    public struct CloudFormationStackUpdate: AWSDecodableShape {
+        /// The timestamp for when the CloudFormation stack creation or update ended. Not reported for deployments that are still in progress.
+        public let endTime: Date?
+        /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the update.
+        public let stackArn: String
+        /// The timestamp for when the CloudFormation stack creation or update began.
+        public let startTime: Date
+
+        public init(endTime: Date? = nil, stackArn: String, startTime: Date) {
+            self.endTime = endTime
+            self.stackArn = stackArn
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case stackArn = "stackArn"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct CodeDeployDeployment: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated with the deployment.
+        public let deploymentGroupArn: String
+        /// The ID of the CodeDeploy deployment.
+        public let deploymentId: String
+        /// The timestamp for when the CodeDeploy deployment ended. Not reported for deployments that are still in progress.
+        public let endTime: Date?
+        /// The timestamp for when the CodeDeploy deployment began.
+        public let startTime: Date
+
+        public init(deploymentGroupArn: String, deploymentId: String, endTime: Date? = nil, startTime: Date) {
+            self.deploymentGroupArn = deploymentGroupArn
+            self.deploymentId = deploymentId
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupArn = "deploymentGroupArn"
+            case deploymentId = "deploymentId"
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
     public struct CreateReplicationSetInput: AWSEncodableShape {
         /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
@@ -571,9 +712,9 @@ extension SSMIncidents {
         public let eventData: String
         /// Adds one or more references to the TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.
         public let eventReferences: [EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         public let eventTime: Date
-        /// The type of event. You can create timeline events of type Custom Event.
+        /// The type of event. You can create timeline events of type Custom Event and Note. To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Noteand enter the Amazon Resource Name (ARN) of the incident as the value for eventReference.
         public let eventType: String
         /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to.
         public let incidentRecordArn: String
@@ -776,11 +917,11 @@ extension SSMIncidents {
         public let eventId: String
         /// A list of references in a TimelineEvent.
         public let eventReferences: [EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         public let eventTime: Date
-        /// The type of event. The timeline event must be Custom Event.
+        /// The type of event. The timeline event must be Custom Event or Note.
         public let eventType: String
-        /// The time that the timeline event was last updated.
+        /// The timestamp for when the timeline event was last updated.
         public let eventUpdatedTime: Date
         /// The Amazon Resource Name (ARN) of the incident that the event happened during.
         public let incidentRecordArn: String
@@ -822,6 +963,48 @@ extension SSMIncidents {
         private enum CodingKeys: String, CodingKey {
             case condition = "condition"
             case key = "key"
+        }
+    }
+
+    public struct Finding: AWSDecodableShape {
+        /// The timestamp for when a finding was created.
+        public let creationTime: Date
+        /// Details about the finding.
+        public let details: FindingDetails?
+        /// The ID assigned to the finding.
+        public let id: String
+        /// The timestamp for when the finding was most recently updated with additional information.
+        public let lastModifiedTime: Date
+
+        public init(creationTime: Date, details: FindingDetails? = nil, id: String, lastModifiedTime: Date) {
+            self.creationTime = creationTime
+            self.details = details
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case details = "details"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+        }
+    }
+
+    public struct FindingSummary: AWSDecodableShape {
+        /// The ID of the finding.
+        public let id: String
+        /// The timestamp for when the finding was last updated.
+        public let lastModifiedTime: Date
+
+        public init(id: String, lastModifiedTime: Date) {
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
         }
     }
 
@@ -898,7 +1081,7 @@ extension SSMIncidents {
     public struct GetResourcePoliciesInput: AWSEncodableShape {
         /// The maximum number of resource policies to display for each page of results.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the response plan with the attached resource policy.
         public let resourceArn: String
@@ -932,7 +1115,7 @@ extension SSMIncidents {
     }
 
     public struct GetResourcePoliciesOutput: AWSDecodableShape {
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
         /// Details about the resource policy attached to the response plan.
         public let resourcePolicies: [ResourcePolicy]
@@ -1058,21 +1241,21 @@ extension SSMIncidents {
         public let automationExecutions: [AutomationExecution]?
         /// The chat channel used for collaboration during an incident.
         public let chatChannel: ChatChannel?
-        /// The time that Incident Manager created the incident record.
+        /// The timestamp for when Incident Manager created the incident record.
         public let creationTime: Date
         /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         public let dedupeString: String
-        /// The impact of the incident on customers and applications.
+        /// The impact of the incident on customers and applications.  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No Impact
         public let impact: Int
         /// Details about the action that started the incident.
         public let incidentRecordSource: IncidentRecordSource
         /// Who modified the incident most recently.
         public let lastModifiedBy: String
-        /// The time at which the incident was most recently modified.
+        /// The timestamp for when the incident was most recently modified.
         public let lastModifiedTime: Date
         /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
-        /// The time at which the incident was resolved. This appears as a timeline event.
+        /// The timestamp for when the incident was resolved. This appears as a timeline event.
         public let resolvedTime: Date?
         /// The current status of the incident.
         public let status: IncidentRecordStatus
@@ -1144,13 +1327,13 @@ extension SSMIncidents {
     public struct IncidentRecordSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the incident.
         public let arn: String
-        /// The time the incident was created.
+        /// The timestamp for when the incident was created.
         public let creationTime: Date
         /// Defines the impact to customers and applications.
         public let impact: Int
         /// What caused Incident Manager to create the incident.
         public let incidentRecordSource: IncidentRecordSource
-        /// The time the incident was resolved.
+        /// The timestamp for when the incident was resolved.
         public let resolvedTime: Date?
         /// The current status of the incident.
         public let status: IncidentRecordStatus
@@ -1179,9 +1362,9 @@ extension SSMIncidents {
     }
 
     public struct IncidentTemplate: AWSEncodableShape & AWSDecodableShape {
-        /// Used to stop Incident Manager from creating multiple incident records for the same incident.
+        /// The string Incident Manager uses to prevent the same root cause from creating multiple incidents in the same account. A deduplication string is a term or phrase the system uses to check for duplicate incidents. If you specify a deduplication string, Incident Manager searches for open incidents that contain the same string in the dedupeString field when it creates the incident. If a duplicate is detected, Incident Manager deduplicates the newer incident into the existing incident.  By default, Incident Manager automatically deduplicates multiple incidents created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You don't have to enter your own deduplication string to prevent duplication for these resource types.
         public let dedupeString: String?
-        /// The impact of the incident on your customers and applications.
+        /// The impact of the incident on your customers and applications.  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No Impact
         public let impact: Int
         /// Tags to assign to the template. When the StartIncident API action is called, Incident Manager assigns the tags specified in the template to the incident.
         public let incidentTags: [String: String]?
@@ -1253,12 +1436,56 @@ extension SSMIncidents {
         }
     }
 
+    public struct ListIncidentFindingsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the incident for which you want to view associated findings.
+        public let incidentRecordArn: String
+        /// The maximum number of findings to retrieve per call.
+        public let maxResults: Int?
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(incidentRecordArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.incidentRecordArn = incidentRecordArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, max: 1000)
+            try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incidentRecordArn = "incidentRecordArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIncidentFindingsOutput: AWSDecodableShape {
+        /// A list of findings that represent deployments that might be the potential cause of the incident.
+        public let findings: [FindingSummary]
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
+        public let nextToken: String?
+
+        public init(findings: [FindingSummary], nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListIncidentRecordsInput: AWSEncodableShape {
         /// Filters the list of incident records you want to search through. You can filter on the following keys:    creationTime     impact     status     createdBy    Note the following when when you use Filters:   If you don't specify a Filter, the response includes all incident records.   If you specify more than one filter in a single request, the response returns incident records that match all filters.   If you specify a filter with more than one value, the response returns incident records that match any of the values provided.
         public let filters: [Filter]?
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1287,7 +1514,7 @@ extension SSMIncidents {
     public struct ListIncidentRecordsOutput: AWSDecodableShape {
         /// The details of each listed incident record.
         public let incidentRecordSummaries: [IncidentRecordSummary]
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
 
         public init(incidentRecordSummaries: [IncidentRecordSummary], nextToken: String? = nil) {
@@ -1306,7 +1533,7 @@ extension SSMIncidents {
         public let incidentRecordArn: String
         /// The maximum number of related items per page.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         public init(incidentRecordArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1331,7 +1558,7 @@ extension SSMIncidents {
     }
 
     public struct ListRelatedItemsOutput: AWSDecodableShape {
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
         /// Details about each related item.
         public let relatedItems: [RelatedItem]
@@ -1350,7 +1577,7 @@ extension SSMIncidents {
     public struct ListReplicationSetsInput: AWSEncodableShape {
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1371,7 +1598,7 @@ extension SSMIncidents {
     }
 
     public struct ListReplicationSetsOutput: AWSDecodableShape {
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the list replication set.
         public let replicationSetArns: [String]
@@ -1390,7 +1617,7 @@ extension SSMIncidents {
     public struct ListResponsePlansInput: AWSEncodableShape {
         /// The maximum number of response plans per page.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1411,7 +1638,7 @@ extension SSMIncidents {
     }
 
     public struct ListResponsePlansOutput: AWSDecodableShape {
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
         /// Details of each response plan.
         public let responsePlanSummaries: [ResponsePlanSummary]
@@ -1428,7 +1655,7 @@ extension SSMIncidents {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the response plan.
+        /// The Amazon Resource Name (ARN) of the response plan or incident.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1445,7 +1672,7 @@ extension SSMIncidents {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A list of tags for the response plan.
+        /// A list of tags for the response plan or incident.
         public let tags: [String: String]
 
         public init(tags: [String: String]) {
@@ -1458,13 +1685,13 @@ extension SSMIncidents {
     }
 
     public struct ListTimelineEventsInput: AWSEncodableShape {
-        /// Filters the timeline events based on the provided conditional values. You can filter timeline events with the following keys:    eventTime     eventType    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all timeline events.   If you specify more than one filter in a single request, the response returns timeline events that match all filters.   If you specify a filter with more than one value, the response returns timeline events that match any of the values provided.
+        /// Filters the timeline events based on the provided conditional values. You can filter timeline events with the following keys:    eventReference     eventTime     eventType    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all timeline events.   If you specify more than one filter in a single request, the response returns timeline events that match all filters.   If you specify a filter with more than one value, the response returns timeline events that match any of the values provided.
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// Sort timeline events by the specified key value pair.
         public let sortBy: TimelineEventSort?
@@ -1505,7 +1732,7 @@ extension SSMIncidents {
     public struct ListTimelineEventsOutput: AWSDecodableShape {
         /// Details about each event that occurred during the incident.
         public let eventSummaries: [EventSummary]
-        /// The pagination token to continue to the next page of results.
+        /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
 
         public init(eventSummaries: [EventSummary], nextToken: String? = nil) {
@@ -1617,7 +1844,7 @@ extension SSMIncidents {
         public let status: RegionStatus
         /// Information displayed about the status of the Amazon Web Services Region.
         public let statusMessage: String?
-        /// The most recent date and time that Incident Manager updated the Amazon Web Services Region's status.
+        /// The timestamp for when Incident Manager updated the status of the Amazon Web Services Region.
         public let statusUpdateDateTime: Date
 
         public init(sseKmsKeyId: String? = nil, status: RegionStatus, statusMessage: String? = nil, statusUpdateDateTime: Date) {
@@ -1810,7 +2037,7 @@ extension SSMIncidents {
     public struct StartIncidentInput: AWSEncodableShape {
         /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No Impact
         public let impact: Int?
         /// Add related items to the incident for other responders to use. Related items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket.
         public let relatedItems: [RelatedItem]?
@@ -1913,11 +2140,11 @@ extension SSMIncidents {
         public let eventId: String
         /// A list of references in a TimelineEvent.
         public let eventReferences: [EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         public let eventTime: Date
-        /// The type of event that occurred. Currently Incident Manager supports only the Custom Event type.
+        /// The type of event that occurred. Currently Incident Manager supports only the Custom Event and Note types.
         public let eventType: String
-        /// The time that the timeline event was last updated.
+        /// The timestamp for when the timeline event was last updated.
         public let eventUpdatedTime: Date
         /// The Amazon Resource Name (ARN) of the incident that the event occurred during.
         public let incidentRecordArn: String
@@ -1948,7 +2175,7 @@ extension SSMIncidents {
         public let rawData: String?
         /// Identifies the service that sourced the event. All events sourced from within Amazon Web Services begin with "aws." Customer-generated events can have any value here, as long as it doesn't begin with "aws." We recommend the use of Java package-name style reverse domain-name strings.
         public let source: String
-        /// The time that the incident was detected.
+        /// The timestamp for when the incident was detected.
         public let timestamp: Date
         /// The Amazon Resource Name (ARN) of the source that detected the incident.
         public let triggerArn: String?
@@ -2048,7 +2275,7 @@ extension SSMIncidents {
         public let chatChannel: ChatChannel?
         /// A token that ensures that a client calls the operation only once with the specified details.
         public let clientToken: String?
-        /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+        /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan.  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No Impact
         public let impact: Int?
         /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
         public let notificationTargets: [NotificationTargetItem]?
@@ -2182,7 +2409,7 @@ extension SSMIncidents {
         public let engagements: [String]?
         /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         public let incidentTemplateDedupeString: String?
-        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact    4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
+        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No Impact
         public let incidentTemplateImpact: Int?
         /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let incidentTemplateNotificationTargets: [NotificationTargetItem]?
@@ -2276,9 +2503,9 @@ extension SSMIncidents {
         public let eventId: String
         /// Updates all existing references in a TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.  This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references.
         public let eventReferences: [EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         public let eventTime: Date?
-        /// The type of event. You can update events of type Custom Event.
+        /// The type of event. You can update events of type Custom Event and Note.
         public let eventType: String?
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String

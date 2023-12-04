@@ -26,63 +26,70 @@ import Foundation
 extension PrivateNetworks {
     // MARK: Enums
 
-    public enum AcknowledgmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AcknowledgmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acknowledged = "ACKNOWLEDGED"
         case acknowledging = "ACKNOWLEDGING"
         case unacknowledged = "UNACKNOWLEDGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceIdentifierFilterKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum CommitmentLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oneYear = "ONE_YEAR"
+        case sixtyDays = "SIXTY_DAYS"
+        case threeYears = "THREE_YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceIdentifierFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case order = "ORDER"
         case status = "STATUS"
         case trafficGroup = "TRAFFIC_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceIdentifierStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceIdentifierStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElevationReference: String, CustomStringConvertible, Codable, Sendable {
+    public enum ElevationReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agl = "AGL"
         case amsl = "AMSL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElevationUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum ElevationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Feet.
         case feet = "FEET"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum HealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case initial = "INITIAL"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkFilterKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceDefinitionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkResourceDefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deviceIdentifier = "DEVICE_IDENTIFIER"
         case radioUnit = "RADIO_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceFilterKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkResourceFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case order = "ORDER"
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creatingShippingLabel = "CREATING_SHIPPING_LABEL"
         case deleted = "DELETED"
@@ -95,17 +102,17 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case radioUnit = "RADIO_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkSiteFilterKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkSiteFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkSiteStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkSiteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case created = "CREATED"
         case deleted = "DELETED"
@@ -114,7 +121,7 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case created = "CREATED"
         case deleted = "DELETED"
@@ -123,13 +130,14 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderFilterKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case networkSite = "NETWORK_SITE"
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case commitment = "COMMITMENT"
         case replace = "REPLACE"
         case `return` = "RETURN"
         public var description: String { return self.rawValue }
@@ -210,13 +218,16 @@ extension PrivateNetworks {
     public struct ActivateNetworkSiteRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
+        /// Determines the duration and renewal status of the commitment period for all pending radio units. If you include commitmentConfiguration in the ActivateNetworkSiteRequest action, you must specify the following:   The commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year period.   Whether you want your commitment period to automatically renew for one more year after your current commitment period expires.   For pricing, see Amazon Web Services Private 5G Pricing. If you do not include commitmentConfiguration in the ActivateNetworkSiteRequest action, the commitment period is set to 60-days.
+        public let commitmentConfiguration: CommitmentConfiguration?
         /// The Amazon Resource Name (ARN) of the network site.
         public let networkSiteArn: String
         /// The shipping address of the network site.
         public let shippingAddress: Address
 
-        public init(clientToken: String? = nil, networkSiteArn: String, shippingAddress: Address) {
+        public init(clientToken: String? = nil, commitmentConfiguration: CommitmentConfiguration? = nil, networkSiteArn: String, shippingAddress: Address) {
             self.clientToken = clientToken
+            self.commitmentConfiguration = commitmentConfiguration
             self.networkSiteArn = networkSiteArn
             self.shippingAddress = shippingAddress
         }
@@ -230,6 +241,7 @@ extension PrivateNetworks {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case commitmentConfiguration = "commitmentConfiguration"
             case networkSiteArn = "networkSiteArn"
             case shippingAddress = "shippingAddress"
         }
@@ -255,9 +267,11 @@ extension PrivateNetworks {
         public let company: String?
         /// The country for this address.
         public let country: String
+        /// The recipient's email address.
+        public let emailAddress: String?
         /// The recipient's name for this address.
         public let name: String
-        /// The phone number for this address.
+        /// The recipient's phone number.
         public let phoneNumber: String?
         /// The postal code for this address.
         public let postalCode: String
@@ -270,10 +284,11 @@ extension PrivateNetworks {
         /// The third line of the street address.
         public let street3: String?
 
-        public init(city: String, company: String? = nil, country: String, name: String, phoneNumber: String? = nil, postalCode: String, stateOrProvince: String, street1: String, street2: String? = nil, street3: String? = nil) {
+        public init(city: String, company: String? = nil, country: String, emailAddress: String? = nil, name: String, phoneNumber: String? = nil, postalCode: String, stateOrProvince: String, street1: String, street2: String? = nil, street3: String? = nil) {
             self.city = city
             self.company = company
             self.country = country
+            self.emailAddress = emailAddress
             self.name = name
             self.phoneNumber = phoneNumber
             self.postalCode = postalCode
@@ -290,6 +305,8 @@ extension PrivateNetworks {
             try self.validate(self.company, name: "company", parent: name, min: 1)
             try self.validate(self.country, name: "country", parent: name, max: 1024)
             try self.validate(self.country, name: "country", parent: name, min: 1)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 1024)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 1024)
@@ -310,6 +327,7 @@ extension PrivateNetworks {
             case city = "city"
             case company = "company"
             case country = "country"
+            case emailAddress = "emailAddress"
             case name = "name"
             case phoneNumber = "phoneNumber"
             case postalCode = "postalCode"
@@ -317,6 +335,46 @@ extension PrivateNetworks {
             case street1 = "street1"
             case street2 = "street2"
             case street3 = "street3"
+        }
+    }
+
+    public struct CommitmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the commitment period for a radio unit is set to automatically renew for an additional 1 year after your current commitment period expires. Set to True, if you want your commitment period to automatically renew. Set to False if you do not want your commitment to automatically renew. You can do the following:   Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 1-year rate.   Set a 3-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 3-year rate.   Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment.   You cannot use the automatic-renewal option for a 60-day commitment.
+        public let automaticRenewal: Bool
+        /// The duration of the commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year period.
+        public let commitmentLength: CommitmentLength
+
+        public init(automaticRenewal: Bool, commitmentLength: CommitmentLength) {
+            self.automaticRenewal = automaticRenewal
+            self.commitmentLength = commitmentLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticRenewal = "automaticRenewal"
+            case commitmentLength = "commitmentLength"
+        }
+    }
+
+    public struct CommitmentInformation: AWSDecodableShape {
+        /// The duration and renewal status of the commitment period for the radio unit.
+        public let commitmentConfiguration: CommitmentConfiguration
+        /// The date and time that the commitment period ends. If you do not cancel or renew the commitment before the expiration date, you will be billed at the 60-day-commitment rate.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expiresOn: Date?
+        /// The date and time that the commitment period started.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startAt: Date?
+
+        public init(commitmentConfiguration: CommitmentConfiguration, expiresOn: Date? = nil, startAt: Date? = nil) {
+            self.commitmentConfiguration = commitmentConfiguration
+            self.expiresOn = expiresOn
+            self.startAt = startAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitmentConfiguration = "commitmentConfiguration"
+            case expiresOn = "expiresOn"
+            case startAt = "startAt"
         }
     }
 
@@ -431,9 +489,9 @@ extension PrivateNetworks {
     }
 
     public struct CreateNetworkSiteRequest: AWSEncodableShape {
-        /// The Availability Zone that is the parent of this site. You can't change the Availability Zone  after you create the site.
+        /// The Availability Zone that is the parent of this site. You can't change the Availability Zone after you create the site.
         public let availabilityZone: String?
-        /// The ID of the Availability Zone that is the parent of this site. You can't change the Availability Zone  after you create the site.
+        /// The ID of the Availability Zone that is the parent of this site. You can't change the Availability Zone after you create the site.
         public let availabilityZoneId: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
@@ -952,7 +1010,7 @@ extension PrivateNetworks {
     }
 
     public struct ListNetworkSitesRequest: AWSEncodableShape {
-        /// The filters. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network sites.    STATUS - The status (AVAILABLE | CREATED | DELETED | DEPROVISIONING | PROVISIONING).   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// The filters. Add filters to your request to return a more specific list of results. Use filters to match the status of the network sites.    STATUS - The status (AVAILABLE | CREATED | DELETED | DEPROVISIONING | PROVISIONING).   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
         public let filters: [NetworkSiteFilterKeys: [String]]?
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -1169,6 +1227,8 @@ extension PrivateNetworks {
     public struct NetworkResource: AWSDecodableShape {
         /// The attributes of the network resource.
         public let attributes: [NameValuePair]?
+        /// Information about the commitment period for the radio unit. Shows the duration, the date and time that the contract started and ends, and the renewal status of the commitment period.
+        public let commitmentInformation: CommitmentInformation?
         /// The creation time of the network resource.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -1201,8 +1261,9 @@ extension PrivateNetworks {
         /// The vendor of the network resource.
         public let vendor: String?
 
-        public init(attributes: [NameValuePair]? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthStatus? = nil, model: String? = nil, networkArn: String? = nil, networkResourceArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, position: Position? = nil, returnInformation: ReturnInformation? = nil, serialNumber: String? = nil, status: NetworkResourceStatus? = nil, statusReason: String? = nil, type: NetworkResourceType? = nil, vendor: String? = nil) {
+        public init(attributes: [NameValuePair]? = nil, commitmentInformation: CommitmentInformation? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthStatus? = nil, model: String? = nil, networkArn: String? = nil, networkResourceArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, position: Position? = nil, returnInformation: ReturnInformation? = nil, serialNumber: String? = nil, status: NetworkResourceStatus? = nil, statusReason: String? = nil, type: NetworkResourceType? = nil, vendor: String? = nil) {
             self.attributes = attributes
+            self.commitmentInformation = commitmentInformation
             self.createdAt = createdAt
             self.description = description
             self.health = health
@@ -1222,6 +1283,7 @@ extension PrivateNetworks {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case commitmentInformation = "commitmentInformation"
             case createdAt = "createdAt"
             case description = "description"
             case health = "health"
@@ -1327,17 +1389,20 @@ extension PrivateNetworks {
         public let networkSiteArn: String?
         /// The Amazon Resource Name (ARN) of the order.
         public let orderArn: String?
+        /// A list of the network resources placed in the order.
+        public let orderedResources: [OrderedResourceDefinition]?
         /// The shipping address of the order.
         public let shippingAddress: Address?
         /// The tracking information of the order.
         public let trackingInformation: [TrackingInformation]?
 
-        public init(acknowledgmentStatus: AcknowledgmentStatus? = nil, createdAt: Date? = nil, networkArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, shippingAddress: Address? = nil, trackingInformation: [TrackingInformation]? = nil) {
+        public init(acknowledgmentStatus: AcknowledgmentStatus? = nil, createdAt: Date? = nil, networkArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, orderedResources: [OrderedResourceDefinition]? = nil, shippingAddress: Address? = nil, trackingInformation: [TrackingInformation]? = nil) {
             self.acknowledgmentStatus = acknowledgmentStatus
             self.createdAt = createdAt
             self.networkArn = networkArn
             self.networkSiteArn = networkSiteArn
             self.orderArn = orderArn
+            self.orderedResources = orderedResources
             self.shippingAddress = shippingAddress
             self.trackingInformation = trackingInformation
         }
@@ -1348,8 +1413,30 @@ extension PrivateNetworks {
             case networkArn = "networkArn"
             case networkSiteArn = "networkSiteArn"
             case orderArn = "orderArn"
+            case orderedResources = "orderedResources"
             case shippingAddress = "shippingAddress"
             case trackingInformation = "trackingInformation"
+        }
+    }
+
+    public struct OrderedResourceDefinition: AWSDecodableShape {
+        /// The duration and renewal status of the commitment period for each radio unit in the order. Does not show details if the resource type is DEVICE_IDENTIFIER.
+        public let commitmentConfiguration: CommitmentConfiguration?
+        /// The number of network resources in the order.
+        public let count: Int
+        /// The type of network resource in the order.
+        public let type: NetworkResourceDefinitionType
+
+        public init(commitmentConfiguration: CommitmentConfiguration? = nil, count: Int, type: NetworkResourceDefinitionType) {
+            self.commitmentConfiguration = commitmentConfiguration
+            self.count = count
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitmentConfiguration = "commitmentConfiguration"
+            case count = "count"
+            case type = "type"
         }
     }
 
@@ -1398,7 +1485,7 @@ extension PrivateNetworks {
     public struct ReturnInformation: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the replacement order.
         public let replacementOrderArn: String?
-        /// The reason for the return. If the return request did not include a  reason for the return, this value is null.
+        /// The reason for the return. If the return request did not include a reason for the return, this value is null.
         public let returnReason: String?
         /// The shipping address.
         public let shippingAddress: Address?
@@ -1438,16 +1525,19 @@ extension PrivateNetworks {
     }
 
     public struct StartNetworkResourceUpdateRequest: AWSEncodableShape {
+        /// Use this action to extend and automatically renew the commitment period for the radio unit. You can do the following:   Change a 60-day commitment to a 1-year or 3-year commitment. The change is immediate and the hourly rate decreases to the rate for the new commitment period.   Change a 1-year commitment to a 3-year commitment. The change is immediate and the hourly rate decreases to the rate for the 3-year commitment period.   Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 1-year rate.   Set a 3-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 3-year rate.   Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment. You cannot use the automatic-renewal option for a 60-day commitment.   For pricing, see Amazon Web Services Private 5G Pricing.
+        public let commitmentConfiguration: CommitmentConfiguration?
         /// The Amazon Resource Name (ARN) of the network resource.
         public let networkResourceArn: String
         /// The reason for the return. Providing a reason for a return is optional.
         public let returnReason: String?
         /// The shipping address. If you don't provide a shipping address when replacing or returning a network resource, we use the address from the original order for the network resource.
         public let shippingAddress: Address?
-        /// The update type.    REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the  return process and we ship a replacement radio unit to you.    RETURN - Submits a request to replace a radio unit that you no longer need. We provide a shipping label that you can  use for the return process.
+        /// The update type.    REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the return process and we ship a replacement radio unit to you.    RETURN - Submits a request to return a radio unit that you no longer need. We provide a shipping label that you can use for the return process.    COMMITMENT - Submits a request to change or renew the commitment period. If you choose this value, then you must set  commitmentConfiguration .
         public let updateType: UpdateType
 
-        public init(networkResourceArn: String, returnReason: String? = nil, shippingAddress: Address? = nil, updateType: UpdateType) {
+        public init(commitmentConfiguration: CommitmentConfiguration? = nil, networkResourceArn: String, returnReason: String? = nil, shippingAddress: Address? = nil, updateType: UpdateType) {
+            self.commitmentConfiguration = commitmentConfiguration
             self.networkResourceArn = networkResourceArn
             self.returnReason = returnReason
             self.shippingAddress = shippingAddress
@@ -1460,6 +1550,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitmentConfiguration = "commitmentConfiguration"
             case networkResourceArn = "networkResourceArn"
             case returnReason = "returnReason"
             case shippingAddress = "shippingAddress"

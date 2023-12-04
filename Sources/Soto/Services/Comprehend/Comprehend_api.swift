@@ -149,7 +149,7 @@ public struct Comprehend: AWSService {
         )
     }
 
-    /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment.
+    /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide.
     @Sendable
     public func batchDetectTargetedSentiment(_ input: BatchDetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectTargetedSentimentResponse {
         return try await self.client.execute(
@@ -162,7 +162,7 @@ public struct Comprehend: AWSService {
         )
     }
 
-    /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint. You can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
+    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument  supports the following model types:   Custom classifier - a custom model that you have created and trained.  For input, you can provide plain text, a single-page document (PDF, Word, or image), or Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide.   Prompt classifier - Amazon Comprehend provides a model for classifying prompts.  For input, you provide English plain text input. For prompt classification, the response includes only the Classes field. For more information about prompt classifiers, see Prompt classifiers in the Amazon Comprehend Developer Guide.   If the system detects errors while processing a page in the input document, the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     @Sendable
     public func classifyDocument(_ input: ClassifyDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClassifyDocumentResponse {
         return try await self.client.execute(
@@ -604,11 +604,24 @@ public struct Comprehend: AWSService {
         )
     }
 
-    /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see Targeted sentiment.
+    /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide.
     @Sendable
     public func detectTargetedSentiment(_ input: DetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectTargetedSentimentResponse {
         return try await self.client.execute(
             operation: "DetectTargetedSentiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Performs toxicity analysis on the list of text strings that you provide as input. The analysis uses the order of strings in the list to determine context when predicting toxicity. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see Toxicity detection in the Amazon Comprehend Developer Guide
+    @Sendable
+    public func detectToxicContent(_ input: DetectToxicContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectToxicContentResponse {
+        return try await self.client.execute(
+            operation: "DetectToxicContent", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

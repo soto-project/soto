@@ -26,9 +26,34 @@ import Foundation
 extension Textract {
     // MARK: Enums
 
-    public enum BlockType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdapterVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case atRisk = "AT_RISK"
+        case creationError = "CREATION_ERROR"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoUpdate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cell = "CELL"
         case keyValueSet = "KEY_VALUE_SET"
+        case layoutFigure = "LAYOUT_FIGURE"
+        case layoutFooter = "LAYOUT_FOOTER"
+        case layoutHeader = "LAYOUT_HEADER"
+        case layoutKeyValue = "LAYOUT_KEY_VALUE"
+        case layoutList = "LAYOUT_LIST"
+        case layoutPageNumber = "LAYOUT_PAGE_NUMBER"
+        case layoutSectionHeader = "LAYOUT_SECTION_HEADER"
+        case layoutTable = "LAYOUT_TABLE"
+        case layoutText = "LAYOUT_TEXT"
+        case layoutTitle = "LAYOUT_TITLE"
         case line = "LINE"
         case mergedCell = "MERGED_CELL"
         case page = "PAGE"
@@ -44,13 +69,13 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case columnHeader = "COLUMN_HEADER"
         case key = "KEY"
         case semiStructuredTable = "SEMI_STRUCTURED_TABLE"
@@ -63,15 +88,16 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forms = "FORMS"
+        case layout = "LAYOUT"
         case queries = "QUERIES"
         case signatures = "SIGNATURES"
         case tables = "TABLES"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case partialSuccess = "PARTIAL_SUCCESS"
@@ -79,7 +105,7 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case answer = "ANSWER"
         case child = "CHILD"
         case complexFeatures = "COMPLEX_FEATURES"
@@ -92,36 +118,189 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SelectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notSelected = "NOT_SELECTED"
         case selected = "SELECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case handwriting = "HANDWRITING"
         case printed = "PRINTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case date = "Date"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
+    public struct Adapter: AWSEncodableShape {
+        /// A unique identifier for the adapter resource.
+        public let adapterId: String
+        /// Pages is a parameter that the user inputs to specify which pages to apply an adapter to. The following is a  list of rules for using this parameter.   If a page is not specified, it is set to ["1"] by default.   The following characters are allowed in the parameter's string:  0 1 2 3 4 5 6 7 8 9 - *. No whitespace is allowed.   When using * to indicate all pages, it must be the only element in the list.   You can use page intervals, such as ["1-3", "1-1", "4-*"]. Where * indicates last page of  document.   Specified pages must be greater than 0 and less than or equal to the number of pages in the document.
+        public let pages: [String]?
+        /// A string that identifies the version of the adapter.
+        public let version: String
+
+        public init(adapterId: String, pages: [String]? = nil, version: String) {
+            self.adapterId = adapterId
+            self.pages = pages
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.pages?.forEach {
+                try validate($0, name: "pages[]", parent: name, max: 9)
+                try validate($0, name: "pages[]", parent: name, min: 1)
+                try validate($0, name: "pages[]", parent: name, pattern: "^[0-9\\*\\-]+$")
+            }
+            try self.validate(self.pages, name: "pages", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, max: 128)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case pages = "Pages"
+            case version = "Version"
+        }
+    }
+
+    public struct AdapterOverview: AWSDecodableShape {
+        /// A unique identifier for the adapter resource.
+        public let adapterId: String?
+        /// A string naming the adapter resource.
+        public let adapterName: String?
+        /// The date and time that the adapter was created.
+        public let creationTime: Date?
+        /// The feature types that the adapter is operating on.
+        public let featureTypes: [FeatureType]?
+
+        public init(adapterId: String? = nil, adapterName: String? = nil, creationTime: Date? = nil, featureTypes: [FeatureType]? = nil) {
+            self.adapterId = adapterId
+            self.adapterName = adapterName
+            self.creationTime = creationTime
+            self.featureTypes = featureTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterName = "AdapterName"
+            case creationTime = "CreationTime"
+            case featureTypes = "FeatureTypes"
+        }
+    }
+
+    public struct AdapterVersionDatasetConfig: AWSEncodableShape & AWSDecodableShape {
+        public let manifestS3Object: S3Object?
+
+        public init(manifestS3Object: S3Object? = nil) {
+            self.manifestS3Object = manifestS3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.manifestS3Object?.validate(name: "\(name).manifestS3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestS3Object = "ManifestS3Object"
+        }
+    }
+
+    public struct AdapterVersionEvaluationMetric: AWSDecodableShape {
+        /// The F1 score, precision, and recall metrics for the baseline model.
+        public let adapterVersion: EvaluationMetric?
+        /// The F1 score, precision, and recall metrics for the baseline model.
+        public let baseline: EvaluationMetric?
+        /// Indicates the feature type being analyzed by a given adapter version.
+        public let featureType: FeatureType?
+
+        public init(adapterVersion: EvaluationMetric? = nil, baseline: EvaluationMetric? = nil, featureType: FeatureType? = nil) {
+            self.adapterVersion = adapterVersion
+            self.baseline = baseline
+            self.featureType = featureType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterVersion = "AdapterVersion"
+            case baseline = "Baseline"
+            case featureType = "FeatureType"
+        }
+    }
+
+    public struct AdapterVersionOverview: AWSDecodableShape {
+        /// A unique identifier for the adapter associated with a given adapter version.
+        public let adapterId: String?
+        /// An identified for a given adapter version.
+        public let adapterVersion: String?
+        /// The date and time that a given adapter version was created.
+        public let creationTime: Date?
+        /// The feature types that the adapter version is operating on.
+        public let featureTypes: [FeatureType]?
+        /// Contains information on the status of a given adapter version.
+        public let status: AdapterVersionStatus?
+        /// A message explaining the status of a given adapter vesion.
+        public let statusMessage: String?
+
+        public init(adapterId: String? = nil, adapterVersion: String? = nil, creationTime: Date? = nil, featureTypes: [FeatureType]? = nil, status: AdapterVersionStatus? = nil, statusMessage: String? = nil) {
+            self.adapterId = adapterId
+            self.adapterVersion = adapterVersion
+            self.creationTime = creationTime
+            self.featureTypes = featureTypes
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterVersion = "AdapterVersion"
+            case creationTime = "CreationTime"
+            case featureTypes = "FeatureTypes"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct AdaptersConfig: AWSEncodableShape {
+        /// A list of adapters to be used when analyzing the specified document.
+        public let adapters: [Adapter]
+
+        public init(adapters: [Adapter]) {
+            self.adapters = adapters
+        }
+
+        public func validate(name: String) throws {
+            try self.adapters.forEach {
+                try $0.validate(name: "\(name).adapters[]")
+            }
+            try self.validate(self.adapters, name: "adapters", parent: name, max: 100)
+            try self.validate(self.adapters, name: "adapters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapters = "Adapters"
+        }
+    }
+
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
+        /// Specifies the adapter to be used when analyzing a document.
+        public let adaptersConfig: AdaptersConfig?
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
         public let document: Document
-        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. To perform both forms  and table analysis, add TABLES and FORMS to FeatureTypes. To detect signatures within form data and table data, add SIGNATURES to either TABLES or FORMS. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document.  All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
         public let featureTypes: [FeatureType]
         /// Sets the configuration for the human in the loop workflow for analyzing documents.
         public let humanLoopConfig: HumanLoopConfig?
         /// Contains Queries and the alias for those Queries, as determined by the input.
         public let queriesConfig: QueriesConfig?
 
-        public init(document: Document, featureTypes: [FeatureType], humanLoopConfig: HumanLoopConfig? = nil, queriesConfig: QueriesConfig? = nil) {
+        public init(adaptersConfig: AdaptersConfig? = nil, document: Document, featureTypes: [FeatureType], humanLoopConfig: HumanLoopConfig? = nil, queriesConfig: QueriesConfig? = nil) {
+            self.adaptersConfig = adaptersConfig
             self.document = document
             self.featureTypes = featureTypes
             self.humanLoopConfig = humanLoopConfig
@@ -129,12 +308,14 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.adaptersConfig?.validate(name: "\(name).adaptersConfig")
             try self.document.validate(name: "\(name).document")
             try self.humanLoopConfig?.validate(name: "\(name).humanLoopConfig")
             try self.queriesConfig?.validate(name: "\(name).queriesConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adaptersConfig = "AdaptersConfig"
             case document = "Document"
             case featureTypes = "FeatureTypes"
             case humanLoopConfig = "HumanLoopConfig"
@@ -262,7 +443,7 @@ extension Textract {
     }
 
     public struct Block: AWSDecodableShape {
-        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     TABLE_TITLE - The title of a table. A title is typically a line of text above or below a table, or embedded as the first row of a table.     TABLE_FOOTER - The footer associated with a table. A footer is typically a line or lines of text below a table or embedded as the last row of a table.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    MERGED_CELL  - A cell in a table whose content spans more than one row or column. The Relationships array for this cell contain data from individual cells.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    SIGNATURE - The location and confidene score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.
+        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     TABLE_TITLE - The title of a table. A title is typically a line of text above or below a table, or embedded as the first row of a table.     TABLE_FOOTER - The footer associated with a table. A footer is typically a line or lines of text below a table or embedded as the last row of a table.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    MERGED_CELL  - A cell in a table whose content spans more than one row or column. The Relationships array for this cell contain data from individual cells.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    SIGNATURE - The location and confidence score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.   The following BlockTypes are only returned for Amazon Textract Layout.    LAYOUT_TITLE - The main title of the document.    LAYOUT_HEADER - Text located in the top margin of the document.    LAYOUT_FOOTER - Text located in the bottom margin of the document.    LAYOUT_SECTION_HEADER - The titles of sections within a document.    LAYOUT_PAGE_NUMBER - The page number of the documents.    LAYOUT_LIST - Any information grouped together in list form.     LAYOUT_FIGURE - Indicates the location of an image in a document.    LAYOUT_TABLE - Indicates the location of a table in the document.    LAYOUT_KEY_VALUE - Indicates the location of form key-values in a document.    LAYOUT_TEXT - Text that is present typically as a part of paragraphs in documents.
         public let blockType: BlockType?
         /// The column in which a table cell appears. The first column position is 1. ColumnIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let columnIndex: Int?
@@ -276,7 +457,7 @@ extension Textract {
         public let geometry: Geometry?
         /// The identifier for the recognized text. The identifier is only unique for a single operation.
         public let id: String?
-        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations will also return a Page value of 1 because every input document is considered to be a single-page document.
+        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1.
         public let page: Int?
         public let query: Query?
         /// A list of relationship objects that describe how blocks are related to each other. For example, a LINE block object contains a CHILD relationship type with the WORD blocks that make up the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks.
@@ -352,6 +533,192 @@ extension Textract {
             case top = "Top"
             case width = "Width"
         }
+    }
+
+    public struct CreateAdapterRequest: AWSEncodableShape {
+        /// The name to be assigned to the adapter being created.
+        public let adapterName: String
+        /// Controls whether or not the adapter should automatically update.
+        public let autoUpdate: AutoUpdate?
+        /// Idempotent token is used to recognize the request. If the same token is used with multiple  CreateAdapter requests, the same session is returned.  This token is employed to avoid unintentionally creating the same session multiple times.
+        public let clientRequestToken: String?
+        /// The description to be assigned to the adapter being created.
+        public let description: String?
+        /// The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES
+        public let featureTypes: [FeatureType]
+        /// A list of tags to be added to the adapter.
+        public let tags: [String: String]?
+
+        public init(adapterName: String, autoUpdate: AutoUpdate? = nil, clientRequestToken: String? = CreateAdapterRequest.idempotencyToken(), description: String? = nil, featureTypes: [FeatureType], tags: [String: String]? = nil) {
+            self.adapterName = adapterName
+            self.autoUpdate = autoUpdate
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.featureTypes = featureTypes
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterName, name: "adapterName", parent: name, max: 128)
+            try self.validate(self.adapterName, name: "adapterName", parent: name, min: 1)
+            try self.validate(self.adapterName, name: "adapterName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterName = "AdapterName"
+            case autoUpdate = "AutoUpdate"
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case featureTypes = "FeatureTypes"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAdapterResponse: AWSDecodableShape {
+        /// A string containing the unique ID for the adapter that has been created.
+        public let adapterId: String?
+
+        public init(adapterId: String? = nil) {
+            self.adapterId = adapterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+        }
+    }
+
+    public struct CreateAdapterVersionRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter that will receive a new version.
+        public let adapterId: String
+        /// Idempotent token is used to recognize the request. If the same token is used with multiple  CreateAdapterVersion requests, the same session is returned.  This token is employed to avoid unintentionally creating the same session multiple times.
+        public let clientRequestToken: String?
+        /// Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value.
+        public let datasetConfig: AdapterVersionDatasetConfig
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt your documents.
+        public let kmsKeyId: String?
+        public let outputConfig: OutputConfig
+        /// A set of tags (key-value pairs) that you want to attach to the adapter version.
+        public let tags: [String: String]?
+
+        public init(adapterId: String, clientRequestToken: String? = CreateAdapterVersionRequest.idempotencyToken(), datasetConfig: AdapterVersionDatasetConfig, kmsKeyId: String? = nil, outputConfig: OutputConfig, tags: [String: String]? = nil) {
+            self.adapterId = adapterId
+            self.clientRequestToken = clientRequestToken
+            self.datasetConfig = datasetConfig
+            self.kmsKeyId = kmsKeyId
+            self.outputConfig = outputConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.datasetConfig.validate(name: "\(name).datasetConfig")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case clientRequestToken = "ClientRequestToken"
+            case datasetConfig = "DatasetConfig"
+            case kmsKeyId = "KMSKeyId"
+            case outputConfig = "OutputConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAdapterVersionResponse: AWSDecodableShape {
+        /// A string containing the unique ID for the adapter that has received a new version.
+        public let adapterId: String?
+        /// A string describing the new version of the adapter.
+        public let adapterVersion: String?
+
+        public init(adapterId: String? = nil, adapterVersion: String? = nil) {
+            self.adapterId = adapterId
+            self.adapterVersion = adapterVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterVersion = "AdapterVersion"
+        }
+    }
+
+    public struct DeleteAdapterRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter to be deleted.
+        public let adapterId: String
+
+        public init(adapterId: String) {
+            self.adapterId = adapterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+        }
+    }
+
+    public struct DeleteAdapterResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAdapterVersionRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter version that will be deleted.
+        public let adapterId: String
+        /// Specifies the adapter version to be deleted.
+        public let adapterVersion: String
+
+        public init(adapterId: String, adapterVersion: String) {
+            self.adapterId = adapterId
+            self.adapterVersion = adapterVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.validate(self.adapterVersion, name: "adapterVersion", parent: name, max: 128)
+            try self.validate(self.adapterVersion, name: "adapterVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterVersion = "AdapterVersion"
+        }
+    }
+
+    public struct DeleteAdapterVersionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DetectDocumentTextRequest: AWSEncodableShape {
@@ -479,6 +846,27 @@ extension Textract {
 
         private enum CodingKeys: String, CodingKey {
             case pages = "Pages"
+        }
+    }
+
+    public struct EvaluationMetric: AWSDecodableShape {
+        /// The F1 score for an adapter version.
+        public let f1Score: Float?
+        /// The Precision score for an adapter version.
+        public let precision: Float?
+        /// The Recall score for an adapter version.
+        public let recall: Float?
+
+        public init(f1Score: Float? = nil, precision: Float? = nil, recall: Float? = nil) {
+            self.f1Score = f1Score
+            self.precision = precision
+            self.recall = recall
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case f1Score = "F1Score"
+            case precision = "Precision"
+            case recall = "Recall"
         }
     }
 
@@ -647,6 +1035,137 @@ extension Textract {
         }
     }
 
+    public struct GetAdapterRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter.
+        public let adapterId: String
+
+        public init(adapterId: String) {
+            self.adapterId = adapterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+        }
+    }
+
+    public struct GetAdapterResponse: AWSDecodableShape {
+        /// A string identifying the adapter that information has been retrieved for.
+        public let adapterId: String?
+        /// The name of the requested adapter.
+        public let adapterName: String?
+        /// Binary value indicating if the adapter is being automatically updated or not.
+        public let autoUpdate: AutoUpdate?
+        /// The date and time the requested adapter was created at.
+        public let creationTime: Date?
+        /// The description for the requested adapter.
+        public let description: String?
+        /// List of the targeted feature types for the requested adapter.
+        public let featureTypes: [FeatureType]?
+        /// A set of tags (key-value pairs) associated with the adapter that has been retrieved.
+        public let tags: [String: String]?
+
+        public init(adapterId: String? = nil, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, creationTime: Date? = nil, description: String? = nil, featureTypes: [FeatureType]? = nil, tags: [String: String]? = nil) {
+            self.adapterId = adapterId
+            self.adapterName = adapterName
+            self.autoUpdate = autoUpdate
+            self.creationTime = creationTime
+            self.description = description
+            self.featureTypes = featureTypes
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterName = "AdapterName"
+            case autoUpdate = "AutoUpdate"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case featureTypes = "FeatureTypes"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetAdapterVersionRequest: AWSEncodableShape {
+        /// A string specifying a unique ID for the adapter version you want to retrieve information for.
+        public let adapterId: String
+        /// A string specifying the adapter version you want to retrieve information for.
+        public let adapterVersion: String
+
+        public init(adapterId: String, adapterVersion: String) {
+            self.adapterId = adapterId
+            self.adapterVersion = adapterVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.validate(self.adapterVersion, name: "adapterVersion", parent: name, max: 128)
+            try self.validate(self.adapterVersion, name: "adapterVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterVersion = "AdapterVersion"
+        }
+    }
+
+    public struct GetAdapterVersionResponse: AWSDecodableShape {
+        /// A string containing a unique ID for the adapter version being retrieved.
+        public let adapterId: String?
+        /// A string containing the adapter version that has been retrieved.
+        public let adapterVersion: String?
+        /// The time that the adapter version was created.
+        public let creationTime: Date?
+        /// Specifies a dataset used to train a new adapter version. Takes a ManifestS3Objec as the value.
+        public let datasetConfig: AdapterVersionDatasetConfig?
+        /// The evaluation metrics (F1 score, Precision, and Recall) for the requested version,  grouped by baseline metrics and adapter version.
+        public let evaluationMetrics: [AdapterVersionEvaluationMetric]?
+        /// List of the targeted feature types for the requested adapter version.
+        public let featureTypes: [FeatureType]?
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt your documents.
+        public let kmsKeyId: String?
+        public let outputConfig: OutputConfig?
+        /// The status of the adapter version that has been requested.
+        public let status: AdapterVersionStatus?
+        /// A message that describes the status of the requested adapter version.
+        public let statusMessage: String?
+        /// A set of tags (key-value pairs) that are associated with the adapter version.
+        public let tags: [String: String]?
+
+        public init(adapterId: String? = nil, adapterVersion: String? = nil, creationTime: Date? = nil, datasetConfig: AdapterVersionDatasetConfig? = nil, evaluationMetrics: [AdapterVersionEvaluationMetric]? = nil, featureTypes: [FeatureType]? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig? = nil, status: AdapterVersionStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+            self.adapterId = adapterId
+            self.adapterVersion = adapterVersion
+            self.creationTime = creationTime
+            self.datasetConfig = datasetConfig
+            self.evaluationMetrics = evaluationMetrics
+            self.featureTypes = featureTypes
+            self.kmsKeyId = kmsKeyId
+            self.outputConfig = outputConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterVersion = "AdapterVersion"
+            case creationTime = "CreationTime"
+            case datasetConfig = "DatasetConfig"
+            case evaluationMetrics = "EvaluationMetrics"
+            case featureTypes = "FeatureTypes"
+            case kmsKeyId = "KMSKeyId"
+            case outputConfig = "OutputConfig"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case tags = "Tags"
+        }
+    }
+
     public struct GetDocumentAnalysisRequest: AWSEncodableShape {
         /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String
@@ -666,7 +1185,7 @@ extension Textract {
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -733,7 +1252,7 @@ extension Textract {
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -800,7 +1319,7 @@ extension Textract {
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -868,7 +1387,7 @@ extension Textract {
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -1199,6 +1718,141 @@ extension Textract {
         }
     }
 
+    public struct ListAdapterVersionsRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter to match for when listing adapter versions.
+        public let adapterId: String?
+        /// Specifies the lower bound for the ListAdapterVersions operation.  Ensures ListAdapterVersions returns only adapter versions created after the specified creation time.
+        public let afterCreationTime: Date?
+        /// Specifies the upper bound for the ListAdapterVersions operation.  Ensures ListAdapterVersions returns only adapter versions created after the specified creation time.
+        public let beforeCreationTime: Date?
+        /// The maximum number of results to return when listing adapter versions.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return when listing adapter versions.
+        public let nextToken: String?
+
+        public init(adapterId: String? = nil, afterCreationTime: Date? = nil, beforeCreationTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.adapterId = adapterId
+            self.afterCreationTime = afterCreationTime
+            self.beforeCreationTime = beforeCreationTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case afterCreationTime = "AfterCreationTime"
+            case beforeCreationTime = "BeforeCreationTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAdapterVersionsResponse: AWSDecodableShape {
+        /// Adapter versions that match the filtering criteria specified when calling ListAdapters.
+        public let adapterVersions: [AdapterVersionOverview]?
+        /// Identifies the next page of results to return when listing adapter versions.
+        public let nextToken: String?
+
+        public init(adapterVersions: [AdapterVersionOverview]? = nil, nextToken: String? = nil) {
+            self.adapterVersions = adapterVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterVersions = "AdapterVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAdaptersRequest: AWSEncodableShape {
+        /// Specifies the lower bound for the ListAdapters operation.  Ensures ListAdapters returns only adapters created after the specified creation time.
+        public let afterCreationTime: Date?
+        /// Specifies the upper bound for the ListAdapters operation.  Ensures ListAdapters returns only adapters created before the specified creation time.
+        public let beforeCreationTime: Date?
+        /// The maximum number of results to return when listing adapters.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return when listing adapters.
+        public let nextToken: String?
+
+        public init(afterCreationTime: Date? = nil, beforeCreationTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.afterCreationTime = afterCreationTime
+            self.beforeCreationTime = beforeCreationTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterCreationTime = "AfterCreationTime"
+            case beforeCreationTime = "BeforeCreationTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAdaptersResponse: AWSDecodableShape {
+        /// A list of adapters that matches the filtering criteria specified when calling ListAdapters.
+        public let adapters: [AdapterOverview]?
+        /// Identifies the next page of results to return when listing adapters.
+        public let nextToken: String?
+
+        public init(adapters: [AdapterOverview]? = nil, nextToken: String? = nil) {
+            self.adapters = adapters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapters = "Adapters"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that specifies the resource to list tags for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A set of tags (key-value pairs) that are part of the requested resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct NormalizedValue: AWSDecodableShape {
         /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
         public let value: String?
@@ -1242,7 +1896,7 @@ extension Textract {
         }
     }
 
-    public struct OutputConfig: AWSEncodableShape {
+    public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// The name of the bucket your output will go to.
         public let s3Bucket: String
         /// The prefix of the object key that the output will be saved to. When not enabled, the prefix will be “textract_output".
@@ -1391,7 +2045,7 @@ extension Textract {
         }
     }
 
-    public struct S3Object: AWSEncodableShape {
+    public struct S3Object: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket. Note that the # character is not valid in the file name.
         public let bucket: String?
         /// The file name of the input document. Synchronous operations can use image files that are in JPEG or PNG format. Asynchronous operations also support PDF and TIFF format files.
@@ -1458,6 +2112,8 @@ extension Textract {
     }
 
     public struct StartDocumentAnalysisRequest: AWSEncodableShape {
+        /// Specifies the adapter to be used when analyzing a document.
+        public let adaptersConfig: AdaptersConfig?
         /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
         /// The location of the document to be processed.
@@ -1474,7 +2130,8 @@ extension Textract {
         public let outputConfig: OutputConfig?
         public let queriesConfig: QueriesConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil, queriesConfig: QueriesConfig? = nil) {
+        public init(adaptersConfig: AdaptersConfig? = nil, clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil, queriesConfig: QueriesConfig? = nil) {
+            self.adaptersConfig = adaptersConfig
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.featureTypes = featureTypes
@@ -1486,6 +2143,7 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.adaptersConfig?.validate(name: "\(name).adaptersConfig")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -1502,6 +2160,7 @@ extension Textract {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adaptersConfig = "AdaptersConfig"
             case clientRequestToken = "ClientRequestToken"
             case documentLocation = "DocumentLocation"
             case featureTypes = "FeatureTypes"
@@ -1706,6 +2365,40 @@ extension Textract {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that specifies the resource to be tagged.
+        public let resourceARN: String
+        /// A set of tags (key-value pairs) that you want to assign to the resource.
+        public let tags: [String: String]
+
+        public init(resourceARN: String, tags: [String: String]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UndetectedSignature: AWSDecodableShape {
         /// The page where a signature was expected but not found.
         public let page: Int?
@@ -1716,6 +2409,107 @@ extension Textract {
 
         private enum CodingKeys: String, CodingKey {
             case page = "Page"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that specifies the resource to be untagged.
+        public let resourceARN: String
+        /// Specifies the tags to be removed from the resource specified by the ResourceARN.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateAdapterRequest: AWSEncodableShape {
+        /// A string containing a unique ID for the adapter that will be updated.
+        public let adapterId: String
+        /// The new name to be applied to the adapter.
+        public let adapterName: String?
+        /// The new auto-update status to be applied to the adapter.
+        public let autoUpdate: AutoUpdate?
+        /// The new description to be applied to the adapter.
+        public let description: String?
+
+        public init(adapterId: String, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, description: String? = nil) {
+            self.adapterId = adapterId
+            self.adapterName = adapterName
+            self.autoUpdate = autoUpdate
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adapterId, name: "adapterId", parent: name, max: 1011)
+            try self.validate(self.adapterId, name: "adapterId", parent: name, min: 12)
+            try self.validate(self.adapterName, name: "adapterName", parent: name, max: 128)
+            try self.validate(self.adapterName, name: "adapterName", parent: name, min: 1)
+            try self.validate(self.adapterName, name: "adapterName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterName = "AdapterName"
+            case autoUpdate = "AutoUpdate"
+            case description = "Description"
+        }
+    }
+
+    public struct UpdateAdapterResponse: AWSDecodableShape {
+        /// A string containing a unique ID for the adapter that has been updated.
+        public let adapterId: String?
+        /// A string containing the name of the adapter that has been updated.
+        public let adapterName: String?
+        /// The auto-update status of the adapter that has been updated.
+        public let autoUpdate: AutoUpdate?
+        /// An object specifying the creation time of the the adapter that has been updated.
+        public let creationTime: Date?
+        /// A string containing the description of the adapter that has been updated.
+        public let description: String?
+        /// List of the targeted feature types for the updated adapter.
+        public let featureTypes: [FeatureType]?
+
+        public init(adapterId: String? = nil, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, creationTime: Date? = nil, description: String? = nil, featureTypes: [FeatureType]? = nil) {
+            self.adapterId = adapterId
+            self.adapterName = adapterName
+            self.autoUpdate = autoUpdate
+            self.creationTime = creationTime
+            self.description = description
+            self.featureTypes = featureTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adapterId = "AdapterId"
+            case adapterName = "AdapterName"
+            case autoUpdate = "AutoUpdate"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case featureTypes = "FeatureTypes"
         }
     }
 
@@ -1744,6 +2538,7 @@ public struct TextractErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case badDocumentException = "BadDocumentException"
+        case conflictException = "ConflictException"
         case documentTooLargeException = "DocumentTooLargeException"
         case humanLoopQuotaExceededException = "HumanLoopQuotaExceededException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
@@ -1754,8 +2549,11 @@ public struct TextractErrorType: AWSErrorType {
         case invalidS3ObjectException = "InvalidS3ObjectException"
         case limitExceededException = "LimitExceededException"
         case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case unsupportedDocumentException = "UnsupportedDocumentException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -1780,6 +2578,8 @@ public struct TextractErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see limits.
     public static var badDocumentException: Self { .init(.badDocumentException) }
+    /// Updating or deleting a resource can cause an inconsistent state.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     public static var documentTooLargeException: Self { .init(.documentTooLargeException) }
     /// Indicates you have exceeded the maximum number of active human in the loop workflows available
@@ -1800,10 +2600,16 @@ public struct TextractErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The number of requests exceeded your throughput limit. If you want to increase this limit,  contact Amazon Textract.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
+    ///  Returned when an operation tried to access a nonexistent resource.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Returned when a request cannot be completed as it would exceed a maximum service quota.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Textract is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     public static var unsupportedDocumentException: Self { .init(.unsupportedDocumentException) }
+    ///   Indicates that a request was not valid. Check request for proper formatting.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension TextractErrorType: Equatable {

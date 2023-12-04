@@ -266,6 +266,19 @@ public struct SsmSap: AWSService {
         )
     }
 
+    /// Refreshes a registered application.
+    @Sendable
+    public func startApplicationRefresh(_ input: StartApplicationRefreshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApplicationRefreshOutput {
+        return try await self.client.execute(
+            operation: "StartApplicationRefresh", 
+            path: "/start-application-refresh", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates tag for a resource by specifying the ARN.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -399,6 +412,7 @@ extension SsmSap {
 extension SsmSap.ListApplicationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SsmSap.ListApplicationsInput {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )

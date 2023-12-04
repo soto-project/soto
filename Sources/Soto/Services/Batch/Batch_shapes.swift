@@ -26,25 +26,25 @@ import Foundation
 extension Batch {
     // MARK: Enums
 
-    public enum ArrayJobDependency: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArrayJobDependency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nToN = "N_TO_N"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CEState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CEState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CEStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CEStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -54,20 +54,21 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum CEType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CEType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case managed = "MANAGED"
         case unmanaged = "UNMANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestFit = "BEST_FIT"
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
+        case spotPriceCapacityOptimized = "SPOT_PRICE_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CRType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CRType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
         case fargateSpot = "FARGATE_SPOT"
@@ -75,38 +76,39 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum CRUpdateAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum CRUpdateAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
+        case spotPriceCapacityOptimized = "SPOT_PRICE_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mknod = "MKNOD"
         case read = "READ"
         case write = "WRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, Sendable {
+    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, Sendable {
+    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JQState: String, CustomStringConvertible, Codable, Sendable {
+    public enum JQState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JQStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JQStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -116,13 +118,13 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobDefinitionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobDefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case container = "container"
         case multinode = "multinode"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case runnable = "RUNNABLE"
@@ -133,7 +135,7 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDriver: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogDriver: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awslogs = "awslogs"
         case fluentd = "fluentd"
         case gelf = "gelf"
@@ -144,26 +146,26 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrchestrationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrchestrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecs = "ECS"
         case eks = "EKS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformCapability: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlatformCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
         case memory = "MEMORY"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetryAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum RetryAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exit = "EXIT"
         case retry = "RETRY"
         public var description: String { return self.rawValue }
@@ -282,11 +284,11 @@ extension Batch {
 
     public struct CancelJobRequest: AWSEncodableShape {
         /// The Batch job ID of the job to cancel.
-        public let jobId: String
+        public let jobId: String?
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the Batch activity logs.
-        public let reason: String
+        public let reason: String?
 
-        public init(jobId: String, reason: String) {
+        public init(jobId: String? = nil, reason: String? = nil) {
             self.jobId = jobId
             self.reason = reason
         }
@@ -303,9 +305,9 @@ extension Batch {
 
     public struct ComputeEnvironmentDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the compute environment.
-        public let computeEnvironmentArn: String
+        public let computeEnvironmentArn: String?
         /// The name of the compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let computeEnvironmentName: String
+        public let computeEnvironmentName: String?
         /// The compute resources defined for the compute environment. For more information, see Compute environments in the Batch User Guide.
         public let computeResources: ComputeResource?
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
@@ -333,7 +335,7 @@ extension Batch {
         /// Unique identifier for the compute environment.
         public let uuid: String?
 
-        public init(computeEnvironmentArn: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil, containerOrchestrationType: OrchestrationType? = nil, ecsClusterArn: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil, uuid: String? = nil) {
+        public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, containerOrchestrationType: OrchestrationType? = nil, ecsClusterArn: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil, uuid: String? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
@@ -372,11 +374,11 @@ extension Batch {
 
     public struct ComputeEnvironmentOrder: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the compute environment.
-        public let computeEnvironment: String
+        public let computeEnvironment: String?
         /// The order of the compute environment. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first.
-        public let order: Int
+        public let order: Int?
 
-        public init(computeEnvironment: String, order: Int) {
+        public init(computeEnvironment: String? = nil, order: Int? = nil) {
             self.computeEnvironment = computeEnvironment
             self.order = order
         }
@@ -388,11 +390,11 @@ extension Batch {
     }
 
     public struct ComputeResource: AWSEncodableShape & AWSDecodableShape {
-        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT (default)  Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching Amazon EC2 service limits, additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see Updating compute environments in the Batch User Guide.  BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.   With both BEST_FIT_PROGRESSIVE and SPOT_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT (default)  Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching Amazon EC2 service limits, additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see Updating compute environments in the Batch User Guide.  BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and   capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.   With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let allocationStrategy: CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
-        /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let desiredvCpus: Int?
         /// Provides information that's used to select Amazon Machine Images (AMIs) for EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2Configuration: [Ec2Configuration]?
@@ -406,9 +408,9 @@ extension Batch {
         public let instanceTypes: [String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum number of Amazon EC2 vCPUs that a compute environment can reach.  With both BEST_FIT_PROGRESSIVE and SPOT_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. For example, no more than a single instance from among those specified in your compute environment is allocated.
-        public let maxvCpus: Int
-        /// The minimum number of Amazon EC2 vCPUs that an environment should maintain (even if the compute environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The maximum number of vCPUs that a compute environment can support.  With BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. For example, no more than a single instance from among those specified in your compute environment is allocated.
+        public let maxvCpus: Int?
+        /// The minimum number of vCPUs that a compute environment should maintain (even if the compute environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let minvCpus: Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let placementGroup: String?
@@ -417,13 +419,13 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. This role is required if the allocation strategy set to BEST_FIT or if the allocation strategy isn't specified. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   To tag your Spot Instances on creation, the Spot Fleet IAM role specified here must use the newer AmazonEC2SpotFleetTaggingRole managed policy. The previously recommended AmazonEC2SpotFleetRole managed policy doesn't have the required permissions to tag Spot Instances. For more information, see Spot instances not tagged on creation in the Batch User Guide.
         public let spotIamFleetRole: String?
         /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see VPCs and subnets in the Amazon VPC User Guide.  Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see  Local Zones in the Amazon EC2 User Guide for Linux Instances, Amazon EKS and Amazon Web Services Local Zones in the Amazon EKS User Guide and  Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
-        public let subnets: [String]
+        public let subnets: [String]?
         /// Key-value pair tags to be applied to EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see Updating compute environments in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let tags: [String: String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.
-        public let type: CRType
+        public let type: CRType?
 
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -444,7 +446,7 @@ extension Batch {
         }
 
         @available(*, deprecated, message: "Members imageId have been deprecated")
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -492,11 +494,11 @@ extension Batch {
     }
 
     public struct ComputeResourceUpdate: AWSEncodableShape {
-        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.   With both BEST_FIT_PROGRESSIVE and SPOT_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and   capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.   With both BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, and SPOT_PRICE_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let allocationStrategy: CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
-        /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters.   When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values.  Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see Troubleshooting Batch in the Batch User Guide.
+        /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters.   When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values.  Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see Troubleshooting Batch in the Batch User Guide.
         public let desiredvCpus: Int?
         /// Provides information used to select Amazon Machine Images (AMIs) for EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. To remove the EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2Configuration: [Ec2Configuration]?
@@ -510,9 +512,9 @@ extension Batch {
         public let instanceTypes: [String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum number of Amazon EC2 vCPUs that an environment can reach.  With both BEST_FIT_PROGRESSIVE and SPOT_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. That is, no more than a single instance from among those specified in your compute environment.
+        /// The maximum number of Amazon EC2 vCPUs that an environment can reach.  With BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, and SPOT_PRICE_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. That is, no more than a single instance from among those specified in your compute environment.
         public let maxvCpus: Int?
-        /// The minimum number of Amazon EC2 vCPUs that an environment should maintain (even if the compute environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The minimum number of vCPUs that an environment should maintain (even if the compute environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let minvCpus: Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances. When updating a compute environment, changing the placement group requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let placementGroup: String?
@@ -617,6 +619,7 @@ extension Batch {
         public let reason: String?
         /// The type and amount of resources to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [ResourceRequirement]?
+        public let runtimePlatform: RuntimePlatform?
         /// The secrets to pass to the container. For more information, see Specifying sensitive data in the Batch User Guide.
         public let secrets: [Secret]?
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with the container job. Each container attempt receives a task ARN when they reach the STARTING status.
@@ -630,7 +633,7 @@ extension Batch {
         /// A list of volumes that are associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, exitCode: Int? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, exitCode: Int? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -652,6 +655,7 @@ extension Batch {
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.reason = reason
             self.resourceRequirements = resourceRequirements
+            self.runtimePlatform = runtimePlatform
             self.secrets = secrets
             self.taskArn = taskArn
             self.ulimits = ulimits
@@ -682,6 +686,7 @@ extension Batch {
             case readonlyRootFilesystem = "readonlyRootFilesystem"
             case reason = "reason"
             case resourceRequirements = "resourceRequirements"
+            case runtimePlatform = "runtimePlatform"
             case secrets = "secrets"
             case taskArn = "taskArn"
             case ulimits = "ulimits"
@@ -692,7 +697,7 @@ extension Batch {
     }
 
     public struct ContainerOverrides: AWSEncodableShape {
-        /// The command to send to the container that overrides the default command from the Docker image or the job definition.
+        /// The command to send to the container that overrides the default command from the Docker image or the job definition.  This parameter can't contain an empty string.
         public let command: [String]?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition.  Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public let environment: [KeyValuePair]?
@@ -767,6 +772,7 @@ extension Batch {
         public let readonlyRootFilesystem: Bool?
         /// The type and amount of resources to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [ResourceRequirement]?
+        public let runtimePlatform: RuntimePlatform?
         /// The secrets for the container. For more information, see Specifying sensitive data in the Batch User Guide.
         public let secrets: [Secret]?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.  This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided.
@@ -778,7 +784,7 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
@@ -795,6 +801,7 @@ extension Batch {
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.resourceRequirements = resourceRequirements
+            self.runtimePlatform = runtimePlatform
             self.secrets = secrets
             self.ulimits = ulimits
             self.user = user
@@ -803,7 +810,7 @@ extension Batch {
         }
 
         @available(*, deprecated, message: "Members memory, vcpus have been deprecated")
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
@@ -820,6 +827,7 @@ extension Batch {
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.resourceRequirements = resourceRequirements
+            self.runtimePlatform = runtimePlatform
             self.secrets = secrets
             self.ulimits = ulimits
             self.user = user
@@ -844,6 +852,7 @@ extension Batch {
             case privileged = "privileged"
             case readonlyRootFilesystem = "readonlyRootFilesystem"
             case resourceRequirements = "resourceRequirements"
+            case runtimePlatform = "runtimePlatform"
             case secrets = "secrets"
             case ulimits = "ulimits"
             case user = "user"
@@ -871,7 +880,7 @@ extension Batch {
 
     public struct CreateComputeEnvironmentRequest: AWSEncodableShape {
         /// The name for your compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let computeEnvironmentName: String
+        public let computeEnvironmentName: String?
         /// Details about the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the Batch User Guide.
         public let computeResources: ComputeResource?
         /// The details for the Amazon EKS cluster that supports the compute environment.
@@ -883,11 +892,11 @@ extension Batch {
         /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the underlying compute resources.
         public let tags: [String: String]?
         /// The type of the compute environment: MANAGED or UNMANAGED. For more information, see Compute Environments in the Batch User Guide.
-        public let type: CEType
+        public let type: CEType?
         /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED.
         public let unmanagedvCpus: Int?
 
-        public init(computeEnvironmentName: String, computeResources: ComputeResource? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, tags: [String: String]? = nil, type: CEType, unmanagedvCpus: Int? = nil) {
+        public init(computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil) {
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
             self.eksConfiguration = eksConfiguration
@@ -940,11 +949,11 @@ extension Batch {
 
     public struct CreateJobQueueRequest: AWSEncodableShape {
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.  All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
-        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
+        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let jobQueueName: String
+        public let jobQueueName: String?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
-        public let priority: Int
+        public let priority: Int?
         /// The Amazon Resource Name (ARN) of the fair share scheduling policy. If this parameter is specified, the job queue uses a fair share scheduling policy. If this parameter isn't specified, the job queue uses a first in, first out (FIFO) scheduling policy. After a job queue is created, you can replace but can't remove the fair share scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
@@ -952,7 +961,7 @@ extension Batch {
         /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
         public let tags: [String: String]?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int, schedulingPolicyArn: String? = nil, state: JQState? = nil, tags: [String: String]? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueName: String? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
             self.priority = priority
@@ -983,11 +992,11 @@ extension Batch {
 
     public struct CreateJobQueueResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the job queue.
-        public let jobQueueArn: String
+        public let jobQueueArn: String?
         /// The name of the job queue.
-        public let jobQueueName: String
+        public let jobQueueName: String?
 
-        public init(jobQueueArn: String, jobQueueName: String) {
+        public init(jobQueueArn: String? = nil, jobQueueName: String? = nil) {
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
         }
@@ -1002,11 +1011,11 @@ extension Batch {
         /// The fair share policy of the scheduling policy.
         public let fairsharePolicy: FairsharePolicy?
         /// The name of the scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let name: String
+        public let name: String?
         /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations.
         public let tags: [String: String]?
 
-        public init(fairsharePolicy: FairsharePolicy? = nil, name: String, tags: [String: String]? = nil) {
+        public init(fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.fairsharePolicy = fairsharePolicy
             self.name = name
             self.tags = tags
@@ -1031,11 +1040,11 @@ extension Batch {
 
     public struct CreateSchedulingPolicyResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
-        public let arn: String
+        public let arn: String?
         /// The name of the scheduling policy.
-        public let name: String
+        public let name: String?
 
-        public init(arn: String, name: String) {
+        public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
         }
@@ -1048,9 +1057,9 @@ extension Batch {
 
     public struct DeleteComputeEnvironmentRequest: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
-        public let computeEnvironment: String
+        public let computeEnvironment: String?
 
-        public init(computeEnvironment: String) {
+        public init(computeEnvironment: String? = nil) {
             self.computeEnvironment = computeEnvironment
         }
 
@@ -1065,9 +1074,9 @@ extension Batch {
 
     public struct DeleteJobQueueRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
-        public let jobQueue: String
+        public let jobQueue: String?
 
-        public init(jobQueue: String) {
+        public init(jobQueue: String? = nil) {
             self.jobQueue = jobQueue
         }
 
@@ -1082,9 +1091,9 @@ extension Batch {
 
     public struct DeleteSchedulingPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy to delete.
-        public let arn: String
+        public let arn: String?
 
-        public init(arn: String) {
+        public init(arn: String? = nil) {
             self.arn = arn
         }
 
@@ -1099,9 +1108,9 @@ extension Batch {
 
     public struct DeregisterJobDefinitionRequest: AWSEncodableShape {
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister.
-        public let jobDefinition: String
+        public let jobDefinition: String?
 
-        public init(jobDefinition: String) {
+        public init(jobDefinition: String? = nil) {
             self.jobDefinition = jobDefinition
         }
 
@@ -1238,9 +1247,9 @@ extension Batch {
 
     public struct DescribeJobsRequest: AWSEncodableShape {
         /// A list of up to 100 job IDs.
-        public let jobs: [String]
+        public let jobs: [String]?
 
-        public init(jobs: [String]) {
+        public init(jobs: [String]? = nil) {
             self.jobs = jobs
         }
 
@@ -1264,9 +1273,9 @@ extension Batch {
 
     public struct DescribeSchedulingPoliciesRequest: AWSEncodableShape {
         /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
-        public let arns: [String]
+        public let arns: [String]?
 
-        public init(arns: [String]) {
+        public init(arns: [String]? = nil) {
             self.arns = arns
         }
 
@@ -1292,11 +1301,11 @@ extension Batch {
         /// The path inside the container that's used to expose the host device. By default, the hostPath value is used.
         public let containerPath: String?
         /// The path for the device on the host container instance.
-        public let hostPath: String
+        public let hostPath: String?
         /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
         public let permissions: [DeviceCgroupPermission]?
 
-        public init(containerPath: String? = nil, hostPath: String, permissions: [DeviceCgroupPermission]? = nil) {
+        public init(containerPath: String? = nil, hostPath: String? = nil, permissions: [DeviceCgroupPermission]? = nil) {
             self.containerPath = containerPath
             self.hostPath = hostPath
             self.permissions = permissions
@@ -1330,7 +1339,7 @@ extension Batch {
         /// The authorization configuration details for the Amazon EFS file system.
         public let authorizationConfig: EFSAuthorizationConfig?
         /// The Amazon EFS file system ID to use.
-        public let fileSystemId: String
+        public let fileSystemId: String?
         /// The directory within the Amazon EFS file system to mount as the root directory inside the host. If this parameter is omitted, the root of the Amazon EFS volume is used instead. Specifying / has the same effect as omitting this parameter. The maximum length is 4,096 characters.  If an EFS access point is specified in the authorizationConfig, the root directory parameter must either be omitted or set to /, which enforces the path set on the Amazon EFS access point.
         public let rootDirectory: String?
         /// Determines whether to enable encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server. Transit encryption must be enabled if Amazon EFS IAM authorization is used. If this parameter is omitted, the default value of DISABLED is used. For more information, see Encrypting data in transit in the Amazon Elastic File System User Guide.
@@ -1338,7 +1347,7 @@ extension Batch {
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server. If you don't specify a transit encryption port, it uses the port selection strategy that the Amazon EFS mount helper uses. The value must be between 0 and 65,535. For more information, see EFS mount helper in the Amazon Elastic File System User Guide.
         public let transitEncryptionPort: Int?
 
-        public init(authorizationConfig: EFSAuthorizationConfig? = nil, fileSystemId: String, rootDirectory: String? = nil, transitEncryption: EFSTransitEncryption? = nil, transitEncryptionPort: Int? = nil) {
+        public init(authorizationConfig: EFSAuthorizationConfig? = nil, fileSystemId: String? = nil, rootDirectory: String? = nil, transitEncryption: EFSTransitEncryption? = nil, transitEncryptionPort: Int? = nil) {
             self.authorizationConfig = authorizationConfig
             self.fileSystemId = fileSystemId
             self.rootDirectory = rootDirectory
@@ -1361,9 +1370,9 @@ extension Batch {
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public let imageKubernetesVersion: String?
         /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL1   Amazon Linux. Amazon Linux has reached the end-of-life of standard support. For more information, see Amazon Linux AMI.    EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
-        public let imageType: String
+        public let imageType: String?
 
-        public init(imageIdOverride: String? = nil, imageKubernetesVersion: String? = nil, imageType: String) {
+        public init(imageIdOverride: String? = nil, imageKubernetesVersion: String? = nil, imageType: String? = nil) {
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
@@ -1437,11 +1446,11 @@ extension Batch {
 
     public struct EksConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is arn:aws:eks:us-east-1:123456789012:cluster/ClusterForBatch .
-        public let eksClusterArn: String
+        public let eksClusterArn: String?
         /// The namespace of the Amazon EKS cluster. Batch manages pods in this namespace. The value can't left empty or null. It must be fewer than 64 characters long, can't be set to default, can't start with "kube-," and must match this regular expression: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$. For more information, see Namespaces in the Kubernetes documentation.
-        public let kubernetesNamespace: String
+        public let kubernetesNamespace: String?
 
-        public init(eksClusterArn: String, kubernetesNamespace: String) {
+        public init(eksClusterArn: String? = nil, kubernetesNamespace: String? = nil) {
             self.eksClusterArn = eksClusterArn
             self.kubernetesNamespace = kubernetesNamespace
         }
@@ -1460,7 +1469,7 @@ extension Batch {
         /// The environment variables to pass to a container.  Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public let env: [EksContainerEnvironmentVariable]?
         /// The Docker image used to start the container.
-        public let image: String
+        public let image: String?
         /// The image pull policy for the container. Supported values are Always, IfNotPresent, and Never. This parameter defaults to IfNotPresent. However, if the :latest tag is specified, it defaults to Always. For more information, see Updating images in the Kubernetes documentation.
         public let imagePullPolicy: String?
         /// The name of the container. If the name isn't specified, the default name "Default" is used. Each container in a pod must have a unique name.
@@ -1472,7 +1481,7 @@ extension Batch {
         /// The volume mounts for the container. Batch supports emptyDir, hostPath, and secret volume types. For more information about volumes and volume mounts in Kubernetes, see Volumes in the Kubernetes documentation.
         public let volumeMounts: [EksContainerVolumeMount]?
 
-        public init(args: [String]? = nil, command: [String]? = nil, env: [EksContainerEnvironmentVariable]? = nil, image: String, imagePullPolicy: String? = nil, name: String? = nil, resources: EksContainerResourceRequirements? = nil, securityContext: EksContainerSecurityContext? = nil, volumeMounts: [EksContainerVolumeMount]? = nil) {
+        public init(args: [String]? = nil, command: [String]? = nil, env: [EksContainerEnvironmentVariable]? = nil, image: String? = nil, imagePullPolicy: String? = nil, name: String? = nil, resources: EksContainerResourceRequirements? = nil, securityContext: EksContainerSecurityContext? = nil, volumeMounts: [EksContainerVolumeMount]? = nil) {
             self.args = args
             self.command = command
             self.env = env
@@ -1556,11 +1565,11 @@ extension Batch {
 
     public struct EksContainerEnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
         /// The name of the environment variable.
-        public let name: String
+        public let name: String?
         /// The value of the environment variable.
         public let value: String?
 
-        public init(name: String, value: String? = nil) {
+        public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
         }
@@ -1886,9 +1895,9 @@ extension Batch {
         /// Specifies whether the secret or the secret's keys must be defined.
         public let optional: Bool?
         /// The name of the secret. The name must be allowed as a DNS subdomain name. For more information, see DNS subdomain names in the Kubernetes documentation.
-        public let secretName: String
+        public let secretName: String?
 
-        public init(optional: Bool? = nil, secretName: String) {
+        public init(optional: Bool? = nil, secretName: String? = nil) {
             self.optional = optional
             self.secretName = secretName
         }
@@ -1905,11 +1914,11 @@ extension Batch {
         /// Specifies the configuration of a Kubernetes hostPath volume. For more information, see hostPath in the Kubernetes documentation.
         public let hostPath: EksHostPath?
         /// The name of the volume. The name must be allowed as a DNS subdomain name. For more information, see DNS subdomain names in the Kubernetes documentation.
-        public let name: String
+        public let name: String?
         /// Specifies the configuration of a Kubernetes secret volume. For more information, see secret in the Kubernetes documentation.
         public let secret: EksSecret?
 
-        public init(emptyDir: EksEmptyDir? = nil, hostPath: EksHostPath? = nil, name: String, secret: EksSecret? = nil) {
+        public init(emptyDir: EksEmptyDir? = nil, hostPath: EksHostPath? = nil, name: String? = nil, secret: EksSecret? = nil) {
             self.emptyDir = emptyDir
             self.hostPath = hostPath
             self.name = name
@@ -1930,9 +1939,9 @@ extension Batch {
 
     public struct EphemeralStorage: AWSEncodableShape & AWSDecodableShape {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
-        public let sizeInGiB: Int
+        public let sizeInGiB: Int?
 
-        public init(sizeInGiB: Int) {
+        public init(sizeInGiB: Int? = nil) {
             self.sizeInGiB = sizeInGiB
         }
 
@@ -1943,7 +1952,7 @@ extension Batch {
 
     public struct EvaluateOnExit: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the action to take if all of the specified conditions (onStatusReason, onReason, and onExitCode) are met. The values aren't case sensitive.
-        public let action: RetryAction
+        public let action: RetryAction?
         /// Contains a glob pattern to match against the decimal representation of the ExitCode returned for a job. The pattern can be up to 512 characters long. It can contain only numbers, and can end with an asterisk (*) so that only the start of the string needs to be an exact match. The string can contain up to 512 characters.
         public let onExitCode: String?
         /// Contains a glob pattern to match against the Reason returned for a job. The pattern can contain up to 512 characters. It can contain letters, numbers, periods (.), colons (:), and white space (including spaces and tabs). It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
@@ -1951,7 +1960,7 @@ extension Batch {
         /// Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters. It can contain letters, numbers, periods (.), colons (:), and white spaces (including spaces or tabs). It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
         public let onStatusReason: String?
 
-        public init(action: RetryAction, onExitCode: String? = nil, onReason: String? = nil, onStatusReason: String? = nil) {
+        public init(action: RetryAction? = nil, onExitCode: String? = nil, onReason: String? = nil, onStatusReason: String? = nil) {
             self.action = action
             self.onExitCode = onExitCode
             self.onReason = onReason
@@ -2021,9 +2030,9 @@ extension Batch {
         /// An object with various properties that are specific to Amazon EKS based jobs. Valid values are containerProperties, eksProperties, and nodeProperties. Only one can be specified.
         public let eksProperties: EksProperties?
         /// The Amazon Resource Name (ARN) for the job definition.
-        public let jobDefinitionArn: String
+        public let jobDefinitionArn: String?
         /// The name of the job definition.
-        public let jobDefinitionName: String
+        public let jobDefinitionName: String?
         /// An object with various properties that are specific to multi-node parallel jobs. Valid values are containerProperties, eksProperties, and nodeProperties. Only one can be specified.  If the job runs on Fargate resources, don't specify nodeProperties. Use containerProperties instead.
         public let nodeProperties: NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see Job definition parameters in the Batch User Guide.
@@ -2035,7 +2044,7 @@ extension Batch {
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         public let retryStrategy: RetryStrategy?
         /// The revision of the job definition.
-        public let revision: Int
+        public let revision: Int?
         /// The scheduling priority of the job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
         public let schedulingPriority: Int?
         /// The status of the job definition.
@@ -2045,9 +2054,9 @@ extension Batch {
         /// The timeout time for jobs that are submitted with this job definition. After the amount of time you specify passes, Batch terminates your jobs if they aren't finished.
         public let timeout: JobTimeout?
         /// The type of job definition. It's either container or multinode. If the job is run on Fargate resources, then multinode isn't supported. For more information about multi-node parallel jobs, see Creating a multi-node parallel job definition in the Batch User Guide.
-        public let type: String
+        public let type: String?
 
-        public init(containerOrchestrationType: OrchestrationType? = nil, containerProperties: ContainerProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, schedulingPriority: Int? = nil, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String) {
+        public init(containerOrchestrationType: OrchestrationType? = nil, containerProperties: ContainerProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, revision: Int? = nil, schedulingPriority: Int? = nil, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String? = nil) {
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
             self.eksProperties = eksProperties
@@ -2125,13 +2134,13 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the job.
         public let jobArn: String?
         /// The Amazon Resource Name (ARN) of the job definition that this job uses.
-        public let jobDefinition: String
+        public let jobDefinition: String?
         /// The job ID.
-        public let jobId: String
+        public let jobId: String?
         /// The job name.
-        public let jobName: String
+        public let jobName: String?
         /// The Amazon Resource Name (ARN) of the job queue that the job is associated with.
-        public let jobQueue: String
+        public let jobQueue: String?
         /// An object that represents the details of a node that's associated with a multi-node parallel job.
         public let nodeDetails: NodeDetails?
         /// An object that represents the node properties of a multi-node parallel job.  This isn't applicable to jobs that are running on Fargate resources.
@@ -2149,9 +2158,9 @@ extension Batch {
         /// The share identifier for the job.
         public let shareIdentifier: String?
         /// The Unix timestamp (in milliseconds) for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state. This parameter isn't provided for child jobs of array jobs or multi-node parallel jobs.
-        public let startedAt: Int64
+        public let startedAt: Int64?
         /// The current status for the job.  If your jobs don't progress to STARTING, see Jobs stuck in RUNNABLE status in the troubleshooting section of the Batch User Guide.
-        public let status: JobStatus
+        public let status: JobStatus?
         /// A short, human-readable string to provide more details for the current status of the job.
         public let statusReason: String?
         /// The Unix timestamp (in milliseconds) for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
@@ -2161,7 +2170,7 @@ extension Batch {
         /// The timeout configuration for the job.
         public let timeout: JobTimeout?
 
-        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, eksAttempts: [EksAttemptDetail]? = nil, eksProperties: EksPropertiesDetail? = nil, isCancelled: Bool? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobDefinition: String, jobId: String, jobName: String, jobQueue: String, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, shareIdentifier: String? = nil, startedAt: Int64, status: JobStatus, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, eksAttempts: [EksAttemptDetail]? = nil, eksProperties: EksPropertiesDetail? = nil, isCancelled: Bool? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
             self.container = container
@@ -2226,17 +2235,17 @@ extension Batch {
 
     public struct JobQueueDetail: AWSDecodableShape {
         /// The compute environments that are attached to the job queue and the order that job placement is preferred. Compute environments are selected for job placement in ascending order.
-        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
+        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The Amazon Resource Name (ARN) of the job queue.
-        public let jobQueueArn: String
+        public let jobQueueArn: String?
         /// The job queue name.
-        public let jobQueueName: String
+        public let jobQueueName: String?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
-        public let priority: Int
+        public let priority: Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
         /// Describes the ability of the queue to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
-        public let state: JQState
+        public let state: JQState?
         /// The status of the job queue (for example, CREATING or VALID).
         public let status: JQStatus?
         /// A short, human-readable string to provide additional details for the current status of the job queue.
@@ -2244,7 +2253,7 @@ extension Batch {
         /// The tags that are applied to the job queue. For more information, see Tagging your Batch resources in Batch User Guide.
         public let tags: [String: String]?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int, schedulingPolicyArn: String? = nil, state: JQState, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueArn: String? = nil, jobQueueName: String? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -2281,9 +2290,9 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the job definition.
         public let jobDefinition: String?
         /// The job ID.
-        public let jobId: String
+        public let jobId: String?
         /// The job name.
-        public let jobName: String
+        public let jobName: String?
         /// The node properties for a single node in a job summary list.  This isn't applicable to jobs that are running on Fargate resources.
         public let nodeProperties: NodePropertiesSummary?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
@@ -2295,7 +2304,7 @@ extension Batch {
         /// The Unix timestamp for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public let stoppedAt: Int64?
 
-        public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String, jobName: String, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.arrayProperties = arrayProperties
             self.container = container
             self.createdAt = createdAt
@@ -2466,11 +2475,11 @@ extension Batch {
 
     public struct ListJobsResponse: AWSDecodableShape {
         /// A list of job summaries that match the request.
-        public let jobSummaryList: [JobSummary]
+        public let jobSummaryList: [JobSummary]?
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
-        public init(jobSummaryList: [JobSummary], nextToken: String? = nil) {
+        public init(jobSummaryList: [JobSummary]? = nil, nextToken: String? = nil) {
             self.jobSummaryList = jobSummaryList
             self.nextToken = nextToken
         }
@@ -2547,13 +2556,13 @@ extension Batch {
 
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The log driver to use for the container. The valid values that are listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk.  Jobs that are running on Fargate resources are restricted to the awslogs and splunk log drivers.   awslogs  Specifies the Amazon CloudWatch Logs logging driver. For more information, see Using the awslogs log driver in the Batch User Guide and Amazon CloudWatch Logs logging driver in the Docker documentation.  fluentd  Specifies the Fluentd logging driver. For more information including usage and options, see Fluentd logging driver in the Docker documentation.  gelf  Specifies the Graylog Extended Format (GELF) logging driver. For more information including usage and options, see Graylog Extended Format logging driver in the Docker documentation.  journald  Specifies the journald logging driver. For more information including usage and options, see Journald logging driver in the Docker documentation.  json-file  Specifies the JSON file logging driver. For more information including usage and options, see JSON File logging driver in the Docker documentation.  splunk  Specifies the Splunk logging driver. For more information including usage and options, see Splunk logging driver in the Docker documentation.  syslog  Specifies the syslog logging driver. For more information including usage and options, see Syslog logging driver in the Docker documentation.    If you have a custom driver that's not listed earlier that you want to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that's available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you want to have included. However, Amazon Web Services doesn't currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
-        public let logDriver: LogDriver
+        public let logDriver: LogDriver?
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public let options: [String: String]?
         /// The secrets to pass to the log configuration. For more information, see Specifying sensitive data in the Batch User Guide.
         public let secretOptions: [Secret]?
 
-        public init(logDriver: LogDriver, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
+        public init(logDriver: LogDriver? = nil, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
             self.logDriver = logDriver
             self.options = options
             self.secretOptions = secretOptions
@@ -2657,13 +2666,13 @@ extension Batch {
 
     public struct NodeProperties: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
-        public let mainNode: Int
+        public let mainNode: Int?
         /// A list of node ranges and their properties that are associated with a multi-node parallel job.
-        public let nodeRangeProperties: [NodeRangeProperty]
+        public let nodeRangeProperties: [NodeRangeProperty]?
         /// The number of nodes that are associated with a multi-node parallel job.
-        public let numNodes: Int
+        public let numNodes: Int?
 
-        public init(mainNode: Int, nodeRangeProperties: [NodeRangeProperty], numNodes: Int) {
+        public init(mainNode: Int? = nil, nodeRangeProperties: [NodeRangeProperty]? = nil, numNodes: Int? = nil) {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
             self.numNodes = numNodes
@@ -2701,9 +2710,9 @@ extension Batch {
         /// The overrides that are sent to a node range.
         public let containerOverrides: ContainerOverrides?
         /// The range of nodes, using node index values, that's used to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
-        public let targetNodes: String
+        public let targetNodes: String?
 
-        public init(containerOverrides: ContainerOverrides? = nil, targetNodes: String) {
+        public init(containerOverrides: ContainerOverrides? = nil, targetNodes: String? = nil) {
             self.containerOverrides = containerOverrides
             self.targetNodes = targetNodes
         }
@@ -2718,9 +2727,9 @@ extension Batch {
         /// The container details for the node range.
         public let container: ContainerProperties?
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You can nest node ranges (for example, 0:10 and 4:5). In this case, the 4:5 range properties override the 0:10 properties.
-        public let targetNodes: String
+        public let targetNodes: String?
 
-        public init(container: ContainerProperties? = nil, targetNodes: String) {
+        public init(container: ContainerProperties? = nil, targetNodes: String? = nil) {
             self.container = container
             self.targetNodes = targetNodes
         }
@@ -2737,7 +2746,7 @@ extension Batch {
         /// An object with various properties that are specific to Amazon EKS based jobs. This must not be specified for Amazon ECS based job definitions.
         public let eksProperties: EksProperties?
         /// The name of the job definition to register. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let jobDefinitionName: String
+        public let jobDefinitionName: String?
         /// An object with various properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see Multi-node Parallel Jobs in the Batch User Guide. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties.  If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead.   If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
         public let nodeProperties: NodeProperties?
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
@@ -2755,9 +2764,9 @@ extension Batch {
         /// The timeout configuration for jobs that are submitted with this job definition, after which Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that's specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Batch User Guide.
         public let timeout: JobTimeout?
         /// The type of job definition. For more information about multi-node parallel jobs, see Creating a multi-node parallel job definition in the Batch User Guide.  If the job is run on Fargate resources, then multinode isn't supported.
-        public let type: JobDefinitionType
+        public let type: JobDefinitionType?
 
-        public init(containerProperties: ContainerProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType) {
+        public init(containerProperties: ContainerProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType? = nil) {
             self.containerProperties = containerProperties
             self.eksProperties = eksProperties
             self.jobDefinitionName = jobDefinitionName
@@ -2801,13 +2810,13 @@ extension Batch {
 
     public struct RegisterJobDefinitionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the job definition.
-        public let jobDefinitionArn: String
+        public let jobDefinitionArn: String?
         /// The name of the job definition.
-        public let jobDefinitionName: String
+        public let jobDefinitionName: String?
         /// The revision of the job definition.
-        public let revision: Int
+        public let revision: Int?
 
-        public init(jobDefinitionArn: String, jobDefinitionName: String, revision: Int) {
+        public init(jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, revision: Int? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
             self.revision = revision
@@ -2822,13 +2831,13 @@ extension Batch {
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
-        public let type: ResourceType
+        public let type: ResourceType?
         /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, or 4  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, 53248, or 61440   VCPU = 8  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880   VCPU = 16    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440
         ///   value = 16   MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
         ///
-        public let value: String
+        public let value: String?
 
-        public init(type: ResourceType, value: String) {
+        public init(type: ResourceType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
         }
@@ -2856,17 +2865,34 @@ extension Batch {
         }
     }
 
+    public struct RuntimePlatform: AWSEncodableShape & AWSDecodableShape {
+        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64.  This parameter must be set to X86_64 for Windows containers.
+        public let cpuArchitecture: String?
+        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL.  The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration.   The Batch Scheduler checks before registering a task definition with Fargate. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next is checked until a Windows-based compute environment is found.   Fargate Spot is not supported for Windows-based containers on Fargate. A job queue will be blocked if a Fargate Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        public let operatingSystemFamily: String?
+
+        public init(cpuArchitecture: String? = nil, operatingSystemFamily: String? = nil) {
+            self.cpuArchitecture = cpuArchitecture
+            self.operatingSystemFamily = operatingSystemFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuArchitecture = "cpuArchitecture"
+            case operatingSystemFamily = "operatingSystemFamily"
+        }
+    }
+
     public struct SchedulingPolicyDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy. An example is arn:aws:batch:us-east-1:123456789012:scheduling-policy/HighPriority .
-        public let arn: String
+        public let arn: String?
         /// The fair share policy for the scheduling policy.
         public let fairsharePolicy: FairsharePolicy?
         /// The name of the scheduling policy.
-        public let name: String
+        public let name: String?
         /// The tags that you apply to the scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
 
-        public init(arn: String, fairsharePolicy: FairsharePolicy? = nil, name: String, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
             self.name = name
@@ -2883,9 +2909,9 @@ extension Batch {
 
     public struct SchedulingPolicyListingDetail: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the scheduling policy.
-        public let arn: String
+        public let arn: String?
 
-        public init(arn: String) {
+        public init(arn: String? = nil) {
             self.arn = arn
         }
 
@@ -2896,11 +2922,11 @@ extension Batch {
 
     public struct Secret: AWSEncodableShape & AWSDecodableShape {
         /// The name of the secret.
-        public let name: String
+        public let name: String?
         /// The secret to expose to the container. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.  If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Region as the job you're launching, then you can use either the full Amazon Resource Name (ARN) or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
-        public let valueFrom: String
+        public let valueFrom: String?
 
-        public init(name: String, valueFrom: String) {
+        public init(name: String? = nil, valueFrom: String? = nil) {
             self.name = name
             self.valueFrom = valueFrom
         }
@@ -2913,11 +2939,11 @@ extension Batch {
 
     public struct ShareAttributes: AWSEncodableShape & AWSDecodableShape {
         /// A fair share identifier or fair share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for fair share identifiers that start with that prefix. The list of fair share identifiers in a fair share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA-1. There can be no more than 500 fair share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
-        public let shareIdentifier: String
+        public let shareIdentifier: String?
         /// The weight factor for the fair share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public let weightFactor: Float?
 
-        public init(shareIdentifier: String, weightFactor: Float? = nil) {
+        public init(shareIdentifier: String? = nil, weightFactor: Float? = nil) {
             self.shareIdentifier = shareIdentifier
             self.weightFactor = weightFactor
         }
@@ -2938,11 +2964,11 @@ extension Batch {
         /// An object that can only be specified for jobs that are run on Amazon EKS resources with various properties that override defaults for the job definition.
         public let eksPropertiesOverride: EksPropertiesOverride?
         /// The job definition used by this job. This value can be one of definition-name, definition-name:revision, or the Amazon Resource Name (ARN) for the job definition, with or without the revision (arn:aws:batch:region:account:job-definition/definition-name:revision , or arn:aws:batch:region:account:job-definition/definition-name ). If the revision is not specified, then the latest active revision is used.
-        public let jobDefinition: String
+        public let jobDefinition: String?
         /// The name of the job. It can be up to 128 letters long. The first character must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
-        public let jobName: String
+        public let jobName: String?
         /// The job queue where the job is submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue.
-        public let jobQueue: String
+        public let jobQueue: String?
         /// A list of node overrides in JSON format that specify the node range to target and the container overrides for that node range.  This parameter isn't applicable to jobs that are running on Fargate resources; use containerOverrides instead.
         public let nodeOverrides: NodeOverrides?
         /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
@@ -2953,14 +2979,14 @@ extension Batch {
         public let retryStrategy: RetryStrategy?
         /// The scheduling priority for the job. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition. The minimum supported value is 0 and the maximum supported value is 9999.
         public let schedulingPriorityOverride: Int?
-        /// The share identifier for the job. If the job queue doesn't have a scheduling policy, then this parameter must not be specified. If the job queue has a scheduling policy, then this parameter must be specified.
+        /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a scheduling policy. If the job queue has a scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
         public let shareIdentifier: String?
         /// The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
         /// The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which Batch terminates your jobs if they haven't finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
         public let timeout: JobTimeout?
 
-        public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, jobDefinition: String, jobName: String, jobQueue: String, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriorityOverride: Int? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, jobDefinition: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriorityOverride: Int? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.containerOverrides = containerOverrides
             self.dependsOn = dependsOn
@@ -3012,11 +3038,11 @@ extension Batch {
         /// The Amazon Resource Name (ARN) for the job.
         public let jobArn: String?
         /// The unique identifier for the job.
-        public let jobId: String
+        public let jobId: String?
         /// The name of the job.
-        public let jobName: String
+        public let jobName: String?
 
-        public init(jobArn: String? = nil, jobId: String, jobName: String) {
+        public init(jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
@@ -3033,9 +3059,9 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the resource that tags are added to. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
         public let resourceArn: String
         /// The tags that you apply to the resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -3044,11 +3070,11 @@ extension Batch {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "resourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -3068,11 +3094,11 @@ extension Batch {
 
     public struct TerminateJobRequest: AWSEncodableShape {
         /// The Batch job ID of the job to terminate.
-        public let jobId: String
+        public let jobId: String?
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the Batch activity logs.
-        public let reason: String
+        public let reason: String?
 
-        public init(jobId: String, reason: String) {
+        public init(jobId: String? = nil, reason: String? = nil) {
             self.jobId = jobId
             self.reason = reason
         }
@@ -3089,13 +3115,13 @@ extension Batch {
 
     public struct Tmpfs: AWSEncodableShape & AWSDecodableShape {
         /// The absolute file path in the container where the tmpfs volume is mounted.
-        public let containerPath: String
+        public let containerPath: String?
         /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol"
         public let mountOptions: [String]?
         /// The size (in MiB) of the tmpfs volume.
-        public let size: Int
+        public let size: Int?
 
-        public init(containerPath: String, mountOptions: [String]? = nil, size: Int) {
+        public init(containerPath: String? = nil, mountOptions: [String]? = nil, size: Int? = nil) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
             self.size = size
@@ -3110,13 +3136,13 @@ extension Batch {
 
     public struct Ulimit: AWSEncodableShape & AWSDecodableShape {
         /// The hard limit for the ulimit type.
-        public let hardLimit: Int
+        public let hardLimit: Int?
         /// The type of the ulimit.
-        public let name: String
+        public let name: String?
         /// The soft limit for the ulimit type.
-        public let softLimit: Int
+        public let softLimit: Int?
 
-        public init(hardLimit: Int, name: String, softLimit: Int) {
+        public init(hardLimit: Int? = nil, name: String? = nil, softLimit: Int? = nil) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -3133,9 +3159,9 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
         public let resourceArn: String
         /// The keys of the tags to be removed.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -3148,7 +3174,7 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -3165,7 +3191,7 @@ extension Batch {
 
     public struct UpdateComputeEnvironmentRequest: AWSEncodableShape {
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
-        public let computeEnvironment: String
+        public let computeEnvironment: String?
         /// Details of the compute resources managed by the compute environment. Required for a managed compute environment. For more information, see Compute Environments in the Batch User Guide.
         public let computeResources: ComputeResourceUpdate?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
@@ -3177,7 +3203,7 @@ extension Batch {
         /// Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see Updating compute environments in the Batch User Guide.
         public let updatePolicy: UpdatePolicy?
 
-        public init(computeEnvironment: String, computeResources: ComputeResourceUpdate? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
+        public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
             self.computeEnvironment = computeEnvironment
             self.computeResources = computeResources
             self.serviceRole = serviceRole
@@ -3222,7 +3248,7 @@ extension Batch {
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment runs a given job. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.  All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The name or the Amazon Resource Name (ARN) of the job queue.
-        public let jobQueue: String
+        public let jobQueue: String?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
         public let priority: Int?
         /// Amazon Resource Name (ARN) of the fair share scheduling policy. Once a job queue is created, the fair share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
@@ -3230,7 +3256,7 @@ extension Batch {
         /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueue = jobQueue
             self.priority = priority
@@ -3288,11 +3314,11 @@ extension Batch {
 
     public struct UpdateSchedulingPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy to update.
-        public let arn: String
+        public let arn: String?
         /// The fair share policy.
         public let fairsharePolicy: FairsharePolicy?
 
-        public init(arn: String, fairsharePolicy: FairsharePolicy? = nil) {
+        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
         }

@@ -26,31 +26,31 @@ import Foundation
 extension MediaPackageVod {
     // MARK: Enums
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         case scte35Enhanced = "SCTE35_ENHANCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compact = "COMPACT"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable {
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetAudio1 = "PRESET-AUDIO-1"
         case presetAudio2 = "PRESET-AUDIO-2"
         case presetAudio3 = "PRESET-AUDIO-3"
@@ -59,7 +59,7 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetVideo1 = "PRESET-VIDEO-1"
         case presetVideo2 = "PRESET-VIDEO-2"
         case presetVideo3 = "PRESET-VIDEO-3"
@@ -73,26 +73,26 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable, Sendable {
+    public enum Profile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScteMarkersSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScteMarkersSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case manifest = "MANIFEST"
         case segments = "SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
@@ -143,11 +143,11 @@ extension MediaPackageVod {
 
     public struct Authorization: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is used for CDN authorization.
-        public let cdnIdentifierSecret: String
+        public let cdnIdentifierSecret: String?
         /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
-        public let secretsRoleArn: String
+        public let secretsRoleArn: String?
 
-        public init(cdnIdentifierSecret: String, secretsRoleArn: String) {
+        public init(cdnIdentifierSecret: String? = nil, secretsRoleArn: String? = nil) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
         }
@@ -161,9 +161,9 @@ extension MediaPackageVod {
     public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
         /// An optional 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting blocks. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public let constantInitializationVector: String?
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(constantInitializationVector: String? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -177,14 +177,14 @@ extension MediaPackageVod {
     public struct CmafPackage: AWSEncodableShape & AWSDecodableShape {
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations.
-        public let hlsManifests: [HlsManifest]
+        public let hlsManifests: [HlsManifest]?
         /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
         public let includeEncoderConfigurationInSegments: Bool?
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
         public let segmentDurationSeconds: Int?
 
-        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], includeEncoderConfigurationInSegments: Bool? = nil, segmentDurationSeconds: Int? = nil) {
+        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest]? = nil, includeEncoderConfigurationInSegments: Bool? = nil, segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
@@ -257,18 +257,18 @@ extension MediaPackageVod {
 
     public struct CreateAssetRequest: AWSEncodableShape {
         /// The unique identifier for the Asset.
-        public let id: String
+        public let id: String?
         /// The ID of the PackagingGroup for the Asset.
-        public let packagingGroupId: String
+        public let packagingGroupId: String?
         /// The resource ID to include in SPEKE key requests.
         public let resourceId: String?
         /// ARN of the source object in S3.
-        public let sourceArn: String
+        public let sourceArn: String?
         /// The IAM role ARN used to access the source S3 bucket.
-        public let sourceRoleArn: String
+        public let sourceRoleArn: String?
         public let tags: [String: String]?
 
-        public init(id: String, packagingGroupId: String, resourceId: String? = nil, sourceArn: String, sourceRoleArn: String, tags: [String: String]? = nil) {
+        public init(id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.id = id
             self.packagingGroupId = packagingGroupId
             self.resourceId = resourceId
@@ -336,13 +336,13 @@ extension MediaPackageVod {
         public let dashPackage: DashPackage?
         public let hlsPackage: HlsPackage?
         /// The ID of the PackagingConfiguration.
-        public let id: String
+        public let id: String?
         public let mssPackage: MssPackage?
         /// The ID of a PackagingGroup.
-        public let packagingGroupId: String
+        public let packagingGroupId: String?
         public let tags: [String: String]?
 
-        public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String, mssPackage: MssPackage? = nil, packagingGroupId: String, tags: [String: String]? = nil) {
+        public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
@@ -407,10 +407,10 @@ extension MediaPackageVod {
         public let authorization: Authorization?
         public let egressAccessLogs: EgressAccessLogs?
         /// The ID of the PackagingGroup.
-        public let id: String
+        public let id: String?
         public let tags: [String: String]?
 
-        public init(authorization: Authorization? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String, tags: [String: String]? = nil) {
+        public init(authorization: Authorization? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.authorization = authorization
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -460,9 +460,9 @@ extension MediaPackageVod {
     }
 
     public struct DashEncryption: AWSEncodableShape & AWSDecodableShape {
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(spekeKeyProvider: SpekeKeyProvider) {
+        public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
 
@@ -505,7 +505,7 @@ extension MediaPackageVod {
 
     public struct DashPackage: AWSEncodableShape & AWSDecodableShape {
         /// A list of DASH manifest configurations.
-        public let dashManifests: [DashManifest]
+        public let dashManifests: [DashManifest]?
         public let encryption: DashEncryption?
         /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
         public let includeEncoderConfigurationInSegments: Bool?
@@ -522,7 +522,7 @@ extension MediaPackageVod {
         /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
         public let segmentTemplateFormat: SegmentTemplateFormat?
 
-        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, includeIframeOnlyStream: Bool? = nil, periodTriggers: [PeriodTriggersElement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
+        public init(dashManifests: [DashManifest]? = nil, encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, includeIframeOnlyStream: Bool? = nil, periodTriggers: [PeriodTriggersElement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
@@ -815,11 +815,11 @@ extension MediaPackageVod {
 
     public struct EncryptionContractConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A collection of audio encryption presets.
-        public let presetSpeke20Audio: PresetSpeke20Audio
+        public let presetSpeke20Audio: PresetSpeke20Audio?
         /// A collection of video encryption presets.
-        public let presetSpeke20Video: PresetSpeke20Video
+        public let presetSpeke20Video: PresetSpeke20Video?
 
-        public init(presetSpeke20Audio: PresetSpeke20Audio, presetSpeke20Video: PresetSpeke20Video) {
+        public init(presetSpeke20Audio: PresetSpeke20Audio? = nil, presetSpeke20Video: PresetSpeke20Video? = nil) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -836,9 +836,9 @@ extension MediaPackageVod {
         public let constantInitializationVector: String?
         /// The encryption method to use.
         public let encryptionMethod: EncryptionMethod?
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.spekeKeyProvider = spekeKeyProvider
@@ -899,7 +899,7 @@ extension MediaPackageVod {
     public struct HlsPackage: AWSEncodableShape & AWSDecodableShape {
         public let encryption: HlsEncryption?
         /// A list of HLS manifest configurations.
-        public let hlsManifests: [HlsManifest]
+        public let hlsManifests: [HlsManifest]?
         /// When enabled, MediaPackage passes through digital video broadcasting (DVB) subtitles into the output.
         public let includeDvbSubtitles: Bool?
         /// Duration (in seconds) of each fragment. Actual fragments will be
@@ -908,7 +908,7 @@ extension MediaPackageVod {
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
-        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], includeDvbSubtitles: Bool? = nil, segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
+        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest]? = nil, includeDvbSubtitles: Bool? = nil, segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.includeDvbSubtitles = includeDvbSubtitles
@@ -1093,9 +1093,9 @@ extension MediaPackageVod {
     }
 
     public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
-        public let spekeKeyProvider: SpekeKeyProvider
+        public let spekeKeyProvider: SpekeKeyProvider?
 
-        public init(spekeKeyProvider: SpekeKeyProvider) {
+        public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
 
@@ -1123,11 +1123,11 @@ extension MediaPackageVod {
     public struct MssPackage: AWSEncodableShape & AWSDecodableShape {
         public let encryption: MssEncryption?
         /// A list of MSS manifest configurations.
-        public let mssManifests: [MssManifest]
+        public let mssManifests: [MssManifest]?
         /// The duration (in seconds) of each segment.
         public let segmentDurationSeconds: Int?
 
-        public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest], segmentDurationSeconds: Int? = nil) {
+        public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest]? = nil, segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.mssManifests = mssManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -1222,13 +1222,13 @@ extension MediaPackageVod {
         public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
         /// MediaPackage will assume when accessing the key provider service.
-        public let roleArn: String
+        public let roleArn: String?
         /// The system IDs to include in key requests.
-        public let systemIds: [String]
+        public let systemIds: [String]?
         /// The URL of the external key provider service.
-        public let url: String
+        public let url: String?
 
-        public init(encryptionContractConfiguration: EncryptionContractConfiguration? = nil, roleArn: String, systemIds: [String], url: String) {
+        public init(encryptionContractConfiguration: EncryptionContractConfiguration? = nil, roleArn: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.roleArn = roleArn
             self.systemIds = systemIds
@@ -1268,9 +1268,9 @@ extension MediaPackageVod {
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
         /// A collection of tags associated with a resource
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1279,7 +1279,7 @@ extension MediaPackageVod {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1291,9 +1291,9 @@ extension MediaPackageVod {
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
         /// A comma-separated list of the tag keys to remove from the resource.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }

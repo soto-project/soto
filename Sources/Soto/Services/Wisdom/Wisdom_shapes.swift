@@ -26,7 +26,7 @@ import Foundation
 extension Wisdom {
     // MARK: Enums
 
-    public enum AssistantStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssistantStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -36,17 +36,17 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssistantType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssistantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssociationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBase = "KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -57,17 +57,37 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterField: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExternalSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonConnect = "AMAZON_CONNECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum KnowledgeBaseStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case deleted = "DELETED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case failed = "FAILED"
+        case startInProgress = "START_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case quickResponses = "QUICK_RESPONSES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KnowledgeBaseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -77,30 +97,68 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case external = "EXTERNAL"
+        case quickResponses = "QUICK_RESPONSES"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Priority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuickResponseFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        case prefix = "PREFIX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuickResponseQueryOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case containsAndPrefix = "CONTAINS_AND_PREFIX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuickResponseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleted = "DELETED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case issueDetection = "ISSUE_DETECTION"
         case other = "OTHER"
         case ruleEvaluation = "RULE_EVALUATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationTriggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationTriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case query = "QUERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeContent = "KNOWLEDGE_CONTENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelevanceLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelevanceLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -110,7 +168,7 @@ extension Wisdom {
     // MARK: Shapes
 
     public struct AppIntegrationsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.   For  Salesforce, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.    For  ServiceNow, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.    For  Zendesk, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.    For  SharePoint, your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
+        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.   For  Salesforce, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.    For  ServiceNow, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.    For  Zendesk, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.    For SharePoint, your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.    For Amazon S3, the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name.  The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
         public let appIntegrationArn: String
         /// The fields from the source that are made available to your agents in Wisdom. Optional if ObjectConfiguration is included in the provided DataIntegration.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    For  Zendesk, you must include at least id, title, updated_at, and draft.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
         public let objectFields: [String]?
@@ -219,9 +277,11 @@ extension Wisdom {
         public let assistantId: String
         /// The description.
         public let description: String?
+        /// The configuration information for the Wisdom assistant integration.
+        public let integrationConfiguration: AssistantIntegrationConfiguration?
         /// The name.
         public let name: String
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey  permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         public let status: AssistantStatus
@@ -230,10 +290,11 @@ extension Wisdom {
         /// The type of assistant.
         public let type: AssistantType
 
-        public init(assistantArn: String, assistantId: String, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(assistantArn: String, assistantId: String, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
@@ -245,11 +306,25 @@ extension Wisdom {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
             case status = "status"
             case tags = "tags"
             case type = "type"
+        }
+    }
+
+    public struct AssistantIntegrationConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public let topicIntegrationArn: String?
+
+        public init(topicIntegrationArn: String? = nil) {
+            self.topicIntegrationArn = topicIntegrationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicIntegrationArn = "topicIntegrationArn"
         }
     }
 
@@ -260,9 +335,11 @@ extension Wisdom {
         public let assistantId: String
         /// The description of the assistant.
         public let description: String?
+        /// The configuration information for the Wisdom assistant integration.
+        public let integrationConfiguration: AssistantIntegrationConfiguration?
         /// The name of the assistant.
         public let name: String
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         public let status: AssistantStatus
@@ -271,10 +348,11 @@ extension Wisdom {
         /// The type of the assistant.
         public let type: AssistantType
 
-        public init(assistantArn: String, assistantId: String, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(assistantArn: String, assistantId: String, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
@@ -286,11 +364,30 @@ extension Wisdom {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
             case status = "status"
             case tags = "tags"
             case type = "type"
+        }
+    }
+
+    public struct ConnectConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 4096)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
         }
     }
 
@@ -303,7 +400,8 @@ extension Wisdom {
         public let contentType: String
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String
         /// The URI of the content.
         public let linkOutUri: String?
@@ -367,7 +465,8 @@ extension Wisdom {
         public let contentId: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String?
 
         public init(contentArn: String? = nil, contentId: String? = nil, knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
@@ -394,7 +493,8 @@ extension Wisdom {
         public let contentType: String
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations.
         /// For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -511,7 +611,7 @@ extension Wisdom {
         public let description: String?
         /// The name of the assistant.
         public let name: String
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  The customer managed key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -572,7 +672,8 @@ extension Wisdom {
     public struct CreateContentRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations.
         /// For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -676,7 +777,7 @@ extension Wisdom {
         public let name: String
         /// Information about how to render the content.
         public let renderingConfiguration: RenderingConfiguration?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
         public let sourceConfiguration: SourceConfiguration?
@@ -737,6 +838,121 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBase = "knowledgeBase"
+        }
+    }
+
+    public struct CreateQuickResponseRequest: AWSEncodableShape {
+        /// The Amazon Connect channels this quick response applies to.
+        public let channels: [String]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The content of the quick response.
+        public let content: QuickResponseDataProvider
+        /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for a quick response written in plain text.   Use application/x.quickresponse;format=markdown for a quick response written in richtext.
+        public let contentType: String?
+        /// The description of the quick response.
+        public let description: String?
+        /// The configuration information of the user groups that the quick response is accessible to.
+        public let groupingConfiguration: GroupingConfiguration?
+        /// Whether the quick response is active.
+        public let isActive: Bool?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The language code value for the language in which the quick response is written.  The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+        public let language: String?
+        /// The name of the quick response.
+        public let name: String
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public let shortcutKey: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(channels: [String]? = nil, clientToken: String? = CreateQuickResponseRequest.idempotencyToken(), content: QuickResponseDataProvider, contentType: String? = nil, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseId: String, language: String? = nil, name: String, shortcutKey: String? = nil, tags: [String: String]? = nil) {
+            self.channels = channels
+            self.clientToken = clientToken
+            self.content = content
+            self.contentType = contentType
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.name = name
+            self.shortcutKey = shortcutKey
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channels, forKey: .channels)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.groupingConfiguration, forKey: .groupingConfiguration)
+            try container.encodeIfPresent(self.isActive, forKey: .isActive)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.shortcutKey, forKey: .shortcutKey)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.channels?.forEach {
+                try validate($0, name: "channels[]", parent: name, max: 10)
+                try validate($0, name: "channels[]", parent: name, min: 1)
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.content.validate(name: "\(name).content")
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(application/x\\.quickresponse;format=(plain|markdown))$")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.groupingConfiguration?.validate(name: "\(name).groupingConfiguration")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.language, name: "language", parent: name, max: 5)
+            try self.validate(self.language, name: "language", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.shortcutKey, name: "shortcutKey", parent: name, max: 10)
+            try self.validate(self.shortcutKey, name: "shortcutKey", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case clientToken = "clientToken"
+            case content = "content"
+            case contentType = "contentType"
+            case description = "description"
+            case groupingConfiguration = "groupingConfiguration"
+            case isActive = "isActive"
+            case language = "language"
+            case name = "name"
+            case shortcutKey = "shortcutKey"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateQuickResponseResponse: AWSDecodableShape {
+        /// The quick response.
+        public let quickResponse: QuickResponseData?
+
+        public init(quickResponse: QuickResponseData? = nil) {
+            self.quickResponse = quickResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickResponse = "quickResponse"
         }
     }
 
@@ -868,7 +1084,8 @@ extension Wisdom {
     public struct DeleteContentRequest: AWSEncodableShape {
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -895,6 +1112,37 @@ extension Wisdom {
         public init() {}
     }
 
+    public struct DeleteImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job to be deleted.
+        public let importJobId: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
+        public let knowledgeBaseId: String
+
+        public init(importJobId: String, knowledgeBaseId: String) {
+            self.importJobId = importJobId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.importJobId, key: "importJobId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importJobId, name: "importJobId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteImportJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
         /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
@@ -917,6 +1165,37 @@ extension Wisdom {
     }
 
     public struct DeleteKnowledgeBaseResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteQuickResponseRequest: AWSEncodableShape {
+        /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
+        public let knowledgeBaseId: String
+        /// The identifier of the quick response to delete.
+        public let quickResponseId: String
+
+        public init(knowledgeBaseId: String, quickResponseId: String) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.quickResponseId = quickResponseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodePath(self.quickResponseId, key: "quickResponseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.quickResponseId, name: "quickResponseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteQuickResponseResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -955,6 +1234,27 @@ extension Wisdom {
         private enum CodingKeys: String, CodingKey {
             case highlights = "highlights"
             case text = "text"
+        }
+    }
+
+    public struct ExternalSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration information of the external data source.
+        public let configuration: Configuration
+        /// The type of the external data source.
+        public let source: ExternalSource
+
+        public init(configuration: Configuration, source: ExternalSource) {
+            self.configuration = configuration
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case source = "source"
         }
     }
 
@@ -1060,7 +1360,8 @@ extension Wisdom {
     public struct GetContentRequest: AWSEncodableShape {
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -1099,7 +1400,8 @@ extension Wisdom {
     public struct GetContentSummaryRequest: AWSEncodableShape {
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -1135,8 +1437,48 @@ extension Wisdom {
         }
     }
 
+    public struct GetImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job to retrieve.
+        public let importJobId: String
+        /// The identifier of the knowledge base that the import job belongs to.
+        public let knowledgeBaseId: String
+
+        public init(importJobId: String, knowledgeBaseId: String) {
+            self.importJobId = importJobId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.importJobId, key: "importJobId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importJobId, name: "importJobId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetImportJobResponse: AWSDecodableShape {
+        /// The import job.
+        public let importJob: ImportJobData?
+
+        public init(importJob: ImportJobData? = nil) {
+            self.importJob = importJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJob = "importJob"
+        }
+    }
+
     public struct GetKnowledgeBaseRequest: AWSEncodableShape {
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
@@ -1166,6 +1508,45 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBase = "knowledgeBase"
+        }
+    }
+
+    public struct GetQuickResponseRequest: AWSEncodableShape {
+        /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base.
+        public let knowledgeBaseId: String
+        /// The identifier of the quick response.
+        public let quickResponseId: String
+
+        public init(knowledgeBaseId: String, quickResponseId: String) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.quickResponseId = quickResponseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodePath(self.quickResponseId, key: "quickResponseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.quickResponseId, name: "quickResponseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetQuickResponseResponse: AWSDecodableShape {
+        /// The quick response.
+        public let quickResponse: QuickResponseData?
+
+        public init(quickResponse: QuickResponseData? = nil) {
+            self.quickResponse = quickResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickResponse = "quickResponse"
         }
     }
 
@@ -1263,6 +1644,32 @@ extension Wisdom {
         }
     }
 
+    public struct GroupingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The criteria used for grouping Wisdom users. The following is the list of supported criteria values.    RoutingProfileArn: Grouping the users by their Amazon Connect routing profile ARN. User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value.
+        public let criteria: String?
+        /// The list of values that define different groups of Wisdom users.   When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of Amazon Connect routing profiles as values of this parameter.
+        public let values: [String]?
+
+        public init(criteria: String? = nil, values: [String]? = nil) {
+            self.criteria = criteria
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.criteria, name: "criteria", parent: name, max: 100)
+            try self.validate(self.criteria, name: "criteria", parent: name, min: 1)
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 2048)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criteria = "criteria"
+            case values = "values"
+        }
+    }
+
     public struct Highlight: AWSDecodableShape {
         /// The offset for the start of the highlight.
         public let beginOffsetInclusive: Int?
@@ -1280,10 +1687,122 @@ extension Wisdom {
         }
     }
 
+    public struct ImportJobData: AWSDecodableShape {
+        /// The timestamp when the import job was created.
+        public let createdTime: Date
+        public let externalSourceConfiguration: ExternalSourceConfiguration?
+        /// The link to donwload the information of resource data that failed to be imported.
+        public let failedRecordReport: String?
+        /// The identifier of the import job.
+        public let importJobId: String
+        /// The type of the import job.
+        public let importJobType: ImportJobType
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
+        public let knowledgeBaseId: String
+        /// The timestamp when the import job data was last modified.
+        public let lastModifiedTime: Date
+        /// The metadata fields of the imported Wisdom resources.
+        public let metadata: [String: String]?
+        /// The status of the import job.
+        public let status: ImportJobStatus
+        /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
+        public let uploadId: String
+        /// The download link to the resource file that is uploaded to the import job.
+        public let url: String
+        /// The expiration time of the URL as an epoch timestamp.
+        public let urlExpiry: Date
+
+        public init(createdTime: Date, externalSourceConfiguration: ExternalSourceConfiguration? = nil, failedRecordReport: String? = nil, importJobId: String, importJobType: ImportJobType, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedTime: Date, metadata: [String: String]? = nil, status: ImportJobStatus, uploadId: String, url: String, urlExpiry: Date) {
+            self.createdTime = createdTime
+            self.externalSourceConfiguration = externalSourceConfiguration
+            self.failedRecordReport = failedRecordReport
+            self.importJobId = importJobId
+            self.importJobType = importJobType
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.status = status
+            self.uploadId = uploadId
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case externalSourceConfiguration = "externalSourceConfiguration"
+            case failedRecordReport = "failedRecordReport"
+            case importJobId = "importJobId"
+            case importJobType = "importJobType"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case lastModifiedTime = "lastModifiedTime"
+            case metadata = "metadata"
+            case status = "status"
+            case uploadId = "uploadId"
+            case url = "url"
+            case urlExpiry = "urlExpiry"
+        }
+    }
+
+    public struct ImportJobSummary: AWSDecodableShape {
+        /// The timestamp when the import job was created.
+        public let createdTime: Date
+        /// The configuration information of the external source that the resource data are imported from.
+        public let externalSourceConfiguration: ExternalSourceConfiguration?
+        /// The identifier of the import job.
+        public let importJobId: String
+        /// The type of import job.
+        public let importJobType: ImportJobType
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
+        public let knowledgeBaseId: String
+        /// The timestamp when the import job was last modified.
+        public let lastModifiedTime: Date
+        /// The metadata fields of the imported Wisdom resources.
+        public let metadata: [String: String]?
+        /// The status of the import job.
+        public let status: ImportJobStatus
+        /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
+        public let uploadId: String
+
+        public init(createdTime: Date, externalSourceConfiguration: ExternalSourceConfiguration? = nil, importJobId: String, importJobType: ImportJobType, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedTime: Date, metadata: [String: String]? = nil, status: ImportJobStatus, uploadId: String) {
+            self.createdTime = createdTime
+            self.externalSourceConfiguration = externalSourceConfiguration
+            self.importJobId = importJobId
+            self.importJobType = importJobType
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.status = status
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case externalSourceConfiguration = "externalSourceConfiguration"
+            case importJobId = "importJobId"
+            case importJobType = "importJobType"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case lastModifiedTime = "lastModifiedTime"
+            case metadata = "metadata"
+            case status = "status"
+            case uploadId = "uploadId"
+        }
+    }
+
     public struct KnowledgeBaseAssociationData: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String?
 
         public init(knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
@@ -1302,7 +1821,8 @@ extension Wisdom {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String
         /// The type of knowledge base.
         public let knowledgeBaseType: KnowledgeBaseType
@@ -1312,7 +1832,7 @@ extension Wisdom {
         public let name: String
         /// Information about how to render the content.
         public let renderingConfiguration: RenderingConfiguration?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom.  For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// Source configuration information about the knowledge base.
         public let sourceConfiguration: SourceConfiguration?
@@ -1355,7 +1875,8 @@ extension Wisdom {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String
         /// The type of knowledge base.
         public let knowledgeBaseType: KnowledgeBaseType
@@ -1363,7 +1884,7 @@ extension Wisdom {
         public let name: String
         /// Information about how to render the content.
         public let renderingConfiguration: RenderingConfiguration?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom.  For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// Configuration information about the external data source.
         public let sourceConfiguration: SourceConfiguration?
@@ -1497,7 +2018,8 @@ extension Wisdom {
     }
 
     public struct ListContentsRequest: AWSEncodableShape {
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -1547,6 +2069,59 @@ extension Wisdom {
         }
     }
 
+    public struct ListImportJobsRequest: AWSEncodableShape {
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListImportJobsResponse: AWSDecodableShape {
+        /// Summary information about the import jobs.
+        public let importJobSummaries: [ImportJobSummary]
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(importJobSummaries: [ImportJobSummary], nextToken: String? = nil) {
+            self.importJobSummaries = importJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJobSummaries = "importJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListKnowledgeBasesRequest: AWSEncodableShape {
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -1590,6 +2165,59 @@ extension Wisdom {
         private enum CodingKeys: String, CodingKey {
             case knowledgeBaseSummaries = "knowledgeBaseSummaries"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListQuickResponsesRequest: AWSEncodableShape {
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQuickResponsesResponse: AWSDecodableShape {
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// Summary information about the quick responses.
+        public let quickResponseSummaries: [QuickResponseSummary]
+
+        public init(nextToken: String? = nil, quickResponseSummaries: [QuickResponseSummary]) {
+            self.nextToken = nextToken
+            self.quickResponseSummaries = quickResponseSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case quickResponseSummaries = "quickResponseSummaries"
         }
     }
 
@@ -1668,6 +2296,7 @@ extension Wisdom {
 
         public func validate(name: String) throws {
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.recommendationIds, name: "recommendationIds", parent: name, max: 25)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
         }
 
@@ -1765,6 +2394,390 @@ extension Wisdom {
         }
     }
 
+    public struct QuickResponseContents: AWSDecodableShape {
+        public let markdown: QuickResponseContentProvider?
+        public let plainText: QuickResponseContentProvider?
+
+        public init(markdown: QuickResponseContentProvider? = nil, plainText: QuickResponseContentProvider? = nil) {
+            self.markdown = markdown
+            self.plainText = plainText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case markdown = "markdown"
+            case plainText = "plainText"
+        }
+    }
+
+    public struct QuickResponseData: AWSDecodableShape {
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public let channels: [String]?
+        /// The contents of the quick response.
+        public let contents: QuickResponseContents?
+        /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        public let contentType: String
+        /// The timestamp when the quick response was created.
+        public let createdTime: Date
+        /// The description of the quick response.
+        public let description: String?
+        /// The configuration information of the user groups that the quick response is accessible to.
+        public let groupingConfiguration: GroupingConfiguration?
+        /// Whether the quick response is active.
+        public let isActive: Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The language code value for the language in which the quick response is written.
+        public let language: String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
+        public let lastModifiedBy: String?
+        /// The timestamp when the quick response data was last modified.
+        public let lastModifiedTime: Date
+        /// The name of the quick response.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the quick response.
+        public let quickResponseArn: String
+        /// The identifier of the quick response.
+        public let quickResponseId: String
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public let shortcutKey: String?
+        /// The status of the quick response data.
+        public let status: QuickResponseStatus
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(channels: [String]? = nil, contents: QuickResponseContents? = nil, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
+            self.channels = channels
+            self.contents = contents
+            self.contentType = contentType
+            self.createdTime = createdTime
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.shortcutKey = shortcutKey
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case contents = "contents"
+            case contentType = "contentType"
+            case createdTime = "createdTime"
+            case description = "description"
+            case groupingConfiguration = "groupingConfiguration"
+            case isActive = "isActive"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case language = "language"
+            case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case quickResponseArn = "quickResponseArn"
+            case quickResponseId = "quickResponseId"
+            case shortcutKey = "shortcutKey"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct QuickResponseFilterField: AWSEncodableShape {
+        /// Whether to treat null value as a match for the attribute field.
+        public let includeNoExistence: Bool?
+        /// The name of the attribute field to filter the quick responses by.
+        public let name: String
+        /// The operator to use for filtering.
+        public let `operator`: QuickResponseFilterOperator
+        /// The values of attribute field to filter the quick response by.
+        public let values: [String]?
+
+        public init(includeNoExistence: Bool? = nil, name: String, operator: QuickResponseFilterOperator, values: [String]? = nil) {
+            self.includeNoExistence = includeNoExistence
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 4096)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 2048)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeNoExistence = "includeNoExistence"
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct QuickResponseOrderField: AWSEncodableShape {
+        /// The name of the attribute to order the quick response query results by.
+        public let name: String
+        /// The order at which the quick responses are sorted by.
+        public let order: Order?
+
+        public init(name: String, order: Order? = nil) {
+            self.name = name
+            self.order = order
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 4096)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case order = "order"
+        }
+    }
+
+    public struct QuickResponseQueryField: AWSEncodableShape {
+        /// Whether the query expects only exact matches on the attribute field values. The results of the query will only include exact matches if this parameter is set to false.
+        public let allowFuzziness: Bool?
+        /// The name of the attribute to query the quick responses by.
+        public let name: String
+        /// The operator to use for matching attribute field values in the query.
+        public let `operator`: QuickResponseQueryOperator
+        /// The importance of the attribute field when calculating query result relevancy scores. The value set for this parameter affects the ordering of search results.
+        public let priority: Priority?
+        /// The values of the attribute to query the quick responses by.
+        public let values: [String]
+
+        public init(allowFuzziness: Bool? = nil, name: String, operator: QuickResponseQueryOperator, priority: Priority? = nil, values: [String]) {
+            self.allowFuzziness = allowFuzziness
+            self.name = name
+            self.`operator` = `operator`
+            self.priority = priority
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 4096)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowFuzziness = "allowFuzziness"
+            case name = "name"
+            case `operator` = "operator"
+            case priority = "priority"
+            case values = "values"
+        }
+    }
+
+    public struct QuickResponseSearchExpression: AWSEncodableShape {
+        /// The configuration of filtering rules applied to quick response query results.
+        public let filters: [QuickResponseFilterField]?
+        /// The quick response attribute fields on which the query results are ordered.
+        public let orderOnField: QuickResponseOrderField?
+        /// The quick response query expressions.
+        public let queries: [QuickResponseQueryField]?
+
+        public init(filters: [QuickResponseFilterField]? = nil, orderOnField: QuickResponseOrderField? = nil, queries: [QuickResponseQueryField]? = nil) {
+            self.filters = filters
+            self.orderOnField = orderOnField
+            self.queries = queries
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.orderOnField?.validate(name: "\(name).orderOnField")
+            try self.queries?.forEach {
+                try $0.validate(name: "\(name).queries[]")
+            }
+            try self.validate(self.queries, name: "queries", parent: name, max: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case orderOnField = "orderOnField"
+            case queries = "queries"
+        }
+    }
+
+    public struct QuickResponseSearchResultData: AWSDecodableShape {
+        /// The user defined contact attributes that are resolved when the search result is returned.
+        public let attributesInterpolated: [String]?
+        /// The user defined contact attributes that are not resolved when the search result is returned.
+        public let attributesNotInterpolated: [String]?
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public let channels: [String]?
+        /// The contents of the quick response.
+        public let contents: QuickResponseContents
+        /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        public let contentType: String
+        /// The timestamp when the quick response was created.
+        public let createdTime: Date
+        /// The description of the quick response.
+        public let description: String?
+        /// The configuration information of the user groups that the quick response is accessible to.
+        public let groupingConfiguration: GroupingConfiguration?
+        /// Whether the quick response is active.
+        public let isActive: Bool
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The language code value for the language in which the quick response is written.
+        public let language: String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response search result data.
+        public let lastModifiedBy: String?
+        /// The timestamp when the quick response search result data was last modified.
+        public let lastModifiedTime: Date
+        /// The name of the quick response.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the quick response.
+        public let quickResponseArn: String
+        /// The identifier of the quick response.
+        public let quickResponseId: String
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public let shortcutKey: String?
+        /// The resource status of the quick response.
+        public let status: QuickResponseStatus
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(attributesInterpolated: [String]? = nil, attributesNotInterpolated: [String]? = nil, channels: [String]? = nil, contents: QuickResponseContents, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
+            self.attributesInterpolated = attributesInterpolated
+            self.attributesNotInterpolated = attributesNotInterpolated
+            self.channels = channels
+            self.contents = contents
+            self.contentType = contentType
+            self.createdTime = createdTime
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.shortcutKey = shortcutKey
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesInterpolated = "attributesInterpolated"
+            case attributesNotInterpolated = "attributesNotInterpolated"
+            case channels = "channels"
+            case contents = "contents"
+            case contentType = "contentType"
+            case createdTime = "createdTime"
+            case description = "description"
+            case groupingConfiguration = "groupingConfiguration"
+            case isActive = "isActive"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case language = "language"
+            case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case quickResponseArn = "quickResponseArn"
+            case quickResponseId = "quickResponseId"
+            case shortcutKey = "shortcutKey"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct QuickResponseSummary: AWSDecodableShape {
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public let channels: [String]?
+        /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        public let contentType: String
+        /// The timestamp when the quick response was created.
+        public let createdTime: Date
+        /// The description of the quick response.
+        public let description: String?
+        /// Whether the quick response is active.
+        public let isActive: Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
+        public let knowledgeBaseId: String
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
+        public let lastModifiedBy: String?
+        /// The timestamp when the quick response summary was last modified.
+        public let lastModifiedTime: Date
+        /// The name of the quick response.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the quick response.
+        public let quickResponseArn: String
+        /// The identifier of the quick response.
+        public let quickResponseId: String
+        /// The resource status of the quick response.
+        public let status: QuickResponseStatus
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(channels: [String]? = nil, contentType: String, createdTime: Date, description: String? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, status: QuickResponseStatus, tags: [String: String]? = nil) {
+            self.channels = channels
+            self.contentType = contentType
+            self.createdTime = createdTime
+            self.description = description
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case contentType = "contentType"
+            case createdTime = "createdTime"
+            case description = "description"
+            case isActive = "isActive"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case quickResponseArn = "quickResponseArn"
+            case quickResponseId = "quickResponseId"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct RecommendationData: AWSDecodableShape {
         /// The recommended document.
         public let document: Document
@@ -1824,7 +2837,8 @@ extension Wisdom {
     }
 
     public struct RemoveKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
@@ -1888,7 +2902,8 @@ extension Wisdom {
     }
 
     public struct SearchContentRequest: AWSEncodableShape {
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -1964,6 +2979,70 @@ extension Wisdom {
         }
     }
 
+    public struct SearchQuickResponsesRequest: AWSEncodableShape {
+        /// The user-defined Amazon Connect contact attributes to be resolved when search results are returned.
+        public let attributes: [String: String]?
+        /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search expression for querying the quick response.
+        public let searchExpression: QuickResponseSearchExpression
+
+        public init(attributes: [String: String]? = nil, knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil, searchExpression: QuickResponseSearchExpression) {
+            self.attributes = attributes
+            self.knowledgeBaseId = knowledgeBaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchExpression = searchExpression
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.searchExpression, forKey: .searchExpression)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.searchExpression.validate(name: "\(name).searchExpression")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case searchExpression = "searchExpression"
+        }
+    }
+
+    public struct SearchQuickResponsesResponse: AWSDecodableShape {
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The results of the quick response search.
+        public let results: [QuickResponseSearchResultData]
+
+        public init(nextToken: String? = nil, results: [QuickResponseSearchResultData]) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
     public struct SearchSessionsRequest: AWSEncodableShape {
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
@@ -2023,7 +3102,7 @@ extension Wisdom {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The KMS key. For information about valid ID values, see Key identifiers (KeyId).
+        /// The customer managed key used for encryption. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance. For information about valid ID values, see Key identifiers (KeyId).
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -2043,6 +3122,8 @@ extension Wisdom {
     public struct SessionData: AWSDecodableShape {
         /// The description of the session.
         public let description: String?
+        /// The configuration information for the session integration.
+        public let integrationConfiguration: SessionIntegrationConfiguration?
         /// The name of the session.
         public let name: String
         /// The Amazon Resource Name (ARN) of the session.
@@ -2052,8 +3133,9 @@ extension Wisdom {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, sessionArn: String, sessionId: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tags: [String: String]? = nil) {
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.sessionArn = sessionArn
             self.sessionId = sessionId
@@ -2062,10 +3144,24 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case integrationConfiguration = "integrationConfiguration"
             case name = "name"
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
             case tags = "tags"
+        }
+    }
+
+    public struct SessionIntegrationConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public let topicIntegrationArn: String?
+
+        public init(topicIntegrationArn: String? = nil) {
+            self.topicIntegrationArn = topicIntegrationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicIntegrationArn = "topicIntegrationArn"
         }
     }
 
@@ -2097,12 +3193,16 @@ extension Wisdom {
     public struct StartContentUploadRequest: AWSEncodableShape {
         /// The type of content to upload.
         public let contentType: String
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
+        /// The expected expiration time of the generated presigned URL, specified in minutes.
+        public let presignedUrlTimeToLive: Int?
 
-        public init(contentType: String, knowledgeBaseId: String) {
+        public init(contentType: String, knowledgeBaseId: String, presignedUrlTimeToLive: Int? = nil) {
             self.contentType = contentType
             self.knowledgeBaseId = knowledgeBaseId
+            self.presignedUrlTimeToLive = presignedUrlTimeToLive
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2110,15 +3210,19 @@ extension Wisdom {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.contentType, forKey: .contentType)
             request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.presignedUrlTimeToLive, forKey: .presignedUrlTimeToLive)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html))|(application/(pdf|vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document))|(application/x\\.wisdom-json;source=(salesforce|servicenow|zendesk))$")
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html|csv))|(application/(pdf|vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document))|(application/x\\.wisdom-json;source=(salesforce|servicenow|zendesk))$")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.presignedUrlTimeToLive, name: "presignedUrlTimeToLive", parent: name, max: 60)
+            try self.validate(self.presignedUrlTimeToLive, name: "presignedUrlTimeToLive", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case contentType = "contentType"
+            case presignedUrlTimeToLive = "presignedUrlTimeToLive"
         }
     }
 
@@ -2144,6 +3248,79 @@ extension Wisdom {
             case uploadId = "uploadId"
             case url = "url"
             case urlExpiry = "urlExpiry"
+        }
+    }
+
+    public struct StartImportJobRequest: AWSEncodableShape {
+        /// The tags used to organize, track, or control access for this resource.
+        public let clientToken: String?
+        /// The configuration information of the external source that the resource data are imported from.
+        public let externalSourceConfiguration: ExternalSourceConfiguration?
+        /// The type of the import job.   For importing quick response resource, set the value to QUICK_RESPONSES.
+        public let importJobType: ImportJobType
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.   For importing Wisdom quick responses, this should be a QUICK_RESPONSES type knowledge base.
+        public let knowledgeBaseId: String
+        /// The metadata fields of the imported Wisdom resources.
+        public let metadata: [String: String]?
+        /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
+        public let uploadId: String
+
+        public init(clientToken: String? = StartImportJobRequest.idempotencyToken(), externalSourceConfiguration: ExternalSourceConfiguration? = nil, importJobType: ImportJobType, knowledgeBaseId: String, metadata: [String: String]? = nil, uploadId: String) {
+            self.clientToken = clientToken
+            self.externalSourceConfiguration = externalSourceConfiguration
+            self.importJobType = importJobType
+            self.knowledgeBaseId = knowledgeBaseId
+            self.metadata = metadata
+            self.uploadId = uploadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.externalSourceConfiguration, forKey: .externalSourceConfiguration)
+            try container.encode(self.importJobType, forKey: .importJobType)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encode(self.uploadId, forKey: .uploadId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.externalSourceConfiguration?.validate(name: "\(name).externalSourceConfiguration")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 4096)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 10)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 1200)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case externalSourceConfiguration = "externalSourceConfiguration"
+            case importJobType = "importJobType"
+            case metadata = "metadata"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct StartImportJobResponse: AWSDecodableShape {
+        /// The import job.
+        public let importJob: ImportJobData?
+
+        public init(importJob: ImportJobData? = nil) {
+            self.importJob = importJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJob = "importJob"
         }
     }
 
@@ -2224,7 +3401,8 @@ extension Wisdom {
     public struct UpdateContentRequest: AWSEncodableShape {
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The identifier of the knowledge base. Can be either the ID or the ARN
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]?
@@ -2307,7 +3485,8 @@ extension Wisdom {
     }
 
     public struct UpdateKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
-        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The template URI to update.
         public let templateUri: String
@@ -2348,8 +3527,125 @@ extension Wisdom {
         }
     }
 
+    public struct UpdateQuickResponseRequest: AWSEncodableShape {
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public let channels: [String]?
+        /// The updated content of the quick response.
+        public let content: QuickResponseDataProvider?
+        /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        public let contentType: String?
+        /// The updated description of the quick response.
+        public let description: String?
+        /// The updated grouping configuration of the quick response.
+        public let groupingConfiguration: GroupingConfiguration?
+        /// Whether the quick response is active.
+        public let isActive: Bool?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let knowledgeBaseId: String
+        /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+        public let language: String?
+        /// The name of the quick response.
+        public let name: String?
+        /// The identifier of the quick response.
+        public let quickResponseId: String
+        /// Whether to remove the description from the quick response.
+        public let removeDescription: Bool?
+        /// Whether to remove the grouping configuration of the quick response.
+        public let removeGroupingConfiguration: Bool?
+        /// Whether to remove the shortcut key of the quick response.
+        public let removeShortcutKey: Bool?
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public let shortcutKey: String?
+
+        public init(channels: [String]? = nil, content: QuickResponseDataProvider? = nil, contentType: String? = nil, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseId: String, language: String? = nil, name: String? = nil, quickResponseId: String, removeDescription: Bool? = nil, removeGroupingConfiguration: Bool? = nil, removeShortcutKey: Bool? = nil, shortcutKey: String? = nil) {
+            self.channels = channels
+            self.content = content
+            self.contentType = contentType
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.name = name
+            self.quickResponseId = quickResponseId
+            self.removeDescription = removeDescription
+            self.removeGroupingConfiguration = removeGroupingConfiguration
+            self.removeShortcutKey = removeShortcutKey
+            self.shortcutKey = shortcutKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channels, forKey: .channels)
+            try container.encodeIfPresent(self.content, forKey: .content)
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.groupingConfiguration, forKey: .groupingConfiguration)
+            try container.encodeIfPresent(self.isActive, forKey: .isActive)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.quickResponseId, key: "quickResponseId")
+            try container.encodeIfPresent(self.removeDescription, forKey: .removeDescription)
+            try container.encodeIfPresent(self.removeGroupingConfiguration, forKey: .removeGroupingConfiguration)
+            try container.encodeIfPresent(self.removeShortcutKey, forKey: .removeShortcutKey)
+            try container.encodeIfPresent(self.shortcutKey, forKey: .shortcutKey)
+        }
+
+        public func validate(name: String) throws {
+            try self.channels?.forEach {
+                try validate($0, name: "channels[]", parent: name, max: 10)
+                try validate($0, name: "channels[]", parent: name, min: 1)
+            }
+            try self.content?.validate(name: "\(name).content")
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(application/x\\.quickresponse;format=(plain|markdown))$")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.groupingConfiguration?.validate(name: "\(name).groupingConfiguration")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.language, name: "language", parent: name, max: 5)
+            try self.validate(self.language, name: "language", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.quickResponseId, name: "quickResponseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+            try self.validate(self.shortcutKey, name: "shortcutKey", parent: name, max: 10)
+            try self.validate(self.shortcutKey, name: "shortcutKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case content = "content"
+            case contentType = "contentType"
+            case description = "description"
+            case groupingConfiguration = "groupingConfiguration"
+            case isActive = "isActive"
+            case language = "language"
+            case name = "name"
+            case removeDescription = "removeDescription"
+            case removeGroupingConfiguration = "removeGroupingConfiguration"
+            case removeShortcutKey = "removeShortcutKey"
+            case shortcutKey = "shortcutKey"
+        }
+    }
+
+    public struct UpdateQuickResponseResponse: AWSDecodableShape {
+        /// The quick response.
+        public let quickResponse: QuickResponseData?
+
+        public init(quickResponse: QuickResponseData? = nil) {
+            self.quickResponse = quickResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickResponse = "quickResponse"
+        }
+    }
+
     public struct AssistantAssociationInputData: AWSEncodableShape {
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+        /// base if you're storing Wisdom Content resource to it.
         public let knowledgeBaseId: String?
 
         public init(knowledgeBaseId: String? = nil) {
@@ -2375,6 +3671,54 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBaseAssociation = "knowledgeBaseAssociation"
+        }
+    }
+
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration information of the Amazon Connect data source.
+        public let connectConfiguration: ConnectConfiguration?
+
+        public init(connectConfiguration: ConnectConfiguration? = nil) {
+            self.connectConfiguration = connectConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.connectConfiguration?.validate(name: "\(name).connectConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectConfiguration = "connectConfiguration"
+        }
+    }
+
+    public struct QuickResponseContentProvider: AWSDecodableShape {
+        /// The content of the quick response.
+        public let content: String?
+
+        public init(content: String? = nil) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+        }
+    }
+
+    public struct QuickResponseDataProvider: AWSEncodableShape {
+        /// The content of the quick response.
+        public let content: String?
+
+        public init(content: String? = nil) {
+            self.content = content
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 1024)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
         }
     }
 
@@ -2417,6 +3761,7 @@ public struct WisdomErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case preconditionFailedException = "PreconditionFailedException"
+        case requestTimeoutException = "RequestTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tooManyTagsException = "TooManyTagsException"
@@ -2447,6 +3792,8 @@ public struct WisdomErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The provided revisionId does not match, indicating the content has been modified since it was last read.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    /// The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
+    public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.

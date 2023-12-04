@@ -74,7 +74,7 @@ public struct LookoutEquipment: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. In other words, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
+    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
     @Sendable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Creates a label for an event.
+    ///  Creates a label for an event.
     @Sendable
     public func createLabel(_ input: CreateLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelResponse {
         return try await self.client.execute(
@@ -113,7 +113,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Creates a group of labels.
+    ///  Creates a group of labels.
     @Sendable
     public func createLabelGroup(_ input: CreateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelGroupResponse {
         return try await self.client.execute(
@@ -126,11 +126,24 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Creates an ML model for data inference.  A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
+    /// Creates a machine learning model for data inference.  A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     @Sendable
     public func createModel(_ input: CreateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelResponse {
         return try await self.client.execute(
             operation: "CreateModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a retraining scheduler on the specified model.
+    @Sendable
+    public func createRetrainingScheduler(_ input: CreateRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRetrainingSchedulerResponse {
+        return try await self.client.execute(
+            operation: "CreateRetrainingScheduler", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -152,7 +165,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Deletes an inference scheduler that has been set up. Already processed output results are not affected.
+    /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     @Sendable
     public func deleteInferenceScheduler(_ input: DeleteInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -165,7 +178,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Deletes a label.
+    ///  Deletes a label.
     @Sendable
     public func deleteLabel(_ input: DeleteLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -178,7 +191,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Deletes a group of labels.
+    ///  Deletes a group of labels.
     @Sendable
     public func deleteLabelGroup(_ input: DeleteLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -191,11 +204,37 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Deletes an ML model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
+    /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     @Sendable
     public func deleteModel(_ input: DeleteModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the resource policy attached to the resource.
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
+    @Sendable
+    public func deleteRetrainingScheduler(_ input: DeleteRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteRetrainingScheduler", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -243,7 +282,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Returns the name of the label.
+    ///  Returns the name of the label.
     @Sendable
     public func describeLabel(_ input: DescribeLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLabelResponse {
         return try await self.client.execute(
@@ -256,7 +295,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Returns information about the label group.
+    ///  Returns information about the label group.
     @Sendable
     public func describeLabelGroup(_ input: DescribeLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLabelGroupResponse {
         return try await self.client.execute(
@@ -269,11 +308,76 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Provides a JSON containing the overall information about a specific ML model, including model name and ARN, dataset, training and evaluation information, status, and so on.
+    /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     @Sendable
     public func describeModel(_ input: DescribeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelResponse {
         return try await self.client.execute(
             operation: "DescribeModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a specific machine learning model version.
+    @Sendable
+    public func describeModelVersion(_ input: DescribeModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelVersionResponse {
+        return try await self.client.execute(
+            operation: "DescribeModelVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides the details of a resource policy attached to a resource.
+    @Sendable
+    public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "DescribeResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
+    @Sendable
+    public func describeRetrainingScheduler(_ input: DescribeRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRetrainingSchedulerResponse {
+        return try await self.client.execute(
+            operation: "DescribeRetrainingScheduler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Imports a dataset.
+    @Sendable
+    public func importDataset(_ input: ImportDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDatasetResponse {
+        return try await self.client.execute(
+            operation: "ImportDataset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Imports a model that has been trained successfully.
+    @Sendable
+    public func importModelVersion(_ input: ImportModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportModelVersionResponse {
+        return try await self.client.execute(
+            operation: "ImportModelVersion", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -347,7 +451,7 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Returns a list of the label groups.
+    ///  Returns a list of the label groups.
     @Sendable
     public func listLabelGroups(_ input: ListLabelGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLabelGroupsResponse {
         return try await self.client.execute(
@@ -360,11 +464,24 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Provides a list of labels.
+    ///  Provides a list of labels.
     @Sendable
     public func listLabels(_ input: ListLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLabelsResponse {
         return try await self.client.execute(
             operation: "ListLabels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
+    @Sendable
+    public func listModelVersions(_ input: ListModelVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListModelVersions", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -378,6 +495,19 @@ public struct LookoutEquipment: AWSService {
     public func listModels(_ input: ListModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelsResponse {
         return try await self.client.execute(
             operation: "ListModels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
+    @Sendable
+    public func listRetrainingSchedulers(_ input: ListRetrainingSchedulersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrainingSchedulersResponse {
+        return try await self.client.execute(
+            operation: "ListRetrainingSchedulers", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -412,6 +542,19 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
+    /// Creates a resource control policy for a given resource.
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     @Sendable
     public func startDataIngestionJob(_ input: StartDataIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataIngestionJobResponse {
@@ -438,11 +581,37 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
+    /// Starts a retraining scheduler.
+    @Sendable
+    public func startRetrainingScheduler(_ input: StartRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRetrainingSchedulerResponse {
+        return try await self.client.execute(
+            operation: "StartRetrainingScheduler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops an inference scheduler.
     @Sendable
     public func stopInferenceScheduler(_ input: StopInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInferenceSchedulerResponse {
         return try await self.client.execute(
             operation: "StopInferenceScheduler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops a retraining scheduler.
+    @Sendable
+    public func stopRetrainingScheduler(_ input: StopRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRetrainingSchedulerResponse {
+        return try await self.client.execute(
+            operation: "StopRetrainingScheduler", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -477,6 +646,19 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
+    /// Sets the active model version for a given machine learning model.
+    @Sendable
+    public func updateActiveModelVersion(_ input: UpdateActiveModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActiveModelVersionResponse {
+        return try await self.client.execute(
+            operation: "UpdateActiveModelVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates an inference scheduler.
     @Sendable
     public func updateInferenceScheduler(_ input: UpdateInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -490,11 +672,37 @@ public struct LookoutEquipment: AWSService {
         )
     }
 
-    /// Updates the label group.
+    ///  Updates the label group.
     @Sendable
     public func updateLabelGroup(_ input: UpdateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "UpdateLabelGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a model in the account.
+    @Sendable
+    public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a retraining scheduler.
+    @Sendable
+    public func updateRetrainingScheduler(_ input: UpdateRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateRetrainingScheduler", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -612,7 +820,7 @@ extension LookoutEquipment {
         )
     }
 
-    /// Returns a list of the label groups.
+    ///  Returns a list of the label groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -631,7 +839,7 @@ extension LookoutEquipment {
         )
     }
 
-    /// Provides a list of labels.
+    ///  Provides a list of labels.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -646,6 +854,25 @@ extension LookoutEquipment {
             command: self.listLabels,
             inputKey: \ListLabelsRequest.nextToken,
             outputKey: \ListLabelsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listModelVersionsPaginator(
+        _ input: ListModelVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelVersionsRequest, ListModelVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listModelVersions,
+            inputKey: \ListModelVersionsRequest.nextToken,
+            outputKey: \ListModelVersionsResponse.nextToken,
             logger: logger
         )
     }
@@ -665,6 +892,25 @@ extension LookoutEquipment {
             command: self.listModels,
             inputKey: \ListModelsRequest.nextToken,
             outputKey: \ListModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRetrainingSchedulersPaginator(
+        _ input: ListRetrainingSchedulersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRetrainingSchedulersRequest, ListRetrainingSchedulersResponse> {
+        return .init(
+            input: input,
+            command: self.listRetrainingSchedulers,
+            inputKey: \ListRetrainingSchedulersRequest.nextToken,
+            outputKey: \ListRetrainingSchedulersResponse.nextToken,
             logger: logger
         )
     }
@@ -771,10 +1017,37 @@ extension LookoutEquipment.ListLabelsRequest: AWSPaginateToken {
     }
 }
 
+extension LookoutEquipment.ListModelVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LookoutEquipment.ListModelVersionsRequest {
+        return .init(
+            createdAtEndTime: self.createdAtEndTime,
+            createdAtStartTime: self.createdAtStartTime,
+            maxModelVersion: self.maxModelVersion,
+            maxResults: self.maxResults,
+            minModelVersion: self.minModelVersion,
+            modelName: self.modelName,
+            nextToken: token,
+            sourceType: self.sourceType,
+            status: self.status
+        )
+    }
+}
+
 extension LookoutEquipment.ListModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LookoutEquipment.ListModelsRequest {
         return .init(
             datasetNameBeginsWith: self.datasetNameBeginsWith,
+            maxResults: self.maxResults,
+            modelNameBeginsWith: self.modelNameBeginsWith,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension LookoutEquipment.ListRetrainingSchedulersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LookoutEquipment.ListRetrainingSchedulersRequest {
+        return .init(
             maxResults: self.maxResults,
             modelNameBeginsWith: self.modelNameBeginsWith,
             nextToken: token,

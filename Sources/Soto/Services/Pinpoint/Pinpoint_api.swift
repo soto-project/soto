@@ -1277,7 +1277,7 @@ public struct Pinpoint: AWSService {
         )
     }
 
-    /// Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     @Sendable
     public func removeAttributes(_ input: RemoveAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveAttributesResponse {
         return try await self.client.execute(

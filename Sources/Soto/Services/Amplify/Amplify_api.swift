@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Amplify service.
 ///
-/// Amplify enables developers to develop and deploy cloud-powered mobile and web apps. The Amplify Console provides a continuous delivery and hosting service for web applications. For more information, see the Amplify Console User Guide. The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the Amplify Framework.
+/// Amplify enables developers to develop and deploy cloud-powered mobile and web apps. Amplify Hosting provides a continuous delivery and hosting service for web applications. For more information, see the Amplify Hosting User Guide. The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the Amplify Framework.
 public struct Amplify: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,7 @@ public struct Amplify: AWSService {
 
     // MARK: API Calls
 
-    ///  Creates a new Amplify app.
+    /// Creates a new Amplify app.
     @Sendable
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppResult {
         return try await self.client.execute(
@@ -87,7 +87,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Creates a new backend environment for an Amplify app.
+    /// Creates a new backend environment for an Amplify app.
     @Sendable
     public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackendEnvironmentResult {
         return try await self.client.execute(
@@ -113,7 +113,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
+    /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.  The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     @Sendable
     public func createDeployment(_ input: CreateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentResult {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Creates a new webhook on an Amplify app.
+    /// Creates a new webhook on an Amplify app.
     @Sendable
     public func createWebhook(_ input: CreateWebhookRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebhookResult {
         return try await self.client.execute(
@@ -152,7 +152,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Deletes an existing Amplify app specified by an app ID.
+    /// Deletes an existing Amplify app specified by an app ID.
     @Sendable
     public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppResult {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Deletes a backend environment for an Amplify app.
+    /// Deletes a backend environment for an Amplify app.
     @Sendable
     public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackendEnvironmentResult {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Deletes a webhook.
+    /// Deletes a webhook.
     @Sendable
     public func deleteWebhook(_ input: DeleteWebhookRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWebhookResult {
         return try await self.client.execute(
@@ -230,7 +230,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns the website access logs for a specific time range using a presigned URL.
+    /// Returns the website access logs for a specific time range using a presigned URL.
     @Sendable
     public func generateAccessLogs(_ input: GenerateAccessLogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateAccessLogsResult {
         return try await self.client.execute(
@@ -243,7 +243,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns an existing Amplify app by appID.
+    /// Returns an existing Amplify app specified by an app ID.
     @Sendable
     public func getApp(_ input: GetAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppResult {
         return try await self.client.execute(
@@ -256,7 +256,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns the artifact info that corresponds to an artifact id.
+    /// Returns the artifact info that corresponds to an artifact id.
     @Sendable
     public func getArtifactUrl(_ input: GetArtifactUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetArtifactUrlResult {
         return try await self.client.execute(
@@ -269,7 +269,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns a backend environment for an Amplify app.
+    /// Returns a backend environment for an Amplify app.
     @Sendable
     public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackendEnvironmentResult {
         return try await self.client.execute(
@@ -321,7 +321,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns the webhook information that corresponds to a specified webhook ID.
+    /// Returns the webhook information that corresponds to a specified webhook ID.
     @Sendable
     public func getWebhook(_ input: GetWebhookRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWebhookResult {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns a list of the existing Amplify apps.
+    /// Returns a list of the existing Amplify apps.
     @Sendable
     public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppsResult {
         return try await self.client.execute(
@@ -347,7 +347,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns a list of artifacts for a specified app, branch, and job.
+    /// Returns a list of artifacts for a specified app, branch, and job.
     @Sendable
     public func listArtifacts(_ input: ListArtifactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListArtifactsResult {
         return try await self.client.execute(
@@ -360,7 +360,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Lists the backend environments for an Amplify app.
+    /// Lists the backend environments for an Amplify app.
     @Sendable
     public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackendEnvironmentsResult {
         return try await self.client.execute(
@@ -412,7 +412,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns a list of tags for a specified Amazon Resource Name (ARN).
+    /// Returns a list of tags for a specified Amazon Resource Name (ARN).
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -425,7 +425,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns a list of webhooks for an Amplify app.
+    /// Returns a list of webhooks for an Amplify app.
     @Sendable
     public func listWebhooks(_ input: ListWebhooksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebhooksResult {
         return try await self.client.execute(
@@ -438,7 +438,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
+    /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.  The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     @Sendable
     public func startDeployment(_ input: StartDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeploymentResult {
         return try await self.client.execute(
@@ -477,7 +477,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Tags the resource with a tag key and value.
+    /// Tags the resource with a tag key and value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -490,7 +490,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Untags a resource with a specified Amazon Resource Name (ARN).
+    /// Untags a resource with a specified Amazon Resource Name (ARN).
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -503,7 +503,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Updates an existing Amplify app.
+    /// Updates an existing Amplify app.
     @Sendable
     public func updateApp(_ input: UpdateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppResult {
         return try await self.client.execute(
@@ -542,7 +542,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Updates a webhook.
+    /// Updates a webhook.
     @Sendable
     public func updateWebhook(_ input: UpdateWebhookRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebhookResult {
         return try await self.client.execute(
@@ -562,5 +562,126 @@ extension Amplify {
     public init(from: Amplify, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Amplify {
+    /// Returns a list of the existing Amplify apps.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAppsPaginator(
+        _ input: ListAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppsRequest, ListAppsResult> {
+        return .init(
+            input: input,
+            command: self.listApps,
+            inputKey: \ListAppsRequest.nextToken,
+            outputKey: \ListAppsResult.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  Lists the branches of an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listBranchesPaginator(
+        _ input: ListBranchesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBranchesRequest, ListBranchesResult> {
+        return .init(
+            input: input,
+            command: self.listBranches,
+            inputKey: \ListBranchesRequest.nextToken,
+            outputKey: \ListBranchesResult.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  Returns the domain associations for an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDomainAssociationsPaginator(
+        _ input: ListDomainAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainAssociationsRequest, ListDomainAssociationsResult> {
+        return .init(
+            input: input,
+            command: self.listDomainAssociations,
+            inputKey: \ListDomainAssociationsRequest.nextToken,
+            outputKey: \ListDomainAssociationsResult.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  Lists the jobs for a branch of an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResult> {
+        return .init(
+            input: input,
+            command: self.listJobs,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension Amplify.ListAppsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Amplify.ListAppsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Amplify.ListBranchesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Amplify.ListBranchesRequest {
+        return .init(
+            appId: self.appId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Amplify.ListDomainAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Amplify.ListDomainAssociationsRequest {
+        return .init(
+            appId: self.appId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Amplify.ListJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Amplify.ListJobsRequest {
+        return .init(
+            appId: self.appId,
+            branchName: self.branchName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

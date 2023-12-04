@@ -26,36 +26,36 @@ import Foundation
 extension Keyspaces {
     // MARK: Enums
 
-    public enum ClientSideTimestampsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClientSideTimestampsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Rs: String, CustomStringConvertible, Codable, Sendable {
+    public enum Rs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiRegion = "MULTI_REGION"
         case singleRegion = "SINGLE_REGION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -66,13 +66,13 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case payPerRequest = "PAY_PER_REQUEST"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }

@@ -26,14 +26,14 @@ import Foundation
 extension DeviceFarm {
     // MARK: Enums
 
-    public enum ArtifactCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case file = "FILE"
         case log = "LOG"
         case screenshot = "SCREENSHOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appiumJavaOutput = "APPIUM_JAVA_OUTPUT"
         case appiumJavaXmlOutput = "APPIUM_JAVA_XML_OUTPUT"
         case appiumPythonOutput = "APPIUM_PYTHON_OUTPUT"
@@ -65,18 +65,18 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum BillingMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum BillingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case metered = "METERED"
         case unmetered = "UNMETERED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appiumVersion = "APPIUM_VERSION"
         case arn = "ARN"
         case availability = "AVAILABILITY"
@@ -93,7 +93,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceAvailability: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case busy = "BUSY"
         case highlyAvailable = "HIGHLY_AVAILABLE"
@@ -101,7 +101,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arn = "ARN"
         case availability = "AVAILABILITY"
         case fleetType = "FLEET_TYPE"
@@ -117,25 +117,25 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceFormFactor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceFormFactor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case phone = "PHONE"
         case tablet = "TABLET"
         public var description: String { return self.rawValue }
     }
 
-    public enum DevicePlatform: String, CustomStringConvertible, Codable, Sendable {
+    public enum DevicePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case android = "ANDROID"
         case ios = "IOS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DevicePoolType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DevicePoolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionResult: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case errored = "ERRORED"
         case failed = "FAILED"
         case passed = "PASSED"
@@ -146,13 +146,13 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionResultCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionResultCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case parsingFailed = "PARSING_FAILED"
         case vpcEndpointSetupFailed = "VPC_ENDPOINT_SETUP_FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case pending = "PENDING"
         case pendingConcurrnecy = "PENDING_CONCURRENCY"
@@ -165,7 +165,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case inUse = "IN_USE"
         case notAvailable = "NOT_AVAILABLE"
@@ -173,37 +173,37 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum InteractionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InteractionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interactive = "INTERACTIVE"
         case noVideo = "NO_VIDEO"
         case videoOnly = "VIDEO_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkProfileType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingTransactionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OfferingTransactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case purchase = "PURCHASE"
         case renew = "RENEW"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OfferingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case recurring = "RECURRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `in` = "IN"
         case contains = "CONTAINS"
         case equals = "EQUALS"
@@ -215,7 +215,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum SampleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SampleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpu = "CPU"
         case memory = "MEMORY"
         case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
@@ -236,27 +236,27 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case log = "LOG"
         case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case seleniumLog = "SELENIUM_LOG"
         case unknown = "UNKNOWN"
         case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestGridSessionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestGridSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case closed = "CLOSED"
         case errored = "ERRORED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
         case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
         case appiumNode = "APPIUM_NODE"
@@ -281,13 +281,13 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum UploadCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case initialized = "INITIALIZED"
         case processing = "PROCESSING"
@@ -295,7 +295,7 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UploadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case androidApp = "ANDROID_APP"
         case appiumJavaJunitTestPackage = "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
         case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"

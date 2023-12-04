@@ -26,7 +26,7 @@ import Foundation
 extension WorkDocs {
     // MARK: Enums
 
-    public enum ActivityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case documentAnnotationAdded = "DOCUMENT_ANNOTATION_ADDED"
         case documentAnnotationDeleted = "DOCUMENT_ANNOTATION_DELETED"
         case documentCheckedIn = "DOCUMENT_CHECKED_IN"
@@ -63,31 +63,31 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdditionalResponseFieldType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdditionalResponseFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case weburl = "WEBURL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BooleanEnumType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BooleanEnumType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CommentStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CommentStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case draft = "DRAFT"
         case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CommentVisibilityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CommentVisibilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentCategoryType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentCategoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "AUDIO"
         case document = "DOCUMENT"
         case image = "IMAGE"
@@ -100,38 +100,38 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case original = "ORIGINAL"
         case withComments = "WITH_COMMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case initialized = "INITIALIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "LARGE"
         case small = "SMALL"
         case smallHq = "SMALL_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FolderContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FolderContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case document = "DOCUMENT"
         case folder = "FOLDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCodeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case ar = "AR"
         case bg = "BG"
@@ -166,7 +166,7 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocaleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LocaleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
         case de = "de"
         case en = "en"
@@ -181,7 +181,7 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderByFieldType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderByFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdTimestamp = "CREATED_TIMESTAMP"
         case modifiedTimestamp = "MODIFIED_TIMESTAMP"
         case name = "NAME"
@@ -190,13 +190,13 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalRoleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrincipalRoleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contributor = "CONTRIBUTOR"
         case coowner = "COOWNER"
         case owner = "OWNER"
@@ -204,7 +204,7 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anonymous = "ANONYMOUS"
         case group = "GROUP"
         case invite = "INVITE"
@@ -213,18 +213,18 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceCollectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceCollectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sharedWithMe = "SHARED_WITH_ME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceSortType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceSortType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case date = "DATE"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceStateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case recycled = "RECYCLED"
         case recycling = "RECYCLING"
@@ -232,13 +232,13 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case document = "DOCUMENT"
         case folder = "FOLDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseItemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResponseItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comment = "COMMENT"
         case document = "DOCUMENT"
         case documentVersion = "DOCUMENT_VERSION"
@@ -246,13 +246,13 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RolePermissionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RolePermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case direct = "DIRECT"
         case inherited = "INHERITED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RoleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RoleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contributor = "CONTRIBUTOR"
         case coowner = "COOWNER"
         case owner = "OWNER"
@@ -260,19 +260,19 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchCollectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchCollectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owned = "OWNED"
         case sharedWithMe = "SHARED_WITH_ME"
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchQueryScopeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchQueryScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case content = "CONTENT"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comment = "COMMENT"
         case document = "DOCUMENT"
         case documentVersion = "DOCUMENT_VERSION"
@@ -280,42 +280,42 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "FAILURE"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case quota = "QUOTA"
         case unlimited = "UNLIMITED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case https = "HTTPS"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activePending = "ACTIVE_PENDING"
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserSortType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserSortType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullName = "FULL_NAME"
         case storageLimit = "STORAGE_LIMIT"
         case storageUsed = "STORAGE_USED"
@@ -324,14 +324,14 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case admin = "ADMIN"
         case minimaluser = "MINIMALUSER"
         case poweruser = "POWERUSER"

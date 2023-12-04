@@ -85,7 +85,7 @@ public struct MQ: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. ec2:DeleteNetworkInterface ec2:DeleteNetworkInterfacePermission ec2:DetachNetworkInterface ec2:DescribeInternetGateways ec2:DescribeNetworkInterfaces ec2:DescribeNetworkInterfacePermissions ec2:DescribeRouteTables ec2:DescribeSecurityGroups ec2:DescribeSubnets ec2:DescribeVpcs For more information, see Create an IAM User and Get Your AWS Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the Amazon MQ Developer Guide.
+    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. ec2:DeleteNetworkInterface ec2:DeleteNetworkInterfacePermission ec2:DetachNetworkInterface ec2:DescribeInternetGateways ec2:DescribeNetworkInterfaces ec2:DescribeNetworkInterfacePermissions ec2:DescribeRouteTables ec2:DescribeSecurityGroups ec2:DescribeSubnets ec2:DescribeVpcs For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the Amazon MQ Developer Guide.
     @Sendable
     public func createBroker(_ input: CreateBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrokerResponse {
         return try await self.client.execute(
@@ -124,7 +124,7 @@ public struct MQ: AWSService {
         )
     }
 
-    /// Creates an ActiveMQ user.
+    /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
         return try await self.client.execute(
@@ -313,6 +313,19 @@ public struct MQ: AWSService {
             operation: "ListUsers", 
             path: "/v1/brokers/{BrokerId}/users", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Promotes a data replication replica broker to the primary broker role.
+    @Sendable
+    public func promote(_ input: PromoteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PromoteResponse {
+        return try await self.client.execute(
+            operation: "Promote", 
+            path: "/v1/brokers/{BrokerId}/promote", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

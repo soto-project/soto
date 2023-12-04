@@ -26,32 +26,32 @@ import Foundation
 extension MemoryDB {
     // MARK: Enums
 
-    public enum AZStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AZStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiAZ = "multiaz"
         case singleAZ = "singleaz"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "iam"
         case noPassword = "no-password"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "false"
         case `true` = "true"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "iam"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "available"
@@ -59,12 +59,12 @@ extension MemoryDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case securityUpdate = "security-update"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acl = "acl"
         case cluster = "cluster"
         case node = "node"

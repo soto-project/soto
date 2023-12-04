@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CognitoIdentityProvider service.
 ///
-/// Using the Amazon Cognito user pools API, you can create a user pool to manage directories and users. You can authenticate a user to obtain tokens related to user identity and access policies. This API reference provides information about user pools in Amazon Cognito user pools. For more information, see the Amazon Cognito Documentation.
+/// With the Amazon Cognito user pools API, you can set up user pools and app clients, and authenticate users. To authenticate users from third-party identity providers (IdPs) in this API, you can link IdP users to native user profiles. Learn more about the authentication and authorization of federated users in the Using the Amazon Cognito user pools API and user pool endpoints. This API reference provides detailed information about API operations and object types in Amazon Cognito. At the bottom of the page for each API operation and object, under See Also, you can learn how to use it in an Amazon Web Services SDK in the language of your choice. Along with resource management operations, the Amazon Cognito user pools API includes classes of operations and authorization models for client-side and server-side user operations. For more information, see Using the Amazon Cognito native and OIDC APIs in the Amazon Cognito Developer Guide. You can also start reading about the CognitoIdentityProvider client in the following SDK guides.    Amazon Web Services Command Line Interface     Amazon Web Services SDK for .NET     Amazon Web Services SDK for C++     Amazon Web Services SDK for Go     Amazon Web Services SDK for Java V2     Amazon Web Services SDK for JavaScript     Amazon Web Services SDK for PHP V3     Amazon Web Services SDK for Python     Amazon Web Services SDK for Ruby V3    To get started with an Amazon Web Services SDK, see Tools to Build on Amazon Web Services. For example actions and scenarios, see Code examples for Amazon Cognito Identity Provider using Amazon Web Services SDKs.
 public struct CognitoIdentityProvider: AWSService {
     // MARK: Member variables
 
@@ -86,7 +86,7 @@ public struct CognitoIdentityProvider: AWSService {
 
     // MARK: API Calls
 
-    /// Adds additional user attributes to the user pool schema.
+    /// Adds additional user attributes to the user pool schema.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func addCustomAttributes(_ input: AddCustomAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddCustomAttributesResponse {
         return try await self.client.execute(
@@ -99,7 +99,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Adds the specified user to the specified group. Calling this action requires developer credentials.
+    /// Adds the specified user to the specified group.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -112,7 +112,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Confirms user registration as an admin without using a confirmation code. Works on any user. Calling this action requires developer credentials.
+    /// Confirms user registration as an admin without using a confirmation code. Works on any user.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminConfirmSignUpResponse {
         return try await self.client.execute(
@@ -125,8 +125,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates a new user in the specified user pool. If MessageAction isn't set, the default is to send a welcome message via email or phone (SMS).   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
-    ///  This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito won't send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.  AdminCreateUser requires developer credentials.
+    /// Creates a new user in the specified user pool. If MessageAction isn't set, the default is to send a welcome message via email or phone (SMS).  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito won't send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminCreateUser(_ input: AdminCreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminCreateUserResponse {
         return try await self.client.execute(
@@ -139,7 +138,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Deletes a user as an administrator. Works on any user. Calling this action requires developer credentials.
+    /// Deletes a user as an administrator. Works on any user.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminDeleteUser(_ input: AdminDeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -152,7 +151,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Deletes the user attributes in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
+    /// Deletes the user attributes in a user pool as an administrator. Works on any user.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminDeleteUserAttributesResponse {
         return try await self.client.execute(
@@ -165,7 +164,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Prevents the user from signing in with the specified external (SAML or social) identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools native username + password user, they can't use their password to sign in. If the user to deactivate is a linked external IdP user, any link between that user and an existing user is removed. When the external user signs in again, and the user is no longer attached to the previously linked DestinationUser, the user must create a new user account. See AdminLinkProviderForUser. This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To deactivate a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject. The ProviderAttributeValue must be the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social IdPs. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
+    /// Prevents the user from signing in with the specified external (SAML or social) identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools native username + password user, they can't use their password to sign in. If the user to deactivate is a linked external IdP user, any link between that user and an existing user is removed. When the external user signs in again, and the user is no longer attached to the previously linked DestinationUser, the user must create a new user account. See AdminLinkProviderForUser. The ProviderName must match the value specified when creating an IdP for the pool.  To deactivate a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject. The ProviderAttributeValue must be the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social IdPs. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminDisableProviderForUserResponse {
         return try await self.client.execute(
@@ -178,7 +177,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Deactivates a user and revokes all access tokens for the user. A deactivated user can't sign in,  but still appears in the responses to GetUser and ListUsers API requests. You must make this API request with Amazon Web Services credentials that have cognito-idp:AdminDisableUser permissions.
+    /// Deactivates a user and revokes all access tokens for the user. A deactivated user can't sign in, but still appears in the responses to GetUser and ListUsers API requests.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminDisableUser(_ input: AdminDisableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminDisableUserResponse {
         return try await self.client.execute(
@@ -191,7 +190,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Enables the specified user as an administrator. Works on any user. Calling this action requires developer credentials.
+    /// Enables the specified user as an administrator. Works on any user.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminEnableUser(_ input: AdminEnableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminEnableUserResponse {
         return try await self.client.execute(
@@ -204,7 +203,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Forgets the device, as an administrator. Calling this action requires developer credentials.
+    /// Forgets the device, as an administrator.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminForgetDevice(_ input: AdminForgetDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -217,7 +216,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Gets the device, as an administrator. Calling this action requires developer credentials.
+    /// Gets the device, as an administrator.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminGetDevice(_ input: AdminGetDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminGetDeviceResponse {
         return try await self.client.execute(
@@ -230,7 +229,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Gets the specified user by user name in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
+    /// Gets the specified user by user name in a user pool as an administrator. Works on any user.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminGetUser(_ input: AdminGetUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminGetUserResponse {
         return try await self.client.execute(
@@ -243,8 +242,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Initiates the authentication flow, as an administrator.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
-    ///  Calling this action requires developer credentials.
+    /// Initiates the authentication flow, as an administrator.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminInitiateAuth(_ input: AdminInitiateAuthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminInitiateAuthResponse {
         return try await self.client.execute(
@@ -257,7 +255,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Links an existing user account in a user pool (DestinationUser) to an identity from an external IdP (SourceUser) based on a specified attribute name and value from the external IdP. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in. You can then use the federated user identity to sign in as the existing user account.  For example, if there is an existing user with a username and password, this API links that user to a federated user identity. When the user signs in with a federated user identity, they sign in as the existing user account.  The maximum number of federated identities linked to a user is five.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external IdPs and provider attributes that have been trusted by the application owner.   This action is administrative and requires developer credentials.
+    /// Links an existing user account in a user pool (DestinationUser) to an identity from an external IdP (SourceUser) based on a specified attribute name and value from the external IdP. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in. You can then use the federated user identity to sign in as the existing user account.  For example, if there is an existing user with a username and password, this API links that user to a federated user identity. When the user signs in with a federated user identity, they sign in as the existing user account.  The maximum number of federated identities linked to a user is five.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external IdPs and provider attributes that have been trusted by the application owner.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminLinkProviderForUserResponse {
         return try await self.client.execute(
@@ -270,7 +268,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists devices, as an administrator. Calling this action requires developer credentials.
+    /// Lists devices, as an administrator.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminListDevices(_ input: AdminListDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminListDevicesResponse {
         return try await self.client.execute(
@@ -283,7 +281,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the groups that the user belongs to. Calling this action requires developer credentials.
+    /// Lists the groups that the user belongs to.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminListGroupsForUserResponse {
         return try await self.client.execute(
@@ -296,7 +294,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// A history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    /// A history of user activity and any risks detected as part of Amazon Cognito advanced security.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminListUserAuthEvents(_ input: AdminListUserAuthEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminListUserAuthEventsResponse {
         return try await self.client.execute(
@@ -309,7 +307,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Removes the specified user from the specified group. Calling this action requires developer credentials.
+    /// Removes the specified user from the specified group.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -322,8 +320,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
-    ///  Calling this action requires developer credentials.
+    /// Resets the specified user's password in a user pool as an administrator. Works on any user.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Deactivates a user's password, requiring them to change it. If a user tries to sign in after the API is called, Amazon Cognito responds with a PasswordResetRequiredException error. Your app must then perform the actions that reset your user's password: the forgot-password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminResetUserPasswordResponse {
         return try await self.client.execute(
@@ -336,8 +333,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Responds to an authentication challenge, as an administrator.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
-    ///  Calling this action requires developer credentials.
+    /// Responds to an authentication challenge, as an administrator.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminRespondToAuthChallengeResponse {
         return try await self.client.execute(
@@ -350,7 +346,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// The user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in.
+    /// The user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminSetUserMFAPreferenceResponse {
         return try await self.client.execute(
@@ -363,7 +359,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Sets the specified user's password in a user pool as an administrator. Works on any user.  The password can be temporary or permanent. If it is temporary, the user status enters the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge. If the user doesn't sign in before it expires, the user won't be able to sign in, and an administrator must reset their password.  Once the user has set a new password, or the password is permanent, the user status is set to Confirmed.
+    /// Sets the specified user's password in a user pool as an administrator. Works on any user.  The password can be temporary or permanent. If it is temporary, the user status enters the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge. If the user doesn't sign in before it expires, the user won't be able to sign in, and an administrator must reset their password.  Once the user has set a new password, or the password is permanent, the user status is set to Confirmed.  AdminSetUserPassword can set a password for the user profile that Amazon Cognito creates for third-party federated users. When you set a password, the federated user's status changes from EXTERNAL_PROVIDER to CONFIRMED. A user in this state can sign in as a federated user, and initiate authentication flows in the API like a linked native user. They can also modify their password and attributes in token-authenticated API requests like ChangePassword and UpdateUserAttributes. As a best security practice and to keep users in sync with your external IdP, don't set passwords on federated user profiles. To set up a federated user for native sign-in with a linked native user, refer to Linking federated users to an existing user profile.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminSetUserPasswordResponse {
         return try await self.client.execute(
@@ -376,7 +372,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    ///  This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use AdminSetUserMFAPreference instead.
+    ///  This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use AdminSetUserMFAPreference instead.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminSetUserSettingsResponse {
         return try await self.client.execute(
@@ -389,7 +385,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Provides feedback for an authentication event indicating if it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+    /// Provides feedback for an authentication event indicating if it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminUpdateAuthEventFeedback(_ input: AdminUpdateAuthEventFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminUpdateAuthEventFeedbackResponse {
         return try await self.client.execute(
@@ -402,7 +398,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the device status as an administrator. Calling this action requires developer credentials.
+    /// Updates the device status as an administrator.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminUpdateDeviceStatusResponse {
         return try await self.client.execute(
@@ -415,8 +411,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
-    ///  Calling this action requires developer credentials.
+    ///  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. To delete an attribute from your user, submit the attribute in your API request with a blank value. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminUpdateUserAttributesResponse {
         return try await self.client.execute(
@@ -429,7 +424,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Signs out a user from all devices. You must sign AdminUserGlobalSignOut requests with Amazon Web Services credentials. It also invalidates all refresh tokens that Amazon Cognito has issued to a user. The user's current access and ID tokens remain valid until they expire. By default, access and ID tokens expire one hour after they're issued. A user can still use a hosted UI cookie to retrieve new tokens for the duration of the cookie validity period of 1 hour. Calling this action requires developer credentials.
+    /// Signs out a user from all devices. AdminUserGlobalSignOut invalidates all identity, access and refresh tokens that Amazon Cognito has issued to a user. A user can still use a hosted UI cookie to retrieve new tokens for the duration of the 1-hour cookie validity period. Your app isn't aware that a user's access token is revoked unless it attempts to authorize a user pools API request with an access token that contains the scope aws.cognito.signin.user.admin. Your app might otherwise accept access tokens until they expire.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminUserGlobalSignOutResponse {
         return try await self.client.execute(
@@ -442,7 +437,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito.  Amazon Cognito disassociates an existing software token when you verify the new token in a VerifySoftwareToken API request. If you don't verify the software token and your user pool doesn't require MFA, the user can then authenticate with user name and password credentials alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or SOFTWARE_TOKEN_SETUP challenge each time your user signs. Complete setup with AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate. Respond to this challenge with your user's TOTP.
+    /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito.  Amazon Cognito disassociates an existing software token when you verify the new token in a VerifySoftwareToken API request. If you don't verify the software token and your user pool doesn't require MFA, the user can then authenticate with user name and password credentials alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or SOFTWARE_TOKEN_SETUP challenge each time your user signs. Complete setup with AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate. Respond to this challenge with your user's TOTP.   Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func associateSoftwareToken(_ input: AssociateSoftwareTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSoftwareTokenResponse {
         return try await self.client.execute(
@@ -455,7 +450,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Changes the password for a specified user in a user pool.
+    /// Changes the password for a specified user in a user pool.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func changePassword(_ input: ChangePasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangePasswordResponse {
         return try await self.client.execute(
@@ -468,7 +463,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Confirms tracking of the device. This API call is the call that begins device tracking.
+    /// Confirms tracking of the device. This API call is the call that begins device tracking.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func confirmDevice(_ input: ConfirmDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfirmDeviceResponse {
         return try await self.client.execute(
@@ -481,7 +476,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Allows a user to enter a confirmation code to reset a forgotten password.
+    /// Allows a user to enter a confirmation code to reset a forgotten password.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfirmForgotPasswordResponse {
         return try await self.client.execute(
@@ -494,7 +489,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Confirms registration of a new user.
+    /// Confirms registration of a new user.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func confirmSignUp(_ input: ConfirmSignUpRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfirmSignUpResponse {
         return try await self.client.execute(
@@ -507,7 +502,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates a new group in the specified user pool. Calling this action requires developer credentials.
+    /// Creates a new group in the specified user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
         return try await self.client.execute(
@@ -520,7 +515,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates an IdP for a user pool.
+    /// Creates an IdP for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createIdentityProvider(_ input: CreateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdentityProviderResponse {
         return try await self.client.execute(
@@ -533,7 +528,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates a new OAuth2.0 resource server and defines custom scopes within it.
+    /// Creates a new OAuth2.0 resource server and defines custom scopes within it.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createResourceServer(_ input: CreateResourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceServerResponse {
         return try await self.client.execute(
@@ -546,7 +541,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates the user import job.
+    /// Creates a user import job.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createUserImportJob(_ input: CreateUserImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserImportJobResponse {
         return try await self.client.execute(
@@ -559,7 +554,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates a new Amazon Cognito user pool and sets the password policy for the pool.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    ///  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Creates a new Amazon Cognito user pool and sets the password policy for the pool.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createUserPool(_ input: CreateUserPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserPoolResponse {
         return try await self.client.execute(
@@ -572,7 +567,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates the user pool client. When you create a new user pool client, token revocation is automatically activated. For more information about revoking tokens, see RevokeToken.
+    /// Creates the user pool client. When you create a new user pool client, token revocation is automatically activated. For more information about revoking tokens, see RevokeToken.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createUserPoolClient(_ input: CreateUserPoolClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserPoolClientResponse {
         return try await self.client.execute(
@@ -585,7 +580,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Creates a new domain for a user pool.
+    /// Creates a new domain for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserPoolDomainResponse {
         return try await self.client.execute(
@@ -637,7 +632,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Allows a user to delete himself or herself.
+    /// Allows a user to delete their own user profile.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -650,7 +645,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Deletes the attributes for a user.
+    /// Deletes the attributes for a user.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func deleteUserAttributes(_ input: DeleteUserAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserAttributesResponse {
         return try await self.client.execute(
@@ -754,7 +749,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Returns the configuration information and metadata of the specified user pool.
+    /// Returns the configuration information and metadata of the specified user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func describeUserPool(_ input: DescribeUserPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserPoolResponse {
         return try await self.client.execute(
@@ -767,7 +762,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Client method for returning the configuration information and metadata of the specified user pool app client.
+    /// Client method for returning the configuration information and metadata of the specified user pool app client.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserPoolClientResponse {
         return try await self.client.execute(
@@ -793,7 +788,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Forgets the specified device.
+    /// Forgets the specified device.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func forgetDevice(_ input: ForgetDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -806,7 +801,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email exists, an InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword.    This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. To use the confirmation code for resetting the password, call ConfirmForgotPassword.  If neither a verified phone number nor a verified email exists, this API returns InvalidParameterException. If your app client has a client secret and you don't provide a SECRET_HASH parameter, this API returns NotAuthorizedException.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func forgotPassword(_ input: ForgotPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ForgotPasswordResponse {
         return try await self.client.execute(
@@ -832,7 +827,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Gets the device.
+    /// Gets the device.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func getDevice(_ input: GetDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceResponse {
         return try await self.client.execute(
@@ -871,7 +866,20 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// This method takes a user pool ID, and returns the signing certificate. The issued certificate is valid for 10 years from the date of issue.  Amazon Cognito issues and assigns a new signing certificate annually. This process returns a new value in the response to GetSigningCertificate,  but doesn't invalidate the original certificate.
+    /// Gets the detailed activity logging configuration for a user pool.
+    @Sendable
+    public func getLogDeliveryConfiguration(_ input: GetLogDeliveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogDeliveryConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetLogDeliveryConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This method takes a user pool ID, and returns the signing certificate. The issued certificate is valid for 10 years from the date of issue. Amazon Cognito issues and assigns a new signing certificate annually. This process returns a new value in the response to GetSigningCertificate, but doesn't invalidate the original certificate.
     @Sendable
     public func getSigningCertificate(_ input: GetSigningCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningCertificateResponse {
         return try await self.client.execute(
@@ -897,7 +905,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Gets the user attributes and metadata for a user.
+    /// Gets the user attributes and metadata for a user.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func getUser(_ input: GetUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserResponse {
         return try await self.client.execute(
@@ -910,7 +918,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Generates a user attribute verification code for the specified attribute name. Sends a message to a user with a code that they must return in a VerifyUserAttribute request.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Generates a user attribute verification code for the specified attribute name. Sends a message to a user with a code that they must return in a VerifyUserAttribute request.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserAttributeVerificationCodeResponse {
         return try await self.client.execute(
@@ -936,7 +944,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Signs out users from all devices. It also invalidates all refresh tokens that Amazon Cognito has issued to a user. A user can still use a hosted UI cookie to retrieve new tokens  for the duration of the 1-hour cookie validity period.
+    /// Signs out a user from all devices. GlobalSignOut invalidates all identity, access and refresh tokens that Amazon Cognito has issued to a user. A user can still use a hosted UI cookie to retrieve new tokens for the duration of the 1-hour cookie validity period. Your app isn't aware that a user's access token is revoked unless it attempts to authorize a user pools API request with an access token that contains the scope aws.cognito.signin.user.admin. Your app might otherwise accept access tokens until they expire.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func globalSignOut(_ input: GlobalSignOutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GlobalSignOutResponse {
         return try await self.client.execute(
@@ -949,7 +957,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Initiates sign-in for a user in the Amazon Cognito user directory. You can't sign in a user with a federated IdP with InitiateAuth. For more information, see  Adding user pool sign-in through a third party.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Initiates sign-in for a user in the Amazon Cognito user directory. You can't sign in a user with a federated IdP with InitiateAuth. For more information, see  Adding user pool sign-in through a third party.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func initiateAuth(_ input: InitiateAuthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateAuthResponse {
         return try await self.client.execute(
@@ -962,7 +970,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the sign-in devices that Amazon Cognito has registered to the current user.
+    /// Lists the sign-in devices that Amazon Cognito has registered to the current user.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func listDevices(_ input: ListDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesResponse {
         return try await self.client.execute(
@@ -975,7 +983,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the groups associated with a user pool. Calling this action requires developer credentials.
+    /// Lists the groups associated with a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
         return try await self.client.execute(
@@ -988,7 +996,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists information about all IdPs for a user pool.
+    /// Lists information about all IdPs for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityProvidersResponse {
         return try await self.client.execute(
@@ -1001,7 +1009,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the resource servers for a user pool.
+    /// Lists the resource servers for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listResourceServers(_ input: ListResourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceServersResponse {
         return try await self.client.execute(
@@ -1027,7 +1035,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the user import jobs.
+    /// Lists user import jobs for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listUserImportJobs(_ input: ListUserImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserImportJobsResponse {
         return try await self.client.execute(
@@ -1040,7 +1048,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the clients that have been created for the specified user pool.
+    /// Lists the clients that have been created for the specified user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listUserPoolClients(_ input: ListUserPoolClientsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserPoolClientsResponse {
         return try await self.client.execute(
@@ -1053,7 +1061,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the user pools associated with an Amazon Web Services account.
+    /// Lists the user pools associated with an Amazon Web Services account.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listUserPools(_ input: ListUserPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserPoolsResponse {
         return try await self.client.execute(
@@ -1066,7 +1074,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the users in the Amazon Cognito user pool.
+    /// Lists users and their basic details in a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
         return try await self.client.execute(
@@ -1079,7 +1087,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Lists the users in the specified group. Calling this action requires developer credentials.
+    /// Lists the users in the specified group.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func listUsersInGroup(_ input: ListUsersInGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersInGroupResponse {
         return try await self.client.execute(
@@ -1092,7 +1100,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Resends the confirmation (for confirmation of registration) to a specific user in the user pool.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Resends the confirmation (for confirmation of registration) to a specific user in the user pool.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResendConfirmationCodeResponse {
         return try await self.client.execute(
@@ -1105,7 +1113,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Responds to the authentication challenge.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Responds to the authentication challenge.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RespondToAuthChallengeResponse {
         return try await self.client.execute(
@@ -1118,11 +1126,24 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Revokes all of the access tokens generated by, and at the same time as, the specified  refresh token. After a token is revoked, you can't use the revoked token to access  Amazon Cognito user APIs, or to authorize access to your resource server.
+    /// Revokes all of the access tokens generated by, and at the same time as, the specified refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito user APIs, or to authorize access to your resource server.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func revokeToken(_ input: RevokeTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeTokenResponse {
         return try await self.client.execute(
             operation: "RevokeToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Sets up or modifies the detailed activity logging configuration of a user pool.
+    @Sendable
+    public func setLogDeliveryConfiguration(_ input: SetLogDeliveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetLogDeliveryConfigurationResponse {
+        return try await self.client.execute(
+            operation: "SetLogDeliveryConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1157,7 +1178,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts unless device tracking is turned on and the device has been trusted. If you want MFA to be applied selectively based on the assessed risk level of sign-in attempts, deactivate MFA for users and turn on Adaptive Authentication for the user pool.
+    /// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts unless device tracking is turned on and the device has been trusted. If you want MFA to be applied selectively based on the assessed risk level of sign-in attempts, deactivate MFA for users and turn on Adaptive Authentication for the user pool.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetUserMFAPreferenceResponse {
         return try await self.client.execute(
@@ -1170,7 +1191,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Sets the user pool multi-factor authentication (MFA) configuration.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Sets the user pool multi-factor authentication (MFA) configuration.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetUserPoolMfaConfigResponse {
         return try await self.client.execute(
@@ -1183,7 +1204,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    ///  This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use SetUserMFAPreference instead.
+    ///  This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use SetUserMFAPreference instead.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func setUserSettings(_ input: SetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetUserSettingsResponse {
         return try await self.client.execute(
@@ -1196,7 +1217,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Registers the user in the specified user pool and creates a user name, password, and user attributes.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Registers the user in the specified user pool and creates a user name, password, and user attributes.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func signUp(_ input: SignUpRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignUpResponse {
         return try await self.client.execute(
@@ -1261,7 +1282,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Provides the feedback for an authentication event, whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+    /// Provides the feedback for an authentication event, whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAuthEventFeedbackResponse {
         return try await self.client.execute(
@@ -1274,7 +1295,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the device status.
+    /// Updates the device status.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeviceStatusResponse {
         return try await self.client.execute(
@@ -1287,7 +1308,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the specified group with the specified attributes. Calling this action requires developer credentials.
+    /// Updates the specified group with the specified attributes.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
         return try await self.client.execute(
@@ -1300,7 +1321,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates IdP information for a user pool.
+    /// Updates IdP information for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityProviderResponse {
         return try await self.client.execute(
@@ -1313,7 +1334,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the name and scopes of resource server. All other fields are read-only.  If you don't provide a value for an attribute, it is set to the default value.
+    /// Updates the name and scopes of resource server. All other fields are read-only.  If you don't provide a value for an attribute, it is set to the default value.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateResourceServer(_ input: UpdateResourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceServerResponse {
         return try await self.client.execute(
@@ -1326,7 +1347,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Allows a user to update a specific attribute (one at a time).   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    /// Allows a user to update a specific attribute (one at a time).  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     public func updateUserAttributes(_ input: UpdateUserAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserAttributesResponse {
         return try await self.client.execute(
@@ -1339,7 +1360,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using DescribeUserPool. If you don't provide a value for an attribute, it will be set to the default value.    This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in.  If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+    ///  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using DescribeUserPool.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateUserPool(_ input: UpdateUserPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserPoolResponse {
         return try await self.client.execute(
@@ -1352,7 +1373,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using DescribeUserPoolClient.  If you don't provide a value for an attribute, it will be set to the default value.  You can also use this operation to enable token revocation for user pool clients. For more information about revoking tokens, see RevokeToken.
+    /// Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using DescribeUserPoolClient.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.  You can also use this operation to enable token revocation for user pool clients. For more information about revoking tokens, see RevokeToken.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserPoolClientResponse {
         return try await self.client.execute(
@@ -1365,7 +1386,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You can't use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the Amazon Web Services Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
+    /// Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You can't use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the Amazon Web Services Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserPoolDomainResponse {
         return try await self.client.execute(
@@ -1378,7 +1399,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Use this API to register a user's entered time-based one-time password (TOTP) code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.
+    /// Use this API to register a user's entered time-based one-time password (TOTP) code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifySoftwareTokenResponse {
         return try await self.client.execute(
@@ -1391,7 +1412,7 @@ public struct CognitoIdentityProvider: AWSService {
         )
     }
 
-    /// Verifies the specified user attributes in the user pool.  If your user pool requires verification before Amazon Cognito updates the attribute value,  VerifyUserAttribute updates the affected attribute to its pending value. For more information,  see  UserAttributeUpdateSettingsType.
+    /// Verifies the specified user attributes in the user pool. If your user pool requires verification before Amazon Cognito updates the attribute value, VerifyUserAttribute updates the affected attribute to its pending value. For more information, see  UserAttributeUpdateSettingsType.   Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito native and OIDC APIs.
     @Sendable
     public func verifyUserAttribute(_ input: VerifyUserAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyUserAttributeResponse {
         return try await self.client.execute(
@@ -1418,7 +1439,7 @@ extension CognitoIdentityProvider {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CognitoIdentityProvider {
-    /// Lists the groups that the user belongs to. Calling this action requires developer credentials.
+    /// Lists the groups that the user belongs to.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1437,7 +1458,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// A history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    /// A history of user activity and any risks detected as part of Amazon Cognito advanced security.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1456,7 +1477,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the groups associated with a user pool. Calling this action requires developer credentials.
+    /// Lists the groups associated with a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1475,7 +1496,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists information about all IdPs for a user pool.
+    /// Lists information about all IdPs for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1494,7 +1515,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the resource servers for a user pool.
+    /// Lists the resource servers for a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1513,7 +1534,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the clients that have been created for the specified user pool.
+    /// Lists the clients that have been created for the specified user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1532,7 +1553,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the user pools associated with an Amazon Web Services account.
+    /// Lists the user pools associated with an Amazon Web Services account.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1551,7 +1572,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the users in the Amazon Cognito user pool.
+    /// Lists users and their basic details in a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1570,7 +1591,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    /// Lists the users in the specified group. Calling this action requires developer credentials.
+    /// Lists the users in the specified group.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

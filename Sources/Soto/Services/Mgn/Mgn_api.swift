@@ -163,6 +163,19 @@ public struct Mgn: AWSService {
         )
     }
 
+    /// Create Connector.
+    @Sendable
+    public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Connector {
+        return try await self.client.execute(
+            operation: "CreateConnector", 
+            path: "/CreateConnector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new Launch Configuration Template.
     @Sendable
     public func createLaunchConfigurationTemplate(_ input: CreateLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfigurationTemplate {
@@ -208,6 +221,19 @@ public struct Mgn: AWSService {
         return try await self.client.execute(
             operation: "DeleteApplication", 
             path: "/DeleteApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete Connector.
+    @Sendable
+    public func deleteConnector(_ input: DeleteConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteConnector", 
+            path: "/DeleteConnector", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -475,6 +501,19 @@ public struct Mgn: AWSService {
         )
     }
 
+    /// List Connectors.
+    @Sendable
+    public func listConnectors(_ input: ListConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorsResponse {
+        return try await self.client.execute(
+            operation: "ListConnectors", 
+            path: "/ListConnectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// List export errors.
     @Sendable
     public func listExportErrors(_ input: ListExportErrorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportErrorsResponse {
@@ -520,6 +559,19 @@ public struct Mgn: AWSService {
         return try await self.client.execute(
             operation: "ListImports", 
             path: "/ListImports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List Managed Accounts.
+    @Sendable
+    public func listManagedAccounts(_ input: ListManagedAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedAccountsResponse {
+        return try await self.client.execute(
+            operation: "ListManagedAccounts", 
+            path: "/ListManagedAccounts", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -592,6 +644,19 @@ public struct Mgn: AWSService {
         )
     }
 
+    /// Pause Replication.
+    @Sendable
+    public func pauseReplication(_ input: PauseReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
+        return try await self.client.execute(
+            operation: "PauseReplication", 
+            path: "/PauseReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Put source server post migration custom action.
     @Sendable
     public func putSourceServerAction(_ input: PutSourceServerActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServerActionDocument {
@@ -637,6 +702,19 @@ public struct Mgn: AWSService {
         return try await self.client.execute(
             operation: "RemoveTemplateAction", 
             path: "/RemoveTemplateAction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Resume Replication.
+    @Sendable
+    public func resumeReplication(_ input: ResumeReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
+        return try await self.client.execute(
+            operation: "ResumeReplication", 
+            path: "/ResumeReplication", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -722,6 +800,19 @@ public struct Mgn: AWSService {
         )
     }
 
+    /// Stop Replication.
+    @Sendable
+    public func stopReplication(_ input: StopReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
+        return try await self.client.execute(
+            operation: "StopReplication", 
+            path: "/StopReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -800,6 +891,19 @@ public struct Mgn: AWSService {
         )
     }
 
+    /// Update Connector.
+    @Sendable
+    public func updateConnector(_ input: UpdateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Connector {
+        return try await self.client.execute(
+            operation: "UpdateConnector", 
+            path: "/UpdateConnector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates multiple LaunchConfigurations by Source Server ID.
     @Sendable
     public func updateLaunchConfiguration(_ input: UpdateLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
@@ -845,6 +949,19 @@ public struct Mgn: AWSService {
         return try await self.client.execute(
             operation: "UpdateReplicationConfigurationTemplate", 
             path: "/UpdateReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update Source Server.
+    @Sendable
+    public func updateSourceServer(_ input: UpdateSourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
+        return try await self.client.execute(
+            operation: "UpdateSourceServer", 
+            path: "/UpdateSourceServer", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1025,6 +1142,25 @@ extension Mgn {
         )
     }
 
+    /// List Connectors.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listConnectorsPaginator(
+        _ input: ListConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorsRequest, ListConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectors,
+            inputKey: \ListConnectorsRequest.nextToken,
+            outputKey: \ListConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// List export errors.
     /// Return PaginatorSequence for operation.
     ///
@@ -1101,6 +1237,25 @@ extension Mgn {
         )
     }
 
+    /// List Managed Accounts.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listManagedAccountsPaginator(
+        _ input: ListManagedAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedAccountsRequest, ListManagedAccountsResponse> {
+        return .init(
+            input: input,
+            command: self.listManagedAccounts,
+            inputKey: \ListManagedAccountsRequest.nextToken,
+            outputKey: \ListManagedAccountsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// List source server post migration custom actions.
     /// Return PaginatorSequence for operation.
     ///
@@ -1162,6 +1317,7 @@ extension Mgn {
 extension Mgn.DescribeJobLogItemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeJobLogItemsRequest {
         return .init(
+            accountID: self.accountID,
             jobID: self.jobID,
             maxResults: self.maxResults,
             nextToken: token
@@ -1172,6 +1328,7 @@ extension Mgn.DescribeJobLogItemsRequest: AWSPaginateToken {
 extension Mgn.DescribeJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeJobsRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -1202,6 +1359,7 @@ extension Mgn.DescribeReplicationConfigurationTemplatesRequest: AWSPaginateToken
 extension Mgn.DescribeSourceServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.DescribeSourceServersRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
@@ -1220,6 +1378,17 @@ extension Mgn.DescribeVcenterClientsRequest: AWSPaginateToken {
 
 extension Mgn.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListApplicationsRequest {
+        return .init(
+            accountID: self.accountID,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListConnectorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Mgn.ListConnectorsRequest {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,
@@ -1268,9 +1437,19 @@ extension Mgn.ListImportsRequest: AWSPaginateToken {
     }
 }
 
+extension Mgn.ListManagedAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Mgn.ListManagedAccountsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Mgn.ListSourceServerActionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListSourceServerActionsRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
@@ -1293,6 +1472,7 @@ extension Mgn.ListTemplateActionsRequest: AWSPaginateToken {
 extension Mgn.ListWavesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListWavesRequest {
         return .init(
+            accountID: self.accountID,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token

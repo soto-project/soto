@@ -26,19 +26,32 @@ import Foundation
 extension FIS {
     // MARK: Enums
 
-    public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountTargeting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiAccount = "multi-account"
+        case singleAccount = "single-account"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmptyTargetResolutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "fail"
+        case skip = "skip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "cancelled"
         case completed = "completed"
         case failed = "failed"
         case initiating = "initiating"
         case pending = "pending"
         case running = "running"
+        case skipped = "skipped"
         case stopped = "stopped"
         case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case failed = "failed"
         case initiating = "initiating"
@@ -187,6 +200,23 @@ extension FIS {
         }
     }
 
+    public struct CreateExperimentTemplateExperimentOptionsInput: AWSEncodableShape {
+        /// Specifies the account targeting setting for experiment options.
+        public let accountTargeting: AccountTargeting?
+        /// Specifies the empty target resolution mode for experiment options.
+        public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
+
+        public init(accountTargeting: AccountTargeting? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountTargeting = "accountTargeting"
+            case emptyTargetResolutionMode = "emptyTargetResolutionMode"
+        }
+    }
+
     public struct CreateExperimentTemplateLogConfigurationInput: AWSEncodableShape {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public let cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput?
@@ -220,6 +250,8 @@ extension FIS {
         public let clientToken: String
         /// A description for the experiment template.
         public let description: String
+        /// The experiment options for the experiment template.
+        public let experimentOptions: CreateExperimentTemplateExperimentOptionsInput?
         /// The configuration for experiment logging.
         public let logConfiguration: CreateExperimentTemplateLogConfigurationInput?
         /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
@@ -231,10 +263,11 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: CreateExperimentTemplateTargetInput]?
 
-        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, experimentOptions: CreateExperimentTemplateExperimentOptionsInput? = nil, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.clientToken = clientToken
             self.description = description
+            self.experimentOptions = experimentOptions
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
@@ -278,6 +311,7 @@ extension FIS {
             case actions = "actions"
             case clientToken = "clientToken"
             case description = "description"
+            case experimentOptions = "experimentOptions"
             case logConfiguration = "logConfiguration"
             case roleArn = "roleArn"
             case stopConditions = "stopConditions"
@@ -387,6 +421,72 @@ extension FIS {
         }
     }
 
+    public struct CreateTargetAccountConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the target account.
+        public let description: String?
+        /// The experiment template ID.
+        public let experimentTemplateId: String
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String
+
+        public init(accountId: String, clientToken: String? = CreateTargetAccountConfigurationRequest.idempotencyToken(), description: String? = nil, experimentTemplateId: String, roleArn: String) {
+            self.accountId = accountId
+            self.clientToken = clientToken
+            self.description = description
+            self.experimentTemplateId = experimentTemplateId
+            self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.experimentTemplateId, key: "experimentTemplateId")
+            try container.encode(self.roleArn, forKey: .roleArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 48)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CreateTargetAccountConfigurationResponse: AWSDecodableShape {
+        /// Information about the target account configuration.
+        public let targetAccountConfiguration: TargetAccountConfiguration?
+
+        public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
+            self.targetAccountConfiguration = targetAccountConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccountConfiguration = "targetAccountConfiguration"
+        }
+    }
+
     public struct DeleteExperimentTemplateRequest: AWSEncodableShape {
         /// The ID of the experiment template.
         public let id: String
@@ -422,6 +522,48 @@ extension FIS {
         }
     }
 
+    public struct DeleteTargetAccountConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String
+        /// The ID of the experiment template.
+        public let experimentTemplateId: String
+
+        public init(accountId: String, experimentTemplateId: String) {
+            self.accountId = accountId
+            self.experimentTemplateId = experimentTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            request.encodePath(self.experimentTemplateId, key: "experimentTemplateId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 48)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTargetAccountConfigurationResponse: AWSDecodableShape {
+        /// Information about the target account configuration.
+        public let targetAccountConfiguration: TargetAccountConfiguration?
+
+        public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
+            self.targetAccountConfiguration = targetAccountConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccountConfiguration = "targetAccountConfiguration"
+        }
+    }
+
     public struct Experiment: AWSDecodableShape {
         /// The actions for the experiment.
         public let actions: [String: ExperimentAction]?
@@ -429,6 +571,8 @@ extension FIS {
         public let creationTime: Date?
         /// The time that the experiment ended.
         public let endTime: Date?
+        /// The experiment options for the experiment.
+        public let experimentOptions: ExperimentOptions?
         /// The ID of the experiment template.
         public let experimentTemplateId: String?
         /// The ID of the experiment.
@@ -445,13 +589,16 @@ extension FIS {
         public let stopConditions: [ExperimentStopCondition]?
         /// The tags for the experiment.
         public let tags: [String: String]?
+        /// The count of target account configurations for the experiment.
+        public let targetAccountConfigurationsCount: Int64?
         /// The targets for the experiment.
         public let targets: [String: ExperimentTarget]?
 
-        public init(actions: [String: ExperimentAction]? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTarget]? = nil) {
+        public init(actions: [String: ExperimentAction]? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentOptions: ExperimentOptions? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTarget]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
             self.endTime = endTime
+            self.experimentOptions = experimentOptions
             self.experimentTemplateId = experimentTemplateId
             self.id = id
             self.logConfiguration = logConfiguration
@@ -460,6 +607,7 @@ extension FIS {
             self.state = state
             self.stopConditions = stopConditions
             self.tags = tags
+            self.targetAccountConfigurationsCount = targetAccountConfigurationsCount
             self.targets = targets
         }
 
@@ -467,6 +615,7 @@ extension FIS {
             case actions = "actions"
             case creationTime = "creationTime"
             case endTime = "endTime"
+            case experimentOptions = "experimentOptions"
             case experimentTemplateId = "experimentTemplateId"
             case id = "id"
             case logConfiguration = "logConfiguration"
@@ -475,6 +624,7 @@ extension FIS {
             case state = "state"
             case stopConditions = "stopConditions"
             case tags = "tags"
+            case targetAccountConfigurationsCount = "targetAccountConfigurationsCount"
             case targets = "targets"
         }
     }
@@ -568,6 +718,23 @@ extension FIS {
             case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
             case logSchemaVersion = "logSchemaVersion"
             case s3Configuration = "s3Configuration"
+        }
+    }
+
+    public struct ExperimentOptions: AWSDecodableShape {
+        /// The account targeting setting for an experiment.
+        public let accountTargeting: AccountTargeting?
+        /// The empty target resolution mode for an experiment.
+        public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
+
+        public init(accountTargeting: AccountTargeting? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountTargeting = "accountTargeting"
+            case emptyTargetResolutionMode = "emptyTargetResolutionMode"
         }
     }
 
@@ -684,6 +851,48 @@ extension FIS {
         }
     }
 
+    public struct ExperimentTargetAccountConfiguration: AWSDecodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String?
+        /// The description of the target account.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String?
+
+        public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case description = "description"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct ExperimentTargetAccountConfigurationSummary: AWSDecodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String?
+        /// The description of the target account.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String?
+
+        public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case description = "description"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct ExperimentTargetFilter: AWSDecodableShape {
         /// The attribute path for the filter.
         public let path: String?
@@ -708,6 +917,8 @@ extension FIS {
         public let creationTime: Date?
         /// The description for the experiment template.
         public let description: String?
+        /// The experiment options for an experiment template.
+        public let experimentOptions: ExperimentTemplateExperimentOptions?
         /// The ID of the experiment template.
         public let id: String?
         /// The time the experiment template was last updated.
@@ -720,19 +931,23 @@ extension FIS {
         public let stopConditions: [ExperimentTemplateStopCondition]?
         /// The tags for the experiment template.
         public let tags: [String: String]?
+        /// The count of target account configurations for the experiment template.
+        public let targetAccountConfigurationsCount: Int64?
         /// The targets for the experiment.
         public let targets: [String: ExperimentTemplateTarget]?
 
-        public init(actions: [String: ExperimentTemplateAction]? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
+        public init(actions: [String: ExperimentTemplateAction]? = nil, creationTime: Date? = nil, description: String? = nil, experimentOptions: ExperimentTemplateExperimentOptions? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
             self.description = description
+            self.experimentOptions = experimentOptions
             self.id = id
             self.lastUpdateTime = lastUpdateTime
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.tags = tags
+            self.targetAccountConfigurationsCount = targetAccountConfigurationsCount
             self.targets = targets
         }
 
@@ -740,12 +955,14 @@ extension FIS {
             case actions = "actions"
             case creationTime = "creationTime"
             case description = "description"
+            case experimentOptions = "experimentOptions"
             case id = "id"
             case lastUpdateTime = "lastUpdateTime"
             case logConfiguration = "logConfiguration"
             case roleArn = "roleArn"
             case stopConditions = "stopConditions"
             case tags = "tags"
+            case targetAccountConfigurationsCount = "targetAccountConfigurationsCount"
             case targets = "targets"
         }
     }
@@ -808,6 +1025,23 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case logGroupArn = "logGroupArn"
+        }
+    }
+
+    public struct ExperimentTemplateExperimentOptions: AWSDecodableShape {
+        /// The account targeting setting for an experiment template.
+        public let accountTargeting: AccountTargeting?
+        /// The empty target resolution mode for an experiment template.
+        public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
+
+        public init(accountTargeting: AccountTargeting? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountTargeting = "accountTargeting"
+            case emptyTargetResolutionMode = "emptyTargetResolutionMode"
         }
     }
 
@@ -1067,6 +1301,48 @@ extension FIS {
         }
     }
 
+    public struct GetExperimentTargetAccountConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String
+        /// The ID of the experiment.
+        public let experimentId: String
+
+        public init(accountId: String, experimentId: String) {
+            self.accountId = accountId
+            self.experimentId = experimentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            request.encodePath(self.experimentId, key: "experimentId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 48)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.experimentId, name: "experimentId", parent: name, max: 64)
+            try self.validate(self.experimentId, name: "experimentId", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExperimentTargetAccountConfigurationResponse: AWSDecodableShape {
+        /// Information about the target account configuration.
+        public let targetAccountConfiguration: ExperimentTargetAccountConfiguration?
+
+        public init(targetAccountConfiguration: ExperimentTargetAccountConfiguration? = nil) {
+            self.targetAccountConfiguration = targetAccountConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccountConfiguration = "targetAccountConfiguration"
+        }
+    }
+
     public struct GetExperimentTemplateRequest: AWSEncodableShape {
         /// The ID of the experiment template.
         public let id: String
@@ -1099,6 +1375,48 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case experimentTemplate = "experimentTemplate"
+        }
+    }
+
+    public struct GetTargetAccountConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String
+        /// The ID of the experiment template.
+        public let experimentTemplateId: String
+
+        public init(accountId: String, experimentTemplateId: String) {
+            self.accountId = accountId
+            self.experimentTemplateId = experimentTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            request.encodePath(self.experimentTemplateId, key: "experimentTemplateId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 48)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTargetAccountConfigurationResponse: AWSDecodableShape {
+        /// Information about the target account configuration.
+        public let targetAccountConfiguration: TargetAccountConfiguration?
+
+        public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
+            self.targetAccountConfiguration = targetAccountConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccountConfiguration = "targetAccountConfiguration"
         }
     }
 
@@ -1180,6 +1498,110 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExperimentResolvedTargetsRequest: AWSEncodableShape {
+        /// The ID of the experiment.
+        public let experimentId: String
+        /// The maximum number of results to return with a single call. To retrieve the remaining results,  make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The name of the target.
+        public let targetName: String?
+
+        public init(experimentId: String, maxResults: Int? = nil, nextToken: String? = nil, targetName: String? = nil) {
+            self.experimentId = experimentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.targetName = targetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.experimentId, key: "experimentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.targetName, key: "targetName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.experimentId, name: "experimentId", parent: name, max: 64)
+            try self.validate(self.experimentId, name: "experimentId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.targetName, name: "targetName", parent: name, max: 64)
+            try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExperimentResolvedTargetsResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The resolved targets.
+        public let resolvedTargets: [ResolvedTarget]?
+
+        public init(nextToken: String? = nil, resolvedTargets: [ResolvedTarget]? = nil) {
+            self.nextToken = nextToken
+            self.resolvedTargets = resolvedTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resolvedTargets = "resolvedTargets"
+        }
+    }
+
+    public struct ListExperimentTargetAccountConfigurationsRequest: AWSEncodableShape {
+        /// The ID of the experiment.
+        public let experimentId: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(experimentId: String, nextToken: String? = nil) {
+            self.experimentId = experimentId
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.experimentId, key: "experimentId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.experimentId, name: "experimentId", parent: name, max: 64)
+            try self.validate(self.experimentId, name: "experimentId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExperimentTargetAccountConfigurationsResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The target account configurations.
+        public let targetAccountConfigurations: [ExperimentTargetAccountConfigurationSummary]?
+
+        public init(nextToken: String? = nil, targetAccountConfigurations: [ExperimentTargetAccountConfigurationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.targetAccountConfigurations = targetAccountConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case targetAccountConfigurations = "targetAccountConfigurations"
         }
     }
 
@@ -1311,6 +1733,58 @@ extension FIS {
         }
     }
 
+    public struct ListTargetAccountConfigurationsRequest: AWSEncodableShape {
+        /// The ID of the experiment template.
+        public let experimentTemplateId: String
+        /// The maximum number of results to return with a single call. To retrieve the remaining results,  make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(experimentTemplateId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.experimentTemplateId = experimentTemplateId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.experimentTemplateId, key: "experimentTemplateId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTargetAccountConfigurationsResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The target account configurations.
+        public let targetAccountConfigurations: [TargetAccountConfigurationSummary]?
+
+        public init(nextToken: String? = nil, targetAccountConfigurations: [TargetAccountConfigurationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.targetAccountConfigurations = targetAccountConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case targetAccountConfigurations = "targetAccountConfigurations"
+        }
+    }
+
     public struct ListTargetResourceTypesRequest: AWSEncodableShape {
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -1354,6 +1828,27 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case targetResourceTypes = "targetResourceTypes"
+        }
+    }
+
+    public struct ResolvedTarget: AWSDecodableShape {
+        /// The resource type of the target.
+        public let resourceType: String?
+        /// Information about the target.
+        public let targetInformation: [String: String]?
+        /// The name of the target.
+        public let targetName: String?
+
+        public init(resourceType: String? = nil, targetInformation: [String: String]? = nil, targetName: String? = nil) {
+            self.resourceType = resourceType
+            self.targetInformation = targetInformation
+            self.targetName = targetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case targetInformation = "targetInformation"
+            case targetName = "targetName"
         }
     }
 
@@ -1479,6 +1974,48 @@ extension FIS {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TargetAccountConfiguration: AWSDecodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String?
+        /// The description of the target account.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String?
+
+        public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case description = "description"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct TargetAccountConfigurationSummary: AWSDecodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String?
+        /// The description of the target account.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String?
+
+        public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case description = "description"
+            case roleArn = "roleArn"
+        }
     }
 
     public struct TargetResourceType: AWSDecodableShape {
@@ -1623,6 +2160,19 @@ extension FIS {
         }
     }
 
+    public struct UpdateExperimentTemplateExperimentOptionsInput: AWSEncodableShape {
+        /// The empty target resolution mode of the experiment template.
+        public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
+
+        public init(emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emptyTargetResolutionMode = "emptyTargetResolutionMode"
+        }
+    }
+
     public struct UpdateExperimentTemplateLogConfigurationInput: AWSEncodableShape {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public let cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput?
@@ -1654,6 +2204,8 @@ extension FIS {
         public let actions: [String: UpdateExperimentTemplateActionInputItem]?
         /// A description for the template.
         public let description: String?
+        /// The experiment options for the experiment template.
+        public let experimentOptions: UpdateExperimentTemplateExperimentOptionsInput?
         /// The ID of the experiment template.
         public let id: String
         /// The configuration for experiment logging.
@@ -1665,9 +2217,10 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: UpdateExperimentTemplateTargetInput]?
 
-        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, experimentOptions: UpdateExperimentTemplateExperimentOptionsInput? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.description = description
+            self.experimentOptions = experimentOptions
             self.id = id
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
@@ -1680,6 +2233,7 @@ extension FIS {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actions, forKey: .actions)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.experimentOptions, forKey: .experimentOptions)
             request.encodePath(self.id, key: "id")
             try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -1714,6 +2268,7 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
             case description = "description"
+            case experimentOptions = "experimentOptions"
             case logConfiguration = "logConfiguration"
             case roleArn = "roleArn"
             case stopConditions = "stopConditions"
@@ -1819,6 +2374,64 @@ extension FIS {
             case resourceTags = "resourceTags"
             case resourceType = "resourceType"
             case selectionMode = "selectionMode"
+        }
+    }
+
+    public struct UpdateTargetAccountConfigurationRequest: AWSEncodableShape {
+        /// The AWS account ID of the target account.
+        public let accountId: String
+        /// The description of the target account.
+        public let description: String?
+        /// The ID of the experiment template.
+        public let experimentTemplateId: String
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public let roleArn: String?
+
+        public init(accountId: String, description: String? = nil, experimentTemplateId: String, roleArn: String? = nil) {
+            self.accountId = accountId
+            self.description = description
+            self.experimentTemplateId = experimentTemplateId
+            self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountId, key: "accountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.experimentTemplateId, key: "experimentTemplateId")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 48)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
+            try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdateTargetAccountConfigurationResponse: AWSDecodableShape {
+        /// Information about the target account configuration.
+        public let targetAccountConfiguration: TargetAccountConfiguration?
+
+        public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
+            self.targetAccountConfiguration = targetAccountConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccountConfiguration = "targetAccountConfiguration"
         }
     }
 }

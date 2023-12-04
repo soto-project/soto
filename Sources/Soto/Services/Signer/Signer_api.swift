@@ -19,20 +19,23 @@
 
 /// Service object for interacting with AWS Signer service.
 ///
-/// AWS Signer is a fully managed code signing service to help you ensure the trust and
+/// AWS Signer is a fully managed code-signing service to help you ensure the trust and
 /// 			integrity of your code.
-/// 		       AWS Signer supports the following applications:
+/// 		       Signer supports the following applications:
 /// 		       With code signing for AWS Lambda, you can sign AWS
 /// 				Lambda deployment packages. Integrated support is provided for Amazon S3, Amazon
 /// 				CloudWatch, and AWS CloudTrail. In order
-/// 			to sign code, you create a signing profile and then use Signer to sign Lambda zip files
-/// 			in S3.
+/// 			to sign code, you create a signing profile and then use Signer to sign Lambda zip
+/// 			files in S3.
 /// 		       With code signing for IoT, you can sign code for any IoT device that is supported by AWS.
-/// 			IoT code signing is available for Amazon FreeRTOS and AWS IoT Device Management, and is integrated with AWS Certificate Manager (ACM). In order to sign code, you import a third-party code signing
+/// 			IoT code signing is available for Amazon FreeRTOS and AWS IoT Device Management, and is integrated with AWS Certificate Manager (ACM). In order to sign code, you import a third-party code-signing
 /// 			certificate using ACM, and use that to sign updates in Amazon FreeRTOS and AWS IoT Device Management.
-/// 		       With code signing for
-/// 			containers …(TBD)
-/// 		       For more information about AWS Signer, see the AWS Signer Developer
+/// 		       With Signer and the Notation CLI from the Notary
+/// 				Project, you can sign container images stored in a container registry such
+/// 			as Amazon Elastic Container Registry (ECR). The signatures are stored in the registry
+/// 			alongside the images, where they are available for verifying image authenticity and
+/// 			integrity.
+/// 		       For more information about Signer, see the AWS Signer Developer
 /// 			Guide.
 public struct Signer: AWSService {
     // MARK: Member variables
@@ -141,9 +144,8 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Retrieves the
-    /// 			revocation status of one or more of the signing profile, signing job, and signing
-    /// 			certificate.
+    /// Retrieves the revocation status of one or more of the signing profile, signing job,
+    /// 			and signing certificate.
     @Sendable
     public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevocationStatusResponse {
         return try await self.client.execute(
@@ -196,12 +198,12 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Lists all your signing jobs. You can use the maxResults parameter to
-    /// 			limit the number of signing jobs that are returned in the response. If additional jobs
-    /// 			remain to be listed, code signing returns a nextToken value. Use this value in
+    /// Lists all your signing jobs. You can use the maxResults parameter to limit the
+    /// 			number of signing jobs that are returned in the response. If additional jobs remain to
+    /// 			be listed, AWS Signer returns a nextToken value. Use this value in
     /// 			subsequent calls to ListSigningJobs to fetch the remaining values. You can
     /// 			continue calling ListSigningJobs with your maxResults
-    /// 			parameter and with new values that code signing returns in the nextToken
+    /// 			parameter and with new values that Signer returns in the nextToken
     /// 			parameter until all of your signing jobs have been returned.
     @Sendable
     public func listSigningJobs(_ input: ListSigningJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningJobsResponse {
@@ -215,11 +217,11 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Lists all signing platforms available in code signing that match the request parameters. If
-    /// 			additional jobs remain to be listed, code signing returns a nextToken value. Use
-    /// 			this value in subsequent calls to ListSigningJobs to fetch the remaining
-    /// 			values. You can continue calling ListSigningJobs with your
-    /// 				maxResults parameter and with new values that code signing returns in the
+    /// Lists all signing platforms available in AWS Signer that match the request parameters. If
+    /// 			additional jobs remain to be listed, Signer returns a nextToken value.
+    /// 			Use this value in subsequent calls to ListSigningJobs to fetch the
+    /// 			remaining values. You can continue calling ListSigningJobs with your
+    /// 				maxResults parameter and with new values that Signer returns in the
     /// 				nextToken parameter until all of your signing jobs have been
     /// 			returned.
     @Sendable
@@ -234,14 +236,14 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Lists all available signing profiles in your AWS account. Returns only profiles with
-    /// 			an ACTIVE status unless the includeCanceled request field is
-    /// 			set to true. If additional jobs remain to be listed, code signing returns a
+    /// Lists all available signing profiles in your AWS account. Returns only profiles with an
+    /// 				ACTIVE status unless the includeCanceled request field is
+    /// 			set to true. If additional jobs remain to be listed, AWS Signer returns a
     /// 				nextToken value. Use this value in subsequent calls to
     /// 				ListSigningJobs to fetch the remaining values. You can continue calling
     /// 				ListSigningJobs with your maxResults parameter and with
-    /// 			new values that code signing returns in the nextToken parameter until all of your
-    /// 			signing jobs have been returned.
+    /// 			new values that Signer returns in the nextToken parameter until all of
+    /// 			your signing jobs have been returned.
     @Sendable
     public func listSigningProfiles(_ input: ListSigningProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningProfilesResponse {
         return try await self.client.execute(
@@ -267,7 +269,7 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Creates a signing profile. A signing profile is a code signing template that can be used to
+    /// Creates a signing profile. A signing profile is a code-signing template that can be used to
     /// 			carry out a pre-defined signing job.
     ///
     @Sendable
@@ -324,8 +326,7 @@ public struct Signer: AWSService {
         )
     }
 
-    /// Signs a binary
-    /// 			payload and returns a signature envelope.
+    /// Signs a binary payload and returns a signature envelope.
     @Sendable
     public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignPayloadResponse {
         return try await self.client.execute(
@@ -347,14 +348,13 @@ public struct Signer: AWSService {
     ///
     /// 				           Your S3 source bucket must be version enabled.
     ///
-    /// 				           You must create an S3 destination bucket. Code signing uses your S3 destination
-    /// 					bucket to write your signed code.
+    /// 				           You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
+    /// 					write your signed code.
     ///
     /// 				           You specify the name of the source and destination buckets when calling the
     /// 						StartSigningJob operation.
     ///
-    /// 				           You must also specify a request token that identifies your request to
-    /// 					code signing.
+    /// 				           You must also specify a request token that identifies your request to Signer.
     ///
     /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
     /// 			StartSigningJob.
@@ -415,12 +415,12 @@ extension Signer {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Signer {
-    /// Lists all your signing jobs. You can use the maxResults parameter to
-    /// 			limit the number of signing jobs that are returned in the response. If additional jobs
-    /// 			remain to be listed, code signing returns a nextToken value. Use this value in
+    /// Lists all your signing jobs. You can use the maxResults parameter to limit the
+    /// 			number of signing jobs that are returned in the response. If additional jobs remain to
+    /// 			be listed, AWS Signer returns a nextToken value. Use this value in
     /// 			subsequent calls to ListSigningJobs to fetch the remaining values. You can
     /// 			continue calling ListSigningJobs with your maxResults
-    /// 			parameter and with new values that code signing returns in the nextToken
+    /// 			parameter and with new values that Signer returns in the nextToken
     /// 			parameter until all of your signing jobs have been returned.
     /// Return PaginatorSequence for operation.
     ///
@@ -440,11 +440,11 @@ extension Signer {
         )
     }
 
-    /// Lists all signing platforms available in code signing that match the request parameters. If
-    /// 			additional jobs remain to be listed, code signing returns a nextToken value. Use
-    /// 			this value in subsequent calls to ListSigningJobs to fetch the remaining
-    /// 			values. You can continue calling ListSigningJobs with your
-    /// 				maxResults parameter and with new values that code signing returns in the
+    /// Lists all signing platforms available in AWS Signer that match the request parameters. If
+    /// 			additional jobs remain to be listed, Signer returns a nextToken value.
+    /// 			Use this value in subsequent calls to ListSigningJobs to fetch the
+    /// 			remaining values. You can continue calling ListSigningJobs with your
+    /// 				maxResults parameter and with new values that Signer returns in the
     /// 				nextToken parameter until all of your signing jobs have been
     /// 			returned.
     /// Return PaginatorSequence for operation.
@@ -465,14 +465,14 @@ extension Signer {
         )
     }
 
-    /// Lists all available signing profiles in your AWS account. Returns only profiles with
-    /// 			an ACTIVE status unless the includeCanceled request field is
-    /// 			set to true. If additional jobs remain to be listed, code signing returns a
+    /// Lists all available signing profiles in your AWS account. Returns only profiles with an
+    /// 				ACTIVE status unless the includeCanceled request field is
+    /// 			set to true. If additional jobs remain to be listed, AWS Signer returns a
     /// 				nextToken value. Use this value in subsequent calls to
     /// 				ListSigningJobs to fetch the remaining values. You can continue calling
     /// 				ListSigningJobs with your maxResults parameter and with
-    /// 			new values that code signing returns in the nextToken parameter until all of your
-    /// 			signing jobs have been returned.
+    /// 			new values that Signer returns in the nextToken parameter until all of
+    /// 			your signing jobs have been returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

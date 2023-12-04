@@ -26,24 +26,24 @@ import Foundation
 extension Nimble {
     // MARK: Enums
 
-    public enum AutomaticTerminationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutomaticTerminationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case deactivated = "DEACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfilePersona: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfilePersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfilePlatform: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfilePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "LINUX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfileState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfileState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -55,7 +55,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfileStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfileStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case encryptionKeyAccessDenied = "ENCRYPTION_KEY_ACCESS_DENIED"
         case encryptionKeyNotFound = "ENCRYPTION_KEY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
@@ -74,7 +74,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfileValidationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfileValidationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case validationFailed = "VALIDATION_FAILED"
         case validationFailedInternalServerError = "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
         case validationInProgress = "VALIDATION_IN_PROGRESS"
@@ -83,7 +83,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfileValidationStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfileValidationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case validationFailedInternalServerError = "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
         case validationFailedInvalidActiveDirectory = "VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY"
         case validationFailedInvalidSecurityGroupAssociation = "VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION"
@@ -96,7 +96,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchProfileValidationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchProfileValidationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case validateActiveDirectoryStudioComponent = "VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT"
         case validateNetworkAclAssociation = "VALIDATE_NETWORK_ACL_ASSOCIATION"
         case validateSecurityGroupAssociation = "VALIDATE_SECURITY_GROUP_ASSOCIATION"
@@ -104,30 +104,30 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionBackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionBackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case deactivated = "DEACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionPersistenceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionPersistenceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case deactivated = "DEACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingClipboardMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingClipboardMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingImageEncryptionConfigurationKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingImageEncryptionConfigurationKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerManagedKey = "CUSTOMER_MANAGED_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingImageState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -139,7 +139,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingImageStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingImageStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         case streamingImageCreateInProgress = "STREAMING_IMAGE_CREATE_IN_PROGRESS"
@@ -150,7 +150,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingInstanceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case g34Xlarge = "g3.4xlarge"
         case g3sXlarge = "g3s.xlarge"
         case g4dn12Xlarge = "g4dn.12xlarge"
@@ -167,7 +167,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingSessionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingSessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -182,7 +182,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingSessionStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingSessionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeDirectoryDomainJoinError = "ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR"
         case amiValidationError = "AMI_VALIDATION_ERROR"
         case decryptStreamingImageError = "DECRYPT_STREAMING_IMAGE_ERROR"
@@ -202,12 +202,12 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingSessionStorageMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingSessionStorageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case upload = "UPLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingSessionStreamState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingSessionStreamState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -217,7 +217,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingSessionStreamStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingSessionStreamStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalError = "INTERNAL_ERROR"
         case networkConnectionError = "NETWORK_CONNECTION_ERROR"
         case streamCreateInProgress = "STREAM_CREATE_IN_PROGRESS"
@@ -227,13 +227,13 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioComponentInitializationScriptRunContext: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioComponentInitializationScriptRunContext: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case systemInitialization = "SYSTEM_INITIALIZATION"
         case userInitialization = "USER_INITIALIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioComponentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioComponentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -245,7 +245,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioComponentStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioComponentStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeDirectoryAlreadyExists = "ACTIVE_DIRECTORY_ALREADY_EXISTS"
         case encryptionKeyAccessDenied = "ENCRYPTION_KEY_ACCESS_DENIED"
         case encryptionKeyNotFound = "ENCRYPTION_KEY_NOT_FOUND"
@@ -259,7 +259,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioComponentSubtype: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioComponentSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonFsxForLustre = "AMAZON_FSX_FOR_LUSTRE"
         case amazonFsxForWindows = "AMAZON_FSX_FOR_WINDOWS"
         case awsManagedMicrosoftAd = "AWS_MANAGED_MICROSOFT_AD"
@@ -267,7 +267,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioComponentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioComponentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeDirectory = "ACTIVE_DIRECTORY"
         case computeFarm = "COMPUTE_FARM"
         case custom = "CUSTOM"
@@ -276,18 +276,18 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioEncryptionConfigurationKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioEncryptionConfigurationKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKey = "AWS_OWNED_KEY"
         case customerManagedKey = "CUSTOMER_MANAGED_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioPersona: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioPersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case administrator = "ADMINISTRATOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteFailed = "DELETE_FAILED"
@@ -299,7 +299,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StudioStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsSsoAccessDenied = "AWS_SSO_ACCESS_DENIED"
         case awsSsoConfigurationRepairInProgress = "AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS"
         case awsSsoConfigurationRepaired = "AWS_SSO_CONFIGURATION_REPAIRED"
@@ -322,7 +322,7 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeRetentionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VolumeRetentionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case retain = "RETAIN"
         public var description: String { return self.rawValue }

@@ -26,7 +26,7 @@ import Foundation
 extension Route53RecoveryCluster {
     // MARK: Enums
 
-    public enum RoutingControlState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RoutingControlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "Off"
         case on = "On"
         public var description: String { return self.rawValue }
@@ -125,19 +125,23 @@ extension Route53RecoveryCluster {
     public struct RoutingControl: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control panel where the routing control is located.
         public let controlPanelArn: String?
-        /// The name of the control panel where the routing control is located.
+        /// The name of the control panel where the routing control is located. Only ASCII characters are supported for control
+        /// 		panel names.
         public let controlPanelName: String?
+        /// The Amazon Web Services account ID of the routing control owner.
+        public let owner: String?
         /// The Amazon Resource Name (ARN) of the routing control.
         public let routingControlArn: String?
         /// The name of the routing control.
         public let routingControlName: String?
-        /// The current state of the routing control. When a routing control state is On, traffic flows to a cell. When
-        /// 			the state is Off, traffic does not flow.
+        /// The current state of the routing control. When a routing control state is set to ON, traffic flows to a cell. When
+        /// 			the state is set to OFF, traffic does not flow.
         public let routingControlState: RoutingControlState?
 
-        public init(controlPanelArn: String? = nil, controlPanelName: String? = nil, routingControlArn: String? = nil, routingControlName: String? = nil, routingControlState: RoutingControlState? = nil) {
+        public init(controlPanelArn: String? = nil, controlPanelName: String? = nil, owner: String? = nil, routingControlArn: String? = nil, routingControlName: String? = nil, routingControlState: RoutingControlState? = nil) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
+            self.owner = owner
             self.routingControlArn = routingControlArn
             self.routingControlName = routingControlName
             self.routingControlState = routingControlState
@@ -146,6 +150,7 @@ extension Route53RecoveryCluster {
         private enum CodingKeys: String, CodingKey {
             case controlPanelArn = "ControlPanelArn"
             case controlPanelName = "ControlPanelName"
+            case owner = "Owner"
             case routingControlArn = "RoutingControlArn"
             case routingControlName = "RoutingControlName"
             case routingControlState = "RoutingControlState"
@@ -178,12 +183,11 @@ extension Route53RecoveryCluster {
     public struct UpdateRoutingControlStateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the routing control that you want to update the state for.
         public let routingControlArn: String
-        /// The state of the routing control. You can set the value to be On or Off.
+        /// The state of the routing control. You can set the value to ON or OFF.
         public let routingControlState: RoutingControlState
         /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of
         /// 			a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
-        /// 			by commas.
-        /// 		       For more information, see
+        /// 			by commas. For more information, see
         /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let safetyRulesToOverride: [String]?
 
@@ -218,8 +222,7 @@ extension Route53RecoveryCluster {
     public struct UpdateRoutingControlStatesRequest: AWSEncodableShape {
         /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing
         /// 			control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
-        /// 			by commas.
-        /// 		       For more information, see
+        /// 			by commas. For more information, see
         /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let safetyRulesToOverride: [String]?
         /// A set of routing control entries that you want to update.

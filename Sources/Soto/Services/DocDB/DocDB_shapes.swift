@@ -26,13 +26,13 @@ import Foundation
 extension DocDB {
     // MARK: Enums
 
-    public enum ApplyMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplyMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
         case dbInstance = "db-instance"
@@ -46,11 +46,11 @@ extension DocDB {
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
         /// The identifier of the event source to be added:   If the source type is an instance, a DBInstanceIdentifier must be provided.   If the source type is a security group, a DBSecurityGroupName must be provided.   If the source type is a parameter group, a DBParameterGroupName must be provided.   If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
-        public let sourceIdentifier: String
+        public let sourceIdentifier: String?
         /// The name of the Amazon DocumentDB event notification subscription that you want to add a source identifier to.
-        public let subscriptionName: String
+        public let subscriptionName: String?
 
-        public init(sourceIdentifier: String, subscriptionName: String) {
+        public init(sourceIdentifier: String? = nil, subscriptionName: String? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
         }
@@ -77,12 +77,12 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The Amazon DocumentDB resource that the tags are added to. This value is an Amazon Resource Name .
-        public let resourceName: String
+        public let resourceName: String?
         /// The tags to be assigned to the Amazon DocumentDB resource.
-        @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
-        public var tags: [Tag]
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(resourceName: String, tags: [Tag]) {
+        public init(resourceName: String? = nil, tags: [Tag]? = nil) {
             self.resourceName = resourceName
             self.tags = tags
         }
@@ -95,13 +95,13 @@ extension DocDB {
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
-        public let applyAction: String
+        public let applyAction: String?
         /// A value that specifies the type of opt-in request or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.     undo-opt-in - Cancel any existing next-maintenance opt-in requests.
-        public let optInType: String
+        public let optInType: String?
         /// The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
-        public let resourceIdentifier: String
+        public let resourceIdentifier: String?
 
-        public init(applyAction: String, optInType: String, resourceIdentifier: String) {
+        public init(applyAction: String? = nil, optInType: String? = nil, resourceIdentifier: String? = nil) {
             self.applyAction = applyAction
             self.optInType = optInType
             self.resourceIdentifier = resourceIdentifier
@@ -172,6 +172,23 @@ extension DocDB {
         }
     }
 
+    public struct CertificateDetails: AWSDecodableShape {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public let caIdentifier: String?
+        /// The expiration date of the DB instance’s server certificate.
+        public let validTill: Date?
+
+        public init(caIdentifier: String? = nil, validTill: Date? = nil) {
+            self.caIdentifier = caIdentifier
+            self.validTill = validTill
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caIdentifier = "CAIdentifier"
+            case validTill = "ValidTill"
+        }
+    }
+
     public struct CertificateMessage: AWSDecodableShape {
         public struct _CertificatesEncoding: ArrayCoderProperties { public static let member = "Certificate" }
 
@@ -215,16 +232,16 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints:   Must specify a valid cluster parameter group.   If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group identifier; for example, my-db-cluster-param-group, or a valid ARN.   If the source parameter group is in a different Amazon Web Services Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group.
-        public let sourceDBClusterParameterGroupIdentifier: String
+        public let sourceDBClusterParameterGroupIdentifier: String?
         /// The tags that are to be assigned to the parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A description for the copied cluster parameter group.
-        public let targetDBClusterParameterGroupDescription: String
+        public let targetDBClusterParameterGroupDescription: String?
         /// The identifier for the copied cluster parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-param-group1
-        public let targetDBClusterParameterGroupIdentifier: String
+        public let targetDBClusterParameterGroupIdentifier: String?
 
-        public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
+        public init(sourceDBClusterParameterGroupIdentifier: String? = nil, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String? = nil, targetDBClusterParameterGroupIdentifier: String? = nil) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
             self.tags = tags
             self.targetDBClusterParameterGroupDescription = targetDBClusterParameterGroupDescription
@@ -261,14 +278,14 @@ extension DocDB {
         /// The URL that contains a Signature Version 4 signed request for theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from another Amazon Web Services Region. If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source Amazon Web Services Region. The presigned URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source Amazon Web Services Region that contains the cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    SourceRegion - The ID of the region that contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The identifier for the the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks something like the following: arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.    TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be created. This parameter isn't case sensitive.
         public let preSignedUrl: String?
         /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid system snapshot in the available state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
-        public let sourceDBClusterSnapshotIdentifier: String
+        public let sourceDBClusterSnapshotIdentifier: String?
         /// The tags to be assigned to the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot2
-        public let targetDBClusterSnapshotIdentifier: String
+        public let targetDBClusterSnapshotIdentifier: String?
 
-        public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
+        public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String? = nil, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String? = nil) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
             self.preSignedUrl = preSignedUrl
@@ -310,7 +327,7 @@ extension DocDB {
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
         public let backupRetentionPeriod: Int?
         /// The cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The name of the cluster parameter group to associate with this cluster.
         public let dbClusterParameterGroupName: String?
         /// A subnet group to associate with this cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
@@ -321,7 +338,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// The name of the database engine to be used for this cluster. Valid values: docdb
-        public let engine: String
+        public let engine: String?
         /// The version number of the database engine to use. The --engine-version will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
         public let engineVersion: String?
         /// The cluster identifier of the new global cluster.
@@ -342,6 +359,8 @@ extension DocDB {
         public let preSignedUrl: String?
         /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
+        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard    When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+        public let storageType: String?
         /// The tags to be assigned to the cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -349,7 +368,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -368,6 +387,7 @@ extension DocDB {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.preSignedUrl = preSignedUrl
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
@@ -397,6 +417,7 @@ extension DocDB {
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case preSignedUrl = "PreSignedUrl"
             case storageEncrypted = "StorageEncrypted"
+            case storageType = "StorageType"
             case tags = "Tags"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
@@ -406,16 +427,16 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The name of the cluster parameter group. Constraints:   Must not match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string.
-        public let dbClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String?
         /// The cluster parameter group family name.
-        public let dbParameterGroupFamily: String
+        public let dbParameterGroupFamily: String?
         /// The description for the cluster parameter group.
-        public let description: String
+        public let description: String?
         /// The tags to be assigned to the cluster parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dbClusterParameterGroupName: String, dbParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
+        public init(dbClusterParameterGroupName: String? = nil, dbParameterGroupFamily: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.description = description
@@ -458,14 +479,14 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The identifier of the cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The identifier of the cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot1
-        public let dbClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String?
         /// The tags to be assigned to the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dbClusterIdentifier: String, dbClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.tags = tags
@@ -497,18 +518,20 @@ extension DocDB {
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon EC2 Availability Zone that the instance is created in.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
         public let availabilityZone: String?
+        /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see Updating Your Amazon DocumentDB TLS  Certificates and   Encrypting Data in Transit in the Amazon DocumentDB Developer  Guide.
+        public let caCertificateIdentifier: String?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// The identifier of the cluster that the instance will belong to.
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The compute and memory capacity of the instance; for example, db.r5.large.
-        public let dbInstanceClass: String
+        public let dbInstanceClass: String?
         /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
-        public let dbInstanceIdentifier: String
+        public let dbInstanceIdentifier: String?
         /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see Using Amazon Performance Insights.
         public let enablePerformanceInsights: Bool?
         /// The name of the database engine to be used for this instance. Valid value: docdb
-        public let engine: String
+        public let engine: String?
         /// The KMS key identifier for encryption of Performance Insights data. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon DocumentDB uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services region.
         public let performanceInsightsKMSKeyId: String?
         /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
@@ -519,9 +542,10 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbInstanceClass: String, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, engine: String, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceClass = dbInstanceClass
@@ -537,6 +561,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
+            case caCertificateIdentifier = "CACertificateIdentifier"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceClass = "DBInstanceClass"
@@ -567,17 +592,17 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The description for the subnet group.
-        public let dbSubnetGroupDescription: String
+        public let dbSubnetGroupDescription: String?
         /// The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
-        public let dbSubnetGroupName: String
+        public let dbSubnetGroupName: String?
         /// The Amazon EC2 subnet IDs for the subnet group.
-        @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
-        public var subnetIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
         /// The tags to be assigned to the subnet group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dbSubnetGroupDescription: String, dbSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
+        public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetIds = subnetIds
@@ -615,19 +640,19 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. Amazon SNS creates the ARN when you create a topic and subscribe to it.
-        public let snsTopicArn: String
+        public let snsTopicArn: String?
         /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are provided, SourceType must also be provided.   If the source type is an instance, a DBInstanceIdentifier must be provided.   If the source type is a security group, a DBSecurityGroupName must be provided.   If the source type is a parameter group, a DBParameterGroupName must be provided.   If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
         @OptionalCustomCoding<ArrayCoder<_SourceIdsEncoding, String>>
         public var sourceIds: [String]?
         /// The type of source that is generating the events. For example, if you want to be notified of events generated by an instance, you would set this parameter to db-instance. If this value is not specified, all events are returned. Valid values: db-instance, db-cluster, db-parameter-group, db-security-group, db-cluster-snapshot
         public let sourceType: String?
         /// The name of the subscription. Constraints: The name must be fewer than 255 characters.
-        public let subscriptionName: String
+        public let subscriptionName: String?
         /// The tags to be assigned to the event subscription.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
+        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
             self.snsTopicArn = snsTopicArn
@@ -670,13 +695,13 @@ extension DocDB {
         /// The engine version of the global cluster.
         public let engineVersion: String?
         /// The cluster identifier of the new global cluster.
-        public let globalClusterIdentifier: String
+        public let globalClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) to use as the primary cluster of the global cluster. This parameter is optional.
         public let sourceDBClusterIdentifier: String?
         /// The storage encryption setting for the new global cluster.
         public let storageEncrypted: Bool?
 
-        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
@@ -789,11 +814,13 @@ extension DocDB {
         public let status: String?
         /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
+        /// Storage type associated with your cluster Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        public let storageType: String?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -825,6 +852,7 @@ extension DocDB {
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcSecurityGroups = vpcSecurityGroups
         }
 
@@ -860,6 +888,7 @@ extension DocDB {
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case storageType = "StorageType"
             case vpcSecurityGroups = "VpcSecurityGroups"
         }
     }
@@ -1040,10 +1069,12 @@ extension DocDB {
         public let status: String?
         /// Specifies whether the cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
+        /// Storage type associated with your cluster snapshot  For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        public let storageType: String?
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -1060,6 +1091,7 @@ extension DocDB {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcId = vpcId
         }
 
@@ -1080,6 +1112,7 @@ extension DocDB {
             case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case storageType = "StorageType"
             case vpcId = "VpcId"
         }
     }
@@ -1160,19 +1193,26 @@ extension DocDB {
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportableLogTypes: [String]?
+        /// A list of the supported CA certificate identifiers. For more information, see Updating Your Amazon DocumentDB TLS  Certificates and   Encrypting Data in Transit in the Amazon DocumentDB Developer  Guide.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var supportedCACertificateIdentifiers: [String]?
+        /// Indicates whether the engine version supports rotating the server certificate without  rebooting the DB instance.
+        public let supportsCertificateRotationWithoutRestart: Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
-        public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dbEngineDescription = dbEngineDescription
             self.dbEngineVersionDescription = dbEngineVersionDescription
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.validUpgradeTarget = validUpgradeTarget
         }
@@ -1184,6 +1224,8 @@ extension DocDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case exportableLogTypes = "ExportableLogTypes"
+            case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
+            case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
             case validUpgradeTarget = "ValidUpgradeTarget"
         }
@@ -1221,6 +1263,8 @@ extension DocDB {
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
         public let caCertificateIdentifier: String?
+        /// The details of the DB instance's server certificate.
+        public let certificateDetails: CertificateDetails?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// Contains the name of the cluster that the instance is a member of if the  instance is a member of a cluster.
@@ -1271,11 +1315,12 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
@@ -1306,6 +1351,7 @@ extension DocDB {
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case certificateDetails = "CertificateDetails"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceArn = "DBInstanceArn"
@@ -1435,13 +1481,13 @@ extension DocDB {
 
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         ///  The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false
         public let skipFinalSnapshot: Bool?
 
-        public init(dbClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
+        public init(dbClusterIdentifier: String? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
             self.skipFinalSnapshot = skipFinalSnapshot
@@ -1456,9 +1502,9 @@ extension DocDB {
 
     public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
         /// The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.
-        public let dbClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String?
 
-        public init(dbClusterParameterGroupName: String) {
+        public init(dbClusterParameterGroupName: String? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
         }
 
@@ -1481,9 +1527,9 @@ extension DocDB {
 
     public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
         /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
-        public let dbClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String?
 
-        public init(dbClusterSnapshotIdentifier: String) {
+        public init(dbClusterSnapshotIdentifier: String? = nil) {
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
 
@@ -1506,9 +1552,9 @@ extension DocDB {
 
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
         /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.
-        public let dbInstanceIdentifier: String
+        public let dbInstanceIdentifier: String?
 
-        public init(dbInstanceIdentifier: String) {
+        public init(dbInstanceIdentifier: String? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
         }
 
@@ -1531,9 +1577,9 @@ extension DocDB {
 
     public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-        public let dbSubnetGroupName: String
+        public let dbSubnetGroupName: String?
 
-        public init(dbSubnetGroupName: String) {
+        public init(dbSubnetGroupName: String? = nil) {
             self.dbSubnetGroupName = dbSubnetGroupName
         }
 
@@ -1544,9 +1590,9 @@ extension DocDB {
 
     public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
         /// The name of the Amazon DocumentDB event notification subscription that you want to delete.
-        public let subscriptionName: String
+        public let subscriptionName: String?
 
-        public init(subscriptionName: String) {
+        public init(subscriptionName: String? = nil) {
             self.subscriptionName = subscriptionName
         }
 
@@ -1569,9 +1615,9 @@ extension DocDB {
 
     public struct DeleteGlobalClusterMessage: AWSEncodableShape {
         /// The cluster identifier of the global cluster being deleted.
-        public let globalClusterIdentifier: String
+        public let globalClusterIdentifier: String?
 
-        public init(globalClusterIdentifier: String) {
+        public init(globalClusterIdentifier: String? = nil) {
             self.globalClusterIdentifier = globalClusterIdentifier
         }
 
@@ -1658,7 +1704,7 @@ extension DocDB {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of a specific cluster parameter group to return parameter details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.
-        public let dbClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -1669,7 +1715,7 @@ extension DocDB {
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
 
-        public init(dbClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
+        public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -1688,9 +1734,9 @@ extension DocDB {
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
         /// The identifier for the cluster snapshot to describe the attributes for.
-        public let dbClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String?
 
-        public init(dbClusterSnapshotIdentifier: String) {
+        public init(dbClusterSnapshotIdentifier: String? = nil) {
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
 
@@ -1891,7 +1937,7 @@ extension DocDB {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the cluster parameter group family to return the engine parameter information for.
-        public let dbParameterGroupFamily: String
+        public let dbParameterGroupFamily: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -1900,7 +1946,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dbParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(dbParameterGroupFamily: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.filters = filters
             self.marker = marker
@@ -2065,7 +2111,7 @@ extension DocDB {
         /// The instance class filter value. Specify this parameter to show only the available offerings that match the specified instance class.
         public let dbInstanceClass: String?
         /// The name of the engine to retrieve instance options for.
-        public let engine: String
+        public let engine: String?
         /// The engine version filter value. Specify this parameter to show only the available offerings that match the specified engine version.
         public let engineVersion: String?
         /// This parameter is not currently supported.
@@ -2080,7 +2126,7 @@ extension DocDB {
         /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dbInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
+        public init(dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
@@ -2375,12 +2421,12 @@ extension DocDB {
         public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
 
         /// The name of the filter. Filter names are case sensitive.
-        public let name: String
+        public let name: String?
         /// One or more filter values. Filter values are case sensitive.
-        @CustomCoding<ArrayCoder<_ValuesEncoding, String>>
-        public var values: [String]
+        @OptionalCustomCoding<ArrayCoder<_ValuesEncoding, String>>
+        public var values: [String]?
 
-        public init(name: String, values: [String]) {
+        public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
         }
@@ -2490,9 +2536,9 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The Amazon DocumentDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
-        public let resourceName: String
+        public let resourceName: String?
 
-        public init(filters: [Filter]? = nil, resourceName: String) {
+        public init(filters: [Filter]? = nil, resourceName: String? = nil) {
             self.filters = filters
             self.resourceName = resourceName
         }
@@ -2506,6 +2552,8 @@ extension DocDB {
     public struct ModifyDBClusterMessage: AWSEncodableShape {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+        public let allowMajorVersionUpgrade: Bool?
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
@@ -2513,12 +2561,12 @@ extension DocDB {
         /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The name of the cluster parameter group to use for the cluster.
         public let dbClusterParameterGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
-        /// The version number of the database engine to which you want to upgrade. Modifying engine version is not supported on Amazon DocumentDB.
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command:  aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
         public let engineVersion: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
@@ -2530,11 +2578,14 @@ extension DocDB {
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
+        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        public let storageType: String?
         /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -2547,10 +2598,12 @@ extension DocDB {
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.storageType = storageType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case applyImmediately = "ApplyImmediately"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
@@ -2563,6 +2616,7 @@ extension DocDB {
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case storageType = "StorageType"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
     }
@@ -2571,12 +2625,12 @@ extension DocDB {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the cluster parameter group to modify.
-        public let dbClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String?
         /// A list of parameters in the cluster parameter group to modify.
-        @CustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
-        public var parameters: [Parameter]
+        @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
+        public var parameters: [Parameter]?
 
-        public init(dbClusterParameterGroupName: String, parameters: [Parameter]) {
+        public init(dbClusterParameterGroupName: String? = nil, parameters: [Parameter]? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
         }
@@ -2604,9 +2658,9 @@ extension DocDB {
         public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
         /// The name of the cluster snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this value to restore.
-        public let attributeName: String
+        public let attributeName: String?
         /// The identifier for the cluster snapshot to modify the attributes for.
-        public let dbClusterSnapshotIdentifier: String
+        public let dbClusterSnapshotIdentifier: String?
         /// A list of cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account IDs. To make the manual cluster snapshot restorable by any Amazon Web Services account, set it to all. Do not add the all value for any manual cluster snapshots that contain private information that you don't want to be available to all Amazon Web Services accounts.
         @OptionalCustomCoding<ArrayCoder<_ValuesToAddEncoding, String>>
         public var valuesToAdd: [String]?
@@ -2614,7 +2668,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ValuesToRemoveEncoding, String>>
         public var valuesToRemove: [String]?
 
-        public init(attributeName: String, dbClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
+        public init(attributeName: String? = nil, dbClusterSnapshotIdentifier: String? = nil, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.valuesToAdd = valuesToAdd
@@ -2648,12 +2702,14 @@ extension DocDB {
         public let autoMinorVersionUpgrade: Bool?
         /// Indicates the certificate that needs to be associated with the instance.
         public let caCertificateIdentifier: String?
+        /// Specifies whether the DB instance is restarted when you rotate your  SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate  is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, see Updating Your Amazon DocumentDB TLS  Certificates and   Encrypting Data in Transit in the Amazon DocumentDB Developer  Guide.
+        public let certificateRotationRestart: Bool?
         /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all Amazon Web Services Regions.  If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
         public let dbInstanceClass: String?
         /// The instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
-        public let dbInstanceIdentifier: String
+        public let dbInstanceIdentifier: String?
         /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see Using Amazon Performance Insights.
         public let enablePerformanceInsights: Bool?
         ///  The new instance identifier for the instance when renaming an instance. When you change the instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true. It occurs during the next maintenance window if you set Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
@@ -2665,10 +2721,11 @@ extension DocDB {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, newDBInstanceIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
+        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, enablePerformanceInsights: Bool? = nil, newDBInstanceIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateRotationRestart = certificateRotationRestart
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -2683,6 +2740,7 @@ extension DocDB {
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case certificateRotationRestart = "CertificateRotationRestart"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -2712,12 +2770,12 @@ extension DocDB {
         /// The description for the subnet group.
         public let dbSubnetGroupDescription: String?
         /// The name for the subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-        public let dbSubnetGroupName: String
+        public let dbSubnetGroupName: String?
         /// The Amazon EC2 subnet IDs for the subnet group.
-        @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
-        public var subnetIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
 
-        public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String, subnetIds: [String]) {
+        public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetIds: [String]? = nil) {
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetIds = subnetIds
@@ -2755,9 +2813,9 @@ extension DocDB {
         /// The type of source that is generating the events. For example, if you want to be notified of events generated by an instance, set this parameter to db-instance. If this value is not specified, all events are returned. Valid values: db-instance, db-parameter-group, db-security-group
         public let sourceType: String?
         /// The name of the Amazon DocumentDB event notification subscription.
-        public let subscriptionName: String
+        public let subscriptionName: String?
 
-        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
+        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
             self.snsTopicArn = snsTopicArn
@@ -2790,11 +2848,11 @@ extension DocDB {
         /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global cluster.
-        public let globalClusterIdentifier: String
+        public let globalClusterIdentifier: String?
         /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newGlobalClusterIdentifier: String?
 
-        public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String, newGlobalClusterIdentifier: String? = nil) {
+        public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String? = nil, newGlobalClusterIdentifier: String? = nil) {
             self.deletionProtection = deletionProtection
             self.globalClusterIdentifier = globalClusterIdentifier
             self.newGlobalClusterIdentifier = newGlobalClusterIdentifier
@@ -2842,15 +2900,18 @@ extension DocDB {
         public let engineVersion: String?
         /// The license model for an instance.
         public let licenseModel: String?
+        /// The storage type to associate with the DB cluster
+        public let storageType: String?
         /// Indicates whether an instance is in a virtual private cloud (VPC).
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, storageType: String? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
             self.licenseModel = licenseModel
+            self.storageType = storageType
             self.vpc = vpc
         }
 
@@ -2860,6 +2921,7 @@ extension DocDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case licenseModel = "LicenseModel"
+            case storageType = "StorageType"
             case vpc = "Vpc"
         }
     }
@@ -3072,11 +3134,11 @@ extension DocDB {
 
     public struct RebootDBInstanceMessage: AWSEncodableShape {
         /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
-        public let dbInstanceIdentifier: String
+        public let dbInstanceIdentifier: String?
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
         public let forceFailover: Bool?
 
-        public init(dbInstanceIdentifier: String, forceFailover: Bool? = nil) {
+        public init(dbInstanceIdentifier: String? = nil, forceFailover: Bool? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.forceFailover = forceFailover
         }
@@ -3101,11 +3163,11 @@ extension DocDB {
 
     public struct RemoveFromGlobalClusterMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Amazon DocumentDB global cluster.
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The cluster identifier to detach from the Amazon DocumentDB global cluster.
-        public let globalClusterIdentifier: String
+        public let globalClusterIdentifier: String?
 
-        public init(dbClusterIdentifier: String, globalClusterIdentifier: String) {
+        public init(dbClusterIdentifier: String? = nil, globalClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.globalClusterIdentifier = globalClusterIdentifier
         }
@@ -3136,11 +3198,11 @@ extension DocDB {
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSEncodableShape {
         ///  The source identifier to be removed from the subscription, such as the instance identifier for an instance, or the name of a security group.
-        public let sourceIdentifier: String
+        public let sourceIdentifier: String?
         /// The name of the Amazon DocumentDB event notification subscription that you want to remove a source identifier from.
-        public let subscriptionName: String
+        public let subscriptionName: String?
 
-        public init(sourceIdentifier: String, subscriptionName: String) {
+        public init(sourceIdentifier: String? = nil, subscriptionName: String? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
         }
@@ -3165,12 +3227,12 @@ extension DocDB {
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
         /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
-        public let resourceName: String
+        public let resourceName: String?
         /// The tag key (name) of the tag to be removed.
-        @CustomCoding<StandardArrayCoder<String>>
-        public var tagKeys: [String]
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var tagKeys: [String]?
 
-        public init(resourceName: String, tagKeys: [String]) {
+        public init(resourceName: String? = nil, tagKeys: [String]? = nil) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
         }
@@ -3185,14 +3247,14 @@ extension DocDB {
         public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the cluster parameter group to reset.
-        public let dbClusterParameterGroupName: String
+        public let dbClusterParameterGroupName: String?
         /// A list of parameter names in the cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
 
-        public init(dbClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
+        public init(dbClusterParameterGroupName: String? = nil, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
@@ -3234,7 +3296,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The name of the DB cluster parameter group to associate with this DB cluster.  Type: String.         Required: No. If this argument is omitted, the default DB cluster parameter group is used. If supplied, must match the name of an existing default DB cluster parameter group. The string must consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
         public let dbClusterParameterGroupName: String?
         /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
@@ -3245,7 +3307,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
-        public let engine: String
+        public let engine: String?
         /// The version of the database engine to use for the new cluster.
         public let engineVersion: String?
         /// The KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
@@ -3253,7 +3315,9 @@ extension DocDB {
         /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
         public let port: Int?
         /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints:   Must match the identifier of an existing snapshot.
-        public let snapshotIdentifier: String
+        public let snapshotIdentifier: String?
+        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        public let storageType: String?
         /// The tags to be assigned to the restored cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -3261,7 +3325,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -3273,6 +3337,7 @@ extension DocDB {
             self.kmsKeyId = kmsKeyId
             self.port = port
             self.snapshotIdentifier = snapshotIdentifier
+            self.storageType = storageType
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
@@ -3289,6 +3354,7 @@ extension DocDB {
             case kmsKeyId = "KmsKeyId"
             case port = "Port"
             case snapshotIdentifier = "SnapshotIdentifier"
+            case storageType = "StorageType"
             case tags = "Tags"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
@@ -3311,7 +3377,7 @@ extension DocDB {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// The name of the new cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
         /// The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
         public let dbSubnetGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
@@ -3328,7 +3394,9 @@ extension DocDB {
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
         /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
-        public let sourceDBClusterIdentifier: String
+        public let sourceDBClusterIdentifier: String?
+        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        public let storageType: String?
         /// The tags to be assigned to the restored cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -3338,7 +3406,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(dbClusterIdentifier: String, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
@@ -3348,6 +3416,7 @@ extension DocDB {
             self.restoreToTime = restoreToTime
             self.restoreType = restoreType
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+            self.storageType = storageType
             self.tags = tags
             self.useLatestRestorableTime = useLatestRestorableTime
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -3363,6 +3432,7 @@ extension DocDB {
             case restoreToTime = "RestoreToTime"
             case restoreType = "RestoreType"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+            case storageType = "StorageType"
             case tags = "Tags"
             case useLatestRestorableTime = "UseLatestRestorableTime"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -3383,9 +3453,9 @@ extension DocDB {
 
     public struct StartDBClusterMessage: AWSEncodableShape {
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
 
-        public init(dbClusterIdentifier: String) {
+        public init(dbClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
         }
 
@@ -3408,9 +3478,9 @@ extension DocDB {
 
     public struct StopDBClusterMessage: AWSEncodableShape {
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52
-        public let dbClusterIdentifier: String
+        public let dbClusterIdentifier: String?
 
-        public init(dbClusterIdentifier: String) {
+        public init(dbClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
         }
 

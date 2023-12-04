@@ -26,20 +26,20 @@ import Foundation
 extension ApplicationCostProfiler {
     // MARK: Enums
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFrequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case daily = "DAILY"
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3BucketRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3BucketRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case euSouth1 = "eu-south-1"
@@ -245,7 +245,7 @@ extension ApplicationCostProfiler {
             try self.destinationS3Location.validate(name: "\(name).destinationS3Location")
             try self.validate(self.reportDescription, name: "reportDescription", parent: name, max: 1024)
             try self.validate(self.reportDescription, name: "reportDescription", parent: name, min: 1)
-            try self.validate(self.reportDescription, name: "reportDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.reportDescription, name: "reportDescription", parent: name, pattern: "\\S")
             try self.validate(self.reportId, name: "reportId", parent: name, max: 255)
             try self.validate(self.reportId, name: "reportId", parent: name, min: 1)
             try self.validate(self.reportId, name: "reportId", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]+$")
@@ -324,10 +324,10 @@ extension ApplicationCostProfiler {
         public func validate(name: String) throws {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)")
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 512)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -353,10 +353,10 @@ extension ApplicationCostProfiler {
         public func validate(name: String) throws {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)")
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)$")
             try self.validate(self.key, name: "key", parent: name, max: 512)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -400,7 +400,7 @@ extension ApplicationCostProfiler {
             try self.destinationS3Location.validate(name: "\(name).destinationS3Location")
             try self.validate(self.reportDescription, name: "reportDescription", parent: name, max: 1024)
             try self.validate(self.reportDescription, name: "reportDescription", parent: name, min: 1)
-            try self.validate(self.reportDescription, name: "reportDescription", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.reportDescription, name: "reportDescription", parent: name, pattern: "\\S")
             try self.validate(self.reportId, name: "reportId", parent: name, max: 255)
             try self.validate(self.reportId, name: "reportId", parent: name, min: 1)
             try self.validate(self.reportId, name: "reportId", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]+$")

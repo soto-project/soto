@@ -26,7 +26,7 @@ import Foundation
 extension PaymentCryptographyData {
     // MARK: Enums
 
-    public enum DukptDerivationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DukptDerivationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
@@ -35,20 +35,20 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
-    public enum DukptEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DukptEncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbc = "CBC"
         case ecb = "ECB"
         public var description: String { return self.rawValue }
     }
 
-    public enum DukptKeyVariant: String, CustomStringConvertible, Codable, Sendable {
+    public enum DukptKeyVariant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bidirectional = "BIDIRECTIONAL"
         case request = "REQUEST"
         case response = "RESPONSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbc = "CBC"
         case cfb = "CFB"
         case cfb1 = "CFB1"
@@ -60,7 +60,7 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
-    public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmac = "CMAC"
         case hmacSha224 = "HMAC_SHA224"
         case hmacSha256 = "HMAC_SHA256"
@@ -71,13 +71,13 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
-    public enum MajorKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum MajorKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case emvOptionA = "EMV_OPTION_A"
         case emvOptionB = "EMV_OPTION_B"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaddingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PaddingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oaepSha1 = "OAEP_SHA1"
         case oaepSha256 = "OAEP_SHA256"
         case oaepSha512 = "OAEP_SHA512"
@@ -85,13 +85,13 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
-    public enum PinBlockFormatForPinData: String, CustomStringConvertible, Codable, Sendable {
+    public enum PinBlockFormatForPinData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isoFormat0 = "ISO_FORMAT_0"
         case isoFormat3 = "ISO_FORMAT_3"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amex = "AMEX"
         case emv2000 = "EMV2000"
         case emvCommonSessionKey = "EMV_COMMON_SESSION_KEY"
@@ -1126,9 +1126,9 @@ extension PaymentCryptographyData {
         /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
         public let keyArn: String
         /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
-        public let keyCheckValue: String
+        public let keyCheckValue: String?
 
-        public init(cipherText: String, keyArn: String, keyCheckValue: String) {
+        public init(cipherText: String, keyArn: String, keyCheckValue: String? = nil) {
             self.cipherText = cipherText
             self.keyArn = keyArn
             self.keyCheckValue = keyCheckValue
@@ -1225,7 +1225,7 @@ extension PaymentCryptographyData {
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
-            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1877,7 +1877,7 @@ extension PaymentCryptographyData {
         public func validate(name: String) throws {
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, max: 32)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, min: 16)
-            try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.incomingDukptAttributes?.validate(name: "\(name).incomingDukptAttributes")
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, min: 7)
@@ -2094,12 +2094,12 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.mac, name: "mac", parent: name, max: 128)
             try self.validate(self.mac, name: "mac", parent: name, min: 4)
-            try self.validate(self.mac, name: "mac", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.mac, name: "mac", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
-            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.verificationAttributes.validate(name: "\(name).verificationAttributes")
         }
 

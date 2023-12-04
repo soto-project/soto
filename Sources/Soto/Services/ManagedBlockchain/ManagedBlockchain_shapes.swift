@@ -26,31 +26,40 @@ import Foundation
 extension ManagedBlockchain {
     // MARK: Enums
 
-    public enum AccessorStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessorNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ethereumGoerli = "ETHEREUM_GOERLI"
+        case ethereumMainnet = "ETHEREUM_MAINNET"
+        case ethereumMainnetAndGoerli = "ETHEREUM_MAINNET_AND_GOERLI"
+        case polygonMainnet = "POLYGON_MAINNET"
+        case polygonMumbai = "POLYGON_MUMBAI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case pendingDeletion = "PENDING_DELETION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billingToken = "BILLING_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Edition: String, CustomStringConvertible, Codable, Sendable {
+    public enum Edition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case standard = "STANDARD"
         case starter = "STARTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Framework: String, CustomStringConvertible, Codable, Sendable {
+    public enum Framework: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ethereum = "ETHEREUM"
         case hyperledgerFabric = "HYPERLEDGER_FABRIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvitationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum InvitationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "ACCEPTED"
         case accepting = "ACCEPTING"
         case expired = "EXPIRED"
@@ -59,7 +68,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -70,7 +79,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -79,7 +88,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -92,7 +101,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProposalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProposalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionFailed = "ACTION_FAILED"
         case approved = "APPROVED"
         case expired = "EXPIRED"
@@ -101,19 +110,19 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum StateDBType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StateDBType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case couchDB = "CouchDB"
         case levelDB = "LevelDB"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThresholdComparator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ThresholdComparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoteValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum VoteValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case no = "NO"
         case yes = "YES"
         public var description: String { return self.rawValue }
@@ -124,13 +133,15 @@ extension ManagedBlockchain {
     public struct Accessor: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about  ARNs and their format, see Amazon Resource  Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
-        /// The billing token is a property of the accessor. Use this token to make Ethereum API calls to your  Ethereum node. The billing token is used to track your accessor object for billing Ethereum API  requests made to your Ethereum nodes.
+        /// The billing token is a property of the Accessor. Use this token to  when making calls to the blockchain network. The billing token is used  to track your accessor token for billing requests.
         public let billingToken: String?
         /// The creation date and time of the accessor.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         /// The unique identifier of the accessor.
         public let id: String?
+        /// The blockchain network that the Accessor token is created for.
+        public let networkType: AccessorNetworkType?
         /// The current status of the accessor.
         public let status: AccessorStatus?
         /// The tags assigned to the Accessor. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
@@ -138,11 +149,12 @@ extension ManagedBlockchain {
         /// The type of the accessor.  Currently, accessor type is restricted to BILLING_TOKEN.
         public let type: AccessorType?
 
-        public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, tags: [String: String]? = nil, type: AccessorType? = nil) {
+        public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, networkType: AccessorNetworkType? = nil, status: AccessorStatus? = nil, tags: [String: String]? = nil, type: AccessorType? = nil) {
             self.arn = arn
             self.billingToken = billingToken
             self.creationDate = creationDate
             self.id = id
+            self.networkType = networkType
             self.status = status
             self.tags = tags
             self.type = type
@@ -153,6 +165,7 @@ extension ManagedBlockchain {
             case billingToken = "BillingToken"
             case creationDate = "CreationDate"
             case id = "Id"
+            case networkType = "NetworkType"
             case status = "Status"
             case tags = "Tags"
             case type = "Type"
@@ -167,15 +180,18 @@ extension ManagedBlockchain {
         public var creationDate: Date?
         /// The unique identifier of the accessor.
         public let id: String?
+        /// The blockchain network that the Accessor token is created for.
+        public let networkType: AccessorNetworkType?
         /// The current status of the accessor.
         public let status: AccessorStatus?
         /// The type of the accessor.  Currently accessor type is restricted to BILLING_TOKEN.
         public let type: AccessorType?
 
-        public init(arn: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, id: String? = nil, networkType: AccessorNetworkType? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.id = id
+            self.networkType = networkType
             self.status = status
             self.type = type
         }
@@ -184,6 +200,7 @@ extension ManagedBlockchain {
             case arn = "Arn"
             case creationDate = "CreationDate"
             case id = "Id"
+            case networkType = "NetworkType"
             case status = "Status"
             case type = "Type"
         }
@@ -192,7 +209,7 @@ extension ManagedBlockchain {
     public struct ApprovalThresholdPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions aren't carried out.
         public let proposalDurationInHours: Int?
-        /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThreholdPercentage to be approved.
+        /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThresholdPercentage to be approved.
         public let thresholdComparator: ThresholdComparator?
         /// The percentage of votes among all members that must be YES for a proposal to be approved. For example, a ThresholdPercentage value of 50 indicates 50%. The ThresholdComparator determines the precise comparison. If a ThresholdPercentage value of 50 is specified on a network with 10 members, along with a ThresholdComparator value of GREATER_THAN, this indicates that 6 YES votes are required for the proposal to be approved.
         public let thresholdPercentage: Int?
@@ -222,12 +239,15 @@ extension ManagedBlockchain {
         public let accessorType: AccessorType
         /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of  the operation. An idempotent operation completes no more than once. This  identifier is required only if you make a service request directly using  an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the  Amazon Web Services CLI.
         public let clientRequestToken: String
+        /// The blockchain network that the Accessor token is created for.  We recommend using the appropriate networkType  value for the blockchain network that you are creating the Accessor  token for. You cannnot use the value ETHEREUM_MAINNET_AND_GOERLI to  specify a networkType for your Accessor token. The default value of ETHEREUM_MAINNET_AND_GOERLI is only applied:   when the CreateAccessor action does not set a networkType.   to all existing Accessor tokens that were created before the networkType property was introduced.
+        public let networkType: AccessorNetworkType?
         /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
-        public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken(), tags: [String: String]? = nil) {
+        public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken(), networkType: AccessorNetworkType? = nil, tags: [String: String]? = nil) {
             self.accessorType = accessorType
             self.clientRequestToken = clientRequestToken
+            self.networkType = networkType
             self.tags = tags
         }
 
@@ -245,6 +265,7 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case accessorType = "AccessorType"
             case clientRequestToken = "ClientRequestToken"
+            case networkType = "NetworkType"
             case tags = "Tags"
         }
     }
@@ -252,17 +273,21 @@ extension ManagedBlockchain {
     public struct CreateAccessorOutput: AWSDecodableShape {
         /// The unique identifier of the accessor.
         public let accessorId: String?
-        /// The billing token is a property of the Accessor. Use this token to make Ethereum API calls to your Ethereum node. The billing token is used to track your accessor object for billing Ethereum  API requests made to your Ethereum nodes.
+        /// The billing token is a property of the Accessor. Use this token to  when making calls to the blockchain network. The billing token is used  to track your accessor token for billing requests.
         public let billingToken: String?
+        /// The blockchain network that the accessor token is created for.
+        public let networkType: AccessorNetworkType?
 
-        public init(accessorId: String? = nil, billingToken: String? = nil) {
+        public init(accessorId: String? = nil, billingToken: String? = nil, networkType: AccessorNetworkType? = nil) {
             self.accessorId = accessorId
             self.billingToken = billingToken
+            self.networkType = networkType
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessorId = "AccessorId"
             case billingToken = "BillingToken"
+            case networkType = "NetworkType"
         }
     }
 
@@ -408,7 +433,7 @@ extension ManagedBlockchain {
         public let clientRequestToken: String
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby
+        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
@@ -603,7 +628,7 @@ extension ManagedBlockchain {
     public struct DeleteNodeInput: AWSEncodableShape {
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby
+        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
@@ -887,11 +912,14 @@ extension ManagedBlockchain {
     public struct ListAccessorsInput: AWSEncodableShape {
         ///  The maximum number of accessors to list.
         public let maxResults: Int?
+        /// The blockchain network that the Accessor token is created for.  Use the value ETHEREUM_MAINNET_AND_GOERLI for all  existing Accessors tokens that were created before the networkType  property was introduced.
+        public let networkType: AccessorNetworkType?
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, networkType: AccessorNetworkType? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
+            self.networkType = networkType
             self.nextToken = nextToken
         }
 
@@ -899,6 +927,7 @@ extension ManagedBlockchain {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.networkType, key: "networkType")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
@@ -1618,7 +1647,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkEthereumAttributes: AWSDecodableShape {
-        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    goerli = 5    rinkeby = 4
+        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    goerli = 5
         public let chainId: String?
 
         public init(chainId: String? = nil) {

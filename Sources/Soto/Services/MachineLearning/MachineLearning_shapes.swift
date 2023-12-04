@@ -26,15 +26,15 @@ import Foundation
 extension MachineLearning {
     // MARK: Enums
 
-    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sgd = "sgd"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "CreatedAt"
-        case dataSourceId = "DataSourceId"
-        case dataURI = "DataURI"
+        case dataUri = "DataURI"
+        case datasourceId = "DataSourceId"
         case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
         case mlModelId = "MLModelId"
@@ -43,9 +43,9 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "CreatedAt"
-        case dataLocationS3 = "DataLocationS3"
+        case dataUri = "DataLocationS3"
         case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
         case name = "Name"
@@ -53,13 +53,13 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetailsAttributes: String, CustomStringConvertible, Codable, Sendable {
+    public enum DetailsAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case algorithm = "Algorithm"
         case predictiveModelType = "PredictiveModelType"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case deleted = "DELETED"
         case failed = "FAILED"
@@ -68,10 +68,10 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable, Sendable {
+    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "CreatedAt"
-        case dataSourceId = "DataSourceId"
-        case dataURI = "DataURI"
+        case dataUri = "DataURI"
+        case datasourceId = "DataSourceId"
         case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
         case mlModelId = "MLModelId"
@@ -80,28 +80,28 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable, Sendable {
+    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case algorithm = "Algorithm"
         case createdAt = "CreatedAt"
         case iamUser = "IAMUser"
         case lastUpdatedAt = "LastUpdatedAt"
         case mlModelType = "MLModelType"
         case name = "Name"
-        case realtimeEndpointStatus = "RealtimeEndpointStatus"
+        case realTimeEndpointStatus = "RealtimeEndpointStatus"
         case status = "Status"
-        case trainingDataSourceId = "TrainingDataSourceId"
-        case trainingDataURI = "TrainingDataURI"
+        case trainingDataUri = "TrainingDataURI"
+        case trainingDatasourceId = "TrainingDataSourceId"
         public var description: String { return self.rawValue }
     }
 
-    public enum MLModelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MLModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "BINARY"
         case multiclass = "MULTICLASS"
         case regression = "REGRESSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case none = "NONE"
         case ready = "READY"
@@ -109,15 +109,15 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "asc"
         case dsc = "dsc"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaggableResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaggableResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case batchPrediction = "BatchPrediction"
-        case dataSource = "DataSource"
+        case datasource = "DataSource"
         case evaluation = "Evaluation"
         case mlModel = "MLModel"
         public var description: String { return self.rawValue }
@@ -142,7 +142,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -264,17 +264,17 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, max: 64)
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, min: 1)
-            try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
-            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
-            try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.outputUri, name: "outputUri", parent: name, max: 2048)
-            try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -324,9 +324,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
-            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "\\S.*|^$")
             try self.rdsData.validate(name: "\(name).rdsData")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
@@ -378,9 +378,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
-            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
@@ -428,9 +428,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
-            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
         }
 
@@ -475,15 +475,15 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, max: 64)
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, min: 1)
-            try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
-            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
-            try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,15 +536,15 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.mlModelName, name: "mlModelName", parent: name, max: 1024)
-            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.recipe, name: "recipe", parent: name, max: 131071)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, max: 2048)
-            try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, max: 64)
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, min: 1)
-            try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -582,7 +582,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -693,7 +693,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
-            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -725,7 +725,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -757,7 +757,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
-            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -789,7 +789,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -821,7 +821,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -863,7 +863,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -936,21 +936,21 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
-            try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.eq, name: "eq", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
-            try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ge, name: "ge", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
-            try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.gt, name: "gt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.le, name: "le", parent: name, max: 1024)
-            try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.le, name: "le", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
-            try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.lt, name: "lt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
-            try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ne, name: "ne", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1025,21 +1025,21 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
-            try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.eq, name: "eq", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
-            try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ge, name: "ge", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
-            try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.gt, name: "gt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.le, name: "le", parent: name, max: 1024)
-            try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.le, name: "le", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
-            try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.lt, name: "lt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
-            try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ne, name: "ne", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,21 +1114,21 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
-            try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.eq, name: "eq", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
-            try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ge, name: "ge", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
-            try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.gt, name: "gt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.le, name: "le", parent: name, max: 1024)
-            try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.le, name: "le", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
-            try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.lt, name: "lt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
-            try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ne, name: "ne", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1203,21 +1203,21 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
-            try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.eq, name: "eq", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
-            try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ge, name: "ge", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
-            try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.gt, name: "gt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.le, name: "le", parent: name, max: 1024)
-            try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.le, name: "le", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
-            try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.lt, name: "lt", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
-            try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.ne, name: "ne", parent: name, pattern: "\\S.*|^$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1266,7 +1266,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1369,7 +1369,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
-            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1468,7 +1468,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,7 +1574,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
-            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,7 +1665,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1873,9 +1873,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, max: 2048)
-            try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
+            try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, pattern: "^https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1967,11 +1967,11 @@ extension MachineLearning {
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
-            try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, max: 64)
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, min: 1)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
-            try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -2014,7 +2014,7 @@ extension MachineLearning {
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, max: 63)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, min: 1)
-            try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, pattern: "[a-z0-9-]+")
+            try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2137,9 +2137,9 @@ extension MachineLearning {
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
-            try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
-            try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16777216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
         }
@@ -2167,10 +2167,10 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "[a-z0-9-]+")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-z0-9]+")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2243,10 +2243,10 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, max: 2048)
-            try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, max: 2048)
-            try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, pattern: "^s3://([^/]+)(/.*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2296,9 +2296,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
-            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
-            try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2334,9 +2334,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
-            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
-            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2372,9 +2372,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
-            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
-            try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2413,9 +2413,9 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, max: 64)
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, min: 1)
-            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.mlModelName, name: "mlModelName", parent: name, max: 1024)
-            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: ".*\\S.*|^$")
+            try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: "\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {

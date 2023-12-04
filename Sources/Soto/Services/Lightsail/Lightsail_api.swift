@@ -984,7 +984,7 @@ public struct Lightsail: AWSService {
         )
     }
 
-    /// Returns information about one or more Amazon Lightsail SSL/TLS certificates.  To get a summary of a certificate, ommit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
+    /// Returns information about one or more Amazon Lightsail SSL/TLS certificates.  To get a summary of a certificate, omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
     @Sendable
     public func getCertificates(_ input: GetCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificatesResult {
         return try await self.client.execute(

@@ -26,20 +26,20 @@ import Foundation
 extension Kinesis {
     // MARK: Enums
 
-    public enum ConsumerStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConsumerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricsName: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricsName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case incomingBytes = "IncomingBytes"
         case incomingRecords = "IncomingRecords"
@@ -51,12 +51,12 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case uniformScaling = "UNIFORM_SCALING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterShardId = "AFTER_SHARD_ID"
         case atLatest = "AT_LATEST"
         case atTimestamp = "AT_TIMESTAMP"
@@ -66,7 +66,7 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case atTimestamp = "AT_TIMESTAMP"
@@ -75,13 +75,13 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -326,6 +326,25 @@ extension Kinesis {
             case retentionPeriodHours = "RetentionPeriodHours"
             case streamARN = "StreamARN"
             case streamName = "StreamName"
+        }
+    }
+
+    public struct DeleteResourcePolicyInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the data stream or consumer.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
         }
     }
 
@@ -713,6 +732,38 @@ extension Kinesis {
             case millisBehindLatest = "MillisBehindLatest"
             case nextShardIterator = "NextShardIterator"
             case records = "Records"
+        }
+    }
+
+    public struct GetResourcePolicyInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the data stream or consumer.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct GetResourcePolicyOutput: AWSDecodableShape {
+        /// Details of the resource policy. This is formatted as a JSON string.
+        public let policy: String
+
+        public init(policy: String) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
@@ -1357,6 +1408,29 @@ extension Kinesis {
             case errorMessage = "ErrorMessage"
             case sequenceNumber = "SequenceNumber"
             case shardId = "ShardId"
+        }
+    }
+
+    public struct PutResourcePolicyInput: AWSEncodableShape {
+        /// Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the data stream or consumer.
+        public let resourceARN: String
+
+        public init(policy: String, resourceARN: String) {
+            self.policy = policy
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceARN = "ResourceARN"
         }
     }
 

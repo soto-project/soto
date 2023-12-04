@@ -26,7 +26,7 @@ import Foundation
 extension AppSync {
     // MARK: Enums
 
-    public enum ApiCacheStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiCacheStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -35,7 +35,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiCacheType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiCacheType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "LARGE"
         case large12X = "LARGE_12X"
         case large2X = "LARGE_2X"
@@ -54,20 +54,20 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullRequestCaching = "FULL_REQUEST_CACHING"
         case perResolverCaching = "PER_RESOLVER_CACHING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case processing = "PROCESSING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
         case awsIam = "AWS_IAM"
@@ -76,18 +76,18 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthorizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsIam = "AWS_IAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictDetectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConflictDetectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case version = "VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictHandlerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConflictHandlerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automerge = "AUTOMERGE"
         case lambda = "LAMBDA"
         case none = "NONE"
@@ -95,7 +95,14 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSourceIntrospectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
         case amazonEventbridge = "AMAZON_EVENTBRIDGE"
@@ -107,66 +114,66 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum DefaultAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum DefaultAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldLogLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum FieldLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case error = "ERROR"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GraphQLApiType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GraphQLApiType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case graphql = "GRAPHQL"
         case merged = "MERGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum GraphQLApiVisibility: String, CustomStringConvertible, Codable, Sendable {
+    public enum GraphQLApiVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case global = "GLOBAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MergeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoMerge = "AUTO_MERGE"
         case manualMerge = "MANUAL_MERGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case sdl = "SDL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ownership: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ownership: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case currentAccount = "CURRENT_ACCOUNT"
         case otherAccounts = "OTHER_ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverKind: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResolverKind: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pipeline = "PIPELINE"
         case unit = "UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuntimeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuntimeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appsyncJs = "APPSYNC_JS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SchemaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -176,7 +183,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceApiAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceApiAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoMergeScheduleFailed = "AUTO_MERGE_SCHEDULE_FAILED"
         case deletionFailed = "DELETION_FAILED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
@@ -188,7 +195,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case sdl = "SDL"
         public var description: String { return self.rawValue }
@@ -1204,6 +1211,115 @@ extension AppSync {
         }
     }
 
+    public struct DataSourceIntrospectionModel: AWSDecodableShape {
+        /// The DataSourceIntrospectionModelField object data.
+        public let fields: [DataSourceIntrospectionModelField]?
+        /// The array of DataSourceIntrospectionModelIndex objects.
+        public let indexes: [DataSourceIntrospectionModelIndex]?
+        /// The name of the model. For example, this could be the name of a single table in a database.
+        public let name: String?
+        /// The primary key stored as a DataSourceIntrospectionModelIndex object.
+        public let primaryKey: DataSourceIntrospectionModelIndex?
+        /// Contains the output of the SDL that was generated from the introspected types. This is controlled by the includeModelsSDL parameter of the GetDataSourceIntrospection operation.
+        public let sdl: String?
+
+        public init(fields: [DataSourceIntrospectionModelField]? = nil, indexes: [DataSourceIntrospectionModelIndex]? = nil, name: String? = nil, primaryKey: DataSourceIntrospectionModelIndex? = nil, sdl: String? = nil) {
+            self.fields = fields
+            self.indexes = indexes
+            self.name = name
+            self.primaryKey = primaryKey
+            self.sdl = sdl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case indexes = "indexes"
+            case name = "name"
+            case primaryKey = "primaryKey"
+            case sdl = "sdl"
+        }
+    }
+
+    public struct DataSourceIntrospectionModelField: AWSDecodableShape {
+        /// The length value of the introspected field.
+        public let length: Int64?
+        /// The name of the field that was retrieved from the introspected data.
+        public let name: String?
+        /// The DataSourceIntrospectionModelFieldType object data.
+        public let type: DataSourceIntrospectionModelFieldType?
+
+        public init(length: Int64? = nil, name: String? = nil, type: DataSourceIntrospectionModelFieldType? = nil) {
+            self.length = length
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case length = "length"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public final class DataSourceIntrospectionModelFieldType: AWSDecodableShape {
+        /// Specifies the classification of data. For example, this could be set to values like Scalar or NonNull to indicate a fundamental property of the field. Valid values include:    Scalar: Indicates the value is a primitive type (scalar).    NonNull: Indicates the field cannot be null.    List: Indicates the field contains a list.
+        public let kind: String?
+        /// The name of the data type that represents the field. For example, String is a valid name value.
+        public let name: String?
+        /// The DataSourceIntrospectionModelFieldType object data. The type is only present if DataSourceIntrospectionModelFieldType.kind is set to NonNull or List.  The type typically contains its own kind and name fields to represent the actual type data. For instance, type could contain a kind value of Scalar with a name value of String. The values Scalar and String will be collectively stored in the values field.
+        public let type: DataSourceIntrospectionModelFieldType?
+        /// The values of the type field. This field represents the AppSync data type equivalent of the introspected field.
+        public let values: [String]?
+
+        public init(kind: String? = nil, name: String? = nil, type: DataSourceIntrospectionModelFieldType? = nil, values: [String]? = nil) {
+            self.kind = kind
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kind = "kind"
+            case name = "name"
+            case type = "type"
+            case values = "values"
+        }
+    }
+
+    public struct DataSourceIntrospectionModelIndex: AWSDecodableShape {
+        /// The fields of the index.
+        public let fields: [String]?
+        /// The name of the index.
+        public let name: String?
+
+        public init(fields: [String]? = nil, name: String? = nil) {
+            self.fields = fields
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case name = "name"
+        }
+    }
+
+    public struct DataSourceIntrospectionResult: AWSDecodableShape {
+        /// The array of DataSourceIntrospectionModel objects.
+        public let models: [DataSourceIntrospectionModel]?
+        /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
+        public let nextToken: String?
+
+        public init(models: [DataSourceIntrospectionModel]? = nil, nextToken: String? = nil) {
+            self.models = models
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case models = "models"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DeleteApiCacheRequest: AWSEncodableShape {
         /// The API ID.
         public let apiId: String
@@ -1903,6 +2019,68 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiCache = "apiCache"
+        }
+    }
+
+    public struct GetDataSourceIntrospectionRequest: AWSEncodableShape {
+        /// A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+        public let includeModelsSDL: Bool?
+        /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+        public let introspectionId: String
+        /// The maximum number of introspected types that will be returned in a single response.
+        public let maxResults: Int?
+        /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
+        public let nextToken: String?
+
+        public init(includeModelsSDL: Bool? = nil, introspectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.includeModelsSDL = includeModelsSDL
+            self.introspectionId = introspectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeModelsSDL, key: "includeModelsSDL")
+            request.encodePath(self.introspectionId, key: "introspectionId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataSourceIntrospectionResponse: AWSDecodableShape {
+        /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+        public let introspectionId: String?
+        /// The DataSourceIntrospectionResult object data.
+        public let introspectionResult: DataSourceIntrospectionResult?
+        /// The status of the introspection during retrieval. By default, when a new instrospection is being retrieved, the status will be set to PROCESSING. Once the operation has been completed, the status will change to SUCCESS or FAILED depending on how the data was parsed. A FAILED operation will return an error and its details as an introspectionStatusDetail.
+        public let introspectionStatus: DataSourceIntrospectionStatus?
+        /// The error detail field. When a FAILED introspectionStatus is returned, the introspectionStatusDetail will also return the exact error that was generated during the operation.
+        public let introspectionStatusDetail: String?
+
+        public init(introspectionId: String? = nil, introspectionResult: DataSourceIntrospectionResult? = nil, introspectionStatus: DataSourceIntrospectionStatus? = nil, introspectionStatusDetail: String? = nil) {
+            self.introspectionId = introspectionId
+            self.introspectionResult = introspectionResult
+            self.introspectionStatus = introspectionStatus
+            self.introspectionStatusDetail = introspectionStatusDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case introspectionId = "introspectionId"
+            case introspectionResult = "introspectionResult"
+            case introspectionStatus = "introspectionStatus"
+            case introspectionStatusDetail = "introspectionStatusDetail"
         }
     }
 
@@ -3039,6 +3217,38 @@ extension AppSync {
         }
     }
 
+    public struct RdsDataApiConfig: AWSEncodableShape {
+        /// The name of the database in the cluster.
+        public let databaseName: String
+        /// The resource ARN of the RDS cluster.
+        public let resourceArn: String
+        /// The secret's ARN that was obtained from Secrets Manager. A secret consists of secret information, the secret value, plus metadata about the secret. A secret value can be a string or binary. It typically includes the ARN, secret name and description, policies, tags, encryption key from the Key Management Service, and key rotation data.
+        public let secretArn: String
+
+        public init(databaseName: String, resourceArn: String, secretArn: String) {
+            self.databaseName = databaseName
+            self.resourceArn = resourceArn
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z-]*:rds:[a-z0-9-]*:\\d{12}:cluster:[0-9A-Za-z_/-]*$")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 20)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\\d{12}:secret:[0-9A-Za-z_/-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "databaseName"
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+        }
+    }
+
     public struct RdsHttpEndpointConfig: AWSEncodableShape & AWSDecodableShape {
         /// Amazon Web Services Region for Amazon RDS HTTP endpoint.
         public let awsRegion: String?
@@ -3245,6 +3455,44 @@ extension AppSync {
             case mergedApiId = "mergedApiId"
             case sourceApiArn = "sourceApiArn"
             case sourceApiId = "sourceApiId"
+        }
+    }
+
+    public struct StartDataSourceIntrospectionRequest: AWSEncodableShape {
+        /// The rdsDataApiConfig object data.
+        public let rdsDataApiConfig: RdsDataApiConfig?
+
+        public init(rdsDataApiConfig: RdsDataApiConfig? = nil) {
+            self.rdsDataApiConfig = rdsDataApiConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.rdsDataApiConfig?.validate(name: "\(name).rdsDataApiConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsDataApiConfig = "rdsDataApiConfig"
+        }
+    }
+
+    public struct StartDataSourceIntrospectionResponse: AWSDecodableShape {
+        /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+        public let introspectionId: String?
+        /// The status of the introspection during creation. By default, when a new instrospection has been created, the status will be set to PROCESSING. Once the operation has been completed, the status will change to SUCCESS or FAILED depending on how the data was parsed. A FAILED operation will return an error and its details as an introspectionStatusDetail.
+        public let introspectionStatus: DataSourceIntrospectionStatus?
+        /// The error detail field. When a FAILED introspectionStatus is returned, the introspectionStatusDetail will also return the exact error that was generated during the operation.
+        public let introspectionStatusDetail: String?
+
+        public init(introspectionId: String? = nil, introspectionStatus: DataSourceIntrospectionStatus? = nil, introspectionStatusDetail: String? = nil) {
+            self.introspectionId = introspectionId
+            self.introspectionStatus = introspectionStatus
+            self.introspectionStatusDetail = introspectionStatusDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case introspectionId = "introspectionId"
+            case introspectionStatus = "introspectionStatus"
+            case introspectionStatusDetail = "introspectionStatusDetail"
         }
     }
 

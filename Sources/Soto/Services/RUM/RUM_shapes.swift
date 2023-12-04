@@ -26,26 +26,26 @@ import Foundation
 extension RUM {
     // MARK: Enums
 
-    public enum CustomEventsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomEventsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricDestination: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricDestination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudWatch = "CloudWatch"
         case evidently = "Evidently"
         public var description: String { return self.rawValue }
     }
 
-    public enum StateEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum StateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case created = "CREATED"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable {
+    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Includes JS error event plugin
         case errors = "errors"
         /// Includes X-Ray Xhr and X-Ray Fetch plugin

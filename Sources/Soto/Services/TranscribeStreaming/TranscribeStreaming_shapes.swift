@@ -26,7 +26,7 @@ import Foundation
 extension TranscribeStreaming {
     // MARK: Enums
 
-    public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -39,29 +39,29 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentRedactionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentRedactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pronunciation = "pronunciation"
         case punctuation = "punctuation"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -79,32 +79,32 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum MediaEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case flac = "flac"
         case oggOpus = "ogg-opus"
         case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
-    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartialResultsStability: String, CustomStringConvertible, Codable, Sendable {
+    public enum PartialResultsStability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "high"
         case low = "low"
         case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Sentiment: String, CustomStringConvertible, Codable, Sendable {
+    public enum Sentiment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -112,7 +112,7 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum Specialty: String, CustomStringConvertible, Codable, Sendable {
+    public enum Specialty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
         case oncology = "ONCOLOGY"
@@ -122,14 +122,14 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mask = "mask"
         case remove = "remove"
         case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
@@ -899,21 +899,21 @@ extension TranscribeStreaming {
 
     public struct StartCallAnalyticsStreamTranscriptionRequest: AWSEncodableShape {
         public let audioStream: AWSEventStream<AudioStream>
-        /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
-        /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentRedactionType: ContentRedactionType?
         /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see  Partial-result  stabilization.
         public let enablePartialResultsStabilization: Bool?
         /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using  IdentifyLanguage to enable automatic language identification. For a list of languages supported with streaming Call Analytics, refer to the  Supported  languages table.
         public let languageCode: CallAnalyticsLanguageCode
-        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch.  For more information, see Custom language models.
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch. For more information, see Custom language models.
         public let languageModelName: String?
         /// Specify the encoding of your input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
         public let mediaEncoding: MediaEncoding
         /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
-        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization).  Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
+        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
         public let partialResultsStability: PartialResultsStability?
         /// Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. To include PiiEntityTypes in your Call Analytics request, you must also include  either ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, or ALL.
         public let piiEntityTypes: String?
@@ -921,7 +921,7 @@ extension TranscribeStreaming {
         public let sessionId: String?
         /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.   For more information, see Using vocabulary filtering with unwanted  words.
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterName: String?
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see Custom vocabularies.
         public let vocabularyName: String?
@@ -1061,7 +1061,7 @@ extension TranscribeStreaming {
 
     public struct StartMedicalStreamTranscriptionRequest: AWSEncodableShape {
         public let audioStream: AWSEventStream<AudioStream>
-        /// Labels all personal health information (PHI) identified in your transcript.      Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment.  For more information, see Identifying personal health information (PHI) in a transcription.
+        /// Labels all personal health information (PHI) identified in your transcript. Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment. For more information, see Identifying personal health information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel. For more information, see Transcribing multi-channel audio.
         public let enableChannelIdentification: Bool?
@@ -1075,7 +1075,7 @@ extension TranscribeStreaming {
         public let numberOfChannels: Int?
         /// Specify a name for your transcription session. If you don't include this parameter in  your request, Amazon Transcribe Medical generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
         public let sessionId: String?
-        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file.  For more information, see Partitioning speakers (diarization).
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization).
         public let showSpeakerLabel: Bool?
         /// Specify the medical specialty contained in your audio.
         public let specialty: Specialty
@@ -1198,21 +1198,23 @@ extension TranscribeStreaming {
     }
 
     public struct StartStreamTranscriptionRequest: AWSEncodableShape {
-        /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket  data frames.  For more information, see Transcribing streaming audio.
+        /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket  data frames. For more information, see Transcribing streaming audio.
         public let audioStream: AWSEventStream<AudioStream>
-        /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
-        /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentRedactionType: ContentRedactionType?
-        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the  output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel.         For more information, see Transcribing multi-channel audio.
+        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the  output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel. For more information, see Transcribing multi-channel audio.
         public let enableChannelIdentification: Bool?
         /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see  Partial-result  stabilization.
         public let enablePartialResultsStabilization: Bool?
-        /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of  language codes, using LanguageOptions, that you think may be present in  your audio stream. Including language options can improve transcription accuracy.   You can also include a preferred language using PreferredLanguage. Adding a  preferred language can help Amazon Transcribe identify the language faster than if you omit this  parameter. If you have multi-channel audio that contains different languages on each channel, and you've  enabled channel identification, automatic language identification identifies the dominant language on  each audio channel. Note that you must include either LanguageCode or  IdentifyLanguage in your request. If you include both parameters, your request fails. Streaming language identification can't be combined with custom language models or  redaction.
+        /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of  language codes, using LanguageOptions, that you think may be present in  your audio stream. Including language options can improve transcription accuracy. You can also include a preferred language using PreferredLanguage. Adding a  preferred language can help Amazon Transcribe identify the language faster than if you omit this  parameter. If you have multi-channel audio that contains different languages on each channel, and you've  enabled channel identification, automatic language identification identifies the dominant language on  each audio channel. Note that you must include either LanguageCode or  IdentifyLanguage or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. Streaming language identification can't be combined with custom language models or  redaction.
         public let identifyLanguage: Bool?
+        /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your stream contains more than one language. If your stream contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your stream. Including LanguageOptions restricts IdentifyMultipleLanguages to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic multiple language identification request, include VocabularyNames or VocabularyFilterNames. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+        public let identifyMultipleLanguages: Bool?
         /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using  IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.
         public let languageCode: LanguageCode?
-        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch.  For more information, see Custom language models.
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch. For more information, see Custom language models.
         public let languageModelName: String?
         /// Specify two or more language codes that represent the languages you think may be present  in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. If you include LanguageOptions in your request, you must also include  IdentifyLanguage. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.  You can only include one language dialect per language per stream. For example, you cannot include en-US and en-AU in the same request.
         public let languageOptions: String?
@@ -1222,7 +1224,7 @@ extension TranscribeStreaming {
         public let mediaSampleRateHertz: Int
         /// Specify the number of channels in your audio stream. Up to two channels are supported.
         public let numberOfChannels: Int?
-        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization).  Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
+        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
         public let partialResultsStability: PartialResultsStability?
         /// Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. To include PiiEntityTypes in your request, you must also include either  ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, or ALL.
         public let piiEntityTypes: String?
@@ -1230,26 +1232,27 @@ extension TranscribeStreaming {
         public let preferredLanguage: LanguageCode?
         /// Specify a name for your transcription session. If you don't include this parameter in your request,  Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
         public let sessionId: String?
-        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file.  For more information, see Partitioning speakers (diarization).
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization).
         public let showSpeakerLabel: Bool?
         /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.      This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterName: String?
-        /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive.     If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails.  This parameter is only intended for use with  the IdentifyLanguage parameter. If you're not  including IdentifyLanguage in your request and want to use a custom vocabulary filter  with your transcription, use the VocabularyFilterName parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
+        /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails.  This parameter is only intended for use with  the IdentifyLanguage parameter. If you're not  including IdentifyLanguage in your request and want to use a custom vocabulary filter  with your transcription, use the VocabularyFilterName parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterNames: String?
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyName: String?
-        /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive.     If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
+        /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyNames: String?
 
-        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.languageCode = languageCode
             self.languageModelName = languageModelName
             self.languageOptions = languageOptions
@@ -1277,6 +1280,7 @@ extension TranscribeStreaming {
             request.encodeHeader(self.enableChannelIdentification, key: "x-amzn-transcribe-enable-channel-identification")
             request.encodeHeader(self.enablePartialResultsStabilization, key: "x-amzn-transcribe-enable-partial-results-stabilization")
             request.encodeHeader(self.identifyLanguage, key: "x-amzn-transcribe-identify-language")
+            request.encodeHeader(self.identifyMultipleLanguages, key: "x-amzn-transcribe-identify-multiple-languages")
             request.encodeHeader(self.languageCode, key: "x-amzn-transcribe-language-code")
             request.encodeHeader(self.languageModelName, key: "x-amzn-transcribe-language-model-name")
             request.encodeHeader(self.languageOptions, key: "x-amzn-transcribe-language-options")
@@ -1340,6 +1344,8 @@ extension TranscribeStreaming {
         public let enablePartialResultsStabilization: Bool?
         /// Shows whether automatic language identification was enabled for your  transcription.
         public let identifyLanguage: Bool?
+        /// Shows whether automatic multi-language identification was enabled for your transcription.
+        public let identifyMultipleLanguages: Bool?
         /// Provides the language code that you specified in your request.
         public let languageCode: LanguageCode?
         /// Provides the name of the custom language model that you specified in your request.
@@ -1377,12 +1383,13 @@ extension TranscribeStreaming {
         /// Provides the names of the custom vocabularies that you specified in your request.
         public let vocabularyNames: String?
 
-        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.languageCode = languageCode
             self.languageModelName = languageModelName
             self.languageOptions = languageOptions
@@ -1411,6 +1418,7 @@ extension TranscribeStreaming {
             self.enableChannelIdentification = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-channel-identification")
             self.enablePartialResultsStabilization = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-partial-results-stabilization")
             self.identifyLanguage = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-identify-language")
+            self.identifyMultipleLanguages = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-identify-multiple-languages")
             self.languageCode = try response.decodeHeaderIfPresent(LanguageCode.self, key: "x-amzn-transcribe-language-code")
             self.languageModelName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-language-model-name")
             self.languageOptions = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-language-options")

@@ -26,19 +26,20 @@ import Foundation
 extension Polly {
     // MARK: Enums
 
-    public enum Engine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Engine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case longForm = "long-form"
         case neural = "neural"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum Gender: String, CustomStringConvertible, Codable, Sendable {
+    public enum Gender: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case female = "Female"
         case male = "Male"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arAE = "ar-AE"
         case arb = "arb"
         case caES = "ca-ES"
@@ -59,6 +60,7 @@ extension Polly {
         case esMX = "es-MX"
         case esUS = "es-US"
         case fiFI = "fi-FI"
+        case frBE = "fr-BE"
         case frCA = "fr-CA"
         case frFR = "fr-FR"
         case hiIN = "hi-IN"
@@ -67,6 +69,7 @@ extension Polly {
         case jaJP = "ja-JP"
         case koKR = "ko-KR"
         case nbNO = "nb-NO"
+        case nlBE = "nl-BE"
         case nlNL = "nl-NL"
         case plPL = "pl-PL"
         case ptBR = "pt-BR"
@@ -79,7 +82,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "json"
         case mp3 = "mp3"
         case oggVorbis = "ogg_vorbis"
@@ -87,7 +90,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpeechMarkType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SpeechMarkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sentence = "sentence"
         case ssml = "ssml"
         case viseme = "viseme"
@@ -95,7 +98,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case failed = "failed"
         case inProgress = "inProgress"
@@ -103,13 +106,13 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssml = "ssml"
         case text = "text"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable {
+    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aditi = "Aditi"
         case adriano = "Adriano"
         case amy = "Amy"
@@ -129,6 +132,7 @@ extension Polly {
         case conchita = "Conchita"
         case cristiano = "Cristiano"
         case daniel = "Daniel"
+        case danielle = "Danielle"
         case dora = "Dora"
         case elin = "Elin"
         case emma = "Emma"
@@ -138,6 +142,7 @@ extension Polly {
         case gabrielle = "Gabrielle"
         case geraint = "Geraint"
         case giorgio = "Giorgio"
+        case gregory = "Gregory"
         case gwyneth = "Gwyneth"
         case hala = "Hala"
         case hannah = "Hannah"
@@ -145,6 +150,7 @@ extension Polly {
         case hiujin = "Hiujin"
         case ida = "Ida"
         case ines = "Ines"
+        case isabelle = "Isabelle"
         case ivy = "Ivy"
         case jacek = "Jacek"
         case jan = "Jan"
@@ -160,6 +166,7 @@ extension Polly {
         case laura = "Laura"
         case lea = "Lea"
         case liam = "Liam"
+        case lisa = "Lisa"
         case liv = "Liv"
         case lotte = "Lotte"
         case lucia = "Lucia"
@@ -198,6 +205,7 @@ extension Polly {
         case tomoko = "Tomoko"
         case vicki = "Vicki"
         case vitoria = "Vitoria"
+        case zayd = "Zayd"
         case zeina = "Zeina"
         case zhiyu = "Zhiyu"
         public var description: String { return self.rawValue }
@@ -231,7 +239,7 @@ extension Polly {
     }
 
     public struct DescribeVoicesInput: AWSEncodableShape {
-        /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
+        /// Specifies the engine (standard, neural or long-form) used by Amazon Polly when processing input text for speech synthesis.
         public let engine: Engine?
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
         public let includeAdditionalLanguageCodes: Bool?
@@ -537,7 +545,7 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
-        /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -549,7 +557,7 @@ extension Polly {
         public let outputS3BucketName: String
         /// The Amazon S3 key prefix for the output speech file.
         public let outputS3KeyPrefix: String?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -620,7 +628,7 @@ extension Polly {
     public struct SynthesisTask: AWSDecodableShape {
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: Date?
-        /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -632,7 +640,7 @@ extension Polly {
         public let outputUri: String?
         /// Number of billable characters synthesized.
         public let requestCharacters: Int?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -687,7 +695,7 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSEncodableShape {
-        /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available in standard-only, NTTS-only, and both standard and NTTS formats, see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error.  Type: String Valid Values: standard | neural  Required: Yes  Standard voices  For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
+        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error.   long-form-only voices  When using long-form-only voices such as Danielle (en-US), this parameter is required and must be set to long-form. If the engine is not specified, or is set to standard or neural, this will result in an error.  Type: String Valid Values: standard | neural | long-form  Required: Yes  Standard voices  For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
         public let engine: Engine?
         /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -695,7 +703,7 @@ extension Polly {
         public let lexiconNames: [String]?
         ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
         public let outputFormat: OutputFormat
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
@@ -778,7 +786,7 @@ extension Polly {
         public let languageName: String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public let name: String?
-        /// Specifies which engines (standard or neural) that are supported by a given voice.
+        /// Specifies which engines (standard, neural or long-form) are supported by a given voice.
         public let supportedEngines: [Engine]?
 
         public init(additionalLanguageCodes: [LanguageCode]? = nil, gender: Gender? = nil, id: VoiceId? = nil, languageCode: LanguageCode? = nil, languageName: String? = nil, name: String? = nil, supportedEngines: [Engine]? = nil) {

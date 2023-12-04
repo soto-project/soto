@@ -26,32 +26,32 @@ import Foundation
 extension ConfigService {
     // MARK: Enums
 
-    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case outdated = "OUTDATED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregatedSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forward = "Forward"
         case reverse = "Reverse"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComplianceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComplianceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compliant = "COMPLIANT"
         case insufficientData = "INSUFFICIENT_DATA"
         case nonCompliant = "NON_COMPLIANT"
@@ -59,13 +59,13 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigRuleState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigRuleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case deletingResults = "DELETING_RESULTS"
@@ -73,7 +73,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ok = "OK"
         case resourceDeleted = "ResourceDeleted"
         case resourceDeletedNotRecorded = "ResourceDeletedNotRecorded"
@@ -82,14 +82,14 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compliant = "COMPLIANT"
         case insufficientData = "INSUFFICIENT_DATA"
         case nonCompliant = "NON_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConformancePackState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConformancePackState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -98,25 +98,25 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "Failure"
         case notApplicable = "Not_Applicable"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EvaluationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case detective = "DETECTIVE"
         case proactive = "PROACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsConfig = "aws.config"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneHour = "One_Hour"
         case sixHours = "Six_Hours"
         case threeHours = "Three_Hours"
@@ -125,7 +125,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -138,7 +138,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case configurationSnapshotDeliveryCompleted = "ConfigurationSnapshotDeliveryCompleted"
         case oversizedConfigurationItemChangeNotification = "OversizedConfigurationItemChangeNotification"
@@ -146,20 +146,20 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         case scheduledNotification = "ScheduledNotification"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -172,7 +172,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -185,7 +185,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -198,28 +198,34 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum Owner: String, CustomStringConvertible, Codable, Sendable {
+    public enum Owner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case customLambda = "CUSTOM_LAMBDA"
         case customPolicy = "CUSTOM_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecorderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "Failure"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordingStrategyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecordingFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case continuous = "CONTINUOUS"
+        case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordingStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allSupportedResourceTypes = "ALL_SUPPORTED_RESOURCE_TYPES"
         case exclusionByResourceTypes = "EXCLUSION_BY_RESOURCE_TYPES"
         case inclusionByResourceTypes = "INCLUSION_BY_RESOURCE_TYPES"
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationExecutionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RemediationExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case queued = "QUEUED"
@@ -227,54 +233,73 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationTargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RemediationTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssmDocument = "SSM_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceConfigurationSchemaType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceConfigurationSchemaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cfnResourceSchema = "CFN_RESOURCE_SCHEMA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         case resourceType = "RESOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceEvaluationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceEvaluationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessAnalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
         case accountPublicAccessBlock = "AWS::S3::AccountPublicAccessBlock"
+        case acmpcaCertificateAuthority = "AWS::ACMPCA::CertificateAuthority"
+        case acmpcaCertificateAuthorityActivation = "AWS::ACMPCA::CertificateAuthorityActivation"
         case alarm = "AWS::CloudWatch::Alarm"
         case amazonMQBroker = "AWS::AmazonMQ::Broker"
+        case amplifyApp = "AWS::Amplify::App"
+        case amplifyBranch = "AWS::Amplify::Branch"
         case api = "AWS::ApiGatewayV2::Api"
         case appConfigApplication = "AWS::AppConfig::Application"
         case appConfigConfigurationProfile = "AWS::AppConfig::ConfigurationProfile"
         case appConfigDeploymentStrategy = "AWS::AppConfig::DeploymentStrategy"
         case appConfigEnvironment = "AWS::AppConfig::Environment"
+        case appConfigHostedConfigurationVersion = "AWS::AppConfig::HostedConfigurationVersion"
         case appFlowFlow = "AWS::AppFlow::Flow"
+        case appIntegrationsEventIntegration = "AWS::AppIntegrations::EventIntegration"
+        case appMeshGatewayRoute = "AWS::AppMesh::GatewayRoute"
+        case appMeshMesh = "AWS::AppMesh::Mesh"
+        case appMeshRoute = "AWS::AppMesh::Route"
+        case appMeshVirtualGateway = "AWS::AppMesh::VirtualGateway"
+        case appMeshVirtualNode = "AWS::AppMesh::VirtualNode"
+        case appMeshVirtualRouter = "AWS::AppMesh::VirtualRouter"
+        case appMeshVirtualService = "AWS::AppMesh::VirtualService"
+        case appRunnerService = "AWS::AppRunner::Service"
+        case appRunnerVpcConnector = "AWS::AppRunner::VpcConnector"
+        case appStreamApplication = "AWS::AppStream::Application"
         case appStreamDirectoryConfig = "AWS::AppStream::DirectoryConfig"
+        case appStreamStack = "AWS::AppStream::Stack"
         case appSyncGraphQLApi = "AWS::AppSync::GraphQLApi"
         case application = "AWS::ElasticBeanstalk::Application"
         case applicationVersion = "AWS::ElasticBeanstalk::ApplicationVersion"
+        case apsRuleGroupsNamespace = "AWS::APS::RuleGroupsNamespace"
         case associationCompliance = "AWS::SSM::AssociationCompliance"
         case athenaDataCatalog = "AWS::Athena::DataCatalog"
+        case athenaPreparedStatement = "AWS::Athena::PreparedStatement"
         case athenaWorkGroup = "AWS::Athena::WorkGroup"
         case auditManagerAssessment = "AWS::AuditManager::Assessment"
         case autoScalingGroup = "AWS::AutoScaling::AutoScalingGroup"
@@ -286,8 +311,10 @@ extension ConfigService {
         case backupVault = "AWS::Backup::BackupVault"
         case batchComputeEnvironment = "AWS::Batch::ComputeEnvironment"
         case batchJobQueue = "AWS::Batch::JobQueue"
+        case batchSchedulingPolicy = "AWS::Batch::SchedulingPolicy"
         case bucket = "AWS::S3::Bucket"
         case budgetsBudgetsAction = "AWS::Budgets::BudgetsAction"
+        case cassandraKeyspace = "AWS::Cassandra::Keyspace"
         case certificate = "AWS::ACM::Certificate"
         case cloud9EnvironmentEC2 = "AWS::Cloud9::EnvironmentEC2"
         case cloudFormationProduct = "AWS::ServiceCatalog::CloudFormationProduct"
@@ -298,14 +325,20 @@ extension ConfigService {
         case clusterSecurityGroup = "AWS::Redshift::ClusterSecurityGroup"
         case clusterSnapshot = "AWS::Redshift::ClusterSnapshot"
         case clusterSubnetGroup = "AWS::Redshift::ClusterSubnetGroup"
+        case codeArtifactRepository = "AWS::CodeArtifact::Repository"
+        case codeBuildReportGroup = "AWS::CodeBuild::ReportGroup"
         case codeDeployApplication = "AWS::CodeDeploy::Application"
         case codeDeployDeploymentConfig = "AWS::CodeDeploy::DeploymentConfig"
         case codeDeployDeploymentGroup = "AWS::CodeDeploy::DeploymentGroup"
+        case codeGuruProfilerProfilingGroup = "AWS::CodeGuruProfiler::ProfilingGroup"
         case codeGuruReviewerRepositoryAssociation = "AWS::CodeGuruReviewer::RepositoryAssociation"
         case conformancePackCompliance = "AWS::Config::ConformancePackCompliance"
+        case connectInstance = "AWS::Connect::Instance"
         case connectPhoneNumber = "AWS::Connect::PhoneNumber"
+        case connectQuickConnect = "AWS::Connect::QuickConnect"
         case customerGateway = "AWS::EC2::CustomerGateway"
         case customerProfilesDomain = "AWS::CustomerProfiles::Domain"
+        case customerProfilesObjectType = "AWS::CustomerProfiles::ObjectType"
         case dataSyncLocationEFS = "AWS::DataSync::LocationEFS"
         case dataSyncLocationFSxLustre = "AWS::DataSync::LocationFSxLustre"
         case dataSyncLocationFSxWindows = "AWS::DataSync::LocationFSxWindows"
@@ -327,24 +360,36 @@ extension ConfigService {
         case deviceFarmTestGridProject = "AWS::DeviceFarm::TestGridProject"
         case distribution = "AWS::CloudFront::Distribution"
         case dmsCertificate = "AWS::DMS::Certificate"
+        case dmsEndpoint = "AWS::DMS::Endpoint"
         case dmsEventSubscription = "AWS::DMS::EventSubscription"
         case dmsReplicationSubnetGroup = "AWS::DMS::ReplicationSubnetGroup"
         case domain = "AWS::Elasticsearch::Domain"
+        case ec2CapacityReservation = "AWS::EC2::CapacityReservation"
+        case ec2CarrierGateway = "AWS::EC2::CarrierGateway"
+        case ec2ClientVpnEndpoint = "AWS::EC2::ClientVpnEndpoint"
         case ec2NetworkInsightsPath = "AWS::EC2::NetworkInsightsPath"
+        case ec2PrefixList = "AWS::EC2::PrefixList"
+        case ec2SpotFleet = "AWS::EC2::SpotFleet"
         case ec2SubnetRouteTableAssociation = "AWS::EC2::SubnetRouteTableAssociation"
         case ec2TrafficMirrorFilter = "AWS::EC2::TrafficMirrorFilter"
         case ec2TrafficMirrorSession = "AWS::EC2::TrafficMirrorSession"
         case ec2TrafficMirrorTarget = "AWS::EC2::TrafficMirrorTarget"
+        case ec2TransitGatewayConnect = "AWS::EC2::TransitGatewayConnect"
+        case ec2TransitGatewayMulticastDomain = "AWS::EC2::TransitGatewayMulticastDomain"
         case ec2dhcpOptions = "AWS::EC2::DHCPOptions"
         case ec2ec2Fleet = "AWS::EC2::EC2Fleet"
         case ec2ipam = "AWS::EC2::IPAM"
+        case ec2ipamPool = "AWS::EC2::IPAMPool"
+        case ec2ipamScope = "AWS::EC2::IPAMScope"
         case ecrPublicRepository = "AWS::ECR::PublicRepository"
         case ecrPullThroughCacheRule = "AWS::ECR::PullThroughCacheRule"
         case ecrRegistryPolicy = "AWS::ECR::RegistryPolicy"
         case ecrRepository = "AWS::ECR::Repository"
+        case ecsCapacityProvider = "AWS::ECS::CapacityProvider"
         case ecsCluster = "AWS::ECS::Cluster"
         case ecsService = "AWS::ECS::Service"
         case ecsTaskDefinition = "AWS::ECS::TaskDefinition"
+        case ecsTaskSet = "AWS::ECS::TaskSet"
         case efsAccessPoint = "AWS::EFS::AccessPoint"
         case efsFileSystem = "AWS::EFS::FileSystem"
         case egressOnlyInternetGateway = "AWS::EC2::EgressOnlyInternetGateway"
@@ -367,9 +412,13 @@ extension ConfigService {
         case eventsEndpoint = "AWS::Events::Endpoint"
         case eventsEventBus = "AWS::Events::EventBus"
         case eventsRule = "AWS::Events::Rule"
+        case evidentlyLaunch = "AWS::Evidently::Launch"
+        case evidentlyProject = "AWS::Evidently::Project"
         case fileData = "AWS::SSM::FileData"
         case fisExperimentTemplate = "AWS::FIS::ExperimentTemplate"
         case flowLog = "AWS::EC2::FlowLog"
+        case forecastDataset = "AWS::Forecast::Dataset"
+        case forecastDatasetGroup = "AWS::Forecast::DatasetGroup"
         case fraudDetectorEntityType = "AWS::FraudDetector::EntityType"
         case fraudDetectorLabel = "AWS::FraudDetector::Label"
         case fraudDetectorOutcome = "AWS::FraudDetector::Outcome"
@@ -381,7 +430,9 @@ extension ConfigService {
         case glueClassifier = "AWS::Glue::Classifier"
         case glueJob = "AWS::Glue::Job"
         case glueMLTransform = "AWS::Glue::MLTransform"
+        case greengrassV2ComponentVersion = "AWS::GreengrassV2::ComponentVersion"
         case groundStationConfig = "AWS::GroundStation::Config"
+        case groundStationMissionProfile = "AWS::GroundStation::MissionProfile"
         case group = "AWS::IAM::Group"
         case guardDutyDetector = "AWS::GuardDuty::Detector"
         case guardDutyFilter = "AWS::GuardDuty::Filter"
@@ -389,10 +440,14 @@ extension ConfigService {
         case guardDutyThreatIntelSet = "AWS::GuardDuty::ThreatIntelSet"
         case healthLakeFHIRDatastore = "AWS::HealthLake::FHIRDatastore"
         case host = "AWS::EC2::Host"
+        case iamInstanceProfile = "AWS::IAM::InstanceProfile"
+        case iamServerCertificate = "AWS::IAM::ServerCertificate"
+        case iamsamlProvider = "AWS::IAM::SAMLProvider"
         case imageBuilderContainerRecipe = "AWS::ImageBuilder::ContainerRecipe"
         case imageBuilderDistributionConfiguration = "AWS::ImageBuilder::DistributionConfiguration"
         case imageBuilderImagePipeline = "AWS::ImageBuilder::ImagePipeline"
         case imageBuilderInfrastructureConfiguration = "AWS::ImageBuilder::InfrastructureConfiguration"
+        case inspectorV2Filter = "AWS::InspectorV2::Filter"
         case instance = "AWS::EC2::Instance"
         case internetGateway = "AWS::EC2::InternetGateway"
         case ioTAccountAuditConfiguration = "AWS::IoT::AccountAuditConfiguration"
@@ -401,14 +456,17 @@ extension ConfigService {
         case ioTAnalyticsDatastore = "AWS::IoTAnalytics::Datastore"
         case ioTAnalyticsPipeline = "AWS::IoTAnalytics::Pipeline"
         case ioTAuthorizer = "AWS::IoT::Authorizer"
+        case ioTCACertificate = "AWS::IoT::CACertificate"
         case ioTCustomMetric = "AWS::IoT::CustomMetric"
         case ioTDimension = "AWS::IoT::Dimension"
         case ioTEventsAlarmModel = "AWS::IoTEvents::AlarmModel"
         case ioTEventsDetectorModel = "AWS::IoTEvents::DetectorModel"
         case ioTEventsInput = "AWS::IoTEvents::Input"
         case ioTFleetMetric = "AWS::IoT::FleetMetric"
+        case ioTJobTemplate = "AWS::IoT::JobTemplate"
         case ioTMitigationAction = "AWS::IoT::MitigationAction"
         case ioTPolicy = "AWS::IoT::Policy"
+        case ioTProvisioningTemplate = "AWS::IoT::ProvisioningTemplate"
         case ioTRoleAlias = "AWS::IoT::RoleAlias"
         case ioTScheduledAudit = "AWS::IoT::ScheduledAudit"
         case ioTSecurityProfile = "AWS::IoT::SecurityProfile"
@@ -417,19 +475,28 @@ extension ConfigService {
         case ioTSiteWiseGateway = "AWS::IoTSiteWise::Gateway"
         case ioTSiteWisePortal = "AWS::IoTSiteWise::Portal"
         case ioTSiteWiseProject = "AWS::IoTSiteWise::Project"
+        case ioTTwinMakerComponentType = "AWS::IoTTwinMaker::ComponentType"
         case ioTTwinMakerEntity = "AWS::IoTTwinMaker::Entity"
         case ioTTwinMakerScene = "AWS::IoTTwinMaker::Scene"
+        case ioTTwinMakerSyncJob = "AWS::IoTTwinMaker::SyncJob"
         case ioTTwinMakerWorkspace = "AWS::IoTTwinMaker::Workspace"
+        case ioTWirelessFuotaTask = "AWS::IoTWireless::FuotaTask"
+        case ioTWirelessMulticastGroup = "AWS::IoTWireless::MulticastGroup"
         case ioTWirelessServiceProfile = "AWS::IoTWireless::ServiceProfile"
         case ipSetV2 = "AWS::WAFv2::IPSet"
         case ivsChannel = "AWS::IVS::Channel"
         case ivsPlaybackKeyPair = "AWS::IVS::PlaybackKeyPair"
         case ivsRecordingConfiguration = "AWS::IVS::RecordingConfiguration"
+        case kafkaConnectConnector = "AWS::KafkaConnect::Connector"
+        case kendraIndex = "AWS::Kendra::Index"
         case key = "AWS::KMS::Key"
         case kinesisAnalyticsV2Application = "AWS::KinesisAnalyticsV2::Application"
+        case kinesisFirehoseDeliveryStream = "AWS::KinesisFirehose::DeliveryStream"
         case kinesisStream = "AWS::Kinesis::Stream"
         case kinesisStreamConsumer = "AWS::Kinesis::StreamConsumer"
         case kinesisVideoSignalingChannel = "AWS::KinesisVideo::SignalingChannel"
+        case kinesisVideoStream = "AWS::KinesisVideo::Stream"
+        case lambdaCodeSigningConfig = "AWS::Lambda::CodeSigningConfig"
         case launchConfiguration = "AWS::AutoScaling::LaunchConfiguration"
         case launchTemplate = "AWS::EC2::LaunchTemplate"
         case lexBot = "AWS::Lex::Bot"
@@ -441,13 +508,20 @@ extension ConfigService {
         case listenerV2 = "AWS::ElasticLoadBalancingV2::Listener"
         case loadBalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
         case loadBalancerV2 = "AWS::ElasticLoadBalancingV2::LoadBalancer"
+        case logsDestination = "AWS::Logs::Destination"
         case lookoutMetricsAlert = "AWS::LookoutMetrics::Alert"
         case lookoutVisionProject = "AWS::LookoutVision::Project"
         case managedInstanceInventory = "AWS::SSM::ManagedInstanceInventory"
         case managedRuleSetV2 = "AWS::WAFv2::ManagedRuleSet"
+        case mediaConnectFlowEntitlement = "AWS::MediaConnect::FlowEntitlement"
+        case mediaConnectFlowSource = "AWS::MediaConnect::FlowSource"
+        case mediaConnectFlowVpcInterface = "AWS::MediaConnect::FlowVpcInterface"
         case mediaPackagePackagingConfiguration = "AWS::MediaPackage::PackagingConfiguration"
         case mediaPackagePackagingGroup = "AWS::MediaPackage::PackagingGroup"
+        case mediaTailorPlaybackConfiguration = "AWS::MediaTailor::PlaybackConfiguration"
+        case mskBatchScramSecret = "AWS::MSK::BatchScramSecret"
         case mskCluster = "AWS::MSK::Cluster"
+        case mskConfiguration = "AWS::MSK::Configuration"
         case natGateway = "AWS::EC2::NatGateway"
         case networkAcl = "AWS::EC2::NetworkAcl"
         case networkFirewallFirewall = "AWS::NetworkFirewall::Firewall"
@@ -455,16 +529,28 @@ extension ConfigService {
         case networkFirewallRuleGroup = "AWS::NetworkFirewall::RuleGroup"
         case networkInsightsAccessScopeAnalysis = "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
         case networkInterface = "AWS::EC2::NetworkInterface"
+        case networkManagerConnectPeer = "AWS::NetworkManager::ConnectPeer"
+        case networkManagerCustomerGatewayAssociation = "AWS::NetworkManager::CustomerGatewayAssociation"
         case networkManagerDevice = "AWS::NetworkManager::Device"
         case networkManagerGlobalNetwork = "AWS::NetworkManager::GlobalNetwork"
         case networkManagerLink = "AWS::NetworkManager::Link"
+        case networkManagerLinkAssociation = "AWS::NetworkManager::LinkAssociation"
         case networkManagerSite = "AWS::NetworkManager::Site"
         case networkManagerTransitGatewayRegistration = "AWS::NetworkManager::TransitGatewayRegistration"
         case openSearchDomain = "AWS::OpenSearch::Domain"
         case panoramaPackage = "AWS::Panorama::Package"
         case patchCompliance = "AWS::SSM::PatchCompliance"
+        case personalizeDataset = "AWS::Personalize::Dataset"
+        case personalizeDatasetGroup = "AWS::Personalize::DatasetGroup"
+        case personalizeSchema = "AWS::Personalize::Schema"
+        case personalizeSolution = "AWS::Personalize::Solution"
         case pinpointApp = "AWS::Pinpoint::App"
         case pinpointApplicationSettings = "AWS::Pinpoint::ApplicationSettings"
+        case pinpointCampaign = "AWS::Pinpoint::Campaign"
+        case pinpointEmailChannel = "AWS::Pinpoint::EmailChannel"
+        case pinpointEmailTemplate = "AWS::Pinpoint::EmailTemplate"
+        case pinpointEventStream = "AWS::Pinpoint::EventStream"
+        case pinpointInAppTemplate = "AWS::Pinpoint::InAppTemplate"
         case pinpointSegment = "AWS::Pinpoint::Segment"
         case pipeline = "AWS::CodePipeline::Pipeline"
         case policy = "AWS::IAM::Policy"
@@ -484,8 +570,10 @@ extension ConfigService {
         case regionalRuleGroup = "AWS::WAFRegional::RuleGroup"
         case regionalWebACL = "AWS::WAFRegional::WebACL"
         case registeredHAInstance = "AWS::EC2::RegisteredHAInstance"
+        case resilienceHubApp = "AWS::ResilienceHub::App"
         case resilienceHubResiliencyPolicy = "AWS::ResilienceHub::ResiliencyPolicy"
         case resourceCompliance = "AWS::Config::ResourceCompliance"
+        case resourceExplorer2Index = "AWS::ResourceExplorer2::Index"
         case restApi = "AWS::ApiGateway::RestApi"
         case roboMakerRobotApplication = "AWS::RoboMaker::RobotApplication"
         case roboMakerRobotApplicationVersion = "AWS::RoboMaker::RobotApplicationVersion"
@@ -503,6 +591,8 @@ extension ConfigService {
         case route53ResolverFirewallDomainList = "AWS::Route53Resolver::FirewallDomainList"
         case route53ResolverFirewallRuleGroupAssociation = "AWS::Route53Resolver::FirewallRuleGroupAssociation"
         case route53ResolverResolverEndpoint = "AWS::Route53Resolver::ResolverEndpoint"
+        case route53ResolverResolverQueryLoggingConfig = "AWS::Route53Resolver::ResolverQueryLoggingConfig"
+        case route53ResolverResolverQueryLoggingConfigAssociation = "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation"
         case route53ResolverResolverRule = "AWS::Route53Resolver::ResolverRule"
         case route53ResolverResolverRuleAssociation = "AWS::Route53Resolver::ResolverRuleAssociation"
         case routeTable = "AWS::EC2::RouteTable"
@@ -510,10 +600,13 @@ extension ConfigService {
         case ruleGroup = "AWS::WAF::RuleGroup"
         case ruleGroupV2 = "AWS::WAFv2::RuleGroup"
         case rumAppMonitor = "AWS::RUM::AppMonitor"
+        case s3AccessPoint = "AWS::S3::AccessPoint"
         case s3MultiRegionAccessPoint = "AWS::S3::MultiRegionAccessPoint"
         case s3StorageLens = "AWS::S3::StorageLens"
         case sageMakerAppImageConfig = "AWS::SageMaker::AppImageConfig"
         case sageMakerCodeRepository = "AWS::SageMaker::CodeRepository"
+        case sageMakerDomain = "AWS::SageMaker::Domain"
+        case sageMakerFeatureGroup = "AWS::SageMaker::FeatureGroup"
         case sageMakerImage = "AWS::SageMaker::Image"
         case sageMakerModel = "AWS::SageMaker::Model"
         case sageMakerNotebookInstanceLifecycleConfig = "AWS::SageMaker::NotebookInstanceLifecycleConfig"
@@ -523,6 +616,7 @@ extension ConfigService {
         case secret = "AWS::SecretsManager::Secret"
         case securityGroup = "AWS::EC2::SecurityGroup"
         case serviceDiscoveryHttpNamespace = "AWS::ServiceDiscovery::HttpNamespace"
+        case serviceDiscoveryInstance = "AWS::ServiceDiscovery::Instance"
         case serviceDiscoveryPublicDnsNamespace = "AWS::ServiceDiscovery::PublicDnsNamespace"
         case serviceDiscoveryService = "AWS::ServiceDiscovery::Service"
         case sesConfigurationSet = "AWS::SES::ConfigurationSet"
@@ -530,6 +624,7 @@ extension ConfigService {
         case sesReceiptFilter = "AWS::SES::ReceiptFilter"
         case sesReceiptRuleSet = "AWS::SES::ReceiptRuleSet"
         case sesTemplate = "AWS::SES::Template"
+        case signerSigningProfile = "AWS::Signer::SigningProfile"
         case stack = "AWS::CloudFormation::Stack"
         case stage = "AWS::ApiGateway::Stage"
         case stageV2 = "AWS::ApiGatewayV2::Stage"
@@ -540,6 +635,9 @@ extension ConfigService {
         case table = "AWS::DynamoDB::Table"
         case topic = "AWS::SNS::Topic"
         case trail = "AWS::CloudTrail::Trail"
+        case transferAgreement = "AWS::Transfer::Agreement"
+        case transferCertificate = "AWS::Transfer::Certificate"
+        case transferConnector = "AWS::Transfer::Connector"
         case transferWorkflow = "AWS::Transfer::Workflow"
         case transitGateway = "AWS::EC2::TransitGateway"
         case transitGatewayAttachment = "AWS::EC2::TransitGatewayAttachment"
@@ -559,17 +657,17 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case resourceId = "RESOURCE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case score = "SCORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
@@ -956,13 +1054,17 @@ extension ConfigService {
         public let awsRegion: String?
         /// The description of the resource configuration.
         public let configuration: String?
-        /// The time when the configuration recording was initiated.
+        /// The time when the recording of configuration changes was initiated for the resource.
         public let configurationItemCaptureTime: Date?
-        /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost.
+        /// The time when configuration changes for the resource were delivered.
+        public let configurationItemDeliveryTime: Date?
+        /// The configuration item status. Valid values include:   OK – The resource configuration has been updated.   ResourceDiscovered – The resource was newly discovered.   ResourceNotRecorded – The resource was discovered, but its configuration was not recorded since the recorder doesn't record resources of this type.   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted, but its configuration was not recorded since the recorder doesn't record resources of this type.
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration
         /// 			items of a resource.
         public let configurationStateId: String?
+        /// The recording frequency that Config uses to record configuration changes for the resource.
+        public let recordingFrequency: RecordingFrequency?
         /// The time stamp when the resource was created.
         public let resourceCreationTime: Date?
         /// The ID of the resource (for example., sg-xxxxxx).
@@ -978,15 +1080,17 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
-        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemDeliveryTime: Date? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, recordingFrequency: RecordingFrequency? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.awsRegion = awsRegion
             self.configuration = configuration
             self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.configurationItemDeliveryTime = configurationItemDeliveryTime
             self.configurationItemStatus = configurationItemStatus
             self.configurationStateId = configurationStateId
+            self.recordingFrequency = recordingFrequency
             self.resourceCreationTime = resourceCreationTime
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -1002,8 +1106,10 @@ extension ConfigService {
             case awsRegion = "awsRegion"
             case configuration = "configuration"
             case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemDeliveryTime = "configurationItemDeliveryTime"
             case configurationItemStatus = "configurationItemStatus"
             case configurationStateId = "configurationStateId"
+            case recordingFrequency = "recordingFrequency"
             case resourceCreationTime = "resourceCreationTime"
             case resourceId = "resourceId"
             case resourceName = "resourceName"
@@ -1606,19 +1712,23 @@ extension ConfigService {
         public let awsRegion: String?
         /// The description of the resource configuration.
         public let configuration: String?
-        /// The time when the configuration recording was
-        /// 			initiated.
+        /// The time when the recording of configuration changes was
+        /// 			initiated for the resource.
         public let configurationItemCaptureTime: Date?
+        /// The time when configuration changes for the resource were delivered.
+        public let configurationItemDeliveryTime: Date?
         /// Unique MD5 hash that represents the configuration item's
         /// 			state. You can use MD5 hash to compare the states of two or more
         /// 			configuration items that are associated with the same
         /// 			resource.
         public let configurationItemMD5Hash: String?
-        /// The configuration item status. The valid values are:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type    The CIs do not incur any cost.
+        /// The configuration item status. Valid values include:   OK – The resource configuration has been updated   ResourceDiscovered – The resource was newly discovered   ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder doesn't record resources of this type   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder doesn't  record resources of this type
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration
         /// 			items of a resource.
         public let configurationStateId: String?
+        /// The recording frequency that Config uses to record configuration changes for the resource.
+        public let recordingFrequency: RecordingFrequency?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was
         /// 			initiated by the events recorded in the CloudTrail log. For more
         /// 			information about CloudTrail, see What Is CloudTrail. An empty field indicates that the current configuration was not
@@ -1646,16 +1756,18 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
-        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemDeliveryTime: Date? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, recordingFrequency: RecordingFrequency? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.awsRegion = awsRegion
             self.configuration = configuration
             self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.configurationItemDeliveryTime = configurationItemDeliveryTime
             self.configurationItemMD5Hash = configurationItemMD5Hash
             self.configurationItemStatus = configurationItemStatus
             self.configurationStateId = configurationStateId
+            self.recordingFrequency = recordingFrequency
             self.relatedEvents = relatedEvents
             self.relationships = relationships
             self.resourceCreationTime = resourceCreationTime
@@ -1674,9 +1786,11 @@ extension ConfigService {
             case awsRegion = "awsRegion"
             case configuration = "configuration"
             case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemDeliveryTime = "configurationItemDeliveryTime"
             case configurationItemMD5Hash = "configurationItemMD5Hash"
             case configurationItemStatus = "configurationItemStatus"
             case configurationStateId = "configurationStateId"
+            case recordingFrequency = "recordingFrequency"
             case relatedEvents = "relatedEvents"
             case relationships = "relationships"
             case resourceCreationTime = "resourceCreationTime"
@@ -1690,7 +1804,7 @@ extension ConfigService {
     }
 
     public struct ConfigurationRecorder: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the configuration recorder. Config automatically assigns the name of "default" when creating the configuration recorder. You cannot change the name of the configuration recorder after it has been created. To change the configuration recorder name, you must delete it and create a new configuration recorder with a new name.
+        /// The name of the configuration recorder. Config automatically assigns the name of "default" when creating the configuration recorder.  You cannot change the name of the configuration recorder after it has been created. To change the configuration recorder name, you must delete it and create a new configuration recorder with a new name.
         public let name: String?
         /// Specifies which resource types Config
         /// 			records for configuration changes.   High Number of Config Evaluations  You may notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the
@@ -1703,7 +1817,12 @@ extension ConfigService {
         /// 				types of workloads in a separate account with Config turned off to avoid
         /// 				increased configuration recording and rule evaluations.
         public let recordingGroup: RecordingGroup?
-        /// Amazon Resource Name (ARN) of the IAM role assumed by  Config and used by the configuration recorder.  While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder.    Pre-existing Config role  If you have used an Amazon Web Services service that uses Config, such as Security Hub or
+        /// Specifies the default recording frequency that Config uses to record configuration changes.
+        ///
+        /// 			Config supports Continuous recording and Daily recording.   Continuous recording allows you to record configuration changes continuously whenever a change occurs.   Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.    Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,
+        /// 			it is recommended that you set the recording frequency to Continuous.  You can also override the recording frequency for specific resource types.
+        public let recordingMode: RecordingMode?
+        /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the configuration recorder.  While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder.    Pre-existing Config role  If you have used an Amazon Web Services service that uses Config, such as Security Hub or
         /// 				Control Tower, and an Config role has already been created, make sure that the
         /// 				IAM role that you use when setting up Config keeps the same minimum
         /// 				permissions as the already created Config role. You must do this so that the
@@ -1716,20 +1835,23 @@ extension ConfigService {
         ///
         public let roleARN: String?
 
-        public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, roleARN: String? = nil) {
+        public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, recordingMode: RecordingMode? = nil, roleARN: String? = nil) {
             self.name = name
             self.recordingGroup = recordingGroup
+            self.recordingMode = recordingMode
             self.roleARN = roleARN
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.recordingMode?.validate(name: "\(name).recordingMode")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case recordingGroup = "recordingGroup"
+            case recordingMode = "recordingMode"
             case roleARN = "roleARN"
         }
     }
@@ -4939,12 +5061,12 @@ extension ConfigService {
         /// 			default, the results are listed in reverse chronological
         /// 			order.
         public let chronologicalOrder: ChronologicalOrder?
-        /// The time stamp that indicates an earlier time. If not
+        /// The chronologically earliest time in the time range for which the history requested. If not
         /// 			specified, the action returns paginated results that contain
         /// 			configuration items that start when the first configuration item was
         /// 			recorded.
         public let earlierTime: Date?
-        /// The time stamp that indicates a later time. If not specified,
+        /// The chronologically latest time in the time range for which the history requested. If not specified,
         /// 			current time is taken.
         public let laterTime: Date?
         /// The maximum number of configuration items returned on each
@@ -6144,6 +6266,7 @@ extension ConfigService {
         /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
         /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.   You must have access to read Amazon S3 bucket.
+        /// 			In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed.
         public let templateS3Uri: String?
         /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
         public let templateSSMDocumentDetails: TemplateSSMDocumentDetails?
@@ -6376,6 +6499,7 @@ extension ConfigService {
         public let templateBody: String?
         /// Location of file containing the template body. The uri must point to the conformance pack template
         /// 			(max size: 300 KB).  You must have access to read Amazon S3 bucket.
+        /// 			In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed.
         public let templateS3Uri: String?
 
         public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
@@ -6567,7 +6691,7 @@ extension ConfigService {
         /// 				history.
         public let retentionPeriodInDays: Int
 
-        public init(retentionPeriodInDays: Int = 0) {
+        public init(retentionPeriodInDays: Int) {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
@@ -6649,36 +6773,43 @@ extension ConfigService {
     }
 
     public struct RecordingGroup: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether Config records configuration changes for all supported regional resource types. If you set this field to true, when Config
-        /// 			adds support for a new type of regional resource, Config starts recording resources of that type automatically. If you set this field to true,
-        /// 			you cannot enumerate specific resource types to record in the resourceTypes field of RecordingGroup, or to exclude in the resourceTypes field of ExclusionByResourceTypes.
+        /// Specifies whether Config records configuration changes for all supported resource types, excluding the global IAM resource types. If you set this field to true, when Config
+        /// 			adds support for a new resource type, Config starts recording resources of that type automatically. If you set this field to true,
+        /// 			you cannot enumerate specific resource types to record in the resourceTypes field of RecordingGroup, or to exclude in the resourceTypes field of ExclusionByResourceTypes.   Region availability  Check Resource Coverage by Region Availability
+        /// 				to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
         public let allSupported: Bool?
-        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. To use this option, you must set the useOnly field of RecordingStrategy to EXCLUSION_BY_RESOURCE_TYPES.
+        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder.   Required fields  To use this option, you must set the useOnly field of RecordingStrategy to EXCLUSION_BY_RESOURCE_TYPES.
         public let exclusionByResourceTypes: ExclusionByResourceTypes?
-        /// Specifies whether Config records configuration changes for all supported global resources. Before you set this field to true,
+        /// This option is a bundle which only applies to the global IAM resource types:
+        /// 			IAM users, groups, roles, and customer managed policies. These global IAM resource types can only be recorded
+        /// 			by Config in Regions where Config was available before February 2022.
+        /// 			You cannot be record the global IAM resouce types in Regions supported by Config after February 2022.
+        /// 			This list where you cannot record the global IAM resource types includes the following Regions:   Asia Pacific (Hyderabad)   Asia Pacific (Melbourne)   Europe (Spain)   Europe (Zurich)   Israel (Tel Aviv)   Middle East (UAE)     Aurora global clusters are recorded in all enabled Regions  The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is not set to true.
+        /// 				The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies.
+        /// 			 If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:    Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or    Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).   For more information, see Selecting Which Resources are Recorded in the Config developer guide.   Before you set this field to true,
         /// 			set the allSupported field of RecordingGroup to
-        /// 			true. Optionally, you can set the useOnly field of RecordingStrategy to ALL_SUPPORTED_RESOURCE_TYPES. If you set this field to true, when Config
-        /// 			adds support for a new type of global resource in the Region where you set up the configuration recorder, Config starts recording
-        /// 			resources of that type automatically.  If you set this field to false but list global resource types in the resourceTypes field of RecordingGroup,
-        /// 			Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to global resource types, make sure to not list them in the resourceTypes field
+        /// 			true. Optionally, you can set the useOnly field of RecordingStrategy to ALL_SUPPORTED_RESOURCE_TYPES.    Overriding fields  If you set this field to false but list global IAM resource types in the resourceTypes field of RecordingGroup,
+        /// 			Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field
         /// 			in addition to setting the includeGlobalResourceTypes field to false.
         public let includeGlobalResourceTypes: Bool?
-        /// An object that specifies the recording strategy for the configuration recorder.   If you set the useOnly field of RecordingStrategy to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of RecordingGroup to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type.   If you set the useOnly field of RecordingStrategy to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of RecordingGroup.   If you set the useOnly field of RecordingStrategy to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types
-        /// 				except the resource types that you specify as exemptions to exclude from being recorded in the resourceTypes field of ExclusionByResourceTypes.    The recordingStrategy field is optional when you set the
+        /// An object that specifies the recording strategy for the configuration recorder.   If you set the useOnly field of RecordingStrategy to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of RecordingGroup to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type.   If you set the useOnly field of RecordingStrategy to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of RecordingGroup.   If you set the useOnly field of RecordingStrategy to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types
+        /// 				except the resource types that you specify to exclude from being recorded in the resourceTypes field of ExclusionByResourceTypes.     Required and optional fields  The recordingStrategy field is optional when you set the
         /// 			allSupported field of RecordingGroup to true. The recordingStrategy field is optional when you list resource types in the
-        /// 				resourceTypes field of RecordingGroup. The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of ExclusionByResourceTypes.   If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically
-        /// 			recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy,
-        /// 				when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types,
-        /// 				Config starts recording resources of that type automatically.
+        /// 				resourceTypes field of RecordingGroup. The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of ExclusionByResourceTypes.    Overriding fields  If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically
+        /// 			recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes.    Global resources types and the resource exclusion recording strategy  By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy,
+        /// 			when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types,
+        /// 			Config starts recording resources of that type automatically. Unless specifically listed as exclusions,
+        /// 				AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config  was available before February 2022.
+        /// 				You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM  resource types includes the following Regions:   Asia Pacific (Hyderabad)   Asia Pacific (Melbourne)   Europe (Spain)   Europe (Zurich)   Israel (Tel Aviv)   Middle East (UAE)
         public let recordingStrategy: RecordingStrategy?
         /// A comma-separated list that specifies which resource types Config
-        /// 			records. Optionally, you can set the useOnly field of RecordingStrategy to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes,
+        /// 			records. For a list of valid resourceTypes values, see the
+        /// 				Resource Type Value column in
+        /// 				Supported Amazon Web Services resource Types in the Config developer guide.   Required and optional fields  Optionally, you can set the useOnly field of RecordingStrategy to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes,
         /// 				set the allSupported field of RecordingGroup to
         /// 				true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes,
-        /// 					when Config adds support for a new type of resource,
-        /// 					it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the
-        /// 				Resource Type Value column in
-        /// 				Supported Amazon Web Services resource Types in the Config developer guide.   Region Availability  Before specifying a resource type for Config to track,
+        /// 				when Config adds support for a new type of resource,
+        /// 				it will not record resources of that type unless you manually add that type to your recording group.    Region availability  Before specifying a resource type for Config to track,
         /// 				check Resource Coverage by Region Availability
         /// 				to see if the resource type is supported in the Amazon Web Services Region where you set up Config.
         /// 				If a resource type is supported by Config in at least one Region,
@@ -6703,19 +6834,76 @@ extension ConfigService {
         }
     }
 
+    public struct RecordingMode: AWSEncodableShape & AWSDecodableShape {
+        /// The default recording frequency that Config uses to record configuration changes.  Daily recording is not supported for the following resource types:    AWS::Config::ResourceCompliance     AWS::Config::ConformancePackCompliance     AWS::Config::ConfigurationRecorder    For the allSupported (ALL_SUPPORTED_RESOURCE_TYPES) recording strategy, these resource types will be set to Continuous recording.
+        public let recordingFrequency: RecordingFrequency
+        /// An array of recordingModeOverride objects for you to specify your overrides for the recording mode.
+        /// 			The recordingModeOverride object in the recordingModeOverrides array consists of three fields: a description, the new recordingFrequency, and an array of resourceTypes to override.
+        public let recordingModeOverrides: [RecordingModeOverride]?
+
+        public init(recordingFrequency: RecordingFrequency, recordingModeOverrides: [RecordingModeOverride]? = nil) {
+            self.recordingFrequency = recordingFrequency
+            self.recordingModeOverrides = recordingModeOverrides
+        }
+
+        public func validate(name: String) throws {
+            try self.recordingModeOverrides?.forEach {
+                try $0.validate(name: "\(name).recordingModeOverrides[]")
+            }
+            try self.validate(self.recordingModeOverrides, name: "recordingModeOverrides", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordingFrequency = "recordingFrequency"
+            case recordingModeOverrides = "recordingModeOverrides"
+        }
+    }
+
+    public struct RecordingModeOverride: AWSEncodableShape & AWSDecodableShape {
+        /// A description that you provide for the override.
+        public let description: String?
+        /// The recording frequency that will be applied to all the resource types specified in the override.   Continuous recording allows you to record configuration changes continuously whenever a change occurs.   Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.    Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,
+        /// 			it is recommended that you set the recording frequency to Continuous.
+        public let recordingFrequency: RecordingFrequency
+        /// A comma-separated list that specifies which resource types Config
+        /// 			includes in the override.  Daily recording is not supported for the following resource types:    AWS::Config::ResourceCompliance     AWS::Config::ConformancePackCompliance     AWS::Config::ConfigurationRecorder
+        public let resourceTypes: [ResourceType]
+
+        public init(description: String? = nil, recordingFrequency: RecordingFrequency, resourceTypes: [ResourceType]) {
+            self.description = description
+            self.recordingFrequency = recordingFrequency
+            self.resourceTypes = resourceTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case recordingFrequency = "recordingFrequency"
+            case resourceTypes = "resourceTypes"
+        }
+    }
+
     public struct RecordingStrategy: AWSEncodableShape & AWSDecodableShape {
-        /// The recording strategy for the configuration recorder.   If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of RecordingGroup to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type. For a list of supported resource types,
+        /// The recording strategy for the configuration recorder.   If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types.
+        /// 				You also must set the allSupported field of RecordingGroup to true.
+        /// 				When Config adds support for a new resource type, Config automatically starts recording resources of that type. For a list of supported resource types,
         /// 				see Supported Resource Types in the Config developer guide.   If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records
         /// 					configuration changes for only the resource types that you specify in the
         /// 						resourceTypes field of RecordingGroup.   If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records
         /// 					configuration changes for all supported resource types, except the resource
-        /// 					types that you specify as exemptions to exclude from being recorded in the
-        /// 						resourceTypes field of ExclusionByResourceTypes.    The recordingStrategy field is optional when you set the
+        /// 					types that you specify to exclude from being recorded in the
+        /// 						resourceTypes field of ExclusionByResourceTypes.     Required and optional fields  The recordingStrategy field is optional when you set the
         /// 			allSupported field of RecordingGroup to true. The recordingStrategy field is optional when you list resource types in the
-        /// 				resourceTypes field of RecordingGroup. The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of ExclusionByResourceTypes.   If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically
-        /// 			recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy,
+        /// 				resourceTypes field of RecordingGroup. The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of ExclusionByResourceTypes.    Overriding fields  If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically
+        /// 			recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes.    Global resource types and the exclusion recording strategy  By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy,
         /// 				when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types,
-        /// 				Config starts recording resources of that type automatically.
+        /// 				Config starts recording resources of that type automatically. Unless specifically listed as exclusions,
+        /// 				AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022.
+        /// 				You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:   Asia Pacific (Hyderabad)   Asia Pacific (Melbourne)   Europe (Spain)   Europe (Zurich)   Israel (Tel Aviv)   Middle East (UAE)
         public let useOnly: RecordingStrategyType?
 
         public init(useOnly: RecordingStrategyType? = nil) {

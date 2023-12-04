@@ -26,7 +26,7 @@ import Foundation
 extension SnowDeviceManagement {
     // MARK: Enums
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attached = "ATTACHED"
         case attaching = "ATTACHING"
         case detached = "DETACHED"
@@ -34,7 +34,7 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -45,7 +45,7 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStateName: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceStateName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "PENDING"
         case running = "RUNNING"
         case shuttingDown = "SHUTTING_DOWN"
@@ -55,13 +55,13 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressAssignment: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpAddressAssignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dhcp = "DHCP"
         case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhysicalConnectorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PhysicalConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case qsfp = "QSFP"
         case rj45 = "RJ45"
         case rj452 = "RJ45_2"
@@ -70,14 +70,14 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskState: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaskState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlockState: String, CustomStringConvertible, Codable, Sendable {
+    public enum UnlockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case locked = "LOCKED"
         case unlocked = "UNLOCKED"
         case unlocking = "UNLOCKING"

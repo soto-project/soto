@@ -26,7 +26,7 @@ import Foundation
 extension DirectoryService {
     // MARK: Enums
 
-    public enum CertificateState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deregisterFailed = "DeregisterFailed"
         case deregistered = "Deregistered"
         case deregistering = "Deregistering"
@@ -36,25 +36,25 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientCertAuth = "ClientCertAuth"
         case clientLdaps = "ClientLDAPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientAuthenticationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClientAuthenticationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClientAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case smartCard = "SmartCard"
         case smartCardOrPassword = "SmartCardOrPassword"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectoryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "Default"
         case failed = "Failed"
         case requested = "Requested"
@@ -63,19 +63,19 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryEdition: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectoryEdition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enterprise = "Enterprise"
         case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectorySize: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectorySize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "Large"
         case small = "Small"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryStage: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectoryStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case created = "Created"
         case creating = "Creating"
@@ -90,7 +90,7 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adConnector = "ADConnector"
         case microsoftAd = "MicrosoftAD"
         case sharedMicrosoftAd = "SharedMicrosoftAD"
@@ -98,7 +98,7 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainControllerStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainControllerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case creating = "Creating"
         case deleted = "Deleted"
@@ -109,7 +109,7 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addFailed = "AddFailed"
         case added = "Added"
         case adding = "Adding"
@@ -119,7 +119,7 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum LDAPSStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LDAPSStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enableFailed = "EnableFailed"
         case enabled = "Enabled"
@@ -127,18 +127,18 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum LDAPSType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LDAPSType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case client = "Client"
         public var description: String { return self.rawValue }
     }
 
-    public enum OSVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum OSVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case version2012 = "SERVER_2012"
         case version2019 = "SERVER_2019"
         public var description: String { return self.rawValue }
     }
 
-    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case chap = "CHAP"
         case mschapv1 = "MS-CHAPv1"
         case mschapv2 = "MS-CHAPv2"
@@ -146,25 +146,25 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum RadiusStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RadiusStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case additional = "Additional"
         case primary = "Primary"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationScope: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "Domain"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelInProgress = "CancelInProgress"
         case cancelled = "Cancelled"
         case completed = "Completed"
@@ -177,19 +177,19 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectiveAuth: String, CustomStringConvertible, Codable, Sendable {
+    public enum SelectiveAuth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case handshake = "HANDSHAKE"
         case organizations = "ORGANIZATIONS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "Deleted"
         case deleting = "Deleting"
         case pendingAcceptance = "PendingAcceptance"
@@ -202,25 +202,25 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SnapshotType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "Auto"
         case manual = "Manual"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TopicStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TopicStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "Deleted"
         case failed = "Failed"
         case registered = "Registered"
@@ -228,14 +228,14 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustDirection: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrustDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneWayIncoming = "One-Way: Incoming"
         case oneWayOutgoing = "One-Way: Outgoing"
         case twoWay = "Two-Way"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustState: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrustState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "Created"
         case creating = "Creating"
         case deleted = "Deleted"
@@ -250,20 +250,20 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrustType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case external = "External"
         case forest = "Forest"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case updateFailed = "UpdateFailed"
         case updated = "Updated"
         case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case os = "OS"
         public var description: String { return self.rawValue }
     }
@@ -3729,7 +3729,7 @@ extension DirectoryService {
         /// Identifier of the directory to which the domain controllers will be added or removed.
         public let directoryId: String
 
-        public init(desiredNumber: Int = 0, directoryId: String) {
+        public init(desiredNumber: Int, directoryId: String) {
             self.desiredNumber = desiredNumber
             self.directoryId = directoryId
         }

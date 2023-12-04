@@ -110,7 +110,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to you CloudWatch log.
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocument could take up to an hour or more, depending on the number of documents you want to delete.
     @Sendable
     public func batchDeleteDocument(_ input: BatchDeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteDocumentResponse {
         return try await self.client.execute(
@@ -149,7 +149,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using Python and Java SDKs, see Adding files directly to an index.
+    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of indexing your documents. For an example of ingesting inline documents using Python and Java SDKs, see Adding files directly to an index.
     @Sendable
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutDocumentResponse {
         return try await self.client.execute(
@@ -240,7 +240,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument API or using one of the supported data sources. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
+    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported data sources. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
     @Sendable
     public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexResponse {
         return try await self.client.execute(
@@ -292,7 +292,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see Deleting Data Sources.
+    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see Deleting Data Sources. Deleting an entire data source or re-syncing your index after deleting specific documents  from a data source could take up to an hour or more, depending on the number of documents you  want to delete.
     @Sendable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -747,7 +747,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Searches an active index. Use this API to search your documents using query. The Query API enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results. Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results.
+    /// Searches an index given an input query.  If you are working with large language models (LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend using the Retrieve API instead of filing a service limit increase to increase the Query API document excerpt length.  You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.   Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.   Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.
     @Sendable
     public func query(_ input: QueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryResult {
         return try await self.client.execute(
@@ -760,7 +760,20 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:   Override boosting at the index level   Filter based on document fields or attributes   Filter based on the user or their group access to documents   View the confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.  Confidence score buckets are currently available only for English.    You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of query capacity units that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see Adjusting capacity.
+    @Sendable
+    public func retrieve(_ input: RetrieveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveResult {
+        return try await self.client.execute(
+            operation: "Retrieve", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting  documents from your data source respository could take up to an hour or more, depending on  the number of documents to sync.
     @Sendable
     public func startDataSourceSyncJob(_ input: StartDataSourceSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataSourceSyncJobResponse {
         return try await self.client.execute(

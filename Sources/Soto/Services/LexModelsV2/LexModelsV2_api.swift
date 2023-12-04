@@ -163,7 +163,7 @@ public struct LexModelsV2: AWSService {
         )
     }
 
-    /// Creates a new version of the bot based on the DRAFT version. If the DRAFT version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version, it returns the last created version. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
+    /// Creates an immutable version of the bot. When you create the first  version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase  in an increment of 1. The version number will always represent the total number  of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused.
     @Sendable
     public func createBotVersion(_ input: CreateBotVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBotVersionResponse {
         return try await self.client.execute(
@@ -514,6 +514,19 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// Returns information about a request to generate a bot through natural language description, made through  the StartBotResource API. Use the generatedBotLocaleUrl  to retrieve the Amazon S3 object containing the bot locale configuration. You can  then modify and import this configuration.
+    @Sendable
+    public func describeBotResourceGeneration(_ input: DescribeBotResourceGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBotResourceGenerationResponse {
+        return try await self.client.execute(
+            operation: "DescribeBotResourceGeneration", 
+            path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/generations/{generationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides metadata about a version of a bot.
     @Sendable
     public func describeBotVersion(_ input: DescribeBotVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBotVersionResponse {
@@ -670,6 +683,19 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// Generates sample utterances for an intent.
+    @Sendable
+    public func generateBotElement(_ input: GenerateBotElementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateBotElementResponse {
+        return try await self.client.execute(
+            operation: "GenerateBotElement", 
+            path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/generate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
     @Sendable
     public func getTestExecutionArtifactsUrl(_ input: GetTestExecutionArtifactsUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestExecutionArtifactsUrlResponse {
@@ -728,6 +754,19 @@ public struct LexModelsV2: AWSService {
         return try await self.client.execute(
             operation: "ListBotRecommendations", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the generation requests made for a bot locale.
+    @Sendable
+    public func listBotResourceGenerations(_ input: ListBotResourceGenerationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotResourceGenerationsResponse {
+        return try await self.client.execute(
+            operation: "ListBotResourceGenerations", 
+            path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/generations", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -826,6 +865,45 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// Retrieves summary metrics for the intents in your bot. The following fields are required:    metrics – A list of AnalyticsIntentMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. You can specify only one order in a given request.
+    @Sendable
+    public func listIntentMetrics(_ input: ListIntentMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntentMetricsResponse {
+        return try await self.client.execute(
+            operation: "ListIntentMetrics", 
+            path: "/bots/{botId}/analytics/intentmetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required:    startDateTime and endDateTime – Define a time range for which you want to retrieve results.    intentPath – Define an order of intents for which you want to retrieve metrics. Separate intents in the path with a forward slash. For example, populate the intentPath field with /BookCar/BookHotel to see details about how many times users invoked the BookCar and BookHotel intents in that order.   Use the optional filters field to filter the results.
+    @Sendable
+    public func listIntentPaths(_ input: ListIntentPathsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntentPathsResponse {
+        return try await self.client.execute(
+            operation: "ListIntentPaths", 
+            path: "/bots/{botId}/analytics/intentpaths", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required:    metrics – A list of AnalyticsIntentStageMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. You can only specify one order in a given request.
+    @Sendable
+    public func listIntentStageMetrics(_ input: ListIntentStageMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntentStageMetricsResponse {
+        return try await self.client.execute(
+            operation: "ListIntentStageMetrics", 
+            path: "/bots/{botId}/analytics/intentstagemetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Get a list of intents that meet the specified criteria.
     @Sendable
     public func listIntents(_ input: ListIntentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntentsResponse {
@@ -845,6 +923,32 @@ public struct LexModelsV2: AWSService {
         return try await self.client.execute(
             operation: "ListRecommendedIntents", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/{botRecommendationId}/intents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    @Sendable
+    public func listSessionAnalyticsData(_ input: ListSessionAnalyticsDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionAnalyticsDataResponse {
+        return try await self.client.execute(
+            operation: "ListSessionAnalyticsData", 
+            path: "/bots/{botId}/analytics/sessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves summary metrics for the user sessions with your bot. The following fields are required:    metrics – A list of AnalyticsSessionMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    @Sendable
+    public func listSessionMetrics(_ input: ListSessionMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionMetricsResponse {
+        return try await self.client.execute(
+            operation: "ListSessionMetrics", 
+            path: "/bots/{botId}/analytics/sessionmetrics", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -943,6 +1047,32 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    ///  To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role.  Retrieves a list of metadata for individual user utterances to your bot. The following fields are required:    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    @Sendable
+    public func listUtteranceAnalyticsData(_ input: ListUtteranceAnalyticsDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUtteranceAnalyticsDataResponse {
+        return try await self.client.execute(
+            operation: "ListUtteranceAnalyticsData", 
+            path: "/bots/{botId}/analytics/utterances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role.  Retrieves summary metrics for the utterances in your bot. The following fields are required:    metrics – A list of AnalyticsUtteranceMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    @Sendable
+    public func listUtteranceMetrics(_ input: ListUtteranceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUtteranceMetricsResponse {
+        return try await self.client.execute(
+            operation: "ListUtteranceMetrics", 
+            path: "/bots/{botId}/analytics/utterancemetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Search for associated transcripts that meet the specified criteria.
     @Sendable
     public func searchAssociatedTranscripts(_ input: SearchAssociatedTranscriptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAssociatedTranscriptsResponse {
@@ -962,6 +1092,19 @@ public struct LexModelsV2: AWSService {
         return try await self.client.execute(
             operation: "StartBotRecommendation", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a request for the descriptive bot builder to generate a bot locale configuration  based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration  operation to check on the status of the generation and for the generatedBotLocaleUrl when the  generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can  then modify and import this configuration.
+    @Sendable
+    public func startBotResourceGeneration(_ input: StartBotResourceGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBotResourceGenerationResponse {
+        return try await self.client.execute(
+            operation: "StartBotResourceGeneration", 
+            path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/startgeneration", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -1267,6 +1410,25 @@ extension LexModelsV2 {
         )
     }
 
+    /// Lists the generation requests made for a bot locale.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listBotResourceGenerationsPaginator(
+        _ input: ListBotResourceGenerationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBotResourceGenerationsRequest, ListBotResourceGenerationsResponse> {
+        return .init(
+            input: input,
+            command: self.listBotResourceGenerations,
+            inputKey: \ListBotResourceGenerationsRequest.nextToken,
+            outputKey: \ListBotResourceGenerationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     /// Return PaginatorSequence for operation.
     ///
@@ -1400,6 +1562,44 @@ extension LexModelsV2 {
         )
     }
 
+    /// Retrieves summary metrics for the intents in your bot. The following fields are required:    metrics – A list of AnalyticsIntentMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. You can specify only one order in a given request.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIntentMetricsPaginator(
+        _ input: ListIntentMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIntentMetricsRequest, ListIntentMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listIntentMetrics,
+            inputKey: \ListIntentMetricsRequest.nextToken,
+            outputKey: \ListIntentMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required:    metrics – A list of AnalyticsIntentStageMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. You can only specify one order in a given request.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIntentStageMetricsPaginator(
+        _ input: ListIntentStageMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIntentStageMetricsRequest, ListIntentStageMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listIntentStageMetrics,
+            inputKey: \ListIntentStageMetricsRequest.nextToken,
+            outputKey: \ListIntentStageMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Get a list of intents that meet the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
@@ -1434,6 +1634,44 @@ extension LexModelsV2 {
             command: self.listRecommendedIntents,
             inputKey: \ListRecommendedIntentsRequest.nextToken,
             outputKey: \ListRecommendedIntentsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSessionAnalyticsDataPaginator(
+        _ input: ListSessionAnalyticsDataRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionAnalyticsDataRequest, ListSessionAnalyticsDataResponse> {
+        return .init(
+            input: input,
+            command: self.listSessionAnalyticsData,
+            inputKey: \ListSessionAnalyticsDataRequest.nextToken,
+            outputKey: \ListSessionAnalyticsDataResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves summary metrics for the user sessions with your bot. The following fields are required:    metrics – A list of AnalyticsSessionMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSessionMetricsPaginator(
+        _ input: ListSessionMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionMetricsRequest, ListSessionMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listSessionMetrics,
+            inputKey: \ListSessionMetricsRequest.nextToken,
+            outputKey: \ListSessionMetricsResponse.nextToken,
             logger: logger
         )
     }
@@ -1551,6 +1789,44 @@ extension LexModelsV2 {
             logger: logger
         )
     }
+
+    ///  To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role.  Retrieves a list of metadata for individual user utterances to your bot. The following fields are required:    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listUtteranceAnalyticsDataPaginator(
+        _ input: ListUtteranceAnalyticsDataRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUtteranceAnalyticsDataRequest, ListUtteranceAnalyticsDataResponse> {
+        return .init(
+            input: input,
+            command: self.listUtteranceAnalyticsData,
+            inputKey: \ListUtteranceAnalyticsDataRequest.nextToken,
+            outputKey: \ListUtteranceAnalyticsDataResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role.  Retrieves summary metrics for the utterances in your bot. The following fields are required:    metrics – A list of AnalyticsUtteranceMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.    startDateTime and endDateTime – Define a time range for which you want to retrieve results.   Of the optional fields, you can organize the results in the following ways:   Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.   Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.   Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listUtteranceMetricsPaginator(
+        _ input: ListUtteranceMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUtteranceMetricsRequest, ListUtteranceMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listUtteranceMetrics,
+            inputKey: \ListUtteranceMetricsRequest.nextToken,
+            outputKey: \ListUtteranceMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension LexModelsV2.ListAggregatedUtterancesRequest: AWSPaginateToken {
@@ -1600,6 +1876,19 @@ extension LexModelsV2.ListBotRecommendationsRequest: AWSPaginateToken {
             localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension LexModelsV2.ListBotResourceGenerationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotResourceGenerationsRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
         )
     }
 }
@@ -1688,6 +1977,38 @@ extension LexModelsV2.ListImportsRequest: AWSPaginateToken {
     }
 }
 
+extension LexModelsV2.ListIntentMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListIntentMetricsRequest {
+        return .init(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
+        )
+    }
+}
+
+extension LexModelsV2.ListIntentStageMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListIntentStageMetricsRequest {
+        return .init(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
+        )
+    }
+}
+
 extension LexModelsV2.ListIntentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListIntentsRequest {
         return .init(
@@ -1711,6 +2032,36 @@ extension LexModelsV2.ListRecommendedIntentsRequest: AWSPaginateToken {
             localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension LexModelsV2.ListSessionAnalyticsDataRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListSessionAnalyticsDataRequest {
+        return .init(
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            startDateTime: self.startDateTime
+        )
+    }
+}
+
+extension LexModelsV2.ListSessionMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListSessionMetricsRequest {
+        return .init(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
         )
     }
 }
@@ -1781,6 +2132,37 @@ extension LexModelsV2.ListTestSetsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListUtteranceAnalyticsDataRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListUtteranceAnalyticsDataRequest {
+        return .init(
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            startDateTime: self.startDateTime
+        )
+    }
+}
+
+extension LexModelsV2.ListUtteranceMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListUtteranceMetricsRequest {
+        return .init(
+            attributes: self.attributes,
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
         )
     }
 }

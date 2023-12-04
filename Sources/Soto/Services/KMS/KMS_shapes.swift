@@ -26,7 +26,7 @@ import Foundation
 extension KMS {
     // MARK: Enums
 
-    public enum AlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsaAesKeyWrapSha1 = "RSA_AES_KEY_WRAP_SHA_1"
         case rsaAesKeyWrapSha256 = "RSA_AES_KEY_WRAP_SHA_256"
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
@@ -35,7 +35,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clusterNotFound = "CLUSTER_NOT_FOUND"
         case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
         case insufficientFreeAddressesInSubnet = "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET"
@@ -57,7 +57,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionStateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case connecting = "CONNECTING"
         case disconnected = "DISCONNECTED"
@@ -66,13 +66,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomKeyStoreType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomKeyStoreType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsCloudhsm = "AWS_CLOUDHSM"
         case externalKeyStore = "EXTERNAL_KEY_STORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -89,7 +89,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -101,13 +101,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataKeySpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case aes256 = "AES_256"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
         case sm2pke = "SM2PKE"
@@ -115,13 +115,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationModelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExpirationModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
         case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
         public var description: String { return self.rawValue }
     }
 
-    public enum GrantOperation: String, CustomStringConvertible, Codable, Sendable {
+    public enum GrantOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
         case describeKey = "DescribeKey"
@@ -141,18 +141,18 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyEncryptionMechanism: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyEncryptionMechanism: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyManagerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyManagerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeySpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -169,7 +169,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyState: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "Creating"
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -181,14 +181,14 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyUsageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case encryptDecrypt = "ENCRYPT_DECRYPT"
         case generateVerifyMac = "GENERATE_VERIFY_MAC"
         case signVerify = "SIGN_VERIFY"
         public var description: String { return self.rawValue }
     }
 
-    public enum MacAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum MacAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hmacSha224 = "HMAC_SHA_224"
         case hmacSha256 = "HMAC_SHA_256"
         case hmacSha384 = "HMAC_SHA_384"
@@ -196,19 +196,19 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case digest = "DIGEST"
         case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primary = "PRIMARY"
         case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsCloudhsm = "AWS_CLOUDHSM"
         case awsKms = "AWS_KMS"
         case external = "EXTERNAL"
@@ -216,7 +216,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecdsaSha256 = "ECDSA_SHA_256"
         case ecdsaSha384 = "ECDSA_SHA_384"
         case ecdsaSha512 = "ECDSA_SHA_512"
@@ -230,14 +230,14 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, Sendable {
+    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
         public var description: String { return self.rawValue }
     }
 
-    public enum XksProxyConnectivityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum XksProxyConnectivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case publicEndpoint = "PUBLIC_ENDPOINT"
         case vpcEndpointService = "VPC_ENDPOINT_SERVICE"
         public var description: String { return self.rawValue }
@@ -439,6 +439,8 @@ extension KMS {
     public struct CreateGrantRequest: AWSEncodableShape {
         /// Specifies a grant constraint.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  KMS supports the EncryptionContextEquals and EncryptionContextSubset grant constraints, which allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint.  The encryption context grant constraints are supported only on grant operations that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. Grants with grant constraints can include the DescribeKey and RetireGrant operations, but the constraint doesn't apply to these operations. If a grant with a grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For information about grant constraints, see Using grant constraints in the Key Management Service Developer Guide. For more information about encryption context, see Encryption context in the  Key Management Service Developer Guide .
         public let constraints: GrantConstraints?
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide .
         public let granteePrincipal: String
         /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
@@ -453,8 +455,9 @@ extension KMS {
         /// The principal that has permission to use the RetireGrant operation to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see RevokeGrant and Retiring and revoking grants in the Key Management Service Developer Guide.
         public let retiringPrincipal: String?
 
-        public init(constraints: GrantConstraints? = nil, granteePrincipal: String, grantTokens: [String]? = nil, keyId: String, name: String? = nil, operations: [GrantOperation], retiringPrincipal: String? = nil) {
+        public init(constraints: GrantConstraints? = nil, dryRun: Bool? = nil, granteePrincipal: String, grantTokens: [String]? = nil, keyId: String, name: String? = nil, operations: [GrantOperation], retiringPrincipal: String? = nil) {
             self.constraints = constraints
+            self.dryRun = dryRun
             self.granteePrincipal = granteePrincipal
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -484,6 +487,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
+            case dryRun = "DryRun"
             case granteePrincipal = "GranteePrincipal"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -519,7 +523,7 @@ extension KMS {
         public let customKeyStoreId: String?
         /// A description of the KMS key. Use a description that helps you decide whether the KMS key is appropriate for a task. The default value is an empty string (no description).  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  To set or change the description after the key is created, use UpdateKeyDescription.
         public let description: String?
-        /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions,  where it creates a 128-bit symmetric key that uses SM4 encryption. For help choosing a key spec for your KMS key, see Choosing a KMS key type in the  Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see kms:EncryptionAlgorithm, kms:MacAlgorithm or kms:Signing Algorithm in the  Key Management Service Developer Guide .   Amazon Web Services services that are integrated with KMS use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.  KMS supports the following key specs for KMS keys:   Symmetric encryption key (default)    SYMMETRIC_DEFAULT      HMAC keys (symmetric)    HMAC_224     HMAC_256     HMAC_384     HMAC_512      Asymmetric RSA key pairs    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-recommended elliptic curve key pairs    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.     SM2 key pairs (China Regions only)    SM2
+        /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For help choosing a key spec for your KMS key, see Choosing a KMS key type in the  Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see kms:EncryptionAlgorithm, kms:MacAlgorithm or kms:Signing Algorithm in the  Key Management Service Developer Guide .   Amazon Web Services services that are integrated with KMS use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.  KMS supports the following key specs for KMS keys:   Symmetric encryption key (default)    SYMMETRIC_DEFAULT      HMAC keys (symmetric)    HMAC_224     HMAC_256     HMAC_384     HMAC_512      Asymmetric RSA key pairs    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-recommended elliptic curve key pairs    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.     SM2 key pairs (China Regions only)    SM2
         public let keySpec: KeySpec?
         /// Determines the cryptographic operations for which you can use the KMS key. The default value is ENCRYPT_DECRYPT. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the KeyUsage value after the KMS key is created. Select only one valid value.   For symmetric encryption KMS keys, omit the parameter or specify ENCRYPT_DECRYPT.   For HMAC KMS keys (symmetric), specify GENERATE_VERIFY_MAC.   For asymmetric KMS keys with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric KMS keys with ECC key material, specify SIGN_VERIFY.   For asymmetric KMS keys with SM2 key material (China Regions only), specify ENCRYPT_DECRYPT or SIGN_VERIFY.
         public let keyUsage: KeyUsageType?
@@ -658,6 +662,8 @@ extension KMS {
     public struct DecryptRequest: AWSEncodableShape {
         /// Ciphertext to be decrypted. The blob includes metadata.
         public let ciphertextBlob: AWSBase64Data
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric encryption KMS keys.
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
@@ -672,8 +678,9 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
-        public init(ciphertextBlob: AWSBase64Data, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil, recipient: RecipientInfo? = nil) {
+        public init(ciphertextBlob: AWSBase64Data, dryRun: Bool? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil, recipient: RecipientInfo? = nil) {
             self.ciphertextBlob = ciphertextBlob
+            self.dryRun = dryRun
             self.encryptionAlgorithm = encryptionAlgorithm
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
@@ -696,6 +703,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
+            case dryRun = "DryRun"
             case encryptionAlgorithm = "EncryptionAlgorithm"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
@@ -981,6 +989,8 @@ extension KMS {
     }
 
     public struct EncryptRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption algorithm that KMS will use to encrypt the plaintext message. The algorithm must be compatible with the KMS key that you specify. This parameter is required only for asymmetric KMS keys. The default value, SYMMETRIC_DEFAULT, is the algorithm used for symmetric encryption KMS keys. If you are using an asymmetric KMS key, we recommend RSAES_OAEP_SHA_256. The SM2PKE algorithm is only available in China Regions.
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context that will be used to encrypt the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context.   Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
@@ -995,7 +1005,8 @@ extension KMS {
         /// Data to be encrypted.
         public let plaintext: AWSBase64Data
 
-        public init(encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, plaintext: AWSBase64Data) {
+        public init(dryRun: Bool? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, plaintext: AWSBase64Data) {
+            self.dryRun = dryRun
             self.encryptionAlgorithm = encryptionAlgorithm
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
@@ -1016,6 +1027,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case encryptionAlgorithm = "EncryptionAlgorithm"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
@@ -1046,6 +1058,8 @@ extension KMS {
     }
 
     public struct GenerateDataKeyPairRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption context that will be used when encrypting the private key in the data key pair.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
         /// When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
@@ -1060,7 +1074,8 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec, recipient: RecipientInfo? = nil) {
+        public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec, recipient: RecipientInfo? = nil) {
+            self.dryRun = dryRun
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1080,6 +1095,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -1122,6 +1138,8 @@ extension KMS {
     }
 
     public struct GenerateDataKeyPairWithoutPlaintextRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption context that will be used when encrypting the private key in the data key pair.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
         /// When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
@@ -1134,7 +1152,8 @@ extension KMS {
         /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
         public let keyPairSpec: DataKeyPairSpec
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec) {
+        public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec) {
+            self.dryRun = dryRun
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1152,6 +1171,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -1185,6 +1205,8 @@ extension KMS {
     }
 
     public struct GenerateDataKeyRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption context that will be used when encrypting the data key.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
         /// When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
@@ -1201,7 +1223,8 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data key, KMS encrypts the plaintext data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the data key encrypted under the KMS key specified by the KeyId parameter. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil, recipient: RecipientInfo? = nil) {
+        public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil, recipient: RecipientInfo? = nil) {
+            self.dryRun = dryRun
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1224,6 +1247,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -1259,6 +1283,8 @@ extension KMS {
     }
 
     public struct GenerateDataKeyWithoutPlaintextRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Specifies the encryption context that will be used when encrypting the data key.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
         /// When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
@@ -1273,7 +1299,8 @@ extension KMS {
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
         public let numberOfBytes: Int?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
+        public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
+            self.dryRun = dryRun
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1294,6 +1321,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
@@ -1320,6 +1348,8 @@ extension KMS {
     }
 
     public struct GenerateMacRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// The HMAC KMS key to use in the operation. The MAC algorithm computes the HMAC for the message and the key as described in RFC 2104. To identify an HMAC KMS key, use the DescribeKey operation and see the KeySpec field in the response.
@@ -1329,7 +1359,8 @@ extension KMS {
         /// The message to be hashed. Specify a message of up to 4,096 bytes.   GenerateMac and VerifyMac do not provide special handling for message digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash digest.
         public let message: AWSBase64Data
 
-        public init(grantTokens: [String]? = nil, keyId: String, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
+        public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
+            self.dryRun = dryRun
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.macAlgorithm = macAlgorithm
@@ -1349,6 +1380,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
             case macAlgorithm = "MacAlgorithm"
@@ -1496,7 +1528,7 @@ extension KMS {
     public struct GetParametersForImportRequest: AWSEncodableShape {
         /// The identifier of the KMS key that will be associated with the imported key material. The Origin of the KMS key must be EXTERNAL. All KMS key types are supported, including multi-Region keys. However, you cannot import key material into a KMS key in a custom key store. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
-        /// The algorithm you will use with the RSA public key (PublicKey) in the response to protect your key material during import. For more information, see Select a wrapping algorithm in the Key Management Service Developer Guide. For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you generate, then encrypt your AES key with the RSA public key from KMS. For RSAES wrapping algorithms, you encrypt your key material directly with the RSA public key from KMS. The wrapping algorithms that you can use depend on the type of key material that you are importing. To import an RSA private key, you must use an RSA_AES wrapping algorithm.    RSA_AES_KEY_WRAP_SHA_256 — Supported for wrapping RSA and ECC key material.    RSA_AES_KEY_WRAP_SHA_1 — Supported for wrapping RSA and ECC key material.    RSAES_OAEP_SHA_256 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048 wrapping key spec to wrap  ECC_NIST_P521 key material.    RSAES_OAEP_SHA_1 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap  ECC_NIST_P521 key material.    RSAES_PKCS1_V1_5 (Deprecated) — Supported only for symmetric encryption key material (and only in legacy mode).
+        /// The algorithm you will use with the RSA public key (PublicKey) in the response to protect your key material during import. For more information, see Select a wrapping algorithm in the Key Management Service Developer Guide. For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you generate, then encrypt your AES key with the RSA public key from KMS. For RSAES wrapping algorithms, you encrypt your key material directly with the RSA public key from KMS. The wrapping algorithms that you can use depend on the type of key material that you are importing. To import an RSA private key, you must use an RSA_AES wrapping algorithm.    RSA_AES_KEY_WRAP_SHA_256 — Supported for wrapping RSA and ECC key material.    RSA_AES_KEY_WRAP_SHA_1 — Supported for wrapping RSA and ECC key material.    RSAES_OAEP_SHA_256 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.    RSAES_OAEP_SHA_1 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.    RSAES_PKCS1_V1_5 (Deprecated) — Supported only for symmetric encryption key material (and only in legacy mode).
         public let wrappingAlgorithm: AlgorithmSpec
         /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import.  Use the longest RSA wrapping key that is practical.  You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algorithm or choose a longer RSA public key.
         public let wrappingKeySpec: WrappingKeySpec
@@ -1787,7 +1819,7 @@ extension KMS {
         public let signingAlgorithms: [SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. This value is present only for KMS keys whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: Date?
-        /// Information about the external key that is associated with a KMS key in an external key store. For more information, see        External key in the Key Management Service Developer Guide.
+        /// Information about the external key that is associated with a KMS key in an external key store. For more information, see External key in the Key Management Service Developer Guide.
         public let xksKeyConfiguration: XksKeyConfigurationType?
 
         public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
@@ -2259,6 +2291,8 @@ extension KMS {
         public let destinationEncryptionContext: [String: String]?
         /// A unique identifier for the KMS key that is used to reencrypt the data. Specify a symmetric encryption KMS key or an asymmetric KMS key with a KeyUsage value of ENCRYPT_DECRYPT. To find the KeyUsage value of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let destinationKeyId: String
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Specifies the encryption algorithm that KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric encryption KMS keys. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key.
@@ -2271,11 +2305,12 @@ extension KMS {
         /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let sourceKeyId: String?
 
-        public init(ciphertextBlob: AWSBase64Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
+        public init(ciphertextBlob: AWSBase64Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, dryRun: Bool? = nil, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
             self.destinationEncryptionContext = destinationEncryptionContext
             self.destinationKeyId = destinationKeyId
+            self.dryRun = dryRun
             self.grantTokens = grantTokens
             self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
             self.sourceEncryptionContext = sourceEncryptionContext
@@ -2301,6 +2336,7 @@ extension KMS {
             case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
             case destinationEncryptionContext = "DestinationEncryptionContext"
             case destinationKeyId = "DestinationKeyId"
+            case dryRun = "DryRun"
             case grantTokens = "GrantTokens"
             case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
             case sourceEncryptionContext = "SourceEncryptionContext"
@@ -2340,7 +2376,7 @@ extension KMS {
     public struct RecipientInfo: AWSEncodableShape {
         /// The attestation document for an Amazon Web Services Nitro Enclave. This document includes the enclave's public key.
         public let attestationDocument: AWSBase64Data?
-        /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave to encrypt plaintext       values for the response. The only valid value is RSAES_OAEP_SHA_256.
+        /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256.
         public let keyEncryptionAlgorithm: KeyEncryptionMechanism?
 
         public init(attestationDocument: AWSBase64Data? = nil, keyEncryptionAlgorithm: KeyEncryptionMechanism? = nil) {
@@ -2429,6 +2465,8 @@ extension KMS {
     }
 
     public struct RetireGrantRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Identifies the grant to retire. To get the grant ID, use CreateGrant, ListGrants, or ListRetirableGrants.   Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
         public let grantId: String?
         /// Identifies the grant to be retired. You can use a grant token to identify a new grant even before it has achieved eventual consistency. Only the CreateGrant operation returns a grant token. For details, see Grant token and Eventual consistency in the Key Management Service Developer Guide.
@@ -2436,7 +2474,8 @@ extension KMS {
         /// The key ARN KMS key associated with the grant. To find the key ARN, use the ListKeys operation. For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
         public let keyId: String?
 
-        public init(grantId: String? = nil, grantToken: String? = nil, keyId: String? = nil) {
+        public init(dryRun: Bool? = nil, grantId: String? = nil, grantToken: String? = nil, keyId: String? = nil) {
+            self.dryRun = dryRun
             self.grantId = grantId
             self.grantToken = grantToken
             self.keyId = keyId
@@ -2452,6 +2491,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantId = "GrantId"
             case grantToken = "GrantToken"
             case keyId = "KeyId"
@@ -2459,13 +2499,16 @@ extension KMS {
     }
 
     public struct RevokeGrantRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// Identifies the grant to revoke. To get the grant ID, use CreateGrant, ListGrants, or ListRetirableGrants.
         public let grantId: String
         /// A unique identifier for the KMS key associated with the grant. To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
         /// different Amazon Web Services account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
-        public init(grantId: String, keyId: String) {
+        public init(dryRun: Bool? = nil, grantId: String, keyId: String) {
+            self.dryRun = dryRun
             self.grantId = grantId
             self.keyId = keyId
         }
@@ -2478,6 +2521,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantId = "GrantId"
             case keyId = "KeyId"
         }
@@ -2486,7 +2530,7 @@ extension KMS {
     public struct ScheduleKeyDeletionRequest: AWSEncodableShape {
         /// The unique identifier of the KMS key to delete. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
-        /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the  kms:ScheduleKeyDeletionPendingWindowInDays  condition key to further constrain the values that principals can specify in the  PendingWindowInDays parameter.
+        /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the  kms:ScheduleKeyDeletionPendingWindowInDays condition key to further constrain the values that principals can specify in the PendingWindowInDays parameter.
         public let pendingWindowInDays: Int?
 
         public init(keyId: String, pendingWindowInDays: Int? = nil) {
@@ -2533,18 +2577,21 @@ extension KMS {
     }
 
     public struct SignRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY. To find the KeyUsage of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
         public let message: AWSBase64Data
-        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm.  Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when  verifying with a system that assumes a single hash. The hashing algorithm in that Sign uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
+        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm.  Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm in that Sign uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
         public let messageType: MessageType?
-        /// Specifies the signing algorithm to use when signing the message.  Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key.  When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
+        /// Specifies the signing algorithm to use when signing the message.  Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
         public let signingAlgorithm: SigningAlgorithmSpec
 
-        public init(grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signingAlgorithm: SigningAlgorithmSpec) {
+        public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signingAlgorithm: SigningAlgorithmSpec) {
+            self.dryRun = dryRun
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.message = message
@@ -2565,6 +2612,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
             case message = "Message"
@@ -2813,6 +2861,8 @@ extension KMS {
     }
 
     public struct VerifyMacRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// The KMS key that will be used in the verification. Enter a key ID of the KMS key that was used to generate the HMAC. If you identify a different KMS key, the VerifyMac operation fails.
@@ -2824,7 +2874,8 @@ extension KMS {
         /// The message that will be used in the verification. Enter the same message that was used to generate the HMAC.  GenerateMac and VerifyMac do not provide special handling for message digests. If you generated an HMAC for a hash digest of a message, you must verify the HMAC for the same hash digest.
         public let message: AWSBase64Data
 
-        public init(grantTokens: [String]? = nil, keyId: String, mac: AWSBase64Data, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
+        public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, mac: AWSBase64Data, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
+            self.dryRun = dryRun
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.mac = mac
@@ -2847,6 +2898,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
             case mac = "Mac"
@@ -2877,20 +2929,23 @@ extension KMS {
     }
 
     public struct VerifyRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your KMS API calls in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Identifies the asymmetric KMS key that will be used to verify the signature. This must be the same KMS key that was used to generate the signature. If you specify a different KMS key, the signature verification fails. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
         public let message: AWSBase64Data
-        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS  skips the hashing step in the signing algorithm.  Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the verification operation can be compromised.  When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
+        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm.  Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the verification operation can be compromised.  When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
         public let messageType: MessageType?
         /// The signature that the Sign operation generated.
         public let signature: AWSBase64Data
         /// The signing algorithm that was used to sign the message. If you submit a different algorithm, the signature verification fails.
         public let signingAlgorithm: SigningAlgorithmSpec
 
-        public init(grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signature: AWSBase64Data, signingAlgorithm: SigningAlgorithmSpec) {
+        public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signature: AWSBase64Data, signingAlgorithm: SigningAlgorithmSpec) {
+            self.dryRun = dryRun
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.message = message
@@ -2914,6 +2969,7 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
             case message = "Message"
@@ -3030,6 +3086,7 @@ public struct KMSErrorType: AWSErrorType {
         case customKeyStoreNotFoundException = "CustomKeyStoreNotFoundException"
         case dependencyTimeoutException = "DependencyTimeoutException"
         case disabledException = "DisabledException"
+        case dryRunOperationException = "DryRunOperationException"
         case expiredImportTokenException = "ExpiredImportTokenException"
         case incorrectKeyException = "IncorrectKeyException"
         case incorrectKeyMaterialException = "IncorrectKeyMaterialException"
@@ -3108,6 +3165,8 @@ public struct KMSErrorType: AWSErrorType {
     public static var dependencyTimeoutException: Self { .init(.dependencyTimeoutException) }
     /// The request was rejected because the specified KMS key is not enabled.
     public static var disabledException: Self { .init(.disabledException) }
+    ///  The request was rejected because the DryRun parameter was specified.
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
     /// The request was rejected because the specified import token is expired. Use GetParametersForImport to get a new import token and public key, use the new public key to encrypt the key material, and then try the request again.
     public static var expiredImportTokenException: Self { .init(.expiredImportTokenException) }
     /// The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a Decrypt request and the SourceKeyId in a ReEncrypt request must identify the same KMS key that was used to encrypt the ciphertext.

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Athena service.
 ///
-/// Amazon Athena is an interactive query service that lets you use standard SQL to analyze data directly in Amazon S3. You can point Athena at your data in Amazon S3 and run ad-hoc queries and get results in seconds. Athena is serverless, so there is no infrastructure to set up or manage. You pay only for the queries you run. Athena scales automatically—executing queries in parallel—so results are fast, even with large datasets and complex queries. For more information, see What is Amazon Athena in the Amazon Athena User Guide. If you connect to Athena using the JDBC driver, use version 1.1.0 of the driver or later with the Amazon Athena API. Earlier version drivers do not support the API. For more information and to download the driver, see Accessing Amazon Athena with JDBC. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+/// Amazon Athena is an interactive query service that lets you use standard SQL to analyze data directly in Amazon S3. You can point Athena at your data in Amazon S3 and run ad-hoc queries and get results in seconds. Athena is serverless, so there is no infrastructure to set up or manage. You pay only for the queries you run. Athena scales automatically—executing queries in parallel—so results are fast, even with large datasets and complex queries. For more information, see What is Amazon Athena in the Amazon Athena User Guide. If you connect to Athena using the JDBC driver, use version 1.1.0 of the driver or later with the Amazon Athena API. Earlier version drivers do not support the API. For more information and to download the driver, see Accessing Amazon Athena with JDBC.
 public struct Athena: AWSService {
     // MARK: Member variables
 
@@ -81,18 +81,24 @@ public struct Athena: AWSService {
             "ap-northeast-2": "athena.ap-northeast-2.api.aws",
             "ap-northeast-3": "athena.ap-northeast-3.api.aws",
             "ap-south-1": "athena.ap-south-1.api.aws",
+            "ap-south-2": "athena.ap-south-2.api.aws",
             "ap-southeast-1": "athena.ap-southeast-1.api.aws",
             "ap-southeast-2": "athena.ap-southeast-2.api.aws",
             "ap-southeast-3": "athena.ap-southeast-3.api.aws",
+            "ap-southeast-4": "athena.ap-southeast-4.api.aws",
             "ca-central-1": "athena.ca-central-1.api.aws",
             "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "athena.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "athena.eu-central-1.api.aws",
+            "eu-central-2": "athena.eu-central-2.api.aws",
             "eu-north-1": "athena.eu-north-1.api.aws",
             "eu-south-1": "athena.eu-south-1.api.aws",
+            "eu-south-2": "athena.eu-south-2.api.aws",
             "eu-west-1": "athena.eu-west-1.api.aws",
             "eu-west-2": "athena.eu-west-2.api.aws",
             "eu-west-3": "athena.eu-west-3.api.aws",
+            "il-central-1": "athena.il-central-1.api.aws",
+            "me-central-1": "athena.me-central-1.api.aws",
             "me-south-1": "athena.me-south-1.api.aws",
             "sa-east-1": "athena.sa-east-1.api.aws",
             "us-east-1": "athena.us-east-1.api.aws",
@@ -200,7 +206,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup.
     @Sendable
     public func createNamedQuery(_ input: CreateNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamedQueryOutput {
         return try await self.client.execute(
@@ -265,7 +271,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and  deleted reservations do not appear in the output of ListCapacityReservations.
+    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and deleted reservations do not appear in the output of ListCapacityReservations.
     @Sendable
     public func deleteCapacityReservation(_ input: DeleteCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityReservationOutput {
         return try await self.client.execute(
@@ -291,7 +297,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Deletes the named query if you have access to the workgroup in which the query was saved.
     @Sendable
     public func deleteNamedQuery(_ input: DeleteNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamedQueryOutput {
         return try await self.client.execute(
@@ -681,7 +687,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup.
     @Sendable
     public func listNamedQueries(_ input: ListNamedQueriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamedQueriesOutput {
         return try await self.client.execute(
@@ -733,7 +739,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query execution IDs for the queries in the specified workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran.
     @Sendable
     public func listQueryExecutions(_ input: ListQueryExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueryExecutionsOutput {
         return try await self.client.execute(
@@ -811,7 +817,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.  The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because  CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead.
     @Sendable
     public func startCalculationExecution(_ input: StartCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCalculationExecutionResponse {
         return try await self.client.execute(
@@ -863,7 +869,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Stops a query execution. Requires you to have access to the workgroup in which the query ran.
     @Sendable
     public func stopQueryExecution(_ input: StopQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryExecutionOutput {
         return try await self.client.execute(
@@ -1172,7 +1178,7 @@ extension Athena {
         )
     }
 
-    /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1210,7 +1216,7 @@ extension Athena {
         )
     }
 
-    /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query execution IDs for the queries in the specified workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

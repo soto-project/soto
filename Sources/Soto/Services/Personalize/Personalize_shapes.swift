@@ -26,26 +26,32 @@ import Foundation
 extension Personalize {
     // MARK: Enums
 
-    public enum Domain: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchInferenceJobMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case batchInference = "BATCH_INFERENCE"
+        case themeGeneration = "THEME_GENERATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Domain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecommerce = "ECOMMERCE"
         case videoOnDemand = "VIDEO_ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case full = "FULL"
         case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum IngestionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case bulk = "BULK"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -53,12 +59,12 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecipeProvider: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecipeProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrainingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case full = "FULL"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
@@ -176,6 +182,8 @@ extension Personalize {
         public let batchInferenceJobArn: String?
         /// A string to string map of the configuration details of a batch inference job.
         public let batchInferenceJobConfig: BatchInferenceJobConfig?
+        /// The job's mode.
+        public let batchInferenceJobMode: BatchInferenceJobMode?
         /// The time at which the batch inference job was created.
         public let creationDateTime: Date?
         /// If the batch inference job failed, the reason for the failure.
@@ -198,10 +206,13 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
         public let status: String?
+        /// The job's theme generation settings.
+        public let themeGenerationConfig: ThemeGenerationConfig?
 
-        public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: Date? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: Date? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil, themeGenerationConfig: ThemeGenerationConfig? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobConfig = batchInferenceJobConfig
+            self.batchInferenceJobMode = batchInferenceJobMode
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.filterArn = filterArn
@@ -213,11 +224,13 @@ extension Personalize {
             self.roleArn = roleArn
             self.solutionVersionArn = solutionVersionArn
             self.status = status
+            self.themeGenerationConfig = themeGenerationConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case batchInferenceJobArn = "batchInferenceJobArn"
             case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case batchInferenceJobMode = "batchInferenceJobMode"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case filterArn = "filterArn"
@@ -229,6 +242,7 @@ extension Personalize {
             case roleArn = "roleArn"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+            case themeGenerationConfig = "themeGenerationConfig"
         }
     }
 
@@ -290,6 +304,8 @@ extension Personalize {
     public struct BatchInferenceJobSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
+        /// The job's mode.
+        public let batchInferenceJobMode: BatchInferenceJobMode?
         /// The time at which the batch inference job was created.
         public let creationDateTime: Date?
         /// If the batch inference job failed, the reason for the failure.
@@ -303,8 +319,9 @@ extension Personalize {
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
         public let status: String?
 
-        public init(batchInferenceJobArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
+            self.batchInferenceJobMode = batchInferenceJobMode
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.jobName = jobName
@@ -315,6 +332,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case batchInferenceJobArn = "batchInferenceJobArn"
+            case batchInferenceJobMode = "batchInferenceJobMode"
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
             case jobName = "jobName"
@@ -499,10 +517,13 @@ extension Personalize {
     }
 
     public struct CampaignConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Whether metadata with recommendations is enabled for the campaign.  If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response.   If you enable metadata in recommendations, you will incur additional costs. For more information, see Amazon Personalize pricing.
+        public let enableMetadataWithRecommendations: Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe.
         public let itemExplorationConfig: [String: String]?
 
-        public init(itemExplorationConfig: [String: String]? = nil) {
+        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil) {
+            self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
         }
 
@@ -515,6 +536,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMetadataWithRecommendations = "enableMetadataWithRecommendations"
             case itemExplorationConfig = "itemExplorationConfig"
         }
     }
@@ -643,6 +665,8 @@ extension Personalize {
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
         /// The configuration details of a batch inference job.
         public let batchInferenceJobConfig: BatchInferenceJobConfig?
+        /// The mode of the batch inference job. To generate descriptive themes for groups of similar items, set the job mode to THEME_GENERATION. If you don't want to generate themes, use the default BATCH_INFERENCE.  When you get batch recommendations with themes, you will incur additional costs. For more information, see Amazon Personalize pricing.
+        public let batchInferenceJobMode: BatchInferenceJobMode?
         /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering batch recommendations.
         public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
@@ -659,9 +683,12 @@ extension Personalize {
         public let solutionVersionArn: String
         /// A list of tags to apply to the batch inference job.
         public let tags: [Tag]?
+        /// For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name.
+        public let themeGenerationConfig: ThemeGenerationConfig?
 
-        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil) {
+        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil, themeGenerationConfig: ThemeGenerationConfig? = nil) {
             self.batchInferenceJobConfig = batchInferenceJobConfig
+            self.batchInferenceJobMode = batchInferenceJobMode
             self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
@@ -670,6 +697,7 @@ extension Personalize {
             self.roleArn = roleArn
             self.solutionVersionArn = solutionVersionArn
             self.tags = tags
+            self.themeGenerationConfig = themeGenerationConfig
         }
 
         public func validate(name: String) throws {
@@ -689,10 +717,12 @@ extension Personalize {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.themeGenerationConfig?.validate(name: "\(name).themeGenerationConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case batchInferenceJobMode = "batchInferenceJobMode"
             case filterArn = "filterArn"
             case jobInput = "jobInput"
             case jobName = "jobName"
@@ -701,6 +731,7 @@ extension Personalize {
             case roleArn = "roleArn"
             case solutionVersionArn = "solutionVersionArn"
             case tags = "tags"
+            case themeGenerationConfig = "themeGenerationConfig"
         }
     }
 
@@ -1034,7 +1065,7 @@ extension Personalize {
     public struct CreateDatasetRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
         public let datasetGroupArn: String
-        /// The type of dataset. One of the following (case insensitive) values:   Interactions   Items   Users
+        /// The type of dataset. One of the following (case insensitive) values:   Interactions   Items   Users   Actions   Action_Interactions
         public let datasetType: String
         /// The name for the dataset.
         public let name: String
@@ -1316,7 +1347,7 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
-            try self.validate(self.schema, name: "schema", parent: name, max: 10000)
+            try self.validate(self.schema, name: "schema", parent: name, max: 20000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,7 +1381,7 @@ extension Personalize {
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
         public let performHPO: Bool?
-        /// The ARN of the recipe to use for model training. Only specified when performAutoML is false.
+        /// The ARN of the recipe to use for model training. This is required when performAutoML is false.
         public let recipeArn: String?
         /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
         public let solutionConfig: SolutionConfig?
@@ -1416,7 +1447,7 @@ extension Personalize {
         public let solutionArn: String
         /// A list of tags to apply to the solution version.
         public let tags: [Tag]?
-        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the  User-Personalization recipe or the  HRNN-Coldstart recipe.
+        /// The scope of training to be performed when creating the solution version.  The default is FULL. This creates a completely new model based on the entirety  of the training data from the datasets in your dataset group.  If you use User-Personalization, you can specify a training mode of UPDATE. This updates the model to consider new items for recommendations. It is not a full retraining. You should still complete a full retraining weekly. If you specify UPDATE, Amazon Personalize will stop automatic updates for the solution version. To resume updates, create a new solution with training mode set to FULL and deploy it in a campaign.  For more information about automatic updates, see  Automatic updates.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the  User-Personalization recipe or the legacy HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
 
         public init(name: String? = nil, solutionArn: String, tags: [Tag]? = nil, trainingMode: TrainingMode? = nil) {
@@ -1484,26 +1515,32 @@ extension Personalize {
         public let datasetArn: String?
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
-        /// One of the following values:   Interactions   Items   Users
+        /// One of the following values:   Interactions   Items   Users   Actions   Action_Interactions
         public let datasetType: String?
         /// A time stamp that shows when the dataset was updated.
         public let lastUpdatedDateTime: Date?
+        /// Describes the latest update to the dataset.
+        public let latestDatasetUpdate: DatasetUpdateSummary?
         /// The name of the dataset.
         public let name: String?
         /// The ARN of the associated schema.
         public let schemaArn: String?
         /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
+        /// The ID of the event tracker for an Action interactions dataset.  You specify the tracker's ID in the PutActionInteractions API operation. Amazon Personalize uses it to direct new data to the Action interactions dataset in your dataset group.
+        public let trackingId: String?
 
-        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, latestDatasetUpdate: DatasetUpdateSummary? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil, trackingId: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.latestDatasetUpdate = latestDatasetUpdate
             self.name = name
             self.schemaArn = schemaArn
             self.status = status
+            self.trackingId = trackingId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1512,9 +1549,11 @@ extension Personalize {
             case datasetGroupArn = "datasetGroupArn"
             case datasetType = "datasetType"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestDatasetUpdate = "latestDatasetUpdate"
             case name = "name"
             case schemaArn = "schemaArn"
             case status = "status"
+            case trackingId = "trackingId"
         }
     }
 
@@ -1631,7 +1670,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the dataset group.
         public let name: String?
-        /// The ARN of the IAM role that has permissions to create the dataset group.
+        /// The ARN of the Identity and Access Management (IAM) role that has permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only valid when also specifying a KMS key.
         public let roleArn: String?
         /// The current status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING
         public let status: String?
@@ -1879,6 +1918,35 @@ extension Personalize {
             case datasetType = "datasetType"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct DatasetUpdateSummary: AWSDecodableShape {
+        /// The creation date and time (in Unix time) of the dataset update.
+        public let creationDateTime: Date?
+        /// If updating a dataset fails, provides the reason why.
+        public let failureReason: String?
+        /// The last update date and time (in Unix time) of the dataset.
+        public let lastUpdatedDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the schema that replaced the previous schema of the dataset.
+        public let schemaArn: String?
+        /// The status of the dataset update.
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, schemaArn: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.schemaArn = schemaArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case schemaArn = "schemaArn"
             case status = "status"
         }
     }
@@ -2767,6 +2835,23 @@ extension Personalize {
         }
     }
 
+    public struct FieldsForThemeGeneration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Items dataset column that stores the name of each item in the dataset.
+        public let itemName: String
+
+        public init(itemName: String) {
+            self.itemName = itemName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.itemName, name: "itemName", parent: name, max: 150)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemName = "itemName"
+        }
+    }
+
     public struct Filter: AWSDecodableShape {
         /// The time at which the filter was created.
         public let creationDateTime: Date?
@@ -3294,7 +3379,7 @@ extension Personalize {
         public let datasetGroupArn: String?
         /// The maximum number of datasets to return.
         public let maxResults: Int?
-        /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
+        /// A token returned from the previous call to ListDatasets for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -4053,6 +4138,8 @@ extension Personalize {
     }
 
     public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Whether metadata with recommendations is enabled for the recommender.  If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response.   If you enable metadata in recommendations, you will incur additional costs. For more information, see Amazon Personalize pricing.
+        public let enableMetadataWithRecommendations: Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items).
         public let itemExplorationConfig: [String: String]?
         /// Specifies the requested minimum provisioned recommendation requests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as necessary.
@@ -4060,7 +4147,8 @@ extension Personalize {
         ///  Specifies the training data configuration to use when creating a domain recommender.
         public let trainingDataConfig: TrainingDataConfig?
 
-        public init(itemExplorationConfig: [String: String]? = nil, minRecommendationRequestsPerSecond: Int? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
+        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, minRecommendationRequestsPerSecond: Int? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
+            self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
             self.minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecond
             self.trainingDataConfig = trainingDataConfig
@@ -4077,6 +4165,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMetadataWithRecommendations = "enableMetadataWithRecommendations"
             case itemExplorationConfig = "itemExplorationConfig"
             case minRecommendationRequestsPerSecond = "minRecommendationRequestsPerSecond"
             case trainingDataConfig = "trainingDataConfig"
@@ -4196,7 +4285,7 @@ extension Personalize {
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
-        /// The ARN of the recipe used to create the solution.
+        /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
         public let recipeArn: String?
         /// The ARN of the solution.
         public let solutionArn: String?
@@ -4239,7 +4328,7 @@ extension Personalize {
     }
 
     public struct SolutionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Lists the hyperparameter names and ranges.
+        /// Lists the algorithm hyperparameters and their values.
         public let algorithmHyperParameters: [String: String]?
         /// The AutoMLConfig object containing a list of recipes to search when AutoML is performed.
         public let autoMLConfig: AutoMLConfig?
@@ -4563,6 +4652,23 @@ extension Personalize {
         public init() {}
     }
 
+    public struct ThemeGenerationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Fields used to generate descriptive themes for a batch inference job.
+        public let fieldsForThemeGeneration: FieldsForThemeGeneration
+
+        public init(fieldsForThemeGeneration: FieldsForThemeGeneration) {
+            self.fieldsForThemeGeneration = fieldsForThemeGeneration
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldsForThemeGeneration.validate(name: "\(name).fieldsForThemeGeneration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldsForThemeGeneration = "fieldsForThemeGeneration"
+        }
+    }
+
     public struct TrainingDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations.   For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public let excludedDatasetColumns: [String: [String]]?
@@ -4673,6 +4779,43 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+        }
+    }
+
+    public struct UpdateDatasetRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that you want to update.
+        public let datasetArn: String
+        /// The Amazon Resource Name (ARN) of the new schema you want use.
+        public let schemaArn: String
+
+        public init(datasetArn: String, schemaArn: String) {
+            self.datasetArn = datasetArn
+            self.schemaArn = schemaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case schemaArn = "schemaArn"
+        }
+    }
+
+    public struct UpdateDatasetResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset you updated.
+        public let datasetArn: String?
+
+        public init(datasetArn: String? = nil) {
+            self.datasetArn = datasetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
         }
     }
 

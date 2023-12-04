@@ -205,7 +205,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func createOpsItem(_ input: CreateOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOpsItemResponse {
         return try await self.client.execute(
@@ -314,6 +314,19 @@ public struct SSM: AWSService {
     public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMaintenanceWindowResult {
         return try await self.client.execute(
             operation: "DeleteMaintenanceWindow", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem.   Note the following important information about this operation.   Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.   This operation uses an eventual consistency model, which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOpsItem, the deleted OpsItem might still appear in the response.    This operation is idempotent. The system doesn't throw an exception if you repeatedly call this operation for the same OpsItem. If the first call is successful, all additional calls return the same successful response as the first call.   This operation doesn't support cross-account calls. A delegated administrator or management account can't delete OpsItems in other accounts, even if OpsCenter has been set up for cross-account administration. For more information about cross-account administration, see Setting up OpsCenter to centrally manage OpsItems across accounts in the Systems Manager User Guide.
+    @Sendable
+    public func deleteOpsItem(_ input: DeleteOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOpsItemResponse {
+        return try await self.client.execute(
+            operation: "DeleteOpsItem", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -608,7 +621,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
+    /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field returned for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This operation does not return the IAM role for EC2 instances.
     @Sendable
     public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceInformationResult {
         return try await self.client.execute(
@@ -777,7 +790,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func describeOpsItems(_ input: DescribeOpsItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOpsItemsResponse {
         return try await self.client.execute(
@@ -1063,7 +1076,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func getOpsItem(_ input: GetOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOpsItemResponse {
         return try await self.client.execute(
@@ -1817,7 +1830,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func updateOpsItem(_ input: UpdateOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOpsItemResponse {
         return try await self.client.execute(
@@ -2067,7 +2080,7 @@ extension SSM {
         )
     }
 
-    /// Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
+    /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field returned for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This operation does not return the IAM role for EC2 instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2314,7 +2327,7 @@ extension SSM {
         )
     }
 
-    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

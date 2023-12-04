@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS TranscribeStreaming service.
 ///
-/// Amazon Transcribe streaming offers three main types of real-time transcription:  Standard, Medical, and  Call Analytics.    Standard transcriptions are the most common option. Refer to  for details.     Medical transcriptions are tailored to medical professionals  and incorporate medical terms. A common use case for this service is transcribing doctor-patient  dialogue in real time, so doctors can focus on their patient instead of taking notes. Refer to for details.    Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this  option. Refer to  for details.
+/// Amazon Transcribe streaming offers three main types of real-time transcription:  Standard, Medical, and  Call Analytics.    Standard transcriptions are the most common option. Refer to  for details.    Medical transcriptions are tailored to medical professionals  and incorporate medical terms. A common use case for this service is transcribing doctor-patient  dialogue in real time, so doctors can focus on their patient instead of taking notes. Refer to for details.    Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this  option. Refer to  for details.
 public struct TranscribeStreaming: AWSService {
     // MARK: Member variables
 
@@ -87,7 +87,7 @@ public struct TranscribeStreaming: AWSService {
         )
     }
 
-    /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe Medical and the transcription results are streamed to your application.   The following parameters are required:    language-code     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe Medical, see  Transcribing streaming audio.
+    /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:    language-code     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe Medical, see  Transcribing streaming audio.
     @Sendable
     public func startMedicalStreamTranscription(_ input: StartMedicalStreamTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMedicalStreamTranscriptionResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct TranscribeStreaming: AWSService {
         )
     }
 
-    /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:    language-code or identify-language     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
+    /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:    language-code or identify-language or identify-multiple-language     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
     @Sendable
     public func startStreamTranscription(_ input: StartStreamTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStreamTranscriptionResponse {
         return try await self.client.execute(

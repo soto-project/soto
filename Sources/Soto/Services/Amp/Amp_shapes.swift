@@ -26,7 +26,7 @@ import Foundation
 extension Amp {
     // MARK: Enums
 
-    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Definition has been created/updated. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Definition is being created. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
@@ -42,7 +42,7 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Logging configuration has been created/updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Logging configuration is being created. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
@@ -58,7 +58,7 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Namespace has been created/updated. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Namespace is being created. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
@@ -74,7 +74,21 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScraperStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Scraper has been created and is usable.
+        case active = "ACTIVE"
+        /// Scraper is being created. Deletion is disallowed until status is ACTIVE.
+        case creating = "CREATING"
+        /// Scraper creation failed.
+        case creationFailed = "CREATION_FAILED"
+        /// Scraper is being deleted. Deletions are allowed only when status is ACTIVE.
+        case deleting = "DELETING"
+        /// Scraper deletion failed.
+        case deletionFailed = "DELETION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Workspace has been created and is usable.
         case active = "ACTIVE"
         /// Workspace is being created. Deletion is disallowed until status is ACTIVE.
@@ -132,6 +146,23 @@ extension Amp {
         }
     }
 
+    public struct AmpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an AMP workspace.
+        public let workspaceArn: String
+
+        public init(workspaceArn: String) {
+            self.workspaceArn = workspaceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceArn, name: "workspaceArn", parent: name, pattern: "^arn:aws[-a-z]*:aps:[-a-z0-9]+:[0-9]{12}:workspace/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceArn = "workspaceArn"
+        }
+    }
+
     public struct CreateAlertManagerDefinitionRequest: AWSEncodableShape {
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
@@ -157,7 +188,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -207,7 +238,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
@@ -266,7 +297,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -316,6 +347,83 @@ extension Amp {
         }
     }
 
+    public struct CreateScraperRequest: AWSEncodableShape {
+        /// An optional user-assigned alias for this scraper. This alias is for user reference and does not need to be unique.
+        public let alias: String?
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The destination that the scraper will be producing metrics to.
+        public let destination: Destination
+        /// The configuration used to create the scraper.
+        public let scrapeConfiguration: ScrapeConfiguration
+        /// The source that the scraper will be discovering and collecting metrics from.
+        public let source: Source
+        /// Optional, user-provided tags for this scraper.
+        public let tags: [String: String]?
+
+        public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.destination = destination
+            self.scrapeConfiguration = scrapeConfiguration
+            self.source = source
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 100)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.destination.validate(name: "\(name).destination")
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case destination = "destination"
+            case scrapeConfiguration = "scrapeConfiguration"
+            case source = "source"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateScraperResponse: AWSDecodableShape {
+        /// The ARN of the scraper that was just created.
+        public let arn: String
+        /// The generated ID of the scraper that was just created.
+        public let scraperId: String
+        /// The status of the scraper that was just created (usually CREATING).
+        public let status: ScraperStatus
+        /// The tags of this scraper.
+        public let tags: [String: String]?
+
+        public init(arn: String, scraperId: String, status: ScraperStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.scraperId = scraperId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case scraperId = "scraperId"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         /// An optional user-assigned alias for this workspace. This alias is for user reference and does not need to be unique.
         public let alias: String?
@@ -335,7 +443,7 @@ extension Amp {
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -399,7 +507,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -429,7 +537,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -463,7 +571,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -473,6 +581,53 @@ extension Amp {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteScraperRequest: AWSEncodableShape {
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the scraper to delete.
+        public let scraperId: String
+
+        public init(clientToken: String? = DeleteScraperRequest.idempotencyToken(), scraperId: String) {
+            self.clientToken = clientToken
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteScraperResponse: AWSDecodableShape {
+        /// The ID of the scraper that was deleted.
+        public let scraperId: String
+        /// The status of the scraper that is being deleted.
+        public let status: ScraperStatus
+
+        public init(scraperId: String, status: ScraperStatus) {
+            self.scraperId = scraperId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scraperId = "scraperId"
+            case status = "status"
+        }
     }
 
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
@@ -496,7 +651,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -620,6 +775,42 @@ extension Amp {
         }
     }
 
+    public struct DescribeScraperRequest: AWSEncodableShape {
+        /// The IDs of the scraper to describe.
+        public let scraperId: String
+
+        public init(scraperId: String) {
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeScraperResponse: AWSDecodableShape {
+        /// The properties of the selected scrapers.
+        public let scraper: ScraperDescription
+
+        public init(scraper: ScraperDescription) {
+            self.scraper = scraper
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scraper = "scraper"
+        }
+    }
+
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
         /// The ID of the workspace to describe.
         public let workspaceId: String
@@ -656,6 +847,60 @@ extension Amp {
         }
     }
 
+    public struct EksConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an EKS cluster.
+        public let clusterArn: String
+        /// A list of security group IDs specified for VPC configuration.
+        public let securityGroupIds: [String]?
+        /// A list of subnet IDs specified for VPC configuration.
+        public let subnetIds: [String]
+
+        public init(clusterArn: String, securityGroupIds: [String]? = nil, subnetIds: [String]) {
+            self.clusterArn = clusterArn
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[-a-z]*:eks:[-a-z0-9]+:[0-9]{12}:cluster/.+$")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 255)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]+$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 5)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+        }
+    }
+
+    public struct GetDefaultScraperConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDefaultScraperConfigurationResponse: AWSDecodableShape {
+        /// The default configuration.
+        public let configuration: AWSBase64Data
+
+        public init(configuration: AWSBase64Data) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
     public struct ListRuleGroupsNamespacesRequest: AWSEncodableShape {
         /// Maximum results to return in response (default=100, maximum=1000).
         public let maxResults: Int?
@@ -686,6 +931,7 @@ extension Amp {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -708,6 +954,60 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case ruleGroupsNamespaces = "ruleGroupsNamespaces"
+        }
+    }
+
+    public struct ListScrapersRequest: AWSEncodableShape {
+        /// A list of scraper filters.
+        public let filters: [String: [String]]?
+        /// Maximum results to return in response (default=100, maximum=1000).
+        public let maxResults: Int?
+        /// Pagination token to request the next page in a paginated list. This token is obtained from the output of the previous ListScrapers request.
+        public let nextToken: String?
+
+        public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filters)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try validate($0.key, name: "filters.key", parent: name, max: 256)
+                try validate($0.key, name: "filters.key", parent: name, min: 1)
+                try validate($0.value, name: "filters[\"\($0.key)\"]", parent: name, max: 20)
+                try validate($0.value, name: "filters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 4)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScrapersResponse: AWSDecodableShape {
+        /// Pagination token to use when requesting the next page in this list.
+        public let nextToken: String?
+        /// The list of scrapers, filtered down if a set of filters was provided in the request.
+        public let scrapers: [ScraperSummary]
+
+        public init(nextToken: String? = nil, scrapers: [ScraperSummary]) {
+            self.nextToken = nextToken
+            self.scrapers = scrapers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case scrapers = "scrapers"
         }
     }
 
@@ -765,6 +1065,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.alias, name: "alias", parent: name, max: 100)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -858,7 +1159,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -912,7 +1213,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -1039,6 +1340,129 @@ extension Amp {
         }
     }
 
+    public struct ScraperDescription: AWSDecodableShape {
+        /// Alias of this scraper.
+        public let alias: String?
+        /// The Amazon Resource Name (ARN) of this scraper.
+        public let arn: String
+        /// The time when the scraper was created.
+        public let createdAt: Date
+        /// The destination that the scraper is producing metrics to.
+        public let destination: Destination
+        /// The time when the scraper was last modified.
+        public let lastModifiedAt: Date
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to dsicover, collect, and produce metrics on your behalf.
+        public let roleArn: String
+        /// The configuration used to create the scraper.
+        public let scrapeConfiguration: ScrapeConfiguration
+        /// Unique string identifying this scraper.
+        public let scraperId: String
+        /// The source that the scraper is discovering and collecting metrics from.
+        public let source: Source
+        /// The status of this scraper.
+        public let status: ScraperStatus
+        /// The reason for failure if any.
+        public let statusReason: String?
+        /// The tags of this scraper.
+        public let tags: [String: String]?
+
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+            self.alias = alias
+            self.arn = arn
+            self.createdAt = createdAt
+            self.destination = destination
+            self.lastModifiedAt = lastModifiedAt
+            self.roleArn = roleArn
+            self.scrapeConfiguration = scrapeConfiguration
+            self.scraperId = scraperId
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destination = "destination"
+            case lastModifiedAt = "lastModifiedAt"
+            case roleArn = "roleArn"
+            case scrapeConfiguration = "scrapeConfiguration"
+            case scraperId = "scraperId"
+            case source = "source"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+        }
+    }
+
+    public struct ScraperStatus: AWSDecodableShape {
+        /// Status code of this scraper.
+        public let statusCode: ScraperStatusCode
+
+        public init(statusCode: ScraperStatusCode) {
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+        }
+    }
+
+    public struct ScraperSummary: AWSDecodableShape {
+        /// Alias of this scraper.
+        public let alias: String?
+        /// The Amazon Resource Name (ARN) of this scraper.
+        public let arn: String
+        /// The time when the scraper was created.
+        public let createdAt: Date
+        /// The destination that the scraper is producing metrics to.
+        public let destination: Destination
+        /// The time when the scraper was last modified.
+        public let lastModifiedAt: Date
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to dsicover, collect, and produce metrics on your behalf.
+        public let roleArn: String
+        /// Unique string identifying this scraper.
+        public let scraperId: String
+        /// The source that the scraper is discovering and collecting metrics from.
+        public let source: Source
+        /// The status of this scraper.
+        public let status: ScraperStatus
+        /// The reason for failure if any.
+        public let statusReason: String?
+        /// The tags of this scraper.
+        public let tags: [String: String]?
+
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+            self.alias = alias
+            self.arn = arn
+            self.createdAt = createdAt
+            self.destination = destination
+            self.lastModifiedAt = lastModifiedAt
+            self.roleArn = roleArn
+            self.scraperId = scraperId
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destination = "destination"
+            case lastModifiedAt = "lastModifiedAt"
+            case roleArn = "roleArn"
+            case scraperId = "scraperId"
+            case source = "source"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource.
         public let resourceArn: String
@@ -1134,7 +1558,7 @@ extension Amp {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
@@ -1187,7 +1611,7 @@ extension Amp {
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -1279,6 +1703,53 @@ extension Amp {
             case status = "status"
             case tags = "tags"
             case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct Destination: AWSEncodableShape & AWSDecodableShape {
+        /// A representation of an AMP destination.
+        public let ampConfiguration: AmpConfiguration?
+
+        public init(ampConfiguration: AmpConfiguration? = nil) {
+            self.ampConfiguration = ampConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.ampConfiguration?.validate(name: "\(name).ampConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ampConfiguration = "ampConfiguration"
+        }
+    }
+
+    public struct ScrapeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Binary data representing a Prometheus configuration file.
+        public let configurationBlob: AWSBase64Data?
+
+        public init(configurationBlob: AWSBase64Data? = nil) {
+            self.configurationBlob = configurationBlob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationBlob = "configurationBlob"
+        }
+    }
+
+    public struct Source: AWSEncodableShape & AWSDecodableShape {
+        /// A representation of an EKS source.
+        public let eksConfiguration: EksConfiguration?
+
+        public init(eksConfiguration: EksConfiguration? = nil) {
+            self.eksConfiguration = eksConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.eksConfiguration?.validate(name: "\(name).eksConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eksConfiguration = "eksConfiguration"
         }
     }
 }

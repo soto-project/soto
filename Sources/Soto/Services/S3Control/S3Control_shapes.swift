@@ -26,14 +26,14 @@ import Foundation
 extension S3Control {
     // MARK: Enums
 
-    public enum AsyncOperationName: String, CustomStringConvertible, Codable, Sendable {
+    public enum AsyncOperationName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createMultiRegionAccessPoint = "CreateMultiRegionAccessPoint"
         case deleteMultiRegionAccessPoint = "DeleteMultiRegionAccessPoint"
         case putMultiRegionAccessPointPolicy = "PutMultiRegionAccessPointPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketCannedACL: String, CustomStringConvertible, Codable, Sendable {
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
@@ -41,7 +41,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, Sendable {
+    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, Sendable, CodingKeyRepresentable {
         public var rawValue: String
 
         public init(rawValue: String) {
@@ -62,42 +62,49 @@ extension S3Control {
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "Enabled"
         case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeneratedManifestFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeneratedManifestFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3InventoryReportCSV20211130 = "S3InventoryReport_CSV_20211130"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobManifestFieldName: String, CustomStringConvertible, Codable, Sendable {
+    public enum GranteeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directoryGroup = "DIRECTORY_GROUP"
+        case directoryUser = "DIRECTORY_USER"
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobManifestFieldName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucket = "Bucket"
         case ignore = "Ignore"
         case key = "Key"
@@ -105,24 +112,24 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobManifestFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobManifestFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3BatchOperationsCSV20180820 = "S3BatchOperations_CSV_20180820"
         case s3InventoryReportCSV20161130 = "S3InventoryReport_CSV_20161130"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobReportFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case reportCSV20180820 = "Report_CSV_20180820"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobReportScope: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobReportScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allTasks = "AllTasks"
         case failedTasksOnly = "FailedTasksOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
@@ -139,25 +146,25 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADelete: String, CustomStringConvertible, Codable, Sendable {
+    public enum MFADelete: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case inconsistentAcrossRegions = "INCONSISTENT_ACROSS_REGIONS"
@@ -167,19 +174,19 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkOrigin: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internet = "Internet"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLambdaAccessPointAliasStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectLambdaAccessPointAliasStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case provisioning = "PROVISIONING"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case getObjectPartNumber = "GetObject-PartNumber"
         case getObjectRange = "GetObject-Range"
         case headObjectPartNumber = "HeadObject-PartNumber"
@@ -187,7 +194,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case getObject = "GetObject"
         case headObject = "HeadObject"
         case listObjects = "ListObjects"
@@ -195,7 +202,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationName: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambdaInvoke = "LambdaInvoke"
         case s3DeleteObjectTagging = "S3DeleteObjectTagging"
         case s3InitiateRestoreObject = "S3InitiateRestoreObject"
@@ -208,29 +215,42 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputSchemaVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputSchemaVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1 = "V_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum OwnerOverride: String, CustomStringConvertible, Codable, Sendable {
+    public enum OwnerOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case destination = "Destination"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicaModificationsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case read = "READ"
+        case readwrite = "READWRITE"
+        case write = "WRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Privilege: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "Default"
+        case minimal = "Minimal"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicaModificationsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case none = "NONE"
@@ -238,7 +258,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -251,19 +271,19 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RequestedJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case ready = "Ready"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -274,7 +294,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
         case sha1 = "SHA1"
@@ -282,44 +302,44 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bulk = "BULK"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canonical = "id"
         case emailAddress = "emailAddress"
         case group = "uri"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3MetadataDirective: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3MetadataDirective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case copy = "COPY"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case on = "ON"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockRetentionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectLockRetentionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3Permission: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -328,13 +348,18 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3PrefixType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case object = "Object"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -345,13 +370,13 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case intelligentTiering = "INTELLIGENT_TIERING"
@@ -385,6 +410,25 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case owner = "Owner"
+        }
+    }
+
+    public struct AccessGrantsLocationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The S3SubPrefix is appended to the location scope creating the grant scope. Use this field to narrow the scope of the grant to a subset of the location scope. This field is required if the location scope is the default location s3:// because you cannot create a grant for all of your S3 data in the Region and must narrow the scope. For example, if the location scope is the default location s3://, the S3SubPrefx can be a /*, so the full grant scope path would be s3:///*. Or the S3SubPrefx can be /*, so the full grant scope path would be or s3:///*. If the S3SubPrefix includes a prefix, append the wildcard character * after the prefix to indicate that you want to include all object key names in the bucket that start with that prefix.
+        public let s3SubPrefix: String?
+
+        public init(s3SubPrefix: String? = nil) {
+            self.s3SubPrefix = s3SubPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3SubPrefix, name: "s3SubPrefix", parent: name, max: 2000)
+            try self.validate(self.s3SubPrefix, name: "s3SubPrefix", parent: name, min: 1)
+            try self.validate(self.s3SubPrefix, name: "s3SubPrefix", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3SubPrefix = "S3SubPrefix"
         }
     }
 
@@ -426,27 +470,31 @@ extension S3Control {
     }
 
     public struct AccountLevel: AWSEncodableShape & AWSDecodableShape {
-        /// A container for S3 Storage Lens activity metrics.
+        /// A container element for S3 Storage Lens activity metrics.
         public let activityMetrics: ActivityMetrics?
-        /// A container for S3 Storage Lens advanced cost-optimization metrics.
+        /// A container element for S3 Storage Lens advanced cost-optimization metrics.
         public let advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics?
-        /// A container for S3 Storage Lens advanced data-protection metrics.
+        /// A container element for S3 Storage Lens advanced data-protection metrics.
         public let advancedDataProtectionMetrics: AdvancedDataProtectionMetrics?
-        /// A container for the S3 Storage Lens bucket-level configuration.
+        /// A container element for the S3 Storage Lens bucket-level configuration.
         public let bucketLevel: BucketLevel
-        /// A container for detailed status code metrics.
+        /// A container element for detailed status code metrics.
         public let detailedStatusCodesMetrics: DetailedStatusCodesMetrics?
+        /// A container element for S3 Storage Lens groups metrics.
+        public let storageLensGroupLevel: StorageLensGroupLevel?
 
-        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil) {
+        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, storageLensGroupLevel: StorageLensGroupLevel? = nil) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
             self.bucketLevel = bucketLevel
             self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
+            self.storageLensGroupLevel = storageLensGroupLevel
         }
 
         public func validate(name: String) throws {
             try self.bucketLevel.validate(name: "\(name).bucketLevel")
+            try self.storageLensGroupLevel?.validate(name: "\(name).storageLensGroupLevel")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -455,6 +503,7 @@ extension S3Control {
             case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
             case bucketLevel = "BucketLevel"
             case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
+            case storageLensGroupLevel = "StorageLensGroupLevel"
         }
     }
 
@@ -494,6 +543,39 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case isEnabled = "IsEnabled"
+        }
+    }
+
+    public struct AssociateAccessGrantsIdentityCenterRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
+        public let identityCenterArn: String
+
+        public init(accountId: String, identityCenterArn: String) {
+            self.accountId = accountId
+            self.identityCenterArn = identityCenterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.identityCenterArn, forKey: .identityCenterArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, max: 1224)
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, min: 10)
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, pattern: "^arn:[^:]+:sso::(\\d{12}){0,1}:instance/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterArn = "IdentityCenterArn"
         }
     }
 
@@ -659,6 +741,277 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case isEnabled = "IsEnabled"
+        }
+    }
+
+    public struct CreateAccessGrantRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access. It contains the S3SubPrefix field. The grant scope is the result of appending the subprefix to the location scope of the registered location.
+        public let accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
+        public let accessGrantsLocationId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If an application ARN is included in the request to create an access grant, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
+        public let grantee: Grantee
+        /// The type of access that you are granting to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission
+        /// The type of S3SubPrefix. The only possible value is Object. Pass this value if the access grant scope is an object. Do not pass this value if the access grant scope is a bucket or a bucket and a prefix.
+        public let s3PrefixType: S3PrefixType?
+        /// The Amazon Web Services resource tags that you are adding to the access grant. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String, accountId: String, applicationArn: String? = nil, grantee: Grantee, permission: Permission, s3PrefixType: S3PrefixType? = nil, tags: [Tag]? = nil) {
+            self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.accountId = accountId
+            self.applicationArn = applicationArn
+            self.grantee = grantee
+            self.permission = permission
+            self.s3PrefixType = s3PrefixType
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessGrantsLocationConfiguration, forKey: .accessGrantsLocationConfiguration)
+            try container.encode(self.accessGrantsLocationId, forKey: .accessGrantsLocationId)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encodeIfPresent(self.applicationArn, forKey: .applicationArn)
+            try container.encode(self.grantee, forKey: .grantee)
+            try container.encode(self.permission, forKey: .permission)
+            try container.encodeIfPresent(self.s3PrefixType, forKey: .s3PrefixType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.accessGrantsLocationConfiguration?.validate(name: "\(name).accessGrantsLocationConfiguration")
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, max: 64)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, min: 1)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso:.*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationConfiguration = "AccessGrantsLocationConfiguration"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case applicationArn = "ApplicationArn"
+            case grantee = "Grantee"
+            case permission = "Permission"
+            case s3PrefixType = "S3PrefixType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAccessGrantResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the access grant.
+        public let accessGrantArn: String?
+        /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
+        public let accessGrantId: String?
+        /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access.
+        public let accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The date and time when you created the access grant.
+        public let createdAt: Date?
+        /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
+        public let grantee: Grantee?
+        /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
+        public let grantScope: String?
+        /// The type of access that you are granting to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission?
+
+        public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+            self.accessGrantArn = accessGrantArn
+            self.accessGrantId = accessGrantId
+            self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.applicationArn = applicationArn
+            self.createdAt = createdAt
+            self.grantee = grantee
+            self.grantScope = grantScope
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantArn = "AccessGrantArn"
+            case accessGrantId = "AccessGrantId"
+            case accessGrantsLocationConfiguration = "AccessGrantsLocationConfiguration"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case applicationArn = "ApplicationArn"
+            case createdAt = "CreatedAt"
+            case grantee = "Grantee"
+            case grantScope = "GrantScope"
+            case permission = "Permission"
+        }
+    }
+
+    public struct CreateAccessGrantsInstanceRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// If you would like to associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, use this field to pass the Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
+        public let identityCenterArn: String?
+        /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants instance. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(accountId: String, identityCenterArn: String? = nil, tags: [Tag]? = nil) {
+            self.accountId = accountId
+            self.identityCenterArn = identityCenterArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encodeIfPresent(self.identityCenterArn, forKey: .identityCenterArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, max: 1224)
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, min: 10)
+            try self.validate(self.identityCenterArn, name: "identityCenterArn", parent: name, pattern: "^arn:[^:]+:sso::(\\d{12}){0,1}:instance/.*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterArn = "IdentityCenterArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAccessGrantsInstanceResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+        public let accessGrantsInstanceArn: String?
+        /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
+        public let accessGrantsInstanceId: String?
+        /// The date and time when you created the S3 Access Grants instance.
+        public let createdAt: Date?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance passed in the request. S3 Access Grants creates this Identity Center application for this specific S3 Access Grants instance.
+        public let identityCenterArn: String?
+
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterArn = identityCenterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
+            case accessGrantsInstanceId = "AccessGrantsInstanceId"
+            case createdAt = "CreatedAt"
+            case identityCenterArn = "IdentityCenterArn"
+        }
+    }
+
+    public struct CreateAccessGrantsLocationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String
+        /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+        public let locationScope: String
+        /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants location. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(accountId: String, iamRoleArn: String, locationScope: String, tags: [Tag]? = nil) {
+            self.accountId = accountId
+            self.iamRoleArn = iamRoleArn
+            self.locationScope = locationScope
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.iamRoleArn, forKey: .iamRoleArn)
+            try container.encode(self.locationScope, forKey: .locationScope)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 1)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[^:]+:iam::\\d{12}:role/")
+            try self.validate(self.locationScope, name: "locationScope", parent: name, max: 2000)
+            try self.validate(self.locationScope, name: "locationScope", parent: name, min: 1)
+            try self.validate(self.locationScope, name: "locationScope", parent: name, pattern: "^.+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "IAMRoleArn"
+            case locationScope = "LocationScope"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAccessGrantsLocationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the location you are registering.
+        public let accessGrantsLocationArn: String?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The date and time when you registered the location.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String?
+        /// The S3 URI path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+        public let locationScope: String?
+
+        public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
+            self.accessGrantsLocationArn = accessGrantsLocationArn
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.createdAt = createdAt
+            self.iamRoleArn = iamRoleArn
+            self.locationScope = locationScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationArn = "AccessGrantsLocationArn"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case createdAt = "CreatedAt"
+            case iamRoleArn = "IAMRoleArn"
+            case locationScope = "LocationScope"
         }
     }
 
@@ -1070,6 +1423,183 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case requestTokenARN = "RequestTokenARN"
         }
+    }
+
+    public struct CreateStorageLensGroupRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The Amazon Web Services account ID that the Storage Lens group is created from and associated with.
+        public let accountId: String
+        /// The Storage Lens group configuration.
+        public let storageLensGroup: StorageLensGroup
+        /// The Amazon Web Services resource tags that you're adding to your Storage Lens group. This parameter is optional.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(accountId: String, storageLensGroup: StorageLensGroup, tags: [Tag]? = nil) {
+            self.accountId = accountId
+            self.storageLensGroup = storageLensGroup
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.storageLensGroup, forKey: .storageLensGroup)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.storageLensGroup.validate(name: "\(name).storageLensGroup")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageLensGroup = "StorageLensGroup"
+            case tags = "Tags"
+        }
+    }
+
+    public struct Credentials: AWSDecodableShape {
+        /// The unique access key ID of the Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
+        public let accessKeyId: String?
+        /// The expiration date and time of the temporary credential that S3 Access Grants vends to grantees and client applications.
+        public let expiration: Date?
+        /// The secret access key of the Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
+        public let secretAccessKey: String?
+        /// The Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expiration = "Expiration"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
+    }
+
+    public struct DeleteAccessGrantRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
+        public let accessGrantId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accessGrantId: String, accountId: String) {
+            self.accessGrantId = accessGrantId
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessGrantId, key: "AccessGrantId")
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, max: 64)
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, min: 1)
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessGrantsInstanceRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessGrantsLocationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the registered location that you are deregistering from your S3 Access Grants instance. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accessGrantsLocationId: String, accountId: String) {
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessGrantsLocationId, key: "AccessGrantsLocationId")
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, max: 64)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, min: 1)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAccessPointForObjectLambdaRequest: AWSEncodableShape {
@@ -1538,6 +2068,36 @@ extension S3Control {
         public init() {}
     }
 
+    public struct DeleteStorageLensGroupRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete.
+        public let accountId: String
+        /// The name of the Storage Lens group that you're trying to delete.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DescribeJobRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
@@ -1638,7 +2198,7 @@ extension S3Control {
         public let metrics: Metrics?
         /// A container that specifies S3 Replication Time Control (S3 RTC) settings, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.   This is not supported by Amazon S3 on Outposts buckets.
         public let replicationTime: ReplicationTime?
-        ///  The storage class to use when replicating objects. All objects stored on S3 on Outposts are stored in the OUTPOSTS storage class. S3 on Outposts uses the OUTPOSTS storage class to create the object replicas.   Values other than OUTPOSTS are not supported by Amazon S3 on Outposts.
+        ///  The storage class to use when replicating objects. All objects stored on S3 on Outposts are stored in the OUTPOSTS storage class. S3 on Outposts uses the OUTPOSTS storage class to create the object replicas.   Values other than OUTPOSTS aren't supported by Amazon S3 on Outposts.
         public let storageClass: ReplicationStorageClass?
 
         public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, metrics: Metrics? = nil, replicationTime: ReplicationTime? = nil, storageClass: ReplicationStorageClass? = nil) {
@@ -1678,6 +2238,30 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case isEnabled = "IsEnabled"
         }
+    }
+
+    public struct DissociateAccessGrantsIdentityCenterRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -1772,6 +2356,284 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case ssekms = "SSE-KMS"
             case sses3 = "SSE-S3"
+        }
+    }
+
+    public struct GetAccessGrantRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
+        public let accessGrantId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accessGrantId: String, accountId: String) {
+            self.accessGrantId = accessGrantId
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessGrantId, key: "AccessGrantId")
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, max: 64)
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, min: 1)
+            try self.validate(self.accessGrantId, name: "accessGrantId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessGrantResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the access grant.
+        public let accessGrantArn: String?
+        /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
+        public let accessGrantId: String?
+        /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access.
+        public let accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The date and time when you created the access grant.
+        public let createdAt: Date?
+        /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added a corporate directory to Amazon Web Services IAM Identity Center and associated this Identity Center instance with the S3 Access Grants instance, the grantee can also be a corporate directory user or group.
+        public let grantee: Grantee?
+        /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
+        public let grantScope: String?
+        /// The type of permission that was granted in the access grant. Can be one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission?
+
+        public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+            self.accessGrantArn = accessGrantArn
+            self.accessGrantId = accessGrantId
+            self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.applicationArn = applicationArn
+            self.createdAt = createdAt
+            self.grantee = grantee
+            self.grantScope = grantScope
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantArn = "AccessGrantArn"
+            case accessGrantId = "AccessGrantId"
+            case accessGrantsLocationConfiguration = "AccessGrantsLocationConfiguration"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case applicationArn = "ApplicationArn"
+            case createdAt = "CreatedAt"
+            case grantee = "Grantee"
+            case grantScope = "GrantScope"
+            case permission = "Permission"
+        }
+    }
+
+    public struct GetAccessGrantsInstanceForPrefixRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The S3 prefix of the access grants that you would like to retrieve.
+        public let s3Prefix: String
+
+        public init(accountId: String, s3Prefix: String) {
+            self.accountId = accountId
+            self.s3Prefix = s3Prefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.s3Prefix, key: "s3prefix")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 2000)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessGrantsInstanceForPrefixResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+        public let accessGrantsInstanceArn: String?
+        /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
+        public let accessGrantsInstanceId: String?
+
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
+            case accessGrantsInstanceId = "AccessGrantsInstanceId"
+        }
+    }
+
+    public struct GetAccessGrantsInstanceRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessGrantsInstanceResourcePolicyResult: AWSDecodableShape {
+        /// The date and time when you created the S3 Access Grants instance resource policy.
+        public let createdAt: Date?
+        /// The Organization of the resource policy of the S3 Access Grants instance.
+        public let organization: String?
+        /// The resource policy of the S3 Access Grants instance.
+        public let policy: String?
+
+        public init(createdAt: Date? = nil, organization: String? = nil, policy: String? = nil) {
+            self.createdAt = createdAt
+            self.organization = organization
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case organization = "Organization"
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetAccessGrantsInstanceResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+        public let accessGrantsInstanceArn: String?
+        /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
+        public let accessGrantsInstanceId: String?
+        /// The date and time when you created the S3 Access Grants instance.
+        public let createdAt: Date?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        public let identityCenterArn: String?
+
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterArn = identityCenterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
+            case accessGrantsInstanceId = "AccessGrantsInstanceId"
+            case createdAt = "CreatedAt"
+            case identityCenterArn = "IdentityCenterArn"
+        }
+    }
+
+    public struct GetAccessGrantsLocationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the registered location that you are retrieving. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+
+        public init(accessGrantsLocationId: String, accountId: String) {
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.accountId = accountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessGrantsLocationId, key: "AccessGrantsLocationId")
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, max: 64)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, min: 1)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessGrantsLocationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the registered location.
+        public let accessGrantsLocationArn: String?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The date and time when you registered the location.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String?
+        /// The S3 URI path to the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+        public let locationScope: String?
+
+        public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
+            self.accessGrantsLocationArn = accessGrantsLocationArn
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.createdAt = createdAt
+            self.iamRoleArn = iamRoleArn
+            self.locationScope = locationScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationArn = "AccessGrantsLocationArn"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case createdAt = "CreatedAt"
+            case iamRoleArn = "IAMRoleArn"
+            case locationScope = "LocationScope"
         }
     }
 
@@ -2387,6 +3249,72 @@ extension S3Control {
         }
     }
 
+    public struct GetDataAccessRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
+        public let durationSeconds: Int?
+        /// The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission
+        /// The scope of the temporary access credential that S3 Access Grants vends to the grantee or client application.     Default – The scope of the returned temporary access token is the scope of the grant that is closest to the target scope.    Minimal – The scope of the returned temporary access token is the same as the requested target scope as long as the requested scope is the same as or a subset of the grant scope.
+        public let privilege: Privilege?
+        /// The S3 URI path of the data to which you are requesting temporary access credentials. If the requesting account has an access grant for this data, S3 Access Grants vends temporary access credentials in the response.
+        public let target: String
+        /// The type of Target. The only possible value is Object. Pass this value if the target data that you would like to access is a path to an object. Do not pass this value if the target data is a bucket or a bucket and a prefix.
+        public let targetType: S3PrefixType?
+
+        public init(accountId: String, durationSeconds: Int? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
+            self.accountId = accountId
+            self.durationSeconds = durationSeconds
+            self.permission = permission
+            self.privilege = privilege
+            self.target = target
+            self.targetType = targetType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.durationSeconds, key: "durationSeconds")
+            request.encodeQuery(self.permission, key: "permission")
+            request.encodeQuery(self.privilege, key: "privilege")
+            request.encodeQuery(self.target, key: "target")
+            request.encodeQuery(self.targetType, key: "targetType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.validate(self.target, name: "target", parent: name, max: 2000)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataAccessResult: AWSDecodableShape {
+        /// The temporary credential token that S3 Access Grants vends.
+        public let credentials: Credentials?
+        /// The S3 URI path of the data to which you are being granted temporary access credentials.
+        public let matchedGrantTarget: String?
+
+        public init(credentials: Credentials? = nil, matchedGrantTarget: String? = nil) {
+            self.credentials = credentials
+            self.matchedGrantTarget = matchedGrantTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case matchedGrantTarget = "MatchedGrantTarget"
+        }
+    }
+
     public struct GetJobTaggingRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
         public let accountId: String
@@ -2740,6 +3668,69 @@ extension S3Control {
         }
     }
 
+    public struct GetStorageLensGroupRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for.
+        public let accountId: String
+        /// The name of the Storage Lens group that you're trying to retrieve the configuration details for.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStorageLensGroupResult: AWSDecodableShape {
+        /// The name of the Storage Lens group that you're trying to retrieve the configuration details for.
+        public let storageLensGroup: StorageLensGroup
+
+        public init(storageLensGroup: StorageLensGroup) {
+            self.storageLensGroup = storageLensGroup
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.storageLensGroup = try container.decode(StorageLensGroup.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct Grantee: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the Grantee. If the grantee type is IAM, the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. You can obtain this UUID from your Amazon Web Services IAM Identity Center instance.
+        public let granteeIdentifier: String?
+        /// The type of the grantee to which access has been granted. It can be one of the following values:    IAM - An IAM user or role.    DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.    DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.
+        public let granteeType: GranteeType?
+
+        public init(granteeIdentifier: String? = nil, granteeType: GranteeType? = nil) {
+            self.granteeIdentifier = granteeIdentifier
+            self.granteeType = granteeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case granteeIdentifier = "GranteeIdentifier"
+            case granteeType = "GranteeType"
+        }
+    }
+
     public struct Include: AWSEncodableShape & AWSDecodableShape {
         public struct _BucketsEncoding: ArrayCoderProperties { public static let member = "Arn" }
         public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
@@ -2920,7 +3911,7 @@ extension S3Control {
     }
 
     public struct JobManifest: AWSEncodableShape & AWSDecodableShape {
-        /// Contains the information required to locate the specified job's manifest.
+        /// Contains the information required to locate the specified job's manifest. Manifests can't be imported from directory buckets. For more information, see Directory buckets.
         public let location: JobManifestLocation
         /// Describes the format of the specified job's manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
         public let spec: JobManifestSpec
@@ -2941,28 +3932,49 @@ extension S3Control {
     }
 
     public struct JobManifestGeneratorFilter: AWSEncodableShape & AWSDecodableShape {
-        /// If provided, the generated manifest should include only source bucket objects that were created after this time.
+        /// If provided, the generated manifest includes only source bucket objects that were created after this time.
         public let createdAfter: Date?
-        /// If provided, the generated manifest should include only source bucket objects that were created before this time.
+        /// If provided, the generated manifest includes only source bucket objects that were created before this time.
         public let createdBefore: Date?
         /// Include objects in the generated manifest only if they are eligible for replication according to the Replication configuration on the source bucket.
         public let eligibleForReplication: Bool?
-        /// If provided, the generated manifest should include only source bucket objects that have one of the specified Replication statuses.
+        /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
+        public let keyNameConstraint: KeyNameConstraint?
+        /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
+        @OptionalCustomCoding<StandardArrayCoder<S3StorageClass>>
+        public var matchAnyStorageClass: [S3StorageClass]?
+        /// If provided, the generated manifest includes only source bucket objects that have one of the specified Replication statuses.
         @OptionalCustomCoding<StandardArrayCoder<ReplicationStatus>>
         public var objectReplicationStatuses: [ReplicationStatus]?
+        /// If provided, the generated manifest includes only source bucket objects whose file size is greater than the specified number of bytes.
+        public let objectSizeGreaterThanBytes: Int64?
+        /// If provided, the generated manifest includes only source bucket objects whose file size is less than the specified number of bytes.
+        public let objectSizeLessThanBytes: Int64?
 
-        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, keyNameConstraint: KeyNameConstraint? = nil, matchAnyStorageClass: [S3StorageClass]? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil, objectSizeGreaterThanBytes: Int64? = nil, objectSizeLessThanBytes: Int64? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
+            self.keyNameConstraint = keyNameConstraint
+            self.matchAnyStorageClass = matchAnyStorageClass
             self.objectReplicationStatuses = objectReplicationStatuses
+            self.objectSizeGreaterThanBytes = objectSizeGreaterThanBytes
+            self.objectSizeLessThanBytes = objectSizeLessThanBytes
+        }
+
+        public func validate(name: String) throws {
+            try self.keyNameConstraint?.validate(name: "\(name).keyNameConstraint")
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAfter = "CreatedAfter"
             case createdBefore = "CreatedBefore"
             case eligibleForReplication = "EligibleForReplication"
+            case keyNameConstraint = "KeyNameConstraint"
+            case matchAnyStorageClass = "MatchAnyStorageClass"
             case objectReplicationStatuses = "ObjectReplicationStatuses"
+            case objectSizeGreaterThanBytes = "ObjectSizeGreaterThanBytes"
+            case objectSizeLessThanBytes = "ObjectSizeLessThanBytes"
         }
     }
 
@@ -3020,19 +4032,19 @@ extension S3Control {
     public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
-        /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest.
+        /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest.  This functionality is not supported by directory buckets.
         public let s3DeleteObjectTagging: S3DeleteObjectTaggingOperation?
-        /// Directs the specified job to initiate restore requests for every archived object in the manifest.
+        /// Directs the specified job to initiate restore requests for every archived object in the manifest.  This functionality is not supported by directory buckets.
         public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
-        /// Directs the specified job to run a PutObjectAcl call on every object in the manifest.
+        /// Directs the specified job to run a PutObjectAcl call on every object in the manifest.  This functionality is not supported by directory buckets.
         public let s3PutObjectAcl: S3SetObjectAclOperation?
         /// Directs the specified job to run a PUT Copy object call on every object in the manifest.
         public let s3PutObjectCopy: S3CopyObjectOperation?
         public let s3PutObjectLegalHold: S3SetObjectLegalHoldOperation?
         public let s3PutObjectRetention: S3SetObjectRetentionOperation?
-        /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.
+        /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.  This functionality is not supported by directory buckets.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
-        /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.
+        /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.  This functionality is not supported by directory buckets.
         public let s3ReplicateObject: S3ReplicateObjectOperation?
 
         public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
@@ -3091,7 +4103,7 @@ extension S3Control {
     }
 
     public struct JobReport: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.
+        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.   Directory buckets - Directory buckets aren't supported  as a location for Batch Operations to store job completion reports.
         public let bucket: String?
         /// Indicates whether the specified job will generate a job-completion report.
         public let enabled: Bool
@@ -3140,22 +4152,79 @@ extension S3Control {
         }
     }
 
+    public struct KeyNameConstraint: AWSEncodableShape & AWSDecodableShape {
+        /// If provided, the generated manifest includes objects where the specified string appears at the start of the object key string.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var matchAnyPrefix: [String]?
+        /// If provided, the generated manifest includes objects where the specified string appears anywhere within the object key string.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var matchAnySubstring: [String]?
+        /// If provided, the generated manifest includes objects where the specified string appears at the end of the object key string.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var matchAnySuffix: [String]?
+
+        public init(matchAnyPrefix: [String]? = nil, matchAnySubstring: [String]? = nil, matchAnySuffix: [String]? = nil) {
+            self.matchAnyPrefix = matchAnyPrefix
+            self.matchAnySubstring = matchAnySubstring
+            self.matchAnySuffix = matchAnySuffix
+        }
+
+        public func validate(name: String) throws {
+            try self.matchAnyPrefix?.forEach {
+                try validate($0, name: "matchAnyPrefix[]", parent: name, max: 1024)
+                try validate($0, name: "matchAnyPrefix[]", parent: name, min: 1)
+            }
+            try self.matchAnySubstring?.forEach {
+                try validate($0, name: "matchAnySubstring[]", parent: name, max: 1024)
+                try validate($0, name: "matchAnySubstring[]", parent: name, min: 1)
+            }
+            try self.matchAnySuffix?.forEach {
+                try validate($0, name: "matchAnySuffix[]", parent: name, max: 1024)
+                try validate($0, name: "matchAnySuffix[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchAnyPrefix = "MatchAnyPrefix"
+            case matchAnySubstring = "MatchAnySubstring"
+            case matchAnySuffix = "MatchAnySuffix"
+        }
+    }
+
     public struct LambdaInvokeOperation: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the Lambda function that the specified job will invoke on every object in the manifest.
         public let functionArn: String?
+        /// Specifies the schema version for the payload that Batch Operations sends when invoking an Lambda function. Version 1.0 is the default. Version 2.0 is required when you use Batch Operations to invoke Lambda functions that act on directory buckets, or if you need to specify UserArguments. For more information, see Using Lambda with Amazon S3 Batch Operations and Amazon S3 Express One Zone in the Amazon Web Services Storage Blog.  Ensure that your Lambda function code expects InvocationSchemaVersion 2.0 and uses bucket name rather than bucket ARN. If the InvocationSchemaVersion does not match what your Lambda function expects, your function might not work as expected.    Directory buckets - To initiate Amazon Web Services Lambda function to perform custom actions on objects in directory buckets, you must specify 2.0.
+        public let invocationSchemaVersion: String?
+        /// Key-value pairs that are passed in the payload that Batch Operations sends when invoking an Lambda function. You must specify InvocationSchemaVersion 2.0 for LambdaInvoke operations that include UserArguments. For more information, see Using Lambda with Amazon S3 Batch Operations and Amazon S3 Express One Zone in the Amazon Web Services Storage Blog.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var userArguments: [String: String]?
 
-        public init(functionArn: String? = nil) {
+        public init(functionArn: String? = nil, invocationSchemaVersion: String? = nil, userArguments: [String: String]? = nil) {
             self.functionArn = functionArn
+            self.invocationSchemaVersion = invocationSchemaVersion
+            self.userArguments = userArguments
         }
 
         public func validate(name: String) throws {
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
             try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.invocationSchemaVersion, name: "invocationSchemaVersion", parent: name, max: 64)
+            try self.validate(self.invocationSchemaVersion, name: "invocationSchemaVersion", parent: name, min: 1)
+            try self.userArguments?.forEach {
+                try validate($0.key, name: "userArguments.key", parent: name, max: 64)
+                try validate($0.key, name: "userArguments.key", parent: name, min: 1)
+                try validate($0.value, name: "userArguments[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.userArguments, name: "userArguments", parent: name, max: 10)
+            try self.validate(self.userArguments, name: "userArguments", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case functionArn = "FunctionArn"
+            case invocationSchemaVersion = "InvocationSchemaVersion"
+            case userArguments = "UserArguments"
         }
     }
 
@@ -3316,6 +4385,300 @@ extension S3Control {
             case objectSizeLessThan = "ObjectSizeLessThan"
             case prefix = "Prefix"
             case tag = "Tag"
+        }
+    }
+
+    public struct ListAccessGrantEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the access grant.
+        public let accessGrantArn: String?
+        /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
+        public let accessGrantId: String?
+        /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access.
+        public let accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The date and time when you created the S3 Access Grants instance.
+        public let createdAt: Date?
+        /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
+        public let grantee: Grantee?
+        /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
+        public let grantScope: String?
+        /// The type of access granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission?
+
+        public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+            self.accessGrantArn = accessGrantArn
+            self.accessGrantId = accessGrantId
+            self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.applicationArn = applicationArn
+            self.createdAt = createdAt
+            self.grantee = grantee
+            self.grantScope = grantScope
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantArn = "AccessGrantArn"
+            case accessGrantId = "AccessGrantId"
+            case accessGrantsLocationConfiguration = "AccessGrantsLocationConfiguration"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case applicationArn = "ApplicationArn"
+            case createdAt = "CreatedAt"
+            case grantee = "Grantee"
+            case grantScope = "GrantScope"
+            case permission = "Permission"
+        }
+    }
+
+    public struct ListAccessGrantsInstanceEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+        public let accessGrantsInstanceArn: String?
+        /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
+        public let accessGrantsInstanceId: String?
+        /// The date and time when you created the S3 Access Grants instance.
+        public let createdAt: Date?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        public let identityCenterArn: String?
+
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterArn = identityCenterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
+            case accessGrantsInstanceId = "AccessGrantsInstanceId"
+            case createdAt = "CreatedAt"
+            case identityCenterArn = "IdentityCenterArn"
+        }
+    }
+
+    public struct ListAccessGrantsInstancesRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
+        public let maxResults: Int?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessGrantsInstancesResult: AWSDecodableShape {
+        public struct _AccessGrantsInstancesListEncoding: ArrayCoderProperties { public static let member = "AccessGrantsInstance" }
+
+        /// A container for a list of S3 Access Grants instances.
+        @OptionalCustomCoding<ArrayCoder<_AccessGrantsInstancesListEncoding, ListAccessGrantsInstanceEntry>>
+        public var accessGrantsInstancesList: [ListAccessGrantsInstanceEntry]?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accessGrantsInstancesList: [ListAccessGrantsInstanceEntry]? = nil, nextToken: String? = nil) {
+            self.accessGrantsInstancesList = accessGrantsInstancesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstancesList = "AccessGrantsInstancesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAccessGrantsLocationsEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the registered location.
+        public let accessGrantsLocationArn: String?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The date and time when you registered the location.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String?
+        /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+        public let locationScope: String?
+
+        public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
+            self.accessGrantsLocationArn = accessGrantsLocationArn
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.createdAt = createdAt
+            self.iamRoleArn = iamRoleArn
+            self.locationScope = locationScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationArn = "AccessGrantsLocationArn"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case createdAt = "CreatedAt"
+            case iamRoleArn = "IAMRoleArn"
+            case locationScope = "LocationScope"
+        }
+    }
+
+    public struct ListAccessGrantsLocationsRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+        public let locationScope: String?
+        /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
+        public let maxResults: Int?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accountId: String, locationScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.locationScope = locationScope
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.locationScope, key: "locationscope")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.locationScope, name: "locationScope", parent: name, max: 2000)
+            try self.validate(self.locationScope, name: "locationScope", parent: name, min: 1)
+            try self.validate(self.locationScope, name: "locationScope", parent: name, pattern: "^.+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessGrantsLocationsResult: AWSDecodableShape {
+        public struct _AccessGrantsLocationsListEncoding: ArrayCoderProperties { public static let member = "AccessGrantsLocation" }
+
+        /// A container for a list of registered locations in an S3 Access Grants instance.
+        @OptionalCustomCoding<ArrayCoder<_AccessGrantsLocationsListEncoding, ListAccessGrantsLocationsEntry>>
+        public var accessGrantsLocationsList: [ListAccessGrantsLocationsEntry]?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accessGrantsLocationsList: [ListAccessGrantsLocationsEntry]? = nil, nextToken: String? = nil) {
+            self.accessGrantsLocationsList = accessGrantsLocationsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationsList = "AccessGrantsLocationsList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAccessGrantsRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The unique identifer of the Grantee. If the grantee type is IAM, the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. You can obtain this UUID from your Amazon Web Services IAM Identity Center instance.
+        public let granteeIdentifier: String?
+        /// The type of the grantee to which access has been granted. It can be one of the following values:    IAM - An IAM user or role.    DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.    DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.
+        public let granteeType: GranteeType?
+        /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
+        public let grantScope: String?
+        /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
+        public let maxResults: Int?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to retrieve the next page of results.
+        public let nextToken: String?
+        /// The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
+        public let permission: Permission?
+
+        public init(accountId: String, applicationArn: String? = nil, granteeIdentifier: String? = nil, granteeType: GranteeType? = nil, grantScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, permission: Permission? = nil) {
+            self.accountId = accountId
+            self.applicationArn = applicationArn
+            self.granteeIdentifier = granteeIdentifier
+            self.granteeType = granteeType
+            self.grantScope = grantScope
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.permission = permission
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.applicationArn, key: "application_arn")
+            request.encodeQuery(self.granteeIdentifier, key: "granteeidentifier")
+            request.encodeQuery(self.granteeType, key: "granteetype")
+            request.encodeQuery(self.grantScope, key: "grantscope")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.permission, key: "permission")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso:.*$")
+            try self.validate(self.grantScope, name: "grantScope", parent: name, max: 2000)
+            try self.validate(self.grantScope, name: "grantScope", parent: name, min: 1)
+            try self.validate(self.grantScope, name: "grantScope", parent: name, pattern: "^.+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessGrantsResult: AWSDecodableShape {
+        public struct _AccessGrantsListEncoding: ArrayCoderProperties { public static let member = "AccessGrant" }
+
+        /// A container for a list of grants in an S3 Access Grants instance.
+        @OptionalCustomCoding<ArrayCoder<_AccessGrantsListEncoding, ListAccessGrantEntry>>
+        public var accessGrantsList: [ListAccessGrantEntry]?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accessGrantsList: [ListAccessGrantEntry]? = nil, nextToken: String? = nil) {
+            self.accessGrantsList = accessGrantsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsList = "AccessGrantsList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3676,6 +5039,150 @@ extension S3Control {
         }
     }
 
+    public struct ListStorageLensGroupEntry: AWSDecodableShape {
+        /// Contains the Amazon Web Services Region where the Storage Lens group was created.
+        public let homeRegion: String
+        /// Contains the name of the Storage Lens group that exists in the specified home Region.
+        public let name: String
+        /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only.
+        public let storageLensGroupArn: String
+
+        public init(homeRegion: String, name: String, storageLensGroupArn: String) {
+            self.homeRegion = homeRegion
+            self.name = name
+            self.storageLensGroupArn = storageLensGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case homeRegion = "HomeRegion"
+            case name = "Name"
+            case storageLensGroupArn = "StorageLensGroupArn"
+        }
+    }
+
+    public struct ListStorageLensGroupsRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account ID that owns the Storage Lens groups.
+        public let accountId: String
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(accountId: String, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStorageLensGroupsResult: AWSDecodableShape {
+        ///  If NextToken is returned, there are more Storage Lens groups results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+        /// The list of Storage Lens groups that exist in the specified home Region.
+        public let storageLensGroupList: [ListStorageLensGroupEntry]?
+
+        public init(nextToken: String? = nil, storageLensGroupList: [ListStorageLensGroupEntry]? = nil) {
+            self.nextToken = nextToken
+            self.storageLensGroupList = storageLensGroupList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case storageLensGroupList = "StorageLensGroupList"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID of the resource owner.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        public let resourceArn: String
+
+        public init(accountId: String, resourceArn: String) {
+            self.accountId = accountId
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResult: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The Amazon Web Services resource tags that are associated with the resource.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct MatchObjectAge: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647.
+        public let daysGreaterThan: Int?
+        /// Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647.
+        public let daysLessThan: Int?
+
+        public init(daysGreaterThan: Int? = nil, daysLessThan: Int? = nil) {
+            self.daysGreaterThan = daysGreaterThan
+            self.daysLessThan = daysLessThan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daysGreaterThan = "DaysGreaterThan"
+            case daysLessThan = "DaysLessThan"
+        }
+    }
+
+    public struct MatchObjectSize: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 5 TB.
+        public let bytesGreaterThan: Int64?
+        /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 5 TB.
+        public let bytesLessThan: Int64?
+
+        public init(bytesGreaterThan: Int64? = nil, bytesLessThan: Int64? = nil) {
+            self.bytesGreaterThan = bytesGreaterThan
+            self.bytesLessThan = bytesLessThan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesGreaterThan = "BytesGreaterThan"
+            case bytesLessThan = "BytesLessThan"
+        }
+    }
+
     public struct Metrics: AWSEncodableShape & AWSDecodableShape {
         /// A container that specifies the time threshold for emitting the s3:Replication:OperationMissedThreshold event.   This is not supported by Amazon S3 on Outposts buckets.
         public let eventThreshold: ReplicationTimeValue?
@@ -3864,7 +5371,7 @@ extension S3Control {
     }
 
     public struct ObjectLambdaAccessPointAlias: AWSDecodableShape {
-        /// The status of the Object Lambda Access Point alias. If the status is PROVISIONING, the Object Lambda Access Point is provisioning the alias and the alias is not ready for use yet. If  the status is READY, the Object Lambda Access Point alias is successfully provisioned and ready for use.
+        /// The status of the Object Lambda Access Point alias. If the status is PROVISIONING, the Object Lambda Access Point is provisioning the alias and the alias is not ready for use yet. If the status is READY, the Object Lambda Access Point alias is successfully provisioned and ready for use.
         public let status: ObjectLambdaAccessPointAliasStatus?
         /// The alias value of the Object Lambda Access Point.
         public let value: String?
@@ -4027,6 +5534,67 @@ extension S3Control {
             case blockPublicPolicy = "BlockPublicPolicy"
             case ignorePublicAcls = "IgnorePublicAcls"
             case restrictPublicBuckets = "RestrictPublicBuckets"
+        }
+    }
+
+    public struct PutAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Organization of the resource policy of the S3 Access Grants instance.
+        public let organization: String?
+        /// The resource policy of the S3 Access Grants instance that you are updating.
+        public let policy: String
+
+        public init(accountId: String, organization: String? = nil, policy: String) {
+            self.accountId = accountId
+            self.organization = organization
+            self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encodeIfPresent(self.organization, forKey: .organization)
+            try container.encode(self.policy, forKey: .policy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.organization, name: "organization", parent: name, max: 34)
+            try self.validate(self.organization, name: "organization", parent: name, min: 12)
+            try self.validate(self.organization, name: "organization", parent: name, pattern: "^o-[a-z0-9]{10,32}$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 350000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organization = "Organization"
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutAccessGrantsInstanceResourcePolicyResult: AWSDecodableShape {
+        /// The date and time when you created the S3 Access Grants instance resource policy.
+        public let createdAt: Date?
+        /// The Organization of the resource policy of the S3 Access Grants instance.
+        public let organization: String?
+        /// The updated resource policy of the S3 Access Grants instance.
+        public let policy: String?
+
+        public init(createdAt: Date? = nil, organization: String? = nil, policy: String? = nil) {
+            self.createdAt = createdAt
+            self.organization = organization
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case organization = "Organization"
+            case policy = "Policy"
         }
     }
 
@@ -4907,10 +6475,12 @@ extension S3Control {
     }
 
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
+        ///   This functionality is not supported by directory buckets.
         @OptionalCustomCoding<StandardArrayCoder<S3Grant>>
         public var accessControlGrants: [S3Grant]?
-        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.  This functionality is not supported by directory buckets.
         public let bucketKeyEnabled: Bool?
+        ///   This functionality is not supported by directory buckets.
         public let cannedAccessControlList: S3CannedAccessControlList?
         /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumAlgorithm: S3ChecksumAlgorithm?
@@ -4918,22 +6488,26 @@ extension S3Control {
         public let modifiedSinceConstraint: Date?
         /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public let newObjectMetadata: S3ObjectMetadata?
+        /// Specifies a list of tags to add to the destination objects after they are copied.  If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets.  If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field  to prevent copying the source object tags to the directory bucket.
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var newObjectTagging: [S3Tag]?
-        /// The legal hold status to be applied to all objects in the Batch Operations job.
+        /// The legal hold status to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
-        /// The retention mode to be applied to all objects in the Batch Operations job.
+        /// The retention mode to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
         public let objectLockMode: S3ObjectLockMode?
-        /// The date when the applied object retention configuration expires on all objects in the Batch Operations job.
+        /// The date when the applied object retention configuration expires on all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
         public let objectLockRetainUntilDate: Date?
-        /// Specifies an optional metadata property for website redirects, x-amz-website-redirect-location. Allows webpage redirects if the object is accessed through a website endpoint.
+        /// If the destination bucket is configured as a website, specifies an optional metadata property for website redirects, x-amz-website-redirect-location. Allows webpage redirects if the object copy is accessed through a website endpoint.  This functionality is not supported by directory buckets.
         public let redirectLocation: String?
+        ///   This functionality is not supported by directory buckets.
         public let requesterPays: Bool?
+        ///   This functionality is not supported by directory buckets.
         public let sseAwsKmsKeyId: String?
+        /// Specify the storage class for the destination objects in a Copy operation.   Directory buckets  - This functionality is not supported by directory buckets.
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix that you want the objects to be copied into. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix property to Folder1.
         public let targetKeyPrefix: String?
-        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation. For example, to copy objects to a bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
+        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az2, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az2--x-s3.
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
@@ -4974,7 +6548,7 @@ extension S3Control {
             try self.validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, min: 1)
             try self.validate(self.targetResource, name: "targetResource", parent: name, max: 128)
             try self.validate(self.targetResource, name: "targetResource", parent: name, min: 1)
-            try self.validate(self.targetResource, name: "targetResource", parent: name, pattern: "^arn:[^:]+:s3:")
+            try self.validate(self.targetResource, name: "targetResource", parent: name, pattern: "^arn:[^:]+:(s3|s3express):")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5089,11 +6663,11 @@ extension S3Control {
         public let enableManifestOutput: Bool
         /// The Amazon Web Services account ID that owns the bucket the generated manifest is written to. If provided the generated manifest bucket's owner Amazon Web Services account ID must match this value, else the job fails.
         public let expectedBucketOwner: String?
-        /// Specifies rules the S3JobManifestGenerator should use to use to decide whether an object in the source bucket should or should not be included in the generated job manifest.
+        /// Specifies rules the S3JobManifestGenerator should use to decide whether an object in the source bucket should or should not be included in the generated job manifest.
         public let filter: JobManifestGeneratorFilter?
-        /// Specifies the location the generated manifest will be written to.
+        /// Specifies the location the generated manifest will be written to. Manifests can't be written to directory buckets. For more information, see Directory buckets.
         public let manifestOutputLocation: S3ManifestOutputLocation?
-        /// The source bucket used by the ManifestGenerator.
+        /// The source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
         public let sourceBucket: String
 
         public init(enableManifestOutput: Bool, expectedBucketOwner: String? = nil, filter: JobManifestGeneratorFilter? = nil, manifestOutputLocation: S3ManifestOutputLocation? = nil, sourceBucket: String) {
@@ -5107,6 +6681,7 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 64)
             try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^\\d{12}$")
+            try self.filter?.validate(name: "\(name).filter")
             try self.manifestOutputLocation?.validate(name: "\(name).manifestOutputLocation")
             try self.validate(self.sourceBucket, name: "sourceBucket", parent: name, max: 128)
             try self.validate(self.sourceBucket, name: "sourceBucket", parent: name, min: 1)
@@ -5123,7 +6698,7 @@ extension S3Control {
     }
 
     public struct S3ManifestOutputLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The bucket ARN the generated manifest should be written to.
+        /// The bucket ARN the generated manifest should be written to.   Directory buckets - Directory buckets aren't supported  as the buckets to store the generated manifest.
         public let bucket: String
         /// The Account ID that owns the bucket the generated manifest is written to.
         public let expectedManifestBucketOwner: String?
@@ -5180,11 +6755,15 @@ extension S3Control {
         public let contentDisposition: String?
         public let contentEncoding: String?
         public let contentLanguage: String?
+        ///  This member has been deprecated.
         public let contentLength: Int64?
+        ///  This member has been deprecated.
         public let contentMD5: String?
         public let contentType: String?
         public let httpExpiresDate: Date?
+        ///  This member has been deprecated.
         public let requesterCharged: Bool?
+        ///   For directory buckets, only the server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
         public let sseAlgorithm: S3SSEAlgorithm?
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var userMetadata: [String: String]?
@@ -5360,10 +6939,10 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
@@ -5581,6 +7160,225 @@ extension S3Control {
         }
     }
 
+    public struct StorageLensGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the criteria for the Storage Lens group data that is displayed. For multiple filter conditions, the AND or OR logical operator is used.
+        public let filter: StorageLensGroupFilter
+        ///  Contains the name of the Storage Lens group.
+        public let name: String
+        ///  Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only.
+        public let storageLensGroupArn: String?
+
+        public init(filter: StorageLensGroupFilter, name: String, storageLensGroupArn: String? = nil) {
+            self.filter = filter
+            self.name = name
+            self.storageLensGroupArn = storageLensGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.filter.validate(name: "\(name).filter")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+            try self.validate(self.storageLensGroupArn, name: "storageLensGroupArn", parent: name, max: 1024)
+            try self.validate(self.storageLensGroupArn, name: "storageLensGroupArn", parent: name, min: 4)
+            try self.validate(self.storageLensGroupArn, name: "storageLensGroupArn", parent: name, pattern: "^arn:[a-z\\-]+:s3:[a-z0-9\\-]+:\\d{12}:storage\\-lens\\-group\\/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case name = "Name"
+            case storageLensGroupArn = "StorageLensGroupArn"
+        }
+    }
+
+    public struct StorageLensGroupAndOperator: AWSEncodableShape & AWSDecodableShape {
+        public struct _MatchAnyPrefixEncoding: ArrayCoderProperties { public static let member = "Prefix" }
+        public struct _MatchAnySuffixEncoding: ArrayCoderProperties { public static let member = "Suffix" }
+        public struct _MatchAnyTagEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        ///  Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyPrefixEncoding, String>>
+        public var matchAnyPrefix: [String]?
+        ///  Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnySuffixEncoding, String>>
+        public var matchAnySuffix: [String]?
+        ///  Contains the list of object tags. At least one object tag must be specified. Up to 10 object tags are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyTagEncoding, S3Tag>>
+        public var matchAnyTag: [S3Tag]?
+        ///  Contains DaysGreaterThan and DaysLessThan to define the object age range (minimum and maximum number of days).
+        public let matchObjectAge: MatchObjectAge?
+        ///  Contains BytesGreaterThan and BytesLessThan to define the object size range (minimum and maximum number of Bytes).
+        public let matchObjectSize: MatchObjectSize?
+
+        public init(matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil) {
+            self.matchAnyPrefix = matchAnyPrefix
+            self.matchAnySuffix = matchAnySuffix
+            self.matchAnyTag = matchAnyTag
+            self.matchObjectAge = matchObjectAge
+            self.matchObjectSize = matchObjectSize
+        }
+
+        public func validate(name: String) throws {
+            try self.matchAnyTag?.forEach {
+                try $0.validate(name: "\(name).matchAnyTag[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchAnyPrefix = "MatchAnyPrefix"
+            case matchAnySuffix = "MatchAnySuffix"
+            case matchAnyTag = "MatchAnyTag"
+            case matchObjectAge = "MatchObjectAge"
+            case matchObjectSize = "MatchObjectSize"
+        }
+    }
+
+    public struct StorageLensGroupFilter: AWSEncodableShape & AWSDecodableShape {
+        public struct _MatchAnyPrefixEncoding: ArrayCoderProperties { public static let member = "Prefix" }
+        public struct _MatchAnySuffixEncoding: ArrayCoderProperties { public static let member = "Suffix" }
+        public struct _MatchAnyTagEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// A logical operator that allows multiple filter conditions to be joined for more complex comparisons of Storage Lens group data. Objects must match all of the listed filter conditions that are joined by the And logical operator. Only one of each filter condition is allowed.
+        public let and: StorageLensGroupAndOperator?
+        ///  Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyPrefixEncoding, String>>
+        public var matchAnyPrefix: [String]?
+        ///  Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnySuffixEncoding, String>>
+        public var matchAnySuffix: [String]?
+        ///  Contains the list of S3 object tags. At least one object tag must be specified. Up to 10 object tags are allowed.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyTagEncoding, S3Tag>>
+        public var matchAnyTag: [S3Tag]?
+        ///  Contains DaysGreaterThan and DaysLessThan to define the object age range (minimum and maximum number of days).
+        public let matchObjectAge: MatchObjectAge?
+        ///  Contains BytesGreaterThan and BytesLessThan to define the object size range (minimum and maximum number of Bytes).
+        public let matchObjectSize: MatchObjectSize?
+        /// A single logical operator that allows multiple filter conditions to be joined. Objects can match any of the listed filter conditions, which are joined by the Or logical operator. Only one of each filter condition is allowed.
+        public let or: StorageLensGroupOrOperator?
+
+        public init(and: StorageLensGroupAndOperator? = nil, matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil, or: StorageLensGroupOrOperator? = nil) {
+            self.and = and
+            self.matchAnyPrefix = matchAnyPrefix
+            self.matchAnySuffix = matchAnySuffix
+            self.matchAnyTag = matchAnyTag
+            self.matchObjectAge = matchObjectAge
+            self.matchObjectSize = matchObjectSize
+            self.or = or
+        }
+
+        public func validate(name: String) throws {
+            try self.and?.validate(name: "\(name).and")
+            try self.matchAnyTag?.forEach {
+                try $0.validate(name: "\(name).matchAnyTag[]")
+            }
+            try self.or?.validate(name: "\(name).or")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case matchAnyPrefix = "MatchAnyPrefix"
+            case matchAnySuffix = "MatchAnySuffix"
+            case matchAnyTag = "MatchAnyTag"
+            case matchObjectAge = "MatchObjectAge"
+            case matchObjectSize = "MatchObjectSize"
+            case or = "Or"
+        }
+    }
+
+    public struct StorageLensGroupLevel: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates which Storage Lens group ARNs to include or exclude in the Storage Lens group aggregation. If this value is left null, then all Storage Lens groups are selected.
+        public let selectionCriteria: StorageLensGroupLevelSelectionCriteria?
+
+        public init(selectionCriteria: StorageLensGroupLevelSelectionCriteria? = nil) {
+            self.selectionCriteria = selectionCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.selectionCriteria?.validate(name: "\(name).selectionCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionCriteria = "SelectionCriteria"
+        }
+    }
+
+    public struct StorageLensGroupLevelSelectionCriteria: AWSEncodableShape & AWSDecodableShape {
+        public struct _ExcludeEncoding: ArrayCoderProperties { public static let member = "Arn" }
+        public struct _IncludeEncoding: ArrayCoderProperties { public static let member = "Arn" }
+
+        ///  Indicates which Storage Lens group ARNs to exclude from the Storage Lens group aggregation.
+        @OptionalCustomCoding<ArrayCoder<_ExcludeEncoding, String>>
+        public var exclude: [String]?
+        ///  Indicates which Storage Lens group ARNs to include in the Storage Lens group aggregation.
+        @OptionalCustomCoding<ArrayCoder<_IncludeEncoding, String>>
+        public var include: [String]?
+
+        public init(exclude: [String]? = nil, include: [String]? = nil) {
+            self.exclude = exclude
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.exclude?.forEach {
+                try validate($0, name: "exclude[]", parent: name, max: 1024)
+                try validate($0, name: "exclude[]", parent: name, min: 4)
+                try validate($0, name: "exclude[]", parent: name, pattern: "^arn:[a-z\\-]+:s3:[a-z0-9\\-]+:\\d{12}:storage\\-lens\\-group\\/")
+            }
+            try self.include?.forEach {
+                try validate($0, name: "include[]", parent: name, max: 1024)
+                try validate($0, name: "include[]", parent: name, min: 4)
+                try validate($0, name: "include[]", parent: name, pattern: "^arn:[a-z\\-]+:s3:[a-z0-9\\-]+:\\d{12}:storage\\-lens\\-group\\/")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclude = "Exclude"
+            case include = "Include"
+        }
+    }
+
+    public struct StorageLensGroupOrOperator: AWSEncodableShape & AWSDecodableShape {
+        public struct _MatchAnyPrefixEncoding: ArrayCoderProperties { public static let member = "Prefix" }
+        public struct _MatchAnySuffixEncoding: ArrayCoderProperties { public static let member = "Suffix" }
+        public struct _MatchAnyTagEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        ///  Filters objects that match any of the specified prefixes.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyPrefixEncoding, String>>
+        public var matchAnyPrefix: [String]?
+        /// Filters objects that match any of the specified suffixes.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnySuffixEncoding, String>>
+        public var matchAnySuffix: [String]?
+        /// Filters objects that match any of the specified S3 object tags.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyTagEncoding, S3Tag>>
+        public var matchAnyTag: [S3Tag]?
+        /// Filters objects that match the specified object age range.
+        public let matchObjectAge: MatchObjectAge?
+        /// Filters objects that match the specified object size range.
+        public let matchObjectSize: MatchObjectSize?
+
+        public init(matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil) {
+            self.matchAnyPrefix = matchAnyPrefix
+            self.matchAnySuffix = matchAnySuffix
+            self.matchAnyTag = matchAnyTag
+            self.matchObjectAge = matchObjectAge
+            self.matchObjectSize = matchObjectSize
+        }
+
+        public func validate(name: String) throws {
+            try self.matchAnyTag?.forEach {
+                try $0.validate(name: "\(name).matchAnyTag[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchAnyPrefix = "MatchAnyPrefix"
+            case matchAnySuffix = "MatchAnySuffix"
+            case matchAnyTag = "MatchAnyTag"
+            case matchObjectAge = "MatchObjectAge"
+            case matchObjectSize = "MatchObjectSize"
+        }
+    }
+
     public struct StorageLensTag: AWSEncodableShape & AWSDecodableShape {
         public let key: String
         public let value: String
@@ -5591,10 +7389,10 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
@@ -5650,6 +7448,77 @@ extension S3Control {
         public init() {}
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: aren’t supported.
+        public let key: String
+        ///  The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        public let resourceArn: String
+        /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
+        @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]
+
+        public init(accountId: String, resourceArn: String, tags: [Tag]) {
+            self.accountId = accountId
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tagging: AWSEncodableShape {
         /// A collection for a set of tags.
         @CustomCoding<StandardArrayCoder<S3Tag>>
@@ -5688,6 +7557,118 @@ extension S3Control {
             case date = "Date"
             case days = "Days"
             case storageClass = "StorageClass"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
+        public let accountId: String
+        ///  The Amazon Resource Name (ARN) of the S3 resource that you're trying to remove the tags from.
+        public let resourceArn: String
+        ///  The array of tag key-value pairs that you're trying to remove from of the S3 resource.
+        public let tagKeys: [String]
+
+        public init(accountId: String, resourceArn: String, tagKeys: [String]) {
+            self.accountId = accountId
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateAccessGrantsLocationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
+        public let accessGrantsLocationId: String
+        /// The ID of the Amazon Web Services account that is making this request.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String
+
+        public init(accessGrantsLocationId: String, accountId: String, iamRoleArn: String) {
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.accountId = accountId
+            self.iamRoleArn = iamRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessGrantsLocationId, key: "AccessGrantsLocationId")
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            try container.encode(self.iamRoleArn, forKey: .iamRoleArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, max: 64)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, min: 1)
+            try self.validate(self.accessGrantsLocationId, name: "accessGrantsLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 1)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[^:]+:iam::\\d{12}:role/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "IAMRoleArn"
+        }
+    }
+
+    public struct UpdateAccessGrantsLocationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the registered location that you are updating.
+        public let accessGrantsLocationArn: String?
+        /// The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
+        public let accessGrantsLocationId: String?
+        /// The date and time when you registered the location.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role of the registered location. S3 Access Grants assumes this role to manage access to the registered location.
+        public let iamRoleArn: String?
+        /// The S3 URI path of the location that you are updating. You cannot update the scope of the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///.
+        public let locationScope: String?
+
+        public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
+            self.accessGrantsLocationArn = accessGrantsLocationArn
+            self.accessGrantsLocationId = accessGrantsLocationId
+            self.createdAt = createdAt
+            self.iamRoleArn = iamRoleArn
+            self.locationScope = locationScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessGrantsLocationArn = "AccessGrantsLocationArn"
+            case accessGrantsLocationId = "AccessGrantsLocationId"
+            case createdAt = "CreatedAt"
+            case iamRoleArn = "IAMRoleArn"
+            case locationScope = "LocationScope"
         }
     }
 
@@ -5802,6 +7783,43 @@ extension S3Control {
             case jobId = "JobId"
             case status = "Status"
             case statusUpdateReason = "StatusUpdateReason"
+        }
+    }
+
+    public struct UpdateStorageLensGroupRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID of the Storage Lens group owner.
+        public let accountId: String
+        /// The name of the Storage Lens group that you want to update.
+        public let name: String
+        /// The JSON file that contains the Storage Lens group configuration.
+        public let storageLensGroup: StorageLensGroup
+
+        public init(accountId: String, name: String, storageLensGroup: StorageLensGroup) {
+            self.accountId = accountId
+            self.name = name
+            self.storageLensGroup = storageLensGroup
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.storageLensGroup, forKey: .storageLensGroup)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+            try self.storageLensGroup.validate(name: "\(name).storageLensGroup")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageLensGroup = "StorageLensGroup"
         }
     }
 

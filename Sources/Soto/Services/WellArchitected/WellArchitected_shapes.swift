@@ -26,13 +26,13 @@ import Foundation
 extension WellArchitected {
     // MARK: Enums
 
-    public enum AdditionalResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdditionalResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case helpfulResource = "HELPFUL_RESOURCE"
         case improvementPlan = "IMPROVEMENT_PLAN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnswerReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnswerReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
         case businessPriorities = "BUSINESS_PRIORITIES"
         case none = "NONE"
@@ -41,7 +41,7 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckFailureReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum CheckFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case assumeRoleError = "ASSUME_ROLE_ERROR"
         case premiumSupportRequired = "PREMIUM_SUPPORT_REQUIRED"
@@ -49,12 +49,12 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckProvider: String, CustomStringConvertible, Codable, Sendable {
+    public enum CheckProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case trustedAdvisor = "TRUSTED_ADVISOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CheckStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case fetchFailed = "FETCH_FAILED"
         case notAvailable = "NOT_AVAILABLE"
@@ -63,7 +63,7 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChoiceReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChoiceReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
         case businessPriorities = "BUSINESS_PRIORITIES"
         case none = "NONE"
@@ -72,40 +72,40 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChoiceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChoiceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notApplicable = "NOT_APPLICABLE"
         case selected = "SELECTED"
         case unselected = "UNSELECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DefinitionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appRegistry = "APP_REGISTRY"
         case workloadMetadata = "WORKLOAD_METADATA"
         public var description: String { return self.rawValue }
     }
 
-    public enum DifferenceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DifferenceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case new = "NEW"
         case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiscoveryIntegrationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiscoveryIntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportLensStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportLensStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case error = "ERROR"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LensStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum LensStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case current = "CURRENT"
         case deleted = "DELETED"
         case deprecated = "DEPRECATED"
@@ -114,50 +114,92 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum LensStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LensStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case draft = "DRAFT"
         case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LensType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LensType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOfficial = "AWS_OFFICIAL"
         case customSelf = "CUSTOM_SELF"
         case customShared = "CUSTOM_SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case workload = "WORKLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lensVersionDeprecated = "LENS_VERSION_DEPRECATED"
         case lensVersionUpgraded = "LENS_VERSION_UPGRADED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationSharingStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationSharingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contributor = "CONTRIBUTOR"
         case readonly = "READONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProfileNotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case profileAnswersUpdated = "PROFILE_ANSWERS_UPDATED"
+        case profileDeleted = "PROFILE_DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileOwnerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case _self = "SELF"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Question: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answered = "ANSWERED"
+        case unanswered = "UNANSWERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuestionPriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case prioritized = "PRIORITIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuestionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nonPrioritized = "NON_PRIORITIZED"
+        case prioritized = "PRIORITIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case pdf = "PDF"
         public var description: String { return self.rawValue }
     }
 
-    public enum Risk: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReviewTemplateAnswerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answered = "ANSWERED"
+        case unanswered = "UNANSWERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewTemplateUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case current = "CURRENT"
+        case lensNotCurrent = "LENS_NOT_CURRENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Risk: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case medium = "MEDIUM"
         case none = "NONE"
@@ -166,19 +208,21 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareInvitationAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareInvitationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accept = "ACCEPT"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lens = "LENS"
+        case profile = "PROFILE"
+        case template = "TEMPLATE"
         case workload = "WORKLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "ACCEPTED"
         case associated = "ASSOCIATED"
         case associating = "ASSOCIATING"
@@ -190,19 +234,19 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustedAdvisorIntegrationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrustedAdvisorIntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkloadEnvironment: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkloadEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preproduction = "PREPRODUCTION"
         case production = "PRODUCTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkloadImprovementStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkloadImprovementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case inProgress = "IN_PROGRESS"
         case notApplicable = "NOT_APPLICABLE"
@@ -292,18 +336,21 @@ extension WellArchitected {
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
+        /// The type of the question.
+        public let questionType: QuestionType?
         /// The reason why a choice is non-applicable to a question in your workload.
         public let reason: AnswerReason?
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
+            self.questionType = questionType
             self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
@@ -316,6 +363,7 @@ extension WellArchitected {
             case pillarId = "PillarId"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
+            case questionType = "QuestionType"
             case reason = "Reason"
             case risk = "Risk"
             case selectedChoices = "SelectedChoices"
@@ -323,10 +371,10 @@ extension WellArchitected {
     }
 
     public struct AssociateLensesInput: AWSEncodableShape {
-        public let lensAliases: [String]
+        public let lensAliases: [String]?
         public let workloadId: String
 
-        public init(lensAliases: [String], workloadId: String) {
+        public init(lensAliases: [String]? = nil, workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
         }
@@ -334,21 +382,56 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.lensAliases, forKey: .lensAliases)
+            try container.encodeIfPresent(self.lensAliases, forKey: .lensAliases)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
-            try self.lensAliases.forEach {
+            try self.lensAliases?.forEach {
                 try validate($0, name: "lensAliases[]", parent: name, max: 128)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct AssociateProfilesInput: AWSEncodableShape {
+        /// The list of profile ARNs to associate with the workload.
+        public let profileArns: [String]?
+        public let workloadId: String
+
+        public init(profileArns: [String]? = nil, workloadId: String) {
+            self.profileArns = profileArns
+            self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.profileArns, forKey: .profileArns)
+            request.encodePath(self.workloadId, key: "WorkloadId")
+        }
+
+        public func validate(name: String) throws {
+            try self.profileArns?.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArns = "ProfileArns"
         }
     }
 
@@ -588,9 +671,9 @@ extension WellArchitected {
         /// The reason why a choice is non-applicable to a question in your workload.
         public let reason: ChoiceReason?
         /// The status of a choice.
-        public let status: ChoiceStatus
+        public let status: ChoiceStatus?
 
-        public init(notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus) {
+        public init(notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
             self.notes = notes
             self.reason = reason
             self.status = status
@@ -644,11 +727,11 @@ extension WellArchitected {
     }
 
     public struct CreateLensShareInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         public let lensAlias: String
-        public let sharedWith: String
+        public let sharedWith: String?
 
-        public init(clientRequestToken: String = CreateLensShareInput.idempotencyToken(), lensAlias: String, sharedWith: String) {
+        public init(clientRequestToken: String? = nil, lensAlias: String, sharedWith: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.sharedWith = sharedWith
@@ -657,12 +740,14 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.lensAlias, key: "LensAlias")
-            try container.encode(self.sharedWith, forKey: .sharedWith)
+            try container.encodeIfPresent(self.sharedWith, forKey: .sharedWith)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
@@ -688,14 +773,14 @@ extension WellArchitected {
     }
 
     public struct CreateLensVersionInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         /// Set to true if this new major lens version.
         public let isMajorVersion: Bool?
         public let lensAlias: String
         /// The version of the lens being created.
-        public let lensVersion: String
+        public let lensVersion: String?
 
-        public init(clientRequestToken: String = CreateLensVersionInput.idempotencyToken(), isMajorVersion: Bool? = nil, lensAlias: String, lensVersion: String) {
+        public init(clientRequestToken: String? = nil, isMajorVersion: Bool? = nil, lensAlias: String, lensVersion: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.isMajorVersion = isMajorVersion
             self.lensAlias = lensAlias
@@ -705,13 +790,15 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             try container.encodeIfPresent(self.isMajorVersion, forKey: .isMajorVersion)
             request.encodePath(self.lensAlias, key: "LensAlias")
-            try container.encode(self.lensVersion, forKey: .lensVersion)
+            try container.encodeIfPresent(self.lensVersion, forKey: .lensVersion)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
@@ -743,11 +830,11 @@ extension WellArchitected {
     }
 
     public struct CreateMilestoneInput: AWSEncodableShape {
-        public let clientRequestToken: String
-        public let milestoneName: String
+        public let clientRequestToken: String?
+        public let milestoneName: String?
         public let workloadId: String
 
-        public init(clientRequestToken: String = CreateMilestoneInput.idempotencyToken(), milestoneName: String, workloadId: String) {
+        public init(clientRequestToken: String? = nil, milestoneName: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.milestoneName = milestoneName
             self.workloadId = workloadId
@@ -756,14 +843,18 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
-            try container.encode(self.milestoneName, forKey: .milestoneName)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.milestoneName, forKey: .milestoneName)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -788,29 +879,269 @@ extension WellArchitected {
         }
     }
 
+    public struct CreateProfileInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The profile description.
+        public let profileDescription: String?
+        /// Name of the profile.
+        public let profileName: String?
+        /// The profile questions.
+        public let profileQuestions: [ProfileQuestionUpdate]?
+        /// The tags assigned to the profile.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileQuestions: [ProfileQuestionUpdate]? = nil, tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileQuestions = profileQuestions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.validate(self.profileName, name: "profileName", parent: name, max: 100)
+            try self.validate(self.profileName, name: "profileName", parent: name, min: 3)
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.profileQuestions?.forEach {
+                try $0.validate(name: "\(name).profileQuestions[]")
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileQuestions = "ProfileQuestions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProfileOutput: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        /// Version of the profile.
+        public let profileVersion: String?
+
+        public init(profileArn: String? = nil, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case profileVersion = "ProfileVersion"
+        }
+    }
+
+    public struct CreateProfileShareInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The profile ARN.
+        public let profileArn: String
+        public let sharedWith: String?
+
+        public init(clientRequestToken: String? = nil, profileArn: String, sharedWith: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+            self.sharedWith = sharedWith
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            try container.encodeIfPresent(self.sharedWith, forKey: .sharedWith)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sharedWith = "SharedWith"
+        }
+    }
+
+    public struct CreateProfileShareOutput: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        public let shareId: String?
+
+        public init(profileArn: String? = nil, shareId: String? = nil) {
+            self.profileArn = profileArn
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case shareId = "ShareId"
+        }
+    }
+
+    public struct CreateReviewTemplateInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The review template description.
+        public let description: String?
+        /// Lenses applied to the review template.
+        public let lenses: [String]?
+        public let notes: String?
+        /// The tags assigned to the review template.
+        public let tags: [String: String]?
+        /// Name of the review template.
+        public let templateName: String?
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, lenses: [String]? = nil, notes: String? = nil, tags: [String: String]? = nil, templateName: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.lenses = lenses
+            self.notes = notes
+            self.tags = tags
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 3)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.lenses?.forEach {
+                try validate($0, name: "lenses[]", parent: name, max: 128)
+                try validate($0, name: "lenses[]", parent: name, min: 1)
+            }
+            try self.validate(self.notes, name: "notes", parent: name, max: 2084)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 3)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case lenses = "Lenses"
+            case notes = "Notes"
+            case tags = "Tags"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct CreateReviewTemplateOutput: AWSDecodableShape {
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(templateArn: String? = nil) {
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct CreateTemplateShareInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let sharedWith: String?
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(clientRequestToken: String? = nil, sharedWith: String? = nil, templateArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.sharedWith = sharedWith
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.sharedWith, forKey: .sharedWith)
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sharedWith = "SharedWith"
+        }
+    }
+
+    public struct CreateTemplateShareOutput: AWSDecodableShape {
+        public let shareId: String?
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(shareId: String? = nil, templateArn: String? = nil) {
+            self.shareId = shareId
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shareId = "ShareId"
+            case templateArn = "TemplateArn"
+        }
+    }
+
     public struct CreateWorkloadInput: AWSEncodableShape {
         public let accountIds: [String]?
         /// List of AppRegistry application ARNs associated to the workload.
         public let applications: [String]?
         public let architecturalDesign: String?
         public let awsRegions: [String]?
-        public let clientRequestToken: String
-        public let description: String
+        public let clientRequestToken: String?
+        public let description: String?
         /// Well-Architected discovery configuration settings associated to the workload.
         public let discoveryConfig: WorkloadDiscoveryConfig?
-        public let environment: WorkloadEnvironment
+        public let environment: WorkloadEnvironment?
         public let industry: String?
         public let industryType: String?
-        public let lenses: [String]
+        public let lenses: [String]?
         public let nonAwsRegions: [String]?
         public let notes: String?
         public let pillarPriorities: [String]?
+        /// The list of profile ARNs associated with the workload.
+        public let profileArns: [String]?
         public let reviewOwner: String?
+        /// The list of review template ARNs to associate with the workload.
+        public let reviewTemplateArns: [String]?
         /// The tags to be associated with the workload.
         public let tags: [String: String]?
-        public let workloadName: String
+        public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, tags: [String: String]? = nil, workloadName: String) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, industry: String? = nil, industryType: String? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, profileArns: [String]? = nil, reviewOwner: String? = nil, reviewTemplateArns: [String]? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -825,13 +1156,17 @@ extension WellArchitected {
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
             self.pillarPriorities = pillarPriorities
+            self.profileArns = profileArns
             self.reviewOwner = reviewOwner
+            self.reviewTemplateArns = reviewTemplateArns
             self.tags = tags
             self.workloadName = workloadName
         }
 
         public func validate(name: String) throws {
             try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
@@ -846,11 +1181,13 @@ extension WellArchitected {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
             try self.validate(self.awsRegions, name: "awsRegions", parent: name, max: 50)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
-            try self.lenses.forEach {
+            try self.lenses?.forEach {
                 try validate($0, name: "lenses[]", parent: name, max: 128)
                 try validate($0, name: "lenses[]", parent: name, min: 1)
             }
@@ -864,8 +1201,19 @@ extension WellArchitected {
                 try validate($0, name: "pillarPriorities[]", parent: name, max: 64)
                 try validate($0, name: "pillarPriorities[]", parent: name, min: 1)
             }
+            try self.profileArns?.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, max: 1)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
+            try self.reviewTemplateArns?.forEach {
+                try validate($0, name: "reviewTemplateArns[]", parent: name, max: 250)
+                try validate($0, name: "reviewTemplateArns[]", parent: name, min: 50)
+                try validate($0, name: "reviewTemplateArns[]", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+            }
+            try self.validate(self.reviewTemplateArns, name: "reviewTemplateArns", parent: name, max: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -892,7 +1240,9 @@ extension WellArchitected {
             case nonAwsRegions = "NonAwsRegions"
             case notes = "Notes"
             case pillarPriorities = "PillarPriorities"
+            case profileArns = "ProfileArns"
             case reviewOwner = "ReviewOwner"
+            case reviewTemplateArns = "ReviewTemplateArns"
             case tags = "Tags"
             case workloadName = "WorkloadName"
         }
@@ -914,12 +1264,12 @@ extension WellArchitected {
     }
 
     public struct CreateWorkloadShareInput: AWSEncodableShape {
-        public let clientRequestToken: String
-        public let permissionType: PermissionType
-        public let sharedWith: String
+        public let clientRequestToken: String?
+        public let permissionType: PermissionType?
+        public let sharedWith: String?
         public let workloadId: String
 
-        public init(clientRequestToken: String = CreateWorkloadShareInput.idempotencyToken(), permissionType: PermissionType, sharedWith: String, workloadId: String) {
+        public init(clientRequestToken: String? = nil, permissionType: PermissionType? = nil, sharedWith: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.permissionType = permissionType
             self.sharedWith = sharedWith
@@ -929,15 +1279,19 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
-            try container.encode(self.permissionType, forKey: .permissionType)
-            try container.encode(self.sharedWith, forKey: .sharedWith)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.permissionType, forKey: .permissionType)
+            try container.encodeIfPresent(self.sharedWith, forKey: .sharedWith)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -964,12 +1318,12 @@ extension WellArchitected {
     }
 
     public struct DeleteLensInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         public let lensAlias: String
         /// The status of the lens to be deleted.
-        public let lensStatus: LensStatusType
+        public let lensStatus: LensStatusType?
 
-        public init(clientRequestToken: String = DeleteLensInput.idempotencyToken(), lensAlias: String, lensStatus: LensStatusType) {
+        public init(clientRequestToken: String? = nil, lensAlias: String, lensStatus: LensStatusType? = nil) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.lensStatus = lensStatus
@@ -984,6 +1338,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
         }
@@ -992,11 +1348,11 @@ extension WellArchitected {
     }
 
     public struct DeleteLensShareInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         public let lensAlias: String
         public let shareId: String
 
-        public init(clientRequestToken: String = DeleteLensShareInput.idempotencyToken(), lensAlias: String, shareId: String) {
+        public init(clientRequestToken: String? = nil, lensAlias: String, shareId: String) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.shareId = shareId
@@ -1011,6 +1367,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -1019,11 +1377,129 @@ extension WellArchitected {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteProfileInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The profile ARN.
+        public let profileArn: String
+
+        public init(clientRequestToken: String? = nil, profileArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.profileArn, key: "ProfileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProfileShareInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The profile ARN.
+        public let profileArn: String
+        public let shareId: String
+
+        public init(clientRequestToken: String? = nil, profileArn: String, shareId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+            self.shareId = shareId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            request.encodePath(self.shareId, key: "ShareId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteReviewTemplateInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(clientRequestToken: String? = nil, templateArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTemplateShareInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let shareId: String
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(clientRequestToken: String? = nil, shareId: String, templateArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.shareId = shareId
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientRequestToken, key: "ClientRequestToken")
+            request.encodePath(self.shareId, key: "ShareId")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteWorkloadInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         public let workloadId: String
 
-        public init(clientRequestToken: String = DeleteWorkloadInput.idempotencyToken(), workloadId: String) {
+        public init(clientRequestToken: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.workloadId = workloadId
         }
@@ -1036,6 +1512,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1043,11 +1523,11 @@ extension WellArchitected {
     }
 
     public struct DeleteWorkloadShareInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         public let shareId: String
         public let workloadId: String
 
-        public init(clientRequestToken: String = DeleteWorkloadShareInput.idempotencyToken(), shareId: String, workloadId: String) {
+        public init(clientRequestToken: String? = nil, shareId: String, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.shareId = shareId
             self.workloadId = workloadId
@@ -1062,7 +1542,11 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1070,10 +1554,10 @@ extension WellArchitected {
     }
 
     public struct DisassociateLensesInput: AWSEncodableShape {
-        public let lensAliases: [String]
+        public let lensAliases: [String]?
         public let workloadId: String
 
-        public init(lensAliases: [String], workloadId: String) {
+        public init(lensAliases: [String]? = nil, workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
         }
@@ -1081,21 +1565,56 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.lensAliases, forKey: .lensAliases)
+            try container.encodeIfPresent(self.lensAliases, forKey: .lensAliases)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
-            try self.lensAliases.forEach {
+            try self.lensAliases?.forEach {
                 try validate($0, name: "lensAliases[]", parent: name, max: 128)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct DisassociateProfilesInput: AWSEncodableShape {
+        /// The list of profile ARNs to disassociate from the workload.
+        public let profileArns: [String]?
+        public let workloadId: String
+
+        public init(profileArns: [String]? = nil, workloadId: String) {
+            self.profileArns = profileArns
+            self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.profileArns, forKey: .profileArns)
+            request.encodePath(self.workloadId, key: "WorkloadId")
+        }
+
+        public func validate(name: String) throws {
+            try self.profileArns?.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArns = "ProfileArns"
         }
     }
 
@@ -1168,6 +1687,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1201,14 +1722,14 @@ extension WellArchitected {
 
     public struct GetConsolidatedReportInput: AWSEncodableShape {
         /// The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
-        public let format: ReportFormat
+        public let format: ReportFormat?
         /// Set to true to have shared resources included in the report.
         public let includeSharedResources: Bool?
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
 
-        public init(format: ReportFormat, includeSharedResources: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(format: ReportFormat? = nil, includeSharedResources: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.format = format
             self.includeSharedResources = includeSharedResources
             self.maxResults = maxResults
@@ -1315,6 +1836,8 @@ extension WellArchitected {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1363,6 +1886,8 @@ extension WellArchitected {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1455,7 +1980,7 @@ extension WellArchitected {
         public let milestoneNumber: Int
         public let workloadId: String
 
-        public init(milestoneNumber: Int = 0, workloadId: String) {
+        public init(milestoneNumber: Int, workloadId: String) {
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
         }
@@ -1470,6 +1995,8 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1491,6 +2018,199 @@ extension WellArchitected {
         }
     }
 
+    public struct GetProfileInput: AWSEncodableShape {
+        /// The profile ARN.
+        public let profileArn: String
+        /// The profile version.
+        public let profileVersion: String?
+
+        public init(profileArn: String, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            request.encodeQuery(self.profileVersion, key: "ProfileVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 32)
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 1)
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[A-Za-z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProfileOutput: AWSDecodableShape {
+        /// The profile.
+        public let profile: Profile?
+
+        public init(profile: Profile? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+        }
+    }
+
+    public struct GetProfileTemplateInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetProfileTemplateOutput: AWSDecodableShape {
+        /// The profile template.
+        public let profileTemplate: ProfileTemplate?
+
+        public init(profileTemplate: ProfileTemplate? = nil) {
+            self.profileTemplate = profileTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileTemplate = "ProfileTemplate"
+        }
+    }
+
+    public struct GetReviewTemplateAnswerInput: AWSEncodableShape {
+        public let lensAlias: String
+        public let questionId: String
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(lensAlias: String, questionId: String, templateArn: String) {
+            self.lensAlias = lensAlias
+            self.questionId = questionId
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodePath(self.questionId, key: "QuestionId")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetReviewTemplateAnswerOutput: AWSDecodableShape {
+        /// An answer of the question.
+        public let answer: ReviewTemplateAnswer?
+        public let lensAlias: String?
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(answer: ReviewTemplateAnswer? = nil, lensAlias: String? = nil, templateArn: String? = nil) {
+            self.answer = answer
+            self.lensAlias = lensAlias
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answer = "Answer"
+            case lensAlias = "LensAlias"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct GetReviewTemplateInput: AWSEncodableShape {
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(templateArn: String) {
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetReviewTemplateLensReviewInput: AWSEncodableShape {
+        public let lensAlias: String
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(lensAlias: String, templateArn: String) {
+            self.lensAlias = lensAlias
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetReviewTemplateLensReviewOutput: AWSDecodableShape {
+        /// A lens review of a question.
+        public let lensReview: ReviewTemplateLensReview?
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(lensReview: ReviewTemplateLensReview? = nil, templateArn: String? = nil) {
+            self.lensReview = lensReview
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensReview = "LensReview"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct GetReviewTemplateOutput: AWSDecodableShape {
+        /// The review template.
+        public let reviewTemplate: ReviewTemplate?
+
+        public init(reviewTemplate: ReviewTemplate? = nil) {
+            self.reviewTemplate = reviewTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reviewTemplate = "ReviewTemplate"
+        }
+    }
+
     public struct GetWorkloadInput: AWSEncodableShape {
         public let workloadId: String
 
@@ -1505,6 +2225,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1524,14 +2246,14 @@ extension WellArchitected {
     }
 
     public struct ImportLensInput: AWSEncodableShape {
-        public let clientRequestToken: String
+        public let clientRequestToken: String?
         /// The JSON representation of a lens.
-        public let jsonString: String
+        public let jsonString: String?
         public let lensAlias: String?
         /// Tags to associate to a lens.
         public let tags: [String: String]?
 
-        public init(clientRequestToken: String = ImportLensInput.idempotencyToken(), jsonString: String, lensAlias: String? = nil, tags: [String: String]? = nil) {
+        public init(clientRequestToken: String? = nil, jsonString: String? = nil, lensAlias: String? = nil, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.jsonString = jsonString
             self.lensAlias = lensAlias
@@ -1539,6 +2261,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500000)
             try self.validate(self.jsonString, name: "jsonString", parent: name, min: 2)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
@@ -1672,10 +2396,13 @@ extension WellArchitected {
         public let nextToken: String?
         public let notes: String?
         public let pillarReviewSummaries: [PillarReviewSummary]?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// The profiles associated with the workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -1684,6 +2411,8 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.notes = notes
             self.pillarReviewSummaries = pillarReviewSummaries
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -1697,6 +2426,8 @@ extension WellArchitected {
             case nextToken = "NextToken"
             case notes = "Notes"
             case pillarReviewSummaries = "PillarReviewSummaries"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
         }
@@ -1730,15 +2461,20 @@ extension WellArchitected {
         public let lensStatus: LensStatus?
         /// The version of the lens.
         public let lensVersion: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// The profiles associated with the workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
             self.lensStatus = lensStatus
             self.lensVersion = lensVersion
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -1749,6 +2485,8 @@ extension WellArchitected {
             case lensName = "LensName"
             case lensStatus = "LensStatus"
             case lensVersion = "LensVersion"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
         }
@@ -1827,14 +2565,19 @@ extension WellArchitected {
         public let lensAlias: String?
         /// The ARN for the lens.
         public let lensArn: String?
+        ///  ResourceArn of the lens being upgraded
+        public let resourceArn: String?
+        public let resourceName: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(currentLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(currentLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.currentLensVersion = currentLensVersion
             self.latestLensVersion = latestLensVersion
             self.lensAlias = lensAlias
             self.lensArn = lensArn
+            self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
@@ -1844,6 +2587,8 @@ extension WellArchitected {
             case latestLensVersion = "LatestLensVersion"
             case lensAlias = "LensAlias"
             case lensArn = "LensArn"
+            case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
         }
@@ -1856,14 +2601,17 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let pillarId: String?
+        /// The priority of the question.
+        public let questionPriority: QuestionPriority?
         public let workloadId: String
 
-        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, workloadId: String) {
+        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.pillarId = pillarId
+            self.questionPriority = questionPriority
             self.workloadId = workloadId
         }
 
@@ -1875,6 +2623,7 @@ extension WellArchitected {
             request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.pillarId, key: "PillarId")
+            request.encodeQuery(self.questionPriority, key: "QuestionPriority")
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
@@ -1887,6 +2636,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1922,16 +2673,16 @@ extension WellArchitected {
     }
 
     public struct ListCheckDetailsInput: AWSEncodableShape {
-        public let choiceId: String
+        public let choiceId: String?
         /// Well-Architected Lens ARN.
-        public let lensArn: String
+        public let lensArn: String?
         public let maxResults: Int?
         public let nextToken: String?
-        public let pillarId: String
-        public let questionId: String
+        public let pillarId: String?
+        public let questionId: String?
         public let workloadId: String
 
-        public init(choiceId: String, lensArn: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String, questionId: String, workloadId: String) {
+        public init(choiceId: String? = nil, lensArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionId: String? = nil, workloadId: String) {
             self.choiceId = choiceId
             self.lensArn = lensArn
             self.maxResults = maxResults
@@ -1944,12 +2695,12 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.choiceId, forKey: .choiceId)
-            try container.encode(self.lensArn, forKey: .lensArn)
+            try container.encodeIfPresent(self.choiceId, forKey: .choiceId)
+            try container.encodeIfPresent(self.lensArn, forKey: .lensArn)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
-            try container.encode(self.pillarId, forKey: .pillarId)
-            try container.encode(self.questionId, forKey: .questionId)
+            try container.encodeIfPresent(self.pillarId, forKey: .pillarId)
+            try container.encodeIfPresent(self.questionId, forKey: .questionId)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
@@ -1962,6 +2713,8 @@ extension WellArchitected {
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1992,16 +2745,16 @@ extension WellArchitected {
     }
 
     public struct ListCheckSummariesInput: AWSEncodableShape {
-        public let choiceId: String
+        public let choiceId: String?
         /// Well-Architected Lens ARN.
-        public let lensArn: String
+        public let lensArn: String?
         public let maxResults: Int?
         public let nextToken: String?
-        public let pillarId: String
-        public let questionId: String
+        public let pillarId: String?
+        public let questionId: String?
         public let workloadId: String
 
-        public init(choiceId: String, lensArn: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String, questionId: String, workloadId: String) {
+        public init(choiceId: String? = nil, lensArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionId: String? = nil, workloadId: String) {
             self.choiceId = choiceId
             self.lensArn = lensArn
             self.maxResults = maxResults
@@ -2014,12 +2767,12 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.choiceId, forKey: .choiceId)
-            try container.encode(self.lensArn, forKey: .lensArn)
+            try container.encodeIfPresent(self.choiceId, forKey: .choiceId)
+            try container.encodeIfPresent(self.lensArn, forKey: .lensArn)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
-            try container.encode(self.pillarId, forKey: .pillarId)
-            try container.encode(self.questionId, forKey: .questionId)
+            try container.encodeIfPresent(self.pillarId, forKey: .pillarId)
+            try container.encodeIfPresent(self.questionId, forKey: .questionId)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
@@ -2032,6 +2785,8 @@ extension WellArchitected {
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2068,14 +2823,17 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let pillarId: String?
+        /// The priority of the question.
+        public let questionPriority: QuestionPriority?
         public let workloadId: String
 
-        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, workloadId: String) {
+        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.pillarId = pillarId
+            self.questionPriority = questionPriority
             self.workloadId = workloadId
         }
 
@@ -2087,6 +2845,7 @@ extension WellArchitected {
             request.encodeQuery(self.milestoneNumber, key: "MilestoneNumber")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.pillarId, key: "PillarId")
+            request.encodeQuery(self.questionPriority, key: "QuestionPriority")
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
@@ -2099,6 +2858,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2160,6 +2921,8 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2192,7 +2955,7 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the lens is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the lens is shared.
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
 
@@ -2315,6 +3078,8 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2346,23 +3111,32 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
+        /// The ARN for the related resource for the notification.  Only one of WorkloadID or ResourceARN should be specified.
+        public let resourceArn: String?
         public let workloadId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil, workloadId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resourceArn = resourceArn
             self.workloadId = workloadId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 250)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 50)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
             case workloadId = "WorkloadId"
         }
     }
@@ -2383,21 +3157,283 @@ extension WellArchitected {
         }
     }
 
+    public struct ListProfileNotificationsInput: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let workloadId: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.workloadId, key: "WorkloadId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfileNotificationsOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Notification summaries.
+        public let notificationSummaries: [ProfileNotificationSummary]?
+
+        public init(nextToken: String? = nil, notificationSummaries: [ProfileNotificationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.notificationSummaries = notificationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notificationSummaries = "NotificationSummaries"
+        }
+    }
+
+    public struct ListProfileSharesInput: AWSEncodableShape {
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The profile ARN.
+        public let profileArn: String
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the profile is shared.
+        public let sharedWithPrefix: String?
+        public let status: ShareStatus?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String, sharedWithPrefix: String? = nil, status: ShareStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileArn = profileArn
+            self.sharedWithPrefix = sharedWithPrefix
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            request.encodeQuery(self.sharedWithPrefix, key: "SharedWithPrefix")
+            request.encodeQuery(self.status, key: "Status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfileSharesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Profile share summaries.
+        public let profileShareSummaries: [ProfileShareSummary]?
+
+        public init(nextToken: String? = nil, profileShareSummaries: [ProfileShareSummary]? = nil) {
+            self.nextToken = nextToken
+            self.profileShareSummaries = profileShareSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profileShareSummaries = "ProfileShareSummaries"
+        }
+    }
+
+    public struct ListProfilesInput: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// An optional string added to the beginning of each profile name returned in the results.
+        public let profileNamePrefix: String?
+        /// Profile owner type.
+        public let profileOwnerType: ProfileOwnerType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, profileOwnerType: ProfileOwnerType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileNamePrefix = profileNamePrefix
+            self.profileOwnerType = profileOwnerType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.profileNamePrefix, key: "ProfileNamePrefix")
+            request.encodeQuery(self.profileOwnerType, key: "ProfileOwnerType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfilesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Profile summaries.
+        public let profileSummaries: [ProfileSummary]?
+
+        public init(nextToken: String? = nil, profileSummaries: [ProfileSummary]? = nil) {
+            self.nextToken = nextToken
+            self.profileSummaries = profileSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profileSummaries = "ProfileSummaries"
+        }
+    }
+
+    public struct ListReviewTemplateAnswersInput: AWSEncodableShape {
+        public let lensAlias: String
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let pillarId: String?
+        /// The ARN of the review template.
+        public let templateArn: String
+
+        public init(lensAlias: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, templateArn: String) {
+            self.lensAlias = lensAlias
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pillarId = pillarId
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pillarId, key: "PillarId")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReviewTemplateAnswersOutput: AWSDecodableShape {
+        /// List of answer summaries of a lens review in a review template.
+        public let answerSummaries: [ReviewTemplateAnswerSummary]?
+        public let lensAlias: String?
+        public let nextToken: String?
+        /// The ARN of the review template.
+        public let templateArn: String?
+
+        public init(answerSummaries: [ReviewTemplateAnswerSummary]? = nil, lensAlias: String? = nil, nextToken: String? = nil, templateArn: String? = nil) {
+            self.answerSummaries = answerSummaries
+            self.lensAlias = lensAlias
+            self.nextToken = nextToken
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerSummaries = "AnswerSummaries"
+            case lensAlias = "LensAlias"
+            case nextToken = "NextToken"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct ListReviewTemplatesInput: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReviewTemplatesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// List of review templates.
+        public let reviewTemplates: [ReviewTemplateSummary]?
+
+        public init(nextToken: String? = nil, reviewTemplates: [ReviewTemplateSummary]? = nil) {
+            self.nextToken = nextToken
+            self.reviewTemplates = reviewTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reviewTemplates = "ReviewTemplates"
+        }
+    }
+
     public struct ListShareInvitationsInput: AWSEncodableShape {
         /// An optional string added to the beginning of each lens name returned in the results.
         public let lensNamePrefix: String?
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
+        /// An optional string added to the beginning of each profile name returned in the results.
+        public let profileNamePrefix: String?
         /// The type of share invitations to be returned.
         public let shareResourceType: ShareResourceType?
+        /// An optional string added to the beginning of each review template name returned in the results.
+        public let templateNamePrefix: String?
         public let workloadNamePrefix: String?
 
-        public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shareResourceType: ShareResourceType? = nil, workloadNamePrefix: String? = nil) {
+        public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, shareResourceType: ShareResourceType? = nil, templateNamePrefix: String? = nil, workloadNamePrefix: String? = nil) {
             self.lensNamePrefix = lensNamePrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.profileNamePrefix = profileNamePrefix
             self.shareResourceType = shareResourceType
+            self.templateNamePrefix = templateNamePrefix
             self.workloadNamePrefix = workloadNamePrefix
         }
 
@@ -2407,7 +3443,9 @@ extension WellArchitected {
             request.encodeQuery(self.lensNamePrefix, key: "LensNamePrefix")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.profileNamePrefix, key: "ProfileNamePrefix")
             request.encodeQuery(self.shareResourceType, key: "ShareResourceType")
+            request.encodeQuery(self.templateNamePrefix, key: "TemplateNamePrefix")
             request.encodeQuery(self.workloadNamePrefix, key: "WorkloadNamePrefix")
         }
 
@@ -2415,6 +3453,10 @@ extension WellArchitected {
             try self.validate(self.lensNamePrefix, name: "lensNamePrefix", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, max: 100)
+            try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
         }
 
@@ -2466,11 +3508,71 @@ extension WellArchitected {
         }
     }
 
+    public struct ListTemplateSharesInput: AWSEncodableShape {
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the profile is shared.
+        public let sharedWithPrefix: String?
+        public let status: ShareStatus?
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sharedWithPrefix: String? = nil, status: ShareStatus? = nil, templateArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sharedWithPrefix = sharedWithPrefix
+            self.status = status
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sharedWithPrefix, key: "SharedWithPrefix")
+            request.encodeQuery(self.status, key: "Status")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTemplateSharesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// The review template ARN.
+        public let templateArn: String?
+        /// A review template share summary return object.
+        public let templateShareSummaries: [TemplateShareSummary]?
+
+        public init(nextToken: String? = nil, templateArn: String? = nil, templateShareSummaries: [TemplateShareSummary]? = nil) {
+            self.nextToken = nextToken
+            self.templateArn = templateArn
+            self.templateShareSummaries = templateShareSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case templateArn = "TemplateArn"
+            case templateShareSummaries = "TemplateShareSummaries"
+        }
+    }
+
     public struct ListWorkloadSharesInput: AWSEncodableShape {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload is shared.
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
         public let workloadId: String
@@ -2497,6 +3599,8 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2666,12 +3770,14 @@ extension WellArchitected {
         public let notes: String?
         public let pillarId: String?
         public let pillarName: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
         public let riskCounts: [Risk: Int]?
 
-        public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, riskCounts: [Risk: Int]? = nil) {
+        public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, riskCounts: [Risk: Int]? = nil) {
             self.notes = notes
             self.pillarId = pillarId
             self.pillarName = pillarName
+            self.prioritizedRiskCounts = prioritizedRiskCounts
             self.riskCounts = riskCounts
         }
 
@@ -2679,7 +3785,293 @@ extension WellArchitected {
             case notes = "Notes"
             case pillarId = "PillarId"
             case pillarName = "PillarName"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
             case riskCounts = "RiskCounts"
+        }
+    }
+
+    public struct Profile: AWSDecodableShape {
+        public let createdAt: Date?
+        public let owner: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile description.
+        public let profileDescription: String?
+        /// The profile name.
+        public let profileName: String?
+        /// Profile questions.
+        public let profileQuestions: [ProfileQuestion]?
+        /// The profile version.
+        public let profileVersion: String?
+        /// The ID assigned to the share invitation.
+        public let shareInvitationId: String?
+        /// The tags assigned to the profile.
+        public let tags: [String: String]?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileQuestions: [ProfileQuestion]? = nil, profileVersion: String? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileQuestions = profileQuestions
+            self.profileVersion = profileVersion
+            self.shareInvitationId = shareInvitationId
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case owner = "Owner"
+            case profileArn = "ProfileArn"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileQuestions = "ProfileQuestions"
+            case profileVersion = "ProfileVersion"
+            case shareInvitationId = "ShareInvitationId"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileChoice: AWSDecodableShape {
+        public let choiceDescription: String?
+        public let choiceId: String?
+        public let choiceTitle: String?
+
+        public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceDescription = "ChoiceDescription"
+            case choiceId = "ChoiceId"
+            case choiceTitle = "ChoiceTitle"
+        }
+    }
+
+    public struct ProfileNotificationSummary: AWSDecodableShape {
+        /// The current profile version.
+        public let currentProfileVersion: String?
+        /// The latest profile version.
+        public let latestProfileVersion: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile name.
+        public let profileName: String?
+        /// Type of notification.
+        public let type: ProfileNotificationType?
+        public let workloadId: String?
+        public let workloadName: String?
+
+        public init(currentProfileVersion: String? = nil, latestProfileVersion: String? = nil, profileArn: String? = nil, profileName: String? = nil, type: ProfileNotificationType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+            self.currentProfileVersion = currentProfileVersion
+            self.latestProfileVersion = latestProfileVersion
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.type = type
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentProfileVersion = "CurrentProfileVersion"
+            case latestProfileVersion = "LatestProfileVersion"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case type = "Type"
+            case workloadId = "WorkloadId"
+            case workloadName = "WorkloadName"
+        }
+    }
+
+    public struct ProfileQuestion: AWSDecodableShape {
+        /// The maximum number of selected choices.
+        public let maxSelectedChoices: Int?
+        /// The minimum number of selected choices.
+        public let minSelectedChoices: Int?
+        /// The question choices.
+        public let questionChoices: [ProfileChoice]?
+        public let questionDescription: String?
+        public let questionId: String?
+        public let questionTitle: String?
+        /// The selected choices.
+        public let selectedChoiceIds: [String]?
+
+        public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, selectedChoiceIds: [String]? = nil) {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSelectedChoices = "MaxSelectedChoices"
+            case minSelectedChoices = "MinSelectedChoices"
+            case questionChoices = "QuestionChoices"
+            case questionDescription = "QuestionDescription"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
+            case selectedChoiceIds = "SelectedChoiceIds"
+        }
+    }
+
+    public struct ProfileQuestionUpdate: AWSEncodableShape {
+        public let questionId: String?
+        /// The selected choices.
+        public let selectedChoiceIds: [String]?
+
+        public init(questionId: String? = nil, selectedChoiceIds: [String]? = nil) {
+            self.questionId = questionId
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.selectedChoiceIds?.forEach {
+                try validate($0, name: "selectedChoiceIds[]", parent: name, max: 64)
+                try validate($0, name: "selectedChoiceIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case questionId = "QuestionId"
+            case selectedChoiceIds = "SelectedChoiceIds"
+        }
+    }
+
+    public struct ProfileShareSummary: AWSDecodableShape {
+        public let sharedWith: String?
+        public let shareId: String?
+        public let status: ShareStatus?
+        /// Profile share invitation status message.
+        public let statusMessage: String?
+
+        public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
+            self.sharedWith = sharedWith
+            self.shareId = shareId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedWith = "SharedWith"
+            case shareId = "ShareId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ProfileSummary: AWSDecodableShape {
+        public let createdAt: Date?
+        public let owner: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile description.
+        public let profileDescription: String?
+        /// The profile name.
+        public let profileName: String?
+        /// The profile version.
+        public let profileVersion: String?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileVersion: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileVersion = profileVersion
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case owner = "Owner"
+            case profileArn = "ProfileArn"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileVersion = "ProfileVersion"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileTemplate: AWSDecodableShape {
+        public let createdAt: Date?
+        /// The name of the profile template.
+        public let templateName: String?
+        /// Profile template questions.
+        public let templateQuestions: [ProfileTemplateQuestion]?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, templateName: String? = nil, templateQuestions: [ProfileTemplateQuestion]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.templateName = templateName
+            self.templateQuestions = templateQuestions
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case templateName = "TemplateName"
+            case templateQuestions = "TemplateQuestions"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileTemplateChoice: AWSDecodableShape {
+        public let choiceDescription: String?
+        public let choiceId: String?
+        public let choiceTitle: String?
+
+        public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceDescription = "ChoiceDescription"
+            case choiceId = "ChoiceId"
+            case choiceTitle = "ChoiceTitle"
+        }
+    }
+
+    public struct ProfileTemplateQuestion: AWSDecodableShape {
+        /// The maximum number of choices selected.
+        public let maxSelectedChoices: Int?
+        /// The minimum number of choices selected.
+        public let minSelectedChoices: Int?
+        /// The question choices.
+        public let questionChoices: [ProfileTemplateChoice]?
+        public let questionDescription: String?
+        public let questionId: String?
+        public let questionTitle: String?
+
+        public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileTemplateChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil) {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSelectedChoices = "MaxSelectedChoices"
+            case minSelectedChoices = "MinSelectedChoices"
+            case questionChoices = "QuestionChoices"
+            case questionDescription = "QuestionDescription"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
         }
     }
 
@@ -2721,29 +4113,286 @@ extension WellArchitected {
         }
     }
 
+    public struct ReviewTemplate: AWSDecodableShape {
+        /// The review template description.
+        public let description: String?
+        /// The lenses applied to the review template.
+        public let lenses: [String]?
+        public let notes: String?
+        public let owner: String?
+        /// A count of how many total questions are answered and unanswered in the review template.
+        public let questionCounts: [Question: Int]?
+        /// The ID assigned to the template share invitation.
+        public let shareInvitationId: String?
+        /// The tags assigned to the review template.
+        public let tags: [String: String]?
+        /// The review template ARN.
+        public let templateArn: String?
+        /// The name of the review template.
+        public let templateName: String?
+        public let updatedAt: Date?
+        /// The latest status of a review template.
+        public let updateStatus: ReviewTemplateUpdateStatus?
+
+        public init(description: String? = nil, lenses: [String]? = nil, notes: String? = nil, owner: String? = nil, questionCounts: [Question: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, templateArn: String? = nil, templateName: String? = nil, updatedAt: Date? = nil, updateStatus: ReviewTemplateUpdateStatus? = nil) {
+            self.description = description
+            self.lenses = lenses
+            self.notes = notes
+            self.owner = owner
+            self.questionCounts = questionCounts
+            self.shareInvitationId = shareInvitationId
+            self.tags = tags
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.updatedAt = updatedAt
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lenses = "Lenses"
+            case notes = "Notes"
+            case owner = "Owner"
+            case questionCounts = "QuestionCounts"
+            case shareInvitationId = "ShareInvitationId"
+            case tags = "Tags"
+            case templateArn = "TemplateArn"
+            case templateName = "TemplateName"
+            case updatedAt = "UpdatedAt"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
+    public struct ReviewTemplateAnswer: AWSDecodableShape {
+        /// The status of whether or not this question has been answered.
+        public let answerStatus: ReviewTemplateAnswerStatus?
+        /// A list of selected choices to a question in your review template.
+        public let choiceAnswers: [ChoiceAnswer]?
+        public let choices: [Choice]?
+        /// The helpful resource text to be displayed for a custom lens.  This field does not apply to Amazon Web Services official lenses.
+        public let helpfulResourceDisplayText: String?
+        public let helpfulResourceUrl: String?
+        public let improvementPlanUrl: String?
+        public let isApplicable: Bool?
+        public let notes: String?
+        public let pillarId: String?
+        public let questionDescription: String?
+        public let questionId: String?
+        public let questionTitle: String?
+        /// The reason why the question is not applicable to your review template.
+        public let reason: AnswerReason?
+        public let selectedChoices: [String]?
+
+        public init(answerStatus: ReviewTemplateAnswerStatus? = nil, choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, selectedChoices: [String]? = nil) {
+            self.answerStatus = answerStatus
+            self.choiceAnswers = choiceAnswers
+            self.choices = choices
+            self.helpfulResourceDisplayText = helpfulResourceDisplayText
+            self.helpfulResourceUrl = helpfulResourceUrl
+            self.improvementPlanUrl = improvementPlanUrl
+            self.isApplicable = isApplicable
+            self.notes = notes
+            self.pillarId = pillarId
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.reason = reason
+            self.selectedChoices = selectedChoices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerStatus = "AnswerStatus"
+            case choiceAnswers = "ChoiceAnswers"
+            case choices = "Choices"
+            case helpfulResourceDisplayText = "HelpfulResourceDisplayText"
+            case helpfulResourceUrl = "HelpfulResourceUrl"
+            case improvementPlanUrl = "ImprovementPlanUrl"
+            case isApplicable = "IsApplicable"
+            case notes = "Notes"
+            case pillarId = "PillarId"
+            case questionDescription = "QuestionDescription"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
+            case reason = "Reason"
+            case selectedChoices = "SelectedChoices"
+        }
+    }
+
+    public struct ReviewTemplateAnswerSummary: AWSDecodableShape {
+        /// The status of whether or not this question has been answered.
+        public let answerStatus: ReviewTemplateAnswerStatus?
+        /// A list of selected choices to a question in the review template.
+        public let choiceAnswerSummaries: [ChoiceAnswerSummary]?
+        public let choices: [Choice]?
+        public let isApplicable: Bool?
+        public let pillarId: String?
+        public let questionId: String?
+        public let questionTitle: String?
+        /// The type of question.
+        public let questionType: QuestionType?
+        /// The reason why a choice is not-applicable to a question in the review template.
+        public let reason: AnswerReason?
+        public let selectedChoices: [String]?
+
+        public init(answerStatus: ReviewTemplateAnswerStatus? = nil, choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, selectedChoices: [String]? = nil) {
+            self.answerStatus = answerStatus
+            self.choiceAnswerSummaries = choiceAnswerSummaries
+            self.choices = choices
+            self.isApplicable = isApplicable
+            self.pillarId = pillarId
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.questionType = questionType
+            self.reason = reason
+            self.selectedChoices = selectedChoices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerStatus = "AnswerStatus"
+            case choiceAnswerSummaries = "ChoiceAnswerSummaries"
+            case choices = "Choices"
+            case isApplicable = "IsApplicable"
+            case pillarId = "PillarId"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
+            case questionType = "QuestionType"
+            case reason = "Reason"
+            case selectedChoices = "SelectedChoices"
+        }
+    }
+
+    public struct ReviewTemplateLensReview: AWSDecodableShape {
+        public let lensAlias: String?
+        /// The lens ARN.
+        public let lensArn: String?
+        public let lensName: String?
+        /// The status of the lens.
+        public let lensStatus: LensStatus?
+        /// The version of the lens.
+        public let lensVersion: String?
+        public let nextToken: String?
+        public let notes: String?
+        /// Pillar review summaries of a lens review.
+        public let pillarReviewSummaries: [ReviewTemplatePillarReviewSummary]?
+        /// A count of how many questions are answered and unanswered in the lens review.
+        public let questionCounts: [Question: Int]?
+        public let updatedAt: Date?
+
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [ReviewTemplatePillarReviewSummary]? = nil, questionCounts: [Question: Int]? = nil, updatedAt: Date? = nil) {
+            self.lensAlias = lensAlias
+            self.lensArn = lensArn
+            self.lensName = lensName
+            self.lensStatus = lensStatus
+            self.lensVersion = lensVersion
+            self.nextToken = nextToken
+            self.notes = notes
+            self.pillarReviewSummaries = pillarReviewSummaries
+            self.questionCounts = questionCounts
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
+            case lensName = "LensName"
+            case lensStatus = "LensStatus"
+            case lensVersion = "LensVersion"
+            case nextToken = "NextToken"
+            case notes = "Notes"
+            case pillarReviewSummaries = "PillarReviewSummaries"
+            case questionCounts = "QuestionCounts"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ReviewTemplatePillarReviewSummary: AWSDecodableShape {
+        public let notes: String?
+        public let pillarId: String?
+        public let pillarName: String?
+        /// A count of how many questions are answered and unanswered in the requested pillar of the lens review.
+        public let questionCounts: [Question: Int]?
+
+        public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, questionCounts: [Question: Int]? = nil) {
+            self.notes = notes
+            self.pillarId = pillarId
+            self.pillarName = pillarName
+            self.questionCounts = questionCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notes = "Notes"
+            case pillarId = "PillarId"
+            case pillarName = "PillarName"
+            case questionCounts = "QuestionCounts"
+        }
+    }
+
+    public struct ReviewTemplateSummary: AWSDecodableShape {
+        /// Description of the review template.
+        public let description: String?
+        /// Lenses associated with the review template.
+        public let lenses: [String]?
+        public let owner: String?
+        /// The review template ARN.
+        public let templateArn: String?
+        /// The name of the review template.
+        public let templateName: String?
+        public let updatedAt: Date?
+        /// The latest status of a review template.
+        public let updateStatus: ReviewTemplateUpdateStatus?
+
+        public init(description: String? = nil, lenses: [String]? = nil, owner: String? = nil, templateArn: String? = nil, templateName: String? = nil, updatedAt: Date? = nil, updateStatus: ReviewTemplateUpdateStatus? = nil) {
+            self.description = description
+            self.lenses = lenses
+            self.owner = owner
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.updatedAt = updatedAt
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lenses = "Lenses"
+            case owner = "Owner"
+            case templateArn = "TemplateArn"
+            case templateName = "TemplateName"
+            case updatedAt = "UpdatedAt"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
     public struct ShareInvitation: AWSDecodableShape {
         public let lensAlias: String?
         /// The ARN for the lens.
         public let lensArn: String?
+        /// The profile ARN.
+        public let profileArn: String?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
         /// The resource type of the share invitation.
         public let shareResourceType: ShareResourceType?
+        /// The review template ARN.
+        public let templateArn: String?
         public let workloadId: String?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, profileArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, templateArn: String? = nil, workloadId: String? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
+            self.profileArn = profileArn
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
+            self.templateArn = templateArn
             self.workloadId = workloadId
         }
 
         private enum CodingKeys: String, CodingKey {
             case lensAlias = "LensAlias"
             case lensArn = "LensArn"
+            case profileArn = "ProfileArn"
             case shareInvitationId = "ShareInvitationId"
             case shareResourceType = "ShareResourceType"
+            case templateArn = "TemplateArn"
             case workloadId = "WorkloadId"
         }
     }
@@ -2753,23 +4402,35 @@ extension WellArchitected {
         public let lensArn: String?
         public let lensName: String?
         public let permissionType: PermissionType?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile name.
+        public let profileName: String?
         public let sharedBy: String?
         public let sharedWith: String?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
         /// The resource type of the share invitation.
         public let shareResourceType: ShareResourceType?
+        /// The review template ARN.
+        public let templateArn: String?
+        /// The name of the review template.
+        public let templateName: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, profileArn: String? = nil, profileName: String? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, templateArn: String? = nil, templateName: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.lensArn = lensArn
             self.lensName = lensName
             self.permissionType = permissionType
+            self.profileArn = profileArn
+            self.profileName = profileName
             self.sharedBy = sharedBy
             self.sharedWith = sharedWith
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
+            self.templateArn = templateArn
+            self.templateName = templateName
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
@@ -2778,10 +4439,14 @@ extension WellArchitected {
             case lensArn = "LensArn"
             case lensName = "LensName"
             case permissionType = "PermissionType"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
             case sharedBy = "SharedBy"
             case sharedWith = "SharedWith"
             case shareInvitationId = "ShareInvitationId"
             case shareResourceType = "ShareResourceType"
+            case templateArn = "TemplateArn"
+            case templateName = "TemplateName"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
         }
@@ -2789,10 +4454,10 @@ extension WellArchitected {
 
     public struct TagResourceInput: AWSEncodableShape {
         /// The tags for the resource.
-        public let tags: [String: String]
+        public let tags: [String: String]?
         public let workloadArn: String
 
-        public init(tags: [String: String], workloadArn: String) {
+        public init(tags: [String: String]? = nil, workloadArn: String) {
             self.tags = tags
             self.workloadArn = workloadArn
         }
@@ -2800,12 +4465,12 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             request.encodePath(self.workloadArn, key: "WorkloadArn")
         }
 
         public func validate(name: String) throws {
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -2823,12 +4488,34 @@ extension WellArchitected {
         public init() {}
     }
 
+    public struct TemplateShareSummary: AWSDecodableShape {
+        public let sharedWith: String?
+        public let shareId: String?
+        public let status: ShareStatus?
+        /// Review template share invitation status message.
+        public let statusMessage: String?
+
+        public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
+            self.sharedWith = sharedWith
+            self.shareId = shareId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedWith = "SharedWith"
+            case shareId = "ShareId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// A list of tag keys. Existing tags of the resource  whose keys are members of this list are removed from the resource.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
         public let workloadArn: String
 
-        public init(tagKeys: [String], workloadArn: String) {
+        public init(tagKeys: [String]? = nil, workloadArn: String) {
             self.tagKeys = tagKeys
             self.workloadArn = workloadArn
         }
@@ -2841,7 +4528,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -2907,6 +4594,8 @@ extension WellArchitected {
                 try validate($0, name: "selectedChoices[]", parent: name, max: 64)
                 try validate($0, name: "selectedChoices[]", parent: name, min: 1)
             }
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2989,6 +4678,8 @@ extension WellArchitected {
                 try validate($0.key, name: "pillarNotes.key", parent: name, min: 1)
                 try validate($0.value, name: "pillarNotes[\"\($0.key)\"]", parent: name, max: 2084)
             }
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -3013,12 +4704,290 @@ extension WellArchitected {
         }
     }
 
+    public struct UpdateProfileInput: AWSEncodableShape {
+        /// The profile ARN.
+        public let profileArn: String
+        /// The profile description.
+        public let profileDescription: String?
+        /// Profile questions.
+        public let profileQuestions: [ProfileQuestionUpdate]?
+
+        public init(profileArn: String, profileDescription: String? = nil, profileQuestions: [ProfileQuestionUpdate]? = nil) {
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileQuestions = profileQuestions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            try container.encodeIfPresent(self.profileDescription, forKey: .profileDescription)
+            try container.encodeIfPresent(self.profileQuestions, forKey: .profileQuestions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.profileQuestions?.forEach {
+                try $0.validate(name: "\(name).profileQuestions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileDescription = "ProfileDescription"
+            case profileQuestions = "ProfileQuestions"
+        }
+    }
+
+    public struct UpdateProfileOutput: AWSDecodableShape {
+        /// The profile.
+        public let profile: Profile?
+
+        public init(profile: Profile? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+        }
+    }
+
+    public struct UpdateReviewTemplateAnswerInput: AWSEncodableShape {
+        /// A list of choices to be updated.
+        public let choiceUpdates: [String: ChoiceUpdate]?
+        public let isApplicable: Bool?
+        public let lensAlias: String
+        public let notes: String?
+        public let questionId: String
+        /// The update reason.
+        public let reason: AnswerReason?
+        public let selectedChoices: [String]?
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(choiceUpdates: [String: ChoiceUpdate]? = nil, isApplicable: Bool? = nil, lensAlias: String, notes: String? = nil, questionId: String, reason: AnswerReason? = nil, selectedChoices: [String]? = nil, templateArn: String) {
+            self.choiceUpdates = choiceUpdates
+            self.isApplicable = isApplicable
+            self.lensAlias = lensAlias
+            self.notes = notes
+            self.questionId = questionId
+            self.reason = reason
+            self.selectedChoices = selectedChoices
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.choiceUpdates, forKey: .choiceUpdates)
+            try container.encodeIfPresent(self.isApplicable, forKey: .isApplicable)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encodeIfPresent(self.notes, forKey: .notes)
+            request.encodePath(self.questionId, key: "QuestionId")
+            try container.encodeIfPresent(self.reason, forKey: .reason)
+            try container.encodeIfPresent(self.selectedChoices, forKey: .selectedChoices)
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.choiceUpdates?.forEach {
+                try validate($0.key, name: "choiceUpdates.key", parent: name, max: 64)
+                try validate($0.key, name: "choiceUpdates.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).choiceUpdates[\"\($0.key)\"]")
+            }
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.notes, name: "notes", parent: name, max: 2084)
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.selectedChoices?.forEach {
+                try validate($0, name: "selectedChoices[]", parent: name, max: 64)
+                try validate($0, name: "selectedChoices[]", parent: name, min: 1)
+            }
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceUpdates = "ChoiceUpdates"
+            case isApplicable = "IsApplicable"
+            case notes = "Notes"
+            case reason = "Reason"
+            case selectedChoices = "SelectedChoices"
+        }
+    }
+
+    public struct UpdateReviewTemplateAnswerOutput: AWSDecodableShape {
+        /// An answer of the question.
+        public let answer: ReviewTemplateAnswer?
+        public let lensAlias: String?
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(answer: ReviewTemplateAnswer? = nil, lensAlias: String? = nil, templateArn: String? = nil) {
+            self.answer = answer
+            self.lensAlias = lensAlias
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answer = "Answer"
+            case lensAlias = "LensAlias"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct UpdateReviewTemplateInput: AWSEncodableShape {
+        /// The review template description.
+        public let description: String?
+        /// A list of lens aliases or ARNs to apply to the review template.
+        public let lensesToAssociate: [String]?
+        /// A list of lens aliases or ARNs to unapply to the review template. The wellarchitected lens cannot be unapplied.
+        public let lensesToDisassociate: [String]?
+        public let notes: String?
+        /// The review template ARN.
+        public let templateArn: String
+        /// The review template name.
+        public let templateName: String?
+
+        public init(description: String? = nil, lensesToAssociate: [String]? = nil, lensesToDisassociate: [String]? = nil, notes: String? = nil, templateArn: String, templateName: String? = nil) {
+            self.description = description
+            self.lensesToAssociate = lensesToAssociate
+            self.lensesToDisassociate = lensesToDisassociate
+            self.notes = notes
+            self.templateArn = templateArn
+            self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.lensesToAssociate, forKey: .lensesToAssociate)
+            try container.encodeIfPresent(self.lensesToDisassociate, forKey: .lensesToDisassociate)
+            try container.encodeIfPresent(self.notes, forKey: .notes)
+            request.encodePath(self.templateArn, key: "TemplateArn")
+            try container.encodeIfPresent(self.templateName, forKey: .templateName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 3)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.lensesToAssociate?.forEach {
+                try validate($0, name: "lensesToAssociate[]", parent: name, max: 128)
+                try validate($0, name: "lensesToAssociate[]", parent: name, min: 1)
+            }
+            try self.validate(self.lensesToAssociate, name: "lensesToAssociate", parent: name, max: 10)
+            try self.validate(self.lensesToAssociate, name: "lensesToAssociate", parent: name, min: 1)
+            try self.lensesToDisassociate?.forEach {
+                try validate($0, name: "lensesToDisassociate[]", parent: name, max: 128)
+                try validate($0, name: "lensesToDisassociate[]", parent: name, min: 1)
+            }
+            try self.validate(self.lensesToDisassociate, name: "lensesToDisassociate", parent: name, max: 10)
+            try self.validate(self.lensesToDisassociate, name: "lensesToDisassociate", parent: name, min: 1)
+            try self.validate(self.notes, name: "notes", parent: name, max: 2084)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 3)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lensesToAssociate = "LensesToAssociate"
+            case lensesToDisassociate = "LensesToDisassociate"
+            case notes = "Notes"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct UpdateReviewTemplateLensReviewInput: AWSEncodableShape {
+        public let lensAlias: String
+        public let lensNotes: String?
+        public let pillarNotes: [String: String]?
+        /// The review template ARN.
+        public let templateArn: String
+
+        public init(lensAlias: String, lensNotes: String? = nil, pillarNotes: [String: String]? = nil, templateArn: String) {
+            self.lensAlias = lensAlias
+            self.lensNotes = lensNotes
+            self.pillarNotes = pillarNotes
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            try container.encodeIfPresent(self.lensNotes, forKey: .lensNotes)
+            try container.encodeIfPresent(self.pillarNotes, forKey: .pillarNotes)
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.lensNotes, name: "lensNotes", parent: name, max: 2084)
+            try self.pillarNotes?.forEach {
+                try validate($0.key, name: "pillarNotes.key", parent: name, max: 64)
+                try validate($0.key, name: "pillarNotes.key", parent: name, min: 1)
+                try validate($0.value, name: "pillarNotes[\"\($0.key)\"]", parent: name, max: 2084)
+            }
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensNotes = "LensNotes"
+            case pillarNotes = "PillarNotes"
+        }
+    }
+
+    public struct UpdateReviewTemplateLensReviewOutput: AWSDecodableShape {
+        /// A lens review of a question.
+        public let lensReview: ReviewTemplateLensReview?
+        /// The review template ARN.
+        public let templateArn: String?
+
+        public init(lensReview: ReviewTemplateLensReview? = nil, templateArn: String? = nil) {
+            self.lensReview = lensReview
+            self.templateArn = templateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensReview = "LensReview"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct UpdateReviewTemplateOutput: AWSDecodableShape {
+        /// A review template.
+        public let reviewTemplate: ReviewTemplate?
+
+        public init(reviewTemplate: ReviewTemplate? = nil) {
+            self.reviewTemplate = reviewTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reviewTemplate = "ReviewTemplate"
+        }
+    }
+
     public struct UpdateShareInvitationInput: AWSEncodableShape {
-        public let shareInvitationAction: ShareInvitationAction
+        public let shareInvitationAction: ShareInvitationAction?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String
 
-        public init(shareInvitationAction: ShareInvitationAction, shareInvitationId: String) {
+        public init(shareInvitationAction: ShareInvitationAction? = nil, shareInvitationId: String) {
             self.shareInvitationAction = shareInvitationAction
             self.shareInvitationId = shareInvitationId
         }
@@ -3026,7 +4995,7 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.shareInvitationAction, forKey: .shareInvitationAction)
+            try container.encodeIfPresent(self.shareInvitationAction, forKey: .shareInvitationAction)
             request.encodePath(self.shareInvitationId, key: "ShareInvitationId")
         }
 
@@ -3118,6 +5087,8 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
@@ -3148,6 +5119,8 @@ extension WellArchitected {
             }
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
             try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 3)
@@ -3186,11 +5159,11 @@ extension WellArchitected {
     }
 
     public struct UpdateWorkloadShareInput: AWSEncodableShape {
-        public let permissionType: PermissionType
+        public let permissionType: PermissionType?
         public let shareId: String
         public let workloadId: String
 
-        public init(permissionType: PermissionType, shareId: String, workloadId: String) {
+        public init(permissionType: PermissionType? = nil, shareId: String, workloadId: String) {
             self.permissionType = permissionType
             self.shareId = shareId
             self.workloadId = workloadId
@@ -3199,13 +5172,15 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.permissionType, forKey: .permissionType)
+            try container.encodeIfPresent(self.permissionType, forKey: .permissionType)
             request.encodePath(self.shareId, key: "ShareId")
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -3232,10 +5207,10 @@ extension WellArchitected {
     public struct UpgradeLensReviewInput: AWSEncodableShape {
         public let clientRequestToken: String?
         public let lensAlias: String
-        public let milestoneName: String
+        public let milestoneName: String?
         public let workloadId: String
 
-        public init(clientRequestToken: String? = nil, lensAlias: String, milestoneName: String, workloadId: String) {
+        public init(clientRequestToken: String? = nil, lensAlias: String, milestoneName: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
             self.milestoneName = milestoneName
@@ -3247,21 +5222,101 @@ extension WellArchitected {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.lensAlias, key: "LensAlias")
-            try container.encode(self.milestoneName, forKey: .milestoneName)
+            try container.encodeIfPresent(self.milestoneName, forKey: .milestoneName)
             request.encodePath(self.workloadId, key: "WorkloadId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case milestoneName = "MilestoneName"
+        }
+    }
+
+    public struct UpgradeProfileVersionInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let milestoneName: String?
+        /// The profile ARN.
+        public let profileArn: String
+        public let workloadId: String
+
+        public init(clientRequestToken: String? = UpgradeProfileVersionInput.idempotencyToken(), milestoneName: String? = nil, profileArn: String, workloadId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.milestoneName = milestoneName
+            self.profileArn = profileArn
+            self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.milestoneName, forKey: .milestoneName)
+            request.encodePath(self.profileArn, key: "ProfileArn")
+            request.encodePath(self.workloadId, key: "WorkloadId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
+            try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case milestoneName = "MilestoneName"
+        }
+    }
+
+    public struct UpgradeReviewTemplateLensReviewInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let lensAlias: String
+        /// The ARN of the review template.
+        public let templateArn: String
+
+        public init(clientRequestToken: String? = nil, lensAlias: String, templateArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.lensAlias = lensAlias
+            self.templateArn = templateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.lensAlias, key: "LensAlias")
+            request.encodePath(self.templateArn, key: "TemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
         }
     }
 
@@ -3298,6 +5353,9 @@ extension WellArchitected {
         public let notes: String?
         public let owner: String?
         public let pillarPriorities: [String]?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// Profile associated with a workload.
+        public let profiles: [WorkloadProfile]?
         public let reviewOwner: String?
         public let reviewRestrictionDate: Date?
         public let riskCounts: [Risk: Int]?
@@ -3310,7 +5368,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -3327,6 +5385,8 @@ extension WellArchitected {
             self.notes = notes
             self.owner = owner
             self.pillarPriorities = pillarPriorities
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.reviewOwner = reviewOwner
             self.reviewRestrictionDate = reviewRestrictionDate
             self.riskCounts = riskCounts
@@ -3355,6 +5415,8 @@ extension WellArchitected {
             case notes = "Notes"
             case owner = "Owner"
             case pillarPriorities = "PillarPriorities"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case reviewOwner = "ReviewOwner"
             case reviewRestrictionDate = "ReviewRestrictionDate"
             case riskCounts = "RiskCounts"
@@ -3381,6 +5443,23 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case trustedAdvisorIntegrationStatus = "TrustedAdvisorIntegrationStatus"
             case workloadResourceDefinition = "WorkloadResourceDefinition"
+        }
+    }
+
+    public struct WorkloadProfile: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile version.
+        public let profileVersion: String?
+
+        public init(profileArn: String? = nil, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case profileVersion = "ProfileVersion"
         }
     }
 
@@ -3443,16 +5522,21 @@ extension WellArchitected {
         public let improvementStatus: WorkloadImprovementStatus?
         public let lenses: [String]?
         public let owner: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// Profile associated with a workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(improvementStatus: WorkloadImprovementStatus? = nil, lenses: [String]? = nil, owner: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(improvementStatus: WorkloadImprovementStatus? = nil, lenses: [String]? = nil, owner: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.improvementStatus = improvementStatus
             self.lenses = lenses
             self.owner = owner
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
             self.workloadArn = workloadArn
@@ -3464,6 +5548,8 @@ extension WellArchitected {
             case improvementStatus = "ImprovementStatus"
             case lenses = "Lenses"
             case owner = "Owner"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
             case workloadArn = "WorkloadArn"

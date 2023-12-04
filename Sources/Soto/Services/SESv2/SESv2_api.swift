@@ -75,8 +75,11 @@ public struct SESv2: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "email-fips.ca-central-1.amazonaws.com",
             "us-east-1": "email-fips.us-east-1.amazonaws.com",
+            "us-east-2": "email-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "email-fips.us-west-1.amazonaws.com",
             "us-west-2": "email-fips.us-west-2.amazonaws.com"
         ])
     ]}
@@ -90,6 +93,19 @@ public struct SESv2: AWSService {
             operation: "BatchGetMetricData", 
             path: "/v2/email/metrics/batch", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Cancels an export job.
+    @Sendable
+    public func cancelExportJob(_ input: CancelExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelExportJobResponse {
+        return try await self.client.execute(
+            operation: "CancelExportJob", 
+            path: "/v2/email/export-jobs/{JobId}/cancel", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -219,6 +235,19 @@ public struct SESv2: AWSService {
         return try await self.client.execute(
             operation: "CreateEmailTemplate", 
             path: "/v2/email/templates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    @Sendable
+    public func createExportJob(_ input: CreateExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExportJobResponse {
+        return try await self.client.execute(
+            operation: "CreateExportJob", 
+            path: "/v2/email/export-jobs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -590,12 +619,38 @@ public struct SESv2: AWSService {
         )
     }
 
+    /// Provides information about an export job.
+    @Sendable
+    public func getExportJob(_ input: GetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportJobResponse {
+        return try await self.client.execute(
+            operation: "GetExportJob", 
+            path: "/v2/email/export-jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides information about an import job.
     @Sendable
     public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportJobResponse {
         return try await self.client.execute(
             operation: "GetImportJob", 
             path: "/v2/email/import-jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
+    @Sendable
+    public func getMessageInsights(_ input: GetMessageInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMessageInsightsResponse {
+        return try await self.client.execute(
+            operation: "GetMessageInsights", 
+            path: "/v2/email/insights/{MessageId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -727,6 +782,19 @@ public struct SESv2: AWSService {
             operation: "ListEmailTemplates", 
             path: "/v2/email/templates", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all of the export jobs.
+    @Sendable
+    public func listExportJobs(_ input: ListExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportJobsResponse {
+        return try await self.client.execute(
+            operation: "ListExportJobs", 
+            path: "/v2/email/list-export-jobs", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1417,6 +1485,25 @@ extension SESv2 {
         )
     }
 
+    /// Lists all of the export jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listExportJobsPaginator(
+        _ input: ListExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExportJobsRequest, ListExportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listExportJobs,
+            inputKey: \ListExportJobsRequest.nextToken,
+            outputKey: \ListExportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all of the import jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -1565,6 +1652,17 @@ extension SESv2.ListEmailIdentitiesRequest: AWSPaginateToken {
 extension SESv2.ListEmailTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESv2.ListEmailTemplatesRequest {
         return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListExportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESv2.ListExportJobsRequest {
+        return .init(
+            exportSourceType: self.exportSourceType,
+            jobStatus: self.jobStatus,
             nextToken: token,
             pageSize: self.pageSize
         )

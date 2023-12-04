@@ -59,6 +59,7 @@ public struct Drs: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-02-26",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: DrsErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,8 +71,28 @@ public struct Drs: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-east-1": "drs-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "drs-fips.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
+
+    /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
+    @Sendable
+    public func associateSourceNetworkStack(_ input: AssociateSourceNetworkStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSourceNetworkStackResponse {
+        return try await self.client.execute(
+            operation: "AssociateSourceNetworkStack", 
+            path: "/AssociateSourceNetworkStack", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 
     /// Create an extended source server in the target Account based on the source server in staging account.
     @Sendable
@@ -112,12 +133,38 @@ public struct Drs: AWSService {
         )
     }
 
+    /// Create a new Source Network resource for a provided VPC ID.
+    @Sendable
+    public func createSourceNetwork(_ input: CreateSourceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSourceNetworkResponse {
+        return try await self.client.execute(
+            operation: "CreateSourceNetwork", 
+            path: "/CreateSourceNetwork", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a single Job by ID.
     @Sendable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
         return try await self.client.execute(
             operation: "DeleteJob", 
             path: "/DeleteJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a resource launch action.
+    @Sendable
+    public func deleteLaunchAction(_ input: DeleteLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchActionResponse {
+        return try await self.client.execute(
+            operation: "DeleteLaunchAction", 
+            path: "/DeleteLaunchAction", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -157,6 +204,19 @@ public struct Drs: AWSService {
         return try await self.client.execute(
             operation: "DeleteReplicationConfigurationTemplate", 
             path: "/DeleteReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete Source Network resource.
+    @Sendable
+    public func deleteSourceNetwork(_ input: DeleteSourceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSourceNetworkResponse {
+        return try await self.client.execute(
+            operation: "DeleteSourceNetwork", 
+            path: "/DeleteSourceNetwork", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -255,6 +315,19 @@ public struct Drs: AWSService {
         )
     }
 
+    /// Lists all Source Networks or multiple Source Networks filtered by ID.
+    @Sendable
+    public func describeSourceNetworks(_ input: DescribeSourceNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSourceNetworksResponse {
+        return try await self.client.execute(
+            operation: "DescribeSourceNetworks", 
+            path: "/DescribeSourceNetworks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     @Sendable
     public func describeSourceServers(_ input: DescribeSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSourceServersResponse {
@@ -287,6 +360,19 @@ public struct Drs: AWSService {
         return try await self.client.execute(
             operation: "DisconnectSourceServer", 
             path: "/DisconnectSourceServer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Export the Source Network CloudFormation template to an S3 bucket.
+    @Sendable
+    public func exportSourceNetworkCfnTemplate(_ input: ExportSourceNetworkCfnTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportSourceNetworkCfnTemplateResponse {
+        return try await self.client.execute(
+            operation: "ExportSourceNetworkCfnTemplate", 
+            path: "/ExportSourceNetworkCfnTemplate", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -359,6 +445,19 @@ public struct Drs: AWSService {
         )
     }
 
+    /// Lists resource launch actions.
+    @Sendable
+    public func listLaunchActions(_ input: ListLaunchActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLaunchActionsResponse {
+        return try await self.client.execute(
+            operation: "ListLaunchActions", 
+            path: "/ListLaunchActions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns an array of staging accounts for existing extended source servers.
     @Sendable
     public func listStagingAccounts(_ input: ListStagingAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStagingAccountsResponse {
@@ -379,6 +478,19 @@ public struct Drs: AWSService {
             operation: "ListTagsForResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Puts a resource launch action.
+    @Sendable
+    public func putLaunchAction(_ input: PutLaunchActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLaunchActionResponse {
+        return try await self.client.execute(
+            operation: "PutLaunchAction", 
+            path: "/PutLaunchAction", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -451,6 +563,32 @@ public struct Drs: AWSService {
         )
     }
 
+    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
+    @Sendable
+    public func startSourceNetworkRecovery(_ input: StartSourceNetworkRecoveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSourceNetworkRecoveryResponse {
+        return try await self.client.execute(
+            operation: "StartSourceNetworkRecovery", 
+            path: "/StartSourceNetworkRecovery", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts replication for a Source Network. This action would make the Source Network protected.
+    @Sendable
+    public func startSourceNetworkReplication(_ input: StartSourceNetworkReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSourceNetworkReplicationResponse {
+        return try await self.client.execute(
+            operation: "StartSourceNetworkReplication", 
+            path: "/StartSourceNetworkReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     @Sendable
     public func stopFailback(_ input: StopFailbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -470,6 +608,19 @@ public struct Drs: AWSService {
         return try await self.client.execute(
             operation: "StopReplication", 
             path: "/StopReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops replication for a Source Network. This action would make the Source Network unprotected.
+    @Sendable
+    public func stopSourceNetworkReplication(_ input: StopSourceNetworkReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSourceNetworkReplicationResponse {
+        return try await self.client.execute(
+            operation: "StopSourceNetworkReplication", 
+            path: "/StopSourceNetworkReplication", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -709,6 +860,25 @@ extension Drs {
         )
     }
 
+    /// Lists all Source Networks or multiple Source Networks filtered by ID.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeSourceNetworksPaginator(
+        _ input: DescribeSourceNetworksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeSourceNetworksRequest, DescribeSourceNetworksResponse> {
+        return .init(
+            input: input,
+            command: self.describeSourceNetworks,
+            inputKey: \DescribeSourceNetworksRequest.nextToken,
+            outputKey: \DescribeSourceNetworksResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     /// Return PaginatorSequence for operation.
     ///
@@ -743,6 +913,25 @@ extension Drs {
             command: self.listExtensibleSourceServers,
             inputKey: \ListExtensibleSourceServersRequest.nextToken,
             outputKey: \ListExtensibleSourceServersResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists resource launch actions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLaunchActionsPaginator(
+        _ input: ListLaunchActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLaunchActionsRequest, ListLaunchActionsResponse> {
+        return .init(
+            input: input,
+            command: self.listLaunchActions,
+            inputKey: \ListLaunchActionsRequest.nextToken,
+            outputKey: \ListLaunchActionsResponse.nextToken,
             logger: logger
         )
     }
@@ -829,6 +1018,16 @@ extension Drs.DescribeReplicationConfigurationTemplatesRequest: AWSPaginateToken
     }
 }
 
+extension Drs.DescribeSourceNetworksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Drs.DescribeSourceNetworksRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Drs.DescribeSourceServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Drs.DescribeSourceServersRequest {
         return .init(
@@ -845,6 +1044,17 @@ extension Drs.ListExtensibleSourceServersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             stagingAccountID: self.stagingAccountID
+        )
+    }
+}
+
+extension Drs.ListLaunchActionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Drs.ListLaunchActionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId
         )
     }
 }

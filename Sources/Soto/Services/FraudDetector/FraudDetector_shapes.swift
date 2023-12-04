@@ -26,7 +26,7 @@ import Foundation
 extension FraudDetector {
     // MARK: Enums
 
-    public enum AsyncJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AsyncJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelInProgress = "CANCEL_IN_PROGRESS"
         case canceled = "CANCELED"
         case complete = "COMPLETE"
@@ -36,14 +36,14 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "EVENT"
         case externalModelScore = "EXTERNAL_MODEL_SCORE"
         case modelScore = "MODEL_SCORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case datetime = "DATETIME"
         case float = "FLOAT"
@@ -52,81 +52,81 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case draft = "DRAFT"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventIngestion: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventIngestion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Language: String, CustomStringConvertible, Codable, Sendable {
+    public enum Language: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case detectorpl = "DETECTORPL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListUpdateMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListUpdateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case append = "APPEND"
         case remove = "REMOVE"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associated = "ASSOCIATED"
         case dissociated = "DISSOCIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "TEXT_CSV"
         case json = "APPLICATION_JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "TEXT_CSV"
         case jsonlines = "APPLICATION_JSONLINES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sagemaker = "SAGEMAKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountTakeoverInsights = "ACCOUNT_TAKEOVER_INSIGHTS"
         case onlineFraudInsights = "ONLINE_FRAUD_INSIGHTS"
         case transactionFraudInsights = "TRANSACTION_FRAUD_INSIGHTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case trainingCancelled = "TRAINING_CANCELLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleExecutionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allMatched = "ALL_MATCHED"
         case firstMatched = "FIRST_MATCHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingDataSourceEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrainingDataSourceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case externalEvents = "EXTERNAL_EVENTS"
         case ingestedEvents = "INGESTED_EVENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlabeledEventsTreatment: String, CustomStringConvertible, Codable, Sendable {
+    public enum UnlabeledEventsTreatment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case fraud = "FRAUD"
         case ignore = "IGNORE"

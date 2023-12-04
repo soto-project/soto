@@ -191,7 +191,7 @@ public struct Pipes: AWSService {
         )
     }
 
-    /// Update an existing pipe. When you call UpdatePipe, only the fields that are included in the request are changed, the rest are unchanged.  The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or  TargetParameters objects. The fields in these objects are updated atomically as one and override existing values. This is by design and means that  if you don't specify an optional field in one of these Parameters objects, that field will be set to its system-default value after the update. For more information about pipes, see  Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
+    /// Update an existing pipe. When you call UpdatePipe, EventBridge only the updates fields you have specified in the request; the rest remain unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or  TargetParameters objects. For example, DynamoDBStreamParameters or EventBridgeEventBusParameters.  EventBridge updates the fields in these objects atomically as one and overrides existing values.  This is by design, and means that if you don't specify an optional field in one of these Parameters objects, EventBridge sets that field to its system-default value during the update. For more information about pipes, see  Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
     @Sendable
     public func updatePipe(_ input: UpdatePipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePipeResponse {
         return try await self.client.execute(

@@ -26,20 +26,20 @@ import Foundation
 extension MediaConvert {
     // MARK: Enums
 
-    public enum AacAudioDescriptionBroadcasterMix: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacAudioDescriptionBroadcasterMix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacCodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hev1 = "HEV1"
         case hev2 = "HEV2"
         case lc = "LC"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacCodingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacCodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adReceiverMix = "AD_RECEIVER_MIX"
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode11 = "CODING_MODE_1_1"
@@ -48,25 +48,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacRateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRawFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacRawFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latmLoas = "LATM_LOAS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacSpecification: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mpeg2 = "MPEG2"
         case mpeg4 = "MPEG4"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacVbrQuality: String, CustomStringConvertible, Codable, Sendable {
+    public enum AacVbrQuality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case mediumHigh = "MEDIUM_HIGH"
@@ -74,7 +74,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commentary = "COMMENTARY"
         case completeMain = "COMPLETE_MAIN"
         case dialogue = "DIALOGUE"
@@ -86,7 +86,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3CodingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode11 = "CODING_MODE_1_1"
         case codingMode20 = "CODING_MODE_2_0"
@@ -94,7 +94,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -104,13 +104,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmStandard = "FILM_STANDARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -120,26 +120,26 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccelerationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccelerationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case preferred = "PREFERRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccelerationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccelerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accelerated = "ACCELERATED"
         case inProgress = "IN_PROGRESS"
         case notAccelerated = "NOT_ACCELERATED"
@@ -147,68 +147,81 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdvancedInputFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdvancedInputFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AdvancedInputFilterAddTexture: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdvancedInputFilterAddTexture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AdvancedInputFilterSharpen: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdvancedInputFilterSharpen: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum AfdSignaling: String, CustomStringConvertible, Codable, Sendable {
+    public enum AfdSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case fixed = "FIXED"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlphaBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlphaBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case discard = "DISCARD"
         case remapToLuma = "REMAP_TO_LUMA"
         public var description: String { return self.rawValue }
     }
 
-    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable, Sendable {
+    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable, Sendable {
+    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case endOfInput = "END_OF_INPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AntiAlias: String, CustomStringConvertible, Codable, Sendable {
+    public enum AntiAlias: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioChannelTag: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioChannelTag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case c = "C"
         case cs = "CS"
+        case hi = "HI"
         case l = "L"
         case lc = "LC"
         case lfe = "LFE"
+        case lfe2 = "LFE2"
         case ls = "LS"
         case lsd = "LSD"
+        case lt = "LT"
+        case lw = "LW"
+        case m = "M"
+        case nar = "NAR"
         case r = "R"
         case rc = "RC"
         case rs = "RS"
         case rsd = "RSD"
+        case rsl = "RSL"
+        case rsr = "RSR"
+        case rt = "RT"
+        case rw = "RW"
+        case tbc = "TBC"
+        case tbl = "TBL"
+        case tbr = "TBR"
         case tcs = "TCS"
         case vhc = "VHC"
         case vhl = "VHL"
@@ -216,12 +229,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioCodec: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aac = "AAC"
         case ac3 = "AC3"
         case aiff = "AIFF"
         case eac3 = "EAC3"
         case eac3Atmos = "EAC3_ATMOS"
+        case flac = "FLAC"
         case mp2 = "MP2"
         case mp3 = "MP3"
         case opus = "OPUS"
@@ -231,13 +245,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioDefaultSelection: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioDefaultSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case notDefault = "NOT_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioDurationCorrection: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioDurationCorrection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case disabled = "DISABLED"
         case frame = "FRAME"
@@ -245,13 +259,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ituBs17701 = "ITU_BS_1770_1"
         case ituBs17702 = "ITU_BS_1770_2"
         case ituBs17703 = "ITU_BS_1770_3"
@@ -259,25 +273,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case correctAudio = "CORRECT_AUDIO"
         case measureOnly = "MEASURE_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationLoudnessLogging: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioNormalizationLoudnessLogging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dontLog = "DONT_LOG"
         case log = "LOG"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case truePeak = "TRUE_PEAK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioSelectorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hlsRenditionGroup = "HLS_RENDITION_GROUP"
         case languageCode = "LANGUAGE_CODE"
         case pid = "PID"
@@ -285,13 +299,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioTypeControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum AudioTypeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case higher = "HIGHER"
         case low = "LOW"
@@ -301,37 +315,43 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1BitDepth: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1BitDepth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bit10 = "BIT_10"
         case bit8 = "BIT_8"
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1FilmGrainSynthesis: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case qvbr = "QVBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Av1SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Av1SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case class100 = "CLASS_100"
         case class200 = "CLASS_200"
         case class4K2K = "CLASS_4K_2K"
@@ -339,20 +359,20 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraFramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraInterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -361,31 +381,31 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraSlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraTelecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvcIntraUhdQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvcIntraUhdQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPass = "MULTI_PASS"
         case singlePass = "SINGLE_PASS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BandwidthReductionFilterSharpening: String, CustomStringConvertible, Codable, Sendable {
+    public enum BandwidthReductionFilterSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -393,7 +413,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BandwidthReductionFilterStrength: String, CustomStringConvertible, Codable, Sendable {
+    public enum BandwidthReductionFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
         case low = "LOW"
@@ -402,7 +422,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BillingTagsSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum BillingTagsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case job = "JOB"
         case jobTemplate = "JOB_TEMPLATE"
         case preset = "PRESET"
@@ -410,26 +430,26 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurnInSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case centered = "CENTERED"
         case left = "LEFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allText = "ALL_TEXT"
         case whiteTextOnly = "WHITE_TEXT_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
@@ -437,7 +457,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestMatch = "BEST_MATCH"
         case monospacedSansserif = "MONOSPACED_SANSSERIF"
         case monospacedSerif = "MONOSPACED_SERIF"
@@ -446,7 +466,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
@@ -458,7 +478,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
@@ -469,7 +489,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
@@ -477,14 +497,14 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable {
+    public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case fixedGrid = "FIXED_GRID"
         case proportional = "PROPORTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum CaptionDestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CaptionDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case burnIn = "BURN_IN"
         case dvbSub = "DVB_SUB"
         case embedded = "EMBEDDED"
@@ -500,13 +520,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum CaptionSourceConvertPaintOnToPopOn: String, CustomStringConvertible, Codable, Sendable {
+    public enum CaptionSourceConvertPaintOnToPopOn: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CaptionSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CaptionSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ancillary = "ANCILLARY"
         case dvbSub = "DVB_SUB"
         case embedded = "EMBEDDED"
@@ -524,25 +544,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafClientCache: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafClientCache: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafCodecSpecification: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafCodecSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rfc4281 = "RFC_4281"
         case rfc6381 = "RFC_6381"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aesCtr = "AES_CTR"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
@@ -550,170 +570,171 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafIntervalCadence: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafKeyProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafKeyProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case speke = "SPEKE"
         case staticKey = "STATIC_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafManifestCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafManifestCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case floatingPoint = "FLOATING_POINT"
         case integer = "INTEGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "AVERAGE"
         case max = "MAX"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafMpdProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafMpdProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mainProfile = "MAIN_PROFILE"
         case onDemandProfile = "ON_DEMAND_PROFILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case matchInitialPts = "MATCH_INITIAL_PTS"
         case zeroBased = "ZERO_BASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafSegmentControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case legacy = "LEGACY"
         case specCompliant = "SPEC_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case signed = "SIGNED"
         case unsigned = "UNSIGNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafWriteDASHManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafWriteDASHManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcAudioDuration: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcAudioTrackType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
         case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
         case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
+        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dontFlag = "DONT_FLAG"
         case flag = "FLAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcKlvMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcScte35Esam: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcScte35Esam: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcScte35Source: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcTimedMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcTimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmfcTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmfcTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case version0 = "VERSION_0"
         case version1 = "VERSION_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColorMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColorMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignore = "IGNORE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColorSpace: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColorSpace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case follow = "FOLLOW"
         case hdr10 = "HDR10"
         case hlg2020 = "HLG_2020"
@@ -725,7 +746,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColorSpaceConversion: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColorSpaceConversion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case force601 = "FORCE_601"
         case force709 = "FORCE_709"
         case forceHdr10 = "FORCE_HDR10"
@@ -737,18 +758,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColorSpaceUsage: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColorSpaceUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fallback = "FALLBACK"
         case force = "FORCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Commitment: String, CustomStringConvertible, Codable, Sendable {
+    public enum Commitment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneYear = "ONE_YEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmfc = "CMFC"
         case f4v = "F4V"
         case ismv = "ISMV"
@@ -763,25 +784,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum CopyProtectionAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum CopyProtectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passthrough = "PASSTHROUGH"
         case strip = "STRIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoGroupAudioChannelConfigSchemeIdUri: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoGroupAudioChannelConfigSchemeIdUri: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dolbyChannelConfiguration = "DOLBY_CHANNEL_CONFIGURATION"
         case mpegChannelConfiguration = "MPEG_CHANNEL_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
@@ -789,75 +810,75 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoIntervalCadence: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "AVERAGE"
         case max = "MAX"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mainProfile = "MAIN_PROFILE"
         case onDemandProfile = "ON_DEMAND_PROFILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cencV1 = "CENC_V1"
         case unencryptedSei = "UNENCRYPTED_SEI"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case matchInitialPts = "MATCH_INITIAL_PTS"
         case zeroBased = "ZERO_BASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case signed = "SIGNED"
         case unsigned = "UNSIGNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashManifestStyle: String, CustomStringConvertible, Codable, Sendable {
+    public enum DashManifestStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case compact = "COMPACT"
         case distinct = "DISTINCT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DecryptionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DecryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aesCbc = "AES_CBC"
         case aesCtr = "AES_CTR"
         case aesGcm = "AES_GCM"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeinterlaceAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeinterlaceAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blend = "BLEND"
         case blendTicker = "BLEND_TICKER"
         case interpolate = "INTERPOLATE"
@@ -866,51 +887,51 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeinterlacerControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeinterlacerControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forceAllFrames = "FORCE_ALL_FRAMES"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeinterlacerMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeinterlacerMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adaptive = "ADAPTIVE"
         case deinterlace = "DEINTERLACE"
         case inverseTelecine = "INVERSE_TELECINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case getOnly = "GET_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passthrough = "PASSTHROUGH"
         case recalculate = "RECALCULATE"
         case specify = "SPECIFY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DolbyVisionMapping: String, CustomStringConvertible, Codable, Sendable {
+    public enum DolbyVisionMapping: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hdr101000 = "HDR10_1000"
         case hdr10Nomap = "HDR10_NOMAP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case profile5 = "PROFILE_5"
         case profile81 = "PROFILE_8_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum DropFrameTimecode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DropFrameTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestMatch = "BEST_MATCH"
         case monospacedSansserif = "MONOSPACED_SANSSERIF"
         case monospacedSerif = "MONOSPACED_SERIF"
@@ -919,20 +940,20 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case centered = "CENTERED"
         case left = "LEFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allText = "ALL_TEXT"
         case whiteTextOnly = "WHITE_TEXT_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
@@ -940,7 +961,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
@@ -952,7 +973,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case blue = "BLUE"
@@ -963,7 +984,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case black = "BLACK"
         case none = "NONE"
@@ -971,38 +992,38 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case fixedGrid = "FIXED_GRID"
         case proportional = "PROPORTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hearingImpaired = "HEARING_IMPAIRED"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbddsHandling: String, CustomStringConvertible, Codable, Sendable {
+    public enum DvbddsHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noDisplayWindow = "NO_DISPLAY_WINDOW"
         case none = "NONE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completeMain = "COMPLETE_MAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codingMode514 = "CODING_MODE_5_1_4"
         case codingMode714 = "CODING_MODE_7_1_4"
         case codingMode916 = "CODING_MODE_9_1_6"
@@ -1010,19 +1031,19 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDownmixControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosDownmixControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -1032,7 +1053,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -1042,13 +1063,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDynamicRangeControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosDynamicRangeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ituBs17701 = "ITU_BS_1770_1"
         case ituBs17702 = "ITU_BS_1770_2"
         case ituBs17703 = "ITU_BS_1770_3"
@@ -1057,7 +1078,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dpl2 = "DPL2"
         case notIndicated = "NOT_INDICATED"
         case stereo = "STEREO"
@@ -1065,20 +1086,20 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commentary = "COMMENTARY"
         case completeMain = "COMPLETE_MAIN"
         case emergency = "EMERGENCY"
@@ -1087,20 +1108,20 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3CodingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode32 = "CODING_MODE_3_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DcFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3DcFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -1110,7 +1131,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -1120,37 +1141,37 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3LfeControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3LfeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lfe = "LFE"
         case noLfe = "NO_LFE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noPassthrough = "NO_PASSTHROUGH"
         case whenPossible = "WHEN_POSSIBLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noShift = "NO_SHIFT"
         case shift90Degrees = "SHIFT_90_DEGREES"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dpl2 = "DPL2"
         case loRo = "LO_RO"
         case ltRt = "LT_RT"
@@ -1158,64 +1179,64 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable, Sendable {
+    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable, Sendable {
+    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case endOfInput = "END_OF_INPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedTimecodeOverride: String, CustomStringConvertible, Codable, Sendable {
+    public enum EmbeddedTimecodeOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case useMdpm = "USE_MDPM"
         public var description: String { return self.rawValue }
     }
 
-    public enum F4vMoovPlacement: String, CustomStringConvertible, Codable, Sendable {
+    public enum F4vMoovPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case normal = "NORMAL"
         case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSourceConvert608To708: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileSourceConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSourceTimeDeltaUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileSourceTimeDeltaUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case milliseconds = "MILLISECONDS"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FontScript: String, CustomStringConvertible, Codable, Sendable {
+    public enum FontScript: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case hans = "HANS"
         case hant = "HANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
@@ -1226,7 +1247,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264CodecLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case level1 = "LEVEL_1"
         case level11 = "LEVEL_1_1"
@@ -1247,7 +1268,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264CodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case baseline = "BASELINE"
         case high = "HIGH"
         case high10Bit = "HIGH_10BIT"
@@ -1257,58 +1278,64 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264DynamicSubGop: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264EndOfStreamMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case include = "INCLUDE"
+        case suppress = "SUPPRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cabac = "CABAC"
         case cavlc = "CAVLC"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FieldEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264FieldEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forceField = "FORCE_FIELD"
         case mbaff = "MBAFF"
         case paff = "PAFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264GopBReference: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264GopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264InterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -1317,83 +1344,83 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPassHq = "MULTI_PASS_HQ"
         case singlePass = "SINGLE_PASS"
         case singlePassHq = "SINGLE_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case qvbr = "QVBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264RepeatPps: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264RepeatPps: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case transitionDetection = "TRANSITION_DETECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264Syntax: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264Syntax: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case rp2027 = "RP2027"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264Telecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         case soft = "SOFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H264UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
@@ -1404,13 +1431,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265AlternateTransferFunctionSei: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265AlternateTransferFunctionSei: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265CodecLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case level1 = "LEVEL_1"
         case level2 = "LEVEL_2"
@@ -1428,7 +1455,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265CodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case main10High = "MAIN10_HIGH"
         case main10Main = "MAIN10_MAIN"
         case main42210BitHigh = "MAIN_422_10BIT_HIGH"
@@ -1440,45 +1467,51 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265DynamicSubGop: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265EndOfStreamMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case include = "INCLUDE"
+        case suppress = "SUPPRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265GopBReference: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265GopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265InterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -1487,120 +1520,120 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265ParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPassHq = "MULTI_PASS_HQ"
         case singlePass = "SINGLE_PASS"
         case singlePassHq = "SINGLE_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case qvbr = "QVBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case adaptive = "ADAPTIVE"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case transitionDetection = "TRANSITION_DETECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265SlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265Telecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         case soft = "SOFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265TemporalIds: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265TemporalIds: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265Tiles: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265Tiles: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265WriteMp4PackagingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum H265WriteMp4PackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hev1 = "HEV1"
         case hvc1 = "HVC1"
         public var description: String { return self.rawValue }
     }
 
-    public enum HDRToSDRToneMapper: String, CustomStringConvertible, Codable, Sendable {
+    public enum HDRToSDRToneMapper: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preserveDetails = "PRESERVE_DETAILS"
         case vibrant = "VIBRANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAdMarkers: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsAdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case elemental = "ELEMENTAL"
         case elementalScte35 = "ELEMENTAL_SCTE35"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case m2ts = "M2TS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAudioOnlyHeader: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsAudioOnlyHeader: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAudioTrackType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
         case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
         case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
@@ -1608,56 +1641,56 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
         case omit = "OMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsCaptionSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsCaptionSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case largeSegments = "LARGE_SEGMENTS"
         case matchVideo = "MATCH_VIDEO"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsClientCache: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsClientCache: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rfc4281 = "RFC_4281"
         case rfc6381 = "RFC_6381"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dontFlag = "DONT_FLAG"
         case flag = "FLAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singleDirectory = "SINGLE_DIRECTORY"
         case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advanced = "ADVANCED"
         case none = "NONE"
         case thumbnail = "THUMBNAIL"
@@ -1665,129 +1698,135 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsIntervalCadence: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsKeyProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsKeyProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case speke = "SPEKE"
         case staticKey = "STATIC_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsManifestCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsManifestCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case floatingPoint = "FLOATING_POINT"
         case integer = "INTEGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsOfflineEncrypted: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsOfflineEncrypted: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsOutputSelection: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsOutputSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
         case segmentsOnly = "SEGMENTS_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsSegmentControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsProgressiveWriteHlsManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case legacy = "LEGACY"
         case specCompliant = "SPEC_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable {
+    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case priv = "PRIV"
         case tdrl = "TDRL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImscAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImscAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeblockFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputDeblockFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFilterEnable: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputFilterEnable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case disable = "DISABLE"
         case force = "FORCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowed = "ALLOWED"
         case disallowed = "DISALLOWED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputPsiControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputPsiControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignorePsi = "IGNORE_PSI"
         case usePsi = "USE_PSI"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputRotate: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputRotate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case degree0 = "DEGREE_0"
         case degrees180 = "DEGREES_180"
@@ -1796,34 +1835,34 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputSampleRange: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputSampleRange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case follow = "FOLLOW"
         case fullRange = "FULL_RANGE"
         case limitedRange = "LIMITED_RANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputScanType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case psf = "PSF"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputTimecodeSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputTimecodeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case embedded = "EMBEDDED"
         case specifiedstart = "SPECIFIEDSTART"
         case zerobased = "ZEROBASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobPhase: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobPhase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case probing = "PROBING"
         case transcoding = "TRANSCODING"
         case uploading = "UPLOADING"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case complete = "COMPLETE"
         case error = "ERROR"
@@ -1832,14 +1871,14 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobTemplateListBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobTemplateListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationDate = "CREATION_DATE"
         case name = "NAME"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aar = "AAR"
         case abk = "ABK"
         case afr = "AFR"
@@ -2035,85 +2074,85 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case atsc = "ATSC"
         case dvb = "DVB"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioDuration: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsBufferModel: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsBufferModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiplex = "MULTIPLEX"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsDataPtsControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsDataPtsControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alignToVideo = "ALIGN_TO_VIDEO"
         case auto = "AUTO"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
         case videoInterval = "VIDEO_INTERVAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
         case videoPid = "VIDEO_PID"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsForceTsVideoEbpOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsForceTsVideoEbpOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case force = "FORCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsKlvMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsNielsenId3: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsNielsenId3: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsPcrControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsPcrControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsRateMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsRateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsScte35Source: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebp = "EBP"
         case ebpLegacy = "EBP_LEGACY"
         case none = "NONE"
@@ -2123,163 +2162,163 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable, Sendable {
+    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case maintainCadence = "MAINTAIN_CADENCE"
         case resetCadence = "RESET_CADENCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8AudioDuration: String, CustomStringConvertible, Codable, Sendable {
+    public enum M3u8AudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8DataPtsControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum M3u8DataPtsControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alignToVideo = "ALIGN_TO_VIDEO"
         case auto = "AUTO"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8NielsenId3: String, CustomStringConvertible, Codable, Sendable {
+    public enum M3u8NielsenId3: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8PcrControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum M3u8PcrControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8Scte35Source: String, CustomStringConvertible, Codable, Sendable {
+    public enum M3u8Scte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MotionImageInsertionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum MotionImageInsertionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mov = "MOV"
         case png = "PNG"
         public var description: String { return self.rawValue }
     }
 
-    public enum MotionImagePlayback: String, CustomStringConvertible, Codable, Sendable {
+    public enum MotionImagePlayback: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `repeat` = "REPEAT"
         case once = "ONCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MovClapAtom: String, CustomStringConvertible, Codable, Sendable {
+    public enum MovClapAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MovCslgAtom: String, CustomStringConvertible, Codable, Sendable {
+    public enum MovCslgAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MovMpeg2FourCCControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum MovMpeg2FourCCControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mpeg = "MPEG"
         case xdcam = "XDCAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum MovPaddingControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum MovPaddingControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case omneon = "OMNEON"
         public var description: String { return self.rawValue }
     }
 
-    public enum MovReference: String, CustomStringConvertible, Codable, Sendable {
+    public enum MovReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case external = "EXTERNAL"
         case selfContained = "SELF_CONTAINED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mp3RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mp3RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mp4CslgAtom: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mp4CslgAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mp4FreeSpaceBox: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mp4FreeSpaceBox: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case normal = "NORMAL"
         case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdAccessibilityCaptionHints: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdAccessibilityCaptionHints: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdAudioDuration: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fragmentedMp4 = "FRAGMENTED_MP4"
         case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdKlvMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdScte35Esam: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdScte35Esam: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdScte35Source: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdTimedMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdTimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MpdTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum MpdTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case version0 = "VERSION_0"
         case version1 = "VERSION_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -2287,7 +2326,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2CodecLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
         case high1440 = "HIGH1440"
@@ -2296,38 +2335,38 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2CodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case main = "MAIN"
         case profile422 = "PROFILE_422"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2InterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -2336,7 +2375,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2IntraDcPrecision: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2IntraDcPrecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case intraDcPrecision10 = "INTRA_DC_PRECISION_10"
         case intraDcPrecision11 = "INTRA_DC_PRECISION_11"
@@ -2345,92 +2384,92 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2ParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPass = "MULTI_PASS"
         case singlePass = "SINGLE_PASS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2SlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2Syntax: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2Syntax: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case d10 = "D_10"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2Telecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         case soft = "SOFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mpeg2TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable, Sendable {
+    public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MsSmoothFragmentLengthControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum MsSmoothFragmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MsSmoothManifestEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum MsSmoothManifestEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case utf16 = "UTF16"
         case utf8 = "UTF8"
         public var description: String { return self.rawValue }
     }
 
-    public enum MxfAfdSignaling: String, CustomStringConvertible, Codable, Sendable {
+    public enum MxfAfdSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case copyFromVideo = "COPY_FROM_VIDEO"
         case noCopy = "NO_COPY"
         public var description: String { return self.rawValue }
     }
 
-    public enum MxfProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum MxfProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case d10 = "D_10"
         case op1a = "OP1A"
         case xavc = "XAVC"
@@ -2439,46 +2478,46 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum MxfXavcDurationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum MxfXavcDurationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAnyDuration = "ALLOW_ANY_DURATION"
         case dropFramesForCompliance = "DROP_FRAMES_FOR_COMPLIANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenActiveWatermarkProcessType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NielsenActiveWatermarkProcessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbet = "CBET"
         case naes2AndNw = "NAES2_AND_NW"
         case naes2AndNwAndCbet = "NAES2_AND_NW_AND_CBET"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenSourceWatermarkStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NielsenSourceWatermarkStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clean = "CLEAN"
         case watermarked = "WATERMARKED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenUniqueTicPerAudioTrackType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NielsenUniqueTicPerAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case reserveUniqueTicsPerTrack = "RESERVE_UNIQUE_TICS_PER_TRACK"
         case sameTicsPerTrack = "SAME_TICS_PER_TRACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum NoiseFilterPostTemporalSharpening: String, CustomStringConvertible, Codable, Sendable {
+    public enum NoiseFilterPostTemporalSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NoiseFilterPostTemporalSharpeningStrength: String, CustomStringConvertible, Codable, Sendable {
+    public enum NoiseFilterPostTemporalSharpeningStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum NoiseReducerFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum NoiseReducerFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bilateral = "BILATERAL"
         case conserve = "CONSERVE"
         case gaussian = "GAUSSIAN"
@@ -2490,13 +2529,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, Sendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputGroupType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmafGroupSettings = "CMAF_GROUP_SETTINGS"
         case dashIsoGroupSettings = "DASH_ISO_GROUP_SETTINGS"
         case fileGroupSettings = "FILE_GROUP_SETTINGS"
@@ -2505,7 +2544,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputSdt: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputSdt: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sdtFollow = "SDT_FOLLOW"
         case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
         case sdtManual = "SDT_MANUAL"
@@ -2513,32 +2552,32 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum PadVideo: String, CustomStringConvertible, Codable, Sendable {
+    public enum PadVideo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case black = "BLACK"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetListBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationDate = "CREATION_DATE"
         case name = "NAME"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable {
+    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case reserved = "RESERVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresChromaSampling: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresChromaSampling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preserve444Sampling = "PRESERVE_444_SAMPLING"
         case subsampleTo422 = "SUBSAMPLE_TO_422"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresCodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appleProres422 = "APPLE_PRORES_422"
         case appleProres422Hq = "APPLE_PRORES_422_HQ"
         case appleProres422Lt = "APPLE_PRORES_422_LT"
@@ -2548,20 +2587,20 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresFramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresInterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -2570,68 +2609,68 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresSlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProresTelecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProresTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueueListBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueueListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationDate = "CREATION_DATE"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case paused = "PAUSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RenewalType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RenewalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoRenew = "AUTO_RENEW"
         case expire = "EXPIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiredFlag: String, CustomStringConvertible, Codable, Sendable {
+    public enum RequiredFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationPlanStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReservationPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RespondToAfd: String, CustomStringConvertible, Codable, Sendable {
+    public enum RespondToAfd: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         case respond = "RESPOND"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowedRenditions = "ALLOWED_RENDITIONS"
         case forceIncludeRenditions = "FORCE_INCLUDE_RENDITIONS"
         case minBottomRenditionSize = "MIN_BOTTOM_RENDITION_SIZE"
@@ -2639,7 +2678,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authenticatedRead = "AUTHENTICATED_READ"
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         case bucketOwnerRead = "BUCKET_OWNER_READ"
@@ -2647,26 +2686,40 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case serverSideEncryptionKms = "SERVER_SIDE_ENCRYPTION_KMS"
         case serverSideEncryptionS3 = "SERVER_SIDE_ENCRYPTION_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum SampleRangeConversion: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SampleRangeConversion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case limitedRangeClip = "LIMITED_RANGE_CLIP"
         case limitedRangeSqueeze = "LIMITED_RANGE_SQUEEZE"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalingBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
+        case fill = "FILL"
+        case fit = "FIT"
+        case fitNoUpscale = "FIT_NO_UPSCALE"
         case stretchToOutput = "STRETCH_TO_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SccDestinationFramerate: String, CustomStringConvertible, Codable, Sendable {
+    public enum SccDestinationFramerate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case framerate2397 = "FRAMERATE_23_97"
         case framerate24 = "FRAMERATE_24"
         case framerate25 = "FRAMERATE_25"
@@ -2675,19 +2728,19 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SrtStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum SrtStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusUpdateInterval: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusUpdateInterval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case seconds10 = "SECONDS_10"
         case seconds12 = "SECONDS_12"
         case seconds120 = "SECONDS_120"
@@ -2706,7 +2759,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum TeletextPageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TeletextPageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
         case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
         case pageTypeInitial = "PAGE_TYPE_INITIAL"
@@ -2715,7 +2768,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomCenter = "BOTTOM_CENTER"
         case bottomLeft = "BOTTOM_LEFT"
         case bottomRight = "BOTTOM_RIGHT"
@@ -2728,76 +2781,82 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimecodeSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimecodeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case embedded = "EMBEDDED"
         case specifiedstart = "SPECIFIEDSTART"
         case zerobased = "ZEROBASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimedMetadata: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum TsPtsOffset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3Class: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3Class: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case class1458Bit = "CLASS_145_8BIT"
         case class22010Bit = "CLASS_220_10BIT"
         case class2208Bit = "CLASS_220_8BIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3InterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlaced = "INTERLACED"
         case interlacedOptimize = "INTERLACED_OPTIMIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3SlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vc3Telecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vc3Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VchipAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum VchipAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passthrough = "PASSTHROUGH"
         case strip = "STRIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoCodec: String, CustomStringConvertible, Codable, Sendable {
+    public enum VideoCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case av1 = "AV1"
         case avcIntra = "AVC_INTRA"
         case frameCapture = "FRAME_CAPTURE"
@@ -2813,73 +2872,73 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable, Sendable {
+    public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp8FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp8FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp8FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp8FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp8ParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp8ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp8QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp8QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPass = "MULTI_PASS"
         case multiPassHq = "MULTI_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp8RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp8RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp9FramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp9FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp9FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp9FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp9ParControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp9ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp9QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp9QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPass = "MULTI_PASS"
         case multiPassHq = "MULTI_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum Vp9RateControlMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Vp9RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum WatermarkingStrength: String, CustomStringConvertible, Codable, Sendable {
+    public enum WatermarkingStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case lighter = "LIGHTER"
         case lightest = "LIGHTEST"
@@ -2888,60 +2947,60 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum WavFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum WavFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rf64 = "RF64"
         case riff = "RIFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebvttAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebvttAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Xavc4kIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum Xavc4kIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case class100 = "CLASS_100"
         case class300 = "CLASS_300"
         case class480 = "CLASS_480"
         public var description: String { return self.rawValue }
     }
 
-    public enum Xavc4kIntraVbrProfileClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum Xavc4kIntraVbrProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case class100 = "CLASS_100"
         case class300 = "CLASS_300"
         case class480 = "CLASS_480"
         public var description: String { return self.rawValue }
     }
 
-    public enum Xavc4kProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum Xavc4kProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bitrateClass100 = "BITRATE_CLASS_100"
         case bitrateClass140 = "BITRATE_CLASS_140"
         case bitrateClass200 = "BITRATE_CLASS_200"
         public var description: String { return self.rawValue }
     }
 
-    public enum Xavc4kProfileCodecProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum Xavc4kProfileCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case high422 = "HIGH_422"
         public var description: String { return self.rawValue }
     }
 
-    public enum Xavc4kProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum Xavc4kProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPassHq = "MULTI_PASS_HQ"
         case singlePass = "SINGLE_PASS"
         case singlePassHq = "SINGLE_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
@@ -2952,66 +3011,66 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcEntropyEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcEntropyEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case cabac = "CABAC"
         case cavlc = "CAVLC"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcFlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcFlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcFramerateControl: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcGopBReference: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcGopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcHdIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcHdIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case class100 = "CLASS_100"
         case class200 = "CLASS_200"
         case class50 = "CLASS_50"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcHdProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcHdProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bitrateClass25 = "BITRATE_CLASS_25"
         case bitrateClass35 = "BITRATE_CLASS_35"
         case bitrateClass50 = "BITRATE_CLASS_50"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcHdProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcHdProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiPassHq = "MULTI_PASS_HQ"
         case singlePass = "SINGLE_PASS"
         case singlePassHq = "SINGLE_PASS_HQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcHdProfileTelecine: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcHdProfileTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hard = "HARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcInterlaceMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomField = "BOTTOM_FIELD"
         case followBottomField = "FOLLOW_BOTTOM_FIELD"
         case followTopField = "FOLLOW_TOP_FIELD"
@@ -3020,7 +3079,7 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case xavc4K = "XAVC_4K"
         case xavc4KIntraCbg = "XAVC_4K_INTRA_CBG"
         case xavc4KIntraVbr = "XAVC_4K_INTRA_VBR"
@@ -3029,25 +3088,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcSlowPal: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcSpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcSpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum XavcTemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
+    public enum XavcTemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
@@ -3058,7 +3117,7 @@ extension MediaConvert {
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
-        /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile (codecProfile), Bitrate control mode (codingMode), and Sample rate (sampleRate). Default values depend on Bitrate control mode and Profile.
+        /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public let bitrate: Int?
         /// AAC Profile.
         public let codecProfile: AacCodecProfile?
@@ -3116,11 +3175,11 @@ extension MediaConvert {
         public let codingMode: Ac3CodingMode?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital, dialnorm will be passed through.
         public let dialnorm: Int?
-        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile. For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionLine: Ac3DynamicRangeCompressionLine?
-        /// When you want to add Dolby dynamic range compression (DRC) signaling to your output stream, we recommend that you use the mode-specific settings instead of Dynamic range compression profile (DynamicRangeCompressionProfile). The mode-specific settings are Dynamic range compression profile, line mode (dynamicRangeCompressionLine) and Dynamic range compression profile, RF mode (dynamicRangeCompressionRf). Note that when you specify values for all three settings, MediaConvert ignores the value of this setting in favor of the mode-specific settings. If you do use this setting instead of the mode-specific settings, choose None (NONE) to leave out DRC signaling. Keep the default Film standard (FILM_STANDARD) to set the profile to Dolby's film standard profile for all operating modes.
+        /// When you want to add Dolby dynamic range compression (DRC) signaling to your output stream, we recommend that you use the mode-specific settings instead of Dynamic range compression profile. The mode-specific settings are Dynamic range compression profile, line mode and Dynamic range compression profile, RF mode. Note that when you specify values for all three settings, MediaConvert ignores the value of this setting in favor of the mode-specific settings. If you do use this setting instead of the mode-specific settings, choose None to leave out DRC signaling. Keep the default Film standard to set the profile to Dolby's film standard profile for all operating modes.
         public let dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile?
-        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile. For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionRf: Ac3DynamicRangeCompressionRf?
         /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with 3_2_LFE coding mode.
         public let lfeFilter: Ac3LfeFilter?
@@ -3167,9 +3226,9 @@ extension MediaConvert {
 
     public struct AccelerationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the conditions when the service will run your job with accelerated transcoding.
-        public let mode: AccelerationMode
+        public let mode: AccelerationMode?
 
-        public init(mode: AccelerationMode) {
+        public init(mode: AccelerationMode? = nil) {
             self.mode = mode
         }
 
@@ -3196,11 +3255,11 @@ extension MediaConvert {
     }
 
     public struct AiffSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
+        /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public let sampleRate: Int?
 
         public init(bitDepth: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
@@ -3254,7 +3313,7 @@ extension MediaConvert {
     }
 
     public struct AncillarySourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: AncillaryConvert608To708?
         /// Specifies the 608 channel number in the ancillary data track from which to extract captions. Unused for passthrough.
         public let sourceAncillaryChannelNumber: Int?
@@ -3281,9 +3340,9 @@ extension MediaConvert {
 
     public struct AssociateCertificateRequest: AWSEncodableShape {
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
-        public let arn: String
+        public let arn: String?
 
-        public init(arn: String) {
+        public init(arn: String? = nil) {
             self.arn = arn
         }
 
@@ -3297,32 +3356,38 @@ extension MediaConvert {
     }
 
     public struct AudioChannelTaggingSettings: AWSEncodableShape & AWSDecodableShape {
-        /// You can add a tag for this mono-channel audio track to mimic its placement in a multi-channel layout. For example, if this track is the left surround channel, choose Left surround (LS).
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
         public let channelTag: AudioChannelTag?
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
+        public let channelTags: [AudioChannelTag]?
 
-        public init(channelTag: AudioChannelTag? = nil) {
+        public init(channelTag: AudioChannelTag? = nil, channelTags: [AudioChannelTag]? = nil) {
             self.channelTag = channelTag
+            self.channelTags = channelTags
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelTag = "channelTag"
+            case channelTags = "channelTags"
         }
     }
 
     public struct AudioCodecSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode (rateControlMode) to "VBR" or "CBR". In VBR mode, you control the audio quality with the setting VBR quality (vbrQuality). In CBR mode, you use the setting Bitrate (bitrate). Defaults and valid values depend on the rate control mode.
+        /// Required when you set Codec to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode to "VBR" or "CBR". In VBR mode, you control the audio quality with the setting VBR quality. In CBR mode, you use the setting Bitrate. Defaults and valid values depend on the rate control mode.
         public let aacSettings: AacSettings?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AC3.
+        /// Required when you set Codec to the value AC3.
         public let ac3Settings: Ac3Settings?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AIFF.
+        /// Required when you set Codec to the value AIFF.
         public let aiffSettings: AiffSettings?
-        /// Choose the audio codec for this output. Note that the option Dolby Digital passthrough (PASSTHROUGH) applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
+        /// Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
         public let codec: AudioCodec?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value EAC3_ATMOS.
+        /// Required when you set Codec to the value EAC3_ATMOS.
         public let eac3AtmosSettings: Eac3AtmosSettings?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value EAC3.
+        /// Required when you set Codec to the value EAC3.
         public let eac3Settings: Eac3Settings?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value MP2.
+        /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value FLAC.
+        public let flacSettings: FlacSettings?
+        /// Required when you set Codec to the value MP2.
         public let mp2Settings: Mp2Settings?
         /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value MP3.
         public let mp3Settings: Mp3Settings?
@@ -3330,16 +3395,17 @@ extension MediaConvert {
         public let opusSettings: OpusSettings?
         /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value Vorbis.
         public let vorbisSettings: VorbisSettings?
-        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value WAV.
+        /// Required when you set Codec to the value WAV.
         public let wavSettings: WavSettings?
 
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, opusSettings: OpusSettings? = nil, vorbisSettings: VorbisSettings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, flacSettings: FlacSettings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, opusSettings: OpusSettings? = nil, vorbisSettings: VorbisSettings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
             self.aiffSettings = aiffSettings
             self.codec = codec
             self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
+            self.flacSettings = flacSettings
             self.mp2Settings = mp2Settings
             self.mp3Settings = mp3Settings
             self.opusSettings = opusSettings
@@ -3353,6 +3419,7 @@ extension MediaConvert {
             try self.aiffSettings?.validate(name: "\(name).aiffSettings")
             try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
+            try self.flacSettings?.validate(name: "\(name).flacSettings")
             try self.mp2Settings?.validate(name: "\(name).mp2Settings")
             try self.mp3Settings?.validate(name: "\(name).mp3Settings")
             try self.opusSettings?.validate(name: "\(name).opusSettings")
@@ -3367,6 +3434,7 @@ extension MediaConvert {
             case codec = "codec"
             case eac3AtmosSettings = "eac3AtmosSettings"
             case eac3Settings = "eac3Settings"
+            case flacSettings = "flacSettings"
             case mp2Settings = "mp2Settings"
             case mp3Settings = "mp3Settings"
             case opusSettings = "opusSettings"
@@ -3376,7 +3444,7 @@ extension MediaConvert {
     }
 
     public struct AudioDescription: AWSEncodableShape & AWSDecodableShape {
-        /// When you mimic a multi-channel audio layout with multiple mono-channel tracks, you can tag each channel layout manually. For example, you would tag the tracks that contain your left, right, and center audio with Left (L), Right (R), and Center (C), respectively. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use audio layout tagging, your output must be in a QuickTime (.mov) container; your audio codec must be AAC, WAV, or AIFF; and you must set up your audio track to have only one channel.
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use Audio layout tagging, your output must be in a QuickTime (MOV) container and your audio codec must be AAC, WAV, or AIFF.
         public let audioChannelTaggingSettings: AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public let audioNormalizationSettings: AudioNormalizationSettings?
@@ -3388,11 +3456,11 @@ extension MediaConvert {
         public let audioTypeControl: AudioTypeControl?
         /// Settings related to audio encoding. The settings in this group vary depending on the value that you choose for your audio codec.
         public let codecSettings: AudioCodecSettings?
-        /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control (AudioLanguageCodeControl) to Use configured (USE_CONFIGURED). The service also uses your specified custom language code when you set Language code control (AudioLanguageCodeControl) to Follow input (FOLLOW_INPUT), but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
+        /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control to Use configured. The service also uses your specified custom language code when you set Language code control to Follow input, but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
         /// Indicates the language of the audio output track. The ISO 639 language specified in the 'Language Code' drop down will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
         public let languageCode: LanguageCode?
-        /// Specify which source for language code takes precedence for this audio track. When you choose Follow input (FOLLOW_INPUT), the service uses the language code from the input track if it's present. If there's no languge code on the input track, the service uses the code that you specify in the setting Language code (languageCode or customLanguageCode). When you choose Use configured (USE_CONFIGURED), the service uses the language code that you specify.
+        /// Specify which source for language code takes precedence for this audio track. When you choose Follow input, the service uses the language code from the input track if it's present. If there's no languge code on the input track, the service uses the code that you specify in the setting Language code. When you choose Use configured, the service uses the language code that you specify.
         public let languageCodeControl: AudioLanguageCodeControl?
         /// Advanced audio remixing settings.
         public let remixSettings: RemixSettings?
@@ -3449,7 +3517,7 @@ extension MediaConvert {
         public let loudnessLogging: AudioNormalizationLoudnessLogging?
         /// If set to TRUE_PEAK, calculate and log the TruePeak for each output's audio track loudness.
         public let peakCalculation: AudioNormalizationPeakCalculation?
-        /// When you use Audio normalization (AudioNormalizationSettings), optionally use this setting to specify a target loudness. If you don't specify a value here, the encoder chooses a value for you, based on the algorithm that you choose for Algorithm (algorithm). If you choose algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
+        /// When you use Audio normalization, optionally use this setting to specify a target loudness. If you don't specify a value here, the encoder chooses a value for you, based on the algorithm that you choose for Algorithm. If you choose algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
         public let targetLkfs: Double?
         /// Specify the True-peak limiter threshold in decibels relative to full scale (dBFS). The peak inter-audio sample loudness in your output will be limited to the value that you specify, without affecting the overall target LKFS. Enter a value from 0 to -8. Leave blank to use the default value 0.
         public let truePeakLimiterThreshold: Double?
@@ -3497,13 +3565,13 @@ extension MediaConvert {
         public let offset: Int?
         /// Selects a specific PID from within an audio source (e.g. 257 selects PID 0x101).
         public let pids: [Int]?
-        /// Use this setting for input streams that contain Dolby E, to have the service extract specific program data from the track. To select multiple programs, create multiple selectors with the same Track and different Program numbers. In the console, this setting is visible when you set Selector type to Track. Choose the program number from the dropdown list. If you are sending a JSON file, provide the program ID, which is part of the audio metadata. If your input file has incorrect metadata, you can choose All channels instead of a program number to have the service ignore the program IDs and include all the programs in the track.
+        /// Use this setting for input streams that contain Dolby E, to have the service extract specific program data from the track. To select multiple programs, create multiple selectors with the same Track and different Program numbers. In the console, this setting is visible when you set Selector type to Track. Choose the program number from the dropdown list. If your input file has incorrect metadata, you can choose All channels instead of a program number to have the service ignore the program IDs and include all the programs in the track.
         public let programSelection: Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public let remixSettings: RemixSettings?
         /// Specifies the type of the audio selector.
         public let selectorType: AudioSelectorType?
-        /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For examle, type "1,2,3" to include tracks 1 through 3. Specifying directly in your JSON job file, provide the track numbers in an array. For example, "tracks": [1,2,3].
+        /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public let tracks: [Int]?
 
         public init(audioDurationCorrection: AudioDurationCorrection? = nil, customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, hlsRenditionGroupSettings: HlsRenditionGroupSettings? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, pids: [Int]? = nil, programSelection: Int? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, tracks: [Int]? = nil) {
@@ -3617,11 +3685,11 @@ extension MediaConvert {
     }
 
     public struct AutomatedAbrSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Optional. The maximum target bit rate used in your automated ABR stack. Use this value to set an upper limit on the bandwidth consumed by the highest-quality rendition. This is the rendition that is delivered to viewers with the fastest internet connections. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default.
+        /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public let maxAbrBitrate: Int?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public let maxRenditions: Int?
-        /// Optional. The minimum target bitrate used in your automated ABR stack. Use this value to set a lower limit on the bitrate of video delivered to viewers with slow internet connections. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default.
+        /// Specify the minimum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default. The average bitrate of your lowest-quality rendition will be near this value. Note that the instantaneous minimum bitrate may vary below the value that you specify.
         public let minAbrBitrate: Int?
         /// Optional. Use Automated ABR rules to specify restrictions for the rendition sizes MediaConvert will create in your ABR stack. You can use these rules if your ABR workflow has specific rendition size requirements, but you still want MediaConvert to optimize for video quality and overall file size.
         public let rules: [AutomatedAbrRule]?
@@ -3671,7 +3739,7 @@ extension MediaConvert {
     }
 
     public struct Av1QvbrSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Use this setting only when you set Rate control mode (RateControlMode) to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
+        /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
         /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
         public let qvbrQualityLevelFineTune: Double?
@@ -3693,11 +3761,13 @@ extension MediaConvert {
     }
 
     public struct Av1Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization (spatialAdaptiveQuantization).
+        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization.
         public let adaptiveQuantization: Av1AdaptiveQuantization?
-        /// Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT_8) or 10-bit (BIT_10).
+        /// Specify the Bit depth. You can choose 8-bit or 10-bit.
         public let bitDepth: Av1BitDepth?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
+        public let filmGrainSynthesis: Av1FilmGrainSynthesis?
+        /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Av1FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: Av1FramerateConversionAlgorithm?
@@ -3711,18 +3781,19 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public let numberBFramesBetweenReferenceFrames: Int?
-        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode (RateControlMode).
+        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: Av1QvbrSettings?
         /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
         public let rateControlMode: Av1RateControlMode?
         /// Specify the number of slices per picture. This value must be 1, 2, 4, 8, 16, or 32. For progressive pictures, this value must be less than or equal to the number of macroblock rows. For interlaced pictures, this value must be less than or equal to half the number of macroblock rows.
         public let slices: Int?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public let spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization?
 
-        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, filmGrainSynthesis: Av1FilmGrainSynthesis? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
+            self.filmGrainSynthesis = filmGrainSynthesis
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
@@ -3753,6 +3824,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case bitDepth = "bitDepth"
+            case filmGrainSynthesis = "filmGrainSynthesis"
             case framerateControl = "framerateControl"
             case framerateConversionAlgorithm = "framerateConversionAlgorithm"
             case framerateDenominator = "framerateDenominator"
@@ -3788,9 +3860,9 @@ extension MediaConvert {
     public struct AvcIntraSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the AVC-Intra class of your output. The AVC-Intra class selection determines the output video bit rate depending on the frame rate of the output. Outputs with higher class values have higher bitrates and improved image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2 chroma subsampling.
         public let avcIntraClass: AvcIntraClass?
-        /// Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K (CLASS_4K_2K). When you set AVC-Intra class to a different value, this object isn't allowed.
+        /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra class to a different value, this object isn't allowed.
         public let avcIntraUhdSettings: AvcIntraUhdSettings?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: AvcIntraFramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: AvcIntraFramerateConversionAlgorithm?
@@ -3798,13 +3870,13 @@ extension MediaConvert {
         public let framerateDenominator: Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateNumerator: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: AvcIntraInterlaceMode?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: AvcIntraScanTypeConversionMode?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: AvcIntraSlowPal?
-        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine (HARD) to create a smoother picture. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine to create a smoother picture. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: AvcIntraTelecine?
 
         public init(avcIntraClass: AvcIntraClass? = nil, avcIntraUhdSettings: AvcIntraUhdSettings? = nil, framerateControl: AvcIntraFramerateControl? = nil, framerateConversionAlgorithm: AvcIntraFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: AvcIntraInterlaceMode? = nil, scanTypeConversionMode: AvcIntraScanTypeConversionMode? = nil, slowPal: AvcIntraSlowPal? = nil, telecine: AvcIntraTelecine? = nil) {
@@ -3842,7 +3914,7 @@ extension MediaConvert {
     }
 
     public struct AvcIntraUhdSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how many transcoding passes MediaConvert does with your video. When you choose Multi-pass (MULTI_PASS), your video quality is better and your output bitrate is more accurate. That is, the actual bitrate of your output is closer to the target bitrate defined in the specification. When you choose Single-pass (SINGLE_PASS), your encoding time is faster. The default behavior is Single-pass (SINGLE_PASS).
+        /// Optional. Use Quality tuning level to choose how many transcoding passes MediaConvert does with your video. When you choose Multi-pass, your video quality is better and your output bitrate is more accurate. That is, the actual bitrate of your output is closer to the target bitrate defined in the specification. When you choose Single-pass, your encoding time is faster. The default behavior is Single-pass.
         public let qualityTuningLevel: AvcIntraUhdQualityTuningLevel?
 
         public init(qualityTuningLevel: AvcIntraUhdQualityTuningLevel? = nil) {
@@ -3874,45 +3946,45 @@ extension MediaConvert {
     public struct BurninDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates.
         public let alignment: BurninSubtitleAlignment?
-        /// Ignore this setting unless Style passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
+        /// Ignore this setting unless Style passthrough is set to Enabled and Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color for additional font color controls. When you choose White text only, or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
         public let applyFontColor: BurninSubtitleApplyFontColor?
-        /// Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.
+        /// Specify the color of the rectangle behind the captions. Leave background color blank and set Style passthrough to enabled to use the background color data from your input captions, if present.
         public let backgroundColor: BurninSubtitleBackgroundColor?
-        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions.
+        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions.
         public let backgroundOpacity: Int?
-        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font to best match, or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
         public let fallbackFont: BurninSubtitleFallbackFont?
-        /// Specify the color of the burned-in captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present.
+        /// Specify the color of the burned-in captions text. Leave Font color blank and set Style passthrough to enabled to use the font color data from your input captions, if present.
         public let fontColor: BurninSubtitleFontColor?
         /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
         public let fontOpacity: Int?
-        /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
+        /// Specify the Font resolution in DPI (dots per inch).
         public let fontResolution: Int?
-        /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese.
+        /// Set Font script to Automatically determined, or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese.
         public let fontScript: FontScript?
-        /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.
+        /// Specify the Font size in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.
         public let fontSize: Int?
         /// Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
         public let hexFontColor: String?
-        /// Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present.
+        /// Specify font outline color. Leave Outline color blank and set Style passthrough to enabled to use the font outline color data from your input captions, if present.
         public let outlineColor: BurninSubtitleOutlineColor?
-        /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present.
+        /// Specify the Outline size of the caption text, in pixels. Leave Outline size blank and set Style passthrough to enabled to use the outline size data from your input captions, if present.
         public let outlineSize: Int?
-        /// Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present.
+        /// Specify the color of the shadow cast by the captions. Leave Shadow color blank and set Style passthrough to enabled to use the shadow color data from your input captions, if present.
         public let shadowColor: BurninSubtitleShadowColor?
-        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.
+        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to Enabled, leave Shadow opacity blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.
         public let shadowOpacity: Int?
         /// Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
         public let shadowXOffset: Int?
-        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present.
+        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset blank and set Style passthrough to enabled to use the shadow y-offset data from your input captions, if present.
         public let shadowYOffset: Int?
-        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+        /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
         public let stylePassthrough: BurnInSubtitleStylePassthrough?
-        /// Specify whether the text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions.
+        /// Specify whether the text spacing in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read for closed captions.
         public let teletextSpacing: BurninSubtitleTeletextSpacing?
-        /// Specify the horizontal position (XPosition) of the captions, relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter.
+        /// Specify the horizontal position of the captions, relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter.
         public let xPosition: Int?
-        /// Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output.
+        /// Specify the vertical position of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output.
         public let yPosition: Int?
 
         public init(alignment: BurninSubtitleAlignment? = nil, applyFontColor: BurninSubtitleApplyFontColor? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fallbackFont: BurninSubtitleFallbackFont? = nil, fontColor: BurninSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, hexFontColor: String? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: BurnInSubtitleStylePassthrough? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
@@ -4016,7 +4088,7 @@ extension MediaConvert {
         public let captionSelectorName: String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
-        /// Settings related to one captions tab on the MediaConvert console. In your job JSON, an instance of captions DestinationSettings is equivalent to one captions tab in the console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
+        /// Settings related to one captions tab on the MediaConvert console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
         public let destinationSettings: CaptionDestinationSettings?
         /// Specify the language of this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
         public let languageCode: LanguageCode?
@@ -4049,7 +4121,7 @@ extension MediaConvert {
     public struct CaptionDescriptionPreset: AWSEncodableShape & AWSDecodableShape {
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
-        /// Settings related to one captions tab on the MediaConvert console. In your job JSON, an instance of captions DestinationSettings is equivalent to one captions tab in the console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
+        /// Settings related to one captions tab on the MediaConvert console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
         public let destinationSettings: CaptionDestinationSettings?
         /// Specify the language of this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
         public let languageCode: LanguageCode?
@@ -4077,25 +4149,25 @@ extension MediaConvert {
     }
 
     public struct CaptionDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to BURN_IN.
+        /// Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
         public let burninDestinationSettings: BurninDestinationSettings?
-        /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Note that your choice of video output container constrains your choice of output captions format. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html. If you are using SCTE-20 and you want to create an output that complies with the SCTE-43 spec, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED). To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
+        /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Note that your choice of video output container constrains your choice of output captions format. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html. If you are using SCTE-20 and you want to create an output that complies with the SCTE-43 spec, choose SCTE-20 plus embedded. To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20.
         public let destinationType: CaptionDestinationType?
-        /// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to DVB_SUB.
+        /// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
         public let dvbSubDestinationSettings: DvbSubDestinationSettings?
-        /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or ancillary) captions. Set up embedded captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to EMBEDDED, EMBEDDED_PLUS_SCTE20, or SCTE20_PLUS_EMBEDDED.
+        /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or ancillary) captions. Set up embedded captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
         public let embeddedDestinationSettings: EmbeddedDestinationSettings?
-        /// Settings related to IMSC captions. IMSC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to IMSC.
+        /// Settings related to IMSC captions. IMSC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
         public let imscDestinationSettings: ImscDestinationSettings?
-        /// Settings related to SCC captions. SCC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SCC.
+        /// Settings related to SCC captions. SCC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
         public let sccDestinationSettings: SccDestinationSettings?
-        /// Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to SRT.
+        /// Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video.
         public let srtDestinationSettings: SrtDestinationSettings?
-        /// Settings related to teletext captions. Set up teletext captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to TELETEXT.
+        /// Settings related to teletext captions. Set up teletext captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
         public let teletextDestinationSettings: TeletextDestinationSettings?
-        /// Settings related to TTML captions. TTML is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to TTML.
+        /// Settings related to TTML captions. TTML is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
         public let ttmlDestinationSettings: TtmlDestinationSettings?
-        /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html. When you work directly in your JSON job specification, include this object and any required children when you set destinationType to WebVTT.
+        /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
         public let webvttDestinationSettings: WebvttDestinationSettings?
 
         public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, imscDestinationSettings: ImscDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, srtDestinationSettings: SrtDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
@@ -4133,9 +4205,9 @@ extension MediaConvert {
     }
 
     public struct CaptionSelector: AWSEncodableShape & AWSDecodableShape {
-        /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
+        /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public let customLanguageCode: String?
-        /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
+        /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public let languageCode: LanguageCode?
         /// If your input captions are SCC, TTML, STL, SMI, SRT, or IMSC in an xml file, specify the URI of the input captions source file. If your input captions are IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public let sourceSettings: CaptionSourceSettings?
@@ -4161,9 +4233,9 @@ extension MediaConvert {
     }
 
     public struct CaptionSourceFramerate: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the denominator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
+        /// Specify the denominator of the fraction that represents the frame rate for the setting Caption source frame rate. Use this setting along with the setting Framerate numerator.
         public let framerateDenominator: Int?
-        /// Specify the numerator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
+        /// Specify the numerator of the fraction that represents the frame rate for the setting Caption source frame rate. Use this setting along with the setting Framerate denominator.
         public let framerateNumerator: Int?
 
         public init(framerateDenominator: Int? = nil, framerateNumerator: Int? = nil) {
@@ -4193,7 +4265,7 @@ extension MediaConvert {
         public let embeddedSourceSettings: EmbeddedSourceSettings?
         /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public let fileSourceSettings: FileSourceSettings?
-        /// Use Source (SourceType) to identify the format of your input captions. The service cannot auto-detect caption format.
+        /// Use Source to identify the format of your input captions. The service cannot auto-detect caption format.
         public let sourceType: CaptionSourceType?
         /// Settings specific to Teletext caption sources, including Page number.
         public let teletextSourceSettings: TeletextSourceSettings?
@@ -4316,7 +4388,7 @@ extension MediaConvert {
     public struct CmafEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
-        /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample (SAMPLE-AES) or AES_CTR (AES-CTR).
+        /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
         public let encryptionMethod: CmafEncryptionType?
         /// When you use DRM with CMAF outputs, choose whether the service writes the 128-bit encryption initialization vector in the HLS and DASH manifests.
         public let initializationVectorInManifest: CmafInitializationVectorInManifest?
@@ -4359,21 +4431,21 @@ extension MediaConvert {
         public let additionalManifests: [CmafAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
-        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled (ENABLED) and control caching in your video distribution set up. For example, use the Cache-Control http header.
+        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and control caching in your video distribution set up. For example, use the Cache-Control http header.
         public let clientCache: CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: CmafCodecSpecification?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public let dashManifestStyle: DashManifestStyle?
-        /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
+        /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
         /// DRM settings.
         public let encryption: CmafEncryptionSettings?
-        /// Specify the length, in whole seconds, of the mp4 fragments. When you don't specify a value, MediaConvert defaults to 2. Related setting: Use Fragment length control (FragmentLengthControl) to specify whether the encoder enforces this value strictly.
+        /// Specify the length, in whole seconds, of the mp4 fragments. When you don't specify a value, MediaConvert defaults to 2. Related setting: Use Fragment length control to specify whether the encoder enforces this value strictly.
         public let fragmentLength: Int?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest (WriteHlsManifest), MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest (WriteDashManifest), MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest, MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest, MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: CmafImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public let imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings?
@@ -4387,15 +4459,15 @@ extension MediaConvert {
         public let minFinalSegmentLength: Double?
         /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
         public let mpdManifestBandwidthType: CmafMpdManifestBandwidthType?
-        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
+        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile, the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand, the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control to Single file.
         public let mpdProfile: CmafMpdProfile?
-        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
+        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
         public let ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: CmafSegmentControl?
-        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (CmafSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
         public let segmentLengthControl: CmafSegmentLengthControl?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: CmafStreamInfResolution?
@@ -4407,7 +4479,7 @@ extension MediaConvert {
         public let writeDashManifest: CmafWriteDASHManifest?
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
         public let writeHlsManifest: CmafWriteHLSManifest?
-        /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
+        /// When you enable Precise segment duration in DASH manifests, your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
         public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
@@ -4532,36 +4604,36 @@ extension MediaConvert {
     }
 
     public struct CmfcSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: CmfcAudioDuration?
-        /// Specify the audio rendition group for this audio rendition. Specify up to one value for each audio output in your output group. This value appears in your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for Audio group ID, it appears in your manifest like this: #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To associate the rendition group that this audio track belongs to with a video rendition, include the same value that you provide here for that video output's setting Audio rendition sets (audioRenditionSets).
+        /// Specify the audio rendition group for this audio rendition. Specify up to one value for each audio output in your output group. This value appears in your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for Audio group ID, it appears in your manifest like this: #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To associate the rendition group that this audio track belongs to with a video rendition, include the same value that you provide here for that video output's setting Audio rendition sets.
         public let audioGroupId: String?
-        /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
+        /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
         public let audioRenditionSets: String?
-        /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default (ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT) to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default (ALTERNATE_AUDIO_AUTO_SELECT) to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
+        /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public let audioTrackType: CmfcAudioTrackType?
-        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
+        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public let descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag?
-        /// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
+        /// Choose Include to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
         public let iFrameOnlyManifest: CmfcIFrameOnlyManifest?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: CmfcKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata to Passthrough.
         public let manifestMetadataSignaling: CmfcManifestMetadataSignaling?
-        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
+        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
         public let scte35Esam: CmfcScte35Esam?
-        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public let scte35Source: CmfcScte35Source?
-        /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
+        /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public let timedMetadata: CmfcTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output.
         /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
         /// Leave blank to use the default value Version 0.
-        /// When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
         public let timedMetadataBoxVersion: CmfcTimedMetadataBoxVersion?
-        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) scheme ID URI for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata to Passthrough.
         public let timedMetadataSchemeIdUri: String?
-        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata to Passthrough.
         public let timedMetadataValue: String?
 
         public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, klvMetadata: CmfcKlvMetadata? = nil, manifestMetadataSignaling: CmfcManifestMetadataSignaling? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil, timedMetadata: CmfcTimedMetadata? = nil, timedMetadataBoxVersion: CmfcTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
@@ -4613,7 +4685,7 @@ extension MediaConvert {
         public let colorSpaceConversion: ColorSpaceConversion?
         /// Contrast level.
         public let contrast: Int?
-        /// Use these settings when you convert to the HDR 10 color space. Specify the SMPTE ST 2086 Mastering Display Color Volume static metadata that you want signaled in the output. These values don't affect the pixel values that are encoded in the video stream. They are intended to help the downstream video player display content in a way that reflects the intentions of the the content creator. When you set Color space conversion (ColorSpaceConversion) to HDR 10 (FORCE_HDR10), these settings are required. You must set values for Max frame average light level (maxFrameAverageLightLevel) and Max content light level (maxContentLightLevel); these settings don't have a default value. The default values for the other HDR 10 metadata settings are defined by the P3D65 color space. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
+        /// Use these settings when you convert to the HDR 10 color space. Specify the SMPTE ST 2086 Mastering Display Color Volume static metadata that you want signaled in the output. These values don't affect the pixel values that are encoded in the video stream. They are intended to help the downstream video player display content in a way that reflects the intentions of the the content creator. When you set Color space conversion to HDR 10, these settings are required. You must set values for Max frame average light level and Max content light level; these settings don't have a default value. The default values for the other HDR 10 metadata settings are defined by the P3D65 color space. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let hdr10Metadata: Hdr10Metadata?
         /// Specify how MediaConvert maps brightness and colors from your HDR input to your SDR output. The mode that you select represents a creative choice, with different tradeoffs in the details and tones of your output. To maintain details in bright or saturated areas of your output: Choose Preserve details. For some sources, your SDR output may look less bright and less saturated when compared to your HDR source. MediaConvert automatically applies this mode for HLG sources, regardless of your choice. For a bright and saturated output: Choose Vibrant. We recommend that you choose this mode when any of your source content is HDR10, and for the best results when it is mastered for 1000 nits. You may notice loss of details in bright or saturated areas of your output. HDR to SDR tone mapping has no effect when your input is SDR.
         public let hdrToSdrToneMapper: HDRToSDRToneMapper?
@@ -4675,7 +4747,7 @@ extension MediaConvert {
         public let container: ContainerType?
         /// Settings for F4v container
         public let f4vSettings: F4vSettings?
-        /// MPEG-2 TS container settings. These apply to outputs in a File output group when the output's container (ContainerType) is MPEG-2 Transport Stream (M2TS). In these assets, data is organized by the program map table (PMT). Each transport stream program contains subsets of data, including audio, video, and metadata. Each of these subsets of data has a numerical label called a packet identifier (PID). Each transport stream program corresponds to one MediaConvert output. The PMT lists the types of data in a program along with their PID. Downstream systems and players use the program map table to look up the PID for each type of data it accesses and then uses the PIDs to locate specific data within the asset.
+        /// MPEG-2 TS container settings. These apply to outputs in a File output group when the output's container is MPEG-2 Transport Stream (M2TS). In these assets, data is organized by the program map table (PMT). Each transport stream program contains subsets of data, including audio, video, and metadata. Each of these subsets of data has a numerical label called a packet identifier (PID). Each transport stream program corresponds to one MediaConvert output. The PMT lists the types of data in a program along with their PID. Downstream systems and players use the program map table to look up the PID for each type of data it accesses and then uses the PIDs to locate specific data within the asset.
         public let m2tsSettings: M2tsSettings?
         /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container for the MPEG2-TS segments in your HLS outputs.
         public let m3u8Settings: M3u8Settings?
@@ -4738,9 +4810,9 @@ extension MediaConvert {
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
         public let queue: String?
         /// Required. The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
-        public let role: String
+        public let role: String?
         /// JobSettings contains all the transcode settings for a job.
-        public let settings: JobSettings
+        public let settings: JobSettings?
         /// Optional. Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
         public let simulateReservedQueue: SimulateReservedQueue?
         /// Optional. Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
@@ -4750,7 +4822,7 @@ extension MediaConvert {
         /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
@@ -4772,7 +4844,7 @@ extension MediaConvert {
             }
             try self.validate(self.priority, name: "priority", parent: name, max: 50)
             try self.validate(self.priority, name: "priority", parent: name, min: -50)
-            try self.settings.validate(name: "\(name).settings")
+            try self.settings?.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4815,19 +4887,19 @@ extension MediaConvert {
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
         /// The name of the job template you are creating.
-        public let name: String
+        public let name: String?
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
         public let priority: Int?
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
-        public let settings: JobTemplateSettings
+        public let settings: JobTemplateSettings?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
@@ -4846,7 +4918,7 @@ extension MediaConvert {
             }
             try self.validate(self.priority, name: "priority", parent: name, max: 50)
             try self.validate(self.priority, name: "priority", parent: name, min: -50)
-            try self.settings.validate(name: "\(name).settings")
+            try self.settings?.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4882,13 +4954,13 @@ extension MediaConvert {
         /// Optional. A description of the preset you are creating.
         public let description: String?
         /// The name of the preset you are creating.
-        public let name: String
+        public let name: String?
         /// Settings for preset
-        public let settings: PresetSettings
+        public let settings: PresetSettings?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(category: String? = nil, description: String? = nil, name: String, settings: PresetSettings, tags: [String: String]? = nil) {
+        public init(category: String? = nil, description: String? = nil, name: String? = nil, settings: PresetSettings? = nil, tags: [String: String]? = nil) {
             self.category = category
             self.description = description
             self.name = name
@@ -4897,7 +4969,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.settings.validate(name: "\(name).settings")
+            try self.settings?.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4926,7 +4998,7 @@ extension MediaConvert {
         /// Optional. A description of the queue that you are creating.
         public let description: String?
         /// The name of the queue that you are creating.
-        public let name: String
+        public let name: String?
         /// Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment. When you use the API to create a queue, the default is on-demand.
         public let pricingPlan: PricingPlan?
         /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
@@ -4936,7 +5008,7 @@ extension MediaConvert {
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
             self.pricingPlan = pricingPlan
@@ -4993,7 +5065,7 @@ extension MediaConvert {
     }
 
     public struct DashIsoEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
+        /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1. If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
@@ -5016,13 +5088,13 @@ extension MediaConvert {
     public struct DashIsoGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [DashAdditionalManifest]?
-        /// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or Atmos) and your downstream workflow requires that your DASH manifest use the Dolby channel configuration tag, rather than the MPEG one. For example, you might need to use this to make dynamic ad insertion work. Specify which audio channel configuration scheme ID URI MediaConvert writes in your DASH manifest. Keep the default value, MPEG channel configuration (MPEG_CHANNEL_CONFIGURATION), to have MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration (DOLBY_CHANNEL_CONFIGURATION) to have MediaConvert write this instead: tag:dolby.com,2014:dash:audio_channel_configuration:2011.
+        /// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or Atmos) and your downstream workflow requires that your DASH manifest use the Dolby channel configuration tag, rather than the MPEG one. For example, you might need to use this to make dynamic ad insertion work. Specify which audio channel configuration scheme ID URI MediaConvert writes in your DASH manifest. Keep the default value, MPEG channel configuration, to have MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration to have MediaConvert write this instead: tag:dolby.com,2014:dash:audio_channel_configuration:2011.
         public let audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public let dashManifestStyle: DashManifestStyle?
-        /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
+        /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
@@ -5032,7 +5104,7 @@ extension MediaConvert {
         public let fragmentLength: Int?
         /// Supports HbbTV specification as indicated
         public let hbbtvCompliance: DashIsoHbbtvCompliance?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: DashIsoImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public let imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings?
@@ -5042,15 +5114,15 @@ extension MediaConvert {
         public let minFinalSegmentLength: Double?
         /// Specify how the value for bandwidth is determined for each video Representation in your output MPD manifest. We recommend that you choose a MPD manifest bandwidth type that is compatible with your downstream player configuration. Max: Use the same value that you specify for Max bitrate in the video output, in bits per second. Average: Use the calculated average bitrate of the encoded video output, in bits per second.
         public let mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType?
-        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
+        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile, the service signals urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand, the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control to Single file.
         public let mpdProfile: DashIsoMpdProfile?
-        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
+        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
         public let ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: DashIsoSegmentControl?
-        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (DashIsoSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
         public let segmentLengthControl: DashIsoSegmentLengthControl?
         /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
         public let videoCompositionOffsets: DashIsoVideoCompositionOffsets?
@@ -5171,7 +5243,10 @@ extension MediaConvert {
         public let algorithm: DeinterlaceAlgorithm?
         /// - When set to NORMAL (default), the deinterlacer does not convert frames that are tagged in metadata as progressive. It will only convert those that are tagged as some other type. - When set to FORCE_ALL_FRAMES, the deinterlacer converts every frame to progressive - even those that are already tagged as progressive. Turn Force mode on only if there is a good chance that the metadata has tagged frames as progressive when they are not progressive. Do not turn on otherwise; processing frames that are already progressive into progressive will probably result in lower quality video.
         public let control: DeinterlacerControl?
-        /// Use Deinterlacer (DeinterlaceMode) to choose how the service will do deinterlacing. Default is Deinterlace. - Deinterlace converts interlaced to progressive. - Inverse telecine converts Hard Telecine 29.97i to progressive 23.976p. - Adaptive auto-detects and converts to progressive.
+        /// Use Deinterlacer to choose how the service will do deinterlacing. Default is Deinterlace.
+        /// - Deinterlace converts interlaced to progressive.
+        /// - Inverse telecine converts Hard Telecine 29.97i to progressive 23.976p.
+        /// - Adaptive auto-detects and converts to progressive.
         public let mode: DeinterlacerMode?
 
         public init(algorithm: DeinterlaceAlgorithm? = nil, control: DeinterlacerControl? = nil, mode: DeinterlacerMode? = nil) {
@@ -5454,59 +5529,59 @@ extension MediaConvert {
     public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Within your job settings, all of your DVB-Sub settings must be identical.
         public let alignment: DvbSubtitleAlignment?
-        /// Ignore this setting unless Style Passthrough (StylePassthrough) is set to Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for additional font color controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
+        /// Ignore this setting unless Style Passthrough is set to Enabled and Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color for additional font color controls. When you choose White text only, or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
         public let applyFontColor: DvbSubtitleApplyFontColor?
-        /// Specify the color of the rectangle behind the captions. Leave background color (BackgroundColor) blank and set Style passthrough (StylePassthrough) to enabled to use the background color data from your input captions, if present.
+        /// Specify the color of the rectangle behind the captions. Leave background color blank and set Style passthrough to enabled to use the background color data from your input captions, if present.
         public let backgroundColor: DvbSubtitleBackgroundColor?
-        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all backgrounds from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let backgroundOpacity: Int?
         /// Specify how MediaConvert handles the display definition segment (DDS). To exclude the DDS from this set of captions: Keep the default, None. To include the DDS: Choose Specified. When you do, also specify the offset coordinates of the display window with DDS x-coordinate and DDS y-coordinate. To include the DDS, but not include display window data: Choose No display window. When you do, you can write position metadata to the page composition segment (PCS) with DDS x-coordinate and DDS y-coordinate. For video resolutions with a height of 576 pixels or less, MediaConvert doesn't include the DDS, regardless of the value you choose for DDS handling. All burn-in and DVB-Sub font settings must match.
         public let ddsHandling: DvbddsHandling?
-        /// Use this setting, along with DDS y-coordinate (ddsYCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the left side of the frame and the left side of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
+        /// Use this setting, along with DDS y-coordinate, to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the left side of the frame and the left side of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling to a value other than None. MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment. All burn-in and DVB-Sub font settings must match.
         public let ddsXCoordinate: Int?
-        /// Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
+        /// Use this setting, along with DDS x-coordinate, to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling to a value other than None. MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
         public let ddsYCoordinate: Int?
-        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
+        /// Specify the font that you want the service to use for your burn in captions when your input captions specify a font that MediaConvert doesn't support. When you set Fallback font to best match, or leave blank, MediaConvert uses a supported font that most closely matches the font that your input captions specify. When there are multiple unsupported fonts in your input captions, MediaConvert matches each font with the supported font that matches best. When you explicitly choose a replacement font, MediaConvert uses that font to replace all unsupported fonts from your input.
         public let fallbackFont: DvbSubSubtitleFallbackFont?
-        /// Specify the color of the captions text. Leave Font color (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the color of the captions text. Leave Font color blank and set Style passthrough to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontColor: DvbSubtitleFontColor?
         /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
         /// Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontOpacity: Int?
-        /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
+        /// Specify the Font resolution in DPI (dots per inch).
         /// Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontResolution: Int?
-        /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Set Font script to Automatically determined, or leave blank, to automatically determine the font script in your input captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese (HANT) if your input font script uses Simplified or Traditional Chinese. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontScript: FontScript?
-        /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the Font size in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size. Within your job settings, all of your DVB-Sub settings must be identical.
         public let fontSize: Int?
-        /// Specify the height, in pixels, of this set of DVB-Sub captions. The default value is 576 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
+        /// Specify the height, in pixels, of this set of DVB-Sub captions. The default value is 576 pixels. Related setting: When you use this setting, you must set DDS handling to a value other than None. All burn-in and DVB-Sub font settings must match.
         public let height: Int?
         /// Ignore this setting unless your Font color is set to Hex. Enter either six or eight hexidecimal digits, representing red, green, and blue, with two optional extra digits for alpha. For example a value of 1122AABB is a red value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha value of 0xBB.
         public let hexFontColor: String?
-        /// Specify font outline color. Leave Outline color (OutlineColor) blank and set Style passthrough (StylePassthrough) to enabled to use the font outline color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify font outline color. Leave Outline color blank and set Style passthrough to enabled to use the font outline color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let outlineColor: DvbSubtitleOutlineColor?
-        /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave Outline size blank and set Style passthrough (StylePassthrough) to enabled to use the outline size data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the Outline size of the caption text, in pixels. Leave Outline size blank and set Style passthrough to enabled to use the outline size data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let outlineSize: Int?
-        /// Specify the color of the shadow cast by the captions. Leave Shadow color (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the color of the shadow cast by the captions. Leave Shadow color blank and set Style passthrough to enabled to use the shadow color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowColor: DvbSubtitleShadowColor?
-        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough (StylePassthrough) is set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to Enabled, leave Shadow opacity blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowOpacity: Int?
         /// Specify the horizontal offset of the shadow, relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowXOffset: Int?
-        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough (StylePassthrough) to enabled to use the shadow y-offset data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset blank and set Style passthrough to enabled to use the shadow y-offset data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public let shadowYOffset: Int?
-        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+        /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
         public let stylePassthrough: DvbSubtitleStylePassthrough?
         /// Specify whether your DVB subtitles are standard or for hearing impaired. Choose hearing impaired if your subtitles include audio descriptions and dialogue. Choose standard if your subtitles include only dialogue.
         public let subtitlingType: DvbSubtitlingType?
-        /// Specify whether the Text spacing (TeletextSpacing) in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid (FIXED_GRID) to conform to the spacing specified in the captions file more accurately. Choose proportional (PROPORTIONAL) to make the text easier to read for closed captions. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify whether the Text spacing in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read for closed captions. Within your job settings, all of your DVB-Sub settings must be identical.
         public let teletextSpacing: DvbSubtitleTeletextSpacing?
-        /// Specify the width, in pixels, of this set of DVB-Sub captions. The default value is 720 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
+        /// Specify the width, in pixels, of this set of DVB-Sub captions. The default value is 720 pixels. Related setting: When you use this setting, you must set DDS handling to a value other than None. All burn-in and DVB-Sub font settings must match.
         public let width: Int?
-        /// Specify the horizontal position (XPosition) of the captions, relative to the left side of the outputin pixels. A value of 10 would result in the captions starting 10 pixels from the left ofthe output. If no explicit x_position is provided, the horizontal caption position will bedetermined by the alignment parameter. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the horizontal position of the captions, relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. Within your job settings, all of your DVB-Sub settings must be identical.
         public let xPosition: Int?
-        /// Specify the vertical position (YPosition) of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. Within your job settings, all of your DVB-Sub settings must be identical.
+        /// Specify the vertical position of the captions, relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. Within your job settings, all of your DVB-Sub settings must be identical.
         public let yPosition: Int?
 
         public init(alignment: DvbSubtitleAlignment? = nil, applyFontColor: DvbSubtitleApplyFontColor? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, ddsHandling: DvbddsHandling? = nil, ddsXCoordinate: Int? = nil, ddsYCoordinate: Int? = nil, fallbackFont: DvbSubSubtitleFallbackFont? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, height: Int? = nil, hexFontColor: String? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: DvbSubtitleStylePassthrough? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
@@ -5605,7 +5680,7 @@ extension MediaConvert {
     }
 
     public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
+        /// When using DVB-Sub with Burn-in, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
 
         public init(pid: Int? = nil) {
@@ -5649,21 +5724,21 @@ extension MediaConvert {
         public let codingMode: Eac3AtmosCodingMode?
         /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue analysis.
         public let dialogueIntelligence: Eac3AtmosDialogueIntelligence?
-        /// Specify whether MediaConvert should use any downmix metadata from your input file. Keep the default value, Custom (SPECIFIED) to provide downmix values in your job settings. Choose Follow source (INITIALIZE_FROM_SOURCE) to use the metadata from your input. Related settings--Use these settings to specify your downmix values: Left only/Right only surround (LoRoSurroundMixLevel), Left total/Right total surround (LtRtSurroundMixLevel), Left total/Right total center (LtRtCenterMixLevel), Left only/Right only center (LoRoCenterMixLevel), and Stereo downmix (StereoDownmix). When you keep Custom (SPECIFIED) for Downmix control (DownmixControl) and you don't specify values for the related settings, MediaConvert uses default values for those settings.
+        /// Specify whether MediaConvert should use any downmix metadata from your input file. Keep the default value, Custom to provide downmix values in your job settings. Choose Follow source to use the metadata from your input. Related settings--Use these settings to specify your downmix values: Left only/Right only surround, Left total/Right total surround, Left total/Right total center, Left only/Right only center, and Stereo downmix. When you keep Custom for Downmix control and you don't specify values for the related settings, MediaConvert uses default values for those settings.
         public let downmixControl: Eac3AtmosDownmixControl?
-        /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby stream for the line operating mode. Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related setting: To have MediaConvert use the value you specify here, keep the default value, Custom (SPECIFIED) for the setting Dynamic range control (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range compression line (DynamicRangeCompressionLine). For information about the Dolby DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby stream for the line operating mode. Default value: Film light Related setting: To have MediaConvert use the value you specify here, keep the default value, Custom for the setting Dynamic range control. Otherwise, MediaConvert ignores Dynamic range compression line. For information about the Dolby DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionLine: Eac3AtmosDynamicRangeCompressionLine?
-        /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby stream for the RF operating mode. Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related setting: To have MediaConvert use the value you specify here, keep the default value, Custom (SPECIFIED) for the setting Dynamic range control (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range compression RF (DynamicRangeCompressionRf). For information about the Dolby DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby stream for the RF operating mode. Default value: Film light Related setting: To have MediaConvert use the value you specify here, keep the default value, Custom for the setting Dynamic range control. Otherwise, MediaConvert ignores Dynamic range compression RF. For information about the Dolby DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionRf: Eac3AtmosDynamicRangeCompressionRf?
-        /// Specify whether MediaConvert should use any dynamic range control metadata from your input file. Keep the default value, Custom (SPECIFIED), to provide dynamic range control values in your job settings. Choose Follow source (INITIALIZE_FROM_SOURCE) to use the metadata from your input. Related settings--Use these settings to specify your dynamic range control values: Dynamic range compression line (DynamicRangeCompressionLine) and Dynamic range compression RF (DynamicRangeCompressionRf). When you keep the value Custom (SPECIFIED) for Dynamic range control (DynamicRangeControl) and you don't specify values for the related settings, MediaConvert uses default values for those settings.
+        /// Specify whether MediaConvert should use any dynamic range control metadata from your input file. Keep the default value, Custom, to provide dynamic range control values in your job settings. Choose Follow source to use the metadata from your input. Related settings--Use these settings to specify your dynamic range control values: Dynamic range compression line and Dynamic range compression RF. When you keep the value Custom for Dynamic range control and you don't specify values for the related settings, MediaConvert uses default values for those settings.
         public let dynamicRangeControl: Eac3AtmosDynamicRangeControl?
-        /// Specify a value for the following Dolby Atmos setting: Left only/Right only center mix (Lo/Ro center). MediaConvert uses this value for downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use this value, keep the default value, Custom (SPECIFIED) for the setting Downmix control (DownmixControl). Otherwise, MediaConvert ignores Left only/Right only center (LoRoCenterMixLevel).
+        /// Specify a value for the following Dolby Atmos setting: Left only/Right only center mix (Lo/Ro center). MediaConvert uses this value for downmixing. Default value: -3 dB. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix. Related setting: To have MediaConvert use this value, keep the default value, Custom for the setting Downmix control. Otherwise, MediaConvert ignores Left only/Right only center.
         public let loRoCenterMixLevel: Double?
-        /// Specify a value for the following Dolby Atmos setting: Left only/Right only (Lo/Ro surround). MediaConvert uses this value for downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use this value, keep the default value, Custom (SPECIFIED) for the setting Downmix control (DownmixControl). Otherwise, MediaConvert ignores Left only/Right only surround (LoRoSurroundMixLevel).
+        /// Specify a value for the following Dolby Atmos setting: Left only/Right only. MediaConvert uses this value for downmixing. Default value: -3 dB. Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix. Related setting: To have MediaConvert use this value, keep the default value, Custom for the setting Downmix control. Otherwise, MediaConvert ignores Left only/Right only surround.
         public let loRoSurroundMixLevel: Double?
-        /// Specify a value for the following Dolby Atmos setting: Left total/Right total center mix (Lt/Rt center). MediaConvert uses this value for downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB) Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use this value, keep the default value, Custom (SPECIFIED) for the setting Downmix control (DownmixControl). Otherwise, MediaConvert ignores Left total/Right total center (LtRtCenterMixLevel).
+        /// Specify a value for the following Dolby Atmos setting: Left total/Right total center mix (Lt/Rt center). MediaConvert uses this value for downmixing. Default value: -3 dB Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix. Related setting: To have MediaConvert use this value, keep the default value, Custom for the setting Downmix control. Otherwise, MediaConvert ignores Left total/Right total center.
         public let ltRtCenterMixLevel: Double?
-        /// Specify a value for the following Dolby Atmos setting: Left total/Right total surround mix (Lt/Rt surround). MediaConvert uses this value for downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB) Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use this value, keep the default value, Custom (SPECIFIED) for the setting Downmix control (DownmixControl). Otherwise, the service ignores Left total/Right total surround (LtRtSurroundMixLevel).
+        /// Specify a value for the following Dolby Atmos setting: Left total/Right total surround mix (Lt/Rt surround). MediaConvert uses this value for downmixing. Default value: -3 dB Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related setting: How the service uses this value depends on the value that you choose for Stereo downmix. Related setting: To have MediaConvert use this value, keep the default value, Custom for the setting Downmix control. Otherwise, the service ignores Left total/Right total surround.
         public let ltRtSurroundMixLevel: Double?
         /// Choose how the service meters the loudness of your audio.
         public let meteringMode: Eac3AtmosMeteringMode?
@@ -5671,7 +5746,7 @@ extension MediaConvert {
         public let sampleRate: Int?
         /// Specify the percentage of audio content, from 0% to 100%, that must be speech in order for the encoder to use the measured speech loudness as the overall program loudness. Default value: 15%
         public let speechThreshold: Int?
-        /// Choose how the service does stereo downmixing. Default value: Not indicated (ATMOS_STORAGE_DDP_DMIXMOD_NOT_INDICATED) Related setting: To have MediaConvert use this value, keep the default value, Custom (SPECIFIED) for the setting Downmix control (DownmixControl). Otherwise, MediaConvert ignores Stereo downmix (StereoDownmix).
+        /// Choose how the service does stereo downmixing. Default value: Not indicated Related setting: To have MediaConvert use this value, keep the default value, Custom for the setting Downmix control. Otherwise, MediaConvert ignores Stereo downmix.
         public let stereoDownmix: Eac3AtmosStereoDownmix?
         /// Specify whether your input audio has an additional center rear surround channel matrix encoded into your left and right surround channels.
         public let surroundExMode: Eac3AtmosSurroundExMode?
@@ -5739,21 +5814,21 @@ extension MediaConvert {
         public let dcFilter: Eac3DcFilter?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
         public let dialnorm: Int?
-        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile. For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionLine: Eac3DynamicRangeCompressionLine?
-        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile. For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionRf: Eac3DynamicRangeCompressionRf?
         /// When encoding 3/2 audio, controls whether the LFE channel is enabled
         public let lfeControl: Eac3LfeControl?
         /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with 3_2_LFE coding mode.
         public let lfeFilter: Eac3LfeFilter?
-        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only center mix (Lo/Ro center). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left only/Right only center (loRoCenterMixLevel).
+        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only center.
         public let loRoCenterMixLevel: Double?
-        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only (Lo/Ro surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left only/Right only surround (loRoSurroundMixLevel).
+        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only surround.
         public let loRoSurroundMixLevel: Double?
-        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total center mix (Lt/Rt center). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left total/Right total center (ltRtCenterMixLevel).
+        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total center.
         public let ltRtCenterMixLevel: Double?
-        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total surround mix (Lt/Rt surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left total/Right total surround (ltRtSurroundMixLevel).
+        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total surround mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total surround.
         public let ltRtSurroundMixLevel: Double?
         /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Eac3MetadataControl?
@@ -5763,7 +5838,7 @@ extension MediaConvert {
         public let phaseControl: Eac3PhaseControl?
         /// This value is always 48000. It represents the sample rate in Hz.
         public let sampleRate: Int?
-        /// Choose how the service does stereo downmixing. This setting only applies if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Stereo downmix (Eac3StereoDownmix).
+        /// Choose how the service does stereo downmixing. This setting only applies if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Stereo downmix.
         public let stereoDownmix: Eac3StereoDownmix?
         /// When encoding 3/2 audio, sets whether an extra center back surround channel is matrix encoded into the left and right surround channels.
         public let surroundExMode: Eac3SurroundExMode?
@@ -5831,7 +5906,7 @@ extension MediaConvert {
     public struct EmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination608ChannelNumber: Int?
-        /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert (Convert608To708) to Upconvert (UPCONVERT) in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number that you specify for CC channel number (destination608ChannelNumber) for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
+        /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert to Upconvert in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number that you specify for CC channel number for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination708ServiceNumber: Int?
 
         public init(destination608ChannelNumber: Int? = nil, destination708ServiceNumber: Int? = nil) {
@@ -5853,7 +5928,7 @@ extension MediaConvert {
     }
 
     public struct EmbeddedSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: EmbeddedConvert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
         public let source608ChannelNumber: Int?
@@ -5915,11 +5990,11 @@ extension MediaConvert {
     }
 
     public struct EsamSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML (mccXml).
+        /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML.
         public let manifestConfirmConditionNotification: EsamManifestConfirmConditionNotification?
         /// Specifies the stream distance, in milliseconds, between the SCTE 35 messages that the transcoder places and the splice points that they refer to. If the time between the start of the asset and the SCTE-35 message is less than this value, then the transcoder places the SCTE-35 marker at the beginning of the stream.
         public let responseSignalPreroll: Int?
-        /// Specifies an ESAM SignalProcessingNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the signal processing instructions that you provide in the setting SCC XML (sccXml).
+        /// Specifies an ESAM SignalProcessingNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the signal processing instructions that you provide in the setting SCC XML.
         public let signalProcessingNotification: EsamSignalProcessingNotification?
 
         public init(manifestConfirmConditionNotification: EsamManifestConfirmConditionNotification? = nil, responseSignalPreroll: Int? = nil, signalProcessingNotification: EsamSignalProcessingNotification? = nil) {
@@ -5943,7 +6018,7 @@ extension MediaConvert {
     }
 
     public struct EsamSignalProcessingNotification: AWSEncodableShape & AWSDecodableShape {
-        /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
+        /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM. Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public let sccXml: String?
 
         public init(sccXml: String? = nil) {
@@ -5977,7 +6052,7 @@ extension MediaConvert {
     }
 
     public struct F4vSettings: AWSEncodableShape & AWSDecodableShape {
-        /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+        /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
         public let moovPlacement: F4vMoovPlacement?
 
         public init(moovPlacement: F4vMoovPlacement? = nil) {
@@ -5990,7 +6065,7 @@ extension MediaConvert {
     }
 
     public struct FileGroupSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
+        /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
@@ -6012,17 +6087,17 @@ extension MediaConvert {
     }
 
     public struct FileSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
         /// Choose the presentation style of your input SCC captions. To use the same presentation style as your input: Keep the default value, Disabled. To convert paint-on captions to pop-on: Choose Enabled. We also recommend that you choose Enabled if you notice additional repeated lines in your output captions.
         public let convertPaintToPop: CaptionSourceConvertPaintOnToPopOn?
-        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. When you work directly in your JSON job specification, use the settings framerateNumerator and framerateDenominator. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+        /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
         public let framerate: CaptionSourceFramerate?
         /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', 'smi', 'webvtt', and 'vtt'.
         public let sourceFile: String?
-        /// Optional. Use this setting when you need to adjust the sync between your sidecar captions and your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html. Enter a positive or negative number to modify the times in the captions file. For example, type 15 to add 15 seconds to all the times in the captions file. Type -5 to subtract 5 seconds from the times in the captions file. You can optionally specify your time delta in milliseconds instead of seconds. When you do so, set the related setting, Time delta units (TimeDeltaUnits) to Milliseconds (MILLISECONDS). Note that, when you specify a time delta for timecode-based caption sources, such as SCC and STL, and your time delta isn't a multiple of the input frame rate, MediaConvert snaps the captions to the nearest frame. For example, when your input video frame rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays your captions by 1000 ms.
+        /// Optional. Use this setting when you need to adjust the sync between your sidecar captions and your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html. Enter a positive or negative number to modify the times in the captions file. For example, type 15 to add 15 seconds to all the times in the captions file. Type -5 to subtract 5 seconds from the times in the captions file. You can optionally specify your time delta in milliseconds instead of seconds. When you do so, set the related setting, Time delta units to Milliseconds. Note that, when you specify a time delta for timecode-based caption sources, such as SCC and STL, and your time delta isn't a multiple of the input frame rate, MediaConvert snaps the captions to the nearest frame. For example, when your input video frame rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays your captions by 1000 ms.
         public let timeDelta: Int?
-        /// When you use the setting Time delta (TimeDelta) to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+        /// When you use the setting Time delta to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units, MediaConvert uses seconds by default.
         public let timeDeltaUnits: FileSourceTimeDeltaUnits?
 
         public init(convert608To708: FileSourceConvert608To708? = nil, convertPaintToPop: CaptionSourceConvertPaintOnToPopOn? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil) {
@@ -6049,6 +6124,36 @@ extension MediaConvert {
             case sourceFile = "sourceFile"
             case timeDelta = "timeDelta"
             case timeDeltaUnits = "timeDeltaUnits"
+        }
+    }
+
+    public struct FlacSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
+        public let bitDepth: Int?
+        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
+        public let channels: Int?
+        /// Sample rate in Hz.
+        public let sampleRate: Int?
+
+        public init(bitDepth: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
+            self.bitDepth = bitDepth
+            self.channels = channels
+            self.sampleRate = sampleRate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bitDepth, name: "bitDepth", parent: name, max: 24)
+            try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
+            try self.validate(self.channels, name: "channels", parent: name, max: 8)
+            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitDepth = "bitDepth"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -6252,7 +6357,7 @@ extension MediaConvert {
     public struct H264QvbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
-        /// Use this setting only when you set Rate control mode (RateControlMode) to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
+        /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
         /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
         public let qvbrQualityLevelFineTune: Double?
@@ -6278,25 +6383,27 @@ extension MediaConvert {
     }
 
     public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off (OFF). Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
+        /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
         public let bandwidthReductionFilter: BandwidthReductionFilter?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
-        /// Specify an H.264 level that is consistent with your output video settings. If you aren't sure what level to specify, choose Auto (AUTO).
+        /// Specify an H.264 level that is consistent with your output video settings. If you aren't sure what level to specify, choose Auto.
         public let codecLevel: H264CodecLevel?
         /// H.264 Profile. High 4:2:2 and 10-bit profiles are only available with the AVC-I License.
         public let codecProfile: H264CodecProfile?
         /// Specify whether to allow the number of B-frames in your output GOP structure to vary or not depending on your input video content. To improve the subjective video quality of your output that has high-motion content: Leave blank or keep the default value Adaptive. MediaConvert will use fewer B-frames for high-motion video content than low-motion content. The maximum number of B- frames is limited by the value that you choose for B-frames between reference frames. To use the same number B-frames for all types of content: Choose Static.
         public let dynamicSubGop: H264DynamicSubGop?
+        /// Optionally include or suppress markers at the end of your output that signal the end of the video stream. To include end of stream markers: Leave blank or keep the default value, Include. To not include end of stream markers: Choose Suppress. This is useful when your output will be inserted into another stream.
+        public let endOfStreamMarkers: H264EndOfStreamMarkers?
         /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
         public let entropyEncoding: H264EntropyEncoding?
-        /// The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.
+        /// The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.
         public let fieldEncoding: H264FieldEncoding?
-        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264FlickerAdaptiveQuantization is Disabled (DISABLED). Change this value to Enabled (ENABLED) to reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. To manually enable or disable H264FlickerAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
+        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264FlickerAdaptiveQuantization is Disabled. Change this value to Enabled to reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. To manually enable or disable H264FlickerAdaptiveQuantization, you must set Adaptive quantization to a value other than AUTO.
         public let flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: H264FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: H264FramerateConversionAlgorithm?
@@ -6306,11 +6413,11 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify whether to allow B-frames to be referenced by other frame types. To use reference B-frames when your GOP structure has 1 or more B-frames: Leave blank or keep the default value Enabled. We recommend that you choose Enabled to help improve the video quality of your output relative to its bitrate. To not use reference B-frames: Choose Disabled.
         public let gopBReference: H264GopBReference?
-        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
+        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
         public let gopClosedCadence: Int?
-        /// Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
+        /// Use this setting only when you set GOP mode control to Specified, frames or Specified, seconds. Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control. If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto. If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
         public let gopSize: Double?
-        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
+        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto and and leave GOP size blank. By default, if you don't specify GOP mode control, MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames or Specified, seconds and then provide the GOP length in the related setting GOP size.
         public let gopSizeUnits: H264GopSizeUnits?
         /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
         public let hrdBufferFinalFillPercentage: Int?
@@ -6318,58 +6425,59 @@ extension MediaConvert {
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
         public let hrdBufferSize: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: H264InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
-        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: H264ParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public let qualityTuningLevel: H264QualityTuningLevel?
-        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode (RateControlMode).
+        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: H264QvbrSettings?
         /// Use this setting to specify whether this output has a variable bitrate (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
         public let rateControlMode: H264RateControlMode?
         /// Places a PPS header on each encoded picture, even if repeated.
         public let repeatPps: H264RepeatPps?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: H264ScanTypeConversionMode?
-        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection (TRANSITION_DETECTION) for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
         public let sceneChangeDetect: H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: H264SlowPal?
-        /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness (sharpness) or by enabling a noise reducer filter (noiseReducerFilter). The Softness (softness) setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
+        /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
         public let softness: Int?
-        /// Only use this setting when you change the default value, Auto (AUTO), for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264SpatialAdaptiveQuantization is Enabled (ENABLED). Keep this default value to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to set H264SpatialAdaptiveQuantization to Disabled (DISABLED). Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (H264AdaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher. To manually enable or disable H264SpatialAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
+        /// Only use this setting when you change the default value, Auto, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264SpatialAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to set H264SpatialAdaptiveQuantization to Disabled. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher. To manually enable or disable H264SpatialAdaptiveQuantization, you must set Adaptive quantization to a value other than AUTO.
         public let spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public let syntax: H264Syntax?
-        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine produces a 29.97i output. Soft telecine produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: H264Telecine?
-        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264TemporalAdaptiveQuantization is Enabled (ENABLED). Keep this default value to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to set H264TemporalAdaptiveQuantization to Disabled (DISABLED). Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization). To manually enable or disable H264TemporalAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
+        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264TemporalAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to set H264TemporalAdaptiveQuantization to Disabled. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization. To manually enable or disable H264TemporalAdaptiveQuantization, you must set Adaptive quantization to a value other than AUTO.
         public let temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
             self.dynamicSubGop = dynamicSubGop
+            self.endOfStreamMarkers = endOfStreamMarkers
             self.entropyEncoding = entropyEncoding
             self.fieldEncoding = fieldEncoding
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
@@ -6449,6 +6557,7 @@ extension MediaConvert {
             case codecLevel = "codecLevel"
             case codecProfile = "codecProfile"
             case dynamicSubGop = "dynamicSubGop"
+            case endOfStreamMarkers = "endOfStreamMarkers"
             case entropyEncoding = "entropyEncoding"
             case fieldEncoding = "fieldEncoding"
             case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
@@ -6491,7 +6600,7 @@ extension MediaConvert {
     public struct H265QvbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
-        /// Use this setting only when you set Rate control mode (RateControlMode) to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
+        /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
         /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
         public let qvbrQualityLevelFineTune: Double?
@@ -6517,10 +6626,12 @@ extension MediaConvert {
     }
 
     public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
-        /// When you set Adaptive Quantization (H265AdaptiveQuantization) to Auto (AUTO), or leave blank, MediaConvert automatically applies quantization to improve the video quality of your output. Set Adaptive Quantization to Low (LOW), Medium (MEDIUM), High (HIGH), Higher (HIGHER), or Max (MAX) to manually control the strength of the quantization filter. When you do, you can specify a value for Spatial Adaptive Quantization (H265SpatialAdaptiveQuantization), Temporal Adaptive Quantization (H265TemporalAdaptiveQuantization), and Flicker Adaptive Quantization (H265FlickerAdaptiveQuantization), to further control the quantization filter. Set Adaptive Quantization to Off (OFF) to apply no quantization to your output.
+        /// When you set Adaptive Quantization to Auto, or leave blank, MediaConvert automatically applies quantization to improve the video quality of your output. Set Adaptive Quantization to Low, Medium, High, Higher, or Max to manually control the strength of the quantization filter. When you do, you can specify a value for Spatial Adaptive Quantization, Temporal Adaptive Quantization, and Flicker Adaptive Quantization, to further control the quantization filter. Set Adaptive Quantization to Off to apply no quantization to your output.
         public let adaptiveQuantization: H265AdaptiveQuantization?
         /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
         public let alternateTransferFunctionSei: H265AlternateTransferFunctionSei?
+        /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+        public let bandwidthReductionFilter: BandwidthReductionFilter?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
         /// H.265 Level.
@@ -6529,9 +6640,11 @@ extension MediaConvert {
         public let codecProfile: H265CodecProfile?
         /// Specify whether to allow the number of B-frames in your output GOP structure to vary or not depending on your input video content. To improve the subjective video quality of your output that has high-motion content: Leave blank or keep the default value Adaptive. MediaConvert will use fewer B-frames for high-motion video content than low-motion content. The maximum number of B- frames is limited by the value that you choose for B-frames between reference frames. To use the same number B-frames for all types of content: Choose Static.
         public let dynamicSubGop: H265DynamicSubGop?
-        /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set adaptiveQuantization to a value other than Off (OFF).
+        /// Optionally include or suppress markers at the end of your output that signal the end of the video stream. To include end of stream markers: Leave blank or keep the default value, Include. To not include end of stream markers: Choose Suppress. This is useful when your output will be inserted into another stream.
+        public let endOfStreamMarkers: H265EndOfStreamMarkers?
+        /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set adaptiveQuantization to a value other than Off.
         public let flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: H265FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: H265FramerateConversionAlgorithm?
@@ -6541,11 +6654,11 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify whether to allow B-frames to be referenced by other frame types. To use reference B-frames when your GOP structure has 1 or more B-frames: Leave blank or keep the default value Enabled. We recommend that you choose Enabled to help improve the video quality of your output relative to its bitrate. To not use reference B-frames: Choose Disabled.
         public let gopBReference: H265GopBReference?
-        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
+        /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, do this by keeping the default empty value. If you do explicitly specify a value, for segmented outputs, don't set this value to 0.
         public let gopClosedCadence: Int?
-        /// Use this setting only when you set GOP mode control (GopSizeUnits) to Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control (GopSizeUnits). If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto (AUTO). If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
+        /// Use this setting only when you set GOP mode control to Specified, frames or Specified, seconds. Specify the GOP length using a whole number of frames or a decimal value of seconds. MediaConvert will interpret this value as frames or seconds depending on the value you choose for GOP mode control. If you want to allow MediaConvert to automatically determine GOP size, leave GOP size blank and set GOP mode control to Auto. If your output group specifies HLS, DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each output in your output group.
         public let gopSize: Double?
-        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
+        /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto and and leave GOP size blank. By default, if you don't specify GOP mode control, MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames or Specified, seconds and then provide the GOP length in the related setting GOP size.
         public let gopSizeUnits: H265GopSizeUnits?
         /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
         public let hrdBufferFinalFillPercentage: Int?
@@ -6553,43 +6666,43 @@ extension MediaConvert {
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
         public let hrdBufferSize: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: H265InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, keep the default value by leaving this setting out of your JSON job specification. In the console, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numberReferenceFrames: Int?
-        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: H265ParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: H265QualityTuningLevel?
-        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode (RateControlMode).
+        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: H265QvbrSettings?
         /// Use this setting to specify whether this output has a variable bitrate (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
         public let rateControlMode: H265RateControlMode?
         /// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode dynamically selects best strength based on content
         public let sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: H265ScanTypeConversionMode?
-        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection (TRANSITION_DETECTION) for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
         public let sceneChangeDetect: H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: H265SlowPal?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public let spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization?
-        /// This field applies only if the Streams > Advanced > Framerate (framerate) field is set to 29.970. This field works with the Streams > Advanced > Preprocessors > Deinterlacer field (deinterlace_mode) and the Streams > Advanced > Interlaced Mode field (interlace_mode) to identify the scan type for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. - Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the player converts this output to 29.97i.
+        /// This field applies only if the Streams > Advanced > Framerate field is set to 29.970. This field works with the Streams > Advanced > Preprocessors > Deinterlacer field and the Streams > Advanced > Interlaced Mode field to identify the scan type for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. - Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the player converts this output to 29.97i.
         public let telecine: H265Telecine?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization).
+        /// Keep the default value, Enabled, to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization.
         public let temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization?
         /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers are supported depending on GOP structure: I- and P-frames form one layer, reference B-frames can form a second layer and non-reference b-frames can form a third layer. Decoders can optionally decode only the lower temporal layers to generate a lower frame rate output. For example, given a bitstream with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a decoder could decode all the frames for full frame rate output or only the I and P frames (lowest temporal layer) for a half frame rate output.
         public let temporalIds: H265TemporalIds?
@@ -6600,13 +6713,15 @@ extension MediaConvert {
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
+            self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
             self.dynamicSubGop = dynamicSubGop
+            self.endOfStreamMarkers = endOfStreamMarkers
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -6679,10 +6794,12 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case alternateTransferFunctionSei = "alternateTransferFunctionSei"
+            case bandwidthReductionFilter = "bandwidthReductionFilter"
             case bitrate = "bitrate"
             case codecLevel = "codecLevel"
             case codecProfile = "codecProfile"
             case dynamicSubGop = "dynamicSubGop"
+            case endOfStreamMarkers = "endOfStreamMarkers"
             case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
             case framerateControl = "framerateControl"
             case framerateConversionAlgorithm = "framerateConversionAlgorithm"
@@ -6936,7 +7053,7 @@ extension MediaConvert {
         public let additionalManifests: [HlsAdditionalManifest]?
         /// Choose one or more ad marker types to decorate your Apple HLS manifest. This setting does not determine whether SCTE-35 markers appear in the outputs themselves.
         public let adMarkers: [HlsAdMarkers]?
-        /// Ignore this setting unless you are using FairPlay DRM with Verimatrix and you encounter playback issues. Keep the default value, Include (INCLUDE), to output audio-only headers. Choose Exclude (EXCLUDE) to remove the audio-only headers from your audio segments.
+        /// Ignore this setting unless you are using FairPlay DRM with Verimatrix and you encounter playback issues. Keep the default value, Include, to output audio-only headers. Choose Exclude to remove the audio-only headers from your audio segments.
         public let audioOnlyHeader: HlsAudioOnlyHeader?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
         public let baseUrl: String?
@@ -6944,13 +7061,13 @@ extension MediaConvert {
         public let captionLanguageMappings: [HlsCaptionLanguageMapping]?
         /// Applies only to 608 Embedded output captions. Insert: Include CLOSED-CAPTIONS lines in the manifest. Specify at least one language in the CC1 Language Code field. One CLOSED-CAPTION line is added for each Language Code you specify. Make sure to specify the languages in the order in which they appear in the original source (if the source is embedded format) or the order of the caption selectors (if the source is other than embedded). Otherwise, languages in the manifest will not match up properly with the output captions. None: Include CLOSED-CAPTIONS=NONE line in the manifest. Omit: Omit any CLOSED-CAPTIONS line from the manifest.
         public let captionLanguageSetting: HlsCaptionLanguageSetting?
-        /// Set Caption segment length control (CaptionSegmentLengthControl) to Match video (MATCH_VIDEO) to create caption segments that align with the video segments from the first video output in this output group. For example, if the video segments are 2 seconds long, your WebVTT segments will also be 2 seconds long. Keep the default setting, Large segments (LARGE_SEGMENTS) to create caption segments that are 300 seconds long.
+        /// Set Caption segment length control to Match video to create caption segments that align with the video segments from the first video output in this output group. For example, if the video segments are 2 seconds long, your WebVTT segments will also be 2 seconds long. Keep the default setting, Large segments to create caption segments that are 300 seconds long.
         public let captionSegmentLengthControl: HlsCaptionSegmentLengthControl?
-        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled (ENABLED) and control caching in your video distribution set up. For example, use the Cache-Control http header.
+        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and control caching in your video distribution set up. For example, use the Cache-Control http header.
         public let clientCache: HlsClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: HlsCodecSpecification?
-        /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
+        /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
@@ -6958,7 +7075,7 @@ extension MediaConvert {
         public let directoryStructure: HlsDirectoryStructure?
         /// DRM settings.
         public let encryption: HlsEncryptionSettings?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None (NONE), to not generate any images. Choose Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution images of single frames. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public let imageBasedTrickPlay: HlsImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public let imageBasedTrickPlaySettings: HlsImageBasedTrickPlaySettings?
@@ -6976,26 +7093,28 @@ extension MediaConvert {
         public let programDateTime: HlsProgramDateTime?
         /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
         public let programDateTimePeriod: Int?
+        /// Specify whether MediaConvert generates HLS manifests while your job is running or when your job is complete. To generate HLS manifests while your job is running: Choose Enabled. Use if you want to play back your content as soon as it's available. MediaConvert writes the parent and child manifests after the first three media segments are written to your destination S3 bucket. It then writes new updated manifests after each additional segment is written. The parent manifest includes the latest BANDWIDTH and AVERAGE-BANDWIDTH attributes, and child manifests include the latest available media segment. When your job completes, the final child playlists include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job completes: Choose Disabled.
+        public let progressiveWriteHlsManifest: HlsProgressiveWriteHlsManifest?
         /// When set to SINGLE_FILE, emits program as a single media resource (.ts) file, uses #EXT-X-BYTERANGE tags to index segment for playback.
         public let segmentControl: HlsSegmentControl?
-        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (HlsSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
+        /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Segment length (SegmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
         public let segmentLengthControl: HlsSegmentLengthControl?
-        /// Specify the number of segments to write to a subdirectory before starting a new one. You  must also set Directory structure to Subdirectory per stream for this setting to have an effect.
+        /// Specify the number of segments to write to a subdirectory before starting a new one. You must also set Directory structure to Subdirectory per stream for this setting to have an effect.
         public let segmentsPerSubdirectory: Int?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: HlsStreamInfResolution?
         /// When set to LEGACY, the segment target duration is always rounded up to the nearest integer value above its current value in seconds. When set to SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5) and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if your client needs to ensure that the target duration is always longer than the actual duration of the segment. Some older players may experience interrupted playback when the actual duration of a track in a segment is longer than the target duration.
         public let targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode?
-        /// Specify the type of the ID3 frame (timedMetadataId3Frame) to use for ID3 timestamps (timedMetadataId3Period) in your output. To include ID3 timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). To exclude ID3 timestamps: Set ID3 timestamp frame type to None (NONE).
+        /// Specify the type of the ID3 frame to use for ID3 timestamps in your output. To include ID3 timestamps: Specify PRIV or TDRL and set ID3 metadata to Passthrough. To exclude ID3 timestamps: Set ID3 timestamp frame type to None.
         public let timedMetadataId3Frame: HlsTimedMetadataId3Frame?
-        /// Specify the interval in seconds to write ID3 timestamps in your output. The first timestamp starts at the output timecode and date, and increases incrementally with each ID3 timestamp. To use the default interval of 10 seconds: Leave blank. To include this metadata in your output: Set ID3 timestamp frame type (timedMetadataId3Frame) to PRIV (PRIV) or TDRL (TDRL), and set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
+        /// Specify the interval in seconds to write ID3 timestamps in your output. The first timestamp starts at the output timecode and date, and increases incrementally with each ID3 timestamp. To use the default interval of 10 seconds: Leave blank. To include this metadata in your output: Set ID3 timestamp frame type to PRIV or TDRL, and set ID3 metadata to Passthrough.
         public let timedMetadataId3Period: Int?
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int?
 
-        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, captionSegmentLengthControl: HlsCaptionSegmentLengthControl? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: HlsImageBasedTrickPlaySettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: HlsSegmentLengthControl? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
+        public init(additionalManifests: [HlsAdditionalManifest]? = nil, adMarkers: [HlsAdMarkers]? = nil, audioOnlyHeader: HlsAudioOnlyHeader? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, captionSegmentLengthControl: HlsCaptionSegmentLengthControl? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, imageBasedTrickPlay: HlsImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: HlsImageBasedTrickPlaySettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, progressiveWriteHlsManifest: HlsProgressiveWriteHlsManifest? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: HlsSegmentLengthControl? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, targetDurationCompatibilityMode: HlsTargetDurationCompatibilityMode? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil) {
             self.additionalManifests = additionalManifests
             self.adMarkers = adMarkers
             self.audioOnlyHeader = audioOnlyHeader
@@ -7018,6 +7137,7 @@ extension MediaConvert {
             self.outputSelection = outputSelection
             self.programDateTime = programDateTime
             self.programDateTimePeriod = programDateTimePeriod
+            self.progressiveWriteHlsManifest = progressiveWriteHlsManifest
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.segmentLengthControl = segmentLengthControl
@@ -7077,6 +7197,7 @@ extension MediaConvert {
             case outputSelection = "outputSelection"
             case programDateTime = "programDateTime"
             case programDateTimePeriod = "programDateTimePeriod"
+            case progressiveWriteHlsManifest = "progressiveWriteHlsManifest"
             case segmentControl = "segmentControl"
             case segmentLength = "segmentLength"
             case segmentLengthControl = "segmentLengthControl"
@@ -7157,15 +7278,15 @@ extension MediaConvert {
     public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the group to which the audio rendition belongs.
         public let audioGroupId: String?
-        /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic (AUTOMATIC) to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
+        /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
         public let audioOnlyContainer: HlsAudioOnlyContainer?
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
         /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The client can play back this audio-only stream instead of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS manifest. Alternate Audio, Auto Select, Default Alternate rendition that the client should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=YES, AUTOSELECT=YES Alternate Audio, Auto Select, Not Default Alternate rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
         public let audioTrackType: HlsAudioTrackType?
-        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
+        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public let descriptiveVideoServiceFlag: HlsDescriptiveVideoServiceFlag?
-        /// Choose Include (INCLUDE) to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
+        /// Choose Include to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
         public let iFrameOnlyManifest: HlsIFrameOnlyManifest?
         /// Use this setting to add an identifying string to the filename of each segment. The service adds this string between the name modifier and segment index number. You can use format identifiers in the string. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         public let segmentModifier: String?
@@ -7218,9 +7339,9 @@ extension MediaConvert {
     }
 
     public struct Id3Insertion: AWSEncodableShape & AWSDecodableShape {
-        /// Use ID3 tag (Id3) to provide a fully formed ID3 tag in base64-encode format.
+        /// Use ID3 tag to provide a fully formed ID3 tag in base64-encode format.
         public let id3: String?
-        /// Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
+        /// Provide a Timecode in HH:MM:SS:FF or HH:MM:SS;FF format.
         public let timecode: String?
 
         public init(id3: String? = nil, timecode: String? = nil) {
@@ -7286,23 +7407,23 @@ extension MediaConvert {
         public let advancedInputFilter: AdvancedInputFilter?
         /// Optional settings for Advanced input filter when you set Advanced input filter to Enabled.
         public let advancedInputFilterSettings: AdvancedInputFilterSettings?
-        /// Use audio selector groups to combine multiple sidecar audio inputs so that you can assign them to a single output audio tab (AudioDescription). Note that, if you're working with embedded audio, it's simpler to assign multiple input tracks into a single audio selector rather than use an audio selector group.
+        /// Use audio selector groups to combine multiple sidecar audio inputs so that you can assign them to a single output audio tab. Note that, if you're working with embedded audio, it's simpler to assign multiple input tracks into a single audio selector rather than use an audio selector group.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
-        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
+        /// Use Audio selectors to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public let audioSelectors: [String: AudioSelector]?
-        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
-        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
+        /// Use Cropping selection to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection.
         public let crop: Rectangle?
-        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
+        /// Enable Deblock to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
         /// Settings for decrypting any input files that you encrypt before you upload them to Amazon S3. MediaConvert can decrypt files only when you use AWS Key Management Service (KMS) to encrypt the data key that you use to encrypt your content.
         public let decryptionSettings: InputDecryptionSettings?
-        /// Enable Denoise (InputDenoiseFilter) to filter noise from the input. Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
+        /// Enable Denoise to filter noise from the input. Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
         public let denoiseFilter: InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public let dolbyVisionMetadataXml: String?
-        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use *Supplemental IMPs* (SupplementalImps) to specify any supplemental IMPs that contain assets referenced by the CPL.
+        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use *Supplemental IMPs* to specify any supplemental IMPs that contain assets referenced by the CPL.
         public let fileInput: String?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
         public let filterEnable: InputFilterEnable?
@@ -7310,28 +7431,32 @@ extension MediaConvert {
         public let filterStrength: Int?
         /// Enable the image inserter feature to include a graphic overlay on your video. Enable or disable this feature for each input individually. This setting is disabled by default.
         public let imageInserter: ImageInserter?
-        /// (InputClippings) contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
+        /// Contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
         public let inputClippings: [InputClipping]?
-        /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto (AUTO). Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
+        /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public let inputScanType: InputScanType?
-        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement (position). If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD (RespondToAfd) to Respond (RESPOND). If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior (scalingBehavior).
+        /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public let position: Rectangle?
-        /// Use Program (programNumber) to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
+        /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
         public let programNumber: Int?
-        /// Set PSI control (InputPsiControl) for transport stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use PSI - Scan only PSI data.
+        /// Set PSI control for transport stream inputs to specify which data the demux process to scans.
+        /// * Ignore PSI - Scan all PIDs for audio and video.
+        /// * Use PSI - Scan only PSI data.
         public let psiControl: InputPsiControl?
         /// Provide a list of any necessary supplemental IMPs. You need supplemental IMPs if the CPL that you're using for your input is in an incomplete IMP. Specify either the supplemental IMP directories with a trailing slash or the ASSETMAP.xml files. For example ["s3://bucket/ov/", "s3://bucket/vf2/ASSETMAP.xml"]. You don't need to specify the IMP that contains your input CPL, because the service automatically detects it.
         public let supplementalImps: [String]?
-        /// Use this Timecode source setting, located under the input settings (InputTimecodeSource), to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded (EMBEDDED) to use the timecodes in your input video. Choose Start at zero (ZEROBASED) to start the first frame at zero. Choose Specified start (SPECIFIEDSTART) to start the first frame at the timecode that you specify in the setting Start timecode (timecodeStart). If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        /// Use this Timecode source setting, located under the input settings, to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded to use the timecodes in your input video. Choose Start at zero to start the first frame at zero. Choose Specified start to start the first frame at the timecode that you specify in the setting Start timecode. If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeSource: InputTimecodeSource?
-        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings, to Specified start. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeStart: String?
         /// When you include Video generator, MediaConvert creates a video input with black frames. Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. You can specify Video generator, or you can specify an Input file, but you cannot specify both. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
         public let videoGenerator: InputVideoGenerator?
+        /// Contains an array of video overlays.
+        public let videoOverlays: [VideoOverlay]?
         /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
         public let videoSelector: VideoSelector?
 
-        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoSelector: VideoSelector? = nil) {
+        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -7355,6 +7480,7 @@ extension MediaConvert {
             self.timecodeSource = timecodeSource
             self.timecodeStart = timecodeStart
             self.videoGenerator = videoGenerator
+            self.videoOverlays = videoOverlays
             self.videoSelector = videoSelector
         }
 
@@ -7389,6 +7515,9 @@ extension MediaConvert {
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
             try self.videoGenerator?.validate(name: "\(name).videoGenerator")
+            try self.videoOverlays?.forEach {
+                try $0.validate(name: "\(name).videoOverlays[]")
+            }
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -7416,14 +7545,15 @@ extension MediaConvert {
             case timecodeSource = "timecodeSource"
             case timecodeStart = "timecodeStart"
             case videoGenerator = "videoGenerator"
+            case videoOverlays = "videoOverlays"
             case videoSelector = "videoSelector"
         }
     }
 
     public struct InputClipping: AWSEncodableShape & AWSDecodableShape {
-        /// Set End timecode (EndTimecode) to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings (InputTimecodeSource). For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
+        /// Set End timecode to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
         public let endTimecode: String?
-        /// Set Start timecode (StartTimecode) to the beginning of the portion of the input you are clipping. The frame corresponding to the Start timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to begin five minutes into the video, use 01:05:00:00.
+        /// Set Start timecode to the beginning of the portion of the input you are clipping. The frame corresponding to the Start timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to begin five minutes into the video, use 01:05:00:00.
         public let startTimecode: String?
 
         public init(endTimecode: String? = nil, startTimecode: String? = nil) {
@@ -7484,17 +7614,17 @@ extension MediaConvert {
         public let advancedInputFilter: AdvancedInputFilter?
         /// Optional settings for Advanced input filter when you set Advanced input filter to Enabled.
         public let advancedInputFilterSettings: AdvancedInputFilterSettings?
-        /// Use audio selector groups to combine multiple sidecar audio inputs so that you can assign them to a single output audio tab (AudioDescription). Note that, if you're working with embedded audio, it's simpler to assign multiple input tracks into a single audio selector rather than use an audio selector group.
+        /// Use audio selector groups to combine multiple sidecar audio inputs so that you can assign them to a single output audio tab. Note that, if you're working with embedded audio, it's simpler to assign multiple input tracks into a single audio selector rather than use an audio selector group.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
-        /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
+        /// Use Audio selectors to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public let audioSelectors: [String: AudioSelector]?
-        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
-        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
+        /// Use Cropping selection to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection.
         public let crop: Rectangle?
-        /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
+        /// Enable Deblock to produce smoother motion in the output. Default is disabled. Only manually controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
-        /// Enable Denoise (InputDenoiseFilter) to filter noise from the input. Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
+        /// Enable Denoise to filter noise from the input. Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
         public let denoiseFilter: InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public let dolbyVisionMetadataXml: String?
@@ -7504,24 +7634,28 @@ extension MediaConvert {
         public let filterStrength: Int?
         /// Enable the image inserter feature to include a graphic overlay on your video. Enable or disable this feature for each input individually. This setting is disabled by default.
         public let imageInserter: ImageInserter?
-        /// (InputClippings) contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
+        /// Contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
         public let inputClippings: [InputClipping]?
-        /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto (AUTO). Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
+        /// When you have a progressive segmented frame (PsF) input, use this setting to flag the input as PsF. MediaConvert doesn't automatically detect PsF. Therefore, flagging your input as PsF results in better preservation of video quality when you do deinterlacing and frame rate conversion. If you don't specify, the default value is Auto. Auto is the correct setting for all inputs that are not PsF. Don't set this value to PsF when your input is interlaced. Doing so creates horizontal interlacing artifacts.
         public let inputScanType: InputScanType?
-        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement (position). If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD (RespondToAfd) to Respond (RESPOND). If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior (scalingBehavior).
+        /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement. If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD to Respond. If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior.
         public let position: Rectangle?
-        /// Use Program (programNumber) to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
+        /// Use Program to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
         public let programNumber: Int?
-        /// Set PSI control (InputPsiControl) for transport stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use PSI - Scan only PSI data.
+        /// Set PSI control for transport stream inputs to specify which data the demux process to scans.
+        /// * Ignore PSI - Scan all PIDs for audio and video.
+        /// * Use PSI - Scan only PSI data.
         public let psiControl: InputPsiControl?
-        /// Use this Timecode source setting, located under the input settings (InputTimecodeSource), to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded (EMBEDDED) to use the timecodes in your input video. Choose Start at zero (ZEROBASED) to start the first frame at zero. Choose Specified start (SPECIFIEDSTART) to start the first frame at the timecode that you specify in the setting Start timecode (timecodeStart). If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        /// Use this Timecode source setting, located under the input settings, to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded to use the timecodes in your input video. Choose Start at zero to start the first frame at zero. Choose Specified start to start the first frame at the timecode that you specify in the setting Start timecode. If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeSource: InputTimecodeSource?
-        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings, to Specified start. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeStart: String?
+        /// Contains an array of video overlays.
+        public let videoOverlays: [VideoOverlay]?
         /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
         public let videoSelector: VideoSelector?
 
-        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoSelector: VideoSelector? = nil) {
+        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -7541,6 +7675,7 @@ extension MediaConvert {
             self.psiControl = psiControl
             self.timecodeSource = timecodeSource
             self.timecodeStart = timecodeStart
+            self.videoOverlays = videoOverlays
             self.videoSelector = videoSelector
         }
 
@@ -7569,6 +7704,9 @@ extension MediaConvert {
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
+            try self.videoOverlays?.forEach {
+                try $0.validate(name: "\(name).videoOverlays[]")
+            }
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -7592,6 +7730,7 @@ extension MediaConvert {
             case psiControl = "psiControl"
             case timecodeSource = "timecodeSource"
             case timecodeStart = "timecodeStart"
+            case videoOverlays = "videoOverlays"
             case videoSelector = "videoSelector"
         }
     }
@@ -7631,7 +7770,7 @@ extension MediaConvert {
         public let imageY: Int?
         /// Specify how overlapping inserted images appear. Images with higher values for Layer appear on top of images with lower values for Layer.
         public let layer: Int?
-        /// Use Opacity (Opacity) to specify how much of the underlying video shows through the inserted image. 0 is transparent and 100 is fully opaque. Default is 50.
+        /// Use Opacity to specify how much of the underlying video shows through the inserted image. 0 is transparent and 100 is fully opaque. Default is 50.
         public let opacity: Int?
         /// Specify the timecode of the frame that you want the overlay to first appear on. This must be in timecode (HH:MM:SS:FF or HH:MM:SS;FF) format. Remember to take into account your timecode source settings.
         public let startTime: String?
@@ -7732,9 +7871,9 @@ extension MediaConvert {
         /// The number of times that the service automatically attempted to process your job after encountering an error.
         public let retryCount: Int?
         /// The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
-        public let role: String
+        public let role: String?
         /// JobSettings contains all the transcode settings for a job.
-        public let settings: JobSettings
+        public let settings: JobSettings?
         /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
         public let simulateReservedQueue: SimulateReservedQueue?
         /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
@@ -7748,7 +7887,7 @@ extension MediaConvert {
         /// Contains any warning messages for the job. Use to help identify potential issues with your input, output, or job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
         public let warnings: [WarningGroup]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -7835,28 +7974,31 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Use Inputs (inputs) to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
+        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        public let followSource: Int?
+        /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
         public let kantarWatermark: KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public let motionImageInserter: MotionImageInserter?
-        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
+        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public let nielsenConfiguration: NielsenConfiguration?
         /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
         public let nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings?
-        /// (OutputGroups) contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in (OutputGroups) is a group of settings that apply to the whole group. This required object depends on the value you set for (Type) under (OutputGroups)>(OutputGroupSettings). Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
+        /// Contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in is a group of settings that apply to the whole group. This required object depends on the value you set for Type. Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public let outputGroups: [OutputGroup]?
         /// These settings control how the service handles timecodes throughout the job. These settings don't affect input clipping.
         public let timecodeConfig: TimecodeConfig?
-        /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that you specify. In each output that you want to include this metadata, you must set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
+        /// Insert user-defined custom ID3 metadata at timecodes that you specify. In each output that you want to include this metadata, you must set ID3 metadata to Passthrough.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, inputs: [Input]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, followSource: Int? = nil, inputs: [Input]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+            self.followSource = followSource
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -7872,6 +8014,8 @@ extension MediaConvert {
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
             try self.availBlanking?.validate(name: "\(name).availBlanking")
             try self.esam?.validate(name: "\(name).esam")
+            try self.validate(self.followSource, name: "followSource", parent: name, max: 150)
+            try self.validate(self.followSource, name: "followSource", parent: name, min: 1)
             try self.inputs?.forEach {
                 try $0.validate(name: "\(name).inputs[]")
             }
@@ -7891,6 +8035,7 @@ extension MediaConvert {
             case availBlanking = "availBlanking"
             case esam = "esam"
             case extendedDataServices = "extendedDataServices"
+            case followSource = "followSource"
             case inputs = "inputs"
             case kantarWatermark = "kantarWatermark"
             case motionImageInserter = "motionImageInserter"
@@ -7920,19 +8065,19 @@ extension MediaConvert {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastUpdated: Date?
         /// A name you create for each job template. Each name must be unique within your account.
-        public let name: String
+        public let name: String?
         /// Relative priority on the job.
         public let priority: Int?
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
-        public let settings: JobTemplateSettings
+        public let settings: JobTemplateSettings?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
         public let type: `Type`?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
@@ -7974,28 +8119,31 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Use Inputs (inputs) to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
+        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        public let followSource: Int?
+        /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
         public let kantarWatermark: KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public let motionImageInserter: MotionImageInserter?
-        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
+        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public let nielsenConfiguration: NielsenConfiguration?
         /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
         public let nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings?
-        /// (OutputGroups) contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in (OutputGroups) is a group of settings that apply to the whole group. This required object depends on the value you set for (Type) under (OutputGroups)>(OutputGroupSettings). Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
+        /// Contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in is a group of settings that apply to the whole group. This required object depends on the value you set for Type. Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public let outputGroups: [OutputGroup]?
         /// These settings control how the service handles timecodes throughout the job. These settings don't affect input clipping.
         public let timecodeConfig: TimecodeConfig?
-        /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that you specify. In each output that you want to include this metadata, you must set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
+        /// Insert user-defined custom ID3 metadata at timecodes that you specify. In each output that you want to include this metadata, you must set ID3 metadata to Passthrough.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, inputs: [InputTemplate]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, extendedDataServices: ExtendedDataServices? = nil, followSource: Int? = nil, inputs: [InputTemplate]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+            self.followSource = followSource
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -8011,6 +8159,8 @@ extension MediaConvert {
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
             try self.availBlanking?.validate(name: "\(name).availBlanking")
             try self.esam?.validate(name: "\(name).esam")
+            try self.validate(self.followSource, name: "followSource", parent: name, max: 150)
+            try self.validate(self.followSource, name: "followSource", parent: name, min: 1)
             try self.inputs?.forEach {
                 try $0.validate(name: "\(name).inputs[]")
             }
@@ -8030,6 +8180,7 @@ extension MediaConvert {
             case availBlanking = "availBlanking"
             case esam = "esam"
             case extendedDataServices = "extendedDataServices"
+            case followSource = "followSource"
             case inputs = "inputs"
             case kantarWatermark = "kantarWatermark"
             case motionImageInserter = "motionImageInserter"
@@ -8396,7 +8547,7 @@ extension MediaConvert {
     public struct M2tsSettings: AWSEncodableShape & AWSDecodableShape {
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
         public let audioBufferModel: M2tsAudioBufferModel?
-        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: M2tsAudioDuration?
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
@@ -8406,15 +8557,15 @@ extension MediaConvert {
         public let bitrate: Int?
         /// Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
         public let bufferModel: M2tsBufferModel?
-        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.
+        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value to allow all PTS values.
         public let dataPTSControl: M2tsDataPtsControl?
-        /// Use these settings to insert a DVB Network Information Table (NIT) in the transport stream of this output. When you work directly in your JSON job specification, include this object only when your job has a transport stream output and the container settings contain the object M2tsSettings.
+        /// Use these settings to insert a DVB Network Information Table (NIT) in the transport stream of this output.
         public let dvbNitSettings: DvbNitSettings?
-        /// Use these settings to insert a DVB Service Description Table (SDT) in the transport stream of this output. When you work directly in your JSON job specification, include this object only when your job has a transport stream output and the container settings contain the object M2tsSettings.
+        /// Use these settings to insert a DVB Service Description Table (SDT) in the transport stream of this output.
         public let dvbSdtSettings: DvbSdtSettings?
         /// Specify the packet identifiers (PIDs) for DVB subtitle data included in this output. Specify multiple PIDs as a JSON array. Default is the range 460-479.
         public let dvbSubPids: [Int]?
-        /// Use these settings to insert a DVB Time and Date Table (TDT) in the transport stream of this output. When you work directly in your JSON job specification, include this object only when your job has a transport stream output and the container settings contain the object M2tsSettings.
+        /// Use these settings to insert a DVB Time and Date Table (TDT) in the transport stream of this output.
         public let dvbTdtSettings: DvbTdtSettings?
         /// Specify the packet identifier (PID) for DVB teletext data you include in this output. Default is 499.
         public let dvbTeletextPid: Int?
@@ -8424,7 +8575,7 @@ extension MediaConvert {
         public let ebpPlacement: M2tsEbpPlacement?
         /// Controls whether to include the ES Rate field in the PES header.
         public let esRateInPes: M2tsEsRateInPes?
-        /// Keep the default value (DEFAULT) unless you know that your audio EBP markers are incorrectly appearing before your video EBP markers. To correct this problem, set this value to Force (FORCE).
+        /// Keep the default value unless you know that your audio EBP markers are incorrectly appearing before your video EBP markers. To correct this problem, set this value to Force.
         public let forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder?
         /// The length, in seconds, of each fragment. Only used with EBP markers.
         public let fragmentTime: Double?
@@ -8442,7 +8593,7 @@ extension MediaConvert {
         public let patInterval: Int?
         /// When set to PCR_EVERY_PES_PACKET, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This is effective only when the PCR PID is the same as the video or audio elementary stream.
         public let pcrControl: M2tsPcrControl?
-        /// Specify the packet identifier (PID) for the program clock reference (PCR) in this output. If you do not specify a value, the service will use the value for Video PID (VideoPid).
+        /// Specify the packet identifier (PID) for the program clock reference (PCR) in this output. If you do not specify a value, the service will use the value for Video PID.
         public let pcrPid: Int?
         /// Specify the number of milliseconds between instances of the program map table (PMT) in the output transport stream.
         public let pmtInterval: Int?
@@ -8450,15 +8601,19 @@ extension MediaConvert {
         public let pmtPid: Int?
         /// Specify the packet identifier (PID) of the private metadata stream. Default is 503.
         public let privateMetadataPid: Int?
-        /// Use Program number (programNumber) to specify the program number used in the program map table (PMT) for this output. Default is 1. Program numbers and program map tables are parts of MPEG-2 transport stream containers, used for organizing data.
+        /// Use Program number to specify the program number used in the program map table (PMT) for this output. Default is 1. Program numbers and program map tables are parts of MPEG-2 transport stream containers, used for organizing data.
         public let programNumber: Int?
+        /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
+        public let ptsOffset: Int?
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        public let ptsOffsetMode: TsPtsOffset?
         /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
         public let rateMode: M2tsRateMode?
-        /// Include this in your job settings to put SCTE-35 markers in your HLS and transport stream outputs at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
+        /// Include this in your job settings to put SCTE-35 markers in your HLS and transport stream outputs at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
         public let scte35Esam: M2tsScte35Esam?
         /// Specify the packet identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE). Also provide the ESAM XML as a string in the setting Signal processing notification XML (sccXml). Also enable ESAM SCTE-35 (include the property scte35Esam).
+        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam).
         public let scte35Source: M2tsScte35Source?
         /// Inserts segmentation markers at each segmentation_time period. rai_segstart sets the Random Access Indicator bit in the adaptation field. rai_adapt sets the RAI bit and adds the current timecode in the private data bytes. psi_segstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
         public let segmentationMarkers: M2tsSegmentationMarkers?
@@ -8473,7 +8628,7 @@ extension MediaConvert {
         /// Specify the packet identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, klvMetadata: M2tsKlvMetadata? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, klvMetadata: M2tsKlvMetadata? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioBufferModel = audioBufferModel
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
@@ -8503,6 +8658,8 @@ extension MediaConvert {
             self.pmtPid = pmtPid
             self.privateMetadataPid = privateMetadataPid
             self.programNumber = programNumber
+            self.ptsOffset = ptsOffset
+            self.ptsOffsetMode = ptsOffsetMode
             self.rateMode = rateMode
             self.scte35Esam = scte35Esam
             self.scte35Pid = scte35Pid
@@ -8549,6 +8706,8 @@ extension MediaConvert {
             try self.validate(self.privateMetadataPid, name: "privateMetadataPid", parent: name, min: 32)
             try self.validate(self.programNumber, name: "programNumber", parent: name, max: 65535)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 0)
+            try self.validate(self.ptsOffset, name: "ptsOffset", parent: name, max: 3600)
+            try self.validate(self.ptsOffset, name: "ptsOffset", parent: name, min: 0)
             try self.scte35Esam?.validate(name: "\(name).scte35Esam")
             try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, max: 8182)
             try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, min: 32)
@@ -8590,6 +8749,8 @@ extension MediaConvert {
             case pmtPid = "pmtPid"
             case privateMetadataPid = "privateMetadataPid"
             case programNumber = "programNumber"
+            case ptsOffset = "ptsOffset"
+            case ptsOffsetMode = "ptsOffsetMode"
             case rateMode = "rateMode"
             case scte35Esam = "scte35Esam"
             case scte35Pid = "scte35Pid"
@@ -8604,13 +8765,13 @@ extension MediaConvert {
     }
 
     public struct M3u8Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: M3u8AudioDuration?
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public let audioPids: [Int]?
-        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value (AUTO) to allow all PTS values.
+        /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value AUTO to allow all PTS values.
         public let dataPTSControl: M3u8DataPtsControl?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
         public let maxPcrInterval: Int?
@@ -8630,11 +8791,15 @@ extension MediaConvert {
         public let privateMetadataPid: Int?
         /// The value of the program number field in the Program Map Table.
         public let programNumber: Int?
+        /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
+        public let ptsOffset: Int?
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        public let ptsOffsetMode: TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE) if you don't want manifest conditioning. Choose Passthrough (PASSTHROUGH) and choose Ad markers (adMarkers) if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML (sccXml).
+        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML.
         public let scte35Source: M3u8Scte35Source?
-        /// Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to include ID3 metadata in this output. This includes ID3 metadata from the following features: ID3 timestamp period (timedMetadataId3Period), and Custom ID3 metadata inserter (timedMetadataInsertion). To exclude this ID3 metadata in this output: set ID3 metadata to None (NONE) or leave blank.
+        /// Set ID3 metadata to Passthrough to include ID3 metadata in this output. This includes ID3 metadata from the following features: ID3 timestamp period, and Custom ID3 metadata inserter. To exclude this ID3 metadata in this output: set ID3 metadata to None or leave blank.
         public let timedMetadata: TimedMetadata?
         /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
         public let timedMetadataPid: Int?
@@ -8643,7 +8808,7 @@ extension MediaConvert {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, dataPTSControl: M3u8DataPtsControl? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, dataPTSControl: M3u8DataPtsControl? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
@@ -8657,6 +8822,8 @@ extension MediaConvert {
             self.pmtPid = pmtPid
             self.privateMetadataPid = privateMetadataPid
             self.programNumber = programNumber
+            self.ptsOffset = ptsOffset
+            self.ptsOffsetMode = ptsOffsetMode
             self.scte35Pid = scte35Pid
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
@@ -8686,6 +8853,8 @@ extension MediaConvert {
             try self.validate(self.privateMetadataPid, name: "privateMetadataPid", parent: name, min: 32)
             try self.validate(self.programNumber, name: "programNumber", parent: name, max: 65535)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 0)
+            try self.validate(self.ptsOffset, name: "ptsOffset", parent: name, max: 3600)
+            try self.validate(self.ptsOffset, name: "ptsOffset", parent: name, min: 0)
             try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, max: 8182)
             try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, min: 32)
             try self.validate(self.timedMetadataPid, name: "timedMetadataPid", parent: name, max: 8182)
@@ -8710,6 +8879,8 @@ extension MediaConvert {
             case pmtPid = "pmtPid"
             case privateMetadataPid = "privateMetadataPid"
             case programNumber = "programNumber"
+            case ptsOffset = "ptsOffset"
+            case ptsOffsetMode = "ptsOffsetMode"
             case scte35Pid = "scte35Pid"
             case scte35Source = "scte35Source"
             case timedMetadata = "timedMetadata"
@@ -8778,7 +8949,7 @@ extension MediaConvert {
         public let offset: MotionImageInsertionOffset?
         /// Specify whether your motion graphic overlay repeats on a loop or plays only once.
         public let playback: MotionImagePlayback?
-        /// Specify when the motion overlay begins. Use timecode format (HH:MM:SS:FF or HH:MM:SS;FF). Make sure that the timecode you provide here takes into account how you have set up your timecode configuration under both job settings and input settings. The simplest way to do that is to set both to start at 0. If you need to set up your job to follow timecodes embedded in your source that don't start at zero, make sure that you specify a start time that is after the first embedded timecode. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-timecode.html Find job-wide and input timecode configuration settings in your JSON job settings specification at settings>timecodeConfig>source and settings>inputs>timecodeSource.
+        /// Specify when the motion overlay begins. Use timecode format (HH:MM:SS:FF or HH:MM:SS;FF). Make sure that the timecode you provide here takes into account how you have set up your timecode configuration under both job settings and input settings. The simplest way to do that is to set both to start at 0. If you need to set up your job to follow timecodes embedded in your source that don't start at zero, make sure that you specify a start time that is after the first embedded timecode. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-timecode.html
         public let startTime: String?
 
         public init(framerate: MotionImageInsertionFramerate? = nil, input: String? = nil, insertionMode: MotionImageInsertionMode? = nil, offset: MotionImageInsertionOffset? = nil, playback: MotionImagePlayback? = nil, startTime: String? = nil) {
@@ -8890,9 +9061,9 @@ extension MediaConvert {
     public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
-        /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in the console will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
+        /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
         public let channels: Int?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public let sampleRate: Int?
 
         public init(bitrate: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
@@ -8920,13 +9091,13 @@ extension MediaConvert {
     public struct Mp3Settings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
         public let channels: Int?
         /// Specify whether the service encodes this MP3 audio output with a constant bitrate (CBR) or a variable bitrate (VBR).
         public let rateControlMode: Mp3RateControlMode?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public let sampleRate: Int?
-        /// Required when you set Bitrate control mode (rateControlMode) to VBR. Specify the audio quality of this MP3 output from 0 (highest quality) to 9 (lowest quality).
+        /// Required when you set Bitrate control mode to VBR. Specify the audio quality of this MP3 output from 0 (highest quality) to 9 (lowest quality).
         public let vbrQuality: Int?
 
         public init(bitrate: Int? = nil, channels: Int? = nil, rateControlMode: Mp3RateControlMode? = nil, sampleRate: Int? = nil, vbrQuality: Int? = nil) {
@@ -8958,15 +9129,15 @@ extension MediaConvert {
     }
 
     public struct Mp4Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: CmfcAudioDuration?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public let cslgAtom: Mp4CslgAtom?
-        /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
+        /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
         public let cttsVersion: Int?
         /// Inserts a free-space box immediately after the moov box.
         public let freeSpaceBox: Mp4FreeSpaceBox?
-        /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+        /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
         public let moovPlacement: Mp4MoovPlacement?
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public let mp4MajorBrand: String?
@@ -8996,30 +9167,30 @@ extension MediaConvert {
     }
 
     public struct MpdSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH manifest with  elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude (EXCLUDE), to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest:
+        /// Optional. Choose Include to have MediaConvert mark up your DASH manifest with  elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude, to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest:
         public let accessibilityCaptionHints: MpdAccessibilityCaptionHints?
-        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: MpdAudioDuration?
-        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: MpdKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata to Passthrough.
         public let manifestMetadataSignaling: MpdManifestMetadataSignaling?
-        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
+        /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
         public let scte35Esam: MpdScte35Esam?
-        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public let scte35Source: MpdScte35Source?
-        /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
+        /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public let timedMetadata: MpdTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output.
         /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
         /// Leave blank to use the default value Version 0.
-        /// When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// When you specify Version 1, you must also set ID3 metadata to Passthrough.
         public let timedMetadataBoxVersion: MpdTimedMetadataBoxVersion?
-        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) scheme ID URI for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata to Passthrough.
         public let timedMetadataSchemeIdUri: String?
-        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata to Passthrough.
         public let timedMetadataValue: String?
 
         public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, captionContainerType: MpdCaptionContainerType? = nil, klvMetadata: MpdKlvMetadata? = nil, manifestMetadataSignaling: MpdManifestMetadataSignaling? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil, timedMetadata: MpdTimedMetadata? = nil, timedMetadataBoxVersion: MpdTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
@@ -9057,17 +9228,17 @@ extension MediaConvert {
     }
 
     public struct Mpeg2Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
+        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Spatial adaptive quantization, and Temporal adaptive quantization.
         public let adaptiveQuantization: Mpeg2AdaptiveQuantization?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
-        /// Use Level (Mpeg2CodecLevel) to set the MPEG-2 level for the video output.
+        /// Use Level to set the MPEG-2 level for the video output.
         public let codecLevel: Mpeg2CodecLevel?
-        /// Use Profile (Mpeg2CodecProfile) to set the MPEG-2 profile for the video output.
+        /// Use Profile to set the MPEG-2 profile for the video output.
         public let codecProfile: Mpeg2CodecProfile?
-        /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames (numberBFramesBetweenReferenceFrames).
+        /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames.
         public let dynamicSubGop: Mpeg2DynamicSubGop?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Mpeg2FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm?
@@ -9077,9 +9248,9 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify the relative frequency of open to closed GOPs in this output. For example, if you want to allow four open GOPs and then require a closed GOP, set this value to 5. When you create a streaming output, we recommend that you keep the default value, 1, so that players starting mid-stream receive an IDR frame as quickly as possible. Don't set this value to 0; that would break output segmenting.
         public let gopClosedCadence: Int?
-        /// Specify the interval between keyframes, in seconds or frames, for this output. Default: 12 Related settings: When you specify the GOP size in seconds, set GOP mode control (GopSizeUnits) to Specified, seconds (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames (FRAMES).
+        /// Specify the interval between keyframes, in seconds or frames, for this output. Default: 12 Related settings: When you specify the GOP size in seconds, set GOP mode control to Specified, seconds. The default value for GOP mode control is Frames.
         public let gopSize: Double?
-        /// Specify the units for GOP size (GopSize). If you don't specify a value here, by default the encoder measures GOP size in frames.
+        /// Specify the units for GOP size. If you don't specify a value here, by default the encoder measures GOP size in frames.
         public let gopSizeUnits: Mpeg2GopSizeUnits?
         /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
         public let hrdBufferFinalFillPercentage: Int?
@@ -9087,41 +9258,41 @@ extension MediaConvert {
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
         public let hrdBufferSize: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: Mpeg2InterlaceMode?
-        /// Use Intra DC precision (Mpeg2IntraDcPrecision) to set quantization precision for intra-block DC coefficients. If you choose the value auto, the service will automatically select the precision based on the per-frame compression ratio.
+        /// Use Intra DC precision to set quantization precision for intra-block DC coefficients. If you choose the value auto, the service will automatically select the precision based on the per-frame compression ratio.
         public let intraDcPrecision: Mpeg2IntraDcPrecision?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection (SceneChangeDetect). This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. When you specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. When you specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
         public let minIInterval: Int?
         /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
-        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: Mpeg2ParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: Mpeg2QualityTuningLevel?
-        /// Use Rate control mode (Mpeg2RateControlMode) to specify whether the bitrate is variable (vbr) or constant (cbr).
+        /// Use Rate control mode to specify whether the bitrate is variable (vbr) or constant (cbr).
         public let rateControlMode: Mpeg2RateControlMode?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: Mpeg2ScanTypeConversionMode?
         /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default.
         public let sceneChangeDetect: Mpeg2SceneChangeDetect?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: Mpeg2SlowPal?
-        /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness (sharpness) or by enabling a noise reducer filter (noiseReducerFilter). The Softness (softness) setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, to use the AWS Elemental default matrices. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
+        /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, to use the AWS Elemental default matrices. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
         public let softness: Int?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public let spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization?
-        /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 (D_10) for your MXF profile (profile), you must also set this value to D10 (D_10).
+        /// Specify whether this output's video uses the D10 syntax. Keep the default value to not use the syntax. Related settings: When you choose D10 for your MXF profile, you must also set this value to D10.
         public let syntax: Mpeg2Syntax?
-        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine produces a 29.97i output. Soft telecine produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: Mpeg2Telecine?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization).
+        /// Keep the default value, Enabled, to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization.
         public let temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization?
 
         public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
@@ -9272,17 +9443,17 @@ extension MediaConvert {
         public let additionalManifests: [MsSmoothAdditionalManifest]?
         /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across a Microsoft Smooth output group into a single audio stream.
         public let audioDeduplication: MsSmoothAudioDeduplication?
-        /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
+        /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
-        /// If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to specify the value SpekeKeyProvider.
+        /// If you are using DRM, set DRM System to specify the value SpekeKeyProvider.
         public let encryption: MsSmoothEncryptionSettings?
-        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact to have the encoder use the exact length that you specify with the setting Fragment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
         public let fragmentLength: Int?
-        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact (EXACT) to have the encoder use the exact length that you specify with the setting Fragment length (FragmentLength). This might result in extra I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine the fragment length. Choose Exact to have the encoder use the exact length that you specify with the setting Fragment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
         public let fragmentLengthControl: MsSmoothFragmentLengthControl?
-        /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding format for the server and client manifest. Valid options are utf8 and utf16.
+        /// Use Manifest encoding to specify the encoding format for the server and client manifest. Valid options are utf8 and utf16.
         public let manifestEncoding: MsSmoothManifestEncoding?
 
         public init(additionalManifests: [MsSmoothAdditionalManifest]? = nil, audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int? = nil, fragmentLengthControl: MsSmoothFragmentLengthControl? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
@@ -9320,9 +9491,9 @@ extension MediaConvert {
     }
 
     public struct MxfSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
+        /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
         public let afdSignaling: MxfAfdSignaling?
-        /// Specify the MXF profile, also called shim, for this output. When you choose Auto, MediaConvert chooses a profile based on the video codec and resolution. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+        /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
         public let profile: MxfProfile?
         /// Specify the XAVC profile settings for MXF outputs when you set your MXF profile to XAVC.
         public let xavcProfileSettings: MxfXavcProfileSettings?
@@ -9345,9 +9516,9 @@ extension MediaConvert {
     }
 
     public struct MxfXavcProfileSettings: AWSEncodableShape & AWSDecodableShape {
-        /// To create an output that complies with the XAVC file format guidelines for interoperability, keep the default value, Drop frames for compliance (DROP_FRAMES_FOR_COMPLIANCE). To include all frames from your input in this output, keep the default setting, Allow any duration (ALLOW_ANY_DURATION). The number of frames that MediaConvert excludes when you set this to Drop frames for compliance depends on the output frame rate and duration.
+        /// To create an output that complies with the XAVC file format guidelines for interoperability, keep the default value, Drop frames for compliance. To include all frames from your input in this output, keep the default setting, Allow any duration. The number of frames that MediaConvert excludes when you set this to Drop frames for compliance depends on the output frame rate and duration.
         public let durationMode: MxfXavcDurationMode?
-        /// Specify a value for this setting only for outputs that you set up with one of these two XAVC profiles: XAVC HD Intra CBG (XAVC_HD_INTRA_CBG) or XAVC 4K Intra CBG (XAVC_4K_INTRA_CBG). Specify the amount of space in each frame that the service reserves for ancillary data, such as teletext captions. The default value for this setting is 1492 bytes per frame. This should be sufficient to prevent overflow unless you have multiple pages of teletext captions data. If you have a large amount of teletext data, specify a larger number.
+        /// Specify a value for this setting only for outputs that you set up with one of these two XAVC profiles: XAVC HD Intra CBG or XAVC 4K Intra CBG. Specify the amount of space in each frame that the service reserves for ancillary data, such as teletext captions. The default value for this setting is 1492 bytes per frame. This should be sufficient to prevent overflow unless you have multiple pages of teletext captions data. If you have a large amount of teletext data, specify a larger number.
         public let maxAncDataSize: Int?
 
         public init(durationMode: MxfXavcDurationMode? = nil, maxAncDataSize: Int? = nil) {
@@ -9367,11 +9538,11 @@ extension MediaConvert {
     }
 
     public struct NexGuardFileMarkerSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Use the base64 license string that Nagra provides you. Enter it directly in your JSON job specification or in the console. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job.
+        /// Use the base64 license string that Nagra provides you. Enter it directly in your JSON job specification or in the console. Required when you include Nagra NexGuard File Marker watermarking in your job.
         public let license: String?
-        /// Specify the payload ID that you want associated with this output. Valid values vary depending on your Nagra NexGuard forensic watermarking workflow. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job. For PreRelease Content (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a unique ID for each asset you watermark, and keep a record of which ID you have assigned to each asset. Neither Nagra nor MediaConvert keep track of the relationship between output files and your IDs. For OTT Streaming, create two adaptive bitrate (ABR) stacks for each asset. Do this by setting up two output groups. For one output group, set the value of Payload ID (payload) to 0 in every output. For the other output group, set Payload ID (payload) to 1 in every output.
+        /// Specify the payload ID that you want associated with this output. Valid values vary depending on your Nagra NexGuard forensic watermarking workflow. Required when you include Nagra NexGuard File Marker watermarking in your job. For PreRelease Content (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a unique ID for each asset you watermark, and keep a record of which ID you have assigned to each asset. Neither Nagra nor MediaConvert keep track of the relationship between output files and your IDs. For OTT Streaming, create two adaptive bitrate (ABR) stacks for each asset. Do this by setting up two output groups. For one output group, set the value of Payload ID to 0 in every output. For the other output group, set Payload ID to 1 in every output.
         public let payload: Int?
-        /// Enter one of the watermarking preset strings that Nagra provides you. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job.
+        /// Enter one of the watermarking preset strings that Nagra provides you. Required when you include Nagra NexGuard File Marker watermarking in your job.
         public let preset: String?
         /// Optional. Ignore this setting unless Nagra support directs you to specify a value. When you don't specify a value here, the Nagra NexGuard library uses its default value.
         public let strength: WatermarkingStrength?
@@ -9403,7 +9574,7 @@ extension MediaConvert {
     public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
         public let breakoutCode: Int?
-        /// Use Distributor ID (DistributorID) to specify the distributor ID that is assigned to your organization by Neilsen.
+        /// Use Distributor ID to specify the distributor ID that is assigned to your organization by Nielsen.
         public let distributorId: String?
 
         public init(breakoutCode: Int? = nil, distributorId: String? = nil) {
@@ -9423,27 +9594,27 @@ extension MediaConvert {
     }
 
     public struct NielsenNonLinearWatermarkSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Choose the type of Nielsen watermarks that you want in your outputs. When you choose NAES 2 and NW (NAES2_AND_NW), you must provide a value for the setting SID (sourceId). When you choose CBET (CBET), you must provide a value for the setting CSID (cbetSourceId). When you choose NAES 2, NW, and CBET (NAES2_AND_NW_AND_CBET), you must provide values for both of these settings.
+        /// Choose the type of Nielsen watermarks that you want in your outputs. When you choose NAES 2 and NW, you must provide a value for the setting SID. When you choose CBET, you must provide a value for the setting CSID. When you choose NAES 2, NW, and CBET, you must provide values for both of these settings.
         public let activeWatermarkProcess: NielsenActiveWatermarkProcessType?
-        /// Optional. Use this setting when you want the service to include an ADI file in the Nielsen metadata .zip file. To provide an ADI file, store it in Amazon S3 and provide a URL to it here. The URL should be in the following format: S3://bucket/path/ADI-file. For more information about the metadata .zip file, see the setting Metadata destination (metadataDestination).
+        /// Optional. Use this setting when you want the service to include an ADI file in the Nielsen metadata .zip file. To provide an ADI file, store it in Amazon S3 and provide a URL to it here. The URL should be in the following format: S3://bucket/path/ADI-file. For more information about the metadata .zip file, see the setting Metadata destination.
         public let adiFilename: String?
         /// Use the asset ID that you provide to Nielsen to uniquely identify this asset. Required for all Nielsen non-linear watermarking.
         public let assetId: String?
         /// Use the asset name that you provide to Nielsen for this asset. Required for all Nielsen non-linear watermarking.
         public let assetName: String?
-        /// Use the CSID that Nielsen provides to you. This CBET source ID should be unique to your Nielsen account but common to all of your output assets that have CBET watermarking. Required when you choose a value for the setting Watermark types (ActiveWatermarkProcess) that includes CBET.
+        /// Use the CSID that Nielsen provides to you. This CBET source ID should be unique to your Nielsen account but common to all of your output assets that have CBET watermarking. Required when you choose a value for the setting Watermark types that includes CBET.
         public let cbetSourceId: String?
         /// Optional. If this asset uses an episode ID with Nielsen, provide it here.
         public let episodeId: String?
-        /// Specify the Amazon S3 location where you want MediaConvert to save your Nielsen non-linear metadata .zip file. This Amazon S3 bucket must be in the same Region as the one where you do your MediaConvert transcoding. If you want to include an ADI file in this .zip file, use the setting ADI file (adiFilename) to specify it. MediaConvert delivers the Nielsen metadata .zip files only to your metadata destination Amazon S3 bucket. It doesn't deliver the .zip files to Nielsen. You are responsible for delivering the metadata .zip files to Nielsen.
+        /// Specify the Amazon S3 location where you want MediaConvert to save your Nielsen non-linear metadata .zip file. This Amazon S3 bucket must be in the same Region as the one where you do your MediaConvert transcoding. If you want to include an ADI file in this .zip file, use the setting ADI file to specify it. MediaConvert delivers the Nielsen metadata .zip files only to your metadata destination Amazon S3 bucket. It doesn't deliver the .zip files to Nielsen. You are responsible for delivering the metadata .zip files to Nielsen.
         public let metadataDestination: String?
         /// Use the SID that Nielsen provides to you. This source ID should be unique to your Nielsen account but common to all of your output assets. Required for all Nielsen non-linear watermarking. This ID should be unique to your Nielsen account but common to all of your output assets. Required for all Nielsen non-linear watermarking.
         public let sourceId: Int?
-        /// Required. Specify whether your source content already contains Nielsen non-linear watermarks. When you set this value to Watermarked (WATERMARKED), the service fails the job. Nielsen requires that you add non-linear watermarking to only clean content that doesn't already have non-linear Nielsen watermarks.
+        /// Required. Specify whether your source content already contains Nielsen non-linear watermarks. When you set this value to Watermarked, the service fails the job. Nielsen requires that you add non-linear watermarking to only clean content that doesn't already have non-linear Nielsen watermarks.
         public let sourceWatermarkStatus: NielsenSourceWatermarkStatusType?
         /// Specify the endpoint for the TIC server that you have deployed and configured in the AWS Cloud. Required for all Nielsen non-linear watermarking. MediaConvert can't connect directly to a TIC server. Instead, you must use API Gateway to provide a RESTful interface between MediaConvert and a TIC server that you deploy in your AWS account. For more information on deploying a TIC server in your AWS account and the required API Gateway, contact Nielsen support.
         public let ticServerUrl: String?
-        /// To create assets that have the same TIC values in each audio track, keep the default value Share TICs (SAME_TICS_PER_TRACK). To create assets that have unique TIC values for each audio track, choose Use unique TICs (RESERVE_UNIQUE_TICS_PER_TRACK).
+        /// To create assets that have the same TIC values in each audio track, keep the default value Share TICs. To create assets that have unique TIC values for each audio track, choose Use unique TICs.
         public let uniqueTicPerAudioTrack: NielsenUniqueTicPerAudioTrackType?
 
         public init(activeWatermarkProcess: NielsenActiveWatermarkProcessType? = nil, adiFilename: String? = nil, assetId: String? = nil, assetName: String? = nil, cbetSourceId: String? = nil, episodeId: String? = nil, metadataDestination: String? = nil, sourceId: Int? = nil, sourceWatermarkStatus: NielsenSourceWatermarkStatusType? = nil, ticServerUrl: String? = nil, uniqueTicPerAudioTrack: NielsenUniqueTicPerAudioTrackType? = nil) {
@@ -9491,7 +9662,7 @@ extension MediaConvert {
     }
 
     public struct NoiseReducer: AWSEncodableShape & AWSDecodableShape {
-        /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
+        /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public let filter: NoiseReducerFilter?
         /// Settings for a noise reducer filter
         public let filterSettings: NoiseReducerFilterSettings?
@@ -9572,9 +9743,9 @@ extension MediaConvert {
     public struct NoiseReducerTemporalFilterSettings: AWSEncodableShape & AWSDecodableShape {
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
         public let aggressiveMode: Int?
-        /// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the bandwidth and sharpness of your output is reduced. You can optionally use Post temporal sharpening (postTemporalSharpening) to apply sharpening to the edges of your output. Note that Post temporal sharpening will also make the bandwidth reduction from the Noise reducer smaller. The default behavior, Auto (AUTO), allows the transcoder to determine whether to apply sharpening, depending on your input type and quality. When you set Post temporal sharpening to Enabled (ENABLED), specify how much sharpening is applied using Post temporal sharpening strength (postTemporalSharpeningStrength). Set Post temporal sharpening to Disabled (DISABLED) to not apply sharpening.
+        /// When you set Noise reducer to Temporal, the bandwidth and sharpness of your output is reduced. You can optionally use Post temporal sharpening to apply sharpening to the edges of your output. Note that Post temporal sharpening will also make the bandwidth reduction from the Noise reducer smaller. The default behavior, Auto, allows the transcoder to determine whether to apply sharpening, depending on your input type and quality. When you set Post temporal sharpening to Enabled, specify how much sharpening is applied using Post temporal sharpening strength. Set Post temporal sharpening to Disabled to not apply sharpening.
         public let postTemporalSharpening: NoiseFilterPostTemporalSharpening?
-        /// Use Post temporal sharpening strength (postTemporalSharpeningStrength) to define the amount of sharpening the transcoder applies to your output. Set Post temporal sharpening strength to Low (LOW), Medium (MEDIUM), or High (HIGH) to indicate the amount of sharpening.
+        /// Use Post temporal sharpening strength to define the amount of sharpening the transcoder applies to your output. Set Post temporal sharpening strength to Low, Medium, or High to indicate the amount of sharpening.
         public let postTemporalSharpeningStrength: NoiseFilterPostTemporalSharpeningStrength?
         /// The speed of the filter (higher number is faster). Low setting reduces bit rate at the cost of transcode time, high setting improves transcode time at the cost of bit rate.
         public let speed: Int?
@@ -9610,9 +9781,9 @@ extension MediaConvert {
     public struct OpusSettings: AWSEncodableShape & AWSDecodableShape {
         /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
         public let bitrate: Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Mono on gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
         public let channels: Int?
-        /// Optional. Sample rate in hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
+        /// Optional. Sample rate in Hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
         public let sampleRate: Int?
 
         public init(bitrate: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
@@ -9638,19 +9809,19 @@ extension MediaConvert {
     }
 
     public struct Output: AWSEncodableShape & AWSDecodableShape {
-        /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
+        /// Contains groups of audio encoding settings organized by audio codec. Include one instance of per output. Can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
-        /// (CaptionDescriptions) contains groups of captions settings. For each output that has captions, include one instance of (CaptionDescriptions). (CaptionDescriptions) can contain multiple groups of captions settings.
+        /// Contains groups of captions settings. For each output that has captions, include one instance of CaptionDescriptions. Can contain multiple groups of captions settings.
         public let captionDescriptions: [CaptionDescription]?
         /// Container specific settings.
         public let containerSettings: ContainerSettings?
-        /// Use Extension (Extension) to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
+        /// Use Extension to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
         public let `extension`: String?
-        /// Use Name modifier (NameModifier) to have the service add a string to the end of each output filename. You specify the base filename as part of your destination URI. When you create multiple outputs in the same output group, Name modifier (NameModifier) is required. Name modifier also accepts format identifiers. For DASH ISO outputs, if you use the format identifiers $Number$ or $Time$ in one output, you must use them in the same way in all outputs of the output group.
+        /// Use Name modifier to have the service add a string to the end of each output filename. You specify the base filename as part of your destination URI. When you create multiple outputs in the same output group, Name modifier is required. Name modifier also accepts format identifiers. For DASH ISO outputs, if you use the format identifiers $Number$ or $Time$ in one output, you must use them in the same way in all outputs of the output group.
         public let nameModifier: String?
         /// Specific settings for this type of output.
         public let outputSettings: OutputSettings?
-        /// Use Preset (Preset) to specify a preset for your transcoding settings. Provide the system or custom preset name. You can specify either Preset (Preset) or Container settings (ContainerSettings), but not both.
+        /// Use Preset to specify a preset for your transcoding settings. Provide the system or custom preset name. You can specify either Preset or Container settings, but not both.
         public let preset: String?
         /// VideoDescription contains a group of video encoding settings. The specific video settings depend on the video codec that you choose for the property codec. Include one instance of VideoDescription per output.
         public let videoDescription: VideoDescription?
@@ -9734,7 +9905,7 @@ extension MediaConvert {
     public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
         /// Use automated encoding to have MediaConvert choose your encoding settings for you, based on characteristics of your input video.
         public let automatedEncodingSettings: AutomatedEncodingSettings?
-        /// Use Custom Group Name (CustomName) to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
+        /// Use Custom Group Name to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
         public let customName: String?
         /// Name of the output group
         public let name: String?
@@ -9782,15 +9953,15 @@ extension MediaConvert {
     }
 
     public struct OutputGroupSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Settings related to your CMAF output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html. When you work directly in your JSON job specification, include this object and any required children when you set Type, under OutputGroupSettings, to CMAF_GROUP_SETTINGS.
+        /// Settings related to your CMAF output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let cmafGroupSettings: CmafGroupSettings?
-        /// Settings related to your DASH output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html. When you work directly in your JSON job specification, include this object and any required children when you set Type, under OutputGroupSettings, to DASH_ISO_GROUP_SETTINGS.
+        /// Settings related to your DASH output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let dashIsoGroupSettings: DashIsoGroupSettings?
-        /// Settings related to your File output group. MediaConvert uses this group of settings to generate a single standalone file, rather than a streaming package. When you work directly in your JSON job specification, include this object and any required children when you set Type, under OutputGroupSettings, to FILE_GROUP_SETTINGS.
+        /// Settings related to your File output group. MediaConvert uses this group of settings to generate a single standalone file, rather than a streaming package.
         public let fileGroupSettings: FileGroupSettings?
-        /// Settings related to your HLS output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html. When you work directly in your JSON job specification, include this object and any required children when you set Type, under OutputGroupSettings, to HLS_GROUP_SETTINGS.
+        /// Settings related to your HLS output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let hlsGroupSettings: HlsGroupSettings?
-        /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html. When you work directly in your JSON job specification, include this object and any required children when you set Type, under OutputGroupSettings, to MS_SMOOTH_GROUP_SETTINGS.
+        /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public let type: OutputGroupType?
@@ -9887,13 +10058,13 @@ extension MediaConvert {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastUpdated: Date?
         /// A name you create for each preset. Each name must be unique within your account.
-        public let name: String
+        public let name: String?
         /// Settings for preset
-        public let settings: PresetSettings
+        public let settings: PresetSettings?
         /// A preset can be of two types: system or custom. System or built-in preset can't be modified or deleted by the user.
         public let type: `Type`?
 
-        public init(arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, settings: PresetSettings, type: `Type`? = nil) {
+        public init(arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, settings: PresetSettings? = nil, type: `Type`? = nil) {
             self.arn = arn
             self.category = category
             self.createdAt = createdAt
@@ -9917,7 +10088,7 @@ extension MediaConvert {
     }
 
     public struct PresetSettings: AWSEncodableShape & AWSDecodableShape {
-        /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
+        /// Contains groups of audio encoding settings organized by audio codec. Include one instance of per output. Can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
         /// This object holds groups of settings related to captions for one output. For each output that has captions, include one instance of CaptionDescriptions.
         public let captionDescriptions: [CaptionDescriptionPreset]?
@@ -9953,11 +10124,11 @@ extension MediaConvert {
     }
 
     public struct ProresSettings: AWSEncodableShape & AWSDecodableShape {
-        /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4 sampling (PRESERVE_444_SAMPLING) to allow outputs to also use 4:4:4 chroma sampling. You must specify a value for this setting when your output codec profile supports 4:4:4 chroma sampling. Related Settings: When you set Chroma sampling to Preserve 4:4:4 sampling (PRESERVE_444_SAMPLING), you must choose an output codec profile that supports 4:4:4 chroma sampling. These values for Profile (CodecProfile) support 4:4:4 chroma sampling: Apple ProRes 4444 (APPLE_PRORES_4444) or Apple ProRes 4444 XQ (APPLE_PRORES_4444_XQ). When you set Chroma sampling to Preserve 4:4:4 sampling, you must disable all video preprocessors except for Nexguard file marker (PartnerWatermarking). When you set Chroma sampling to Preserve 4:4:4 sampling and use framerate conversion, you must set Frame rate conversion algorithm (FramerateConversionAlgorithm) to Drop duplicate (DUPLICATE_DROP).
+        /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4 sampling to allow outputs to also use 4:4:4 chroma sampling. You must specify a value for this setting when your output codec profile supports 4:4:4 chroma sampling. Related Settings: For Apple ProRes outputs with 4:4:4 chroma sampling: Choose Preserve 4:4:4 sampling. Use when your input has 4:4:4 chroma sampling and your output codec Profile is Apple ProRes 4444 or 4444 XQ. Note that when you choose Preserve 4:4:4 sampling, you cannot include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise reducer.
         public let chromaSampling: ProresChromaSampling?
-        /// Use Profile (ProResCodecProfile) to specify the type of Apple ProRes codec to use for this output.
+        /// Use Profile to specify the type of Apple ProRes codec to use for this output.
         public let codecProfile: ProresCodecProfile?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: ProresFramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: ProresFramerateConversionAlgorithm?
@@ -9965,19 +10136,19 @@ extension MediaConvert {
         public let framerateDenominator: Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateNumerator: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: ProresInterlaceMode?
-        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: ProresParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: ProresScanTypeConversionMode?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: ProresSlowPal?
-        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine (HARD) to create a smoother picture. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine to create a smoother picture. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: ProresTelecine?
 
         public init(chromaSampling: ProresChromaSampling? = nil, codecProfile: ProresCodecProfile? = nil, framerateControl: ProresFramerateControl? = nil, framerateConversionAlgorithm: ProresFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: ProresInterlaceMode? = nil, parControl: ProresParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, scanTypeConversionMode: ProresScanTypeConversionMode? = nil, slowPal: ProresSlowPal? = nil, telecine: ProresTelecine? = nil) {
@@ -10026,9 +10197,9 @@ extension MediaConvert {
 
     public struct PutPolicyRequest: AWSEncodableShape {
         /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
-        public let policy: Policy
+        public let policy: Policy?
 
-        public init(policy: Policy) {
+        public init(policy: Policy? = nil) {
             self.policy = policy
         }
 
@@ -10062,7 +10233,7 @@ extension MediaConvert {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastUpdated: Date?
         /// A name that you create for each queue. Each name must be unique within your account.
-        public let name: String
+        public let name: String?
         /// Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment.
         public let pricingPlan: PricingPlan?
         /// The estimated number of jobs with a PROGRESSING status.
@@ -10076,7 +10247,7 @@ extension MediaConvert {
         /// Specifies whether this on-demand queue is system or custom. System queues are built in. You can't modify or delete system queues. You can create and modify custom queues.
         public let type: `Type`?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -10164,7 +10335,7 @@ extension MediaConvert {
     }
 
     public struct RemixSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Channel mapping (ChannelMapping) contains the group of fields that hold the remixing value for each channel, in dB. Specify remix values to indicate how much of the content from your input audio channel you want in your output audio channels. Each instance of the InputChannels or InputChannelsFineTune array specifies these values for one output channel. Use one instance of this array for each output channel. In the console, each array corresponds to a column in the graphical depiction of the mapping matrix. The rows of the graphical matrix correspond to input channels. Valid values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification). Use InputChannels or InputChannelsFineTune to specify your remix values. Don't use both.
+        /// Channel mapping contains the group of fields that hold the remixing value for each channel, in dB. Specify remix values to indicate how much of the content from your input audio channel you want in your output audio channels. Each instance of the InputChannels or InputChannelsFineTune array specifies these values for one output channel. Use one instance of this array for each output channel. In the console, each array corresponds to a column in the graphical depiction of the mapping matrix. The rows of the graphical matrix correspond to input channels. Valid values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification). Use InputChannels or InputChannelsFineTune to specify your remix values. Don't use both.
         public let channelMapping: ChannelMapping?
         /// Specify the number of audio channels from your input that you want to use in your output. With remixing, you might combine or split the data in these channels, so the number of channels in your final output might be different. If you are doing both input channel mapping and output channel mapping, the number of output channels in your input mapping must be the same as the number of input channels in your output mapping.
         public let channelsIn: Int?
@@ -10229,13 +10400,13 @@ extension MediaConvert {
 
     public struct ReservationPlanSettings: AWSEncodableShape {
         /// The length of the term of your reserved queue pricing plan commitment.
-        public let commitment: Commitment
+        public let commitment: Commitment?
         /// Specifies whether the term of your reserved queue pricing plan is automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the term. When your term is auto renewed, you extend your commitment by 12 months from the auto renew date. You can cancel this commitment.
-        public let renewalType: RenewalType
+        public let renewalType: RenewalType?
         /// Specifies the number of reserved transcode slots (RTS) for this queue. The number of RTS determines how many jobs the queue can process in parallel; each RTS can process one job at a time. You can't decrease the number of RTS in your reserved queue. You can increase the number of RTS by extending your existing commitment with a new 12-month commitment for the larger number. The new commitment begins when you purchase the additional capacity. You can't cancel your commitment or revert to your original commitment after you increase the capacity.
-        public let reservedSlots: Int
+        public let reservedSlots: Int?
 
-        public init(commitment: Commitment, renewalType: RenewalType, reservedSlots: Int) {
+        public init(commitment: Commitment? = nil, renewalType: RenewalType? = nil, reservedSlots: Int? = nil) {
             self.commitment = commitment
             self.renewalType = renewalType
             self.reservedSlots = reservedSlots
@@ -10283,10 +10454,13 @@ extension MediaConvert {
         public let accessControl: S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
         public let encryption: S3EncryptionSettings?
+        /// Specify the S3 storage class to use for this output. To use your destination's default storage class: Keep the default value, Not set. For more information about S3 storage classes, see https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
+        public let storageClass: S3StorageClass?
 
-        public init(accessControl: S3DestinationAccessControl? = nil, encryption: S3EncryptionSettings? = nil) {
+        public init(accessControl: S3DestinationAccessControl? = nil, encryption: S3EncryptionSettings? = nil, storageClass: S3StorageClass? = nil) {
             self.accessControl = accessControl
             self.encryption = encryption
+            self.storageClass = storageClass
         }
 
         public func validate(name: String) throws {
@@ -10296,15 +10470,16 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case accessControl = "accessControl"
             case encryption = "encryption"
+            case storageClass = "storageClass"
         }
     }
 
     public struct S3EncryptionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting KMS ARN (kmsKeyArn).
+        /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3. If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS. By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting KMS ARN.
         public let encryptionType: S3ServerSideEncryptionType?
-        /// Optionally, specify the encryption context that you want to use alongside your KMS key. AWS KMS uses this encryption context as additional authenticated data (AAD) to support authenticated encryption. This value must be a base64-encoded UTF-8 string holding JSON which represents a string-string map. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). For more information about encryption context, see: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
+        /// Optionally, specify the encryption context that you want to use alongside your KMS key. AWS KMS uses this encryption context as additional authenticated data (AAD) to support authenticated encryption. This value must be a base64-encoded UTF-8 string holding JSON which represents a string-string map. To use this setting, you must also set Server-side encryption to AWS KMS. For more information about encryption context, see: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
         public let kmsEncryptionContext: String?
-        /// Optionally, specify the customer master key (CMK) that you want to use to encrypt the data key that AWS uses to encrypt your output content. Enter the Amazon Resource Name (ARN) of the CMK. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). If you set Server-side encryption to AWS KMS but don't specify a CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
+        /// Optionally, specify the customer master key (CMK) that you want to use to encrypt the data key that AWS uses to encrypt your output content. Enter the Amazon Resource Name (ARN) of the CMK. To use this setting, you must also set Server-side encryption to AWS KMS. If you set Server-side encryption to AWS KMS but don't specify a CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
         public let kmsKeyArn: String?
 
         public init(encryptionType: S3ServerSideEncryptionType? = nil, kmsEncryptionContext: String? = nil, kmsKeyArn: String? = nil) {
@@ -10326,7 +10501,7 @@ extension MediaConvert {
     }
 
     public struct SccDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Set Framerate (SccDestinationFramerate) to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe (FRAMERATE_29_97_DROPFRAME) only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe (FRAMERATE_29_97_NON_DROPFRAME).
+        /// Set Framerate to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe.
         public let framerate: SccDestinationFramerate?
 
         public init(framerate: SccDestinationFramerate? = nil) {
@@ -10360,7 +10535,7 @@ extension MediaConvert {
             try self.systemIds?.forEach {
                 try validate($0, name: "systemIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             }
-            try self.validate(self.url, name: "url", parent: name, pattern: "^https:\\/\\/$")
+            try self.validate(self.url, name: "url", parent: name, pattern: "^https:\\/\\/[^:@\\/]*(:\\d*)?(\\/.*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10404,7 +10579,7 @@ extension MediaConvert {
                 try validate($0, name: "hlsSignaledSystemIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             }
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[\\w-]+$")
-            try self.validate(self.url, name: "url", parent: name, pattern: "^https:\\/\\/$")
+            try self.validate(self.url, name: "url", parent: name, pattern: "^https:\\/\\/[^:@\\/]*(:\\d*)?(\\/.*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10417,7 +10592,7 @@ extension MediaConvert {
     }
 
     public struct SrtDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
+        /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
         public let stylePassthrough: SrtStylePassthrough?
 
         public init(stylePassthrough: SrtStylePassthrough? = nil) {
@@ -10434,7 +10609,7 @@ extension MediaConvert {
         public let keyFormat: String?
         /// Relates to DRM implementation. Either a single positive integer version value or a slash delimited list of version values (1/2/3).
         public let keyFormatVersions: String?
-        /// Relates to DRM implementation. Use a 32-character hexidecimal string to specify Key Value (StaticKeyValue).
+        /// Relates to DRM implementation. Use a 32-character hexidecimal string to specify Key Value.
         public let staticKeyValue: String?
         /// Relates to DRM implementation. The location of the license server used for protecting content.
         public let url: String?
@@ -10462,11 +10637,11 @@ extension MediaConvert {
 
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
-        public let arn: String
+        public let arn: String?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(arn: String, tags: [String: String]) {
+        public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
         }
@@ -10484,7 +10659,7 @@ extension MediaConvert {
     public struct TeletextDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public let pageNumber: String?
-        /// Specify the page types for this Teletext page. If you don't specify a value here, the service sets the page type to the default value Subtitle (PAGE_TYPE_SUBTITLE). If you pass through the entire set of Teletext data, don't use this field. When you pass through a set of Teletext pages, your output has the same page types as your input.
+        /// Specify the page types for this Teletext page. If you don't specify a value here, the service sets the page type to the default value Subtitle. If you pass through the entire set of Teletext data, don't use this field. When you pass through a set of Teletext pages, your output has the same page types as your input.
         public let pageTypes: [TeletextPageType]?
 
         public init(pageNumber: String? = nil, pageTypes: [TeletextPageType]? = nil) {
@@ -10505,7 +10680,7 @@ extension MediaConvert {
     }
 
     public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Use Page Number (PageNumber) to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
+        /// Use Page Number to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
         public let pageNumber: String?
 
         public init(pageNumber: String? = nil) {
@@ -10524,11 +10699,11 @@ extension MediaConvert {
     }
 
     public struct TimecodeBurnin: AWSEncodableShape & AWSDecodableShape {
-        /// Use Font Size (FontSize) to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
+        /// Use Font size to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
         public let fontSize: Int?
-        /// Use Position (Position) under under Timecode burn-in (TimecodeBurnIn) to specify the location the burned-in timecode on output video.
+        /// Use Position under Timecode burn-in to specify the location the burned-in timecode on output video.
         public let position: TimecodeBurninPosition?
-        /// Use Prefix (Prefix) to place ASCII characters before any burned-in timecode. For example, a prefix of "EZ-" will result in the timecode "EZ-00:00:00:00". Provide either the characters themselves or the ASCII code equivalents. The supported range of characters is 0x20 through 0x7e. This includes letters, numbers, and all special characters represented on a standard English keyboard.
+        /// Use Prefix to place ASCII characters before any burned-in timecode. For example, a prefix of "EZ-" will result in the timecode "EZ-00:00:00:00". Provide either the characters themselves or the ASCII code equivalents. The supported range of characters is 0x20 through 0x7e. This includes letters, numbers, and all special characters represented on a standard English keyboard.
         public let prefix: String?
 
         public init(fontSize: Int? = nil, position: TimecodeBurninPosition? = nil, prefix: String? = nil) {
@@ -10551,13 +10726,13 @@ extension MediaConvert {
     }
 
     public struct TimecodeConfig: AWSEncodableShape & AWSDecodableShape {
-        /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode (Anchor) to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source (TimecodeSource). * If Source (TimecodeSource) is set to Specified Start (SPECIFIEDSTART), the first input frame is the specified value in Start Timecode (Start). Anchor Timecode (Anchor) and Start Timecode (Start) are used calculate output timecode. * If Source (TimecodeSource) is set to Start at 0 (ZEROBASED) the first frame is 00:00:00:00. * If Source (TimecodeSource) is set to Embedded (EMBEDDED), the first frame is the timecode value on the first input frame of the input.
+        /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source. * If Source is set to Specified Start, the first input frame is the specified value in Start Timecode. Anchor Timecode and Start Timecode are used calculate output timecode. * If Source is set to Start at 0 the first frame is 00:00:00:00. * If Source is set to Embedded, the first frame is the timecode value on the first input frame of the input.
         public let anchor: String?
-        /// Use Source (TimecodeSource) to set how timecodes are handled within this job. To make sure that your video, audio, captions, and markers are synchronized and that time-based features, such as image inserter, work correctly, choose the Timecode source option that matches your assets. All timecodes are in a 24-hour format with frame number (HH:MM:SS:FF). * Embedded (EMBEDDED) - Use the timecode that is in the input video. If no embedded timecode is in the source, the service will use Start at 0 (ZEROBASED) instead. * Start at 0 (ZEROBASED) - Set the timecode of the initial frame to 00:00:00:00. * Specified Start (SPECIFIEDSTART) - Set the timecode of the initial frame to a value other than zero. You use Start timecode (Start) to provide this value.
+        /// Use Source to set how timecodes are handled within this job. To make sure that your video, audio, captions, and markers are synchronized and that time-based features, such as image inserter, work correctly, choose the Timecode source option that matches your assets. All timecodes are in a 24-hour format with frame number (HH:MM:SS:FF). * Embedded - Use the timecode that is in the input video. If no embedded timecode is in the source, the service will use Start at 0 instead. * Start at 0 - Set the timecode of the initial frame to 00:00:00:00. * Specified Start - Set the timecode of the initial frame to a value other than zero. You use Start timecode to provide this value.
         public let source: TimecodeSource?
-        /// Only use when you set Source (TimecodeSource) to Specified start (SPECIFIEDSTART). Use Start timecode (Start) to specify the timecode for the initial frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF).
+        /// Only use when you set Source to Specified start. Use Start timecode to specify the timecode for the initial frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF).
         public let start: String?
-        /// Only applies to outputs that support program-date-time stamp. Use Timestamp offset (TimestampOffset) to overwrite the timecode date without affecting the time and frame number. Provide the new date as a string in the format "yyyy-mm-dd". To use Time stamp offset, you must also enable Insert program-date-time (InsertProgramDateTime) in the output settings. For example, if the date part of your timecodes is 2002-1-25 and you want to change it to one year later, set Timestamp offset (TimestampOffset) to 2003-1-25.
+        /// Only applies to outputs that support program-date-time stamp. Use Timestamp offset to overwrite the timecode date without affecting the time and frame number. Provide the new date as a string in the format "yyyy-mm-dd". To use Timestamp offset, you must also enable Insert program-date-time in the output settings. For example, if the date part of your timecodes is 2002-1-25 and you want to change it to one year later, set Timestamp offset to 2003-1-25.
         public let timestampOffset: String?
 
         public init(anchor: String? = nil, source: TimecodeSource? = nil, start: String? = nil, timestampOffset: String? = nil) {
@@ -10859,7 +11034,7 @@ extension MediaConvert {
     }
 
     public struct Vc3Settings: AWSEncodableShape & AWSDecodableShape {
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vc3FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: Vc3FramerateConversionAlgorithm?
@@ -10869,13 +11044,13 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Optional. Choose the scan line type for this output. If you don't specify a value, MediaConvert will create a progressive output.
         public let interlaceMode: Vc3InterlaceMode?
-        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing (INTERLACED), for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode (interlaceMode) to a value other than Progressive (PROGRESSIVE).
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: Vc3ScanTypeConversionMode?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Framerate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Framerate to 25.
         public let slowPal: Vc3SlowPal?
-        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine (HARD) to create a smoother picture. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine to create a smoother picture. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: Vc3Telecine?
-        /// Specify the VC3 class to choose the quality characteristics for this output. VC3 class, together with the settings Framerate (framerateNumerator and framerateDenominator) and Resolution (height and width), determine your output bitrate. For example, say that your video resolution is 1920x1080 and your framerate is 29.97. Then Class 145 (CLASS_145) gives you an output with a bitrate of approximately 145 Mbps and Class 220 (CLASS_220) gives you and output with a bitrate of approximately 220 Mbps. VC3 class also specifies the color bit depth of your output.
+        /// Specify the VC3 class to choose the quality characteristics for this output. VC3 class, together with the settings Framerate (framerateNumerator and framerateDenominator) and Resolution (height and width), determine your output bitrate. For example, say that your video resolution is 1920x1080 and your framerate is 29.97. Then Class 145 gives you an output with a bitrate of approximately 145 Mbps and Class 220 gives you and output with a bitrate of approximately 220 Mbps. VC3 class also specifies the color bit depth of your output.
         public let vc3Class: Vc3Class?
 
         public init(framerateControl: Vc3FramerateControl? = nil, framerateConversionAlgorithm: Vc3FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: Vc3InterlaceMode? = nil, scanTypeConversionMode: Vc3ScanTypeConversionMode? = nil, slowPal: Vc3SlowPal? = nil, telecine: Vc3Telecine? = nil, vc3Class: Vc3Class? = nil) {
@@ -10915,25 +11090,25 @@ extension MediaConvert {
         public let av1Settings: Av1Settings?
         /// Required when you choose AVC-Intra for your output video codec. For more information about the AVC-Intra settings, see the relevant specification. For detailed information about SD and HD in AVC-Intra, see https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in AVC-Intra, see https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
         public let avcIntraSettings: AvcIntraSettings?
-        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes  video without any video encoding: Choose Passthrough. If you have multiple input videos, note that they must have identical encoding attributes. When you choose Passthrough, your output container must be MXF or QuickTime MOV.
+        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes video without any video encoding: Choose Passthrough. If you have multiple input videos, note that they must have identical encoding attributes. When you choose Passthrough, your output container must be MXF or QuickTime MOV.
         public let codec: VideoCodec?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value FRAME_CAPTURE.
+        /// Required when you set Codec to the value FRAME_CAPTURE.
         public let frameCaptureSettings: FrameCaptureSettings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value H_264.
+        /// Required when you set Codec to the value H_264.
         public let h264Settings: H264Settings?
         /// Settings for H265 codec
         public let h265Settings: H265Settings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value MPEG2.
+        /// Required when you set Codec to the value MPEG2.
         public let mpeg2Settings: Mpeg2Settings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value PRORES.
+        /// Required when you set Codec to the value PRORES.
         public let proresSettings: ProresSettings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value VC3
+        /// Required when you set Codec to the value VC3
         public let vc3Settings: Vc3Settings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value VP8.
+        /// Required when you set Codec to the value VP8.
         public let vp8Settings: Vp8Settings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value VP9.
+        /// Required when you set Codec to the value VP9.
         public let vp9Settings: Vp9Settings?
-        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value XAVC.
+        /// Required when you set Codec to the value XAVC.
         public let xavcSettings: XavcSettings?
 
         public init(av1Settings: Av1Settings? = nil, avcIntraSettings: AvcIntraSettings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil, vc3Settings: Vc3Settings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil, xavcSettings: XavcSettings? = nil) {
@@ -10982,33 +11157,33 @@ extension MediaConvert {
     }
 
     public struct VideoDescription: AWSEncodableShape & AWSDecodableShape {
-        /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling (AfdSignaling) to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
+        /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
         public let codecSettings: VideoCodecSettings?
-        /// Choose Insert (INSERT) for this setting to include color metadata in this output. Choose Ignore (IGNORE) to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
+        /// Choose Insert for this setting to include color metadata in this output. Choose Ignore to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?
-        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame.
+        /// Use Cropping selection to specify the video area that the service will include in the output video frame.
         public let crop: Rectangle?
-        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion (TimecodeInsertion) is enabled.
+        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion is enabled.
         public let dropFrameTimecode: DropFrameTimecode?
-        /// Applies only if you set AFD Signaling(AfdSignaling) to Fixed (FIXED). Use Fixed (FixedAfd) to specify a four-bit AFD value which the service will write on all frames of this video output.
+        /// Applies only if you set AFD Signaling to Fixed. Use Fixed to specify a four-bit AFD value which the service will write on all frames of this video output.
         public let fixedAfd: Int?
         /// Use Height to define the video resolution height, in pixels, for this output. To use the same resolution as your input: Leave both Width and Height blank. To evenly scale from your input resolution: Leave Height blank and enter a value for Width. For example, if your input is 1920x1080 and you set Width to 1280, your output will be 1280x720.
         public let height: Int?
-        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black.
+        /// Use Selection placement to define the video area in your output frame. The area outside of the rectangle that you specify here is black.
         public let position: Rectangle?
-        /// Use Respond to AFD (RespondToAfd) to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to (NONE). A preferred implementation of this workflow is to set RespondToAfd to (NONE) and set AfdSignaling to (AUTO). * Choose None to remove all input AFD values from this output.
+        /// Use Respond to AFD to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to NONE. A preferred implementation of this workflow is to set RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove all input AFD values from this output.
         public let respondToAfd: RespondToAfd?
-        /// Specify how the service handles outputs that have a different aspect ratio from the input aspect ratio. Choose Stretch to output (STRETCH_TO_OUTPUT) to have the service stretch your video image to fit. Keep the setting Default (DEFAULT) to have the service letterbox your video instead. This setting overrides any value that you specify for the setting Selection placement (position) in this output.
+        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
         public let scalingBehavior: ScalingBehavior?
-        /// Use Sharpness (Sharpness) setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
+        /// Use Sharpness setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
         public let sharpness: Int?
-        /// Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable Timecode insertion when the input frame rate is identical to the output frame rate. To include timecodes in this output, set Timecode insertion (VideoTimecodeInsertion) to PIC_TIMING_SEI. To leave them out, set it to DISABLED. Default is DISABLED. When the service inserts timecodes in an output, by default, it uses any embedded timecodes from the input. If none are present, the service will set the timecode for the first output frame to zero. To change this default behavior, adjust the settings under Timecode configuration (TimecodeConfig). In the console, these settings are located under Job > Job settings > Timecode configuration. Note - Timecode source under input settings (InputTimecodeSource) does not affect the timecodes that are inserted in the output. Source under Job settings > Timecode configuration (TimecodeSource) does.
+        /// Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable Timecode insertion when the input frame rate is identical to the output frame rate. To include timecodes in this output, set Timecode insertion to PIC_TIMING_SEI. To leave them out, set it to DISABLED. Default is DISABLED. When the service inserts timecodes in an output, by default, it uses any embedded timecodes from the input. If none are present, the service will set the timecode for the first output frame to zero. To change this default behavior, adjust the settings under Timecode configuration. In the console, these settings are located under Job > Job settings > Timecode configuration. Note - Timecode source under input settings does not affect the timecodes that are inserted in the output. Source under Job settings > Timecode configuration does.
         public let timecodeInsertion: VideoTimecodeInsertion?
-        /// Find additional transcoding features under Preprocessors (VideoPreprocessors). Enable the features at each output individually. These features are disabled by default.
+        /// Find additional transcoding features under Preprocessors. Enable the features at each output individually. These features are disabled by default.
         public let videoPreprocessors: VideoPreprocessor?
         /// Use Width to define the video resolution width, in pixels, for this output. To use the same resolution as your input: Leave both Width and Height blank. To evenly scale from your input resolution: Leave Width blank and enter a value for Height. For example, if your input is 1920x1080 and you set Height to 720, your output will be 1280x720.
         public let width: Int?
@@ -11082,6 +11257,90 @@ extension MediaConvert {
         }
     }
 
+    public struct VideoOverlay: AWSEncodableShape & AWSDecodableShape {
+        /// Enter the end timecode in the underlying input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
+        public let endTimecode: String?
+        /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
+        public let input: VideoOverlayInput?
+        /// Enter the start timecode in the underlying input video for this overlay. Your overlay will be active starting with this frame. To display your video overlay starting at the beginning of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to begin five minutes into the video, enter 01:05:00:00.
+        public let startTimecode: String?
+
+        public init(endTimecode: String? = nil, input: VideoOverlayInput? = nil, startTimecode: String? = nil) {
+            self.endTimecode = endTimecode
+            self.input = input
+            self.startTimecode = startTimecode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try self.input?.validate(name: "\(name).input")
+            try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimecode = "endTimecode"
+            case input = "input"
+            case startTimecode = "startTimecode"
+        }
+    }
+
+    public struct VideoOverlayInput: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the input file S3, HTTP, or HTTPS URI for your video overlay. For consistency in color and formatting in your output video image, we recommend that you specify a video with similar characteristics as the underlying input video.
+        public let fileInput: String?
+        /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
+        public let inputClippings: [VideoOverlayInputClipping]?
+        /// Specify the timecode source for your video overlay input clips. To use the timecode present in your video overlay: Choose Embedded. To use a zerobased timecode: Choose Start at 0. To choose a timecode: Choose Specified start. When you do, enter the starting timecode in Start timecode. If you don't specify a value for Timecode source, MediaConvert uses Embedded by default.
+        public let timecodeSource: InputTimecodeSource?
+        /// Specify the starting timecode for this video overlay. To use this setting, you must set Timecode source to Specified start.
+        public let timecodeStart: String?
+
+        public init(fileInput: String? = nil, inputClippings: [VideoOverlayInputClipping]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil) {
+            self.fileInput = fileInput
+            self.inputClippings = inputClippings
+            self.timecodeSource = timecodeSource
+            self.timecodeStart = timecodeStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^s3://([^\\/]+\\/+)+((([^\\/]*)))|^https?://[^\\/].*[^&]$")
+            try self.inputClippings?.forEach {
+                try $0.validate(name: "\(name).inputClippings[]")
+            }
+            try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
+            try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
+            try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileInput = "fileInput"
+            case inputClippings = "inputClippings"
+            case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
+        }
+    }
+
+    public struct VideoOverlayInputClipping: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the timecode of the last frame to include in your video overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
+        public let endTimecode: String?
+        /// Specify the timecode of the first frame to include in your video overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
+        public let startTimecode: String?
+
+        public init(endTimecode: String? = nil, startTimecode: String? = nil) {
+            self.endTimecode = endTimecode
+            self.startTimecode = startTimecode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimecode = "endTimecode"
+            case startTimecode = "startTimecode"
+        }
+    }
+
     public struct VideoPreprocessor: AWSEncodableShape & AWSDecodableShape {
         /// Use these settings to convert the color space or to modify properties such as hue and contrast for this output. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/converting-the-color-space.html.
         public let colorCorrector: ColorCorrector?
@@ -11089,9 +11348,9 @@ extension MediaConvert {
         public let deinterlacer: Deinterlacer?
         /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
         public let dolbyVision: DolbyVision?
-        /// Enable HDR10+ analyis and metadata injection. Compatible with HEVC only.
+        /// Enable HDR10+ analysis and metadata injection. Compatible with HEVC only.
         public let hdr10Plus: Hdr10Plus?
-        /// Enable the Image inserter (ImageInserter) feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
+        /// Enable the Image inserter feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
         public let imageInserter: ImageInserter?
         /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
         public let noiseReducer: NoiseReducer?
@@ -11138,21 +11397,21 @@ extension MediaConvert {
         public let alphaBehavior: AlphaBehavior?
         /// If your input video has accurate color space metadata, or if you don't know about color space: Keep the default value, Follow. MediaConvert will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or has missing metadata: Specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate: Choose Force HDR 10. Specify correct values in the input HDR 10 metadata settings. For more information about HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an input color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients: * HDR 10: BT.2020, PQ, BT.2020 non-constant * HLG 2020: BT.2020, HLG, BT.2020 non-constant * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709 * P3D65 (SDR): Display P3, sRGB, BT.709 * P3D65 (HDR): Display P3, PQ, BT.709
         public let colorSpace: ColorSpace?
-        /// There are two sources for color metadata, the input file and the job input settings Color space (ColorSpace) and HDR master display information settings(Hdr10Metadata). The Color space usage setting determines which takes precedence. Choose Force (FORCE) to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
+        /// There are two sources for color metadata, the input file and the job input settings Color space and HDR master display information settings. The Color space usage setting determines which takes precedence. Choose Force to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
         public let colorSpaceUsage: ColorSpaceUsage?
-        /// Set Embedded timecode override (embeddedTimecodeOverride) to Use MDPM (USE_MDPM) when your AVCHD input contains timecode tag data in the Modified Digital Video Pack Metadata (MDPM). When you do, we recommend you also set Timecode source (inputTimecodeSource) to Embedded (EMBEDDED). Leave Embedded timecode override blank, or set to None (NONE), when your input does not contain MDPM timecode.
+        /// Set Embedded timecode override to Use MDPM when your AVCHD input contains timecode tag data in the Modified Digital Video Pack Metadata. When you do, we recommend you also set Timecode source to Embedded. Leave Embedded timecode override blank, or set to None, when your input does not contain MDPM timecode.
         public let embeddedTimecodeOverride: EmbeddedTimecodeOverride?
-        /// Use these settings to provide HDR 10 metadata that is missing or inaccurate in your input video. Appropriate values vary depending on the input video and must be provided by a color grader. The color grader generates these values during the HDR 10 mastering process. The valid range for each of these settings is 0 to 50,000. Each increment represents 0.00002 in CIE1931 color coordinate. Related settings - When you specify these values, you must also set Color space (ColorSpace) to HDR 10 (HDR10). To specify whether the the values you specify here take precedence over the values in the metadata of your input file, set Color space usage (ColorSpaceUsage). To specify whether color metadata is included in an output, set Color metadata (ColorMetadata). For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
+        /// Use these settings to provide HDR 10 metadata that is missing or inaccurate in your input video. Appropriate values vary depending on the input video and must be provided by a color grader. The color grader generates these values during the HDR 10 mastering process. The valid range for each of these settings is 0 to 50,000. Each increment represents 0.00002 in CIE1931 color coordinate. Related settings - When you specify these values, you must also set Color space to HDR 10. To specify whether the the values you specify here take precedence over the values in the metadata of your input file, set Color space usage. To specify whether color metadata is included in an output, set Color metadata. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let hdr10Metadata: Hdr10Metadata?
-        /// Use this setting if your input has video and audio durations that don't align, and your output or player has strict alignment requirements. Examples: Input audio track has a delayed start. Input video track ends before audio ends. When you set Pad video (padVideo) to Black (BLACK), MediaConvert generates black video frames so that output video and audio durations match. Black video frames are added at the beginning or end, depending on your input. To keep the default behavior and not generate black video, set Pad video to Disabled (DISABLED) or leave blank.
+        /// Use this setting if your input has video and audio durations that don't align, and your output or player has strict alignment requirements. Examples: Input audio track has a delayed start. Input video track ends before audio ends. When you set Pad video to Black, MediaConvert generates black video frames so that output video and audio durations match. Black video frames are added at the beginning or end, depending on your input. To keep the default behavior and not generate black video, set Pad video to Disabled or leave blank.
         public let padVideo: PadVideo?
-        /// Use PID (Pid) to select specific video data from an input file. Specify this value as an integer; the system automatically converts it to the hexidecimal value. For example, 257 selects PID 0x101. A PID, or packet identifier, is an identifier for a set of data in an MPEG-2 transport stream container.
+        /// Use PID to select specific video data from an input file. Specify this value as an integer; the system automatically converts it to the hexidecimal value. For example, 257 selects PID 0x101. A PID, or packet identifier, is an identifier for a set of data in an MPEG-2 transport stream container.
         public let pid: Int?
         /// Selects a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported.
         public let programNumber: Int?
-        /// Use Rotate (InputRotate) to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
+        /// Use Rotate to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
         public let rotate: InputRotate?
-        /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
+        /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow, for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
         public let sampleRange: InputSampleRange?
 
         public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, embeddedTimecodeOverride: EmbeddedTimecodeOverride? = nil, hdr10Metadata: Hdr10Metadata? = nil, padVideo: PadVideo? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
@@ -11223,7 +11482,7 @@ extension MediaConvert {
     public struct Vp8Settings: AWSEncodableShape & AWSDecodableShape {
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let bitrate: Int?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vp8FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: Vp8FramerateConversionAlgorithm?
@@ -11237,13 +11496,13 @@ extension MediaConvert {
         public let hrdBufferSize: Int?
         /// Ignore this setting unless you set qualityTuningLevel to MULTI_PASS. Optional. Specify the maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. The default behavior uses twice the target bitrate as the maximum bitrate.
         public let maxBitrate: Int?
-        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. To specify a different PAR by editing the JSON job specification, choose SPECIFIED. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
+        /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR in the console, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
         public let parControl: Vp8ParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
         public let qualityTuningLevel: Vp8QualityTuningLevel?
         /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control mode.
         public let rateControlMode: Vp8RateControlMode?
@@ -11301,7 +11560,7 @@ extension MediaConvert {
     public struct Vp9Settings: AWSEncodableShape & AWSDecodableShape {
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let bitrate: Int?
-        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vp9FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: Vp9FramerateConversionAlgorithm?
@@ -11317,11 +11576,11 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Optional. Specify how the service determines the pixel aspect ratio for this output. The default behavior is to use the same pixel aspect ratio as your input video.
         public let parControl: Vp9ParControl?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parDenominator is 33.
         public let parDenominator: Int?
-        /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
+        /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, multi-pass encoding.
         public let qualityTuningLevel: Vp9QualityTuningLevel?
         /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control mode.
         public let rateControlMode: Vp9RateControlMode?
@@ -11378,11 +11637,11 @@ extension MediaConvert {
 
     public struct WarningGroup: AWSDecodableShape {
         /// Warning code that identifies a specific warning in the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
-        public let code: Int
+        public let code: Int?
         /// The number of times this warning occurred in the job.
-        public let count: Int
+        public let count: Int?
 
-        public init(code: Int, count: Int) {
+        public init(code: Int? = nil, count: Int? = nil) {
             self.code = code
             self.count = count
         }
@@ -11394,7 +11653,7 @@ extension MediaConvert {
     }
 
     public struct WavSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
+        /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
@@ -11430,7 +11689,7 @@ extension MediaConvert {
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public let accessibility: WebvttAccessibilitySubs?
-        /// To use the available style, color, and position information from your input captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED). MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict (STRICT). MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled (DISABLED), or leave blank.
+        /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled, or leave blank.
         public let stylePassthrough: WebvttStylePassthrough?
 
         public init(accessibility: WebvttAccessibilitySubs? = nil, stylePassthrough: WebvttStylePassthrough? = nil) {
@@ -11496,15 +11755,15 @@ extension MediaConvert {
         public let bitrateClass: Xavc4kProfileBitrateClass?
         /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH) or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T H.264.
         public let codecProfile: Xavc4kProfileCodecProfile?
-        /// The best way to set up adaptive quantization is to keep the default value, Auto (AUTO), for the setting Adaptive quantization (XavcAdaptiveQuantization). When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set Adaptive quantization (adaptiveQuantization) to a value other than Off (OFF) or Auto (AUTO). Use Adaptive quantization to adjust the degree of smoothing that Flicker adaptive quantization provides.
+        /// The best way to set up adaptive quantization is to keep the default value, Auto, for the setting Adaptive quantization. When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set Adaptive quantization to a value other than Off or Auto. Use Adaptive quantization to adjust the degree of smoothing that Flicker adaptive quantization provides.
         public let flickerAdaptiveQuantization: XavcFlickerAdaptiveQuantization?
-        /// Specify whether the encoder uses B-frames as reference frames for other pictures in the same GOP. Choose Allow (ENABLED) to allow the encoder to use B-frames as reference frames. Choose Don't allow (DISABLED) to prevent the encoder from using B-frames as reference frames.
+        /// Specify whether the encoder uses B-frames as reference frames for other pictures in the same GOP. Choose Allow to allow the encoder to use B-frames as reference frames. Choose Don't allow to prevent the encoder from using B-frames as reference frames.
         public let gopBReference: XavcGopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public let gopClosedCadence: Int?
         /// Specify the size of the buffer that MediaConvert uses in the HRD buffer model for this output. Specify this value in bits; for example, enter five megabits as 5000000. When you don't set this value, or you set it to zero, MediaConvert calculates the default by doubling the bitrate of this output point.
         public let hrdBufferSize: Int?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: Xavc4kProfileQualityTuningLevel?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
@@ -11557,21 +11816,21 @@ extension MediaConvert {
     public struct XavcHdProfileSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public let bitrateClass: XavcHdProfileBitrateClass?
-        /// The best way to set up adaptive quantization is to keep the default value, Auto (AUTO), for the setting Adaptive quantization (XavcAdaptiveQuantization). When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set Adaptive quantization (adaptiveQuantization) to a value other than Off (OFF) or Auto (AUTO). Use Adaptive quantization to adjust the degree of smoothing that Flicker adaptive quantization provides.
+        /// The best way to set up adaptive quantization is to keep the default value, Auto, for the setting Adaptive quantization. When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set Adaptive quantization to a value other than Off or Auto. Use Adaptive quantization to adjust the degree of smoothing that Flicker adaptive quantization provides.
         public let flickerAdaptiveQuantization: XavcFlickerAdaptiveQuantization?
-        /// Specify whether the encoder uses B-frames as reference frames for other pictures in the same GOP. Choose Allow (ENABLED) to allow the encoder to use B-frames as reference frames. Choose Don't allow (DISABLED) to prevent the encoder from using B-frames as reference frames.
+        /// Specify whether the encoder uses B-frames as reference frames for other pictures in the same GOP. Choose Allow to allow the encoder to use B-frames as reference frames. Choose Don't allow to prevent the encoder from using B-frames as reference frames.
         public let gopBReference: XavcGopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public let gopClosedCadence: Int?
         /// Specify the size of the buffer that MediaConvert uses in the HRD buffer model for this output. Specify this value in bits; for example, enter five megabits as 5000000. When you don't set this value, or you set it to zero, MediaConvert calculates the default by doubling the bitrate of this output point.
         public let hrdBufferSize: Int?
-        /// Choose the scan line type for the output. Keep the default value, Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Use Top field first (TOP_FIELD) or Bottom field first (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: XavcInterlaceMode?
-        /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
+        /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: XavcHdProfileQualityTuningLevel?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
-        /// Ignore this setting unless you set Frame rate (framerateNumerator divided by framerateDenominator) to 29.970. If your input framerate is 23.976, choose Hard (HARD). Otherwise, keep the default value None (NONE). For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
+        /// Ignore this setting unless you set Frame rate (framerateNumerator divided by framerateDenominator) to 29.970. If your input framerate is 23.976, choose Hard. Otherwise, keep the default value None. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
         public let telecine: XavcHdProfileTelecine?
 
         public init(bitrateClass: XavcHdProfileBitrateClass? = nil, flickerAdaptiveQuantization: XavcFlickerAdaptiveQuantization? = nil, gopBReference: XavcGopBReference? = nil, gopClosedCadence: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: XavcInterlaceMode? = nil, qualityTuningLevel: XavcHdProfileQualityTuningLevel? = nil, slices: Int? = nil, telecine: XavcHdProfileTelecine? = nil) {
@@ -11609,11 +11868,11 @@ extension MediaConvert {
     }
 
     public struct XavcSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set Adaptive quantization (adaptiveQuantization) to a value other than Auto (AUTO). Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off (OFF). Related settings: The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
+        /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set Adaptive quantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization, and Temporal adaptive quantization.
         public let adaptiveQuantization: XavcAdaptiveQuantization?
         /// Optional. Choose a specific entropy encoding mode only when you want to override XAVC recommendations. If you choose the value auto, MediaConvert uses the mode that the XAVC file format specifies given this output's operating point.
         public let entropyEncoding: XavcEntropyEncoding?
-        /// If you are using the console, use the Frame rate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list. The framerates shown in the dropdown list are decimal approximations of fractions. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate that you specify in the settings FramerateNumerator and FramerateDenominator.
+        /// If you are using the console, use the Frame rate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list. The framerates shown in the dropdown list are decimal approximations of fractions.
         public let framerateControl: XavcFramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
         public let framerateConversionAlgorithm: XavcFramerateConversionAlgorithm?
@@ -11623,23 +11882,23 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public let profile: XavcProfile?
-        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25. In your JSON job specification, set (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25.
         public let slowPal: XavcSlowPal?
-        /// Ignore this setting unless your downstream workflow requires that you specify it explicitly. Otherwise, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness (sharpness) or by enabling a noise reducer filter (noiseReducerFilter). The Softness (softness) setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
+        /// Ignore this setting unless your downstream workflow requires that you specify it explicitly. Otherwise, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
         public let softness: Int?
-        /// The best way to set up adaptive quantization is to keep the default value, Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization). When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. For this setting, keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// The best way to set up adaptive quantization is to keep the default value, Auto, for the setting Adaptive quantization. When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. For this setting, keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public let spatialAdaptiveQuantization: XavcSpatialAdaptiveQuantization?
-        /// The best way to set up adaptive quantization is to keep the default value, Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization). When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. For this setting, keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal adaptive quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization).
+        /// The best way to set up adaptive quantization is to keep the default value, Auto, for the setting Adaptive quantization. When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. For this setting, keep the default value, Enabled, to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal adaptive quantization, adjust the strength of the filter with the setting Adaptive quantization.
         public let temporalAdaptiveQuantization: XavcTemporalAdaptiveQuantization?
-        /// Required when you set (Profile) under (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_4K_INTRA_CBG.
+        /// Required when you set Profile to the value XAVC_4K_INTRA_CBG.
         public let xavc4kIntraCbgProfileSettings: Xavc4kIntraCbgProfileSettings?
-        /// Required when you set (Profile) under (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_4K_INTRA_VBR.
+        /// Required when you set Profile to the value XAVC_4K_INTRA_VBR.
         public let xavc4kIntraVbrProfileSettings: Xavc4kIntraVbrProfileSettings?
-        /// Required when you set (Profile) under (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_4K.
+        /// Required when you set Profile to the value XAVC_4K.
         public let xavc4kProfileSettings: Xavc4kProfileSettings?
-        /// Required when you set (Profile) under (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_HD_INTRA_CBG.
+        /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
         public let xavcHdIntraCbgProfileSettings: XavcHdIntraCbgProfileSettings?
-        /// Required when you set (Profile) under (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_HD.
+        /// Required when you set Profile to the value XAVC_HD.
         public let xavcHdProfileSettings: XavcHdProfileSettings?
 
         public init(adaptiveQuantization: XavcAdaptiveQuantization? = nil, entropyEncoding: XavcEntropyEncoding? = nil, framerateControl: XavcFramerateControl? = nil, framerateConversionAlgorithm: XavcFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, profile: XavcProfile? = nil, slowPal: XavcSlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: XavcSpatialAdaptiveQuantization? = nil, temporalAdaptiveQuantization: XavcTemporalAdaptiveQuantization? = nil, xavc4kIntraCbgProfileSettings: Xavc4kIntraCbgProfileSettings? = nil, xavc4kIntraVbrProfileSettings: Xavc4kIntraVbrProfileSettings? = nil, xavc4kProfileSettings: Xavc4kProfileSettings? = nil, xavcHdIntraCbgProfileSettings: XavcHdIntraCbgProfileSettings? = nil, xavcHdProfileSettings: XavcHdProfileSettings? = nil) {

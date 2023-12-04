@@ -26,17 +26,24 @@ import Foundation
 extension EBS {
     // MARK: Enums
 
-    public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable, Sendable {
-        case linear = "LINEAR"
+    public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case checksumAggregationLinear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
-        case sha256 = "SHA256"
+    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case checksumAlgorithmSha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum SSEType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
+        case sseEbs = "sse-ebs"
+        case sseKms = "sse-kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case error = "error"
         case pending = "pending"
@@ -425,11 +432,11 @@ extension EBS {
         public let clientToken: String?
         /// A description for the snapshot.
         public let description: String?
-        /// Indicates whether to encrypt the snapshot.   You can't specify Encrypted and  ParentSnapshotId in the same request. If you specify both parameters, the  request fails with ValidationException.  The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.     To create an encrypted snapshot, you must have permission to use the KMS key. For  more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
+        /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and  ParentSnapshotId in the same request. If you specify both parameters, the  request fails with ValidationException. The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  To create an encrypted snapshot, you must have permission to use the KMS key. For  more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
         public let encrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot.   The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.    To create an encrypted snapshot, you must have permission to use the KMS key. For  more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot. The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  To create an encrypted snapshot, you must have permission to use the KMS key. For  more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
         public let kmsKeyArn: String?
-        /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and  Encrypted in the same request. If you specify both  parameters, the request fails with ValidationException.    The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.   If you specify an encrypted parent snapshot, you must have permission to use the  KMS key that was used to encrypt the parent snapshot. For more information, see   Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
+        /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and  Encrypted in the same request. If you specify both  parameters, the request fails with ValidationException. The encryption status of the snapshot depends on the values that you specify for  Encrypted, KmsKeyArn,  and ParentSnapshotId, and whether your Amazon Web Services account  is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  If you specify an encrypted parent snapshot, you must have permission to use the  KMS key that was used to encrypt the parent snapshot. For more information, see   Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User  Guide.
         public let parentSnapshotId: String?
         /// The tags to apply to the snapshot.
         public let tags: [Tag]?
@@ -493,6 +500,8 @@ extension EBS {
         public let parentSnapshotId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
+        /// Reserved for future use.
+        public let sseType: SSEType?
         /// The timestamp when the snapshot was created.
         public let startTime: Date?
         /// The status of the snapshot.
@@ -502,13 +511,14 @@ extension EBS {
         /// The size of the volume, in GiB.
         public let volumeSize: Int64?
 
-        public init(blockSize: Int? = nil, description: String? = nil, kmsKeyArn: String? = nil, ownerId: String? = nil, parentSnapshotId: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, status: Status? = nil, tags: [Tag]? = nil, volumeSize: Int64? = nil) {
+        public init(blockSize: Int? = nil, description: String? = nil, kmsKeyArn: String? = nil, ownerId: String? = nil, parentSnapshotId: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, status: Status? = nil, tags: [Tag]? = nil, volumeSize: Int64? = nil) {
             self.blockSize = blockSize
             self.description = description
             self.kmsKeyArn = kmsKeyArn
             self.ownerId = ownerId
             self.parentSnapshotId = parentSnapshotId
             self.snapshotId = snapshotId
+            self.sseType = sseType
             self.startTime = startTime
             self.status = status
             self.tags = tags
@@ -522,6 +532,7 @@ extension EBS {
             case ownerId = "OwnerId"
             case parentSnapshotId = "ParentSnapshotId"
             case snapshotId = "SnapshotId"
+            case sseType = "SseType"
             case startTime = "StartTime"
             case status = "Status"
             case tags = "Tags"
@@ -593,9 +604,9 @@ public struct EBSErrorType: AWSErrorType {
     public static var concurrentLimitExceededException: Self { .init(.concurrentLimitExceededException) }
     /// The request uses the same client token as a previous, but non-identical request.
     public static var conflictException: Self { .init(.conflictException) }
-    /// An internal error has occurred.
+    /// An internal error has occurred. For more information see Error retries.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The number of API requests has exceed the maximum allowed API request throttling limit.
+    /// The number of API requests has exceeded the maximum allowed API request  throttling limit for the snapshot. For more information see Error retries.
     public static var requestThrottledException: Self { .init(.requestThrottledException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

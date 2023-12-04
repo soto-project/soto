@@ -224,7 +224,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide.
+    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide. You can create two types of asset models, ASSET_MODEL or COMPONENT_MODEL.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
     @Sendable
     public func createAssetModel(_ input: CreateAssetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetModelResponse {
         return try await self.client.execute(
@@ -238,7 +238,21 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job. For more information about how to configure storage settings, see PutStorageConfiguration.
+    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based.  Use component-model-based custom composite models to define standard, reusable components.  A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see Custom composite models (Components) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
+    @Sendable
+    public func createAssetModelCompositeModel(_ input: CreateAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetModelCompositeModelResponse {
+        return try await self.client.execute(
+            operation: "CreateAssetModelCompositeModel", 
+            path: "/asset-models/{assetModelId}/composite-models", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on  IoT SiteWise warm or cold tier storage.
     @Sendable
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBulkImportJobResponse {
         return try await self.client.execute(
@@ -322,7 +336,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Deletes an asset. This action can't be undone. For more information, see Deleting assets and models in the IoT SiteWise User Guide.   You can't delete an asset that's associated to another asset. For more information, see DisassociateAssets.
+    /// Deletes an asset. This action can't be undone. For more information, see Deleting assets and models in the IoT SiteWise User Guide.  You can't delete an asset that's associated to another asset. For more information, see DisassociateAssets.
     @Sendable
     public func deleteAsset(_ input: DeleteAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetResponse {
         return try await self.client.execute(
@@ -342,6 +356,20 @@ public struct IoTSiteWise: AWSService {
         return try await self.client.execute(
             operation: "DeleteAssetModel", 
             path: "/asset-models/{assetModelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Deletes a composite model. This action can't be undone. You must delete all assets created from a  composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting assets and models in the IoT SiteWise User Guide.
+    @Sendable
+    public func deleteAssetModelCompositeModel(_ input: DeleteAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetModelCompositeModelResponse {
+        return try await self.client.execute(
+            operation: "DeleteAssetModelCompositeModel", 
+            path: "/asset-models/{assetModelId}/composite-models/{assetModelCompositeModelId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -406,7 +434,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:   If the time series isn't associated with an asset property,  specify the alias of the time series.   If the time series is associated with an asset property,  specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
     @Sendable
     public func deleteTimeSeries(_ input: DeleteTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -434,6 +462,20 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
+    /// Retrieves information about an action.
+    @Sendable
+    public func describeAction(_ input: DescribeActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActionResponse {
+        return try await self.client.execute(
+            operation: "DescribeAction", 
+            path: "/actions/{actionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about an asset.
     @Sendable
     public func describeAsset(_ input: DescribeAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetResponse {
@@ -448,12 +490,40 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
+    /// Retrieves information about an asset composite model (also known as an asset component).  An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call  DescribeAssetModelCompositeModel.
+    @Sendable
+    public func describeAssetCompositeModel(_ input: DescribeAssetCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetCompositeModelResponse {
+        return try await self.client.execute(
+            operation: "DescribeAssetCompositeModel", 
+            path: "/assets/{assetId}/composite-models/{assetCompositeModelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about an asset model.
     @Sendable
     public func describeAssetModel(_ input: DescribeAssetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetModelResponse {
         return try await self.client.execute(
             operation: "DescribeAssetModel", 
             path: "/asset-models/{assetModelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see Custom composite models (Components) in the IoT SiteWise User Guide.
+    @Sendable
+    public func describeAssetModelCompositeModel(_ input: DescribeAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetModelCompositeModelResponse {
+        return try await self.client.execute(
+            operation: "DescribeAssetModelCompositeModel", 
+            path: "/asset-models/{assetModelId}/composite-models/{assetModelCompositeModelId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -602,7 +672,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:   If the time series isn't associated with an asset property,  specify the alias of the time series.   If the time series is associated with an asset property,  specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
     @Sendable
     public func describeTimeSeries(_ input: DescribeTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTimeSeriesResponse {
         return try await self.client.execute(
@@ -640,6 +710,34 @@ public struct IoTSiteWise: AWSService {
             serviceConfig: self.config, 
             input: input, 
             hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Executes an action on a target resource.
+    @Sendable
+    public func executeAction(_ input: ExecuteActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteActionResponse {
+        return try await self.client.execute(
+            operation: "ExecuteAction", 
+            path: "/actions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
+    @Sendable
+    public func executeQuery(_ input: ExecuteQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteQueryResponse {
+        return try await self.client.execute(
+            operation: "ExecuteQuery", 
+            path: "/queries/execution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
             logger: logger
         )
     }
@@ -714,7 +812,35 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Retrieves a paginated list of actions for a specific target resource.
+    @Sendable
+    public func listActions(_ input: ListActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActionsResponse {
+        return try await self.client.execute(
+            operation: "ListActions", 
+            path: "/actions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a paginated list of composite models associated with the asset model
+    @Sendable
+    public func listAssetModelCompositeModels(_ input: ListAssetModelCompositeModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetModelCompositeModelsResponse {
+        return try await self.client.execute(
+            operation: "ListAssetModelCompositeModels", 
+            path: "/asset-models/{assetModelId}/composite-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     @Sendable
     public func listAssetModelProperties(_ input: ListAssetModelPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetModelPropertiesResponse {
         return try await self.client.execute(
@@ -742,7 +868,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     @Sendable
     public func listAssetProperties(_ input: ListAssetPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetPropertiesResponse {
         return try await self.client.execute(
@@ -808,6 +934,20 @@ public struct IoTSiteWise: AWSService {
             serviceConfig: self.config, 
             input: input, 
             hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL.
+    @Sendable
+    public func listCompositionRelationships(_ input: ListCompositionRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCompositionRelationshipsResponse {
+        return try await self.client.execute(
+            operation: "ListCompositionRelationships", 
+            path: "/asset-models/{assetModelId}/composition-relationships", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
             logger: logger
         )
     }
@@ -1022,6 +1162,20 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
+    /// Updates a composite model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide.  If you remove a property from a composite asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing composite asset model property with a new one with the same name, do the following:   Submit an UpdateAssetModelCompositeModel request with the entire existing property removed.   Submit a second UpdateAssetModelCompositeModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
+    @Sendable
+    public func updateAssetModelCompositeModel(_ input: UpdateAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetModelCompositeModelResponse {
+        return try await self.client.execute(
+            operation: "UpdateAssetModelCompositeModel", 
+            path: "/asset-models/{assetModelId}/composite-models/{assetModelCompositeModelId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
     /// Updates an asset property's alias and notification state.  This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see DescribeAssetProperty.
     @Sendable
     public func updateAssetProperty(_ input: UpdateAssetPropertyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1177,6 +1331,25 @@ extension IoTSiteWise {
         )
     }
 
+    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func executeQueryPaginator(
+        _ input: ExecuteQueryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ExecuteQueryRequest, ExecuteQueryResponse> {
+        return .init(
+            input: input,
+            command: self.executeQuery,
+            inputKey: \ExecuteQueryRequest.nextToken,
+            outputKey: \ExecuteQueryResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
     /// Return PaginatorSequence for operation.
     ///
@@ -1253,7 +1426,26 @@ extension IoTSiteWise {
         )
     }
 
-    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Retrieves a paginated list of composite models associated with the asset model
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAssetModelCompositeModelsPaginator(
+        _ input: ListAssetModelCompositeModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetModelCompositeModelsRequest, ListAssetModelCompositeModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listAssetModelCompositeModels,
+            inputKey: \ListAssetModelCompositeModelsRequest.nextToken,
+            outputKey: \ListAssetModelCompositeModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1291,7 +1483,7 @@ extension IoTSiteWise {
         )
     }
 
-    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1382,6 +1574,25 @@ extension IoTSiteWise {
             command: self.listBulkImportJobs,
             inputKey: \ListBulkImportJobsRequest.nextToken,
             outputKey: \ListBulkImportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCompositionRelationshipsPaginator(
+        _ input: ListCompositionRelationshipsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCompositionRelationshipsRequest, ListCompositionRelationshipsResponse> {
+        return .init(
+            input: input,
+            command: self.listCompositionRelationships,
+            inputKey: \ListCompositionRelationshipsRequest.nextToken,
+            outputKey: \ListCompositionRelationshipsResponse.nextToken,
             logger: logger
         )
     }
@@ -1530,6 +1741,16 @@ extension IoTSiteWise.BatchGetAssetPropertyValueRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ExecuteQueryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ExecuteQueryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryStatement: self.queryStatement
+        )
+    }
+}
+
 extension IoTSiteWise.GetAssetPropertyAggregatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.GetAssetPropertyAggregatesRequest {
         return .init(
@@ -1598,6 +1819,16 @@ extension IoTSiteWise.ListAccessPoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListAssetModelCompositeModelsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelCompositeModelsRequest {
+        return .init(
+            assetModelId: self.assetModelId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTSiteWise.ListAssetModelPropertiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelPropertiesRequest {
         return .init(
@@ -1612,6 +1843,7 @@ extension IoTSiteWise.ListAssetModelPropertiesRequest: AWSPaginateToken {
 extension IoTSiteWise.ListAssetModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelsRequest {
         return .init(
+            assetModelTypes: self.assetModelTypes,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1667,6 +1899,16 @@ extension IoTSiteWise.ListBulkImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListBulkImportJobsRequest {
         return .init(
             filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.ListCompositionRelationshipsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListCompositionRelationshipsRequest {
+        return .init(
+            assetModelId: self.assetModelId,
             maxResults: self.maxResults,
             nextToken: token
         )

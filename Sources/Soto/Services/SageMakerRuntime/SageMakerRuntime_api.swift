@@ -95,6 +95,7 @@ public struct SageMakerRuntime: AWSService {
             "eu-west-1": "runtime-fips.sagemaker.eu-west-1.amazonaws.com",
             "eu-west-2": "runtime-fips.sagemaker.eu-west-2.amazonaws.com",
             "eu-west-3": "runtime-fips.sagemaker.eu-west-3.amazonaws.com",
+            "il-central-1": "runtime-fips.sagemaker.il-central-1.amazonaws.com",
             "me-central-1": "runtime-fips.sagemaker.me-central-1.amazonaws.com",
             "me-south-1": "runtime-fips.sagemaker.me-south-1.amazonaws.com",
             "sa-east-1": "runtime-fips.sagemaker.sa-east-1.amazonaws.com",
@@ -122,12 +123,25 @@ public struct SageMakerRuntime: AWSService {
         )
     }
 
-    /// After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon S3 API Reference.
+    /// After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax.  Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon S3 API Reference.
     @Sendable
     public func invokeEndpointAsync(_ input: InvokeEndpointAsyncInput, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeEndpointAsyncOutput {
         return try await self.client.execute(
             operation: "InvokeEndpointAsync", 
             path: "/endpoints/{EndpointName}/async-invocations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Invokes a model at the specified endpoint to return the inference response as a stream. The inference stream provides the response payload incrementally as a series of parts. Before you can get an inference stream, you must have access to a model that's deployed using Amazon SageMaker hosting services, and the container for that model must support inference streaming. For more information that can help you use this API, see the following sections in the Amazon SageMaker Developer Guide:   For information about how to add streaming support to a model, see How Containers Serve Requests.   For information about how to process the streaming response, see Invoke real-time endpoints.   Before you can use this operation, your IAM permissions must allow the sagemaker:InvokeEndpoint action. For more information about Amazon SageMaker actions for IAM policies, see Actions, resources, and condition keys for Amazon SageMaker in the IAM Service Authorization Reference. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax.  Calls to InvokeEndpointWithResponseStream are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon S3 API Reference.
+    @Sendable
+    public func invokeEndpointWithResponseStream(_ input: InvokeEndpointWithResponseStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeEndpointWithResponseStreamOutput {
+        return try await self.client.execute(
+            operation: "InvokeEndpointWithResponseStream", 
+            path: "/endpoints/{EndpointName}/invocations-response-stream", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

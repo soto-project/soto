@@ -28,20 +28,112 @@ extension PersonalizeEvents {
 
     // MARK: Shapes
 
-    public struct Event: AWSEncodableShape {
-        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
+    public struct Action: AWSEncodableShape {
+        /// The ID associated with the action.
+        public let actionId: String
+        /// A string map of action-specific metadata. Each element in the map consists of a key-value pair.  For example, {"value": "100"}. The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple categories for a single action,  separate each category with a pipe separator (|). For example, \"Deluxe|Premium\".
+        public let properties: String?
+
+        public init(actionId: String, properties: String? = nil) {
+            self.actionId = actionId
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 256)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.properties, name: "properties", parent: name, max: 32000)
+            try self.validate(self.properties, name: "properties", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case properties = "properties"
+        }
+    }
+
+    public struct ActionInteraction: AWSEncodableShape {
+        /// The ID of the action the user interacted with. This corresponds to the ACTION_ID  field of the Action interaction schema.
+        public let actionId: String
+        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public let eventId: String?
-        /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Interactions schema and depends on the types of events you are tracking.
+        /// The type of action interaction event. You can specify Viewed, Taken, and Not Taken event types. For more information about action interaction event type data, see Event type data.
         public let eventType: String
-        /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
+        /// A list of action IDs that represents the sequence of actions you have shown the user. For example, ["actionId1", "actionId2", "actionId3"]. Amazon Personalize doesn't use impressions data from action interaction events. Instead, record multiple events for each action and use the Viewed event type.
+        public let impression: [String]?
+        /// A string map of event-specific data that you might choose to record. For example, if a user takes an action, other than the action ID, you might also send the number of actions taken by the user. Each item in the map consists of a key-value pair. For example,  {"numberOfActions": "12"}  The keys use camel case names that match the fields in the Action interactions schema. In the above example, the numberOfActions would match the 'NUMBER_OF_ACTIONS' field defined in the Action interactions schema.  The following can't be included as a keyword for properties (case insensitive).      userId     sessionId    eventType   timestamp   recommendationId   impression
+        public let properties: String?
+        /// The ID of the list of recommendations that contains the action the user interacted with.
+        public let recommendationId: String?
+        /// The ID associated with the user's visit.  Your application generates a unique sessionId when a user first visits your website or uses your application.
+        public let sessionId: String
+        /// The timestamp for when the action interaction event occurred. Timestamps must be in Unix epoch time format, in seconds.
+        public let timestamp: Date
+        /// The ID of the user who interacted with the action. This corresponds to the USER_ID  field of the Action interaction schema.
+        public let userId: String?
+
+        public init(actionId: String, eventId: String? = nil, eventType: String, impression: [String]? = nil, properties: String? = nil, recommendationId: String? = nil, sessionId: String, timestamp: Date, userId: String? = nil) {
+            self.actionId = actionId
+            self.eventId = eventId
+            self.eventType = eventType
+            self.impression = impression
+            self.properties = properties
+            self.recommendationId = recommendationId
+            self.sessionId = sessionId
+            self.timestamp = timestamp
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 256)
+            try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
+            try self.validate(self.eventId, name: "eventId", parent: name, max: 256)
+            try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
+            try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
+            try self.validate(self.eventType, name: "eventType", parent: name, min: 1)
+            try self.impression?.forEach {
+                try validate($0, name: "impression[]", parent: name, max: 256)
+                try validate($0, name: "impression[]", parent: name, min: 1)
+            }
+            try self.validate(self.impression, name: "impression", parent: name, max: 25)
+            try self.validate(self.impression, name: "impression", parent: name, min: 1)
+            try self.validate(self.properties, name: "properties", parent: name, max: 1024)
+            try self.validate(self.properties, name: "properties", parent: name, min: 1)
+            try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 40)
+            try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case eventId = "eventId"
+            case eventType = "eventType"
+            case impression = "impression"
+            case properties = "properties"
+            case recommendationId = "recommendationId"
+            case sessionId = "sessionId"
+            case timestamp = "timestamp"
+            case userId = "userId"
+        }
+    }
+
+    public struct Event: AWSEncodableShape {
+        /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training.
+        public let eventId: String?
+        /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Item interactions dataset's schema and depends on the types of events you are tracking.
+        public let eventType: String
+        /// The event value that corresponds to the EVENT_VALUE field of the Item interactions schema.
         public let eventValue: Float?
         /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"]. Provide a list of  items to manually record impressions data for an event. For more information on recording impressions data,  see Recording impressions data.
         public let impression: [String]?
-        /// The item ID key that corresponds to the ITEM_ID field of the Interactions schema.
+        /// The item ID key that corresponds to the ITEM_ID field of the Item interactions dataset's schema.
         public let itemId: String?
         /// Contains information about the metric attribution associated with an event. For more information about metric attributions, see Measuring impact of recommendations.
         public let metricAttribution: MetricAttribution?
-        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example,   {"numberOfRatings": "12"}  The keys use camel case names that match the fields in the Interactions schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
+        /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example,  {"numberOfRatings": "12"}  The keys use camel case names that match the fields in the Item interactions dataset's schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Item interactions dataset's schema.  The following can't be included as a keyword for properties (case insensitive).       userId     sessionId    eventType   timestamp   recommendationId   impression
         public let properties: String?
         /// The ID of the list of recommendations that contains the item the user interacted with. Provide a recommendationId to have Amazon Personalize implicitly record the recommendations you show your user as impressions data. Or provide a recommendationId if you use a metric attribution to measure the impact of recommendations.    For more information on recording impressions data, see Recording impressions data.  For more information on creating a metric attribution see Measuring impact of recommendations.
         public let recommendationId: String?
@@ -107,7 +199,7 @@ extension PersonalizeEvents {
         public func validate(name: String) throws {
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
-            try self.validate(self.properties, name: "properties", parent: name, max: 24262)
+            try self.validate(self.properties, name: "properties", parent: name, max: 32000)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
         }
 
@@ -135,10 +227,64 @@ extension PersonalizeEvents {
         }
     }
 
+    public struct PutActionInteractionsRequest: AWSEncodableShape {
+        /// A list of action interaction events from the session.
+        public let actionInteractions: [ActionInteraction]
+        /// The ID of your action interaction event tracker. When you create an Action interactions dataset, Amazon Personalize creates an action interaction event tracker for you. For more information, see Action interaction event tracker ID.
+        public let trackingId: String
+
+        public init(actionInteractions: [ActionInteraction], trackingId: String) {
+            self.actionInteractions = actionInteractions
+            self.trackingId = trackingId
+        }
+
+        public func validate(name: String) throws {
+            try self.actionInteractions.forEach {
+                try $0.validate(name: "\(name).actionInteractions[]")
+            }
+            try self.validate(self.actionInteractions, name: "actionInteractions", parent: name, max: 10)
+            try self.validate(self.actionInteractions, name: "actionInteractions", parent: name, min: 1)
+            try self.validate(self.trackingId, name: "trackingId", parent: name, max: 256)
+            try self.validate(self.trackingId, name: "trackingId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionInteractions = "actionInteractions"
+            case trackingId = "trackingId"
+        }
+    }
+
+    public struct PutActionsRequest: AWSEncodableShape {
+        /// A list of action data.
+        public let actions: [Action]
+        /// The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to.
+        public let datasetArn: String
+
+        public init(actions: [Action], datasetArn: String) {
+            self.actions = actions
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case datasetArn = "datasetArn"
+        }
+    }
+
     public struct PutEventsRequest: AWSEncodableShape {
         /// A list of event data from the session.
         public let eventList: [Event]
-        /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application.  Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information, see  Recording Events.
+        /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application.  Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information, see  Recording item interaction events.
         public let sessionId: String
         /// The tracking ID for the event. The ID is generated by a call to the CreateEventTracker API.
         public let trackingId: String
@@ -240,7 +386,7 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.properties, name: "properties", parent: name, max: 4096)
+            try self.validate(self.properties, name: "properties", parent: name, max: 24000)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)

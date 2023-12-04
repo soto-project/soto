@@ -26,18 +26,18 @@ import Foundation
 extension MediaStoreData {
     // MARK: Enums
 
-    public enum ItemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case folder = "FOLDER"
         case object = "OBJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case temporal = "TEMPORAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadAvailability: String, CustomStringConvertible, Codable, Sendable {
+    public enum UploadAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case standard = "STANDARD"
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
@@ -62,7 +62,7 @@ extension MediaStoreData {
         public func validate(name: String) throws {
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -89,7 +89,7 @@ extension MediaStoreData {
         public func validate(name: String) throws {
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -149,7 +149,7 @@ extension MediaStoreData {
         public func validate(name: String) throws {
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+$")
             try self.validate(self.range, name: "range", parent: name, pattern: "^bytes=(?:\\d+\\-\\d*|\\d*\\-\\d+)$")
         }
 
@@ -262,7 +262,7 @@ extension MediaStoreData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, max: 900)
-            try self.validate(self.path, name: "path", parent: name, pattern: "/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -324,7 +324,7 @@ extension MediaStoreData {
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+$")
         }
 
         private enum CodingKeys: CodingKey {}

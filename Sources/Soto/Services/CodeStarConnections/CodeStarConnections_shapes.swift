@@ -26,26 +26,60 @@ import Foundation
 extension CodeStarConnections {
     // MARK: Enums
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BlockerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automated = "AUTOMATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bitbucket = "Bitbucket"
-        case gitHub = "GitHub"
-        case gitHubEnterpriseServer = "GitHubEnterpriseServer"
+        case github = "GitHub"
+        case githubEnterpriseServer = "GitHubEnterpriseServer"
+        case gitlab = "GitLab"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositorySyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case initiated = "INITIATED"
+        case queued = "QUEUED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case initiated = "INITIATED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cfnStackSync = "CFN_STACK_SYNC"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Connection: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String?
-        /// The name of the connection. Connection names must be unique in an AWS user account.
+        /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public let connectionName: String?
         /// The current status of the connection.
         public let connectionStatus: ConnectionStatus?
@@ -76,7 +110,7 @@ extension CodeStarConnections {
     }
 
     public struct CreateConnectionInput: AWSEncodableShape {
-        /// The name of the connection to be created. The name must be unique in the calling AWS account.
+        /// The name of the connection to be created.
         public let connectionName: String
         /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
         public let hostArn: String?
@@ -95,9 +129,9 @@ extension CodeStarConnections {
         public func validate(name: String) throws {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
-            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -113,7 +147,7 @@ extension CodeStarConnections {
     }
 
     public struct CreateConnectionOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String
         /// Specifies the tags applied to the resource.
         public let tags: [Tag]?
@@ -130,12 +164,13 @@ extension CodeStarConnections {
     }
 
     public struct CreateHostInput: AWSEncodableShape {
-        /// The name of the host to be created. The name must be unique in the calling AWS account.
+        /// The name of the host to be created.
         public let name: String
         /// The endpoint of the infrastructure to be represented by the host after it is created.
         public let providerEndpoint: String
         /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server.
         public let providerType: ProviderType
+        /// Tags for the host to be created.
         public let tags: [Tag]?
         /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
         public let vpcConfiguration: VpcConfiguration?
@@ -174,6 +209,7 @@ extension CodeStarConnections {
     public struct CreateHostOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the host to be created.
         public let hostArn: String?
+        /// Tags for the created host.
         public let tags: [Tag]?
 
         public init(hostArn: String? = nil, tags: [Tag]? = nil) {
@@ -187,6 +223,125 @@ extension CodeStarConnections {
         }
     }
 
+    public struct CreateRepositoryLinkInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link.
+        public let connectionArn: String
+        /// The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link.
+        public let encryptionKeyArn: String?
+        /// The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub.
+        public let ownerId: String
+        /// The name of the repository to be associated with the repository link.
+        public let repositoryName: String
+        /// The tags for the repository to be associated with the repository link.
+        public let tags: [Tag]?
+
+        public init(connectionArn: String, encryptionKeyArn: String? = nil, ownerId: String, repositoryName: String, tags: [Tag]? = nil) {
+            self.connectionArn = connectionArn
+            self.encryptionKeyArn = encryptionKeyArn
+            self.ownerId = ownerId
+            self.repositoryName = repositoryName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 1024)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:kms:[a-z\\-0-9]+:\\d{12}:key/[a-zA-Z0-9\\-]+$")
+            try self.validate(self.ownerId, name: "ownerId", parent: name, max: 255)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, min: 1)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: "^.*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 128)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^.*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case ownerId = "OwnerId"
+            case repositoryName = "RepositoryName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRepositoryLinkOutput: AWSDecodableShape {
+        /// The returned information about the created repository link.
+        public let repositoryLinkInfo: RepositoryLinkInfo
+
+        public init(repositoryLinkInfo: RepositoryLinkInfo) {
+            self.repositoryLinkInfo = repositoryLinkInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkInfo = "RepositoryLinkInfo"
+        }
+    }
+
+    public struct CreateSyncConfigurationInput: AWSEncodableShape {
+        /// The branch in the repository from which changes will be synced.
+        public let branch: String
+        /// The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.
+        public let configFile: String
+        /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+        public let repositoryLinkId: String
+        /// The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository.
+        public let resourceName: String
+        /// The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to update a given Amazon Web Services resource on your behalf.
+        public let roleArn: String
+        /// The type of sync configuration.
+        public let syncType: SyncConfigurationType
+
+        public init(branch: String, configFile: String, repositoryLinkId: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType) {
+            self.branch = branch
+            self.configFile = configFile
+            self.repositoryLinkId = repositoryLinkId
+            self.resourceName = resourceName
+            self.roleArn = roleArn
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 255)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.branch, name: "branch", parent: name, pattern: "^.*$")
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case configFile = "ConfigFile"
+            case repositoryLinkId = "RepositoryLinkId"
+            case resourceName = "ResourceName"
+            case roleArn = "RoleArn"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct CreateSyncConfigurationOutput: AWSDecodableShape {
+        /// The created sync configuration for the connection. A sync configuration allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource.
+        public let syncConfiguration: SyncConfiguration
+
+        public init(syncConfiguration: SyncConfiguration) {
+            self.syncConfiguration = syncConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncConfiguration = "SyncConfiguration"
+        }
+    }
+
     public struct DeleteConnectionInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String
@@ -197,7 +352,7 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
-            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -219,7 +374,7 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
-            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -228,6 +383,54 @@ extension CodeStarConnections {
     }
 
     public struct DeleteHostOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRepositoryLinkInput: AWSEncodableShape {
+        /// The ID of the repository link to be deleted.
+        public let repositoryLinkId: String
+
+        public init(repositoryLinkId: String) {
+            self.repositoryLinkId = repositoryLinkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkId = "RepositoryLinkId"
+        }
+    }
+
+    public struct DeleteRepositoryLinkOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSyncConfigurationInput: AWSEncodableShape {
+        /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted.
+        public let resourceName: String
+        /// The type of sync configuration to be deleted.
+        public let syncType: SyncConfigurationType
+
+        public init(resourceName: String, syncType: SyncConfigurationType) {
+            self.resourceName = resourceName
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct DeleteSyncConfigurationOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -241,7 +444,7 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
-            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -272,7 +475,7 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
-            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,6 +509,193 @@ extension CodeStarConnections {
             case providerType = "ProviderType"
             case status = "Status"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct GetRepositoryLinkInput: AWSEncodableShape {
+        /// The ID of the repository link to get.
+        public let repositoryLinkId: String
+
+        public init(repositoryLinkId: String) {
+            self.repositoryLinkId = repositoryLinkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkId = "RepositoryLinkId"
+        }
+    }
+
+    public struct GetRepositoryLinkOutput: AWSDecodableShape {
+        /// The information returned for a specified repository link.
+        public let repositoryLinkInfo: RepositoryLinkInfo
+
+        public init(repositoryLinkInfo: RepositoryLinkInfo) {
+            self.repositoryLinkInfo = repositoryLinkInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkInfo = "RepositoryLinkInfo"
+        }
+    }
+
+    public struct GetRepositorySyncStatusInput: AWSEncodableShape {
+        /// The branch of the repository link for the requested repository sync status.
+        public let branch: String
+        /// The repository link ID for the requested repository sync status.
+        public let repositoryLinkId: String
+        /// The sync type of the requested sync status.
+        public let syncType: SyncConfigurationType
+
+        public init(branch: String, repositoryLinkId: String, syncType: SyncConfigurationType) {
+            self.branch = branch
+            self.repositoryLinkId = repositoryLinkId
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 255)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.branch, name: "branch", parent: name, pattern: "^.*$")
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case repositoryLinkId = "RepositoryLinkId"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct GetRepositorySyncStatusOutput: AWSDecodableShape {
+        /// The status of the latest sync returned for a specified repository and branch.
+        public let latestSync: RepositorySyncAttempt
+
+        public init(latestSync: RepositorySyncAttempt) {
+            self.latestSync = latestSync
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestSync = "LatestSync"
+        }
+    }
+
+    public struct GetResourceSyncStatusInput: AWSEncodableShape {
+        /// The name of the Amazon Web Services resource for the sync status with the Git repository.
+        public let resourceName: String
+        /// The sync type for the sync status with the Git repository.
+        public let syncType: SyncConfigurationType
+
+        public init(resourceName: String, syncType: SyncConfigurationType) {
+            self.resourceName = resourceName
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct GetResourceSyncStatusOutput: AWSDecodableShape {
+        /// The desired state of the Amazon Web Services resource for the sync status with the Git repository.
+        public let desiredState: Revision?
+        /// The latest successful sync for the sync status with the Git repository.
+        public let latestSuccessfulSync: ResourceSyncAttempt?
+        /// The latest sync for the sync status with the Git repository, whether successful or not.
+        public let latestSync: ResourceSyncAttempt
+
+        public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt) {
+            self.desiredState = desiredState
+            self.latestSuccessfulSync = latestSuccessfulSync
+            self.latestSync = latestSync
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "DesiredState"
+            case latestSuccessfulSync = "LatestSuccessfulSync"
+            case latestSync = "LatestSync"
+        }
+    }
+
+    public struct GetSyncBlockerSummaryInput: AWSEncodableShape {
+        /// The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository.
+        public let resourceName: String
+        /// The sync type for the sync blocker summary.
+        public let syncType: SyncConfigurationType
+
+        public init(resourceName: String, syncType: SyncConfigurationType) {
+            self.resourceName = resourceName
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct GetSyncBlockerSummaryOutput: AWSDecodableShape {
+        /// The list of sync blockers for a specified resource.
+        public let syncBlockerSummary: SyncBlockerSummary
+
+        public init(syncBlockerSummary: SyncBlockerSummary) {
+            self.syncBlockerSummary = syncBlockerSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncBlockerSummary = "SyncBlockerSummary"
+        }
+    }
+
+    public struct GetSyncConfigurationInput: AWSEncodableShape {
+        /// The name of the Amazon Web Services resource for the sync configuration for which you want to retrieve information.
+        public let resourceName: String
+        /// The sync type for the sync configuration for which you want to retrieve information.
+        public let syncType: SyncConfigurationType
+
+        public init(resourceName: String, syncType: SyncConfigurationType) {
+            self.resourceName = resourceName
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct GetSyncConfigurationOutput: AWSDecodableShape {
+        /// The details about the sync configuration for which you want to retrieve information.
+        public let syncConfiguration: SyncConfiguration
+
+        public init(syncConfiguration: SyncConfiguration) {
+            self.syncConfiguration = syncConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncConfiguration = "SyncConfiguration"
         }
     }
 
@@ -365,12 +755,12 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.hostArnFilter, name: "hostArnFilter", parent: name, max: 256)
-            try self.validate(self.hostArnFilter, name: "hostArnFilter", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.hostArnFilter, name: "hostArnFilter", parent: name, pattern: "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -414,7 +804,7 @@ extension CodeStarConnections {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -440,6 +830,137 @@ extension CodeStarConnections {
         }
     }
 
+    public struct ListRepositoryLinksInput: AWSEncodableShape {
+        /// A non-zero, non-negative integer used to limit the number of returned results.
+        public let maxResults: Int?
+        /// An enumeration token that, when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRepositoryLinksOutput: AWSDecodableShape {
+        /// An enumeration token that allows the operation to batch the results of the operation.
+        public let nextToken: String?
+        /// Lists the repository links called by the list repository links operation.
+        public let repositoryLinks: [RepositoryLinkInfo]
+
+        public init(nextToken: String? = nil, repositoryLinks: [RepositoryLinkInfo]) {
+            self.nextToken = nextToken
+            self.repositoryLinks = repositoryLinks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case repositoryLinks = "RepositoryLinks"
+        }
+    }
+
+    public struct ListRepositorySyncDefinitionsInput: AWSEncodableShape {
+        /// The ID of the repository link for the sync definition for which you want to retrieve information.
+        public let repositoryLinkId: String
+        /// The sync type of the repository link for the the sync definition for which you want to retrieve information.
+        public let syncType: SyncConfigurationType
+
+        public init(repositoryLinkId: String, syncType: SyncConfigurationType) {
+            self.repositoryLinkId = repositoryLinkId
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkId = "RepositoryLinkId"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct ListRepositorySyncDefinitionsOutput: AWSDecodableShape {
+        /// An enumeration token that, when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The list of repository sync definitions returned by the request. A RepositorySyncDefinition is a mapping from a repository branch to all the Amazon Web Services resources that are being synced from that branch.
+        public let repositorySyncDefinitions: [RepositorySyncDefinition]
+
+        public init(nextToken: String? = nil, repositorySyncDefinitions: [RepositorySyncDefinition]) {
+            self.nextToken = nextToken
+            self.repositorySyncDefinitions = repositorySyncDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case repositorySyncDefinitions = "RepositorySyncDefinitions"
+        }
+    }
+
+    public struct ListSyncConfigurationsInput: AWSEncodableShape {
+        /// A non-zero, non-negative integer used to limit the number of returned results.
+        public let maxResults: Int?
+        /// An enumeration token that allows the operation to batch the results of the operation.
+        public let nextToken: String?
+        /// The ID of the repository link for the requested list of sync configurations.
+        public let repositoryLinkId: String
+        /// The sync type for the requested list of sync configurations.
+        public let syncType: SyncConfigurationType
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, repositoryLinkId: String, syncType: SyncConfigurationType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.repositoryLinkId = repositoryLinkId
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case repositoryLinkId = "RepositoryLinkId"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct ListSyncConfigurationsOutput: AWSDecodableShape {
+        /// An enumeration token that allows the operation to batch the next results of the operation.
+        public let nextToken: String?
+        /// The list of repository sync definitions returned by the request.
+        public let syncConfigurations: [SyncConfiguration]
+
+        public init(nextToken: String? = nil, syncConfigurations: [SyncConfiguration]) {
+            self.nextToken = nextToken
+            self.syncConfigurations = syncConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case syncConfigurations = "SyncConfigurations"
+        }
+    }
+
     public struct ListTagsForResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
         public let resourceArn: String
@@ -451,7 +972,7 @@ extension CodeStarConnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,6 +990,329 @@ extension CodeStarConnections {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct RepositoryLinkInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connection associated with the repository link.
+        public let connectionArn: String
+        /// The Amazon Resource Name (ARN) of the encryption key for the repository associated with the repository link.
+        public let encryptionKeyArn: String?
+        /// The owner ID for the repository associated with the repository link, such as the owner ID in GitHub.
+        public let ownerId: String
+        /// The provider type for the connection, such as GitHub, associated with the repository link.
+        public let providerType: ProviderType
+        /// The Amazon Resource Name (ARN) of the repository link.
+        public let repositoryLinkArn: String
+        /// The ID of the repository link.
+        public let repositoryLinkId: String
+        /// The name of the repository associated with the repository link.
+        public let repositoryName: String
+
+        public init(connectionArn: String, encryptionKeyArn: String? = nil, ownerId: String, providerType: ProviderType, repositoryLinkArn: String, repositoryLinkId: String, repositoryName: String) {
+            self.connectionArn = connectionArn
+            self.encryptionKeyArn = encryptionKeyArn
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryLinkArn = repositoryLinkArn
+            self.repositoryLinkId = repositoryLinkId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case ownerId = "OwnerId"
+            case providerType = "ProviderType"
+            case repositoryLinkArn = "RepositoryLinkArn"
+            case repositoryLinkId = "RepositoryLinkId"
+            case repositoryName = "RepositoryName"
+        }
+    }
+
+    public struct RepositorySyncAttempt: AWSDecodableShape {
+        /// The events associated with a specific sync attempt.
+        public let events: [RepositorySyncEvent]
+        /// The start time of a specific sync attempt.
+        public let startedAt: Date
+        /// The status of a specific sync attempt. The following are valid statuses:   INITIATED - A repository sync attempt has been created and will begin soon.   IN_PROGRESS - A repository sync attempt has started and work is being done to reconcile the branch.   SUCCEEDED - The repository sync attempt has completed successfully.   FAILED - The repository sync attempt has failed.   QUEUED - The repository sync attempt didn't execute and was queued.
+        public let status: RepositorySyncStatus
+
+        public init(events: [RepositorySyncEvent], startedAt: Date, status: RepositorySyncStatus) {
+            self.events = events
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public struct RepositorySyncDefinition: AWSDecodableShape {
+        /// The branch specified for a repository sync definition.
+        public let branch: String
+        /// The configuration file for a repository sync definition. This value comes from creating or updating the config-file field of a sync-configuration.
+        public let directory: String
+        /// The parent resource specified for a repository sync definition.
+        public let parent: String
+        /// The target resource specified for a repository sync definition. In some cases, such as CFN_STACK_SYNC, the parent and target resource are the same.
+        public let target: String
+
+        public init(branch: String, directory: String, parent: String, target: String) {
+            self.branch = branch
+            self.directory = directory
+            self.parent = parent
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case directory = "Directory"
+            case parent = "Parent"
+            case target = "Target"
+        }
+    }
+
+    public struct RepositorySyncEvent: AWSDecodableShape {
+        /// A description of a repository sync event.
+        public let event: String
+        /// The ID for a repository sync event.
+        public let externalId: String?
+        /// The time that a repository sync event occurred.
+        public let time: Date
+        /// The event type for a repository sync event.
+        public let type: String
+
+        public init(event: String, externalId: String? = nil, time: Date, type: String) {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case externalId = "ExternalId"
+            case time = "Time"
+            case type = "Type"
+        }
+    }
+
+    public struct ResourceSyncAttempt: AWSDecodableShape {
+        /// The events related to a resource sync attempt.
+        public let events: [ResourceSyncEvent]
+        /// The current state of the resource as defined in the resource's config-file in the linked repository.
+        public let initialRevision: Revision
+        /// The start time for a resource sync attempt.
+        public let startedAt: Date
+        /// The status for a resource sync attempt. The follow are valid statuses:   SYNC-INITIATED - A resource sync attempt has been created and will begin soon.   SYNCING - Syncing has started and work is being done to reconcile state.   SYNCED - Syncing has completed successfully.   SYNC_FAILED - A resource sync attempt has failed.
+        public let status: ResourceSyncStatus
+        /// The name of the Amazon Web Services resource that is attempted to be synchronized.
+        public let target: String
+        /// The desired state of the resource as defined in the resource's config-file in the linked repository. Git sync attempts to update the resource to this state.
+        public let targetRevision: Revision
+
+        public init(events: [ResourceSyncEvent], initialRevision: Revision, startedAt: Date, status: ResourceSyncStatus, target: String, targetRevision: Revision) {
+            self.events = events
+            self.initialRevision = initialRevision
+            self.startedAt = startedAt
+            self.status = status
+            self.target = target
+            self.targetRevision = targetRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case initialRevision = "InitialRevision"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case target = "Target"
+            case targetRevision = "TargetRevision"
+        }
+    }
+
+    public struct ResourceSyncEvent: AWSDecodableShape {
+        /// The event for a resource sync event.
+        public let event: String
+        /// The ID for a resource sync event.
+        public let externalId: String?
+        /// The time that a resource sync event occurred.
+        public let time: Date
+        /// The type of resource sync event.
+        public let type: String
+
+        public init(event: String, externalId: String? = nil, time: Date, type: String) {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case externalId = "ExternalId"
+            case time = "Time"
+            case type = "Type"
+        }
+    }
+
+    public struct Revision: AWSDecodableShape {
+        /// The branch name for a specific revision.
+        public let branch: String
+        /// The directory, if any, for a specific revision.
+        public let directory: String
+        /// The owner ID for a specific revision, such as the GitHub owner ID for a GitHub repository.
+        public let ownerId: String
+        /// The provider type for a revision, such as GitHub.
+        public let providerType: ProviderType
+        /// The repository name for a specific revision.
+        public let repositoryName: String
+        /// The SHA, such as the commit ID, for a specific revision.
+        public let sha: String
+
+        public init(branch: String, directory: String, ownerId: String, providerType: ProviderType, repositoryName: String, sha: String) {
+            self.branch = branch
+            self.directory = directory
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryName = repositoryName
+            self.sha = sha
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case directory = "Directory"
+            case ownerId = "OwnerId"
+            case providerType = "ProviderType"
+            case repositoryName = "RepositoryName"
+            case sha = "Sha"
+        }
+    }
+
+    public struct SyncBlocker: AWSDecodableShape {
+        /// The contexts for a specific sync blocker.
+        public let contexts: [SyncBlockerContext]?
+        /// The creation time for a specific sync blocker.
+        public let createdAt: Date
+        /// The provided reason for a specific sync blocker.
+        public let createdReason: String
+        /// The ID for a specific sync blocker.
+        public let id: String
+        /// The time that a specific sync blocker was resolved.
+        public let resolvedAt: Date?
+        /// The resolved reason for a specific sync blocker.
+        public let resolvedReason: String?
+        /// The status for a specific sync blocker.
+        public let status: BlockerStatus
+        /// The sync blocker type.
+        public let type: BlockerType
+
+        public init(contexts: [SyncBlockerContext]? = nil, createdAt: Date, createdReason: String, id: String, resolvedAt: Date? = nil, resolvedReason: String? = nil, status: BlockerStatus, type: BlockerType) {
+            self.contexts = contexts
+            self.createdAt = createdAt
+            self.createdReason = createdReason
+            self.id = id
+            self.resolvedAt = resolvedAt
+            self.resolvedReason = resolvedReason
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contexts = "Contexts"
+            case createdAt = "CreatedAt"
+            case createdReason = "CreatedReason"
+            case id = "Id"
+            case resolvedAt = "ResolvedAt"
+            case resolvedReason = "ResolvedReason"
+            case status = "Status"
+            case type = "Type"
+        }
+    }
+
+    public struct SyncBlockerContext: AWSDecodableShape {
+        /// The key provided for a context key-value pair for a specific sync blocker.
+        public let key: String
+        /// The value provided for a context key-value pair for a specific sync blocker.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct SyncBlockerSummary: AWSDecodableShape {
+        /// The latest events for a sync blocker summary.
+        public let latestBlockers: [SyncBlocker]?
+        /// The parent resource name for a sync blocker summary.
+        public let parentResourceName: String?
+        /// The resource name for sync blocker summary.
+        public let resourceName: String
+
+        public init(latestBlockers: [SyncBlocker]? = nil, parentResourceName: String? = nil, resourceName: String) {
+            self.latestBlockers = latestBlockers
+            self.parentResourceName = parentResourceName
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestBlockers = "LatestBlockers"
+            case parentResourceName = "ParentResourceName"
+            case resourceName = "ResourceName"
+        }
+    }
+
+    public struct SyncConfiguration: AWSDecodableShape {
+        /// The branch associated with a specific sync configuration.
+        public let branch: String
+        /// The file path to the configuration file associated with a specific sync configuration. The path should point to an actual file in the sync configurations linked repository.
+        public let configFile: String?
+        /// The owner ID for the repository associated with a specific sync configuration, such as the owner ID in GitHub.
+        public let ownerId: String
+        /// The connection provider type associated with a specific sync configuration, such as GitHub.
+        public let providerType: ProviderType
+        /// The ID of the repository link associated with a specific sync configuration.
+        public let repositoryLinkId: String
+        /// The name of the repository associated with a specific sync configuration.
+        public let repositoryName: String
+        /// The name of the connection resource associated with a specific sync configuration.
+        public let resourceName: String
+        /// The Amazon Resource Name (ARN) of the IAM role associated with a specific sync configuration.
+        public let roleArn: String
+        /// The type of sync for a specific sync configuration.
+        public let syncType: SyncConfigurationType
+
+        public init(branch: String, configFile: String? = nil, ownerId: String, providerType: ProviderType, repositoryLinkId: String, repositoryName: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType) {
+            self.branch = branch
+            self.configFile = configFile
+            self.ownerId = ownerId
+            self.providerType = providerType
+            self.repositoryLinkId = repositoryLinkId
+            self.repositoryName = repositoryName
+            self.resourceName = resourceName
+            self.roleArn = roleArn
+            self.syncType = syncType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case configFile = "ConfigFile"
+            case ownerId = "OwnerId"
+            case providerType = "ProviderType"
+            case repositoryLinkId = "RepositoryLinkId"
+            case repositoryName = "RepositoryName"
+            case resourceName = "ResourceName"
+            case roleArn = "RoleArn"
+            case syncType = "SyncType"
         }
     }
 
@@ -511,7 +1355,7 @@ extension CodeStarConnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -542,7 +1386,7 @@ extension CodeStarConnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -577,7 +1421,7 @@ extension CodeStarConnections {
 
         public func validate(name: String) throws {
             try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
-            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$")
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, max: 512)
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, min: 1)
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, pattern: ".*")
@@ -593,6 +1437,164 @@ extension CodeStarConnections {
 
     public struct UpdateHostOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateRepositoryLinkInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link.
+        public let connectionArn: String?
+        /// The Amazon Resource Name (ARN) of the encryption key for the repository link to be updated.
+        public let encryptionKeyArn: String?
+        /// The ID of the repository link to be updated.
+        public let repositoryLinkId: String
+
+        public init(connectionArn: String? = nil, encryptionKeyArn: String? = nil, repositoryLinkId: String) {
+            self.connectionArn = connectionArn
+            self.encryptionKeyArn = encryptionKeyArn
+            self.repositoryLinkId = repositoryLinkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 1024)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:kms:[a-z\\-0-9]+:\\d{12}:key/[a-zA-Z0-9\\-]+$")
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case repositoryLinkId = "RepositoryLinkId"
+        }
+    }
+
+    public struct UpdateRepositoryLinkOutput: AWSDecodableShape {
+        /// Information about the repository link to be updated.
+        public let repositoryLinkInfo: RepositoryLinkInfo
+
+        public init(repositoryLinkInfo: RepositoryLinkInfo) {
+            self.repositoryLinkInfo = repositoryLinkInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryLinkInfo = "RepositoryLinkInfo"
+        }
+    }
+
+    public struct UpdateSyncBlockerInput: AWSEncodableShape {
+        /// The ID of the sync blocker to be updated.
+        public let id: String
+        /// The reason for resolving the sync blocker.
+        public let resolvedReason: String
+        /// The name of the resource for the sync blocker to be updated.
+        public let resourceName: String
+        /// The sync type of the sync blocker to be updated.
+        public let syncType: SyncConfigurationType
+
+        public init(id: String, resolvedReason: String, resourceName: String, syncType: SyncConfigurationType) {
+            self.id = id
+            self.resolvedReason = resolvedReason
+            self.resourceName = resourceName
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 50)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.resolvedReason, name: "resolvedReason", parent: name, max: 250)
+            try self.validate(self.resolvedReason, name: "resolvedReason", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case resolvedReason = "ResolvedReason"
+            case resourceName = "ResourceName"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct UpdateSyncBlockerOutput: AWSDecodableShape {
+        /// The parent resource name for the sync blocker.
+        public let parentResourceName: String?
+        /// The resource name for the sync blocker.
+        public let resourceName: String
+        /// Information about the sync blocker to be updated.
+        public let syncBlocker: SyncBlocker
+
+        public init(parentResourceName: String? = nil, resourceName: String, syncBlocker: SyncBlocker) {
+            self.parentResourceName = parentResourceName
+            self.resourceName = resourceName
+            self.syncBlocker = syncBlocker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentResourceName = "ParentResourceName"
+            case resourceName = "ResourceName"
+            case syncBlocker = "SyncBlocker"
+        }
+    }
+
+    public struct UpdateSyncConfigurationInput: AWSEncodableShape {
+        /// The branch for the sync configuration to be updated.
+        public let branch: String?
+        /// The configuration file for the sync configuration to be updated.
+        public let configFile: String?
+        /// The ID of the repository link for the sync configuration to be updated.
+        public let repositoryLinkId: String?
+        /// The name of the Amazon Web Services resource for the sync configuration to be updated.
+        public let resourceName: String
+        /// The ARN of the IAM role for the sync configuration to be updated.
+        public let roleArn: String?
+        /// The sync type for the sync configuration to be updated.
+        public let syncType: SyncConfigurationType
+
+        public init(branch: String? = nil, configFile: String? = nil, repositoryLinkId: String? = nil, resourceName: String, roleArn: String? = nil, syncType: SyncConfigurationType) {
+            self.branch = branch
+            self.configFile = configFile
+            self.repositoryLinkId = repositoryLinkId
+            self.resourceName = resourceName
+            self.roleArn = roleArn
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 255)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.branch, name: "branch", parent: name, pattern: "^.*$")
+            try self.validate(self.repositoryLinkId, name: "repositoryLinkId", parent: name, pattern: "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$")
+            try self.validate(self.resourceName, name: "resourceName", parent: name, max: 100)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "Branch"
+            case configFile = "ConfigFile"
+            case repositoryLinkId = "RepositoryLinkId"
+            case resourceName = "ResourceName"
+            case roleArn = "RoleArn"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct UpdateSyncConfigurationOutput: AWSDecodableShape {
+        /// The information returned for the sync configuration to be updated.
+        public let syncConfiguration: SyncConfiguration
+
+        public init(syncConfiguration: SyncConfiguration) {
+            self.syncConfiguration = syncConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncConfiguration = "SyncConfiguration"
+        }
     }
 
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -616,23 +1618,23 @@ extension CodeStarConnections {
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
-                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "sg-\\w{8}(\\w{9})?")
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-\\w{8}(\\w{9})?$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 10)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
-                try validate($0, name: "subnetIds[]", parent: name, pattern: "subnet-\\w{8}(\\w{9})?")
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-\\w{8}(\\w{9})?$")
             }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
             try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, max: 16384)
             try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, min: 1)
-            try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
-            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "vpc-\\w{8}(\\w{9})?")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-\\w{8}(\\w{9})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -649,11 +1651,23 @@ extension CodeStarConnections {
 /// Error enum for CodeStarConnections
 public struct CodeStarConnectionsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case conditionalCheckFailedException = "ConditionalCheckFailedException"
         case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case invalidInputException = "InvalidInputException"
         case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceUnavailableException = "ResourceUnavailableException"
+        case retryLatestCommitFailedException = "RetryLatestCommitFailedException"
+        case syncBlockerDoesNotExistException = "SyncBlockerDoesNotExistException"
+        case syncConfigurationStillExistsException = "SyncConfigurationStillExistsException"
+        case throttlingException = "ThrottlingException"
         case unsupportedOperationException = "UnsupportedOperationException"
+        case unsupportedProviderTypeException = "UnsupportedProviderTypeException"
+        case updateOutOfSyncException = "UpdateOutOfSyncException"
     }
 
     private let error: Code
@@ -674,16 +1688,40 @@ public struct CodeStarConnectionsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The conditional check failed. Try again later.
+    public static var conditionalCheckFailedException: Self { .init(.conditionalCheckFailedException) }
     /// Two conflicting operations have been made on the same resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Received an internal server exception. Try again later.
+    public static var internalServerException: Self { .init(.internalServerException) }
+    /// The input is not valid. Verify that the action is typed correctly.
+    public static var invalidInputException: Self { .init(.invalidInputException) }
     /// Exceeded the maximum limit for connections.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Unable to create resource. Resource already exists.
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// Resource not found. Verify the connection resource ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Resource not found. Verify the ARN for the host resource and try again.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    /// Retrying the latest commit failed. Try again later.
+    public static var retryLatestCommitFailedException: Self { .init(.retryLatestCommitFailedException) }
+    /// Unable to continue. The sync blocker does not exist.
+    public static var syncBlockerDoesNotExistException: Self { .init(.syncBlockerDoesNotExistException) }
+    /// Unable to continue. The sync blocker still exists.
+    public static var syncConfigurationStillExistsException: Self { .init(.syncConfigurationStillExistsException) }
+    /// The request was denied due to request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The operation is not supported. Check the connection status and try again.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    /// The specified provider type is not supported for connections.
+    public static var unsupportedProviderTypeException: Self { .init(.unsupportedProviderTypeException) }
+    /// The update is out of sync. Try syncing again.
+    public static var updateOutOfSyncException: Self { .init(.updateOutOfSyncException) }
 }
 
 extension CodeStarConnectionsErrorType: Equatable {

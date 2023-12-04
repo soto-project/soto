@@ -26,13 +26,13 @@ import Foundation
 extension ElasticsearchService {
     // MARK: Enums
 
-    public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoTuneState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoTuneState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case disabled = "DISABLED"
         case disabledAndRollbackComplete = "DISABLED_AND_ROLLBACK_COMPLETE"
@@ -45,12 +45,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoTuneType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoTuneType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case scheduledAction = "SCHEDULED_ACTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case eligible = "ELIGIBLE"
         case inProgress = "IN_PROGRESS"
@@ -59,14 +59,14 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case packageID = "PackageID"
         case packageName = "PackageName"
         case packageStatus = "PackageStatus"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainPackageStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainPackageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
         case associationFailed = "ASSOCIATION_FAILED"
@@ -75,7 +75,7 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case c42XlargeElasticsearch = "c4.2xlarge.elasticsearch"
         case c44XlargeElasticsearch = "c4.4xlarge.elasticsearch"
         case c48XlargeElasticsearch = "c4.8xlarge.elasticsearch"
@@ -137,19 +137,19 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ESWarmPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ESWarmPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
         case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case elasticsearch = "Elasticsearch"
         case openSearch = "OpenSearch"
         public var description: String { return self.rawValue }
     }
 
-    public enum InboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approved = "APPROVED"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -159,7 +159,7 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auditLogs = "AUDIT_LOGS"
         case esApplicationLogs = "ES_APPLICATION_LOGS"
         case indexSlowLogs = "INDEX_SLOW_LOGS"
@@ -167,14 +167,14 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OptionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum OptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case processing = "Processing"
         case requiresIndexDocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutboundCrossClusterSearchConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -186,7 +186,7 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OverallChangeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OverallChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -194,7 +194,7 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case copyFailed = "COPY_FAILED"
         case copying = "COPYING"
@@ -206,55 +206,55 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case txtDictionary = "TXT-DICTIONARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAccount = "AWS_ACCOUNT"
         case awsService = "AWS_SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedElasticsearchInstancePaymentOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReservedElasticsearchInstancePaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RollbackOnDisable: String, CustomStringConvertible, Codable, Sendable {
+    public enum RollbackOnDisable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultRollback = "DEFAULT_ROLLBACK"
         case noRollback = "NO_ROLLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
         case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledAutoTuneSeverityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScheduledAutoTuneSeverityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hours = "HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpgradeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpgradeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
@@ -262,14 +262,14 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpgradeStep: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpgradeStep: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preUpgradeCheck = "PRE_UPGRADE_CHECK"
         case snapshot = "SNAPSHOT"
         case upgrade = "UPGRADE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -277,13 +277,13 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case endpointNotFound = "ENDPOINT_NOT_FOUND"
         case serverError = "SERVER_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -1007,7 +1007,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
@@ -1578,7 +1578,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2861,7 +2861,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.elasticsearchVersion, name: "elasticsearchVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -4116,7 +4116,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.targetVersion, name: "targetVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.validate(self.targetVersion, name: "targetVersion", parent: name, pattern: "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {

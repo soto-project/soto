@@ -19,10 +19,7 @@
 
 /// Service object for interacting with AWS SSO service.
 ///
-/// AWS IAM Identity Center (successor to AWS Single Sign-On) Portal is a web service that makes it easy for you to assign user access to IAM Identity Center resources such as the AWS access portal. Users can get AWS account applications and roles assigned to them and get federated into the application.
-///   Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.
-///  This reference guide describes the IAM Identity Center Portal operations that you can call programatically and includes detailed information on data types and errors.
-///   AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other AWS services. For more information about the AWS SDKs, including how to download and install them, see Tools for Amazon Web Services.
+/// AWS IAM Identity Center (successor to AWS Single Sign-On) Portal is a web service that makes it easy for you to assign user access to IAM Identity Center resources such as the AWS access portal. Users can get AWS account applications and roles assigned to them and get federated into the application.  Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.  This reference guide describes the IAM Identity Center Portal operations that you can call programatically and includes detailed information on data types and errors.  AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other AWS services. For more information about the AWS SDKs, including how to download and install them, see Tools for Amazon Web Services.
 public struct SSO: AWSService {
     // MARK: Member variables
 
@@ -85,12 +82,16 @@ public struct SSO: AWSService {
         "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "portal.sso.ap-southeast-3.amazonaws.com",
         "ca-central-1": "portal.sso.ca-central-1.amazonaws.com",
+        "cn-north-1": "portal.sso.cn-north-1.amazonaws.com.cn",
+        "cn-northwest-1": "portal.sso.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "portal.sso.eu-central-1.amazonaws.com",
+        "eu-central-2": "portal.sso.eu-central-2.amazonaws.com",
         "eu-north-1": "portal.sso.eu-north-1.amazonaws.com",
         "eu-south-1": "portal.sso.eu-south-1.amazonaws.com",
         "eu-west-1": "portal.sso.eu-west-1.amazonaws.com",
         "eu-west-2": "portal.sso.eu-west-2.amazonaws.com",
         "eu-west-3": "portal.sso.eu-west-3.amazonaws.com",
+        "il-central-1": "portal.sso.il-central-1.amazonaws.com",
         "me-south-1": "portal.sso.me-south-1.amazonaws.com",
         "sa-east-1": "portal.sso.sa-east-1.amazonaws.com",
         "us-east-1": "portal.sso.us-east-1.amazonaws.com",
@@ -144,9 +145,7 @@ public struct SSO: AWSService {
         )
     }
 
-    /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in session.
-    ///   If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user, and the corresponding temporary AWS credentials are returned to the client.
-    ///  After user logout, any existing IAM role sessions that were created by using IAM Identity Center permission sets continue based on the duration configured in the permission set. For more information, see User authentications in the IAM Identity Center User Guide.
+    /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in session.  If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user, and the corresponding temporary AWS credentials are returned to the client. After user logout, any existing IAM role sessions that were created by using IAM Identity Center permission sets continue based on the duration configured in the permission set. For more information, see User authentications in the IAM Identity Center User Guide.
     @Sendable
     public func logout(_ input: LogoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

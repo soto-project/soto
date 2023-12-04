@@ -60,6 +60,7 @@ public struct SSMContacts: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2021-05-03",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: SSMContactsErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -71,6 +72,15 @@ public struct SSMContacts: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "ssm-contacts-fips.us-east-1.amazonaws.com",
+            "us-east-2": "ssm-contacts-fips.us-east-2.amazonaws.com",
+            "us-west-1": "ssm-contacts-fips.us-west-1.amazonaws.com",
+            "us-west-2": "ssm-contacts-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

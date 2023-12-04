@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RDS service.
 ///
-/// Amazon Relational Database Service  Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and  scale a relational database in the cloud. It provides cost-efficient, resizeable capacity for an industry-standard relational  database and manages common database administration tasks, freeing up developers to focus on what makes their applications  and businesses unique. Amazon RDS gives you access to the capabilities of a MySQL, MariaDB, PostgreSQL, Microsoft SQL Server,  Oracle, or Amazon Aurora database server. These capabilities mean that the code, applications, and tools  you already use today with your existing databases work with Amazon RDS without modification. Amazon RDS  automatically backs up your database and maintains the database software that powers your DB instance. Amazon RDS  is flexible: you can scale your DB instance's compute resources and storage capacity to meet your  application's demand. As with all Amazon Web Services, there are no up-front investments, and you pay only for  the resources you use. This interface reference for Amazon RDS contains documentation for a programming or command line interface  you can use to manage Amazon RDS. Amazon RDS is asynchronous, which means that some interfaces might  require techniques such as polling or callback functions to determine when a command has been applied. In this  reference, the parameter descriptions indicate whether a command is applied immediately, on the next instance reboot,  or during the maintenance window. The reference structure is as follows, and we list following some related topics  from the user guide.  Amazon RDS API Reference    For the alphabetical list of API actions, see  API Actions.   For the alphabetical list of data types, see  Data Types.   For a list of common query parameters, see  Common Parameters.   For descriptions of the error codes, see  Common Errors.    Amazon RDS User Guide    For a summary of the Amazon RDS interfaces, see  Available RDS Interfaces.   For more information about how to use the Query API, see  Using the Query API.
+/// Amazon Relational Database Service  Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and  scale a relational database in the cloud. It provides cost-efficient, resizeable capacity for an industry-standard relational  database and manages common database administration tasks, freeing up developers to focus on what makes their applications  and businesses unique. Amazon RDS gives you access to the capabilities of a MySQL, MariaDB, PostgreSQL, Microsoft SQL Server,  Oracle, Db2, or Amazon Aurora database server. These capabilities mean that the code, applications, and tools  you already use today with your existing databases work with Amazon RDS without modification. Amazon RDS  automatically backs up your database and maintains the database software that powers your DB instance. Amazon RDS  is flexible: you can scale your DB instance's compute resources and storage capacity to meet your  application's demand. As with all Amazon Web Services, there are no up-front investments, and you pay only for  the resources you use. This interface reference for Amazon RDS contains documentation for a programming or command line interface  you can use to manage Amazon RDS. Amazon RDS is asynchronous, which means that some interfaces might  require techniques such as polling or callback functions to determine when a command has been applied. In this  reference, the parameter descriptions indicate whether a command is applied immediately, on the next instance reboot,  or during the maintenance window. The reference structure is as follows, and we list following some related topics  from the user guide.  Amazon RDS API Reference    For the alphabetical list of API actions, see  API Actions.   For the alphabetical list of data types, see  Data Types.   For a list of common query parameters, see  Common Parameters.   For descriptions of the error codes, see  Common Errors.    Amazon RDS User Guide    For a summary of the Amazon RDS interfaces, see  Available RDS Interfaces.   For more information about how to use the Query API, see  Using the Query API.
 public struct RDS: AWSService {
     // MARK: Member variables
 
@@ -80,6 +80,9 @@ public struct RDS: AWSService {
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "rds-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "rds-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "rds-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "rds-fips.us-west-1.amazonaws.com",
             "us-west-2": "rds-fips.us-west-2.amazonaws.com"
         ])
@@ -191,7 +194,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Copies the specified DB cluster parameter group.
+    /// Copies the specified DB cluster parameter group.  You can't copy a default DB cluster parameter group. Instead, create a new custom DB cluster parameter group, which copies the default parameters and values for the specified DB cluster parameter group family.
     @Sendable
     public func copyDBClusterParameterGroup(_ input: CopyDBClusterParameterGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyDBClusterParameterGroupResult {
         return try await self.client.execute(
@@ -217,7 +220,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Copies the specified DB parameter group.
+    /// Copies the specified DB parameter group.  You can't copy a default DB parameter group. Instead, create a new custom DB parameter group, which copies the default parameters and values for the specified DB parameter group family.
     @Sendable
     public func copyDBParameterGroup(_ input: CopyDBParameterGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyDBParameterGroupResult {
         return try await self.client.execute(
@@ -347,7 +350,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. Call the CreateDBInstance operation to create a DB instance for an Aurora DB cluster. All read replica DB instances are created with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified.  Your source DB instance or cluster must have backup retention enabled.
+    /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the CreateDBInstance operation. All read replica DB instances are created with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified.  Your source DB instance or cluster must have backup retention enabled.
     @Sendable
     public func createDBInstanceReadReplica(_ input: CreateDBInstanceReadReplicaMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDBInstanceReadReplicaResult {
         return try await self.client.execute(
@@ -451,11 +454,24 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.  This action applies only to Aurora DB clusters.
+    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then  create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.  This operation applies only to Aurora DB clusters.
     @Sendable
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalClusterResult {
         return try await self.client.execute(
             operation: "CreateGlobalCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a zero-ETL integration with Amazon Redshift.
+    @Sendable
+    public func createIntegration(_ input: CreateIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        return try await self.client.execute(
+            operation: "CreateIntegration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -477,7 +493,20 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Creates a tenant database in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle container database (CDB) instances are supported.
+    @Sendable
+    public func createTenantDatabase(_ input: CreateTenantDatabaseMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTenantDatabaseResult {
+        return try await self.client.execute(
+            operation: "CreateTenantDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
     @Sendable
     public func deleteBlueGreenDeployment(_ input: DeleteBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBlueGreenDeploymentResponse {
         return try await self.client.execute(
@@ -508,6 +537,19 @@ public struct RDS: AWSService {
     public func deleteDBCluster(_ input: DeleteDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDBClusterResult {
         return try await self.client.execute(
             operation: "DeleteDBCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes automated backups using the DbClusterResourceId value of the source DB cluster or the Amazon  Resource Name (ARN) of the automated backups.
+    @Sendable
+    public func deleteDBClusterAutomatedBackup(_ input: DeleteDBClusterAutomatedBackupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDBClusterAutomatedBackupResult {
+        return try await self.client.execute(
+            operation: "DeleteDBClusterAutomatedBackup", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -555,7 +597,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// The DeleteDBInstance action deletes a previously provisioned DB instance.  When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered.  Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot  the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted. When a DB instance is in a failure state and has a status of failed, incompatible-restore,  or incompatible-network, you can only delete it when you skip creation of the final snapshot with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a read replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a read replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
+    /// Deletes a previously provisioned DB instance.  When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered.  However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB instance is deleting until the DB snapshot is created.  This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance. When a DB instance is in a failure state and has a status of failed, incompatible-restore,  or incompatible-network, you can only delete it when you skip creation of the final snapshot with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a read replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first use the PromoteReadReplicaDBCluster operation to promote the DB cluster so that it's no longer a read replica.  After the promotion completes, use the DeleteDBInstance operation to delete the final instance in the DB cluster.  For RDS Custom DB instances, deleting the DB instance permanently deletes the EC2 instance and the associated EBS volumes. Make sure that you don't terminate or delete  these resources before you delete the DB instance. Otherwise, deleting the DB instance and creation of the final snapshot might fail.
     @Sendable
     public func deleteDBInstance(_ input: DeleteDBInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDBInstanceResult {
         return try await self.client.execute(
@@ -685,11 +727,37 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Deletes a zero-ETL integration with Amazon Redshift.
+    @Sendable
+    public func deleteIntegration(_ input: DeleteIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        return try await self.client.execute(
+            operation: "DeleteIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes an existing option group.
     @Sendable
     public func deleteOptionGroup(_ input: DeleteOptionGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteOptionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance.
+    @Sendable
+    public func deleteTenantDatabase(_ input: DeleteTenantDatabaseMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTenantDatabaseResult {
+        return try await self.client.execute(
+            operation: "DeleteTenantDatabase", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -724,7 +792,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     @Sendable
     public func describeBlueGreenDeployments(_ input: DescribeBlueGreenDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBlueGreenDeploymentsResponse {
         return try await self.client.execute(
@@ -737,11 +805,24 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+    /// Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     @Sendable
     public func describeCertificates(_ input: DescribeCertificatesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CertificateMessage {
         return try await self.client.execute(
             operation: "DescribeCertificates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details  about automated backups for previously deleted clusters. Current clusters are returned for both the  DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    @Sendable
+    public func describeDBClusterAutomatedBackups(_ input: DescribeDBClusterAutomatedBackupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBClusterAutomatedBackupMessage {
+        return try await self.client.execute(
+            operation: "DescribeDBClusterAutomatedBackups", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -828,7 +909,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     @Sendable
     public func describeDBClusters(_ input: DescribeDBClustersMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBClusterMessage {
         return try await self.client.execute(
@@ -841,7 +922,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns a list of the available DB engines.
+    /// Describes the properties of specific versions of DB engines.
     @Sendable
     public func describeDBEngineVersions(_ input: DescribeDBEngineVersionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBEngineVersionMessage {
         return try await self.client.execute(
@@ -867,7 +948,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Describes provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     @Sendable
     public func describeDBInstances(_ input: DescribeDBInstancesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBInstanceMessage {
         return try await self.client.execute(
@@ -997,6 +1078,19 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration. You can use this command to inspect the tenant databases within a snapshot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases.
+    @Sendable
+    public func describeDBSnapshotTenantDatabases(_ input: DescribeDBSnapshotTenantDatabasesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBSnapshotTenantDatabasesMessage {
+        return try await self.client.execute(
+            operation: "DescribeDBSnapshotTenantDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about DB snapshots. This API action supports pagination.
     @Sendable
     public func describeDBSnapshots(_ input: DescribeDBSnapshotsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBSnapshotMessage {
@@ -1114,7 +1208,20 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Describes all available options.
+    /// Describe one or more zero-ETL integrations with Amazon Redshift.
+    @Sendable
+    public func describeIntegrations(_ input: DescribeIntegrationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIntegrationsResponse {
+        return try await self.client.execute(
+            operation: "DescribeIntegrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes all available options for the specified engine.
     @Sendable
     public func describeOptionGroupOptions(_ input: DescribeOptionGroupOptionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> OptionGroupOptionsMessage {
         return try await self.client.execute(
@@ -1140,7 +1247,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
+    /// Describes the orderable DB instance options for a specified DB engine.
     @Sendable
     public func describeOrderableDBInstanceOptions(_ input: DescribeOrderableDBInstanceOptionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> OrderableDBInstanceOptionsMessage {
         return try await self.client.execute(
@@ -1205,6 +1312,19 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
+    @Sendable
+    public func describeTenantDatabases(_ input: DescribeTenantDatabasesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TenantDatabasesMessage {
+        return try await self.client.execute(
+            operation: "DescribeTenantDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to  your DB instance. You can use this information when you call ModifyDBInstance. This command doesn't apply to RDS Custom.
     @Sendable
     public func describeValidDBInstanceModifications(_ input: DescribeValidDBInstanceModificationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeValidDBInstanceModificationsResult {
@@ -1244,7 +1364,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Initiates the failover process for an Aurora global database (GlobalCluster). A failover for an Aurora global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected (target) DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Aurora global database. For more information about failing over an Amazon Aurora global database, see Managed planned failover for Amazon Aurora global databases in the Amazon Aurora User Guide.  This action applies to GlobalCluster (Aurora global databases) only. Use this action only on healthy Aurora global databases with running Aurora DB clusters and no Region-wide outages, to test disaster recovery scenarios or to reconfigure your Aurora global database topology.
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers."  Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global database failover.  To switch over a global database cluster, we recommend that you use the SwitchoverGlobalCluster operation instead.  How you use this operation depends on whether you are failing over or switching over your global database cluster:   Failing over - Specify the AllowDataLoss parameter and don't specify the Switchover parameter.   Switching over - Specify the Switchover parameter or omit it, but don't specify the AllowDataLoss parameter.    About failing over and switching over  While failing over and switching over a global database cluster both change the primary DB cluster, you use these operations for different reasons:    Failing over - Use this operation to respond to an unplanned event, such as a Regional disaster in the primary Region.  Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.  However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees  that the data is in a transactionally consistent state. For more information about failing over an Amazon Aurora global database, see Performing managed failovers for Aurora global databases in the Amazon Aurora User Guide.    Switching over - Use this operation on a healthy global database cluster for planned events, such as Regional rotation or to  fail back to the original primary DB cluster after a failover operation. With this operation, there is no data loss. For more information about switching over an Amazon Aurora global database, see Performing switchovers for Aurora global databases in the Amazon Aurora User Guide.
     @Sendable
     public func failoverGlobalCluster(_ input: FailoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverGlobalClusterResult {
         return try await self.client.execute(
@@ -1296,7 +1416,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale  fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity  to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless v1, see Using Amazon Aurora Serverless v1 in the  Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that  prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information about scaling points,  see  Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide.   This action only applies to Aurora Serverless v1 DB clusters.
+    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale  fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity  to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless v1, see Using Amazon Aurora Serverless v1 in the  Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that  prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information about scaling points,  see  Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide.   This operation only applies to Aurora Serverless v1 DB clusters.
     @Sendable
     public func modifyCurrentDBClusterCapacity(_ input: ModifyCurrentDBClusterCapacityMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBClusterCapacityInfo {
         return try await self.client.execute(
@@ -1322,7 +1442,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Modify the settings for an Amazon Aurora DB cluster or a Multi-AZ DB cluster.  You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
+    /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster.  You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     public func modifyDBCluster(_ input: ModifyDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDBClusterResult {
         return try await self.client.execute(
@@ -1335,7 +1455,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Modifies the properties of an endpoint in an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters.
+    /// Modifies the properties of an endpoint in an Amazon Aurora DB cluster.  This operation only applies to Aurora DB clusters.
     @Sendable
     public func modifyDBClusterEndpoint(_ input: ModifyDBClusterEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBClusterEndpoint {
         return try await self.client.execute(
@@ -1348,7 +1468,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue,  and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter  group. This allows Amazon RDS to fully complete the create action before the parameter  group is used as the default for a new DB cluster. This is especially important for parameters  that are critical when creating the default database for a DB cluster, such as the character set  for the default database defined by the character_set_database parameter. You can use the  Parameter Groups option of the Amazon RDS console or the  DescribeDBClusterParameters operation to verify  that your DB cluster parameter group has been created or modified. If the modified DB cluster parameter group is used by an Aurora Serverless v1 cluster, Aurora applies the update immediately. The cluster restart might interrupt your workload. In that case, your application must reopen any connections and retry any transactions that were active when the parameter changes took effect.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
+    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue,  and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter  group. This allows Amazon RDS to fully complete the create operation before the parameter  group is used as the default for a new DB cluster. This is especially important for parameters  that are critical when creating the default database for a DB cluster, such as the character set  for the default database defined by the character_set_database parameter. You can use the  Parameter Groups option of the Amazon RDS console or the  DescribeDBClusterParameters operation to verify  that your DB cluster parameter group has been created or modified. If the modified DB cluster parameter group is used by an Aurora Serverless v1 cluster, Aurora applies the update immediately. The cluster restart might interrupt your workload. In that case, your application must reopen any connections and retry any transactions that were active when the parameter changes took effect.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     public func modifyDBClusterParameterGroup(_ input: ModifyDBClusterParameterGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBClusterParameterGroupNameMessage {
         return try await self.client.execute(
@@ -1387,7 +1507,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and  ApplyMethod. A maximum of 20 parameters can be modified in a single request.  After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter  group. This allows Amazon RDS to fully complete the modify action before the parameter  group is used as the default for a new DB instance. This is especially important for parameters  that are critical when creating the default database for a DB instance, such as the character set  for the default database defined by the character_set_database parameter. You can use the  Parameter Groups option of the Amazon RDS console or the  DescribeDBParameters command to verify  that your DB parameter group has been created or modified.
+    /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and  ApplyMethod. A maximum of 20 parameters can be modified in a single request.  After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter  group. This allows Amazon RDS to fully complete the modify operation before the parameter  group is used as the default for a new DB instance. This is especially important for parameters  that are critical when creating the default database for a DB instance, such as the character set  for the default database defined by the character_set_database parameter. You can use the  Parameter Groups option of the Amazon RDS console or the  DescribeDBParameters command to verify  that your DB parameter group has been created or modified.
     @Sendable
     public func modifyDBParameterGroup(_ input: ModifyDBParameterGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBParameterGroupNameMessage {
         return try await self.client.execute(
@@ -1439,7 +1559,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public.   Amazon RDS supports upgrading DB snapshots for MySQL, PostgreSQL, and Oracle. This command doesn't apply to RDS Custom.
+    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public.   Amazon RDS supports upgrading DB snapshots for MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2.
     @Sendable
     public func modifyDBSnapshot(_ input: ModifyDBSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDBSnapshotResult {
         return try await self.client.execute(
@@ -1491,7 +1611,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Modify a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
+    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This operation only applies to Aurora global database clusters.
     @Sendable
     public func modifyGlobalCluster(_ input: ModifyGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyGlobalClusterResult {
         return try await self.client.execute(
@@ -1509,6 +1629,19 @@ public struct RDS: AWSService {
     public func modifyOptionGroup(_ input: ModifyOptionGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyOptionGroupResult {
         return try await self.client.execute(
             operation: "ModifyOptionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration.
+    @Sendable
+    public func modifyTenantDatabase(_ input: ModifyTenantDatabaseMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyTenantDatabaseResult {
+        return try await self.client.execute(
+            operation: "ModifyTenantDatabase", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1595,7 +1728,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region.  This action only applies to Aurora DB clusters.
+    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region.  This operation only applies to Aurora DB clusters.
     @Sendable
     public func removeFromGlobalCluster(_ input: RemoveFromGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFromGlobalClusterResult {
         return try await self.client.execute(
@@ -1686,7 +1819,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data from MySQL by Using an Amazon S3 Bucket in the Amazon Aurora User Guide.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 action has completed and the DB cluster is available.  For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters. The source DB engine must be MySQL.
+    /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data from MySQL by Using an Amazon S3 Bucket in the Amazon Aurora User Guide.  This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 operation has completed and the DB cluster is available.  For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
     @Sendable
     public func restoreDBClusterFromS3(_ input: RestoreDBClusterFromS3Message, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBClusterFromS3Result {
         return try await self.client.execute(
@@ -1699,7 +1832,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB cluster is available.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
+    /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.  This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot operation has completed and the DB cluster is available.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBClusterFromSnapshotResult {
         return try await self.client.execute(
@@ -1712,7 +1845,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.  For Aurora, this action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
+    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.  For Aurora, this operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime operation has completed and the DB cluster is available.  For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     public func restoreDBClusterToPointInTime(_ input: RestoreDBClusterToPointInTimeMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBClusterToPointInTimeResult {
         return try await self.client.execute(
@@ -1725,7 +1858,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot action. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot action. The result is that you replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.  This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
+    /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot operation. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot operation. The result is that you replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.  This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
     @Sendable
     public func restoreDBInstanceFromDBSnapshot(_ input: RestoreDBInstanceFromDBSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBInstanceFromDBSnapshotResult {
         return try await self.client.execute(
@@ -1738,7 +1871,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Amazon Relational Database Service (Amazon RDS)  supports importing MySQL databases by using backup files.  You can create a backup of your on-premises database,  store it on Amazon Simple Storage Service (Amazon S3),  and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Importing Data into an Amazon RDS MySQL DB Instance  in the Amazon RDS User Guide.  This command doesn't apply to RDS Custom.
+    /// Amazon Relational Database Service (Amazon RDS)  supports importing MySQL databases by using backup files.  You can create a backup of your on-premises database,  store it on Amazon Simple Storage Service (Amazon S3),  and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Importing Data into an Amazon RDS MySQL DB Instance  in the Amazon RDS User Guide.  This operation doesn't apply to RDS Custom.
     @Sendable
     public func restoreDBInstanceFromS3(_ input: RestoreDBInstanceFromS3Message, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBInstanceFromS3Result {
         return try await self.client.execute(
@@ -1751,7 +1884,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.  This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
+    /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.  This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
     @Sendable
     public func restoreDBInstanceToPointInTime(_ input: RestoreDBInstanceToPointInTimeMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDBInstanceToPointInTimeResult {
         return try await self.client.execute(
@@ -1790,7 +1923,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster action. For more information, see    Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
+    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster operation. For more information, see    Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.  This operation only applies to Aurora DB clusters.
     @Sendable
     public func startDBCluster(_ input: StartDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDBClusterResult {
         return try await self.client.execute(
@@ -1803,7 +1936,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance action. For more information, see    Starting an Amazon RDS DB instance That Was Previously Stopped in the  Amazon RDS User Guide.   This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead.
+    /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance operation. For more information, see    Starting an Amazon RDS DB instance That Was Previously Stopped in the  Amazon RDS User Guide.   This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead.
     @Sendable
     public func startDBInstance(_ input: StartDBInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDBInstanceResult {
         return try await self.client.execute(
@@ -1829,7 +1962,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Starts an export of DB snapshot or DB cluster data to Amazon S3.  The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. You can't export cluster data from Multi-AZ DB clusters. For more information on exporting DB snapshot data, see  Exporting DB snapshot  data to Amazon S3 in the Amazon RDS User Guide or Exporting DB  cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see  Exporting DB  cluster data to Amazon S3 in the Amazon Aurora User Guide.
+    /// Starts an export of DB snapshot or DB cluster data to Amazon S3.  The provided IAM role must have access to the S3 bucket. You can't export snapshot data from Db2 or RDS Custom DB instances. You can't export cluster data from Multi-AZ DB clusters. For more information on exporting DB snapshot data, see  Exporting DB snapshot  data to Amazon S3 in the Amazon RDS User Guide or Exporting DB  cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see  Exporting DB  cluster data to Amazon S3 in the Amazon Aurora User Guide.
     @Sendable
     public func startExportTask(_ input: StartExportTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportTask {
         return try await self.client.execute(
@@ -1842,7 +1975,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Stops a database activity stream that was started using the Amazon Web Services console,  the start-activity-stream CLI command, or the StartActivityStream action. For more information, see   Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide.
+    /// Stops a database activity stream that was started using the Amazon Web Services console,  the start-activity-stream CLI command, or the StartActivityStream operation. For more information, see   Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide.
     @Sendable
     public func stopActivityStream(_ input: StopActivityStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopActivityStreamResponse {
         return try await self.client.execute(
@@ -1855,7 +1988,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see    Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
+    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see    Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.  This operation only applies to Aurora DB clusters.
     @Sendable
     public func stopDBCluster(_ input: StopDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDBClusterResult {
         return try await self.client.execute(
@@ -1894,11 +2027,24 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment.  After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment.  After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
     @Sendable
     public func switchoverBlueGreenDeployment(_ input: SwitchoverBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverBlueGreenDeploymentResponse {
         return try await self.client.execute(
             operation: "SwitchoverBlueGreenDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster.  Switchover operations were previously called "managed planned failovers." Aurora promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster  to a secondary (read-only) cluster, maintaining the orginal replication topology. All secondary clusters are synchronized with the primary  at the beginning of the process so the new primary continues operations for the Aurora global database without losing any data. Your database  is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles. For more information about  switching over an Aurora global database, see Performing switchovers for Amazon Aurora global databases in the Amazon Aurora User Guide.  This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original  primary after a global database failover.
+    @Sendable
+    public func switchoverGlobalCluster(_ input: SwitchoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverGlobalClusterResult {
+        return try await self.client.execute(
+            operation: "SwitchoverGlobalCluster", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1934,7 +2080,7 @@ extension RDS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RDS {
-    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1953,7 +2099,7 @@ extension RDS {
         )
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+    /// Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1968,6 +2114,25 @@ extension RDS {
             command: self.describeCertificates,
             inputKey: \DescribeCertificatesMessage.marker,
             outputKey: \CertificateMessage.marker,
+            logger: logger
+        )
+    }
+
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details  about automated backups for previously deleted clusters. Current clusters are returned for both the  DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDBClusterAutomatedBackupsPaginator(
+        _ input: DescribeDBClusterAutomatedBackupsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDBClusterAutomatedBackupsMessage, DBClusterAutomatedBackupMessage> {
+        return .init(
+            input: input,
+            command: self.describeDBClusterAutomatedBackups,
+            inputKey: \DescribeDBClusterAutomatedBackupsMessage.marker,
+            outputKey: \DBClusterAutomatedBackupMessage.marker,
             logger: logger
         )
     }
@@ -2067,7 +2232,7 @@ extension RDS {
         )
     }
 
-    /// Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2086,7 +2251,7 @@ extension RDS {
         )
     }
 
-    /// Returns a list of the available DB engines.
+    /// Describes the properties of specific versions of DB engines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2124,7 +2289,7 @@ extension RDS {
         )
     }
 
-    /// Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Describes provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2295,6 +2460,25 @@ extension RDS {
         )
     }
 
+    /// Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration. You can use this command to inspect the tenant databases within a snapshot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDBSnapshotTenantDatabasesPaginator(
+        _ input: DescribeDBSnapshotTenantDatabasesMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDBSnapshotTenantDatabasesMessage, DBSnapshotTenantDatabasesMessage> {
+        return .init(
+            input: input,
+            command: self.describeDBSnapshotTenantDatabases,
+            inputKey: \DescribeDBSnapshotTenantDatabasesMessage.marker,
+            outputKey: \DBSnapshotTenantDatabasesMessage.marker,
+            logger: logger
+        )
+    }
+
     /// Returns information about DB snapshots. This API action supports pagination.
     /// Return PaginatorSequence for operation.
     ///
@@ -2428,7 +2612,26 @@ extension RDS {
         )
     }
 
-    /// Describes all available options.
+    /// Describe one or more zero-ETL integrations with Amazon Redshift.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeIntegrationsPaginator(
+        _ input: DescribeIntegrationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeIntegrationsMessage, DescribeIntegrationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeIntegrations,
+            inputKey: \DescribeIntegrationsMessage.marker,
+            outputKey: \DescribeIntegrationsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Describes all available options for the specified engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2466,7 +2669,7 @@ extension RDS {
         )
     }
 
-    /// Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
+    /// Describes the orderable DB instance options for a specified DB engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2561,6 +2764,25 @@ extension RDS {
         )
     }
 
+    /// Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeTenantDatabasesPaginator(
+        _ input: DescribeTenantDatabasesMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeTenantDatabasesMessage, TenantDatabasesMessage> {
+        return .init(
+            input: input,
+            command: self.describeTenantDatabases,
+            inputKey: \DescribeTenantDatabasesMessage.marker,
+            outputKey: \TenantDatabasesMessage.marker,
+            logger: logger
+        )
+    }
+
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
     /// Return PaginatorSequence for operation.
     ///
@@ -2596,6 +2818,18 @@ extension RDS.DescribeCertificatesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeCertificatesMessage {
         return .init(
             certificateIdentifier: self.certificateIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension RDS.DescribeDBClusterAutomatedBackupsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterAutomatedBackupsMessage {
+        return .init(
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -2654,6 +2888,7 @@ extension RDS.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterSnapshotsMessage {
         return .init(
             dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
             dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,
@@ -2813,6 +3048,20 @@ extension RDS.DescribeDBSecurityGroupsMessage: AWSPaginateToken {
     }
 }
 
+extension RDS.DescribeDBSnapshotTenantDatabasesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSnapshotTenantDatabasesMessage {
+        return .init(
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
+            dbiResourceId: self.dbiResourceId,
+            dbSnapshotIdentifier: self.dbSnapshotIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            snapshotType: self.snapshotType
+        )
+    }
+}
+
 extension RDS.DescribeDBSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBSnapshotsMessage {
         return .init(
@@ -2896,6 +3145,17 @@ extension RDS.DescribeGlobalClustersMessage: AWSPaginateToken {
         return .init(
             filters: self.filters,
             globalClusterIdentifier: self.globalClusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension RDS.DescribeIntegrationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeIntegrationsMessage {
+        return .init(
+            filters: self.filters,
+            integrationIdentifier: self.integrationIdentifier,
             marker: token,
             maxRecords: self.maxRecords
         )
@@ -2995,6 +3255,18 @@ extension RDS.DescribeSourceRegionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             regionName: self.regionName
+        )
+    }
+}
+
+extension RDS.DescribeTenantDatabasesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeTenantDatabasesMessage {
+        return .init(
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            tenantDBName: self.tenantDBName
         )
     }
 }
@@ -3170,6 +3442,40 @@ extension RDS {
             ],
             minDelayTime: .seconds(30),
             command: self.describeDBSnapshots
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilTenantDatabaseAvailable(
+        _ input: DescribeTenantDatabasesMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("tenantDatabases[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("tenantDatabases[].status", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("tenantDatabases[].status", expected: "incompatible-parameters")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("tenantDatabases[].status", expected: "incompatible-restore")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeTenantDatabases
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilTenantDatabaseDeleted(
+        _ input: DescribeTenantDatabasesMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(tenantDatabases) == `0`", expected: "true")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("DBInstanceNotFoundFault")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeTenantDatabases
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }

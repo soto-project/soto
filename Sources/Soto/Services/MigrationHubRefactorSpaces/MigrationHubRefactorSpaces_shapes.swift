@@ -26,13 +26,13 @@ import Foundation
 extension MigrationHubRefactorSpaces {
     // MARK: Enums
 
-    public enum ApiGatewayEndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiGatewayEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -41,7 +41,7 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -49,7 +49,7 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidResourceState = "INVALID_RESOURCE_STATE"
         case notAuthorized = "NOT_AUTHORIZED"
         case requestLimitExceeded = "REQUEST_LIMIT_EXCEEDED"
@@ -65,7 +65,7 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiGateway = "API_GATEWAY"
         case application = "APPLICATION"
         case environment = "ENVIRONMENT"
@@ -88,7 +88,7 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
@@ -99,24 +99,24 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkFabricType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkFabricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case transitGateway = "TRANSIT_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProxyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProxyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiGateway = "API_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteActivationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteActivationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -126,19 +126,19 @@ extension MigrationHubRefactorSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case uriPath = "URI_PATH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceEndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambda = "LAMBDA"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"

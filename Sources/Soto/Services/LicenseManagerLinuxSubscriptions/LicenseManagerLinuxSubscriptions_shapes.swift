@@ -26,7 +26,7 @@ import Foundation
 extension LicenseManagerLinuxSubscriptions {
     // MARK: Enums
 
-    public enum LinuxSubscriptionsDiscovery: String, CustomStringConvertible, Codable, Sendable {
+    public enum LinuxSubscriptionsDiscovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Disabled LinuxSubscriptionsDiscovery
         case disabled = "Disabled"
         /// Enabled LinuxSubscriptionsDiscovery
@@ -34,7 +34,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Contains operator
         case contains = "Contains"
         /// Equal operator
@@ -44,7 +44,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationIntegration: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrganizationIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Disabled OrganizationIntegration
         case disabled = "Disabled"
         /// Enabled OrganizationIntegration
@@ -52,7 +52,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Completed status
         case completed = "Completed"
         /// Failed status

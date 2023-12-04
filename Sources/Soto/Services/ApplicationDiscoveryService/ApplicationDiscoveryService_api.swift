@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ApplicationDiscoveryService service.
 ///
-/// Amazon Web Services Application Discovery Service Amazon Web Services Application Discovery Service helps you plan application migration projects. It automatically identifies servers, virtual machines (VMs), and network dependencies in your on-premises data centers. For more information, see the Amazon Web Services Application Discovery Service FAQ.  Application Discovery Service offers three ways of performing discovery and collecting data about your on-premises servers:    Agentless discovery is recommended for environments that use VMware vCenter Server. This mode doesn't require you to install an agent on each host. It does not work in non-VMware environments.   Agentless discovery gathers server information regardless of the operating systems, which minimizes the time required for initial on-premises infrastructure assessment.   Agentless discovery doesn't collect information about network dependencies, only agent-based discovery collects that information.        Agent-based discovery collects a richer set of data than agentless discovery by using the Amazon Web Services Application Discovery Agent, which you install on one or more hosts in your data center.   The agent captures infrastructure and application information, including an inventory of running processes, system performance information, resource utilization, and network dependencies.   The information collected by agents is secured at rest and in transit to the Application Discovery Service database in the cloud.         Amazon Web Services Partner Network (APN) solutions integrate with Application Discovery Service, enabling you to import details of your on-premises environment directly into Migration Hub without using the discovery connector or discovery agent.   Third-party application discovery tools can query Amazon Web Services Application Discovery Service, and they can write to the Application Discovery Service database using the public API.   In this way, you can import data into Migration Hub and view it, so that you can associate applications with servers and track migrations.      Recommendations  We recommend that you use agent-based discovery for non-VMware environments, and whenever you want to collect information about network dependencies. You can run agent-based and agentless discovery simultaneously. Use agentless discovery to complete the initial infrastructure assessment quickly, and then install agents on select hosts to collect additional information.  Working With This Guide  This API reference provides descriptions, syntax, and usage examples for each of the actions and data types for Application Discovery Service. The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the Amazon Web Services SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs.    Remember that you must set your Migration Hub home region before you call any of these APIs.   You must make API calls for write actions (create, notify, associate, disassociate, import, or put) while in your home region, or a HomeRegionNotSetException error is returned.   API calls for read actions (list, describe, stop, and delete) are permitted outside of your home region.   Although it is unlikely, the Migration Hub home region could change. If you call APIs outside the home region, an InvalidInputException is returned.   You must call GetHomeRegion to obtain the latest Migration Hub home region.    This guide is intended for use with the Amazon Web Services Application Discovery Service User Guide.  All data is handled according to the Amazon Web Services  Privacy Policy. You can operate Application Discovery Service offline to inspect collected data before it is shared with the service.
+/// Amazon Web Services Application Discovery Service Amazon Web Services Application Discovery Service (Application Discovery Service) helps you plan application migration projects. It automatically identifies servers, virtual machines (VMs), and network dependencies in your on-premises data centers. For more information, see the Amazon Web Services Application Discovery Service FAQ.  Application Discovery Service offers three ways of performing discovery and collecting data about your on-premises servers:    Agentless discovery using Amazon Web Services Application Discovery Service Agentless Collector (Agentless Collector), which doesn't require you to install an agent on each host.   Agentless Collector gathers server information regardless of the operating systems, which minimizes the time required for initial on-premises infrastructure assessment.   Agentless Collector doesn't collect information about network dependencies, only agent-based discovery collects that information.         Agent-based discovery using the Amazon Web Services Application Discovery Agent (Application Discovery Agent) collects a richer set of data than agentless discovery, which you install on one or more hosts in your data center.   The agent captures infrastructure and application information, including an inventory of running processes, system performance information, resource utilization, and network dependencies.   The information collected by agents is secured at rest and in transit to the Application Discovery Service database in the Amazon Web Services cloud. For more information, see Amazon Web Services Application Discovery Agent.        Amazon Web Services Partner Network (APN) solutions integrate with Application Discovery Service, enabling you to import details of your on-premises environment directly into Amazon Web Services Migration Hub (Migration Hub) without using Agentless Collector or Application Discovery Agent.   Third-party application discovery tools can query Amazon Web Services Application Discovery Service, and they can write to the Application Discovery Service database using the public API.   In this way, you can import data into Migration Hub and view it, so that you can associate applications with servers and track migrations.      Working With This Guide  This API reference provides descriptions, syntax, and usage examples for each of the actions and data types for Application Discovery Service. The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the Amazon Web Services SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs.    Remember that you must set your Migration Hub home Region before you call any of these APIs.   You must make API calls for write actions (create, notify, associate, disassociate, import, or put) while in your home Region, or a HomeRegionNotSetException error is returned.   API calls for read actions (list, describe, stop, and delete) are permitted outside of your home Region.   Although it is unlikely, the Migration Hub home Region could change. If you call APIs outside the home Region, an InvalidInputException is returned.   You must call GetHomeRegion to obtain the latest Migration Hub home Region.    This guide is intended for use with the Amazon Web Services Application Discovery Service User Guide.  All data is handled according to the Amazon Web Services Privacy Policy. You can operate Application Discovery Service offline to inspect collected data before it is shared with the service.
 public struct ApplicationDiscoveryService: AWSService {
     // MARK: Member variables
 
@@ -80,6 +80,19 @@ public struct ApplicationDiscoveryService: AWSService {
     public func associateConfigurationItemsToApplication(_ input: AssociateConfigurationItemsToApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateConfigurationItemsToApplicationResponse {
         return try await self.client.execute(
             operation: "AssociateConfigurationItemsToApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not  delete the previously discovered data.  To delete the data collected, use StartBatchDeleteConfigurationTask.
+    @Sendable
+    public func batchDeleteAgents(_ input: BatchDeleteAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteAgentsResponse {
+        return try await self.client.execute(
+            operation: "BatchDeleteAgents", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -153,11 +166,24 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Lists agents or connectors as specified by ID or other filters. All agents/connectors associated with your user account can be listed if you call DescribeAgents as is without passing any parameters.
+    /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
     @Sendable
     public func describeAgents(_ input: DescribeAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentsResponse {
         return try await self.client.execute(
             operation: "DescribeAgents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
+    @Sendable
+    public func describeBatchDeleteConfigurationTask(_ input: DescribeBatchDeleteConfigurationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBatchDeleteConfigurationTaskResponse {
+        return try await self.client.execute(
+            operation: "DescribeBatchDeleteConfigurationTask", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -179,7 +205,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
+    /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     @Sendable
     public func describeContinuousExports(_ input: DescribeContinuousExportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContinuousExportsResponse {
         return try await self.client.execute(
@@ -231,7 +257,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user account that have tags can be listed if you call DescribeTags as is without passing any parameters.
+    /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters.
     @Sendable
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResponse {
         return try await self.client.execute(
@@ -308,6 +334,19 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
+    ///  Takes a list of configurationId as input and starts an asynchronous deletion  task to remove the configurationItems. Returns a unique deletion task identifier.
+    @Sendable
+    public func startBatchDeleteConfigurationTask(_ input: StartBatchDeleteConfigurationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBatchDeleteConfigurationTaskResponse {
+        return try await self.client.execute(
+            operation: "StartBatchDeleteConfigurationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     @Sendable
     public func startContinuousExport(_ input: StartContinuousExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContinuousExportResponse {
@@ -321,7 +360,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Instructs the specified agents or connectors to start collecting data.
+    /// Instructs the specified agents to start collecting data.
     @Sendable
     public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataCollectionByAgentIdsResponse {
         return try await self.client.execute(
@@ -334,7 +373,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    ///  Begins the export of discovered data to an S3 bucket. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.  If you do not include an agentIds filter, summary data is exported that includes both Amazon Web Services Agentless Discovery Connector data and summary data from Amazon Web Services Discovery Agents. Export of summary data is limited to two exports per day.
+    /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services.  Exports might provide an estimate of fees and savings based on certain information  that you provide. Fee estimates do not include any taxes that might apply.  Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services  services, which might vary from the estimates provided in this report.  If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.  Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences  , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated.  Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
     @Sendable
     public func startExportTask(_ input: StartExportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportTaskResponse {
         return try await self.client.execute(
@@ -347,7 +386,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Application Discovery Service (ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:   Download the specially formatted comma separated value (CSV) import template, which you can find here: https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.   Fill out the template with your server and application data.   Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in the CSV format.   Use the console or the StartImportTask command with the Amazon Web Services CLI or one of the Amazon Web Services SDKs to import the records from your file.   For more information, including step-by-step procedures, see Migration Hub Import in the Amazon Web Services Application Discovery Service User Guide.  There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see Amazon Web Services Application Discovery Service Limits in the Amazon Web Services Application Discovery Service User Guide.
+    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:   Download the specially formatted comma separated value (CSV) import template, which you can find here: https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.   Fill out the template with your server and application data.   Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in the CSV format.   Use the console or the StartImportTask command with the Amazon Web Services CLI or one of the Amazon Web Services SDKs to import the records from your file.   For more information, including step-by-step procedures, see Migration Hub Import in the Amazon Web Services Application Discovery Service User Guide.  There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see Amazon Web Services Application Discovery Service Limits in the Amazon Web Services Application Discovery Service User Guide.
     @Sendable
     public func startImportTask(_ input: StartImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportTaskResponse {
         return try await self.client.execute(
@@ -373,7 +412,7 @@ public struct ApplicationDiscoveryService: AWSService {
         )
     }
 
-    /// Instructs the specified agents or connectors to stop collecting data.
+    /// Instructs the specified agents to stop collecting data.
     @Sendable
     public func stopDataCollectionByAgentIds(_ input: StopDataCollectionByAgentIdsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDataCollectionByAgentIdsResponse {
         return try await self.client.execute(
@@ -413,7 +452,26 @@ extension ApplicationDiscoveryService {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ApplicationDiscoveryService {
-    /// Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
+    /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeAgentsPaginator(
+        _ input: DescribeAgentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAgentsRequest, DescribeAgentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeAgents,
+            inputKey: \DescribeAgentsRequest.nextToken,
+            outputKey: \DescribeAgentsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -428,6 +486,44 @@ extension ApplicationDiscoveryService {
             command: self.describeContinuousExports,
             inputKey: \DescribeContinuousExportsRequest.nextToken,
             outputKey: \DescribeContinuousExportsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  DescribeExportConfigurations is deprecated. Use DescribeExportTasks, instead.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeExportConfigurationsPaginator(
+        _ input: DescribeExportConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeExportConfigurationsRequest, DescribeExportConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeExportConfigurations,
+            inputKey: \DescribeExportConfigurationsRequest.nextToken,
+            outputKey: \DescribeExportConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeExportTasksPaginator(
+        _ input: DescribeExportTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeExportTasksRequest, DescribeExportTasksResponse> {
+        return .init(
+            input: input,
+            command: self.describeExportTasks,
+            inputKey: \DescribeExportTasksRequest.nextToken,
+            outputKey: \DescribeExportTasksResponse.nextToken,
             logger: logger
         )
     }
@@ -450,6 +546,55 @@ extension ApplicationDiscoveryService {
             logger: logger
         )
     }
+
+    /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeTagsPaginator(
+        _ input: DescribeTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeTagsRequest, DescribeTagsResponse> {
+        return .init(
+            input: input,
+            command: self.describeTags,
+            inputKey: \DescribeTagsRequest.nextToken,
+            outputKey: \DescribeTagsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listConfigurationsPaginator(
+        _ input: ListConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationsRequest, ListConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurations,
+            inputKey: \ListConfigurationsRequest.nextToken,
+            outputKey: \ListConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension ApplicationDiscoveryService.DescribeAgentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeAgentsRequest {
+        return .init(
+            agentIds: self.agentIds,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
 }
 
 extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateToken {
@@ -462,12 +607,55 @@ extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPagin
     }
 }
 
+extension ApplicationDiscoveryService.DescribeExportConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeExportConfigurationsRequest {
+        return .init(
+            exportIds: self.exportIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ApplicationDiscoveryService.DescribeExportTasksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeExportTasksRequest {
+        return .init(
+            exportIds: self.exportIds,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeImportTasksRequest {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension ApplicationDiscoveryService.DescribeTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeTagsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ApplicationDiscoveryService.ListConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.ListConfigurationsRequest {
+        return .init(
+            configurationType: self.configurationType,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderBy: self.orderBy
         )
     }
 }

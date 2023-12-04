@@ -26,18 +26,18 @@ import Foundation
 extension DataPipeline {
     // MARK: Enums
 
-    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
-        case eq = "EQ"
-        case ge = "GE"
-        case le = "LE"
-        case refEq = "REF_EQ"
+        case equal = "EQ"
+        case greaterThanOrEqual = "GE"
+        case lessThanOrEqual = "LE"
+        case referenceEqual = "REF_EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
-        case failed = "FAILED"
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
+        case failed = "FAILED"
         case finished = "FINISHED"
         public var description: String { return self.rawValue }
     }
@@ -64,7 +64,7 @@ extension DataPipeline {
             }
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -92,7 +92,7 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -128,17 +128,17 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 10)
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, max: 1024)
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, min: 1)
-            try self.validate(self.uniqueId, name: "uniqueId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.uniqueId, name: "uniqueId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -176,7 +176,7 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -200,7 +200,7 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -227,15 +227,15 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
-            try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.objectIds.forEach {
                 try validate($0, name: "objectIds[]", parent: name, max: 1024)
                 try validate($0, name: "objectIds[]", parent: name, min: 1)
-                try validate($0, name: "objectIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try validate($0, name: "objectIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -279,7 +279,7 @@ extension DataPipeline {
             try self.pipelineIds.forEach {
                 try validate($0, name: "pipelineIds[]", parent: name, max: 1024)
                 try validate($0, name: "pipelineIds[]", parent: name, min: 1)
-                try validate($0, name: "pipelineIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try validate($0, name: "pipelineIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
         }
 
@@ -317,13 +317,13 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 20971520)
-            try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.objectId, name: "objectId", parent: name, max: 1024)
             try self.validate(self.objectId, name: "objectId", parent: name, min: 1)
-            try self.validate(self.objectId, name: "objectId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.objectId, name: "objectId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -363,12 +363,12 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.refValue, name: "refValue", parent: name, max: 256)
             try self.validate(self.refValue, name: "refValue", parent: name, min: 1)
-            try self.validate(self.refValue, name: "refValue", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.refValue, name: "refValue", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.stringValue, name: "stringValue", parent: name, max: 10240)
-            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -392,9 +392,9 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.version, name: "version", parent: name, max: 1024)
-            try self.validate(self.version, name: "version", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.version, name: "version", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,9 +437,9 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.document, name: "document", parent: name, max: 1024)
-            try self.validate(self.document, name: "document", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.document, name: "document", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.signature, name: "signature", parent: name, max: 1024)
-            try self.validate(self.signature, name: "signature", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.signature, name: "signature", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -458,7 +458,7 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
-            try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -501,7 +501,7 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
-                try validate($0, name: "values[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
         }
 
@@ -525,9 +525,9 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.stringValue, name: "stringValue", parent: name, max: 10240)
-            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,7 +553,7 @@ extension DataPipeline {
             }
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -576,9 +576,9 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.stringValue, name: "stringValue", parent: name, max: 10240)
-            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -653,10 +653,10 @@ extension DataPipeline {
             }
             try self.validate(self.id, name: "id", parent: name, max: 1024)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -683,10 +683,10 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.hostname, name: "hostname", parent: name, max: 1024)
             try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
-            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.instanceIdentity?.validate(name: "\(name).instanceIdentity")
             try self.validate(self.workerGroup, name: "workerGroup", parent: name, max: 1024)
-            try self.validate(self.workerGroup, name: "workerGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.workerGroup, name: "workerGroup", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -735,7 +735,7 @@ extension DataPipeline {
             }
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.pipelineObjects.forEach {
                 try $0.validate(name: "\(name).pipelineObjects[]")
             }
@@ -811,13 +811,13 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
-            try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.query?.validate(name: "\(name).query")
             try self.validate(self.sphere, name: "sphere", parent: name, max: 1024)
-            try self.validate(self.sphere, name: "sphere", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.sphere, name: "sphere", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,10 +864,10 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 1024)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
         }
 
@@ -898,7 +898,7 @@ extension DataPipeline {
             }
             try self.validate(self.taskId, name: "taskId", parent: name, max: 2048)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
-            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,12 +937,12 @@ extension DataPipeline {
         public func validate(name: String) throws {
             try self.validate(self.hostname, name: "hostname", parent: name, max: 1024)
             try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
-            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.taskrunnerId, name: "taskrunnerId", parent: name, max: 1024)
             try self.validate(self.taskrunnerId, name: "taskrunnerId", parent: name, min: 1)
-            try self.validate(self.taskrunnerId, name: "taskrunnerId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.taskrunnerId, name: "taskrunnerId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.workerGroup, name: "workerGroup", parent: name, max: 1024)
-            try self.validate(self.workerGroup, name: "workerGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.workerGroup, name: "workerGroup", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -977,7 +977,7 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 1024)
-            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.`operator`?.validate(name: "\(name).`operator`")
         }
 
@@ -1005,13 +1005,13 @@ extension DataPipeline {
             try self.objectIds.forEach {
                 try validate($0, name: "objectIds[]", parent: name, max: 1024)
                 try validate($0, name: "objectIds[]", parent: name, min: 1)
-                try validate($0, name: "objectIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try validate($0, name: "objectIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.status, name: "status", parent: name, max: 1024)
-            try self.validate(self.status, name: "status", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.status, name: "status", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1043,12 +1043,12 @@ extension DataPipeline {
 
         public func validate(name: String) throws {
             try self.validate(self.errorId, name: "errorId", parent: name, max: 1024)
-            try self.validate(self.errorId, name: "errorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.errorId, name: "errorId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.errorStackTrace, name: "errorStackTrace", parent: name, max: 1024)
-            try self.validate(self.errorStackTrace, name: "errorStackTrace", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.errorStackTrace, name: "errorStackTrace", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.taskId, name: "taskId", parent: name, max: 2048)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
-            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1138,7 +1138,7 @@ extension DataPipeline {
             }
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, max: 1024)
             try self.validate(self.pipelineId, name: "pipelineId", parent: name, min: 1)
-            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.pipelineId, name: "pipelineId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.pipelineObjects.forEach {
                 try $0.validate(name: "\(name).pipelineObjects[]")
             }

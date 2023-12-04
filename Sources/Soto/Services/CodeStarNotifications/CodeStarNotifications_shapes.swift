@@ -26,19 +26,19 @@ import Foundation
 extension CodeStarNotifications {
     // MARK: Enums
 
-    public enum DetailType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DetailType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case resourceType = "RESOURCE_TYPE"
         case serviceName = "SERVICE_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdBy = "CREATED_BY"
         case eventTypeId = "EVENT_TYPE_ID"
         case resource = "RESOURCE"
@@ -46,20 +46,20 @@ extension CodeStarNotifications {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case targetAddress = "TARGET_ADDRESS"
         case targetStatus = "TARGET_STATUS"
         case targetType = "TARGET_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deactivated = "DEACTIVATED"
         case inactive = "INACTIVE"

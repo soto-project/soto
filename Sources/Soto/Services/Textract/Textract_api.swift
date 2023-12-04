@@ -126,11 +126,89 @@ public struct Textract: AWSService {
         )
     }
 
+    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
+    @Sendable
+    public func createAdapter(_ input: CreateAdapterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAdapterResponse {
+        return try await self.client.execute(
+            operation: "CreateAdapter", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates  a new version of an adapter. Operates on a provided AdapterId and a specified  dataset provided via the DatasetConfig argument. Requires that you  specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,  an optional ClientRequestToken, and optional tags.
+    @Sendable
+    public func createAdapterVersion(_ input: CreateAdapterVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAdapterVersionResponse {
+        return try await self.client.execute(
+            operation: "CreateAdapterVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
+    @Sendable
+    public func deleteAdapter(_ input: DeleteAdapterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAdapterResponse {
+        return try await self.client.execute(
+            operation: "DeleteAdapter", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a  AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
+    @Sendable
+    public func deleteAdapterVersion(_ input: DeleteAdapterVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAdapterVersionResponse {
+        return try await self.client.execute(
+            operation: "DeleteAdapterVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats:  JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of Block objects.  Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD.  DetectDocumentText is a synchronous operation. To analyze documents  asynchronously, use StartDocumentTextDetection. For more information, see Document Text Detection.
     @Sendable
     public func detectDocumentText(_ input: DetectDocumentTextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectDocumentTextResponse {
         return try await self.client.execute(
             operation: "DetectDocumentText", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
+    @Sendable
+    public func getAdapter(_ input: GetAdapterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdapterResponse {
+        return try await self.client.execute(
+            operation: "GetAdapter", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets configuration information for the specified adapter version, including:  AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,  KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
+    @Sendable
+    public func getAdapterVersion(_ input: GetAdapterVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdapterVersionResponse {
+        return try await self.client.execute(
+            operation: "GetAdapterVersion", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -204,6 +282,45 @@ public struct Textract: AWSService {
         )
     }
 
+    /// List all version of an adapter that meet the specified filtration criteria.
+    @Sendable
+    public func listAdapterVersions(_ input: ListAdapterVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAdapterVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListAdapterVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all adapters that match the specified filtration criteria.
+    @Sendable
+    public func listAdapters(_ input: ListAdaptersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAdaptersResponse {
+        return try await self.client.execute(
+            operation: "ListAdapters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all tags for an Amazon Textract resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements.  StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document.   StartDocumentAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. For more information, see Document Text Analysis.
     @Sendable
     public func startDocumentAnalysis(_ input: StartDocumentAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDocumentAnalysisResponse {
@@ -255,6 +372,45 @@ public struct Textract: AWSService {
             logger: logger
         )
     }
+
+    /// Adds one or more tags to the specified resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Removes any tags with the specified keys from the specified resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument.
+    @Sendable
+    public func updateAdapter(_ input: UpdateAdapterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAdapterResponse {
+        return try await self.client.execute(
+            operation: "UpdateAdapter", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension Textract {
@@ -263,5 +419,71 @@ extension Textract {
     public init(from: Textract, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Textract {
+    /// List all version of an adapter that meet the specified filtration criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAdapterVersionsPaginator(
+        _ input: ListAdapterVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAdapterVersionsRequest, ListAdapterVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAdapterVersions,
+            inputKey: \ListAdapterVersionsRequest.nextToken,
+            outputKey: \ListAdapterVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all adapters that match the specified filtration criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAdaptersPaginator(
+        _ input: ListAdaptersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAdaptersRequest, ListAdaptersResponse> {
+        return .init(
+            input: input,
+            command: self.listAdapters,
+            inputKey: \ListAdaptersRequest.nextToken,
+            outputKey: \ListAdaptersResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension Textract.ListAdapterVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Textract.ListAdapterVersionsRequest {
+        return .init(
+            adapterId: self.adapterId,
+            afterCreationTime: self.afterCreationTime,
+            beforeCreationTime: self.beforeCreationTime,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Textract.ListAdaptersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Textract.ListAdaptersRequest {
+        return .init(
+            afterCreationTime: self.afterCreationTime,
+            beforeCreationTime: self.beforeCreationTime,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

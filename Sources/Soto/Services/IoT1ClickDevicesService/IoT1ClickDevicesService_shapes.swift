@@ -329,17 +329,17 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String
         /// The start date for the device event query, in ISO8061 format. For example, 2018-03-28T15:45:12.880Z
-        @CustomCoding<ISO8601DateCoder>
-        public var fromTimeStamp: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var fromTimeStamp: Date?
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
         public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The end date for the device event query, in ISO8061 format. For example, 2018-03-28T15:45:12.880Z
-        @CustomCoding<ISO8601DateCoder>
-        public var toTimeStamp: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var toTimeStamp: Date?
 
-        public init(deviceId: String, fromTimeStamp: Date, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: Date) {
+        public init(deviceId: String, fromTimeStamp: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: Date? = nil) {
             self.deviceId = deviceId
             self.fromTimeStamp = fromTimeStamp
             self.maxResults = maxResults
@@ -463,9 +463,9 @@ extension IoT1ClickDevicesService {
         /// The ARN of the resource.
         public let resourceArn: String
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -474,7 +474,7 @@ extension IoT1ClickDevicesService {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,9 +516,9 @@ extension IoT1ClickDevicesService {
         /// The ARN of the resource.
         public let resourceArn: String
         /// A collections of tag keys. For example, {"key1","key2"}
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }

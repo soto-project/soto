@@ -26,38 +26,96 @@ import Foundation
 extension Detective {
     // MARK: Enums
 
-    public enum DatasourcePackage: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasourcePackage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asffSecurityhubFinding = "ASFF_SECURITYHUB_FINDING"
         case detectiveCore = "DETECTIVE_CORE"
         case eksAudit = "EKS_AUDIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasourcePackageIngestState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasourcePackageIngestState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvitationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iamRole = "IAM_ROLE"
+        case iamUser = "IAM_USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Field: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createdTime = "CREATED_TIME"
+        case severity = "SEVERITY"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndicatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flaggedIpAddress = "FLAGGED_IP_ADDRESS"
+        case impossibleTravel = "IMPOSSIBLE_TRAVEL"
+        case newAso = "NEW_ASO"
+        case newGeolocation = "NEW_GEOLOCATION"
+        case newUserAgent = "NEW_USER_AGENT"
+        case relatedFinding = "RELATED_FINDING"
+        case relatedFindingGroup = "RELATED_FINDING_GROUP"
+        case ttpObserved = "TTP_OBSERVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvitationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invitation = "INVITATION"
         case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberDisabledReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberDisabledReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case volumeTooHigh = "VOLUME_TOO_HIGH"
         case volumeUnknown = "VOLUME_UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acceptedButDisabled = "ACCEPTED_BUT_DISABLED"
         case enabled = "ENABLED"
         case invited = "INVITED"
         case verificationFailed = "VERIFICATION_FAILED"
         case verificationInProgress = "VERIFICATION_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Reason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsThreatIntelligence = "AWS_THREAT_INTELLIGENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case informational = "INFORMATIONAL"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case successful = "SUCCESSFUL"
         public var description: String { return self.rawValue }
     }
 
@@ -97,7 +155,7 @@ extension Detective {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 64)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
-            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\\.)+[A-Za-z]{2,6}$")
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\\.)+[A-Za-z]{2,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -336,6 +394,25 @@ extension Detective {
         }
     }
 
+    public struct DateFilter: AWSEncodableShape {
+        /// A timestamp representing the end date of the time period until when data is filtered , including the end date.
+        @CustomCoding<ISO8601DateCoder>
+        public var endInclusive: Date
+        /// A timestamp representing the start of the time period from when data is filtered, including the start date.
+        @CustomCoding<ISO8601DateCoder>
+        public var startInclusive: Date
+
+        public init(endInclusive: Date, startInclusive: Date) {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endInclusive = "EndInclusive"
+            case startInclusive = "StartInclusive"
+        }
+    }
+
     public struct DeleteGraphRequest: AWSEncodableShape {
         /// The ARN of the behavior graph to disable.
         public let graphArn: String
@@ -464,6 +541,135 @@ extension Detective {
         }
     }
 
+    public struct FilterCriteria: AWSEncodableShape {
+        /// Filter the investigation results based on when the investigation was created.
+        public let createdTime: DateFilter?
+        /// Filter the investigation results based on the Amazon Resource Name (ARN) of the entity.
+        public let entityArn: StringFilter?
+        /// Filter the investigation results based on the severity.
+        public let severity: StringFilter?
+        /// Filter the investigation results based on the state.
+        public let state: StringFilter?
+        /// Filter the investigation results based on the status.
+        public let status: StringFilter?
+
+        public init(createdTime: DateFilter? = nil, entityArn: StringFilter? = nil, severity: StringFilter? = nil, state: StringFilter? = nil, status: StringFilter? = nil) {
+            self.createdTime = createdTime
+            self.entityArn = entityArn
+            self.severity = severity
+            self.state = state
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.entityArn?.validate(name: "\(name).entityArn")
+            try self.severity?.validate(name: "\(name).severity")
+            try self.state?.validate(name: "\(name).state")
+            try self.status?.validate(name: "\(name).status")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case entityArn = "EntityArn"
+            case severity = "Severity"
+            case state = "State"
+            case status = "Status"
+        }
+    }
+
+    public struct FlaggedIpAddressDetail: AWSDecodableShape {
+        /// IP address of the suspicious entity.
+        public let ipAddress: String?
+        /// Details the reason the IP address was flagged as suspicious.
+        public let reason: Reason?
+
+        public init(ipAddress: String? = nil, reason: Reason? = nil) {
+            self.ipAddress = ipAddress
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case reason = "Reason"
+        }
+    }
+
+    public struct GetInvestigationRequest: AWSEncodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// The investigation ID of the investigation report.
+        public let investigationId: String
+
+        public init(graphArn: String, investigationId: String) {
+            self.graphArn = graphArn
+            self.investigationId = investigationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.validate(self.investigationId, name: "investigationId", parent: name, max: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, min: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+            case investigationId = "InvestigationId"
+        }
+    }
+
+    public struct GetInvestigationResponse: AWSDecodableShape {
+        /// The UTC time stamp of the creation time of the investigation report.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+        public let entityArn: String?
+        /// Type of entity. For example, Amazon Web Services accounts, such as IAM user and role.
+        public let entityType: EntityType?
+        /// The ARN of the behavior graph.
+        public let graphArn: String?
+        /// The investigation ID of the investigation report.
+        public let investigationId: String?
+        /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var scopeEndTime: Date?
+        /// The start date and time for the scope time set to generate the investigation report.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var scopeStartTime: Date?
+        /// Severity based on the likelihood and impact of the indicators of compromise discovered in the investigation.
+        public let severity: Severity?
+        /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+        public let state: State?
+        /// Status based on the completion status of the investigation.
+        public let status: Status?
+
+        public init(createdTime: Date? = nil, entityArn: String? = nil, entityType: EntityType? = nil, graphArn: String? = nil, investigationId: String? = nil, scopeEndTime: Date? = nil, scopeStartTime: Date? = nil, severity: Severity? = nil, state: State? = nil, status: Status? = nil) {
+            self.createdTime = createdTime
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.graphArn = graphArn
+            self.investigationId = investigationId
+            self.scopeEndTime = scopeEndTime
+            self.scopeStartTime = scopeStartTime
+            self.severity = severity
+            self.state = state
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case entityArn = "EntityArn"
+            case entityType = "EntityType"
+            case graphArn = "GraphArn"
+            case investigationId = "InvestigationId"
+            case scopeEndTime = "ScopeEndTime"
+            case scopeStartTime = "ScopeStartTime"
+            case severity = "Severity"
+            case state = "State"
+            case status = "Status"
+        }
+    }
+
     public struct GetMembersRequest: AWSEncodableShape {
         /// The list of Amazon Web Services account identifiers for the member account for which to return member details. You can request details for up to 50 member accounts at a time. You cannot use GetMembers to retrieve information about member accounts that were removed from the behavior graph.
         public let accountIds: [String]
@@ -524,6 +730,131 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct ImpossibleTravelDetail: AWSDecodableShape {
+        /// IP address where the resource was last used in the impossible travel.
+        public let endingIpAddress: String?
+        /// Location where the resource was last used in the impossible travel.
+        public let endingLocation: String?
+        /// Returns the time difference between the first and last timestamp the resource was used.
+        public let hourlyTimeDelta: Int?
+        /// IP address where the resource was first used in the impossible travel
+        public let startingIpAddress: String?
+        /// Location where the resource was first used in the impossible travel
+        public let startingLocation: String?
+
+        public init(endingIpAddress: String? = nil, endingLocation: String? = nil, hourlyTimeDelta: Int? = nil, startingIpAddress: String? = nil, startingLocation: String? = nil) {
+            self.endingIpAddress = endingIpAddress
+            self.endingLocation = endingLocation
+            self.hourlyTimeDelta = hourlyTimeDelta
+            self.startingIpAddress = startingIpAddress
+            self.startingLocation = startingLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endingIpAddress = "EndingIpAddress"
+            case endingLocation = "EndingLocation"
+            case hourlyTimeDelta = "HourlyTimeDelta"
+            case startingIpAddress = "StartingIpAddress"
+            case startingLocation = "StartingLocation"
+        }
+    }
+
+    public struct Indicator: AWSDecodableShape {
+        /// Details about the indicator of compromise.
+        public let indicatorDetail: IndicatorDetail?
+        /// The type of indicator.
+        public let indicatorType: IndicatorType?
+
+        public init(indicatorDetail: IndicatorDetail? = nil, indicatorType: IndicatorType? = nil) {
+            self.indicatorDetail = indicatorDetail
+            self.indicatorType = indicatorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indicatorDetail = "IndicatorDetail"
+            case indicatorType = "IndicatorType"
+        }
+    }
+
+    public struct IndicatorDetail: AWSDecodableShape {
+        /// Suspicious IP addresses that are flagged, which indicates critical or severe threats based on threat intelligence by Detective. This indicator is derived from AWS threat intelligence.
+        public let flaggedIpAddressDetail: FlaggedIpAddressDetail?
+        /// Identifies unusual and impossible user activity for an account.
+        public let impossibleTravelDetail: ImpossibleTravelDetail?
+        /// Contains details about the new Autonomous System Organization (ASO).
+        public let newAsoDetail: NewAsoDetail?
+        /// Contains details about the new geographic location.
+        public let newGeolocationDetail: NewGeolocationDetail?
+        /// Contains details about the new user agent.
+        public let newUserAgentDetail: NewUserAgentDetail?
+        /// Contains details about related findings.
+        public let relatedFindingDetail: RelatedFindingDetail?
+        /// Contains details about related finding groups.
+        public let relatedFindingGroupDetail: RelatedFindingGroupDetail?
+        /// Details about the indicator of compromise.
+        public let ttPsObservedDetail: TTPsObservedDetail?
+
+        public init(flaggedIpAddressDetail: FlaggedIpAddressDetail? = nil, impossibleTravelDetail: ImpossibleTravelDetail? = nil, newAsoDetail: NewAsoDetail? = nil, newGeolocationDetail: NewGeolocationDetail? = nil, newUserAgentDetail: NewUserAgentDetail? = nil, relatedFindingDetail: RelatedFindingDetail? = nil, relatedFindingGroupDetail: RelatedFindingGroupDetail? = nil, ttPsObservedDetail: TTPsObservedDetail? = nil) {
+            self.flaggedIpAddressDetail = flaggedIpAddressDetail
+            self.impossibleTravelDetail = impossibleTravelDetail
+            self.newAsoDetail = newAsoDetail
+            self.newGeolocationDetail = newGeolocationDetail
+            self.newUserAgentDetail = newUserAgentDetail
+            self.relatedFindingDetail = relatedFindingDetail
+            self.relatedFindingGroupDetail = relatedFindingGroupDetail
+            self.ttPsObservedDetail = ttPsObservedDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flaggedIpAddressDetail = "FlaggedIpAddressDetail"
+            case impossibleTravelDetail = "ImpossibleTravelDetail"
+            case newAsoDetail = "NewAsoDetail"
+            case newGeolocationDetail = "NewGeolocationDetail"
+            case newUserAgentDetail = "NewUserAgentDetail"
+            case relatedFindingDetail = "RelatedFindingDetail"
+            case relatedFindingGroupDetail = "RelatedFindingGroupDetail"
+            case ttPsObservedDetail = "TTPsObservedDetail"
+        }
+    }
+
+    public struct InvestigationDetail: AWSDecodableShape {
+        /// The UTC time stamp of the creation time of the investigation report.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+        public let entityArn: String?
+        /// Type of entity. For example, Amazon Web Services accounts, such as IAM user and role.
+        public let entityType: EntityType?
+        /// The investigation ID of the investigation report.
+        public let investigationId: String?
+        /// Severity based on the likelihood and impact of the indicators of compromise discovered in the investigation.
+        public let severity: Severity?
+        /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+        public let state: State?
+        /// Status based on the completion status of the investigation.
+        public let status: Status?
+
+        public init(createdTime: Date? = nil, entityArn: String? = nil, entityType: EntityType? = nil, investigationId: String? = nil, severity: Severity? = nil, state: State? = nil, status: Status? = nil) {
+            self.createdTime = createdTime
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.investigationId = investigationId
+            self.severity = severity
+            self.state = state
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case entityArn = "EntityArn"
+            case entityType = "EntityType"
+            case investigationId = "InvestigationId"
+            case severity = "Severity"
+            case state = "State"
+            case status = "Status"
         }
     }
 
@@ -610,6 +941,126 @@ extension Detective {
 
         private enum CodingKeys: String, CodingKey {
             case graphList = "GraphList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIndicatorsRequest: AWSEncodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// See Detective investigations..
+        public let indicatorType: IndicatorType?
+        /// The investigation ID of the investigation report.
+        public let investigationId: String
+        /// List the maximum number of indicators in a page.
+        public let maxResults: Int?
+        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+        public let nextToken: String?
+
+        public init(graphArn: String, indicatorType: IndicatorType? = nil, investigationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.graphArn = graphArn
+            self.indicatorType = indicatorType
+            self.investigationId = investigationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.validate(self.investigationId, name: "investigationId", parent: name, max: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, min: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+            case indicatorType = "IndicatorType"
+            case investigationId = "InvestigationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIndicatorsResponse: AWSDecodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArn: String?
+        /// Indicators of compromise listed based on severity.
+        public let indicators: [Indicator]?
+        /// The investigation ID of the investigation report.
+        public let investigationId: String?
+        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+        public let nextToken: String?
+
+        public init(graphArn: String? = nil, indicators: [Indicator]? = nil, investigationId: String? = nil, nextToken: String? = nil) {
+            self.graphArn = graphArn
+            self.indicators = indicators
+            self.investigationId = investigationId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+            case indicators = "Indicators"
+            case investigationId = "InvestigationId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInvestigationsRequest: AWSEncodableShape {
+        /// Filter the investigation results based on a criteria.
+        public let filterCriteria: FilterCriteria?
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// List the maximum number of investigations in a page.
+        public let maxResults: Int?
+        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+        public let nextToken: String?
+        /// Sorts the investigation results based on a criteria.
+        public let sortCriteria: SortCriteria?
+
+        public init(filterCriteria: FilterCriteria? = nil, graphArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
+            self.filterCriteria = filterCriteria
+            self.graphArn = graphArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterCriteria = "FilterCriteria"
+            case graphArn = "GraphArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct ListInvestigationsResponse: AWSDecodableShape {
+        /// Investigations details lists the summary of uncommon behavior or malicious activity which indicates a compromise.
+        public let investigationDetails: [InvestigationDetail]?
+        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(investigationDetails: [InvestigationDetail]? = nil, nextToken: String? = nil) {
+            self.investigationDetails = investigationDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationDetails = "InvestigationDetails"
             case nextToken = "NextToken"
         }
     }
@@ -894,6 +1345,61 @@ extension Detective {
         }
     }
 
+    public struct NewAsoDetail: AWSDecodableShape {
+        /// Details about the new Autonomous System Organization (ASO).
+        public let aso: String?
+        /// Checks if the ASO is for new for the entire account.
+        public let isNewForEntireAccount: Bool?
+
+        public init(aso: String? = nil, isNewForEntireAccount: Bool? = nil) {
+            self.aso = aso
+            self.isNewForEntireAccount = isNewForEntireAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aso = "Aso"
+            case isNewForEntireAccount = "IsNewForEntireAccount"
+        }
+    }
+
+    public struct NewGeolocationDetail: AWSDecodableShape {
+        /// IP address using which the resource was accessed.
+        public let ipAddress: String?
+        /// Checks if the gelocation is new for the entire account.
+        public let isNewForEntireAccount: Bool?
+        /// Location where the resource was accessed.
+        public let location: String?
+
+        public init(ipAddress: String? = nil, isNewForEntireAccount: Bool? = nil, location: String? = nil) {
+            self.ipAddress = ipAddress
+            self.isNewForEntireAccount = isNewForEntireAccount
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case isNewForEntireAccount = "IsNewForEntireAccount"
+            case location = "Location"
+        }
+    }
+
+    public struct NewUserAgentDetail: AWSDecodableShape {
+        /// Checks if the user agent is new for the entire account.
+        public let isNewForEntireAccount: Bool?
+        /// New user agent which accessed the resource.
+        public let userAgent: String?
+
+        public init(isNewForEntireAccount: Bool? = nil, userAgent: String? = nil) {
+            self.isNewForEntireAccount = isNewForEntireAccount
+            self.userAgent = userAgent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isNewForEntireAccount = "IsNewForEntireAccount"
+            case userAgent = "UserAgent"
+        }
+    }
+
     public struct RejectInvitationRequest: AWSEncodableShape {
         /// The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED.
         public let graphArn: String
@@ -908,6 +1414,102 @@ extension Detective {
 
         private enum CodingKeys: String, CodingKey {
             case graphArn = "GraphArn"
+        }
+    }
+
+    public struct RelatedFindingDetail: AWSDecodableShape {
+        /// The ARN of the related finding.
+        public let arn: String?
+        /// The IP address of the finding.
+        public let ipAddress: String?
+        /// The type of finding.
+        public let type: String?
+
+        public init(arn: String? = nil, ipAddress: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.ipAddress = ipAddress
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case ipAddress = "IpAddress"
+            case type = "Type"
+        }
+    }
+
+    public struct RelatedFindingGroupDetail: AWSDecodableShape {
+        /// The unique identifier for the finding group.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct SortCriteria: AWSEncodableShape {
+        /// Represents the Field attribute to sort investigations.
+        public let field: Field?
+        /// The order by which the sorted findings are displayed.
+        public let sortOrder: SortOrder?
+
+        public init(field: Field? = nil, sortOrder: SortOrder? = nil) {
+            self.field = field
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case field = "Field"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct StartInvestigationRequest: AWSEncodableShape {
+        /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+        public let entityArn: String
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+        @CustomCoding<ISO8601DateCoder>
+        public var scopeEndTime: Date
+        /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+        @CustomCoding<ISO8601DateCoder>
+        public var scopeStartTime: Date
+
+        public init(entityArn: String, graphArn: String, scopeEndTime: Date, scopeStartTime: Date) {
+            self.entityArn = entityArn
+            self.graphArn = graphArn
+            self.scopeEndTime = scopeEndTime
+            self.scopeStartTime = scopeStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityArn, name: "entityArn", parent: name, pattern: "^arn:")
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityArn = "EntityArn"
+            case graphArn = "GraphArn"
+            case scopeEndTime = "ScopeEndTime"
+            case scopeStartTime = "ScopeStartTime"
+        }
+    }
+
+    public struct StartInvestigationResponse: AWSDecodableShape {
+        /// The investigation ID of the investigation report.
+        public let investigationId: String?
+
+        public init(investigationId: String? = nil) {
+            self.investigationId = investigationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationId = "InvestigationId"
         }
     }
 
@@ -932,6 +1534,61 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case graphArn = "GraphArn"
+        }
+    }
+
+    public struct StringFilter: AWSEncodableShape {
+        /// The string filter value.
+        public let value: String
+
+        public init(value: String) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 500)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct TTPsObservedDetail: AWSDecodableShape {
+        /// The total number of failed API requests.
+        public let apiFailureCount: Int64?
+        /// The name of the API where the TTP was observed.
+        public let apiName: String?
+        /// The total number of successful API requests.
+        public let apiSuccessCount: Int64?
+        /// The IP address where the TTP was observed.
+        public let ipAddress: String?
+        /// The procedure used, identified by the investigation.
+        public let procedure: String?
+        /// The tactic used, identified by the investigation.
+        public let tactic: String?
+        /// The technique used, identified by the investigation.
+        public let technique: String?
+
+        public init(apiFailureCount: Int64? = nil, apiName: String? = nil, apiSuccessCount: Int64? = nil, ipAddress: String? = nil, procedure: String? = nil, tactic: String? = nil, technique: String? = nil) {
+            self.apiFailureCount = apiFailureCount
+            self.apiName = apiName
+            self.apiSuccessCount = apiSuccessCount
+            self.ipAddress = ipAddress
+            self.procedure = procedure
+            self.tactic = tactic
+            self.technique = technique
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiFailureCount = "APIFailureCount"
+            case apiName = "APIName"
+            case apiSuccessCount = "APISuccessCount"
+            case ipAddress = "IpAddress"
+            case procedure = "Procedure"
+            case tactic = "Tactic"
+            case technique = "Technique"
         }
     }
 
@@ -1078,6 +1735,34 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case datasourcePackages = "DatasourcePackages"
             case graphArn = "GraphArn"
+        }
+    }
+
+    public struct UpdateInvestigationStateRequest: AWSEncodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// The investigation ID of the investigation report.
+        public let investigationId: String
+        /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+        public let state: State
+
+        public init(graphArn: String, investigationId: String, state: State) {
+            self.graphArn = graphArn
+            self.investigationId = investigationId
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.validate(self.investigationId, name: "investigationId", parent: name, max: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, min: 21)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+            case investigationId = "InvestigationId"
+            case state = "State"
         }
     }
 

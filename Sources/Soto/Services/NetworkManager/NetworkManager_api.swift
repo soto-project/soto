@@ -59,6 +59,7 @@ public struct NetworkManager: AWSService {
             endpoint: endpoint,
             serviceEndpoints: Self.serviceEndpoints,
             partitionEndpoints: Self.partitionEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: NetworkManagerErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -80,6 +81,13 @@ public struct NetworkManager: AWSService {
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "aws-global": "networkmanager-fips.us-west-2.amazonaws.com",
+            "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

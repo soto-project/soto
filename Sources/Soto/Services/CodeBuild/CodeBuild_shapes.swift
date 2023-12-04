@@ -26,46 +26,46 @@ import Foundation
 extension CodeBuild {
     // MARK: Enums
 
-    public enum ArtifactNamespace: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case buildId = "BUILD_ID"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactPackaging: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactPackaging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactsType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArtifactsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codepipeline = "CODEPIPELINE"
         case noArtifacts = "NO_ARTIFACTS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basicAuth = "BASIC_AUTH"
         case oauth = "OAUTH"
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchReportModeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchReportModeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case reportAggregatedBatch = "REPORT_AGGREGATED_BATCH"
         case reportIndividualBuilds = "REPORT_INDIVIDUAL_BUILDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable, Sendable {
+    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case full = "FULL"
         case none = "NONE"
         case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case combineArtifacts = "COMBINE_ARTIFACTS"
         case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
         case failed = "FAILED"
@@ -76,7 +76,7 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum BuildPhaseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BuildPhaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case completed = "COMPLETED"
         case downloadSource = "DOWNLOAD_SOURCE"
@@ -91,61 +91,68 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CacheMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case localCustomCache = "LOCAL_CUSTOM_CACHE"
         case localDockerLayerCache = "LOCAL_DOCKER_LAYER_CACHE"
         case localSourceCache = "LOCAL_SOURCE_CACHE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CacheType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case local = "LOCAL"
         case noCache = "NO_CACHE"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
         case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
+        case buildLambda10Gb = "BUILD_LAMBDA_10GB"
+        case buildLambda1Gb = "BUILD_LAMBDA_1GB"
+        case buildLambda2Gb = "BUILD_LAMBDA_2GB"
+        case buildLambda4Gb = "BUILD_LAMBDA_4GB"
+        case buildLambda8Gb = "BUILD_LAMBDA_8GB"
         public var description: String { return self.rawValue }
     }
 
-    public enum CredentialProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CredentialProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case armContainer = "ARM_CONTAINER"
+        case armLambdaContainer = "ARM_LAMBDA_CONTAINER"
         case linuxContainer = "LINUX_CONTAINER"
         case linuxGpuContainer = "LINUX_GPU_CONTAINER"
+        case linuxLambdaContainer = "LINUX_LAMBDA_CONTAINER"
         case windowsContainer = "WINDOWS_CONTAINER"
         case windowsServer2019Container = "WINDOWS_SERVER_2019_CONTAINER"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case parameterStore = "PARAMETER_STORE"
         case plaintext = "PLAINTEXT"
         case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileSystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case efs = "EFS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codebuild = "CODEBUILD"
         case serviceRole = "SERVICE_ROLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LanguageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case android = "ANDROID"
         case base = "BASE"
         case docker = "DOCKER"
@@ -159,13 +166,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux = "AMAZON_LINUX"
         case debian = "DEBIAN"
         case ubuntu = "UBUNTU"
@@ -173,64 +180,64 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectSortByType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProjectSortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectVisibilityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProjectVisibilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case publicRead = "PUBLIC_READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filePath = "FILE_PATH"
         case lineCoveragePercentage = "LINE_COVERAGE_PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportExportConfigType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportExportConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noExport = "NO_EXPORT"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportGroupStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case branchCoverage = "BRANCH_COVERAGE"
         case branchesCovered = "BRANCHES_COVERED"
         case branchesMissed = "BRANCHES_MISSED"
-        case branchCoverage = "BRANCH_COVERAGE"
         case duration = "DURATION"
+        case lineCoverage = "LINE_COVERAGE"
         case linesCovered = "LINES_COVERED"
         case linesMissed = "LINES_MISSED"
-        case lineCoverage = "LINE_COVERAGE"
         case passRate = "PASS_RATE"
         case total = "TOTAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportPackagingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportPackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case generating = "GENERATING"
@@ -239,43 +246,43 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeCoverage = "CODE_COVERAGE"
         case test = "TEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetryBuildBatchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RetryBuildBatchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case retryAllBuilds = "RETRY_ALL_BUILDS"
         case retryFailedBuilds = "RETRY_FAILED_BUILDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bitbucket = "BITBUCKET"
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arn = "ARN"
         case modifiedTime = "MODIFIED_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceAuthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oauth = "OAUTH"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bitbucket = "BITBUCKET"
         case codecommit = "CODECOMMIT"
         case codepipeline = "CODEPIPELINE"
@@ -286,7 +293,7 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case fault = "FAULT"
         case inProgress = "IN_PROGRESS"
@@ -296,13 +303,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookBuildType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebhookBuildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case buildBatch = "BUILD_BATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebhookFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actorAccountId = "ACTOR_ACCOUNT_ID"
         case baseRef = "BASE_REF"
         case commitMessage = "COMMIT_MESSAGE"
@@ -595,7 +602,7 @@ extension CodeBuild {
         public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// The unique ID for the build.
         public let id: String?
-        /// The entity that started the build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an IAM user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
+        /// The entity that started the build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If a user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
         public let initiator: String?
         /// Information about the build's logs in CloudWatch Logs.
         public let logs: LogsLocation?
@@ -767,7 +774,7 @@ extension CodeBuild {
         public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// The identifier of the batch build.
         public let id: String?
-        /// The entity that started the batch build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an IAM user started the build, the user's name.   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
+        /// The entity that started the batch build. Valid values include:   If CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If a user started the build, the user's name.   If the Jenkins plugin for CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.
         public let initiator: String?
         public let logConfig: LogsConfig?
         /// An array of BuildBatchPhase objects the specify the phases of the batch build.
@@ -1724,9 +1731,9 @@ extension CodeBuild {
     public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
         /// The name or key of the environment variable.
         public let name: String
-        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Systems Manager Parameter Store. To learn how to specify a parameter store environment variable, see env/parameter-store in the CodeBuild User Guide.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in Secrets Manager. To learn how to specify a secrets manager environment variable, see env/secrets-manager in the CodeBuild User Guide.
+        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Systems Manager Parameter Store. For environment variables of this type, specify the name of the parameter as the value of the  EnvironmentVariable. The parameter value will be substituted for the name at runtime. You can also define Parameter Store environment variables in the buildspec. To learn how to do so, see env/parameter-store in the CodeBuild User Guide.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in Secrets Manager. For environment variables of this type,  specify the name of the secret as the value of the EnvironmentVariable. The secret value will be substituted for the  name at runtime. You can also define Secrets Manager environment variables in the buildspec. To learn how to do so, see env/secrets-manager in the CodeBuild User Guide.
         public let type: EnvironmentVariableType?
-        /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially Amazon Web Services secret key IDs and secret access keys. PLAINTEXT environment variables can be displayed in plain text using the CodeBuild console and the CLI. For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
+        /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially Amazon Web Services secret key IDs. PLAINTEXT environment variables can be displayed in plain text using the CodeBuild console and the CLI. For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
         public let value: String
 
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
@@ -2429,9 +2436,9 @@ extension CodeBuild {
     public struct LogsLocation: AWSDecodableShape {
         ///  Information about CloudWatch Logs for a build project.
         public let cloudWatchLogs: CloudWatchLogsConfig?
-        ///  The ARN of CloudWatch Logs for a build project. Its format is arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}. For more information, see Resources Defined by CloudWatch Logs.
+        /// The ARN of the CloudWatch Logs stream for a build execution. Its format is arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}.  The CloudWatch Logs stream is created during the PROVISIONING phase of a build and the ARN will not be valid until it is created. For more information, see Resources Defined by CloudWatch Logs.
         public let cloudWatchLogsArn: String?
-        /// The URL to an individual build log in CloudWatch Logs.
+        /// The URL to an individual build log in CloudWatch Logs. The log stream is created during the PROVISIONING phase of a build and the deeplink will not be valid until it is created.
         public let deepLink: String?
         /// The name of the CloudWatch Logs group for the build logs.
         public let groupName: String?
@@ -2744,7 +2751,7 @@ extension CodeBuild {
     public struct ProjectEnvironment: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the Amazon S3 bucket, path prefix, and object key that contains the PEM-encoded certificate for the build project. For more information, see certificate in the CodeBuild User Guide.
         public let certificate: String?
-        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build Environment Compute Types in the CodeBuild User Guide.
+        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build Environment Compute Types in the CodeBuild User Guide.
         public let computeType: ComputeType
         /// A set of environment variables to make available to builds for this build project.
         public let environmentVariables: [EnvironmentVariable]?
@@ -2756,7 +2763,7 @@ extension CodeBuild {
         public let privilegedMode: Bool?
         ///  The credentials for access to a private registry.
         public let registryCredential: RegistryCredential?
-        /// The type of build environment to use for related builds.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).   The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).     The environment types WINDOWS_CONTAINER and WINDOWS_SERVER_2019_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The type of build environment to use for related builds.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).   The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).     The environment types ARM_LAMBDA_CONTAINER and LINUX_LAMBDA_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Singapore),  Asia Pacific (Sydney), Asia Pacific (Tokyo), EU (Frankfurt), EU (Ireland), and South America (São Paulo).     The environment types WINDOWS_CONTAINER and WINDOWS_SERVER_2019_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let type: EnvironmentType
 
         public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {

@@ -26,13 +26,13 @@ import Foundation
 extension IVS {
     // MARK: Enums
 
-    public enum ChannelLatencyMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelLatencyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case low = "LOW"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advancedHDChannelType = "ADVANCED_HD"
         case advancedSDChannelType = "ADVANCED_SD"
         case basicChannelType = "BASIC"
@@ -40,33 +40,62 @@ extension IVS {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecordingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecordingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case interval = "INTERVAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamHealth: String, CustomStringConvertible, Codable, Sendable {
+    public enum RenditionConfigurationRendition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullHd = "FULL_HD"
+        case hd = "HD"
+        case lowestResolution = "LOWEST_RESOLUTION"
+        case sd = "SD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RenditionConfigurationRenditionSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case custom = "CUSTOM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case starving = "STARVING"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamState: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case live = "LIVE"
         case offline = "OFFLINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscodePreset: String, CustomStringConvertible, Codable, Sendable {
+    public enum ThumbnailConfigurationResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullHd = "FULL_HD"
+        case hd = "HD"
+        case lowestResolution = "LOWEST_RESOLUTION"
+        case sd = "SD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThumbnailConfigurationStorage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case latest = "LATEST"
+        case sequential = "SEQUENTIAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscodePreset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case constrainedBandwidthTranscodePreset = "CONSTRAINED_BANDWIDTH_DELIVERY"
         case higherBandwidthTranscodePreset = "HIGHER_BANDWIDTH_DELIVERY"
         public var description: String { return self.rawValue }
@@ -197,6 +226,95 @@ extension IVS {
         }
     }
 
+    public struct BatchStartViewerSessionRevocationError: AWSDecodableShape {
+        /// Channel ARN.
+        public let channelArn: String
+        /// Error code.
+        public let code: String?
+        /// Error message, determined by the application.
+        public let message: String?
+        /// The ID of the viewer session to revoke.
+        public let viewerId: String
+
+        public init(channelArn: String, code: String? = nil, message: String? = nil, viewerId: String) {
+            self.channelArn = channelArn
+            self.code = code
+            self.message = message
+            self.viewerId = viewerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case code = "code"
+            case message = "message"
+            case viewerId = "viewerId"
+        }
+    }
+
+    public struct BatchStartViewerSessionRevocationRequest: AWSEncodableShape {
+        /// Array of viewer sessions, one per channel-ARN and viewer-ID pair.
+        public let viewerSessions: [BatchStartViewerSessionRevocationViewerSession]
+
+        public init(viewerSessions: [BatchStartViewerSessionRevocationViewerSession]) {
+            self.viewerSessions = viewerSessions
+        }
+
+        public func validate(name: String) throws {
+            try self.viewerSessions.forEach {
+                try $0.validate(name: "\(name).viewerSessions[]")
+            }
+            try self.validate(self.viewerSessions, name: "viewerSessions", parent: name, max: 20)
+            try self.validate(self.viewerSessions, name: "viewerSessions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case viewerSessions = "viewerSessions"
+        }
+    }
+
+    public struct BatchStartViewerSessionRevocationResponse: AWSDecodableShape {
+        /// Each error object is related to a specific channelArn and viewerId pair in the request.
+        public let errors: [BatchStartViewerSessionRevocationError]?
+
+        public init(errors: [BatchStartViewerSessionRevocationError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
+    public struct BatchStartViewerSessionRevocationViewerSession: AWSEncodableShape {
+        /// The ARN of the channel associated with the viewer session to revoke.
+        public let channelArn: String
+        /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information.
+        public let viewerId: String
+        /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
+        public let viewerSessionVersionsLessThanOrEqualTo: Int?
+
+        public init(channelArn: String, viewerId: String, viewerSessionVersionsLessThanOrEqualTo: Int? = nil) {
+            self.channelArn = channelArn
+            self.viewerId = viewerId
+            self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.viewerId, name: "viewerId", parent: name, max: 40)
+            try self.validate(self.viewerId, name: "viewerId", parent: name, min: 1)
+            try self.validate(self.viewerSessionVersionsLessThanOrEqualTo, name: "viewerSessionVersionsLessThanOrEqualTo", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case viewerId = "viewerId"
+            case viewerSessionVersionsLessThanOrEqualTo = "viewerSessionVersionsLessThanOrEqualTo"
+        }
+    }
+
     public struct Channel: AWSDecodableShape {
         /// Channel ARN.
         public let arn: String?
@@ -218,7 +336,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.   Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:    Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
         public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -267,7 +385,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.   Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:    Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
         public init(arn: String? = nil, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -310,7 +428,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.   Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:    Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
         public init(authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -371,15 +489,18 @@ extension IVS {
         public let name: String?
         /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
         public let recordingReconnectWindowSeconds: Int?
+        /// Object that describes which renditions should be recorded for a stream.
+        public let renditionConfiguration: RenditionConfiguration?
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
+        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, renditionConfiguration: RenditionConfiguration? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.destinationConfiguration = destinationConfiguration
             self.name = name
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
+            self.renditionConfiguration = renditionConfiguration
             self.tags = tags
             self.thumbnailConfiguration = thumbnailConfiguration
         }
@@ -403,6 +524,7 @@ extension IVS {
             case destinationConfiguration = "destinationConfiguration"
             case name = "name"
             case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
+            case renditionConfiguration = "renditionConfiguration"
             case tags = "tags"
             case thumbnailConfiguration = "thumbnailConfiguration"
         }
@@ -1203,6 +1325,8 @@ extension IVS {
         public let name: String?
         /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
         public let recordingReconnectWindowSeconds: Int?
+        /// Object that describes which renditions should be recorded for a stream.
+        public let renditionConfiguration: RenditionConfiguration?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
@@ -1210,11 +1334,12 @@ extension IVS {
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
+        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, renditionConfiguration: RenditionConfiguration? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
             self.name = name
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
+            self.renditionConfiguration = renditionConfiguration
             self.state = state
             self.tags = tags
             self.thumbnailConfiguration = thumbnailConfiguration
@@ -1225,6 +1350,7 @@ extension IVS {
             case destinationConfiguration = "destinationConfiguration"
             case name = "name"
             case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
+            case renditionConfiguration = "renditionConfiguration"
             case state = "state"
             case tags = "tags"
             case thumbnailConfiguration = "thumbnailConfiguration"
@@ -1260,6 +1386,23 @@ extension IVS {
         }
     }
 
+    public struct RenditionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates which renditions are recorded for a stream, if renditionSelection is CUSTOM; otherwise, this field is irrelevant. The selected renditions are recorded if they are available during the stream. If a selected rendition is unavailable, the best available rendition is recorded. For details on the resolution dimensions of each rendition, see Auto-Record to Amazon S3.
+        public let renditions: [RenditionConfigurationRendition]?
+        /// Indicates which set of renditions are recorded for a stream. For BASIC channels, the CUSTOM value has no effect. If CUSTOM is specified, a set of renditions must be specified in the renditions field. Default: ALL.
+        public let renditionSelection: RenditionConfigurationRenditionSelection?
+
+        public init(renditions: [RenditionConfigurationRendition]? = nil, renditionSelection: RenditionConfigurationRenditionSelection? = nil) {
+            self.renditions = renditions
+            self.renditionSelection = renditionSelection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case renditions = "renditions"
+            case renditionSelection = "renditionSelection"
+        }
+    }
+
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Location (S3 bucket name) where recorded videos will be stored.
         public let bucketName: String
@@ -1277,6 +1420,40 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
         }
+    }
+
+    public struct StartViewerSessionRevocationRequest: AWSEncodableShape {
+        /// The ARN of the channel associated with the viewer session to revoke.
+        public let channelArn: String
+        /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information.
+        public let viewerId: String
+        /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
+        public let viewerSessionVersionsLessThanOrEqualTo: Int?
+
+        public init(channelArn: String, viewerId: String, viewerSessionVersionsLessThanOrEqualTo: Int? = nil) {
+            self.channelArn = channelArn
+            self.viewerId = viewerId
+            self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.viewerId, name: "viewerId", parent: name, max: 40)
+            try self.validate(self.viewerId, name: "viewerId", parent: name, min: 1)
+            try self.validate(self.viewerSessionVersionsLessThanOrEqualTo, name: "viewerSessionVersionsLessThanOrEqualTo", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case viewerId = "viewerId"
+            case viewerSessionVersionsLessThanOrEqualTo = "viewerSessionVersionsLessThanOrEqualTo"
+        }
+    }
+
+    public struct StartViewerSessionRevocationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StopStreamRequest: AWSEncodableShape {
@@ -1563,11 +1740,17 @@ extension IVS {
     public struct ThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Thumbnail recording mode. Default: INTERVAL.
         public let recordingMode: RecordingMode?
-        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: Setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
+        /// Indicates the desired resolution of recorded thumbnails. Thumbnails are recorded at the selected resolution if the corresponding rendition is available during the stream; otherwise, they are recorded at source resolution. For more information about resolution values and their corresponding height and width dimensions, see Auto-Record to Amazon S3. Default: Null (source resolution is returned).
+        public let resolution: ThumbnailConfigurationResolution?
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public let storage: [ThumbnailConfigurationStorage]?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
         public let targetIntervalSeconds: Int64?
 
-        public init(recordingMode: RecordingMode? = nil, targetIntervalSeconds: Int64? = nil) {
+        public init(recordingMode: RecordingMode? = nil, resolution: ThumbnailConfigurationResolution? = nil, storage: [ThumbnailConfigurationStorage]? = nil, targetIntervalSeconds: Int64? = nil) {
             self.recordingMode = recordingMode
+            self.resolution = resolution
+            self.storage = storage
             self.targetIntervalSeconds = targetIntervalSeconds
         }
 
@@ -1578,6 +1761,8 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case recordingMode = "recordingMode"
+            case resolution = "resolution"
+            case storage = "storage"
             case targetIntervalSeconds = "targetIntervalSeconds"
         }
     }
@@ -1633,7 +1818,7 @@ extension IVS {
         public let preset: TranscodePreset?
         /// Recording-configuration ARN. If this is set to an empty string, recording is disabled. A value other than an empty string indicates that recording is enabled
         public let recordingConfigurationArn: String?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Some types generate multiple qualities (renditions) from the original input; this automatically gives viewers the best experience for their devices and network conditions. Some types provide transcoded video; transcoding allows higher playback quality across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s video-quality choice is limited to the original input. Input resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded; multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Input resolution can be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can select an optional transcode preset (see below). Audio for all renditions is transcoded, and an audio-only rendition is available.   Optional transcode presets (available for the ADVANCED types) allow you to trade off available download bandwidth and video quality, to optimize the viewing experience. There are two presets:    Constrained bandwidth delivery uses a lower bitrate for each quality level. Use it if you have low download bandwidth and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a higher bitrate for each quality level. Use it if you have high download bandwidth and/or complex video content (e.g., flashes and quick scene changes).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
         public init(arn: String, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {

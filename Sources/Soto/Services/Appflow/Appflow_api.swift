@@ -59,6 +59,7 @@ public struct Appflow: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-08-23",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AppflowErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,15 @@ public struct Appflow: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "appflow-fips.us-east-1.amazonaws.com",
+            "us-east-2": "appflow-fips.us-east-2.amazonaws.com",
+            "us-west-1": "appflow-fips.us-west-1.amazonaws.com",
+            "us-west-2": "appflow-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -274,6 +284,19 @@ public struct Appflow: AWSService {
         return try await self.client.execute(
             operation: "RegisterConnector", 
             path: "/register-connector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
+    @Sendable
+    public func resetConnectorMetadataCache(_ input: ResetConnectorMetadataCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetConnectorMetadataCacheResponse {
+        return try await self.client.execute(
+            operation: "ResetConnectorMetadataCache", 
+            path: "/reset-connector-metadata-cache", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

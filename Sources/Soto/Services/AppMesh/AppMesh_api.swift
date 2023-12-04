@@ -92,6 +92,7 @@ public struct AppMesh: AWSService {
             "eu-west-1": "appmesh.eu-west-1.api.aws",
             "eu-west-2": "appmesh.eu-west-2.api.aws",
             "eu-west-3": "appmesh.eu-west-3.api.aws",
+            "il-central-1": "appmesh.il-central-1.api.aws",
             "me-south-1": "appmesh.me-south-1.api.aws",
             "sa-east-1": "appmesh.sa-east-1.api.aws",
             "us-east-1": "appmesh.us-east-1.api.aws",

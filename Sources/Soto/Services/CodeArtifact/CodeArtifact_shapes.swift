@@ -26,30 +26,30 @@ import Foundation
 extension CodeArtifact {
     // MARK: Enums
 
-    public enum AllowPublish: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowPublish: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case block = "BLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowUpstream: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowUpstream: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case block = "BLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case deleted = "Deleted"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExternalConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExternalConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         public var description: String { return self.rawValue }
     }
 
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum HashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case md5 = "MD5"
         case sha1 = "SHA-1"
         case sha256 = "SHA-256"
@@ -57,16 +57,17 @@ extension CodeArtifact {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case generic = "generic"
         case maven = "maven"
         case npm = "npm"
         case nuget = "nuget"
         case pypi = "pypi"
+        case swift = "swift"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageVersionErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageVersionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alreadyExists = "ALREADY_EXISTS"
         case mismatchedRevision = "MISMATCHED_REVISION"
         case mismatchedStatus = "MISMATCHED_STATUS"
@@ -76,19 +77,19 @@ extension CodeArtifact {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageVersionOriginType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageVersionOriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `internal` = "INTERNAL"
         case external = "EXTERNAL"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageVersionSortType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageVersionSortType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case publishedTime = "PUBLISHED_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackageVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archived = "Archived"
         case deleted = "Deleted"
         case disposed = "Disposed"
@@ -2550,7 +2551,7 @@ extension CodeArtifact {
         public let domain: String
         /// The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
         public let domainOwner: String?
-        /// A format that specifies the type of the package version with the requested asset file.
+        /// A format that specifies the type of the package version with the requested asset file. The only supported value is generic.
         public let format: PackageFormat
         /// The namespace of the package version to publish.
         public let namespace: String?

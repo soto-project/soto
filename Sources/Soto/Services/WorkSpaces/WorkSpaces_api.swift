@@ -111,6 +111,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Associates the specified application to the specified WorkSpace.
+    @Sendable
+    public func associateWorkspaceApplication(_ input: AssociateWorkspaceApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWorkspaceApplicationResult {
+        return try await self.client.execute(
+            operation: "AssociateWorkspaceApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds one or more rules to the specified IP access control group. This action gives users permission to access their WorkSpaces from the CIDR address ranges specified in the rules.
     @Sendable
     public func authorizeIpRules(_ input: AuthorizeIpRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AuthorizeIpRulesResult {
@@ -241,7 +254,7 @@ public struct WorkSpaces: AWSService {
         )
     }
 
-    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.  The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
+    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.    The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.
     @Sendable
     public func createWorkspaces(_ input: CreateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesResult {
         return try await self.client.execute(
@@ -345,6 +358,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Deploys associated applications to the specified WorkSpace
+    @Sendable
+    public func deployWorkspaceApplications(_ input: DeployWorkspaceApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeployWorkspaceApplicationsResult {
+        return try await self.client.execute(
+            operation: "DeployWorkspaceApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     @Sendable
     public func deregisterWorkspaceDirectory(_ input: DeregisterWorkspaceDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterWorkspaceDirectoryResult {
@@ -376,6 +402,45 @@ public struct WorkSpaces: AWSService {
     public func describeAccountModifications(_ input: DescribeAccountModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountModificationsResult {
         return try await self.client.execute(
             operation: "DescribeAccountModifications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the associations between the application and the specified associated resources.
+    @Sendable
+    public func describeApplicationAssociations(_ input: DescribeApplicationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationAssociationsResult {
+        return try await self.client.execute(
+            operation: "DescribeApplicationAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
+    @Sendable
+    public func describeApplications(_ input: DescribeApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationsResult {
+        return try await self.client.execute(
+            operation: "DescribeApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the associations between the applications and the specified bundle.
+    @Sendable
+    public func describeBundleAssociations(_ input: DescribeBundleAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBundleAssociationsResult {
+        return try await self.client.execute(
+            operation: "DescribeBundleAssociations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -449,6 +514,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Describes the associations between the applications and the specified image.
+    @Sendable
+    public func describeImageAssociations(_ input: DescribeImageAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageAssociationsResult {
+        return try await self.client.execute(
+            operation: "DescribeImageAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes one or more of your IP access control groups.
     @Sendable
     public func describeIpGroups(_ input: DescribeIpGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpGroupsResult {
@@ -467,6 +545,19 @@ public struct WorkSpaces: AWSService {
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResult {
         return try await self.client.execute(
             operation: "DescribeTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the associations betweens applications and the specified WorkSpace.
+    @Sendable
+    public func describeWorkspaceAssociations(_ input: DescribeWorkspaceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceAssociationsResult {
+        return try await self.client.execute(
+            operation: "DescribeWorkspaceAssociations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -584,6 +675,19 @@ public struct WorkSpaces: AWSService {
     public func disassociateIpGroups(_ input: DisassociateIpGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateIpGroupsResult {
         return try await self.client.execute(
             operation: "DisassociateIpGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Disassociates the specified application from a WorkSpace.
+    @Sendable
+    public func disassociateWorkspaceApplication(_ input: DisassociateWorkspaceApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWorkspaceApplicationResult {
+        return try await self.client.execute(
+            operation: "DisassociateWorkspaceApplication", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -944,6 +1048,44 @@ extension WorkSpaces {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkSpaces {
+    /// Describes the associations between the application and the specified associated resources.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeApplicationAssociationsPaginator(
+        _ input: DescribeApplicationAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeApplicationAssociationsRequest, DescribeApplicationAssociationsResult> {
+        return .init(
+            input: input,
+            command: self.describeApplicationAssociations,
+            inputKey: \DescribeApplicationAssociationsRequest.nextToken,
+            outputKey: \DescribeApplicationAssociationsResult.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeApplicationsPaginator(
+        _ input: DescribeApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeApplicationsRequest, DescribeApplicationsResult> {
+        return .init(
+            input: input,
+            command: self.describeApplications,
+            inputKey: \DescribeApplicationsRequest.nextToken,
+            outputKey: \DescribeApplicationsResult.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
     /// Return PaginatorSequence for operation.
     ///
@@ -998,6 +1140,31 @@ extension WorkSpaces {
             inputKey: \DescribeWorkspacesRequest.nextToken,
             outputKey: \DescribeWorkspacesResult.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension WorkSpaces.DescribeApplicationAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeApplicationAssociationsRequest {
+        return .init(
+            applicationId: self.applicationId,
+            associatedResourceTypes: self.associatedResourceTypes,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension WorkSpaces.DescribeApplicationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeApplicationsRequest {
+        return .init(
+            applicationIds: self.applicationIds,
+            computeTypeNames: self.computeTypeNames,
+            licenseType: self.licenseType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            operatingSystemNames: self.operatingSystemNames,
+            owner: self.owner
         )
     }
 }

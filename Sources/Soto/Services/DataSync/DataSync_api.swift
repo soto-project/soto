@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS DataSync service.
 ///
-/// DataSync DataSync is a managed data transfer service that makes it simpler for you to automate moving data between on-premises storage and Amazon Web Services storage services. You also can use DataSync to transfer data between other cloud providers and Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
+/// DataSync DataSync is an online data movement and discovery service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
 public struct DataSync: AWSService {
     // MARK: Member variables
 
@@ -80,6 +80,7 @@ public struct DataSync: AWSService {
             "us-east-2": "datasync-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "datasync-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "datasync-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-west-1": "datasync-fips.us-iso-west-1.c2s.ic.gov",
             "us-west-1": "datasync-fips.us-west-1.amazonaws.com",
             "us-west-2": "datasync-fips.us-west-2.amazonaws.com"
         ])
@@ -114,11 +115,24 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Activates an DataSync agent that you have deployed in your storage environment. The activation process associates your agent with your account. In the activation process, you specify information such as the Amazon Web Services Region that you want to activate the agent in. You activate the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated by Amazon Web Services on a regular basis, using a mechanism that ensures minimal interruption to your tasks.
+    /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:    Agent requirements     Create an agent     If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
     @Sendable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
         return try await self.client.execute(
             operation: "CreateAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types. You also need a DataSync agent that can connect to your container.
+    @Sendable
+    public func createLocationAzureBlob(_ input: CreateLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationAzureBlobResponse {
+        return try await self.client.execute(
+            operation: "CreateLocationAzureBlob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -153,7 +167,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can access for a transfer. For more information, see Creating a location for FSx for ONTAP.
+    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an FSx for ONTAP file system.
     @Sendable
     public func createLocationFsxOntap(_ input: CreateLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxOntapResponse {
         return try await self.client.execute(
@@ -179,7 +193,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
+    /// Creates an endpoint for an Amazon FSx for Windows File Server file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an FSx for Windows File Server.
     @Sendable
     public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxWindowsResponse {
         return try await self.client.execute(
@@ -205,7 +219,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Defines a file system on a Network File System (NFS) server that can be read from or written to.
+    /// Creates an endpoint for a Network File System (NFS) file server that DataSync can use for a data transfer. For more information, see Configuring transfers to or from an NFS file server.  If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see Configuring transfers with Snowcone.
     @Sendable
     public func createLocationNfs(_ input: CreateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationNfsResponse {
         return try await self.client.execute(
@@ -244,7 +258,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see Creating an SMB location.
+    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an SMB file server.
     @Sendable
     public func createLocationSmb(_ input: CreateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationSmbResponse {
         return try await self.client.execute(
@@ -257,7 +271,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
+    /// Configures a transfer task, which defines where and how DataSync moves your data. A task includes a source location, destination location, and the options for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     public func createTask(_ input: CreateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskResponse {
         return try await self.client.execute(
@@ -270,7 +284,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your Amazon Web Services account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
+    /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to activate a new agent.
     @Sendable
     public func deleteAgent(_ input: DeleteAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentResponse {
         return try await self.client.execute(
@@ -296,7 +310,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Deletes an DataSync task.
+    /// Deletes an DataSync transfer task.
     @Sendable
     public func deleteTask(_ input: DeleteTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskResponse {
         return try await self.client.execute(
@@ -309,7 +323,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
+    /// Returns information about an DataSync agent, such as its name, service endpoint type, and status.
     @Sendable
     public func describeAgent(_ input: DescribeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentResponse {
         return try await self.client.execute(
@@ -332,6 +346,19 @@ public struct DataSync: AWSService {
             serviceConfig: self.config, 
             input: input, 
             hostPrefix: "discovery-", 
+            logger: logger
+        )
+    }
+
+    /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
+    @Sendable
+    public func describeLocationAzureBlob(_ input: DescribeLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationAzureBlobResponse {
+        return try await self.client.execute(
+            operation: "DescribeLocationAzureBlob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
             logger: logger
         )
     }
@@ -414,7 +441,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata, such as the path information, about an NFS location.
+    /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured.
     @Sendable
     public func describeLocationNfs(_ input: DescribeLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationNfsResponse {
         return try await self.client.execute(
@@ -508,7 +535,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata about a task.
+    /// Provides information about an DataSync transfer task.
     @Sendable
     public func describeTask(_ input: DescribeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskResponse {
         return try await self.client.execute(
@@ -521,7 +548,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns detailed metadata about a task that is being executed.
+    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing transfer or check the results of the transfer.
     @Sendable
     public func describeTaskExecution(_ input: DescribeTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskExecutionResponse {
         return try await self.client.execute(
@@ -534,7 +561,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.  If your discovery job completes successfully, you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
+    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.
     @Sendable
     public func generateRecommendations(_ input: GenerateRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateRecommendationsResponse {
         return try await self.client.execute(
@@ -669,7 +696,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
+    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     public func startTaskExecution(_ input: StartTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskExecutionResponse {
         return try await self.client.execute(
@@ -722,7 +749,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates the name of an agent.
+    /// Updates the name of an DataSync agent.
     @Sendable
     public func updateAgent(_ input: UpdateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentResponse {
         return try await self.client.execute(
@@ -749,6 +776,19 @@ public struct DataSync: AWSService {
         )
     }
 
+    /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    @Sendable
+    public func updateLocationAzureBlob(_ input: UpdateLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationAzureBlobResponse {
+        return try await self.client.execute(
+            operation: "UpdateLocationAzureBlob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     @Sendable
     public func updateLocationHdfs(_ input: UpdateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationHdfsResponse {
@@ -762,7 +802,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see Creating a location for NFS.
+    /// Modifies some configurations of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers to or from an NFS file server.
     @Sendable
     public func updateLocationNfs(_ input: UpdateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationNfsResponse {
         return try await self.client.execute(
@@ -788,7 +828,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see Creating a location for SMB.
+    /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
     @Sendable
     public func updateLocationSmb(_ input: UpdateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationSmbResponse {
         return try await self.client.execute(
@@ -815,7 +855,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates the metadata associated with a task.
+    /// Updates the configuration of a DataSync transfer task.
     @Sendable
     public func updateTask(_ input: UpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskResponse {
         return try await self.client.execute(
@@ -828,7 +868,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Modifies a running DataSync task.  Currently, the only Option that you can modify with UpdateTaskExecution is  BytesPerSecond , which throttles bandwidth for a running or queued task.
+    /// Updates the configuration of a running DataSync task execution.  Currently, the only Option that you can modify with UpdateTaskExecution is  BytesPerSecond , which throttles bandwidth for a running or queued task execution.
     @Sendable
     public func updateTaskExecution(_ input: UpdateTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskExecutionResponse {
         return try await self.client.execute(

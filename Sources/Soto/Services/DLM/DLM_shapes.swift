@@ -26,54 +26,78 @@ import Foundation
 extension DLM {
     // MARK: Enums
 
-    public enum EventSourceValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum DefaultPoliciesTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case instance = "INSTANCE"
+        case volume = "VOLUME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultPolicyTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instance = "INSTANCE"
+        case volume = "VOLUME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSourceValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case managedCwe = "MANAGED_CWE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventTypeValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case shareSnapshot = "shareSnapshot"
         public var description: String { return self.rawValue }
     }
 
-    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionHandlerServiceValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsSystemsManager = "AWS_SYSTEMS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntervalUnitValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntervalUnitValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hours = "HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum LocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
         case outpostLocal = "OUTPOST_LOCAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyTypeValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyLanguageValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case simplified = "SIMPLIFIED"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
         case eventBasedPolicy = "EVENT_BASED_POLICY"
         case imageManagement = "IMAGE_MANAGEMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceLocationValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceLocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
         case outpost = "OUTPOST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceTypeValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instance = "INSTANCE"
         case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
         case months = "MONTHS"
         case weeks = "WEEKS"
@@ -81,9 +105,15 @@ extension DLM {
         public var description: String { return self.rawValue }
     }
 
-    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case post = "POST"
+        case pre = "PRE"
         public var description: String { return self.rawValue }
     }
 
@@ -91,17 +121,17 @@ extension DLM {
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
         /// The rule for copying shared snapshots across Regions.
-        public let crossRegionCopy: [CrossRegionCopyAction]
+        public let crossRegionCopy: [CrossRegionCopyAction]?
         /// A descriptive name for the action.
-        public let name: String
+        public let name: String?
 
-        public init(crossRegionCopy: [CrossRegionCopyAction], name: String) {
+        public init(crossRegionCopy: [CrossRegionCopyAction]? = nil, name: String? = nil) {
             self.crossRegionCopy = crossRegionCopy
             self.name = name
         }
 
         public func validate(name: String) throws {
-            try self.crossRegionCopy.forEach {
+            try self.crossRegionCopy?.forEach {
                 try $0.validate(name: "\(name).crossRegionCopy[]")
             }
             try self.validate(self.crossRegionCopy, name: "crossRegionCopy", parent: name, max: 3)
@@ -119,14 +149,14 @@ extension DLM {
         /// Information about retention period in the Amazon EBS Snapshots Archive. For more information, see
         /// 			Archive Amazon
         /// 				EBS snapshots.
-        public let retentionArchiveTier: RetentionArchiveTier
+        public let retentionArchiveTier: RetentionArchiveTier?
 
-        public init(retentionArchiveTier: RetentionArchiveTier) {
+        public init(retentionArchiveTier: RetentionArchiveTier? = nil) {
             self.retentionArchiveTier = retentionArchiveTier
         }
 
         public func validate(name: String) throws {
-            try self.retentionArchiveTier.validate(name: "\(name).retentionArchiveTier")
+            try self.retentionArchiveTier?.validate(name: "\(name).retentionArchiveTier")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -136,14 +166,14 @@ extension DLM {
 
     public struct ArchiveRule: AWSEncodableShape & AWSDecodableShape {
         /// Information about the retention period for the snapshot archiving rule.
-        public let retainRule: ArchiveRetainRule
+        public let retainRule: ArchiveRetainRule?
 
-        public init(retainRule: ArchiveRetainRule) {
+        public init(retainRule: ArchiveRetainRule? = nil) {
             self.retainRule = retainRule
         }
 
         public func validate(name: String) throws {
-            try self.retainRule.validate(name: "\(name).retainRule")
+            try self.retainRule?.validate(name: "\(name).retainRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -152,33 +182,84 @@ extension DLM {
     }
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
+        ///  [Default policies only] Indicates whether the policy should copy tags from the source resource
+        /// 			to the snapshot or AMI. If you do not specify a value, the default is false. Default: false
+        public let copyTags: Bool?
+        ///  [Default policies only] Specifies how often the policy should run and create snapshots or AMIs.
+        /// 			The creation frequency can range from 1 to 7 days. If you do not specify a value, the
+        /// 			default is 1. Default: 1
+        public let createInterval: Int?
+        ///  [Default policies only] Specifies destination Regions for snapshot or AMI copies. You can specify
+        /// 			up to 3 destination Regions. If you do not want to create cross-Region copies, omit this
+        /// 			parameter.
+        public let crossRegionCopyTargets: [CrossRegionCopyTarget]?
+        ///  [Default policies only] Specify the type of default policy to create.   To create a default policy for EBS snapshots, that creates snapshots of all volumes in the
+        /// 					Region that do not have recent backups, specify VOLUME.   To create a default policy for EBS-backed AMIs, that creates EBS-backed
+        /// 					AMIs from all instances in the Region that do not have recent backups, specify
+        /// 					INSTANCE.
+        public let defaultPolicy: DefaultPolicyTypeValues?
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are
         /// 			supported.
-        public let description: String
+        public let description: String?
+        ///  [Default policies only] Specifies exclusion parameters for volumes or instances for which you
+        /// 			do not want to create snapshots or AMIs. The policy will not create snapshots or AMIs
+        /// 			for target resources that match any of the specified exclusion parameters.
+        public let exclusions: Exclusions?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by
         /// 			the lifecycle policy.
-        public let executionRoleArn: String
-        /// The configuration details of the lifecycle policy.
-        public let policyDetails: PolicyDetails
-        /// The desired activation state of the lifecycle policy after creation.
-        public let state: SettablePolicyStateValues
+        public let executionRoleArn: String?
+        ///  [Default policies only] Defines the snapshot or AMI retention behavior for the policy if the
+        /// 			source volume or instance is deleted, or if the policy enters the error, disabled, or
+        /// 			deleted state. By default (ExtendDeletion=false):   If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete previously
+        /// 				created snapshots or AMIs, up to but not including the last one, based on the
+        /// 				specified retention period. If you want Amazon Data Lifecycle Manager to delete all snapshots or AMIs,
+        /// 				including the last one, specify true.   If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting
+        /// 					snapshots and AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs,
+        /// 					including the last one, if the policy enters one of these states, specify
+        /// 					true.   If you enable extended deletion (ExtendDeletion=true),
+        /// 			you override both default behaviors simultaneously. If you do not specify a value, the default is false. Default: false
+        public let extendDeletion: Bool?
+        /// The configuration details of the lifecycle policy.  If you create a default policy, you can specify the request parameters either in
+        /// 				the request body, or in the PolicyDetails request structure, but not both.
+        public let policyDetails: PolicyDetails?
+        ///  [Default policies only] Specifies how long the policy should retain snapshots or AMIs before
+        /// 			deleting them. The retention period can range from 2 to 14 days, but it must be greater
+        /// 			than the creation frequency to ensure that the policy retains at least 1 snapshot or
+        /// 			AMI at any given time. If you do not specify a value, the default is 7. Default: 7
+        public let retainInterval: Int?
+        /// The activation state of the lifecycle policy after creation.
+        public let state: SettablePolicyStateValues?
         /// The tags to apply to the lifecycle policy during creation.
         public let tags: [String: String]?
 
-        public init(description: String, executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues, tags: [String: String]? = nil) {
+        public init(copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, defaultPolicy: DefaultPolicyTypeValues? = nil, description: String? = nil, exclusions: Exclusions? = nil, executionRoleArn: String? = nil, extendDeletion: Bool? = nil, policyDetails: PolicyDetails? = nil, retainInterval: Int? = nil, state: SettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
+            self.copyTags = copyTags
+            self.createInterval = createInterval
+            self.crossRegionCopyTargets = crossRegionCopyTargets
+            self.defaultPolicy = defaultPolicy
             self.description = description
+            self.exclusions = exclusions
             self.executionRoleArn = executionRoleArn
+            self.extendDeletion = extendDeletion
             self.policyDetails = policyDetails
+            self.retainInterval = retainInterval
             self.state = state
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.createInterval, name: "createInterval", parent: name, min: 1)
+            try self.crossRegionCopyTargets?.forEach {
+                try $0.validate(name: "\(name).crossRegionCopyTargets[]")
+            }
+            try self.validate(self.crossRegionCopyTargets, name: "crossRegionCopyTargets", parent: name, max: 3)
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z _-]+$")
+            try self.exclusions?.validate(name: "\(name).exclusions")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:iam::\\d+:role/")
-            try self.policyDetails.validate(name: "\(name).policyDetails")
+            try self.policyDetails?.validate(name: "\(name).policyDetails")
+            try self.validate(self.retainInterval, name: "retainInterval", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -191,9 +272,16 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case copyTags = "CopyTags"
+            case createInterval = "CreateInterval"
+            case crossRegionCopyTargets = "CrossRegionCopyTargets"
+            case defaultPolicy = "DefaultPolicy"
             case description = "Description"
+            case exclusions = "Exclusions"
             case executionRoleArn = "ExecutionRoleArn"
+            case extendDeletion = "ExtendDeletion"
             case policyDetails = "PolicyDetails"
+            case retainInterval = "RetainInterval"
             case state = "State"
             case tags = "Tags"
         }
@@ -221,7 +309,7 @@ extension DLM {
         public let interval: Int?
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues?
-        ///  [Snapshot policies only] Specifies the destination for snapshots created by the policy. To create
+        ///  [Custom snapshot policies only] Specifies the destination for snapshots created by the policy. To create
         /// 			snapshots in the same Region as the source resource, specify CLOUD. To create
         /// 			snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL.
         /// 			If you omit this parameter, CLOUD is used by default. If the policy targets resources in an Amazon Web Services Region, then you must create
@@ -229,15 +317,21 @@ extension DLM {
         /// 			Outpost, then you can create snapshots on the same Outpost as the source resource, or in
         /// 			the Region of that Outpost.
         public let location: LocationValues?
+        ///  [Custom snapshot policies that target instances only] Specifies pre and/or post scripts for a snapshot lifecycle policy
+        /// 			that targets instances. This is useful for creating application-consistent snapshots, or for
+        /// 			performing specific administrative tasks before or after Amazon Data Lifecycle Manager initiates snapshot creation. For more information, see Automating
+        /// 				application-consistent snapshots with pre and post scripts.
+        public let scripts: [Script]?
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do
         /// 			not specify a time, Amazon Data Lifecycle Manager selects a time within the next 24 hours.
         public let times: [String]?
 
-        public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, location: LocationValues? = nil, times: [String]? = nil) {
+        public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, location: LocationValues? = nil, scripts: [Script]? = nil, times: [String]? = nil) {
             self.cronExpression = cronExpression
             self.interval = interval
             self.intervalUnit = intervalUnit
             self.location = location
+            self.scripts = scripts
             self.times = times
         }
 
@@ -246,6 +340,10 @@ extension DLM {
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, min: 17)
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, pattern: "^cron\\([^\\n]{11,100}\\)$")
             try self.validate(self.interval, name: "interval", parent: name, min: 1)
+            try self.scripts?.forEach {
+                try $0.validate(name: "\(name).scripts[]")
+            }
+            try self.validate(self.scripts, name: "scripts", parent: name, max: 1)
             try self.times?.forEach {
                 try validate($0, name: "times[]", parent: name, max: 5)
                 try validate($0, name: "times[]", parent: name, min: 5)
@@ -259,25 +357,26 @@ extension DLM {
             case interval = "Interval"
             case intervalUnit = "IntervalUnit"
             case location = "Location"
+            case scripts = "Scripts"
             case times = "Times"
         }
     }
 
     public struct CrossRegionCopyAction: AWSEncodableShape & AWSDecodableShape {
         /// The encryption settings for the copied snapshot.
-        public let encryptionConfiguration: EncryptionConfiguration
+        public let encryptionConfiguration: EncryptionConfiguration?
         public let retainRule: CrossRegionCopyRetainRule?
         /// The target Region.
-        public let target: String
+        public let target: String?
 
-        public init(encryptionConfiguration: EncryptionConfiguration, retainRule: CrossRegionCopyRetainRule? = nil, target: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.retainRule = retainRule
             self.target = target
         }
 
         public func validate(name: String) throws {
-            try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.retainRule?.validate(name: "\(name).retainRule")
             try self.validate(self.target, name: "target", parent: name, max: 2048)
             try self.validate(self.target, name: "target", parent: name, pattern: "^[\\w:\\-\\/\\*]+$")
@@ -345,26 +444,28 @@ extension DLM {
         /// Indicates whether to copy all user-defined tags from the source snapshot or AMI to the
         /// 			cross-Region copy.
         public let copyTags: Bool?
-        ///  [AMI policies only] The AMI deprecation rule for cross-Region AMI copies created by the rule.
+        ///  [Custom AMI policies only] The AMI deprecation rule for cross-Region AMI copies created by the rule.
         public let deprecateRule: CrossRegionCopyDeprecateRule?
         /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled,
         /// 			enable encryption using this parameter. Copies of encrypted snapshots are encrypted,
         /// 			even if this parameter is false or if encryption by default is not enabled.
-        public let encrypted: Bool
+        public let encrypted: Bool?
         /// The retention rule that indicates how long the cross-Region snapshot or AMI copies are
         /// 			to be retained in the destination Region.
         public let retainRule: CrossRegionCopyRetainRule?
-        /// The target Region or the Amazon Resource Name (ARN) of the target Outpost for the
-        /// 			snapshot copies. Use this parameter instead of TargetRegion. Do not
-        /// 			specify both.
+        ///  Use this parameter for snapshot policies only. For AMI policies, use
+        /// 				TargetRegion instead.   [Custom snapshot policies only] The target Region or the Amazon Resource Name (ARN) of the target Outpost for the
+        /// 			snapshot copies.
         public let target: String?
-        ///  Avoid using this parameter when creating new policies. Instead, use
-        /// 				Target to specify a target Region or a target
-        /// 				Outpost for snapshot copies. For policies created before the Target parameter
-        /// 				was introduced, this parameter indicates the target Region for snapshot copies.
+        ///  Use this parameter for AMI policies only. For snapshot policies, use
+        /// 				Target instead. For snapshot policies
+        /// 				created before the Target parameter
+        /// 				was introduced, this parameter indicates the target Region for snapshot
+        /// 				copies.    [Custom AMI policies only] The target Region or the Amazon Resource Name (ARN) of the target Outpost for the
+        /// 			snapshot copies.
         public let targetRegion: String?
 
-        public init(cmkArn: String? = nil, copyTags: Bool? = nil, deprecateRule: CrossRegionCopyDeprecateRule? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
+        public init(cmkArn: String? = nil, copyTags: Bool? = nil, deprecateRule: CrossRegionCopyDeprecateRule? = nil, encrypted: Bool? = nil, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
             self.cmkArn = cmkArn
             self.copyTags = copyTags
             self.deprecateRule = deprecateRule
@@ -396,6 +497,24 @@ extension DLM {
         }
     }
 
+    public struct CrossRegionCopyTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The target Region, for example us-east-1.
+        public let targetRegion: String?
+
+        public init(targetRegion: String? = nil) {
+            self.targetRegion = targetRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetRegion, name: "targetRegion", parent: name, max: 16)
+            try self.validate(self.targetRegion, name: "targetRegion", parent: name, pattern: "^([a-z]+-){2,3}\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetRegion = "TargetRegion"
+        }
+    }
+
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
         /// The identifier of the lifecycle policy.
         public let policyId: String
@@ -412,7 +531,7 @@ extension DLM {
 
         public func validate(name: String) throws {
             try self.validate(self.policyId, name: "policyId", parent: name, max: 64)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[A-Za-z0-9]+$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[a-f0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -461,9 +580,9 @@ extension DLM {
         /// To encrypt a copy of an unencrypted snapshot when encryption by default is not enabled, enable
         /// 			encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this
         /// 			parameter is false or when encryption by default is not enabled.
-        public let encrypted: Bool
+        public let encrypted: Bool?
 
-        public init(cmkArn: String? = nil, encrypted: Bool) {
+        public init(cmkArn: String? = nil, encrypted: Bool? = nil) {
             self.cmkArn = cmkArn
             self.encrypted = encrypted
         }
@@ -485,14 +604,14 @@ extension DLM {
         /// 			specified pattern is shared with your account. For example, specifying ^.*Created for policy: policy-1234567890abcdef0.*$
         /// 			configures the policy to run only if snapshots created by policy policy-1234567890abcdef0
         /// 			are shared with your account.
-        public let descriptionRegex: String
+        public let descriptionRegex: String?
         /// The type of event. Currently, only snapshot sharing events are supported.
-        public let eventType: EventTypeValues
+        public let eventType: EventTypeValues?
         /// The IDs of the Amazon Web Services accounts that can trigger policy by sharing snapshots with your account.
         /// 			The policy only runs if one of the specified Amazon Web Services accounts shares a snapshot with your account.
-        public let snapshotOwner: [String]
+        public let snapshotOwner: [String]?
 
-        public init(descriptionRegex: String, eventType: EventTypeValues, snapshotOwner: [String]) {
+        public init(descriptionRegex: String? = nil, eventType: EventTypeValues? = nil, snapshotOwner: [String]? = nil) {
             self.descriptionRegex = descriptionRegex
             self.eventType = eventType
             self.snapshotOwner = snapshotOwner
@@ -501,7 +620,7 @@ extension DLM {
         public func validate(name: String) throws {
             try self.validate(self.descriptionRegex, name: "descriptionRegex", parent: name, max: 1000)
             try self.validate(self.descriptionRegex, name: "descriptionRegex", parent: name, pattern: "^[\\p{all}]*$")
-            try self.snapshotOwner.forEach {
+            try self.snapshotOwner?.forEach {
                 try validate($0, name: "snapshotOwner[]", parent: name, max: 12)
                 try validate($0, name: "snapshotOwner[]", parent: name, min: 12)
                 try validate($0, name: "snapshotOwner[]", parent: name, pattern: "^[0-9]{12}$")
@@ -520,9 +639,9 @@ extension DLM {
         /// Information about the event.
         public let parameters: EventParameters?
         /// The source of the event. Currently only managed CloudWatch Events rules are supported.
-        public let type: EventSourceValues
+        public let type: EventSourceValues?
 
-        public init(parameters: EventParameters? = nil, type: EventSourceValues) {
+        public init(parameters: EventParameters? = nil, type: EventSourceValues? = nil) {
             self.parameters = parameters
             self.type = type
         }
@@ -537,9 +656,42 @@ extension DLM {
         }
     }
 
+    public struct Exclusions: AWSEncodableShape & AWSDecodableShape {
+        ///  [Default policies for EBS snapshots only] Indicates whether to exclude volumes that are attached to
+        /// 			instances as the boot volume. If you exclude boot volumes, only volumes attached as data
+        /// 			(non-boot) volumes will be backed up by the policy. To exclude boot volumes, specify
+        /// 			true.
+        public let excludeBootVolumes: Bool?
+        ///  [Default policies for EBS-backed AMIs only] Specifies whether to exclude volumes that have specific tags.
+        public let excludeTags: [Tag]?
+        ///  [Default policies for EBS snapshots only] Specifies the volume types to exclude. Volumes of the specified
+        /// 			types will not be targeted by the policy.
+        public let excludeVolumeTypes: [String]?
+
+        public init(excludeBootVolumes: Bool? = nil, excludeTags: [Tag]? = nil, excludeVolumeTypes: [String]? = nil) {
+            self.excludeBootVolumes = excludeBootVolumes
+            self.excludeTags = excludeTags
+            self.excludeVolumeTypes = excludeVolumeTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeTags?.forEach {
+                try $0.validate(name: "\(name).excludeTags[]")
+            }
+            try self.validate(self.excludeTags, name: "excludeTags", parent: name, max: 50)
+            try self.validate(self.excludeVolumeTypes, name: "excludeVolumeTypes", parent: name, max: 6)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeBootVolumes = "ExcludeBootVolumes"
+            case excludeTags = "ExcludeTags"
+            case excludeVolumeTypes = "ExcludeVolumeTypes"
+        }
+    }
+
     public struct FastRestoreRule: AWSEncodableShape & AWSDecodableShape {
         /// The Availability Zones in which to enable fast snapshot restore.
-        public let availabilityZones: [String]
+        public let availabilityZones: [String]?
         /// The number of snapshots to be enabled with fast snapshot restore.
         public let count: Int?
         /// The amount of time to enable fast snapshot restore. The maximum is 100 years. This is
@@ -548,7 +700,7 @@ extension DLM {
         /// The unit of time for enabling fast snapshot restore.
         public let intervalUnit: RetentionIntervalUnitValues?
 
-        public init(availabilityZones: [String], count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+        public init(availabilityZones: [String]? = nil, count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.availabilityZones = availabilityZones
             self.count = count
             self.interval = interval
@@ -556,7 +708,7 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try self.availabilityZones.forEach {
+            try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 16)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "^([a-z]+-){2,3}\\d[a-z]$")
             }
@@ -576,6 +728,8 @@ extension DLM {
     }
 
     public struct GetLifecyclePoliciesRequest: AWSEncodableShape {
+        ///  [Default policies only] Specifies the type of default policy to get. Specify one of the following:    VOLUME - To get only the default policy for EBS snapshots    INSTANCE - To get only the default policy for EBS-backed AMIs    ALL - To get all default policies
+        public let defaultPolicyType: DefaultPoliciesTypeValues?
         /// The identifiers of the data lifecycle policies.
         public let policyIds: [String]?
         /// The resource type.
@@ -587,7 +741,8 @@ extension DLM {
         /// The target tag for a policy. Tags are strings in the format key=value.
         public let targetTags: [String]?
 
-        public init(policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
+        public init(defaultPolicyType: DefaultPoliciesTypeValues? = nil, policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
+            self.defaultPolicyType = defaultPolicyType
             self.policyIds = policyIds
             self.resourceTypes = resourceTypes
             self.state = state
@@ -598,6 +753,7 @@ extension DLM {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.defaultPolicyType, key: "defaultPolicyType")
             request.encodeQuery(self.policyIds, key: "policyIds")
             request.encodeQuery(self.resourceTypes, key: "resourceTypes")
             request.encodeQuery(self.state, key: "state")
@@ -608,7 +764,7 @@ extension DLM {
         public func validate(name: String) throws {
             try self.policyIds?.forEach {
                 try validate($0, name: "policyIds[]", parent: name, max: 64)
-                try validate($0, name: "policyIds[]", parent: name, pattern: "^policy-[A-Za-z0-9]+$")
+                try validate($0, name: "policyIds[]", parent: name, pattern: "^policy-[a-f0-9]+$")
             }
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
@@ -657,7 +813,7 @@ extension DLM {
 
         public func validate(name: String) throws {
             try self.validate(self.policyId, name: "policyId", parent: name, max: 64)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[A-Za-z0-9]+$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[a-f0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -683,6 +839,8 @@ extension DLM {
         /// The local date and time when the lifecycle policy was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var dateModified: Date?
+        ///  [Default policies only] The type of default policy. Values include:    VOLUME - Default policy for EBS snapshots    INSTANCE - Default policy for EBS-backed AMIs
+        public let defaultPolicy: Bool?
         /// The description of the lifecycle policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by
@@ -701,9 +859,10 @@ extension DLM {
         /// The tags.
         public let tags: [String: String]?
 
-        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, defaultPolicy: Bool? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
+            self.defaultPolicy = defaultPolicy
             self.description = description
             self.executionRoleArn = executionRoleArn
             self.policyArn = policyArn
@@ -717,6 +876,7 @@ extension DLM {
         private enum CodingKeys: String, CodingKey {
             case dateCreated = "DateCreated"
             case dateModified = "DateModified"
+            case defaultPolicy = "DefaultPolicy"
             case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
             case policyArn = "PolicyArn"
@@ -729,6 +889,8 @@ extension DLM {
     }
 
     public struct LifecyclePolicySummary: AWSDecodableShape {
+        ///  [Default policies only] The type of default policy. Values include:    VOLUME - Default policy for EBS snapshots    INSTANCE - Default policy for EBS-backed AMIs
+        public let defaultPolicy: Bool?
         /// The description of the lifecycle policy.
         public let description: String?
         /// The identifier of the lifecycle policy.
@@ -744,7 +906,8 @@ extension DLM {
         /// The tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, policyId: String? = nil, policyType: PolicyTypeValues? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
+        public init(defaultPolicy: Bool? = nil, description: String? = nil, policyId: String? = nil, policyType: PolicyTypeValues? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
+            self.defaultPolicy = defaultPolicy
             self.description = description
             self.policyId = policyId
             self.policyType = policyType
@@ -753,6 +916,7 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultPolicy = "DefaultPolicy"
             case description = "Description"
             case policyId = "PolicyId"
             case policyType = "PolicyType"
@@ -797,17 +961,17 @@ extension DLM {
     }
 
     public struct Parameters: AWSEncodableShape & AWSDecodableShape {
-        ///  [Snapshot policies that target instances only] Indicates whether to exclude the root volume from multi-volume
+        ///  [Custom snapshot policies that target instances only] Indicates whether to exclude the root volume from multi-volume
         /// 			snapshot sets. The default is false. If you specify true,
         /// 			then the root volumes attached to targeted instances will be excluded from the multi-volume
         /// 			snapshot sets created by the policy.
         public let excludeBootVolume: Bool?
-        ///  [Snapshot policies that target instances only] The tags used to identify data (non-root) volumes to exclude from
+        ///  [Custom snapshot policies that target instances only] The tags used to identify data (non-root) volumes to exclude from
         /// 			multi-volume snapshot sets. If you create a snapshot lifecycle policy that targets instances and you specify tags for
         /// 			this parameter, then data volumes with the specified tags that are attached to targeted
         /// 			instances will be excluded from the multi-volume snapshot sets created by the policy.
         public let excludeDataVolumeTags: [Tag]?
-        ///  [AMI policies only] Indicates whether targeted instances are rebooted when the lifecycle policy
+        ///  [Custom AMI policies only] Indicates whether targeted instances are rebooted when the lifecycle policy
         /// 			runs. true indicates that targeted instances are not rebooted when the policy
         /// 			runs. false indicates that target instances are rebooted when the policy runs.
         /// 			The default is true (instances are not rebooted).
@@ -837,40 +1001,86 @@ extension DLM {
         ///  [Event-based policies only]  The actions to be performed when the  event-based policy is activated. You can specify
         /// 			only one action per policy.
         public let actions: [Action]?
+        ///  [Default policies only] Indicates whether the policy should copy tags from the source resource
+        /// 			to the snapshot or AMI. If you do not specify a value, the default is false. Default: false
+        public let copyTags: Bool?
+        ///  [Default policies only] Specifies how often the policy should run and create snapshots or AMIs.
+        /// 			The creation frequency can range from 1 to 7 days. If you do not specify a value, the
+        /// 			default is 1. Default: 1
+        public let createInterval: Int?
+        ///  [Default policies only] Specifies destination Regions for snapshot or AMI copies. You can specify
+        /// 			up to 3 destination Regions. If you do not want to create cross-Region copies, omit this
+        /// 			parameter.
+        public let crossRegionCopyTargets: [CrossRegionCopyTarget]?
         ///  [Event-based policies only]  The event that activates the event-based policy.
         public let eventSource: EventSource?
-        ///  [Snapshot and AMI policies only] A set of optional parameters for snapshot and AMI lifecycle policies.   If you are modifying a policy that was created or previously modified using the Amazon
+        ///  [Default policies only] Specifies exclusion parameters for volumes or instances for which you
+        /// 			do not want to create snapshots or AMIs. The policy will not create snapshots or AMIs
+        /// 			for target resources that match any of the specified exclusion parameters.
+        public let exclusions: Exclusions?
+        ///  [Default policies only] Defines the snapshot or AMI retention behavior for the policy if the
+        /// 			source volume or instance is deleted, or if the policy enters the error, disabled, or
+        /// 			deleted state. By default (ExtendDeletion=false):   If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete previously
+        /// 					created snapshots or AMIs, up to but not including the last one, based on the
+        /// 					specified retention period. If you want Amazon Data Lifecycle Manager to delete all snapshots or AMIs,
+        /// 					including the last one, specify true.   If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting
+        /// 					snapshots and AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs,
+        /// 					including the last one, if the policy enters one of these states, specify
+        /// 					true.   If you enable extended deletion (ExtendDeletion=true),
+        /// 			you override both default behaviors simultaneously. If you do not specify a value, the default is false. Default: false
+        public let extendDeletion: Bool?
+        ///  [Custom snapshot and AMI policies only] A set of optional parameters for snapshot and AMI lifecycle policies.   If you are modifying a policy that was created or previously modified using the Amazon
         /// 				Data Lifecycle Manager console, then you must include this parameter and specify either
         /// 				the default values or the new values that you require. You can't omit this parameter or
         /// 				set its values to null.
         public let parameters: Parameters?
-        ///  [All policy types] The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT
+        /// The type of policy to create. Specify one of the following:    SIMPLIFIED To create a default policy.    STANDARD To create a custom policy.
+        public let policyLanguage: PolicyLanguageValues?
+        ///  [Custom policies only] The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY
         /// 			to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
-        ///  [Snapshot and AMI policies only] The location of the resources to backup. If the source resources are located in an
+        ///  [Custom snapshot and AMI policies only] The location of the resources to backup. If the source resources are located in an
         /// 			Amazon Web Services Region, specify CLOUD. If the source resources are located on an Outpost
         /// 			in your account, specify OUTPOST. If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources
         /// 				of the specified type with matching target tags across all of the Outposts in your account.
         public let resourceLocations: [ResourceLocationValues]?
-        ///  [Snapshot policies only] The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to
+        ///  [Default policies only] Specify the type of default policy to create.   To create a default policy for EBS snapshots, that creates snapshots of all volumes in the
+        /// 					Region that do not have recent backups, specify VOLUME.   To create a default policy for EBS-backed AMIs, that creates EBS-backed
+        /// 					AMIs from all instances in the Region that do not have recent backups, specify
+        /// 					INSTANCE.
+        public let resourceType: ResourceTypeValues?
+        ///  [Custom snapshot policies only] The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to
         /// 			create snapshots of individual volumes or use INSTANCE to create multi-volume
         /// 			snapshots from the volumes for an instance.
         public let resourceTypes: [ResourceTypeValues]?
-        ///  [Snapshot and AMI policies only] The schedules of policy-defined actions for snapshot and AMI lifecycle policies. A policy
+        ///  [Default policies only] Specifies how long the policy should retain snapshots or AMIs before
+        /// 			deleting them. The retention period can range from 2 to 14 days, but it must be greater
+        /// 			than the creation frequency to ensure that the policy retains at least 1 snapshot or
+        /// 			AMI at any given time. If you do not specify a value, the default is 7. Default: 7
+        public let retainInterval: Int?
+        ///  [Custom snapshot and AMI policies only] The schedules of policy-defined actions for snapshot and AMI lifecycle policies. A policy
         /// 			can have up to four schedules—one mandatory schedule and up to three optional schedules.
         public let schedules: [Schedule]?
-        ///  [Snapshot and AMI policies only] The single tag that identifies targeted resources for this policy.
+        ///  [Custom snapshot and AMI policies only] The single tag that identifies targeted resources for this policy.
         public let targetTags: [Tag]?
 
-        public init(actions: [Action]? = nil, eventSource: EventSource? = nil, parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceLocations: [ResourceLocationValues]? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+        public init(actions: [Action]? = nil, copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, eventSource: EventSource? = nil, exclusions: Exclusions? = nil, extendDeletion: Bool? = nil, parameters: Parameters? = nil, policyLanguage: PolicyLanguageValues? = nil, policyType: PolicyTypeValues? = nil, resourceLocations: [ResourceLocationValues]? = nil, resourceType: ResourceTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, retainInterval: Int? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
             self.actions = actions
+            self.copyTags = copyTags
+            self.createInterval = createInterval
+            self.crossRegionCopyTargets = crossRegionCopyTargets
             self.eventSource = eventSource
+            self.exclusions = exclusions
+            self.extendDeletion = extendDeletion
             self.parameters = parameters
+            self.policyLanguage = policyLanguage
             self.policyType = policyType
             self.resourceLocations = resourceLocations
+            self.resourceType = resourceType
             self.resourceTypes = resourceTypes
+            self.retainInterval = retainInterval
             self.schedules = schedules
             self.targetTags = targetTags
         }
@@ -881,12 +1091,19 @@ extension DLM {
             }
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.createInterval, name: "createInterval", parent: name, min: 1)
+            try self.crossRegionCopyTargets?.forEach {
+                try $0.validate(name: "\(name).crossRegionCopyTargets[]")
+            }
+            try self.validate(self.crossRegionCopyTargets, name: "crossRegionCopyTargets", parent: name, max: 3)
             try self.eventSource?.validate(name: "\(name).eventSource")
+            try self.exclusions?.validate(name: "\(name).exclusions")
             try self.parameters?.validate(name: "\(name).parameters")
             try self.validate(self.resourceLocations, name: "resourceLocations", parent: name, max: 1)
             try self.validate(self.resourceLocations, name: "resourceLocations", parent: name, min: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
+            try self.validate(self.retainInterval, name: "retainInterval", parent: name, min: 1)
             try self.schedules?.forEach {
                 try $0.validate(name: "\(name).schedules[]")
             }
@@ -901,11 +1118,19 @@ extension DLM {
 
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
+            case copyTags = "CopyTags"
+            case createInterval = "CreateInterval"
+            case crossRegionCopyTargets = "CrossRegionCopyTargets"
             case eventSource = "EventSource"
+            case exclusions = "Exclusions"
+            case extendDeletion = "ExtendDeletion"
             case parameters = "Parameters"
+            case policyLanguage = "PolicyLanguage"
             case policyType = "PolicyType"
             case resourceLocations = "ResourceLocations"
+            case resourceType = "ResourceType"
             case resourceTypes = "ResourceTypes"
+            case retainInterval = "RetainInterval"
             case schedules = "Schedules"
             case targetTags = "TargetTags"
         }
@@ -979,7 +1204,7 @@ extension DLM {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
-        ///  [Snapshot policies that target volumes only] The snapshot archiving rule for the schedule. When you specify an archiving
+        ///  [Custom snapshot policies that target volumes only] The snapshot archiving rule for the schedule. When you specify an archiving
         /// 			rule, snapshots are automatically moved from the standard tier to the archive tier once the schedule's
         /// 			retention threshold is met. Snapshots are then retained in the archive tier for the archive retention
         /// 			period that you specify.  For more information about using snapshot archiving, see Considerations for
@@ -994,15 +1219,15 @@ extension DLM {
         /// 			If the policy creates snapshots in a Region, then snapshots can be copied to up to three
         /// 			Regions or Outposts.
         public let crossRegionCopyRules: [CrossRegionCopyRule]?
-        ///  [AMI policies only] The AMI deprecation rule for the schedule.
+        ///  [Custom AMI policies only] The AMI deprecation rule for the schedule.
         public let deprecateRule: DeprecateRule?
-        ///  [Snapshot policies only] The rule for enabling fast snapshot restore.
+        ///  [Custom snapshot policies only] The rule for enabling fast snapshot restore.
         public let fastRestoreRule: FastRestoreRule?
         /// The name of the schedule.
         public let name: String?
         /// The retention rule for snapshots or AMIs created by the policy.
         public let retainRule: RetainRule?
-        ///  [Snapshot policies only] The rule for sharing snapshots with other Amazon Web Services accounts.
+        ///  [Custom snapshot policies only] The rule for sharing snapshots with other Amazon Web Services accounts.
         public let shareRules: [ShareRule]?
         /// The tags to apply to policy-created resources. These user-defined tags are in addition
         /// 			to the Amazon Web Services-added lifecycle tags.
@@ -1069,22 +1294,93 @@ extension DLM {
         }
     }
 
+    public struct Script: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether Amazon Data Lifecycle Manager should default to crash-consistent snapshots if the
+        /// 			pre script fails.   To default to crash consistent snapshot if the pre script fails,
+        /// 					specify true.   To skip the instance for snapshot creation if the pre script fails,
+        /// 					specify false.   This parameter is supported only if you run a pre script. If you run a post
+        /// 			script only, omit this parameter. Default: true
+        public let executeOperationOnScriptFailure: Bool?
+        /// The SSM document that includes the pre and/or post scripts to run.   If you are automating VSS backups, specify AWS_VSS_BACKUP.
+        /// 					In this case, Amazon Data Lifecycle Manager automatically uses the AWSEC2-CreateVssSnapshot
+        /// 					SSM document.   If you are automating application-consistent snapshots for SAP HANA
+        /// 					workloads, specify AWSSystemsManagerSAP-CreateDLMSnapshotForSAPHANA.   If you are using a custom SSM document that you own, specify either
+        /// 					the name or ARN of the SSM document. If you are using a custom SSM
+        /// 					document that is shared with you, specify the ARN of the SSM document.
+        public let executionHandler: String?
+        /// Indicates the service used to execute the pre and/or post scripts.   If you are using custom SSM documents or automating
+        /// 					application-consistent snapshots of SAP HANA workloads, specify
+        /// 					AWS_SYSTEMS_MANAGER.   If you are automating VSS Backups, omit this parameter.   Default: AWS_SYSTEMS_MANAGER
+        public let executionHandlerService: ExecutionHandlerServiceValues?
+        /// Specifies a timeout period, in seconds, after which Amazon Data Lifecycle Manager fails the script
+        /// 			run attempt if it has not completed. If a script does not complete within its
+        /// 			timeout period, Amazon Data Lifecycle Manager fails the attempt. The timeout period applies to the pre
+        /// 			and post scripts individually.  If you are automating VSS Backups, omit this parameter. Default: 10
+        public let executionTimeout: Int?
+        /// Specifies the number of times Amazon Data Lifecycle Manager should retry scripts that fail.   If the pre script fails, Amazon Data Lifecycle Manager retries the entire snapshot creation
+        /// 					process, including running the pre and post scripts.   If the post script fails, Amazon Data Lifecycle Manager retries the post script only; in this
+        /// 					case, the pre script will have completed and the snapshot might have
+        /// 					been created.   If you do not want Amazon Data Lifecycle Manager to retry failed scripts, specify 0. Default: 0
+        public let maximumRetryCount: Int?
+        /// Indicate which scripts Amazon Data Lifecycle Manager should run on target instances. Pre scripts
+        /// 			run before Amazon Data Lifecycle Manager initiates snapshot creation. Post scripts run after Amazon Data Lifecycle Manager
+        /// 			initiates snapshot creation.   To run a pre script only, specify PRE. In this case,
+        /// 					Amazon Data Lifecycle Manager calls the SSM document with the pre-script parameter
+        /// 					before initiating snapshot creation.   To run a post script only, specify POST. In this case,
+        /// 					Amazon Data Lifecycle Manager calls the SSM document with the post-script parameter
+        /// 					after initiating snapshot creation.   To run both pre and post scripts, specify both PRE and POST. In
+        /// 					this case, Amazon Data Lifecycle Manager calls the SSM document with the pre-script
+        /// 					parameter before initiating snapshot creation, and then it calls the SSM
+        /// 					document again with the post-script parameter after initiating
+        /// 					snapshot creation.   If you are automating VSS Backups, omit this parameter. Default: PRE and POST
+        public let stages: [StageValues]?
+
+        public init(executeOperationOnScriptFailure: Bool? = nil, executionHandler: String? = nil, executionHandlerService: ExecutionHandlerServiceValues? = nil, executionTimeout: Int? = nil, maximumRetryCount: Int? = nil, stages: [StageValues]? = nil) {
+            self.executeOperationOnScriptFailure = executeOperationOnScriptFailure
+            self.executionHandler = executionHandler
+            self.executionHandlerService = executionHandlerService
+            self.executionTimeout = executionTimeout
+            self.maximumRetryCount = maximumRetryCount
+            self.stages = stages
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionHandler, name: "executionHandler", parent: name, max: 200)
+            try self.validate(self.executionHandler, name: "executionHandler", parent: name, pattern: "^([a-zA-Z0-9_\\-.]{3,128}|[a-zA-Z0-9_\\-.:/]{3,200}|[A-Z0-9_]+)$")
+            try self.validate(self.executionTimeout, name: "executionTimeout", parent: name, max: 120)
+            try self.validate(self.executionTimeout, name: "executionTimeout", parent: name, min: 10)
+            try self.validate(self.maximumRetryCount, name: "maximumRetryCount", parent: name, max: 3)
+            try self.validate(self.maximumRetryCount, name: "maximumRetryCount", parent: name, min: 0)
+            try self.validate(self.stages, name: "stages", parent: name, max: 2)
+            try self.validate(self.stages, name: "stages", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executeOperationOnScriptFailure = "ExecuteOperationOnScriptFailure"
+            case executionHandler = "ExecutionHandler"
+            case executionHandlerService = "ExecutionHandlerService"
+            case executionTimeout = "ExecutionTimeout"
+            case maximumRetryCount = "MaximumRetryCount"
+            case stages = "Stages"
+        }
+    }
+
     public struct ShareRule: AWSEncodableShape & AWSDecodableShape {
         /// The IDs of the Amazon Web Services accounts with which to share the snapshots.
-        public let targetAccounts: [String]
+        public let targetAccounts: [String]?
         /// The period after which snapshots that are shared with other Amazon Web Services accounts are automatically unshared.
         public let unshareInterval: Int?
         /// The unit of time for the automatic unsharing interval.
         public let unshareIntervalUnit: RetentionIntervalUnitValues?
 
-        public init(targetAccounts: [String], unshareInterval: Int? = nil, unshareIntervalUnit: RetentionIntervalUnitValues? = nil) {
+        public init(targetAccounts: [String]? = nil, unshareInterval: Int? = nil, unshareIntervalUnit: RetentionIntervalUnitValues? = nil) {
             self.targetAccounts = targetAccounts
             self.unshareInterval = unshareInterval
             self.unshareIntervalUnit = unshareIntervalUnit
         }
 
         public func validate(name: String) throws {
-            try self.targetAccounts.forEach {
+            try self.targetAccounts?.forEach {
                 try validate($0, name: "targetAccounts[]", parent: name, max: 12)
                 try validate($0, name: "targetAccounts[]", parent: name, min: 12)
                 try validate($0, name: "targetAccounts[]", parent: name, pattern: "^[0-9]{12}$")
@@ -1102,11 +1398,11 @@ extension DLM {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The tag key.
-        public let key: String
+        public let key: String?
         /// The tag value.
-        public let value: String
+        public let value: String?
 
-        public init(key: String, value: String) {
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -1128,9 +1424,9 @@ extension DLM {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// One or more tags.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1139,13 +1435,13 @@ extension DLM {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
@@ -1169,9 +1465,9 @@ extension DLM {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -1186,7 +1482,7 @@ extension DLM {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
@@ -1203,51 +1499,106 @@ extension DLM {
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
+        ///  [Default policies only] Indicates whether the policy should copy tags from the source resource
+        /// 			to the snapshot or AMI.
+        public let copyTags: Bool?
+        ///  [Default policies only] Specifies how often the policy should run and create snapshots or AMIs.
+        /// 			The creation frequency can range from 1 to 7 days.
+        public let createInterval: Int?
+        ///  [Default policies only] Specifies destination Regions for snapshot or AMI copies. You can specify
+        /// 			up to 3 destination Regions. If you do not want to create cross-Region copies, omit this
+        /// 			parameter.
+        public let crossRegionCopyTargets: [CrossRegionCopyTarget]?
         /// A description of the lifecycle policy.
         public let description: String?
+        ///  [Default policies only] Specifies exclusion parameters for volumes or instances for which you
+        /// 			do not want to create snapshots or AMIs. The policy will not create snapshots or AMIs
+        /// 			for target resources that match any of the specified exclusion parameters.
+        public let exclusions: Exclusions?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by
         /// 			the lifecycle policy.
         public let executionRoleArn: String?
+        ///  [Default policies only] Defines the snapshot or AMI retention behavior for the policy if the
+        /// 			source volume or instance is deleted, or if the policy enters the error, disabled, or
+        /// 			deleted state. By default (ExtendDeletion=false):   If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete previously
+        /// 					created snapshots or AMIs, up to but not including the last one, based on the
+        /// 					specified retention period. If you want Amazon Data Lifecycle Manager to delete all snapshots or AMIs,
+        /// 					including the last one, specify true.   If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting
+        /// 					snapshots and AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs,
+        /// 					including the last one, if the policy enters one of these states, specify
+        /// 					true.   If you enable extended deletion (ExtendDeletion=true),
+        /// 			you override both default behaviors simultaneously. Default: false
+        public let extendDeletion: Bool?
         /// The configuration of the lifecycle policy. You cannot update the policy type or the
         /// 			resource type.
         public let policyDetails: PolicyDetails?
         /// The identifier of the lifecycle policy.
         public let policyId: String
+        ///  [Default policies only] Specifies how long the policy should retain snapshots or AMIs before
+        /// 			deleting them. The retention period can range from 2 to 14 days, but it must be greater
+        /// 			than the creation frequency to ensure that the policy retains at least 1 snapshot or
+        /// 			AMI at any given time.
+        public let retainInterval: Int?
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues?
 
-        public init(description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String, state: SettablePolicyStateValues? = nil) {
+        public init(copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, description: String? = nil, exclusions: Exclusions? = nil, executionRoleArn: String? = nil, extendDeletion: Bool? = nil, policyDetails: PolicyDetails? = nil, policyId: String, retainInterval: Int? = nil, state: SettablePolicyStateValues? = nil) {
+            self.copyTags = copyTags
+            self.createInterval = createInterval
+            self.crossRegionCopyTargets = crossRegionCopyTargets
             self.description = description
+            self.exclusions = exclusions
             self.executionRoleArn = executionRoleArn
+            self.extendDeletion = extendDeletion
             self.policyDetails = policyDetails
             self.policyId = policyId
+            self.retainInterval = retainInterval
             self.state = state
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.copyTags, forKey: .copyTags)
+            try container.encodeIfPresent(self.createInterval, forKey: .createInterval)
+            try container.encodeIfPresent(self.crossRegionCopyTargets, forKey: .crossRegionCopyTargets)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.exclusions, forKey: .exclusions)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.extendDeletion, forKey: .extendDeletion)
             try container.encodeIfPresent(self.policyDetails, forKey: .policyDetails)
             request.encodePath(self.policyId, key: "PolicyId")
+            try container.encodeIfPresent(self.retainInterval, forKey: .retainInterval)
             try container.encodeIfPresent(self.state, forKey: .state)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.createInterval, name: "createInterval", parent: name, min: 1)
+            try self.crossRegionCopyTargets?.forEach {
+                try $0.validate(name: "\(name).crossRegionCopyTargets[]")
+            }
+            try self.validate(self.crossRegionCopyTargets, name: "crossRegionCopyTargets", parent: name, max: 3)
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z _-]+$")
+            try self.exclusions?.validate(name: "\(name).exclusions")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:iam::\\d+:role/")
             try self.policyDetails?.validate(name: "\(name).policyDetails")
             try self.validate(self.policyId, name: "policyId", parent: name, max: 64)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[A-Za-z0-9]+$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^policy-[a-f0-9]+$")
+            try self.validate(self.retainInterval, name: "retainInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case copyTags = "CopyTags"
+            case createInterval = "CreateInterval"
+            case crossRegionCopyTargets = "CrossRegionCopyTargets"
             case description = "Description"
+            case exclusions = "Exclusions"
             case executionRoleArn = "ExecutionRoleArn"
+            case extendDeletion = "ExtendDeletion"
             case policyDetails = "PolicyDetails"
+            case retainInterval = "RetainInterval"
             case state = "State"
         }
     }

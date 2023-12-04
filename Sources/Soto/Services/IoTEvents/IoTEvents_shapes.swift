@@ -26,7 +26,7 @@ import Foundation
 extension IoTEvents {
     // MARK: Enums
 
-    public enum AlarmModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlarmModelVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case failed = "FAILED"
@@ -34,21 +34,21 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisResultLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnalysisResultLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case info = "INFO"
         case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equal = "EQUAL"
         case greater = "GREATER"
         case greaterOrEqual = "GREATER_OR_EQUAL"
@@ -58,7 +58,7 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deprecated = "DEPRECATED"
@@ -69,13 +69,13 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum EvaluationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case batch = "BATCH"
         case serial = "SERIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -83,14 +83,14 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case error = "ERROR"
         case info = "INFO"
         public var description: String { return self.rawValue }
     }
 
-    public enum PayloadType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case string = "STRING"
         public var description: String { return self.rawValue }

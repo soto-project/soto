@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Inspector2 service.
 ///
-/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2 and Amazon ECR environments.
+/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2, Amazon ECR, and Amazon Web Services Lambda environments.
 public struct Inspector2: AWSService {
     // MARK: Member variables
 
@@ -59,6 +59,7 @@ public struct Inspector2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-06-08",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: Inspector2ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,17 @@ public struct Inspector2: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "inspector2-fips.us-east-1.amazonaws.com",
+            "us-east-2": "inspector2-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "inspector2-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "inspector2-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "inspector2-fips.us-west-1.amazonaws.com",
+            "us-west-2": "inspector2-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -92,6 +104,32 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "BatchGetAccountStatus", 
             path: "/status/batch/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
+    @Sendable
+    public func batchGetCodeSnippet(_ input: BatchGetCodeSnippetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCodeSnippetResponse {
+        return try await self.client.execute(
+            operation: "BatchGetCodeSnippet", 
+            path: "/codesnippet/batchget", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets vulnerability details for findings.
+    @Sendable
+    public func batchGetFindingDetails(_ input: BatchGetFindingDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFindingDetailsResponse {
+        return try await self.client.execute(
+            operation: "BatchGetFindingDetails", 
+            path: "/findings/details/batch/get", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -151,7 +189,20 @@ public struct Inspector2: AWSService {
         )
     }
 
-    /// Creates a filter resource using specified filter criteria.
+    /// Cancels a software bill of materials (SBOM) report.
+    @Sendable
+    public func cancelSbomExport(_ input: CancelSbomExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSbomExportResponse {
+        return try await self.client.execute(
+            operation: "CancelSbomExport", 
+            path: "/sbomexport/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     @Sendable
     public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFilterResponse {
         return try await self.client.execute(
@@ -170,6 +221,19 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "CreateFindingsReport", 
             path: "/reporting/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a software bill of materials (SBOM) report.
+    @Sendable
+    public func createSbomExport(_ input: CreateSbomExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSbomExportResponse {
+        return try await self.client.execute(
+            operation: "CreateSbomExport", 
+            path: "/sbomexport/create", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -307,6 +371,19 @@ public struct Inspector2: AWSService {
         )
     }
 
+    /// Gets an encryption key.
+    @Sendable
+    public func getEncryptionKey(_ input: GetEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncryptionKeyResponse {
+        return try await self.client.execute(
+            operation: "GetEncryptionKey", 
+            path: "/encryptionkey/get", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets the status of a findings report.
     @Sendable
     public func getFindingsReportStatus(_ input: GetFindingsReportStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsReportStatusResponse {
@@ -326,6 +403,19 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "GetMember", 
             path: "/members/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets details of a software bill of materials (SBOM) report.
+    @Sendable
+    public func getSbomExport(_ input: GetSbomExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSbomExportResponse {
+        return try await self.client.execute(
+            operation: "GetSbomExport", 
+            path: "/sbomexport/get", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -463,6 +553,19 @@ public struct Inspector2: AWSService {
         )
     }
 
+    /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
+    @Sendable
+    public func resetEncryptionKey(_ input: ResetEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetEncryptionKeyResponse {
+        return try await self.client.execute(
+            operation: "ResetEncryptionKey", 
+            path: "/encryptionkey/reset", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     @Sendable
     public func searchVulnerabilities(_ input: SearchVulnerabilitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchVulnerabilitiesResponse {
@@ -522,6 +625,19 @@ public struct Inspector2: AWSService {
             operation: "UpdateEc2DeepInspectionConfiguration", 
             path: "/ec2deepinspectionconfiguration/update", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
+    @Sendable
+    public func updateEncryptionKey(_ input: UpdateEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEncryptionKeyResponse {
+        return try await self.client.execute(
+            operation: "UpdateEncryptionKey", 
+            path: "/encryptionkey/update", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

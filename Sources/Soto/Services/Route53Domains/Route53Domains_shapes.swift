@@ -26,7 +26,7 @@ import Foundation
 extension Route53Domains {
     // MARK: Enums
 
-    public enum ContactType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case association = "ASSOCIATION"
         case company = "COMPANY"
         case person = "PERSON"
@@ -35,7 +35,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum CountryCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CountryCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `as` = "AS"
         case `do` = "DO"
         case `in` = "IN"
@@ -290,7 +290,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainAvailability: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case availablePreorder = "AVAILABLE_PREORDER"
         case availableReserved = "AVAILABLE_RESERVED"
@@ -302,7 +302,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExtraParamName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExtraParamName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auIdNumber = "AU_ID_NUMBER"
         case auIdType = "AU_ID_TYPE"
         case auPriorityToken = "AU_PRIORITY_TOKEN"
@@ -337,18 +337,18 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListDomainsAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListDomainsAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainName = "DomainName"
         case expiry = "Expiry"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListOperationsSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListOperationsSortAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case submittedDate = "SubmittedDate"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -357,7 +357,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addDnssec = "ADD_DNSSEC"
         case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
         case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
@@ -379,27 +379,27 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case beginsWith = "BEGINS_WITH"
         case ge = "GE"
         case le = "LE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReachabilityStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReachabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case done = "DONE"
         case expired = "EXPIRED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusFlag: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pendingAcceptance = "PENDING_ACCEPTANCE"
         case pendingAuthorization = "PENDING_AUTHORIZATION"
         case pendingCustomerAction = "PENDING_CUSTOMER_ACTION"
@@ -408,7 +408,7 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public enum Transferable: String, CustomStringConvertible, Codable, Sendable {
+    public enum Transferable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainInAnotherAccount = "DOMAIN_IN_ANOTHER_ACCOUNT"
         case domainInOwnAccount = "DOMAIN_IN_OWN_ACCOUNT"
         case dontKnow = "DONT_KNOW"
@@ -640,15 +640,19 @@ extension Route53Domains {
     }
 
     public struct CheckDomainTransferabilityResponse: AWSDecodableShape {
+        /// Provides an explanation for when a domain can't be transferred.
+        public let message: String?
         /// A complex type that contains information about whether the specified domain can be
         /// 			transferred to Route 53.
         public let transferability: DomainTransferability?
 
-        public init(transferability: DomainTransferability? = nil) {
+        public init(message: String? = nil, transferability: DomainTransferability? = nil) {
+            self.message = message
             self.transferability = transferability
         }
 
         private enum CodingKeys: String, CodingKey {
+            case message = "Message"
             case transferability = "Transferability"
         }
     }
@@ -1169,12 +1173,7 @@ extension Route53Domains {
         /// 										Spain):   Specify a passport number, drivers license number,
         /// 												or national identity card number        ES_IDENTIFICATION_TYPE  Valid values include the following:    DNI_AND_NIF (For Spanish contacts)    NIE (For foreigners with legal
         /// 										residence)    OTHER (For contacts outside of Spain)      ES_LEGAL_FORM  Valid values include the following:    ASSOCIATION     CENTRAL_GOVERNMENT_BODY     CIVIL_SOCIETY     COMMUNITY_OF_OWNERS     COMMUNITY_PROPERTY     CONSULATE     COOPERATIVE     DESIGNATION_OF_ORIGIN_SUPERVISORY_COUNCIL     ECONOMIC_INTEREST_GROUP     EMBASSY     ENTITY_MANAGING_NATURAL_AREAS     FARM_PARTNERSHIP     FOUNDATION     GENERAL_AND_LIMITED_PARTNERSHIP     GENERAL_PARTNERSHIP     INDIVIDUAL     LIMITED_COMPANY     LOCAL_AUTHORITY     LOCAL_PUBLIC_ENTITY     MUTUAL_INSURANCE_COMPANY     NATIONAL_PUBLIC_ENTITY     ORDER_OR_RELIGIOUS_INSTITUTION     OTHERS (Only for contacts outside of
-        /// 										Spain)     POLITICAL_PARTY     PROFESSIONAL_ASSOCIATION     PUBLIC_LAW_ASSOCIATION     PUBLIC_LIMITED_COMPANY     REGIONAL_GOVERNMENT_BODY     REGIONAL_PUBLIC_ENTITY     SAVINGS_BANK     SPANISH_OFFICE     SPORTS_ASSOCIATION     SPORTS_FEDERATION     SPORTS_LIMITED_COMPANY     TEMPORARY_ALLIANCE_OF_ENTERPRISES     TRADE_UNION     WORKER_OWNED_COMPANY     WORKER_OWNED_LIMITED_COMPANY       .eu     EU_COUNTRY_OF_CITIZENSHIP     .fi     BIRTH_DATE_IN_YYYY_MM_DD     FI_BUSINESS_NUMBER     FI_ID_NUMBER     FI_NATIONALITY  Valid values include the following:    FINNISH     NOT_FINNISH       FI_ORGANIZATION_TYPE  Valid values include the following:    COMPANY     CORPORATION     GOVERNMENT     INSTITUTION     POLITICAL_PARTY     PUBLIC_COMMUNITY     TOWNSHIP       .fr     BIRTH_CITY     BIRTH_COUNTRY     BIRTH_DATE_IN_YYYY_MM_DD     BIRTH_DEPARTMENT: Specify the INSEE code that
-        /// 								corresponds with the department where the contact was born. If the
-        /// 								contact was born somewhere other than France or its overseas
-        /// 								departments, specify 99. For more information,
-        /// 								including a list of departments and the corresponding INSEE numbers,
-        /// 								see the Wikipedia entry Departments of France.    BRAND_NUMBER     .it     IT_NATIONALITY     IT_PIN     IT_REGISTRANT_ENTITY_TYPE  Valid values include the following:    FOREIGNERS     FREELANCE_WORKERS (Freelance workers and
+        /// 										Spain)     POLITICAL_PARTY     PROFESSIONAL_ASSOCIATION     PUBLIC_LAW_ASSOCIATION     PUBLIC_LIMITED_COMPANY     REGIONAL_GOVERNMENT_BODY     REGIONAL_PUBLIC_ENTITY     SAVINGS_BANK     SPANISH_OFFICE     SPORTS_ASSOCIATION     SPORTS_FEDERATION     SPORTS_LIMITED_COMPANY     TEMPORARY_ALLIANCE_OF_ENTERPRISES     TRADE_UNION     WORKER_OWNED_COMPANY     WORKER_OWNED_LIMITED_COMPANY       .eu     EU_COUNTRY_OF_CITIZENSHIP     .fi     BIRTH_DATE_IN_YYYY_MM_DD     FI_BUSINESS_NUMBER     FI_ID_NUMBER     FI_NATIONALITY  Valid values include the following:    FINNISH     NOT_FINNISH       FI_ORGANIZATION_TYPE  Valid values include the following:    COMPANY     CORPORATION     GOVERNMENT     INSTITUTION     POLITICAL_PARTY     PUBLIC_COMMUNITY     TOWNSHIP       .it     IT_NATIONALITY     IT_PIN     IT_REGISTRANT_ENTITY_TYPE  Valid values include the following:    FOREIGNERS     FREELANCE_WORKERS (Freelance workers and
         /// 										professionals)    ITALIAN_COMPANIES (Italian companies and
         /// 										one-person companies)    NON_PROFIT_ORGANIZATIONS     OTHER_SUBJECTS     PUBLIC_ORGANIZATIONS       .ru     BIRTH_DATE_IN_YYYY_MM_DD     RU_PASSPORT_DATA     .se     BIRTH_COUNTRY     SE_ID_NUMBER     .sg     SG_ID_NUMBER     .uk, .co.uk, .me.uk, and .org.uk     UK_CONTACT_TYPE  Valid values include the following:    CRC (UK Corporation by Royal Charter)    FCORP (Non-UK Corporation)    FIND (Non-UK Individual, representing
         /// 										self)    FOTHER (Non-UK Entity that does not fit into
@@ -1602,7 +1601,7 @@ extension Route53Domains {
         public let maxItems: Int?
         ///  The sort type for returned values.
         public let sortBy: ListOperationsSortAttributeName?
-        ///  The sort order ofr returned values, either ascending or descending.
+        ///  The sort order for returned values, either ascending or descending.
         public let sortOrder: SortOrder?
         ///  The status of the operations.
         public let status: [OperationStatus]?
@@ -1685,7 +1684,7 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
-            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.tld, name: "tld", parent: name, max: 255)
             try self.validate(self.tld, name: "tld", parent: name, min: 2)
         }
@@ -2207,11 +2206,10 @@ extension Route53Domains {
         /// Contains details for the host and glue IP addresses.
         public let nameservers: [Nameserver]?
         /// Whether you want to conceal contact information from WHOIS queries. If you specify
-        /// 				true, WHOIS ("who is") queries return contact information either for
-        /// 			Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-        /// 			Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-        /// 			information that you entered for the admin contact.  You must specify the same privacy setting for the administrative, registrant, and
-        /// 				technical contacts.  Default: true
+        /// 				true, WHOIS ("who is") queries return contact information for the
+        /// 			registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of
+        /// 			owner.".  While some domains may allow different privacy settings per contact, we recommend
+        /// 				specifying the same privacy setting for all contacts.  Default: true
         public let privacyProtectAdminContact: Bool?
         /// Whether you want to conceal contact information from WHOIS queries. If you specify
         /// 				true, WHOIS ("who is") queries return contact information either for
@@ -2398,7 +2396,7 @@ extension Route53Domains {
     public struct UpdateDomainContactRequest: AWSEncodableShape {
         /// Provides detailed contact information.
         public let adminContact: ContactDetail?
-        ///  Customer's consent for the owner change request.
+        ///  Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
         public let consent: Consent?
         /// The name of the domain that you want to update contact information for.
         public let domainName: String

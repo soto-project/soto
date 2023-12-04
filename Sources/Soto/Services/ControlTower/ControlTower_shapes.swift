@@ -26,16 +26,60 @@ import Foundation
 extension ControlTower {
     // MARK: Enums
 
-    public enum ControlOperationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ControlOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ControlOperationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ControlOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableControl = "DISABLE_CONTROL"
         case enableControl = "ENABLE_CONTROL"
+        case updateEnabledControl = "UPDATE_ENABLED_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        case notChecking = "NOT_CHECKING"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case underChange = "UNDER_CHANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LandingZoneDriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LandingZoneOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LandingZoneOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case create = "CREATE"
+        case delete = "DELETE"
+        case reset = "RESET"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LandingZoneStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case processing = "PROCESSING"
         public var description: String { return self.rawValue }
     }
 
@@ -72,10 +116,86 @@ extension ControlTower {
         }
     }
 
+    public struct CreateLandingZoneInput: AWSEncodableShape {
+        /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review  The manifest file.
+        public let manifest: String
+        /// Tags to be applied to the landing zone.
+        public let tags: [String: String]?
+        /// The landing zone version, for example, 3.0.
+        public let version: String
+
+        public init(manifest: String, tags: [String: String]? = nil, version: String) {
+            self.manifest = manifest
+            self.tags = tags
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.version, name: "version", parent: name, max: 10)
+            try self.validate(self.version, name: "version", parent: name, min: 3)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^\\d+.\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifest = "manifest"
+            case tags = "tags"
+            case version = "version"
+        }
+    }
+
+    public struct CreateLandingZoneOutput: AWSDecodableShape {
+        /// The ARN of the landing zone resource.
+        public let arn: String
+        /// A unique identifier assigned to a CreateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
+        public let operationIdentifier: String
+
+        public init(arn: String, operationIdentifier: String) {
+            self.arn = arn
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
+    public struct DeleteLandingZoneInput: AWSEncodableShape {
+        /// The unique identifier of the landing zone.
+        public let landingZoneIdentifier: String
+
+        public init(landingZoneIdentifier: String) {
+            self.landingZoneIdentifier = landingZoneIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZoneIdentifier = "landingZoneIdentifier"
+        }
+    }
+
+    public struct DeleteLandingZoneOutput: AWSDecodableShape {
+        /// &gt;A unique identifier assigned to a DeleteLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+        public let operationIdentifier: String
+
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
     public struct DisableControlInput: AWSEncodableShape {
-        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see the overview page.
         public let controlIdentifier: String
-        /// The ARN of the organizational unit.
+        /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String
 
         public init(controlIdentifier: String, targetIdentifier: String) {
@@ -111,14 +231,33 @@ extension ControlTower {
         }
     }
 
+    public struct DriftStatusSummary: AWSDecodableShape {
+        ///  The drift status of the enabled control. Valid values:    DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The enabledControl deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.    NOT_CHECKING: Amazon Web Services Control Tower does not check drift for this enabled control. Drift is not supported for the control type.    UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
+        public let driftStatus: DriftStatus?
+
+        public init(driftStatus: DriftStatus? = nil) {
+            self.driftStatus = driftStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case driftStatus = "driftStatus"
+        }
+    }
+
     public struct EnableControlInput: AWSEncodableShape {
-        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see the overview page.
         public let controlIdentifier: String
-        /// The ARN of the organizational unit.
+        /// An array of EnabledControlParameter objects
+        public let parameters: [EnabledControlParameter]?
+        /// Tags to be applied to the EnabledControl resource.
+        public let tags: [String: String]?
+        /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String
 
-        public init(controlIdentifier: String, targetIdentifier: String) {
+        public init(controlIdentifier: String, parameters: [EnabledControlParameter]? = nil, tags: [String: String]? = nil, targetIdentifier: String) {
             self.controlIdentifier = controlIdentifier
+            self.parameters = parameters
+            self.tags = tags
             self.targetIdentifier = targetIdentifier
         }
 
@@ -126,6 +265,12 @@ extension ControlTower {
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, max: 2048)
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, min: 20)
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, max: 2048)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, min: 20)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
@@ -133,33 +278,143 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case controlIdentifier = "controlIdentifier"
+            case parameters = "parameters"
+            case tags = "tags"
             case targetIdentifier = "targetIdentifier"
         }
     }
 
     public struct EnableControlOutput: AWSDecodableShape {
+        /// The ARN of the EnabledControl resource.
+        public let arn: String?
         /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
         public let operationIdentifier: String
 
-        public init(operationIdentifier: String) {
+        public init(arn: String? = nil, operationIdentifier: String) {
+            self.arn = arn
             self.operationIdentifier = operationIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case operationIdentifier = "operationIdentifier"
         }
     }
 
-    public struct EnabledControlSummary: AWSDecodableShape {
-        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny guardrail.
+    public struct EnabledControlDetails: AWSDecodableShape {
+        /// The ARN of the enabled control.
+        public let arn: String?
+        /// The control identifier of the enabled control. For information on how to find the controlIdentifier, see the overview page.
         public let controlIdentifier: String?
+        /// The drift status of the enabled control.
+        public let driftStatusSummary: DriftStatusSummary?
+        /// Array of EnabledControlParameter objects.
+        public let parameters: [EnabledControlParameterSummary]?
+        /// The deployment summary of the enabled control.
+        public let statusSummary: EnablementStatusSummary?
+        /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
+        public let targetIdentifier: String?
+        /// Target Amazon Web Services Regions for the enabled control.
+        public let targetRegions: [Region]?
 
-        public init(controlIdentifier: String? = nil) {
+        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, parameters: [EnabledControlParameterSummary]? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil, targetRegions: [Region]? = nil) {
+            self.arn = arn
             self.controlIdentifier = controlIdentifier
+            self.driftStatusSummary = driftStatusSummary
+            self.parameters = parameters
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+            self.targetRegions = targetRegions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case controlIdentifier = "controlIdentifier"
+            case driftStatusSummary = "driftStatusSummary"
+            case parameters = "parameters"
+            case statusSummary = "statusSummary"
+            case targetIdentifier = "targetIdentifier"
+            case targetRegions = "targetRegions"
+        }
+    }
+
+    public struct EnabledControlParameter: AWSEncodableShape {
+        /// The key of a key/value pair. It is of type string.
+        public let key: String
+        /// The value of a key/value pair. It can be of type array string, number, object, or boolean.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct EnabledControlParameterSummary: AWSDecodableShape {
+        /// The key of a key/value pair.
+        public let key: String
+        /// The value of a key/value pair.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct EnabledControlSummary: AWSDecodableShape {
+        /// The ARN of the enabled control.
+        public let arn: String?
+        /// The controlIdentifier of the enabled control.
+        public let controlIdentifier: String?
+        /// The drift status of the enabled control.
+        public let driftStatusSummary: DriftStatusSummary?
+        /// A short description of the status of the enabled control.
+        public let statusSummary: EnablementStatusSummary?
+        /// The ARN of the organizational unit.
+        public let targetIdentifier: String?
+
+        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil) {
+            self.arn = arn
+            self.controlIdentifier = controlIdentifier
+            self.driftStatusSummary = driftStatusSummary
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case controlIdentifier = "controlIdentifier"
+            case driftStatusSummary = "driftStatusSummary"
+            case statusSummary = "statusSummary"
+            case targetIdentifier = "targetIdentifier"
+        }
+    }
+
+    public struct EnablementStatusSummary: AWSDecodableShape {
+        /// The last operation identifier for the enabled control.
+        public let lastOperationIdentifier: String?
+        ///  The deployment status of the enabled control. Valid values:    SUCCEEDED: The enabledControl configuration was deployed successfully.    UNDER_CHANGE: The enabledControl configuration is changing.     FAILED: The enabledControl configuration failed to deploy.
+        public let status: EnablementStatus?
+
+        public init(lastOperationIdentifier: String? = nil, status: EnablementStatus? = nil) {
+            self.lastOperationIdentifier = lastOperationIdentifier
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastOperationIdentifier = "lastOperationIdentifier"
+            case status = "status"
         }
     }
 
@@ -183,6 +438,7 @@ extension ControlTower {
     }
 
     public struct GetControlOperationOutput: AWSDecodableShape {
+        /// An operation performed by the control.
         public let controlOperation: ControlOperation
 
         public init(controlOperation: ControlOperation) {
@@ -194,12 +450,192 @@ extension ControlTower {
         }
     }
 
+    public struct GetEnabledControlInput: AWSEncodableShape {
+        /// The controlIdentifier of the enabled control.
+        public let enabledControlIdentifier: String
+
+        public init(enabledControlIdentifier: String) {
+            self.enabledControlIdentifier = enabledControlIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, max: 2048)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, min: 20)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledControlIdentifier = "enabledControlIdentifier"
+        }
+    }
+
+    public struct GetEnabledControlOutput: AWSDecodableShape {
+        /// Information about the enabled control.
+        public let enabledControlDetails: EnabledControlDetails
+
+        public init(enabledControlDetails: EnabledControlDetails) {
+            self.enabledControlDetails = enabledControlDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledControlDetails = "enabledControlDetails"
+        }
+    }
+
+    public struct GetLandingZoneInput: AWSEncodableShape {
+        /// The unique identifier of the landing zone.
+        public let landingZoneIdentifier: String
+
+        public init(landingZoneIdentifier: String) {
+            self.landingZoneIdentifier = landingZoneIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZoneIdentifier = "landingZoneIdentifier"
+        }
+    }
+
+    public struct GetLandingZoneOperationInput: AWSEncodableShape {
+        /// A unique identifier assigned to a landing zone operation.
+        public let operationIdentifier: String
+
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.operationIdentifier, name: "operationIdentifier", parent: name, max: 36)
+            try self.validate(self.operationIdentifier, name: "operationIdentifier", parent: name, min: 36)
+            try self.validate(self.operationIdentifier, name: "operationIdentifier", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
+    public struct GetLandingZoneOperationOutput: AWSDecodableShape {
+        /// Details about a landing zone operation.
+        public let operationDetails: LandingZoneOperationDetail
+
+        public init(operationDetails: LandingZoneOperationDetail) {
+            self.operationDetails = operationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationDetails = "operationDetails"
+        }
+    }
+
+    public struct GetLandingZoneOutput: AWSDecodableShape {
+        /// Information about the landing zone.
+        public let landingZone: LandingZoneDetail
+
+        public init(landingZone: LandingZoneDetail) {
+            self.landingZone = landingZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZone = "landingZone"
+        }
+    }
+
+    public struct LandingZoneDetail: AWSDecodableShape {
+        /// The ARN of the landing zone.
+        public let arn: String?
+        /// The drift status of the landing zone.
+        public let driftStatus: LandingZoneDriftStatusSummary?
+        /// The latest available version of the landing zone.
+        public let latestAvailableVersion: String?
+        /// The landing zone manifest.yaml text file that specifies the landing zone configurations.
+        public let manifest: String
+        /// The landing zone deployment status.
+        public let status: LandingZoneStatus?
+        /// The landing zone's current deployed version.
+        public let version: String
+
+        public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: String, status: LandingZoneStatus? = nil, version: String) {
+            self.arn = arn
+            self.driftStatus = driftStatus
+            self.latestAvailableVersion = latestAvailableVersion
+            self.manifest = manifest
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case driftStatus = "driftStatus"
+            case latestAvailableVersion = "latestAvailableVersion"
+            case manifest = "manifest"
+            case status = "status"
+            case version = "version"
+        }
+    }
+
+    public struct LandingZoneDriftStatusSummary: AWSDecodableShape {
+        /// The drift status of the landing zone.  Valid values:    DRIFTED: The landing zone deployed in this configuration does not match the  configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The landing zone deployed in this configuration matches the  configuration that Amazon Web Services Control Tower expected.
+        public let status: LandingZoneDriftStatus?
+
+        public init(status: LandingZoneDriftStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct LandingZoneOperationDetail: AWSDecodableShape {
+        /// The landing zone operation end time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The landing zone operation type.  Valid values:    DELETE: The DeleteLandingZone operation.      CREATE: The CreateLandingZone operation.     UPDATE: The UpdateLandingZone operation.     RESET: The ResetLandingZone operation.
+        public let operationType: LandingZoneOperationType?
+        /// The landing zone operation start time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// Valid values:    SUCCEEDED: The landing zone operation succeeded.      IN_PROGRESS: The landing zone operation is in progress.     FAILED: The landing zone operation failed.
+        public let status: LandingZoneOperationStatus?
+        /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
+        public let statusMessage: String?
+
+        public init(endTime: Date? = nil, operationType: LandingZoneOperationType? = nil, startTime: Date? = nil, status: LandingZoneOperationStatus? = nil, statusMessage: String? = nil) {
+            self.endTime = endTime
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case operationType = "operationType"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
+        }
+    }
+
+    public struct LandingZoneSummary: AWSDecodableShape {
+        /// The ARN of the landing zone.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct ListEnabledControlsInput: AWSEncodableShape {
         /// How many results to return per API call.
         public let maxResults: Int?
         /// The token to continue the list from a previous API call with the same parameters.
         public let nextToken: String?
-        /// The ARN of the organizational unit.
+        /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetIdentifier: String) {
@@ -209,7 +645,7 @@ extension ControlTower {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, max: 2048)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, min: 20)
@@ -224,9 +660,9 @@ extension ControlTower {
     }
 
     public struct ListEnabledControlsOutput: AWSDecodableShape {
-        /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
+        /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains.
         public let enabledControls: [EnabledControlSummary]
-        /// Retrieves the next page of results. If the string is empty, the current response is the end of the results.
+        /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
         public let nextToken: String?
 
         public init(enabledControls: [EnabledControlSummary], nextToken: String? = nil) {
@@ -237,6 +673,271 @@ extension ControlTower {
         private enum CodingKeys: String, CodingKey {
             case enabledControls = "enabledControls"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLandingZonesInput: AWSEncodableShape {
+        /// The maximum number of returned landing zone ARNs, which is one.
+        public let maxResults: Int?
+        /// The token to continue the list from a previous API call with the same parameters.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLandingZonesOutput: AWSDecodableShape {
+        /// The ARN of the landing zone.
+        public let landingZones: [LandingZoneSummary]
+        /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
+        public let nextToken: String?
+
+        public init(landingZones: [LandingZoneSummary], nextToken: String? = nil) {
+            self.landingZones = landingZones
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZones = "landingZones"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        ///  The ARN of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// A list of tags, as key:value strings.
+        public let tags: [String: String]
+
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct Region: AWSDecodableShape {
+        /// The Amazon Web Services Region name.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct ResetLandingZoneInput: AWSEncodableShape {
+        /// The unique identifier of the landing zone.
+        public let landingZoneIdentifier: String
+
+        public init(landingZoneIdentifier: String) {
+            self.landingZoneIdentifier = landingZoneIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZoneIdentifier = "landingZoneIdentifier"
+        }
+    }
+
+    public struct ResetLandingZoneOutput: AWSDecodableShape {
+        /// A unique identifier assigned to a ResetLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+        public let operationIdentifier: String
+
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The ARN of the resource to be tagged.
+        public let resourceArn: String
+        /// Tags to be applied to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The ARN of the resource.
+        public let resourceArn: String
+        /// Tag keys to be removed from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateEnabledControlInput: AWSEncodableShape {
+        ///  The ARN of the enabled control that will be updated.
+        public let enabledControlIdentifier: String
+        /// A key/value pair, where Key is of type String and Value is of type Document.
+        public let parameters: [EnabledControlParameter]
+
+        public init(enabledControlIdentifier: String, parameters: [EnabledControlParameter]) {
+            self.enabledControlIdentifier = enabledControlIdentifier
+            self.parameters = parameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, max: 2048)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, min: 20)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledControlIdentifier = "enabledControlIdentifier"
+            case parameters = "parameters"
+        }
+    }
+
+    public struct UpdateEnabledControlOutput: AWSDecodableShape {
+        ///  The operation identifier for this UpdateEnabledControl operation.
+        public let operationIdentifier: String
+
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
+    public struct UpdateLandingZoneInput: AWSEncodableShape {
+        /// The unique identifier of the landing zone.
+        public let landingZoneIdentifier: String
+        /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review  The manifest file.
+        public let manifest: String
+        /// The landing zone version, for example, 3.2.
+        public let version: String
+
+        public init(landingZoneIdentifier: String, manifest: String, version: String) {
+            self.landingZoneIdentifier = landingZoneIdentifier
+            self.manifest = manifest
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.version, name: "version", parent: name, max: 10)
+            try self.validate(self.version, name: "version", parent: name, min: 3)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^\\d+.\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case landingZoneIdentifier = "landingZoneIdentifier"
+            case manifest = "manifest"
+            case version = "version"
+        }
+    }
+
+    public struct UpdateLandingZoneOutput: AWSDecodableShape {
+        /// A unique identifier assigned to a UpdateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
+        public let operationIdentifier: String
+
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
         }
     }
 }
@@ -273,19 +974,19 @@ public struct ControlTowerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// User does not have sufficient access to perform this action.
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Updating or deleting a resource can cause an inconsistent state.
+    /// Updating or deleting the resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// Unexpected error during processing of request.
+    /// An unexpected error occurred during processing of a request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Request references a resource which does not exist.
+    /// The request references a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+    /// The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    ///  Request was denied due to request throttling.
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input does not satisfy the constraints specified by an  Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

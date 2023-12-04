@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS SES service.
 ///
-/// Amazon Simple Email Service This document contains reference information for the Amazon Simple Email Service (Amazon SES) API, version 2010-12-01. This document is best used in conjunction with the Amazon SES Developer Guide.   For a list of Amazon SES endpoints to use in service requests, see Regions and Amazon SES in the Amazon SES Developer Guide.
+/// Amazon Simple Email Service This document contains reference information for the Amazon Simple Email Service (Amazon SES) API, version 2010-12-01. This document is best used in conjunction with the Amazon SES Developer Guide.   For a list of Amazon SES endpoints to use in service requests, see Regions and Amazon SES in the Amazon SES Developer Guide.  This documentation contains reference information related to the following:    Amazon SES API Actions     Amazon SES API Data Types     Common Parameters     Common Errors
 public struct SES: AWSService {
     // MARK: Member variables
 
@@ -76,8 +76,11 @@ public struct SES: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "email-fips.ca-central-1.amazonaws.com",
             "us-east-1": "email-fips.us-east-1.amazonaws.com",
+            "us-east-2": "email-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "email-fips.us-west-1.amazonaws.com",
             "us-west-2": "email-fips.us-west-2.amazonaws.com"
         ])
     ]}
@@ -110,7 +113,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Creates a configuration set event destination.  When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).  An event destination is the AWS service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Creates a configuration set event destination.  When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).  An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetEventDestinationResponse {
         return try await self.client.execute(
@@ -188,7 +191,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
         return try await self.client.execute(
@@ -227,7 +230,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.  Deleting this kind of association will result in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
+    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.  Deleting this kind of association results in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
     @Sendable
     public func deleteConfigurationSetTrackingOptions(_ input: DeleteConfigurationSetTrackingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetTrackingOptionsResponse {
         return try await self.client.execute(
@@ -266,7 +269,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist.  This operation is for the identity owner only. If you have not verified the identity, it returns an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func deleteIdentityPolicy(_ input: DeleteIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityPolicyResponse {
         return try await self.client.execute(
@@ -396,7 +399,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Returns the email sending status of the Amazon SES account for the current region. You can execute this operation no more than once per second.
+    /// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second.
     @Sendable
     public func getAccountSendingEnabled(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSendingEnabledResponse {
         return try await self.client.execute(
@@ -460,7 +463,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.  This operation is for the identity owner only. If you have not verified the identity, it returns an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func getIdentityPolicies(_ input: GetIdentityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityPoliciesResponse {
         return try await self.client.execute(
@@ -473,7 +476,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, if you still want to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
+    /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     @Sendable
     public func getIdentityVerificationAttributes(_ input: GetIdentityVerificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityVerificationAttributesResponse {
         return try await self.client.execute(
@@ -498,7 +501,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Provides sending statistics for the current AWS Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
+    /// Provides sending statistics for the current Amazon Web Services Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
     @Sendable
     public func getSendStatistics(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSendStatisticsResponse {
         return try await self.client.execute(
@@ -523,7 +526,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Provides a list of the configuration sets associated with your Amazon SES account in the current AWS Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can execute this operation no more than once per second. This operation will return up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation will also return a NextToken element. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
+    /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can execute this operation no more than once per second. This operation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     @Sendable
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationSetsResponse {
         return try await self.client.execute(
@@ -536,7 +539,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomVerificationEmailTemplatesResponse {
         return try await self.client.execute(
@@ -549,7 +552,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
+    /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second.  It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken in the response, you should continue providing the IdentityType=Domain parameter for further NextToken calls; however, if you didn't provide the IdentityType parameter in the original call, then continue to not provide it for successive pagination calls. Using this protocol will ensure consistent results.
     @Sendable
     public func listIdentities(_ input: ListIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentitiesResponse {
         return try await self.client.execute(
@@ -562,7 +565,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This API returns only a list. If you want the actual policy content, you can use GetIdentityPolicies.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation returns only a list. To get the actual policy content, use GetIdentityPolicies.  This operation is for the identity owner only. If you have not verified the identity, it returns an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func listIdentityPolicies(_ input: ListIdentityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityPoliciesResponse {
         return try await self.client.execute(
@@ -575,7 +578,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Lists the IP address filters associated with your AWS account in the current AWS Region. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func listReceiptFilters(_ input: ListReceiptFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReceiptFiltersResponse {
         return try await self.client.execute(
@@ -588,7 +591,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Lists the receipt rule sets that exist under your AWS account in the current AWS Region. If there are additional receipt rule sets to be retrieved, you will receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func listReceiptRuleSets(_ input: ListReceiptRuleSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReceiptRuleSetsResponse {
         return try await self.client.execute(
@@ -601,7 +604,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     @Sendable
     public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
         return try await self.client.execute(
@@ -639,7 +642,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain).  This operation is for the identity owner only. If you have not verified the identity, it returns an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func putIdentityPolicy(_ input: PutIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutIdentityPolicyResponse {
         return try await self.client.execute(
@@ -652,7 +655,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Reorders the receipt rules within a receipt rule set.  All of the rules in the rule set must be represented in this request. That is, this API will return an error if the reorder request doesn't explicitly position all of the rules.  For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Reorders the receipt rules within a receipt rule set.  All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules.  For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func reorderReceiptRuleSet(_ input: ReorderReceiptRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReorderReceiptRuleSetResponse {
         return try await self.client.execute(
@@ -665,7 +668,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this API on an email up to 24 hours after you receive it.  You cannot use this API to send generic bounces for mail that was not received by Amazon SES.  For information about receiving email through Amazon SES, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it.  You cannot use this operation to send generic bounces for mail that was not received by Amazon SES.  For information about receiving email through Amazon SES, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func sendBounce(_ input: SendBounceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendBounceResponse {
         return try await self.client.execute(
@@ -678,7 +681,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Composes an email message to multiple destinations. The message body is created using an email template. In order to send email using the SendBulkTemplatedEmail operation, your call to the API must meet the following requirements:   The call must refer to an existing email template. You can create email templates using the CreateTemplate operation.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   Each Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.   The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendBulkTemplatedEmail operation several times to send the message to each group.   The number of destinations you can contact in a single call to the API may be limited by your account's maximum sending rate.
+    /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements:   The call must refer to an existing email template. You can create email templates using CreateTemplate.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may send only to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   Each Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message is rejected, even if the message contains other recipients that are valid.   The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendBulkTemplatedEmail operation several times to send the message to each group.   The number of destinations you can contact in a single call can be limited by your account's maximum sending rate.
     @Sendable
     public func sendBulkTemplatedEmail(_ input: SendBulkTemplatedEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendBulkTemplatedEmailResponse {
         return try await self.client.execute(
@@ -691,7 +694,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCustomVerificationEmailResponse {
         return try await self.client.execute(
@@ -704,8 +707,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Composes an email message and immediately queues it for sending. In order to send email using the SendEmail operation, your message must meet the following requirements:
-    ///    The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation will result in an "Email address not verified" error.    If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   The message must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.   The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendEmail operation several times to send the message to each group.    For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
+    /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements:   The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error.    If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   The message must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message is rejected, even if the message contains other recipients that are valid.   The message may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to a larger audience, you can divide your recipient list into groups of 50 or fewer, and then call the SendEmail operation several times to send the message to each group.    For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
     @Sendable
     public func sendEmail(_ input: SendEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendEmailResponse {
         return try await self.client.execute(
@@ -718,10 +720,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Composes an email message and immediately queues it for sending.
-    ///  This operation is more flexible than the SendEmail API operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you want to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the following requirements:   You can only send email from verified email addresses or domains. If you try to send email from an address that isn't verified, the operation results in an "Email address not verified" error.   If your account is still in the Amazon SES sandbox, you can only send email to other verified addresses in your account, or to addresses that are associated with the Amazon SES mailbox simulator.   The maximum message size, including attachments, is 10 MB.   Each message has to include at least one recipient address. A recipient address includes any address on the To:, CC:, or BCC: lines.   If you send a single message to more than one recipient address, and one of the recipient addresses isn't in a valid format (that is, it's not in the format UserName@[SubDomain.]Domain.TopLevelDomain), Amazon SES rejects the entire message, even if the other addresses are valid.   Each message can include up to 50 recipient addresses across the To:, CC:, or BCC: lines. If you need to send a single message to more than 50 recipients, you have to split the list of recipient addresses into groups of less than 50 recipients, and send separate messages to each group.   Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message parts. However, if Amazon SES has to modify the contents of your message (for example, if you use open and click tracking), 8-bit content isn't preserved. For this reason, we highly recommend that you encode all content that isn't 7-bit ASCII. For more information, see MIME Encoding in the Amazon SES Developer Guide.
-    ///  Additionally, keep the following considerations in mind when using the SendRawEmail operation:
-    ///    Although you can customize the message headers when using the SendRawEmail operation, Amazon SES will automatically apply its own Message-ID and Date headers; if you passed these headers when creating the message, they will be overwritten by the values that Amazon SES provides.   If you are using sending authorization to send on behalf of another user, SendRawEmail enables you to specify the cross-account identity for the email's Source, From, and Return-Path parameters in one of two ways: you can pass optional parameters SourceArn, FromArn, and/or ReturnPathArn to the API, or you can include the following X-headers in the header of your raw email:    X-SES-SOURCE-ARN     X-SES-FROM-ARN     X-SES-RETURN-PATH-ARN     Don't include these X-headers in the DKIM signature. Amazon SES removes these before it sends the email.  If you only specify the SourceIdentityArn parameter, Amazon SES sets the From and Return-Path addresses to the same identity that you specified. For more information about sending authorization, see the Using Sending Authorization with Amazon SES in the Amazon SES Developer Guide.    For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
+    /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the following requirements:   You can only send email from verified email addresses or domains. If you try to send email from an address that isn't verified, the operation results in an "Email address not verified" error.   If your account is still in the Amazon SES sandbox, you can only send email to other verified addresses in your account, or to addresses that are associated with the Amazon SES mailbox simulator.   The maximum message size, including attachments, is 10 MB.   Each message has to include at least one recipient address. A recipient address includes any address on the To:, CC:, or BCC: lines.   If you send a single message to more than one recipient address, and one of the recipient addresses isn't in a valid format (that is, it's not in the format UserName@[SubDomain.]Domain.TopLevelDomain), Amazon SES rejects the entire message, even if the other addresses are valid.   Each message can include up to 50 recipient addresses across the To:, CC:, or BCC: lines. If you need to send a single message to more than 50 recipients, you have to split the list of recipient addresses into groups of less than 50 recipients, and send separate messages to each group.   Amazon SES allows you to specify 8-bit Content-Transfer-Encoding for MIME message parts. However, if Amazon SES has to modify the contents of your message (for example, if you use open and click tracking), 8-bit content isn't preserved. For this reason, we highly recommend that you encode all content that isn't 7-bit ASCII. For more information, see MIME Encoding in the Amazon SES Developer Guide.   Additionally, keep the following considerations in mind when using the SendRawEmail operation:   Although you can customize the message headers when using the SendRawEmail operation, Amazon SES automatically applies its own Message-ID and Date headers; if you passed these headers when creating the message, they are overwritten by the values that Amazon SES provides.   If you are using sending authorization to send on behalf of another user, SendRawEmail enables you to specify the cross-account identity for the email's Source, From, and Return-Path parameters in one of two ways: you can pass optional parameters SourceArn, FromArn, and/or ReturnPathArn, or you can include the following X-headers in the header of your raw email:    X-SES-SOURCE-ARN     X-SES-FROM-ARN     X-SES-RETURN-PATH-ARN     Don't include these X-headers in the DKIM signature. Amazon SES removes these before it sends the email.  If you only specify the SourceIdentityArn parameter, Amazon SES sets the From and Return-Path addresses to the same identity that you specified. For more information about sending authorization, see the Using Sending Authorization with Amazon SES in the Amazon SES Developer Guide.    For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
     @Sendable
     public func sendRawEmail(_ input: SendRawEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendRawEmailResponse {
         return try await self.client.execute(
@@ -734,7 +733,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Composes an email message using an email template and immediately queues it for sending. In order to send email using the SendTemplatedEmail operation, your call to the API must meet the following requirements:   The call must refer to an existing email template. You can create email templates using the CreateTemplate operation.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   Calls to the SendTemplatedEmail operation may only include one Destination parameter. A destination is a set of recipients who will receive the same version of the email. The Destination parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.   The Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if the message contains other recipients that are valid.    If your call to the SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the email because the template contains errors, it doesn't send the email. Additionally, because it already accepted the message, Amazon SES doesn't return a message stating that it was unable to send the email. For these reasons, we highly recommend that you set up Amazon SES to send you notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the Amazon Simple Email Service Developer Guide.
+    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements:   The call must refer to an existing email template. You can create email templates using the CreateTemplate operation.   The message must be sent from a verified email address or domain.   If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   Calls to the SendTemplatedEmail operation may only include one Destination parameter. A destination is a set of recipients that receives the same version of the email. The Destination parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.   The Destination parameter must include at least one recipient email address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message is rejected, even if the message contains other recipients that are valid.    If your call to the SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the email because the template contains errors, it doesn't send the email. Additionally, because it already accepted the message, Amazon SES doesn't return a message stating that it was unable to send the email. For these reasons, we highly recommend that you set up Amazon SES to send you notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the Amazon Simple Email Service Developer Guide.
     @Sendable
     public func sendTemplatedEmail(_ input: SendTemplatedEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendTemplatedEmailResponse {
         return try await self.client.execute(
@@ -747,7 +746,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Sets the specified receipt rule set as the active receipt rule set.  To disable your email-receiving through Amazon SES completely, you can call this API with RuleSetName set to null.  For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Sets the specified receipt rule set as the active receipt rule set.  To disable your email-receiving through Amazon SES completely, you can call this operation with RuleSetName set to null.  For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func setActiveReceiptRuleSet(_ input: SetActiveReceiptRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetActiveReceiptRuleSetResponse {
         return try await self.client.execute(
@@ -799,7 +798,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain).  To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. If you want your emails to pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
+    /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain).  To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
     @Sendable
     public func setIdentityMailFromDomain(_ input: SetIdentityMailFromDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetIdentityMailFromDomainResponse {
         return try await self.client.execute(
@@ -851,7 +850,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Enables or disables email sending across your entire Amazon SES account in the current AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given AWS Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
+    /// Enables or disables email sending across your entire Amazon SES account in the current Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
     @Sendable
     public func updateAccountSendingEnabled(_ input: UpdateAccountSendingEnabledRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -877,7 +876,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given AWS Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
+    /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
     @Sendable
     public func updateConfigurationSetReputationMetricsEnabled(_ input: UpdateConfigurationSetReputationMetricsEnabledRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -890,7 +889,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Enables or disables email sending for messages sent using a specific configuration set in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
+    /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
     @Sendable
     public func updateConfigurationSetSendingEnabled(_ input: UpdateConfigurationSetSendingEnabledRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -942,7 +941,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
         return try await self.client.execute(
@@ -968,7 +967,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Adds a domain to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
+    /// Adds a domain to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
     @Sendable
     public func verifyDomainIdentity(_ input: VerifyDomainIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyDomainIdentityResponse {
         return try await self.client.execute(
@@ -994,7 +993,7 @@ public struct SES: AWSService {
         )
     }
 
-    /// Adds an email address to the list of identities for your Amazon SES account in the current AWS region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
     @Sendable
     public func verifyEmailIdentity(_ input: VerifyEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyEmailIdentityResponse {
         return try await self.client.execute(
@@ -1021,7 +1020,7 @@ extension SES {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SES {
-    /// Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1040,7 +1039,7 @@ extension SES {
         )
     }
 
-    /// Returns a list containing all of the identities (email addresses and domains) for your AWS account in the current AWS Region, regardless of verification status. You can execute this operation no more than once per second.
+    /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second.  It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken in the response, you should continue providing the IdentityType=Domain parameter for further NextToken calls; however, if you didn't provide the IdentityType parameter in the original call, then continue to not provide it for successive pagination calls. Using this protocol will ensure consistent results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

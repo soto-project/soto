@@ -87,7 +87,7 @@ public struct MarketplaceCatalog: AWSService {
         )
     }
 
-    /// Deletes a resource-based policy on an Entity that is identified by its resource ARN.
+    /// Deletes a resource-based policy on an entity that is identified by its resource ARN.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
         return try await self.client.execute(
@@ -126,7 +126,7 @@ public struct MarketplaceCatalog: AWSService {
         )
     }
 
-    /// Gets a resource-based policy of an Entity that is identified by its resource ARN.
+    /// Gets a resource-based policy of an entity that is identified by its resource ARN.
     @Sendable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
         return try await self.client.execute(
@@ -178,7 +178,7 @@ public struct MarketplaceCatalog: AWSService {
         )
     }
 
-    /// Attaches a resource-based policy to an Entity. Examples of an entity include: AmiProduct and ContainerProduct.
+    /// Attaches a resource-based policy to an entity. Examples of an entity include: AmiProduct and ContainerProduct.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
         return try await self.client.execute(
@@ -191,7 +191,7 @@ public struct MarketplaceCatalog: AWSService {
         )
     }
 
-    /// Allows you to request changes for your entities. Within a single ChangeSet, you can't start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is already locked, you will receive a ResourceInUseException error. For example, you can't start the ChangeSet described in the example later in this topic because it contains two changes to run the same change type (AddRevisions) against the same entity (entity-id@1). For more information about working with change sets, see  Working with change sets. For information on change types for single-AMI products, see Working with single-AMI products. Als, for more information on change types available for container-based products, see Working with container products.
+    /// Allows you to request changes for your entities. Within a single ChangeSet, you can't start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is already locked, you will receive a ResourceInUseException error. For example, you can't start the ChangeSet described in the example later in this topic because it contains two changes to run the same change type (AddRevisions) against the same entity (entity-id@1). For more information about working with change sets, see  Working with change sets. For information about change types for single-AMI products, see Working with single-AMI products. Also, for more information about change types available for container-based products, see Working with container products.
     @Sendable
     public func startChangeSet(_ input: StartChangeSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChangeSetResponse {
         return try await self.client.execute(
@@ -300,6 +300,8 @@ extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateToken {
         return .init(
             catalog: self.catalog,
             entityType: self.entityType,
+            entityTypeFilters: self.entityTypeFilters,
+            entityTypeSort: self.entityTypeSort,
             filterList: self.filterList,
             maxResults: self.maxResults,
             nextToken: token,

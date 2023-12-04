@@ -75,6 +75,7 @@ public struct Detective: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "api.detective-fips.ca-central-1.amazonaws.com",
             "us-east-1": "api.detective-fips.us-east-1.amazonaws.com",
             "us-east-2": "api.detective-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "api.detective-fips.us-gov-east-1.amazonaws.com",
@@ -228,6 +229,19 @@ public struct Detective: AWSService {
         )
     }
 
+    /// Returns the investigation results of an investigation for a behavior graph.
+    @Sendable
+    public func getInvestigation(_ input: GetInvestigationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvestigationResponse {
+        return try await self.client.execute(
+            operation: "GetInvestigation", 
+            path: "/investigations/getInvestigation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the membership details for specified member accounts for a behavior graph.
     @Sendable
     public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMembersResponse {
@@ -260,6 +274,32 @@ public struct Detective: AWSService {
         return try await self.client.execute(
             operation: "ListGraphs", 
             path: "/graphs/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the indicators from an investigation
+    @Sendable
+    public func listIndicators(_ input: ListIndicatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndicatorsResponse {
+        return try await self.client.execute(
+            operation: "ListIndicators", 
+            path: "/investigations/listIndicators", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List all Investigations.
+    @Sendable
+    public func listInvestigations(_ input: ListInvestigationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvestigationsResponse {
+        return try await self.client.execute(
+            operation: "ListInvestigations", 
+            path: "/investigations/listInvestigations", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -332,6 +372,19 @@ public struct Detective: AWSService {
         )
     }
 
+    /// initiate an investigation on an entity in a graph
+    @Sendable
+    public func startInvestigation(_ input: StartInvestigationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInvestigationResponse {
+        return try await self.client.execute(
+            operation: "StartInvestigation", 
+            path: "/investigations/startInvestigation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED. For valid member accounts, the status is updated as follows.   If Detective enabled the member account, then the new status is ENABLED.   If Detective cannot enable the member account, the status remains ACCEPTED_BUT_DISABLED.
     @Sendable
     public func startMonitoringMember(_ input: StartMonitoringMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -377,6 +430,19 @@ public struct Detective: AWSService {
         return try await self.client.execute(
             operation: "UpdateDatasourcePackages", 
             path: "/graph/datasources/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the state of an investigation.
+    @Sendable
+    public func updateInvestigationState(_ input: UpdateInvestigationStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateInvestigationState", 
+            path: "/investigations/updateInvestigationState", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

@@ -26,7 +26,7 @@ import Foundation
 extension ECRPublic {
     // MARK: Enums
 
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case imageNotFound = "ImageNotFound"
         case imageReferencedByManifestList = "ImageReferencedByManifestList"
         case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
@@ -37,19 +37,19 @@ extension ECRPublic {
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable {
+    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidLayerDigest = "InvalidLayerDigest"
         case missingLayerDigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistryAliasStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegistryAliasStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case rejected = "REJECTED"

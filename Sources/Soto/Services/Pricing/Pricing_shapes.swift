@@ -26,7 +26,7 @@ import Foundation
 extension Pricing {
     // MARK: Enums
 
-    public enum FilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case termMatch = "TERM_MATCH"
         public var description: String { return self.rawValue }
     }
@@ -166,9 +166,9 @@ extension Pricing {
     }
 
     public struct GetPriceListFileUrlRequest: AWSEncodableShape {
-        /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the  ListPriceLists response.
+        /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response.
         public let fileFormat: String
-        /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the  ListPriceLists response.
+        /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists response.
         public let priceListArn: String
 
         public init(fileFormat: String, priceListArn: String) {
@@ -181,7 +181,7 @@ extension Pricing {
             try self.validate(self.fileFormat, name: "fileFormat", parent: name, min: 1)
             try self.validate(self.priceListArn, name: "priceListArn", parent: name, max: 2048)
             try self.validate(self.priceListArn, name: "priceListArn", parent: name, min: 18)
-            try self.validate(self.priceListArn, name: "priceListArn", parent: name, pattern: "^arn:.+:pricing::.*:price-list/.{1,255}/.{1,32}/[A-Z]{3}/[0-9]{14}/[^/]*$")
+            try self.validate(self.priceListArn, name: "priceListArn", parent: name, pattern: "^arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pricing:::price-list/[A-Za-z0-9_/.-]{1,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -267,9 +267,9 @@ extension Pricing {
         public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
-        /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from  GetAttributeValues API.
+        /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API.
         public let regionCode: String?
-        /// The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the  DescribeServices API. To retrieve the Compute Savings Plan price lists, use ComputeSavingsPlans. To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
+        /// The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
         public let serviceCode: String
 
         public init(currencyCode: String, effectiveDate: Date, maxResults: Int? = nil, nextToken: String? = nil, regionCode: String? = nil, serviceCode: String) {

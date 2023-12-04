@@ -86,6 +86,94 @@
                 }
             }
         },
+        "com.amazonaws.drs#AssociateSourceNetworkStack": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#AssociateSourceNetworkStackRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#AssociateSourceNetworkStackResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.iam#requiredActions": [
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:DescribeStackResource",
+                    "ec2:DescribeVpcs",
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeLaunchTemplates",
+                    "ec2:DescribeLaunchTemplateVersions",
+                    "ec2:ModifyLaunchTemplate",
+                    "ec2:CreateLaunchTemplateVersion",
+                    "drs:GetLaunchConfiguration"
+                ],
+                "smithy.api#documentation": "<p>Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.</p>",
+                "smithy.api#http": {
+                    "uri": "/AssociateSourceNetworkStack",
+                    "method": "POST",
+                    "code": 202
+                }
+            }
+        },
+        "com.amazonaws.drs#AssociateSourceNetworkStackRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Source Network ID to associate with CloudFormation template.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "cfnStackName": {
+                    "target": "com.amazonaws.drs#CfnStackName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>CloudFormation template to associate with a Source Network.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#AssociateSourceNetworkStackResponse": {
+            "type": "structure",
+            "members": {
+                "job": {
+                    "target": "com.amazonaws.drs#Job",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Source Network association Job.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.drs#AwsAvailabilityZone": {
             "type": "string",
             "traits": {
@@ -93,7 +181,7 @@
                     "min": 0,
                     "max": 255
                 },
-                "smithy.api#pattern": "^(us(-gov)?|ap|ca|cn|eu|sa|af|me)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9][a-z]$"
+                "smithy.api#pattern": "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9][a-z]$"
             }
         },
         "com.amazonaws.drs#AwsRegion": {
@@ -103,7 +191,7 @@
                     "min": 0,
                     "max": 255
                 },
-                "smithy.api#pattern": "^(us(-gov)?|ap|ca|cn|eu|sa|af|me)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$"
+                "smithy.api#pattern": "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$"
             }
         },
         "com.amazonaws.drs#BoundedString": {
@@ -134,6 +222,17 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Information about a server's CPU.</p>"
+            }
+        },
+        "com.amazonaws.drs#CfnStackName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[a-zA-Z][-a-zA-Z0-9]*$",
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.drs#ConflictException": {
@@ -367,6 +466,24 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Licensing.</p>"
                     }
+                },
+                "exportBucketArn": {
+                    "target": "com.amazonaws.drs#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>S3 bucket ARN to export Source Network templates.</p>"
+                    }
+                },
+                "postLaunchEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether we want to activate post-launch actions.</p>"
+                    }
+                },
+                "launchIntoSourceInstance": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.</p>"
+                    }
                 }
             }
         },
@@ -524,6 +641,99 @@
                         "smithy.api#documentation": "<p>Whether to allow the AWS replication agent to automatically replicate newly added disks.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.drs#CreateSourceNetwork": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#CreateSourceNetworkRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#CreateSourceNetworkResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.iam#requiredActions": [
+                    "ec2:DescribeVpcs",
+                    "ec2:DescribeInstances"
+                ],
+                "smithy.api#documentation": "<p>Create a new Source Network resource for a provided VPC ID.</p>",
+                "smithy.api#http": {
+                    "uri": "/CreateSourceNetwork",
+                    "method": "POST",
+                    "code": 201
+                }
+            }
+        },
+        "com.amazonaws.drs#CreateSourceNetworkRequest": {
+            "type": "structure",
+            "members": {
+                "vpcID": {
+                    "target": "com.amazonaws.drs#VpcID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Which VPC ID to protect.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "originAccountID": {
+                    "target": "com.amazonaws.drs#AccountID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Account containing the VPC to protect.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "originRegion": {
+                    "target": "com.amazonaws.drs#AwsRegion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Region containing the VPC to protect.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.drs#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A set of tags to be associated with the Source Network resource.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#CreateSourceNetworkResponse": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the created Source Network.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.drs#DataReplicationError": {
@@ -941,6 +1151,67 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.drs#DeleteLaunchAction": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#DeleteLaunchActionRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#DeleteLaunchActionResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes a resource launch action.</p>",
+                "smithy.api#http": {
+                    "uri": "/DeleteLaunchAction",
+                    "method": "POST",
+                    "code": 204
+                }
+            }
+        },
+        "com.amazonaws.drs#DeleteLaunchActionRequest": {
+            "type": "structure",
+            "members": {
+                "resourceId": {
+                    "target": "com.amazonaws.drs#LaunchActionResourceId",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "actionId": {
+                    "target": "com.amazonaws.drs#LaunchActionId",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#DeleteLaunchActionResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.drs#DeleteLaunchConfigurationTemplate": {
             "type": "operation",
             "input": {
@@ -1088,6 +1359,63 @@
         "com.amazonaws.drs#DeleteReplicationConfigurationTemplateResponse": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.drs#DeleteSourceNetwork": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#DeleteSourceNetworkRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#DeleteSourceNetworkResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Delete Source Network resource.</p>",
+                "smithy.api#http": {
+                    "uri": "/DeleteSourceNetwork",
+                    "method": "POST",
+                    "code": 204
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.drs#DeleteSourceNetworkRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the Source Network to delete.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#DeleteSourceNetworkResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.drs#DeleteSourceServer": {
             "type": "operation",
@@ -1725,6 +2053,129 @@
                 }
             }
         },
+        "com.amazonaws.drs#DescribeSourceNetworks": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#DescribeSourceNetworksRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#DescribeSourceNetworksResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists all Source Networks or multiple Source Networks filtered by ID.</p>",
+                "smithy.api#http": {
+                    "uri": "/DescribeSourceNetworks",
+                    "method": "POST",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "pageSize": "maxResults",
+                    "items": "items"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.drs#DescribeSourceNetworksRequest": {
+            "type": "structure",
+            "members": {
+                "filters": {
+                    "target": "com.amazonaws.drs#DescribeSourceNetworksRequestFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A set of filters by which to return Source Networks.</p>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.drs#StrictlyPositiveInteger",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>Maximum number of Source Networks to retrieve.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.drs#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token of the next Source Networks to retrieve.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#DescribeSourceNetworksRequestFilters": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkIDs": {
+                    "target": "com.amazonaws.drs#DescribeSourceNetworksRequestFiltersIDs",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of Source Network IDs that should be returned. An empty array means all Source Networks.</p>"
+                    }
+                },
+                "originAccountID": {
+                    "target": "com.amazonaws.drs#AccountID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Filter Source Networks by account ID containing the protected VPCs.</p>"
+                    }
+                },
+                "originRegion": {
+                    "target": "com.amazonaws.drs#AwsRegion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Filter Source Networks by the region containing the protected VPCs.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A set of filters by which to return Source Networks.</p>"
+            }
+        },
+        "com.amazonaws.drs#DescribeSourceNetworksRequestFiltersIDs": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#SourceNetworkID"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 100
+                }
+            }
+        },
+        "com.amazonaws.drs#DescribeSourceNetworksResponse": {
+            "type": "structure",
+            "members": {
+                "items": {
+                    "target": "com.amazonaws.drs#SourceNetworksList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of Source Networks.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.drs#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token of the next Source Networks to retrieve.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.drs#DescribeSourceServers": {
             "type": "operation",
             "input": {
@@ -2054,16 +2505,25 @@
                     "target": "com.amazonaws.drs#CreateExtendedSourceServer"
                 },
                 {
+                    "target": "com.amazonaws.drs#DeleteLaunchAction"
+                },
+                {
                     "target": "com.amazonaws.drs#InitializeService"
                 },
                 {
                     "target": "com.amazonaws.drs#ListExtensibleSourceServers"
                 },
                 {
+                    "target": "com.amazonaws.drs#ListLaunchActions"
+                },
+                {
                     "target": "com.amazonaws.drs#ListStagingAccounts"
                 },
                 {
                     "target": "com.amazonaws.drs#ListTagsForResource"
+                },
+                {
+                    "target": "com.amazonaws.drs#PutLaunchAction"
                 },
                 {
                     "target": "com.amazonaws.drs#TagResource"
@@ -2087,6 +2547,9 @@
                 },
                 {
                     "target": "com.amazonaws.drs#ReplicationConfigurationTemplateResource"
+                },
+                {
+                    "target": "com.amazonaws.drs#SourceNetworkResource"
                 },
                 {
                     "target": "com.amazonaws.drs#SourceServerResource"
@@ -2185,9 +2648,188 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "tree",
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "type": "tree",
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://drs-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://drs-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ]
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -2200,15 +2842,50 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
+                                            "type": "tree",
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "type": "tree",
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://drs.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
+                                                }
+                                            ]
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
+                                                "url": "https://drs.{Region}.{PartitionResult#dnsSuffix}",
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -2220,258 +2897,8 @@
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://drs-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://drs-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://drs.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://drs.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
-                                }
-                            ]
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -3051,6 +3478,91 @@
                 }
             }
         },
+        "com.amazonaws.drs#EventResourceData": {
+            "type": "union",
+            "members": {
+                "sourceNetworkData": {
+                    "target": "com.amazonaws.drs#SourceNetworkData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network properties.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Properties of resource related to a job event.</p>"
+            }
+        },
+        "com.amazonaws.drs#ExportSourceNetworkCfnTemplate": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#ExportSourceNetworkCfnTemplateRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#ExportSourceNetworkCfnTemplateResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.iam#requiredActions": [
+                    "s3:GetBucketLocation",
+                    "s3:PutObject",
+                    "s3:GetObject"
+                ],
+                "smithy.api#documentation": "<p>Export the Source Network CloudFormation template to an S3 bucket.</p>",
+                "smithy.api#http": {
+                    "uri": "/ExportSourceNetworkCfnTemplate",
+                    "method": "POST",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.drs#ExportSourceNetworkCfnTemplateRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Source Network ID to export its CloudFormation template to an S3 bucket.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#ExportSourceNetworkCfnTemplateResponse": {
+            "type": "structure",
+            "members": {
+                "s3DestinationUrl": {
+                    "target": "com.amazonaws.drs#LargeBoundedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>S3 bucket URL where the Source Network CloudFormation template was exported to.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.drs#ExtensionStatus": {
             "type": "string",
             "traits": {
@@ -3209,6 +3721,16 @@
                         "value": "FAILBACK_LAUNCH_STATE_NOT_AVAILABLE"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.drs#FailureReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[0-9a-zA-Z ():/.,'-_#*;]*$"
             }
         },
         "com.amazonaws.drs#GetFailbackReplicationConfiguration": {
@@ -3506,6 +4028,18 @@
                     {
                         "value": "TARGET_ACCOUNT",
                         "name": "TARGET_ACCOUNT"
+                    },
+                    {
+                        "value": "CREATE_NETWORK_RECOVERY",
+                        "name": "CREATE_NETWORK_RECOVERY"
+                    },
+                    {
+                        "value": "UPDATE_NETWORK_RECOVERY",
+                        "name": "UPDATE_NETWORK_RECOVERY"
+                    },
+                    {
+                        "value": "ASSOCIATE_NETWORK_RECOVERY",
+                        "name": "ASSOCIATE_NETWORK_RECOVERY"
                     }
                 ]
             }
@@ -3590,6 +4124,12 @@
                     "target": "com.amazonaws.drs#TagsMap",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of tags associated with the Job.</p>"
+                    }
+                },
+                "participatingResources": {
+                    "target": "com.amazonaws.drs#ParticipatingResources",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of resources that the Job is acting upon.</p>"
                     }
                 }
             },
@@ -3704,6 +4244,46 @@
                     {
                         "name": "JOB_END",
                         "value": "JOB_END"
+                    },
+                    {
+                        "name": "DEPLOY_NETWORK_CONFIGURATION_START",
+                        "value": "DEPLOY_NETWORK_CONFIGURATION_START"
+                    },
+                    {
+                        "name": "DEPLOY_NETWORK_CONFIGURATION_END",
+                        "value": "DEPLOY_NETWORK_CONFIGURATION_END"
+                    },
+                    {
+                        "name": "DEPLOY_NETWORK_CONFIGURATION_FAILED",
+                        "value": "DEPLOY_NETWORK_CONFIGURATION_FAILED"
+                    },
+                    {
+                        "name": "UPDATE_NETWORK_CONFIGURATION_START",
+                        "value": "UPDATE_NETWORK_CONFIGURATION_START"
+                    },
+                    {
+                        "name": "UPDATE_NETWORK_CONFIGURATION_END",
+                        "value": "UPDATE_NETWORK_CONFIGURATION_END"
+                    },
+                    {
+                        "name": "UPDATE_NETWORK_CONFIGURATION_FAILED",
+                        "value": "UPDATE_NETWORK_CONFIGURATION_FAILED"
+                    },
+                    {
+                        "name": "UPDATE_LAUNCH_TEMPLATE_START",
+                        "value": "UPDATE_LAUNCH_TEMPLATE_START"
+                    },
+                    {
+                        "name": "UPDATE_LAUNCH_TEMPLATE_END",
+                        "value": "UPDATE_LAUNCH_TEMPLATE_END"
+                    },
+                    {
+                        "name": "UPDATE_LAUNCH_TEMPLATE_FAILED",
+                        "value": "UPDATE_LAUNCH_TEMPLATE_FAILED"
+                    },
+                    {
+                        "name": "NETWORK_RECOVERY_FAIL",
+                        "value": "NETWORK_RECOVERY_FAIL"
                     }
                 ]
             }
@@ -3739,6 +4319,12 @@
                     "target": "com.amazonaws.drs#ConversionProperties",
                     "traits": {
                         "smithy.api#documentation": "<p>Properties of a conversion job</p>"
+                    }
+                },
+                "eventResourceData": {
+                    "target": "com.amazonaws.drs#EventResourceData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Properties of resource related to a job event.</p>"
                     }
                 }
             },
@@ -3871,6 +4457,363 @@
                 ]
             }
         },
+        "com.amazonaws.drs#LaunchAction": {
+            "type": "structure",
+            "members": {
+                "actionId": {
+                    "target": "com.amazonaws.drs#LaunchActionId"
+                },
+                "actionCode": {
+                    "target": "com.amazonaws.drs#SsmDocumentName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch action code.</p>"
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.drs#LaunchActionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch action type.</p>"
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.drs#LaunchActionName"
+                },
+                "active": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch action is active.</p>"
+                    }
+                },
+                "order": {
+                    "target": "com.amazonaws.drs#LaunchActionOrder",
+                    "traits": {
+                        "smithy.api#default": 0
+                    }
+                },
+                "actionVersion": {
+                    "target": "com.amazonaws.drs#LaunchActionVersion"
+                },
+                "optional": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch will not be marked as failed if this action fails.</p>"
+                    }
+                },
+                "parameters": {
+                    "target": "com.amazonaws.drs#LaunchActionParameters"
+                },
+                "description": {
+                    "target": "com.amazonaws.drs#LaunchActionDescription"
+                },
+                "category": {
+                    "target": "com.amazonaws.drs#LaunchActionCategory"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action.</p>"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionCategory": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action category.</p>",
+                "smithy.api#enum": [
+                    {
+                        "value": "MONITORING",
+                        "name": "MONITORING"
+                    },
+                    {
+                        "value": "VALIDATION",
+                        "name": "VALIDATION"
+                    },
+                    {
+                        "value": "CONFIGURATION",
+                        "name": "CONFIGURATION"
+                    },
+                    {
+                        "value": "SECURITY",
+                        "name": "SECURITY"
+                    },
+                    {
+                        "value": "OTHER",
+                        "name": "OTHER"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#LaunchActionDescription": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action description.</p>",
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^[0-9a-zA-Z ():/.,'-_#*;\n]*$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action Id.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionIds": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#LaunchActionId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 100
+                }
+            }
+        },
+        "com.amazonaws.drs#LaunchActionName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action name.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[A-Za-z0-9][A-Za-z0-9 /_-]*$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionOrder": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#default": 0,
+                "smithy.api#documentation": "<p>Launch action order.</p>",
+                "smithy.api#range": {
+                    "min": 2,
+                    "max": 10000
+                }
+            }
+        },
+        "com.amazonaws.drs#LaunchActionParameter": {
+            "type": "structure",
+            "members": {
+                "value": {
+                    "target": "com.amazonaws.drs#LaunchActionParameterValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Value.</p>"
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.drs#LaunchActionParameterType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Type.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action parameter.</p>"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionParameterName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1011
+                },
+                "smithy.api#pattern": "^([A-Za-z0-9])+$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionParameterType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "SSM_STORE",
+                        "name": "SSM_STORE"
+                    },
+                    {
+                        "value": "DYNAMIC",
+                        "name": "DYNAMIC"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#LaunchActionParameterValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1011
+                },
+                "smithy.api#pattern": "^[A-Za-z0-9.-]+$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionParameters": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.drs#LaunchActionParameterName"
+            },
+            "value": {
+                "target": "com.amazonaws.drs#LaunchActionParameter"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action parameters.</p>",
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 20
+                }
+            }
+        },
+        "com.amazonaws.drs#LaunchActionResourceId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch configuration template Id or Source Server Id</p>",
+                "smithy.api#pattern": "^(s-[0-9a-zA-Z]{17}$|lct-[0-9a-zA-Z]{17})$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionRun": {
+            "type": "structure",
+            "members": {
+                "action": {
+                    "target": "com.amazonaws.drs#LaunchAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Action.</p>"
+                    }
+                },
+                "runId": {
+                    "target": "com.amazonaws.drs#LaunchActionRunId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Run Id.</p>"
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.drs#LaunchActionRunStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Run status.</p>"
+                    }
+                },
+                "failureReason": {
+                    "target": "com.amazonaws.drs#FailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Failure reason.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action run.</p>"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionRunId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionRunStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "IN_PROGRESS",
+                        "name": "IN_PROGRESS"
+                    },
+                    {
+                        "value": "SUCCEEDED",
+                        "name": "SUCCEEDED"
+                    },
+                    {
+                        "value": "FAILED",
+                        "name": "FAILED"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#LaunchActionRuns": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#LaunchActionRun"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "SSM_AUTOMATION",
+                        "name": "SSM_AUTOMATION"
+                    },
+                    {
+                        "value": "SSM_COMMAND",
+                        "name": "SSM_COMMAND"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#LaunchActionVersion": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>Launch action version.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
+                },
+                "smithy.api#pattern": "^(\\$DEFAULT|\\$LATEST|[0-9]+)$"
+            }
+        },
+        "com.amazonaws.drs#LaunchActions": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#LaunchAction"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 200
+                }
+            }
+        },
+        "com.amazonaws.drs#LaunchActionsRequestFilters": {
+            "type": "structure",
+            "members": {
+                "actionIds": {
+                    "target": "com.amazonaws.drs#LaunchActionIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch actions Ids.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Resource launch actions filter.</p>"
+            }
+        },
+        "com.amazonaws.drs#LaunchActionsStatus": {
+            "type": "structure",
+            "members": {
+                "ssmAgentDiscoveryDatetime": {
+                    "target": "com.amazonaws.drs#ISO8601DatetimeString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Time where the AWS Systems Manager was detected as running on the launched instance.</p>"
+                    }
+                },
+                "runs": {
+                    "target": "com.amazonaws.drs#LaunchActionRuns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List of post launch action status.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch actions status.</p>"
+            }
+        },
         "com.amazonaws.drs#LaunchConfiguration": {
             "type": "structure",
             "members": {
@@ -3920,6 +4863,18 @@
                     "target": "com.amazonaws.drs#Licensing",
                     "traits": {
                         "smithy.api#documentation": "<p>The licensing configuration to be used for this launch configuration.</p>"
+                    }
+                },
+                "postLaunchEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether we want to activate post-launch actions for the Source Server.</p>"
+                    }
+                },
+                "launchIntoInstanceProperties": {
+                    "target": "com.amazonaws.drs#LaunchIntoInstanceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch into existing instance properties.</p>"
                     }
                 }
             }
@@ -3973,6 +4928,24 @@
                     "target": "com.amazonaws.drs#Licensing",
                     "traits": {
                         "smithy.api#documentation": "<p>Licensing.</p>"
+                    }
+                },
+                "exportBucketArn": {
+                    "target": "com.amazonaws.drs#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>S3 bucket ARN to export Source Network templates.</p>"
+                    }
+                },
+                "postLaunchEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Post-launch actions activated.</p>"
+                    }
+                },
+                "launchIntoSourceInstance": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.</p>"
                     }
                 }
             },
@@ -4052,6 +5025,20 @@
                         "value": "STARTED"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.drs#LaunchIntoInstanceProperties": {
+            "type": "structure",
+            "members": {
+                "launchIntoEC2InstanceID": {
+                    "target": "com.amazonaws.drs#EC2InstanceID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Launch into existing instance.</p>"
             }
         },
         "com.amazonaws.drs#LaunchStatus": {
@@ -4260,6 +5247,100 @@
                         "smithy.api#documentation": "<p>The token of the next extensible source server to retrieve.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.drs#ListLaunchActions": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#ListLaunchActionsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#ListLaunchActionsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists resource launch actions.</p>",
+                "smithy.api#http": {
+                    "uri": "/ListLaunchActions",
+                    "method": "POST",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "pageSize": "maxResults",
+                    "items": "items"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.drs#ListLaunchActionsRequest": {
+            "type": "structure",
+            "members": {
+                "resourceId": {
+                    "target": "com.amazonaws.drs#LaunchActionResourceId",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "filters": {
+                    "target": "com.amazonaws.drs#LaunchActionsRequestFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Filters to apply when listing resource launch actions.</p>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.drs#MaxResultsType",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>Maximum amount of items to return when listing resource launch actions.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.drs#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Next token to use when listing resource launch actions.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#ListLaunchActionsResponse": {
+            "type": "structure",
+            "members": {
+                "items": {
+                    "target": "com.amazonaws.drs#LaunchActions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List of resource launch actions.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.drs#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Next token returned when listing resource launch actions.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.drs#ListStagingAccounts": {
@@ -4572,6 +5653,46 @@
                 }
             }
         },
+        "com.amazonaws.drs#ParticipatingResource": {
+            "type": "structure",
+            "members": {
+                "participatingResourceID": {
+                    "target": "com.amazonaws.drs#ParticipatingResourceID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of a participating resource.</p>"
+                    }
+                },
+                "launchStatus": {
+                    "target": "com.amazonaws.drs#LaunchStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The launch status of a participating resource.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents a resource participating in an asynchronous Job.</p>"
+            }
+        },
+        "com.amazonaws.drs#ParticipatingResourceID": {
+            "type": "union",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network ID.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>ID of a resource participating in an asynchronous Job.</p>"
+            }
+        },
+        "com.amazonaws.drs#ParticipatingResources": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#ParticipatingResource"
+            }
+        },
         "com.amazonaws.drs#ParticipatingServer": {
             "type": "structure",
             "members": {
@@ -4592,6 +5713,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The launch status of a participating server.</p>"
                     }
+                },
+                "launchActionsStatus": {
+                    "target": "com.amazonaws.drs#LaunchActionsStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The post-launch action runs of a participating server.</p>"
+                    }
                 }
             },
             "traits": {
@@ -4611,6 +5738,177 @@
                 "smithy.api#range": {
                     "min": 0
                 }
+            }
+        },
+        "com.amazonaws.drs#PutLaunchAction": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#PutLaunchActionRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#PutLaunchActionResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Puts a resource launch action.</p>",
+                "smithy.api#http": {
+                    "uri": "/PutLaunchAction",
+                    "method": "POST",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.drs#PutLaunchActionRequest": {
+            "type": "structure",
+            "members": {
+                "resourceId": {
+                    "target": "com.amazonaws.drs#LaunchActionResourceId",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "actionCode": {
+                    "target": "com.amazonaws.drs#SsmDocumentName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch action code.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "order": {
+                    "target": "com.amazonaws.drs#LaunchActionOrder",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#required": {}
+                    }
+                },
+                "actionId": {
+                    "target": "com.amazonaws.drs#LaunchActionId",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "optional": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch will not be marked as failed if this action fails.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "active": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch action is active.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.drs#LaunchActionName",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "actionVersion": {
+                    "target": "com.amazonaws.drs#LaunchActionVersion",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "category": {
+                    "target": "com.amazonaws.drs#LaunchActionCategory",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "parameters": {
+                    "target": "com.amazonaws.drs#LaunchActionParameters"
+                },
+                "description": {
+                    "target": "com.amazonaws.drs#LaunchActionDescription",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#PutLaunchActionResponse": {
+            "type": "structure",
+            "members": {
+                "resourceId": {
+                    "target": "com.amazonaws.drs#LaunchActionResourceId"
+                },
+                "actionId": {
+                    "target": "com.amazonaws.drs#LaunchActionId"
+                },
+                "actionCode": {
+                    "target": "com.amazonaws.drs#SsmDocumentName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch action code.</p>"
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.drs#LaunchActionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch action type.</p>"
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.drs#LaunchActionName"
+                },
+                "active": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch action is active.</p>"
+                    }
+                },
+                "order": {
+                    "target": "com.amazonaws.drs#LaunchActionOrder",
+                    "traits": {
+                        "smithy.api#default": 0
+                    }
+                },
+                "actionVersion": {
+                    "target": "com.amazonaws.drs#LaunchActionVersion"
+                },
+                "optional": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the launch will not be marked as failed if this action fails.</p>"
+                    }
+                },
+                "parameters": {
+                    "target": "com.amazonaws.drs#LaunchActionParameters"
+                },
+                "description": {
+                    "target": "com.amazonaws.drs#LaunchActionDescription"
+                },
+                "category": {
+                    "target": "com.amazonaws.drs#LaunchActionCategory"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.drs#RecoveryInstance": {
@@ -5277,6 +6575,68 @@
                 }
             }
         },
+        "com.amazonaws.drs#RecoveryLifeCycle": {
+            "type": "structure",
+            "members": {
+                "apiCallDateTime": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time the last Source Network recovery was initiated.</p>",
+                        "smithy.api#timestampFormat": "date-time"
+                    }
+                },
+                "jobID": {
+                    "target": "com.amazonaws.drs#JobID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Job that was used to last recover the Source Network.</p>"
+                    }
+                },
+                "lastRecoveryResult": {
+                    "target": "com.amazonaws.drs#RecoveryResult",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the last recovery status of this Source Network.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object representing the Source Network recovery Lifecycle.</p>"
+            }
+        },
+        "com.amazonaws.drs#RecoveryResult": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "NOT_STARTED",
+                        "name": "NOT_STARTED"
+                    },
+                    {
+                        "value": "IN_PROGRESS",
+                        "name": "IN_PROGRESS"
+                    },
+                    {
+                        "value": "SUCCESS",
+                        "name": "SUCCESS"
+                    },
+                    {
+                        "value": "FAIL",
+                        "name": "FAIL"
+                    },
+                    {
+                        "value": "PARTIAL_SUCCESS",
+                        "name": "PARTIAL_SUCCESS"
+                    },
+                    {
+                        "value": "ASSOCIATE_SUCCESS",
+                        "name": "ASSOCIATE_SUCCESS"
+                    },
+                    {
+                        "value": "ASSOCIATE_FAIL",
+                        "name": "ASSOCIATE_FAIL"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.drs#RecoverySnapshot": {
             "type": "structure",
             "members": {
@@ -5506,6 +6866,10 @@
                     {
                         "value": "CUSTOM",
                         "name": "CUSTOM"
+                    },
+                    {
+                        "value": "NONE",
+                        "name": "NONE"
                     }
                 ]
             }
@@ -5797,6 +7161,29 @@
                 }
             }
         },
+        "com.amazonaws.drs#ReplicationStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "STOPPED",
+                        "name": "STOPPED"
+                    },
+                    {
+                        "value": "IN_PROGRESS",
+                        "name": "IN_PROGRESS"
+                    },
+                    {
+                        "value": "PROTECTED",
+                        "name": "PROTECTED"
+                    },
+                    {
+                        "value": "ERROR",
+                        "name": "ERROR"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.drs#ResourceNotFoundException": {
             "type": "structure",
             "members": {
@@ -5957,6 +7344,16 @@
                 "smithy.api#pattern": "^sg-[0-9a-fA-F]{8,}$"
             }
         },
+        "com.amazonaws.drs#SensitiveBoundedString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.drs#ServiceQuotaExceededException": {
             "type": "structure",
             "members": {
@@ -6030,6 +7427,178 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Properties of the cloud environment where this Source Server originated from.</p>"
+            }
+        },
+        "com.amazonaws.drs#SourceNetwork": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network ID.</p>"
+                    }
+                },
+                "sourceVpcID": {
+                    "target": "com.amazonaws.drs#VpcID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>VPC ID protected by the Source Network.</p>"
+                    }
+                },
+                "arn": {
+                    "target": "com.amazonaws.drs#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the Source Network.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.drs#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of tags associated with the Source Network.</p>"
+                    }
+                },
+                "replicationStatus": {
+                    "target": "com.amazonaws.drs#ReplicationStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Status of Source Network Replication. Possible values:\n            (a) STOPPED - Source Network is not replicating.\n            (b) IN_PROGRESS - Source Network is being replicated.\n            (c) PROTECTED - Source Network was replicated successfully and is being synchronized for changes.\n            (d) ERROR - Source Network replication has failed</p>"
+                    }
+                },
+                "replicationStatusDetails": {
+                    "target": "com.amazonaws.drs#SensitiveBoundedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Error details in case Source Network replication status is ERROR.</p>"
+                    }
+                },
+                "cfnStackName": {
+                    "target": "com.amazonaws.drs#CfnStackName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>CloudFormation stack name that was deployed for recovering the Source Network.</p>"
+                    }
+                },
+                "sourceRegion": {
+                    "target": "com.amazonaws.drs#AwsRegion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Region containing the VPC protected by the Source Network.</p>"
+                    }
+                },
+                "sourceAccountID": {
+                    "target": "com.amazonaws.drs#AccountID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Account ID containing the VPC protected by the Source Network.</p>"
+                    }
+                },
+                "lastRecovery": {
+                    "target": "com.amazonaws.drs#RecoveryLifeCycle",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An object containing information regarding the last recovery of the Source Network.</p>"
+                    }
+                },
+                "launchedVpcID": {
+                    "target": "com.amazonaws.drs#VpcID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the recovered VPC following Source Network recovery.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The ARN of the Source Network.</p>",
+                "smithy.api#references": [
+                    {
+                        "resource": "com.amazonaws.drs#SourceNetworkResource"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#SourceNetworkData": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network ID.</p>"
+                    }
+                },
+                "sourceVpc": {
+                    "target": "com.amazonaws.drs#VpcID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>VPC ID protected by the Source Network.</p>"
+                    }
+                },
+                "targetVpc": {
+                    "target": "com.amazonaws.drs#VpcID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the recovered VPC following Source Network recovery.</p>"
+                    }
+                },
+                "stackName": {
+                    "target": "com.amazonaws.drs#LargeBoundedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>CloudFormation stack name that was deployed for recovering the Source Network.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Properties of Source Network related to a job event.</p>"
+            }
+        },
+        "com.amazonaws.drs#SourceNetworkID": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 20,
+                    "max": 20
+                },
+                "smithy.api#pattern": "^sn-[0-9a-zA-Z]{17}$"
+            }
+        },
+        "com.amazonaws.drs#SourceNetworkResource": {
+            "type": "resource",
+            "identifiers": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID"
+                }
+            },
+            "create": {
+                "target": "com.amazonaws.drs#CreateSourceNetwork"
+            },
+            "delete": {
+                "target": "com.amazonaws.drs#DeleteSourceNetwork"
+            },
+            "list": {
+                "target": "com.amazonaws.drs#DescribeSourceNetworks"
+            },
+            "operations": [
+                {
+                    "target": "com.amazonaws.drs#AssociateSourceNetworkStack"
+                },
+                {
+                    "target": "com.amazonaws.drs#ExportSourceNetworkCfnTemplate"
+                },
+                {
+                    "target": "com.amazonaws.drs#StartSourceNetworkReplication"
+                },
+                {
+                    "target": "com.amazonaws.drs#StopSourceNetworkReplication"
+                }
+            ],
+            "collectionOperations": [
+                {
+                    "target": "com.amazonaws.drs#StartSourceNetworkRecovery"
+                }
+            ],
+            "traits": {
+                "aws.api#arn": {
+                    "template": "source-network/{sourceNetworkID}"
+                },
+                "aws.iam#conditionKeys": [
+                    "aws:ResourceTag"
+                ],
+                "aws.iam#disableConditionKeyInference": {}
+            }
+        },
+        "com.amazonaws.drs#SourceNetworksList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#SourceNetwork"
             }
         },
         "com.amazonaws.drs#SourceProperties": {
@@ -6169,6 +7738,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>For EC2-originated Source Servers which have been failed over and then failed back, this value will mean the ARN of the Source Server on the opposite replication direction.</p>"
                     }
+                },
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the Source Network which is protecting this Source Server's network.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6266,6 +7841,16 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.drs#SourceServer"
+            }
+        },
+        "com.amazonaws.drs#SsmDocumentName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1011
+                },
+                "smithy.api#pattern": "^([A-Za-z0-9-/:])+$"
             }
         },
         "com.amazonaws.drs#StagingArea": {
@@ -6606,6 +8191,201 @@
                 }
             }
         },
+        "com.amazonaws.drs#StartSourceNetworkRecovery": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#StartSourceNetworkRecoveryRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#StartSourceNetworkRecoveryResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.iam#requiredActions": [
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeLaunchTemplates",
+                    "ec2:DescribeLaunchTemplateVersions",
+                    "ec2:ModifyLaunchTemplate",
+                    "ec2:CreateLaunchTemplateVersion",
+                    "ec2:DescribeVpcs",
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeLaunchTemplates",
+                    "ec2:DescribeLaunchTemplateVersions",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:UpdateStack",
+                    "cloudformation:CreateStack",
+                    "cloudformation:DescribeStackResource",
+                    "cloudformation:DescribeStacks",
+                    "drs:GetLaunchConfiguration",
+                    "s3:PutObject",
+                    "s3:GetObject"
+                ],
+                "smithy.api#documentation": "<p>Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.</p>",
+                "smithy.api#http": {
+                    "uri": "/StartSourceNetworkRecovery",
+                    "method": "POST",
+                    "code": 202
+                }
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkRecoveryRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworks": {
+                    "target": "com.amazonaws.drs#StartSourceNetworkRecoveryRequestNetworkEntries",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Source Networks that we want to start a Recovery Job for.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "deployAsNew": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Don't update existing CloudFormation Stack, recover the network using a new stack.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.drs#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags to be associated with the Source Network recovery Job.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkRecoveryRequestNetworkEntries": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#StartSourceNetworkRecoveryRequestNetworkEntry"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                }
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkRecoveryRequestNetworkEntry": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Source Network you want to recover.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "cfnStackName": {
+                    "target": "com.amazonaws.drs#CfnStackName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>CloudFormation stack name to be used for recovering the network.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object representing the Source Network to recover.</p>"
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkRecoveryResponse": {
+            "type": "structure",
+            "members": {
+                "job": {
+                    "target": "com.amazonaws.drs#Job",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Source Network recovery Job.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkReplication": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#StartSourceNetworkReplicationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#StartSourceNetworkReplicationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Starts replication for a Source Network. This action would make the Source Network protected.</p>",
+                "smithy.api#http": {
+                    "uri": "/StartSourceNetworkReplication",
+                    "method": "POST",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkReplicationRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the Source Network to replicate.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#StartSourceNetworkReplicationResponse": {
+            "type": "structure",
+            "members": {
+                "sourceNetwork": {
+                    "target": "com.amazonaws.drs#SourceNetwork",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network which was requested for replication.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.drs#StopFailback": {
             "type": "operation",
             "input": {
@@ -6704,6 +8484,72 @@
                         "smithy.api#documentation": "<p>The Source Server that this action was targeted on.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.drs#StopSourceNetworkReplication": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.drs#StopSourceNetworkReplicationRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.drs#StopSourceNetworkReplicationResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.drs#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.drs#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.drs#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.drs#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Stops replication for a Source Network. This action would make the Source Network unprotected.</p>",
+                "smithy.api#http": {
+                    "uri": "/StopSourceNetworkReplication",
+                    "method": "POST",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.drs#StopSourceNetworkReplicationRequest": {
+            "type": "structure",
+            "members": {
+                "sourceNetworkID": {
+                    "target": "com.amazonaws.drs#SourceNetworkID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ID of the Source Network to stop replication.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.drs#StopSourceNetworkReplicationResponse": {
+            "type": "structure",
+            "members": {
+                "sourceNetwork": {
+                    "target": "com.amazonaws.drs#SourceNetwork",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Network which was requested to stop replication.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.drs#StrictlyPositiveInteger": {
@@ -6829,6 +8675,10 @@
                     {
                         "name": "BASIC",
                         "value": "BASIC"
+                    },
+                    {
+                        "name": "IN_AWS",
+                        "value": "IN_AWS"
                     }
                 ]
             }
@@ -7151,6 +9001,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The licensing configuration to be used for this launch configuration.</p>"
                     }
+                },
+                "postLaunchEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether we want to enable post-launch actions for the Source Server.</p>"
+                    }
+                },
+                "launchIntoInstanceProperties": {
+                    "target": "com.amazonaws.drs#LaunchIntoInstanceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Launch into existing instance properties.</p>"
+                    }
                 }
             }
         },
@@ -7229,6 +9091,24 @@
                     "target": "com.amazonaws.drs#Licensing",
                     "traits": {
                         "smithy.api#documentation": "<p>Licensing.</p>"
+                    }
+                },
+                "exportBucketArn": {
+                    "target": "com.amazonaws.drs#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>S3 bucket ARN to export Source Network templates.</p>"
+                    }
+                },
+                "postLaunchEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether we want to activate post-launch actions.</p>"
+                    }
+                },
+                "launchIntoSourceInstance": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.</p>"
                     }
                 }
             }
@@ -7627,6 +9507,16 @@
             },
             "value": {
                 "target": "com.amazonaws.drs#PositiveInteger"
+            }
+        },
+        "com.amazonaws.drs#VpcID": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 12,
+                    "max": 21
+                },
+                "smithy.api#pattern": "^vpc-[0-9a-fA-F]{8,}$"
             }
         }
     }

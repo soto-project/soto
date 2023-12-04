@@ -26,7 +26,7 @@ import Foundation
 extension ApiGatewayV2 {
     // MARK: Enums
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthorizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsIam = "AWS_IAM"
         case custom = "CUSTOM"
         case jwt = "JWT"
@@ -34,32 +34,32 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthorizerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jwt = "JWT"
         case request = "REQUEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internet = "INTERNET"
         case vpcLink = "VPC_LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case convertToBinary = "CONVERT_TO_BINARY"
         case convertToText = "CONVERT_TO_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deployed = "DEPLOYED"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainNameStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
         case pendingOwnershipVerification = "PENDING_OWNERSHIP_VERIFICATION"
@@ -67,13 +67,13 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case edge = "EDGE"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case awsProxy = "AWS_PROXY"
         case http = "HTTP"
@@ -82,33 +82,33 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case info = "INFO"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum PassthroughBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum PassthroughBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case never = "NEVER"
         case whenNoMatch = "WHEN_NO_MATCH"
         case whenNoTemplates = "WHEN_NO_TEMPLATES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http = "HTTP"
         case websocket = "WEBSOCKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcLinkStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VpcLinkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -117,7 +117,7 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcLinkVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum VpcLinkVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v2 = "V2"
         public var description: String { return self.rawValue }
     }
@@ -164,11 +164,11 @@ extension ApiGatewayV2 {
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
         /// The name of the API.
-        public let name: String
+        public let name: String?
         /// The API protocol.
-        public let protocolType: ProtocolType
+        public let protocolType: ProtocolType?
         /// The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be ${request.method} ${request.path}. If not provided, this will be the default for HTTP APIs. This property is required for WebSocket APIs.
-        public let routeSelectionExpression: String
+        public let routeSelectionExpression: String?
         /// A collection of tags associated with the API.
         public let tags: [String: String]?
         /// A version identifier for the API.
@@ -176,7 +176,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -217,15 +217,15 @@ extension ApiGatewayV2 {
 
     public struct ApiMapping: AWSDecodableShape {
         /// The API identifier.
-        public let apiId: String
+        public let apiId: String?
         /// The API mapping identifier.
         public let apiMappingId: String?
         /// The API mapping key.
         public let apiMappingKey: String?
         /// The API stage.
-        public let stage: String
+        public let stage: String?
 
-        public init(apiId: String, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String) {
+        public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
             self.apiMappingKey = apiMappingKey
@@ -262,9 +262,9 @@ extension ApiGatewayV2 {
         /// Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs.
         public let jwtConfiguration: JWTConfiguration?
         /// The name of the authorizer.
-        public let name: String
+        public let name: String?
 
-        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String) {
+        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -333,15 +333,15 @@ extension ApiGatewayV2 {
 
     public struct CreateApiMappingRequest: AWSEncodableShape {
         /// The API identifier.
-        public let apiId: String
+        public let apiId: String?
         /// The API mapping key.
         public let apiMappingKey: String?
         /// The domain name.
         public let domainName: String
         /// The API stage.
-        public let stage: String
+        public let stage: String?
 
-        public init(apiId: String, apiMappingKey: String? = nil, domainName: String, stage: String) {
+        public init(apiId: String? = nil, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingKey = apiMappingKey
             self.domainName = domainName
@@ -351,10 +351,10 @@ extension ApiGatewayV2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.apiId, forKey: .apiId)
+            try container.encodeIfPresent(self.apiId, forKey: .apiId)
             try container.encodeIfPresent(self.apiMappingKey, forKey: .apiMappingKey)
             request.encodePath(self.domainName, key: "DomainName")
-            try container.encode(self.stage, forKey: .stage)
+            try container.encodeIfPresent(self.stage, forKey: .stage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -403,9 +403,9 @@ extension ApiGatewayV2 {
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
         public let disableSchemaValidation: Bool?
         /// The name of the API.
-        public let name: String
+        public let name: String?
         /// The API protocol.
-        public let protocolType: ProtocolType
+        public let protocolType: ProtocolType?
         /// This property is part of quick create. If you don't specify a routeKey, a default route of $default is created. The $default route acts as a catch-all for any request made to your API, for a particular stage. The $default route key can't be modified. You can add routes after creating the API, and you can update the route keys of additional routes. Supported only for HTTP APIs.
         public let routeKey: String?
         /// The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be ${request.method} ${request.path}. If not provided, this will be the default for HTTP APIs. This property is required for WebSocket APIs.
@@ -417,7 +417,7 @@ extension ApiGatewayV2 {
         /// A version identifier for the API.
         public let version: String?
 
-        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
@@ -538,21 +538,21 @@ extension ApiGatewayV2 {
         /// The time to live (TTL) for cached authorizer results, in seconds. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway caches authorizer responses. The maximum value is 3600, or 1 hour. Supported only for HTTP API Lambda authorizers.
         public let authorizerResultTtlInSeconds: Int?
         /// The authorizer type. Specify REQUEST for a Lambda function using incoming request parameters. Specify JWT to use JSON Web Tokens (supported only for HTTP APIs).
-        public let authorizerType: AuthorizerType
+        public let authorizerType: AuthorizerType?
         /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form: arn:aws:apigateway:{region}:lambda:path/{service_api} , where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
         public let authorizerUri: String?
         /// Specifies whether a Lambda authorizer returns a response in a simple format. By default, a Lambda authorizer must return an IAM policy. If enabled, the Lambda authorizer can return a boolean value instead of an IAM policy. Supported only for HTTP APIs. To learn more, see Working with AWS Lambda authorizers for HTTP APIs
         public let enableSimpleResponses: Bool?
         /// The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use selection expressions prefixed with $, for example, $request.header.Auth, $request.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs. For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $request.header.Authorization.
-        public let identitySource: [String]
+        public let identitySource: [String]?
         /// This parameter is not used.
         public let identityValidationExpression: String?
         /// Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs.
         public let jwtConfiguration: JWTConfiguration?
         /// The name of the authorizer.
-        public let name: String
+        public let name: String?
 
-        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String], identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String) {
+        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -573,13 +573,13 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.authorizerCredentialsArn, forKey: .authorizerCredentialsArn)
             try container.encodeIfPresent(self.authorizerPayloadFormatVersion, forKey: .authorizerPayloadFormatVersion)
             try container.encodeIfPresent(self.authorizerResultTtlInSeconds, forKey: .authorizerResultTtlInSeconds)
-            try container.encode(self.authorizerType, forKey: .authorizerType)
+            try container.encodeIfPresent(self.authorizerType, forKey: .authorizerType)
             try container.encodeIfPresent(self.authorizerUri, forKey: .authorizerUri)
             try container.encodeIfPresent(self.enableSimpleResponses, forKey: .enableSimpleResponses)
-            try container.encode(self.identitySource, forKey: .identitySource)
+            try container.encodeIfPresent(self.identitySource, forKey: .identitySource)
             try container.encodeIfPresent(self.identityValidationExpression, forKey: .identityValidationExpression)
             try container.encodeIfPresent(self.jwtConfiguration, forKey: .jwtConfiguration)
-            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -718,7 +718,7 @@ extension ApiGatewayV2 {
 
     public struct CreateDomainNameRequest: AWSEncodableShape {
         /// The domain name.
-        public let domainName: String
+        public let domainName: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
@@ -726,7 +726,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
+        public init(domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -788,7 +788,7 @@ extension ApiGatewayV2 {
         /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS service action to invoke. To learn more, see Integration subtype reference.
         public let integrationSubtype: String?
         /// The integration type of an integration. One of the following: AWS: for integrating the route or method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. Supported only for WebSocket APIs. AWS_PROXY: for integrating the route or method request with a Lambda function or other AWS service action. This integration is also referred to as a Lambda proxy integration. HTTP: for integrating the route or method request with an HTTP endpoint. This integration is also referred to as the HTTP custom integration. Supported only for WebSocket APIs. HTTP_PROXY: for integrating the route or method request with an HTTP endpoint, with the client request passed through as-is. This is also referred to as HTTP proxy integration. For HTTP API private integrations, use an HTTP_PROXY integration. MOCK: for integrating the route or method request with API Gateway as a "loopback" endpoint without invoking any backend. Supported only for WebSocket APIs.
-        public let integrationType: IntegrationType
+        public let integrationType: IntegrationType?
         /// For a Lambda integration, specify the URI of a Lambda function. For an HTTP integration, specify a fully-qualified URL. For an HTTP API private integration, specify the ARN of an Application Load Balancer listener, Network Load Balancer listener, or AWS Cloud Map service. If you specify the ARN of an AWS Cloud Map service, API Gateway uses DiscoverInstances to identify resources. You can use query parameters to target specific resources. To learn more, see DiscoverInstances. For private integrations, all resources must be owned by the same AWS account.
         public let integrationUri: String?
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
@@ -808,7 +808,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfigInput?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -840,7 +840,7 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.integrationMethod, forKey: .integrationMethod)
             try container.encodeIfPresent(self.integrationSubtype, forKey: .integrationSubtype)
-            try container.encode(self.integrationType, forKey: .integrationType)
+            try container.encodeIfPresent(self.integrationType, forKey: .integrationType)
             try container.encodeIfPresent(self.integrationUri, forKey: .integrationUri)
             try container.encodeIfPresent(self.passthroughBehavior, forKey: .passthroughBehavior)
             try container.encodeIfPresent(self.payloadFormatVersion, forKey: .payloadFormatVersion)
@@ -886,7 +886,7 @@ extension ApiGatewayV2 {
         /// The integration ID.
         public let integrationId: String
         /// The integration response key.
-        public let integrationResponseKey: String
+        public let integrationResponseKey: String?
         /// A key-value map specifying response parameters that are passed to the method response from the backend. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where {name} is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where {name} is a valid and unique response header name and {JSON-expression} is a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
         /// The collection of response templates for the integration response as a string-to-string map of key-value pairs. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
@@ -894,7 +894,7 @@ extension ApiGatewayV2 {
         /// The template selection expression for the integration response. Supported only for WebSocket APIs.
         public let templateSelectionExpression: String?
 
-        public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseKey: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
+        public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.apiId = apiId
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationId = integrationId
@@ -910,7 +910,7 @@ extension ApiGatewayV2 {
             request.encodePath(self.apiId, key: "ApiId")
             try container.encodeIfPresent(self.contentHandlingStrategy, forKey: .contentHandlingStrategy)
             request.encodePath(self.integrationId, key: "IntegrationId")
-            try container.encode(self.integrationResponseKey, forKey: .integrationResponseKey)
+            try container.encodeIfPresent(self.integrationResponseKey, forKey: .integrationResponseKey)
             try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
             try container.encodeIfPresent(self.responseTemplates, forKey: .responseTemplates)
             try container.encodeIfPresent(self.templateSelectionExpression, forKey: .templateSelectionExpression)
@@ -987,7 +987,7 @@ extension ApiGatewayV2 {
         public let passthroughBehavior: PassthroughBehavior?
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
-        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
+        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. Supported only for WebSocket APIs.
         public let requestTemplates: [String: String]?
@@ -1055,11 +1055,11 @@ extension ApiGatewayV2 {
         /// The description of the model.
         public let description: String?
         /// The name of the model. Must be alphanumeric.
-        public let name: String
+        public let name: String?
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
-        public let schema: String
+        public let schema: String?
 
-        public init(apiId: String, contentType: String? = nil, description: String? = nil, name: String, schema: String) {
+        public init(apiId: String, contentType: String? = nil, description: String? = nil, name: String? = nil, schema: String? = nil) {
             self.apiId = apiId
             self.contentType = contentType
             self.description = description
@@ -1073,8 +1073,8 @@ extension ApiGatewayV2 {
             request.encodePath(self.apiId, key: "ApiId")
             try container.encodeIfPresent(self.contentType, forKey: .contentType)
             try container.encodeIfPresent(self.description, forKey: .description)
-            try container.encode(self.name, forKey: .name)
-            try container.encode(self.schema, forKey: .schema)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.schema, forKey: .schema)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1134,13 +1134,13 @@ extension ApiGatewayV2 {
         /// The request parameters for the route. Supported only for WebSocket APIs.
         public let requestParameters: [String: ParameterConstraints]?
         /// The route key for the route.
-        public let routeKey: String
+        public let routeKey: String?
         /// The route response selection expression for the route. Supported only for WebSocket APIs.
         public let routeResponseSelectionExpression: String?
         /// The target for the route.
         public let target: String?
 
-        public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
+        public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiId = apiId
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -1167,7 +1167,7 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.operationName, forKey: .operationName)
             try container.encodeIfPresent(self.requestModels, forKey: .requestModels)
             try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
-            try container.encode(self.routeKey, forKey: .routeKey)
+            try container.encodeIfPresent(self.routeKey, forKey: .routeKey)
             try container.encodeIfPresent(self.routeResponseSelectionExpression, forKey: .routeResponseSelectionExpression)
             try container.encodeIfPresent(self.target, forKey: .target)
         }
@@ -1199,9 +1199,9 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String
         /// The route response key.
-        public let routeResponseKey: String
+        public let routeResponseKey: String?
 
-        public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseKey: String) {
+        public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseKey: String? = nil) {
             self.apiId = apiId
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -1218,7 +1218,7 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.responseModels, forKey: .responseModels)
             try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
             request.encodePath(self.routeId, key: "RouteId")
-            try container.encode(self.routeResponseKey, forKey: .routeResponseKey)
+            try container.encodeIfPresent(self.routeResponseKey, forKey: .routeResponseKey)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1337,13 +1337,13 @@ extension ApiGatewayV2 {
         /// Route settings for the stage, by routeKey.
         public let routeSettings: [String: RouteSettings]?
         /// The name of the stage.
-        public let stageName: String
+        public let stageName: String?
         /// A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let stageVariables: [String: String]?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
             self.autoDeploy = autoDeploy
@@ -1368,7 +1368,7 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.deploymentId, forKey: .deploymentId)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.routeSettings, forKey: .routeSettings)
-            try container.encode(self.stageName, forKey: .stageName)
+            try container.encodeIfPresent(self.stageName, forKey: .stageName)
             try container.encodeIfPresent(self.stageVariables, forKey: .stageVariables)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -1456,15 +1456,15 @@ extension ApiGatewayV2 {
 
     public struct CreateVpcLinkRequest: AWSEncodableShape {
         /// The name of the VPC link.
-        public let name: String
+        public let name: String?
         /// A list of security group IDs for the VPC link.
         public let securityGroupIds: [String]?
         /// A list of subnet IDs to include in the VPC link.
-        public let subnetIds: [String]
+        public let subnetIds: [String]?
         /// A list of tags.
         public let tags: [String: String]?
 
-        public init(name: String, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [String: String]? = nil) {
+        public init(name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
             self.name = name
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1903,7 +1903,7 @@ extension ApiGatewayV2 {
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
-        public let domainName: String
+        public let domainName: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
@@ -1911,7 +1911,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -1986,13 +1986,13 @@ extension ApiGatewayV2 {
         /// Specifies whether to include API Gateway extensions in the exported API definition. API Gateway extensions are included by default.
         public let includeExtensions: Bool?
         /// The output type of the exported definition file. Valid values are JSON and YAML.
-        public let outputType: String
+        public let outputType: String?
         /// The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value.
         public let specification: String
         /// The name of the API stage to export. If you don't specify this property, a representation of the latest API configuration is exported.
         public let stageName: String?
 
-        public init(apiId: String, exportVersion: String? = nil, includeExtensions: Bool? = nil, outputType: String, specification: String, stageName: String? = nil) {
+        public init(apiId: String, exportVersion: String? = nil, includeExtensions: Bool? = nil, outputType: String? = nil, specification: String, stageName: String? = nil) {
             self.apiId = apiId
             self.exportVersion = exportVersion
             self.includeExtensions = includeExtensions
@@ -2699,7 +2699,7 @@ extension ApiGatewayV2 {
         public let passthroughBehavior: PassthroughBehavior?
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
-        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
+        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. Supported only for WebSocket APIs.
         public let requestTemplates: [String: String]?
@@ -3415,11 +3415,11 @@ extension ApiGatewayV2 {
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
         public let basepath: String?
         /// The OpenAPI definition. Supported only for HTTP APIs.
-        public let body: String
+        public let body: String?
         /// Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
         public let failOnWarnings: Bool?
 
-        public init(basepath: String? = nil, body: String, failOnWarnings: Bool? = nil) {
+        public init(basepath: String? = nil, body: String? = nil, failOnWarnings: Bool? = nil) {
             self.basepath = basepath
             self.body = body
             self.failOnWarnings = failOnWarnings
@@ -3429,7 +3429,7 @@ extension ApiGatewayV2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.basepath, key: "basepath")
-            try container.encode(self.body, forKey: .body)
+            try container.encodeIfPresent(self.body, forKey: .body)
             request.encodeQuery(self.failOnWarnings, key: "failOnWarnings")
         }
 
@@ -3541,7 +3541,7 @@ extension ApiGatewayV2 {
         public let passthroughBehavior: PassthroughBehavior?
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
-        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
+        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. Supported only for WebSocket APIs.
         public let requestTemplates: [String: String]?
@@ -3607,7 +3607,7 @@ extension ApiGatewayV2 {
         /// The integration response ID.
         public let integrationResponseId: String?
         /// The integration response key.
-        public let integrationResponseKey: String
+        public let integrationResponseKey: String?
         /// A key-value map specifying response parameters that are passed to the method response from the backend. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
         /// The collection of response templates for the integration response as a string-to-string map of key-value pairs. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
@@ -3615,7 +3615,7 @@ extension ApiGatewayV2 {
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
 
-        public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
+        public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
             self.integrationResponseKey = integrationResponseKey
@@ -3659,11 +3659,11 @@ extension ApiGatewayV2 {
         /// The model identifier.
         public let modelId: String?
         /// The name of the model. Must be alphanumeric.
-        public let name: String
+        public let name: String?
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
-        public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String, schema: String? = nil) {
+        public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
             self.modelId = modelId
@@ -3737,11 +3737,11 @@ extension ApiGatewayV2 {
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
         public let basepath: String?
         /// The OpenAPI definition. Supported only for HTTP APIs.
-        public let body: String
+        public let body: String?
         /// Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
         public let failOnWarnings: Bool?
 
-        public init(apiId: String, basepath: String? = nil, body: String, failOnWarnings: Bool? = nil) {
+        public init(apiId: String, basepath: String? = nil, body: String? = nil, failOnWarnings: Bool? = nil) {
             self.apiId = apiId
             self.basepath = basepath
             self.body = body
@@ -3753,7 +3753,7 @@ extension ApiGatewayV2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.apiId, key: "ApiId")
             request.encodeQuery(self.basepath, key: "basepath")
-            try container.encode(self.body, forKey: .body)
+            try container.encodeIfPresent(self.body, forKey: .body)
             request.encodeQuery(self.failOnWarnings, key: "failOnWarnings")
         }
 
@@ -3879,13 +3879,13 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String?
         /// The route key for the route.
-        public let routeKey: String
+        public let routeKey: String?
         /// The route response selection expression for the route. Supported only for WebSocket APIs.
         public let routeResponseSelectionExpression: String?
         /// The target for the route.
         public let target: String?
 
-        public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -3928,9 +3928,9 @@ extension ApiGatewayV2 {
         /// Represents the identifier of a route response.
         public let routeResponseId: String?
         /// Represents the route response key of a route response.
-        public let routeResponseKey: String
+        public let routeResponseKey: String?
 
-        public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String) {
+        public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
             self.responseParameters = responseParameters
@@ -4002,13 +4002,13 @@ extension ApiGatewayV2 {
         /// Route settings for the stage, by routeKey.
         public let routeSettings: [String: RouteSettings]?
         /// The name of the stage.
-        public let stageName: String
+        public let stageName: String?
         /// A map that defines the stage variables for a stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let stageVariables: [String: String]?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -4100,9 +4100,9 @@ extension ApiGatewayV2 {
         /// The resource ARN for the tag.
         public let resourceArn: String
         /// The Tag keys to delete
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -4119,7 +4119,7 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiMappingRequest: AWSEncodableShape {
         /// The API identifier.
-        public let apiId: String
+        public let apiId: String?
         /// The API mapping identifier.
         public let apiMappingId: String
         /// The API mapping key.
@@ -4129,7 +4129,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
-        public init(apiId: String, apiMappingId: String, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
+        public init(apiId: String? = nil, apiMappingId: String, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
             self.apiMappingKey = apiMappingKey
@@ -4140,7 +4140,7 @@ extension ApiGatewayV2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.apiId, forKey: .apiId)
+            try container.encodeIfPresent(self.apiId, forKey: .apiId)
             request.encodePath(self.apiMappingId, key: "ApiMappingId")
             try container.encodeIfPresent(self.apiMappingKey, forKey: .apiMappingKey)
             request.encodePath(self.domainName, key: "DomainName")
@@ -4803,7 +4803,7 @@ extension ApiGatewayV2 {
         public let passthroughBehavior: PassthroughBehavior?
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
-        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
+        /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where  {location} is querystring, path, or header; and  {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. Supported only for WebSocket APIs.
         public let requestTemplates: [String: String]?
@@ -5350,15 +5350,15 @@ extension ApiGatewayV2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         /// The name of the VPC link.
-        public let name: String
+        public let name: String?
         /// A list of security group IDs for the VPC link.
-        public let securityGroupIds: [String]
+        public let securityGroupIds: [String]?
         /// A list of subnet IDs to include in the VPC link.
-        public let subnetIds: [String]
+        public let subnetIds: [String]?
         /// Tags for the VPC link.
         public let tags: [String: String]?
         /// The ID of the VPC link.
-        public let vpcLinkId: String
+        public let vpcLinkId: String?
         /// The status of the VPC link.
         public let vpcLinkStatus: VpcLinkStatus?
         /// A message summarizing the cause of the status of the VPC link.
@@ -5366,7 +5366,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
-        public init(createdDate: Date? = nil, name: String, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, vpcLinkId: String, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+        public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds

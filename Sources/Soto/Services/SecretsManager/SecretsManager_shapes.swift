@@ -26,7 +26,7 @@ import Foundation
 extension SecretsManager {
     // MARK: Enums
 
-    public enum FilterNameStringType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterNameStringType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case description = "description"
         case name = "name"
@@ -37,13 +37,13 @@ extension SecretsManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "asc"
         case desc = "desc"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case inSync = "InSync"
@@ -51,6 +51,90 @@ extension SecretsManager {
     }
 
     // MARK: Shapes
+
+    public struct APIErrorType: AWSDecodableShape {
+        /// The error Secrets Manager encountered while retrieving an individual secret as part of BatchGetSecretValue, for example ResourceNotFoundException,InvalidParameterException, InvalidRequestException, DecryptionFailure, or AccessDeniedException.
+        public let errorCode: String?
+        /// A message describing the error.
+        public let message: String?
+        /// The ARN or name of the secret.
+        public let secretId: String?
+
+        public init(errorCode: String? = nil, message: String? = nil, secretId: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.secretId = secretId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct BatchGetSecretValueRequest: AWSEncodableShape {
+        /// The filters to choose which secrets to retrieve. You must include Filters or SecretIdList, but not both.
+        public let filters: [Filter]?
+        /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken.  To get the next results, call BatchGetSecretValue again with the value from  NextToken.
+        public let maxResults: Int?
+        /// A token that indicates where the output should continue from, if a  previous call did not show all results. To get the next results, call BatchGetSecretValue again  with this value.
+        public let nextToken: String?
+        /// The ARN or names of the secrets to retrieve. You must include Filters or SecretIdList, but not both.
+        public let secretIdList: [String]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretIdList: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.secretIdList = secretIdList
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.secretIdList?.forEach {
+                try validate($0, name: "secretIdList[]", parent: name, max: 2048)
+                try validate($0, name: "secretIdList[]", parent: name, min: 1)
+            }
+            try self.validate(self.secretIdList, name: "secretIdList", parent: name, max: 20)
+            try self.validate(self.secretIdList, name: "secretIdList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case secretIdList = "SecretIdList"
+        }
+    }
+
+    public struct BatchGetSecretValueResponse: AWSDecodableShape {
+        /// A list of errors Secrets Manager encountered while attempting to retrieve individual secrets.
+        public let errors: [APIErrorType]?
+        /// Secrets Manager includes this value if   there's more output available than what is included in the current response. This can  occur even when the response includes no values at all, such as when you ask for a filtered view  of a long list. To get the next results, call BatchGetSecretValue again  with this value.
+        public let nextToken: String?
+        /// A list of secret values.
+        public let secretValues: [SecretValueEntry]?
+
+        public init(errors: [APIErrorType]? = nil, nextToken: String? = nil, secretValues: [SecretValueEntry]? = nil) {
+            self.errors = errors
+            self.nextToken = nextToken
+            self.secretValues = secretValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case nextToken = "NextToken"
+            case secretValues = "SecretValues"
+        }
+    }
 
     public struct CancelRotateSecretRequest: AWSEncodableShape {
         /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
@@ -94,7 +178,7 @@ extension SecretsManager {
     public struct CreateSecretRequest: AWSEncodableShape {
         /// A list of Regions and KMS keys to replicate secrets.
         public let addReplicaRegions: [ReplicaRegionType]?
-        /// If you include SecretString or SecretBinary, then  Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request.  This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
+        /// If you include SecretString or SecretBinary, then  Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// The description of the secret.
         public let description: String?
@@ -108,7 +192,7 @@ extension SecretsManager {
         public let secretBinary: AWSBase64Data?
         /// The text data to encrypt and store in this new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretString or SecretBinary must have a value, but not both. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that a Lambda rotation function can parse.
         public let secretString: String?
-        /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example:  [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]  Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see Control  access to secrets using tags and Limit access to identities with tags that match secrets' tags. For information about how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters. If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. The following restrictions apply to tags:   Maximum number of tags per secret: 50   Maximum key length: 127 Unicode characters in UTF-8   Maximum value length: 255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or values because Amazon Web Services reserves it for Amazon Web Services use. You can't edit or delete tag names or values with this  prefix. Tags with this prefix do not count against your tags per secret limit.   If you use your tagging schema across multiple services and resources, other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
+        /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example:  [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]  Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see Control  access to secrets using tags and Limit access to identities with tags that match secrets' tags. For information about how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters. If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General  Reference guide.
         public let tags: [Tag]?
 
         public init(addReplicaRegions: [ReplicaRegionType]? = nil, clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, forceOverwriteReplicaSecret: Bool? = nil, kmsKeyId: String? = nil, name: String, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, tags: [Tag]? = nil) {
@@ -716,7 +800,7 @@ extension SecretsManager {
     }
 
     public struct PutSecretValueRequest: AWSEncodableShape {
-        /// A unique identifier for the new version of the secret.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty because they generate a random UUID for you. If you don't  use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request.   This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function processing. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString or SecretBinary values are the same as those in the request then the request is ignored. The operation is idempotent.    If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request, then the request fails because you can't modify a secret  version. You can only create new versions to store new secret values.   This value becomes the VersionId of the new version.
+        /// A unique identifier for the new version of the secret.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString or SecretBinary values are the same as those in the request then the request is ignored. The operation is idempotent.    If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request, then the request fails because you can't modify a secret  version. You can only create new versions to store new secret values.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console.
         public let secretBinary: AWSBase64Data?
@@ -967,7 +1051,7 @@ extension SecretsManager {
     }
 
     public struct RotateSecretRequest: AWSEncodableShape {
-        /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.
+        /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice.  If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.
         public let clientRequestToken: String?
         /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window.  The rotation schedule is defined in RotateSecretRequest$RotationRules. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the   testSecret  step of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
         public let rotateImmediately: Bool?
@@ -1074,7 +1158,7 @@ extension SecretsManager {
         public let lastChangedDate: Date?
         /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret hasn't ever rotated.
         public let lastRotatedDate: Date?
-        /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
+        /// The friendly name of the secret.
         public let name: String?
         /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation, Secrets Manager returns null.
         public let nextRotationDate: Date?
@@ -1131,6 +1215,43 @@ extension SecretsManager {
             case rotationRules = "RotationRules"
             case secretVersionsToStages = "SecretVersionsToStages"
             case tags = "Tags"
+        }
+    }
+
+    public struct SecretValueEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the secret.
+        public let arn: String?
+        /// The date the secret was created.
+        public let createdDate: Date?
+        /// The friendly name of the secret.
+        public let name: String?
+        /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. The parameter represents the binary data as a base64-encoded string.
+        public let secretBinary: AWSBase64Data?
+        /// The decrypted secret value, if the secret value was originally provided as a string or  through the Secrets Manager console.
+        public let secretString: String?
+        /// The unique version identifier of this version of the secret.
+        public let versionId: String?
+        /// A list of all of the staging labels currently attached to this version of the secret.
+        public let versionStages: [String]?
+
+        public init(arn: String? = nil, createdDate: Date? = nil, name: String? = nil, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
+            self.arn = arn
+            self.createdDate = createdDate
+            self.name = name
+            self.secretBinary = secretBinary
+            self.secretString = secretString
+            self.versionId = versionId
+            self.versionStages = versionStages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case createdDate = "CreatedDate"
+            case name = "Name"
+            case secretBinary = "SecretBinary"
+            case secretString = "SecretString"
+            case versionId = "VersionId"
+            case versionStages = "VersionStages"
         }
     }
 
@@ -1269,11 +1390,11 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretRequest: AWSEncodableShape {
-        /// If you include SecretString or SecretBinary, then Secrets Manager creates  a new version for the secret, and this parameter specifies the unique identifier for the new  version.  If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request.  This value becomes the VersionId of the new version.
+        /// If you include SecretString or SecretBinary, then Secrets Manager creates  a new version for the secret, and this parameter specifies the unique identifier for the new  version.  If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.
         public let clientRequestToken: String?
         /// The description of the secret.
         public let description: String?
-        /// The ARN, key ID, or alias of the KMS key that Secrets Manager  uses to encrypt new secret versions as well as any existing versions with the staging labels  AWSCURRENT, AWSPENDING, or AWSPREVIOUS.  For more information about versions and staging labels, see Concepts: Version. A key alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see About aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web Services managed key  aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager  creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access  to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time  significant delay in returning the result.    You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
+        /// The ARN, key ID, or alias of the KMS key that Secrets Manager  uses to encrypt new secret versions as well as any existing versions with the staging labels  AWSCURRENT, AWSPENDING, or AWSPREVIOUS. If you don't have kms:Encrypt permission to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more information about versions and staging labels, see Concepts: Version. A key alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see About aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web Services managed key  aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager  creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access  to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time  significant delay in returning the result.    You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
         public let kmsKeyId: String?
         /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
         public let secretBinary: AWSBase64Data?

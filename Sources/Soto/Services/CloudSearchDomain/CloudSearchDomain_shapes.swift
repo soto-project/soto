@@ -26,13 +26,13 @@ import Foundation
 extension CloudSearchDomain {
     // MARK: Enums
 
-    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applicationJson = "application/json"
         case applicationXml = "application/xml"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryParser: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryParser: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dismax = "dismax"
         case lucene = "lucene"
         case simple = "simple"

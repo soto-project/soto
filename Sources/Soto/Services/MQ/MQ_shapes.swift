@@ -26,36 +26,43 @@ import Foundation
 extension MQ {
     // MARK: Enums
 
-    public enum AuthenticationStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ldap = "LDAP"
         case simple = "SIMPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BrokerState: String, CustomStringConvertible, Codable, Sendable {
+    public enum BrokerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case criticalActionRequired = "CRITICAL_ACTION_REQUIRED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
         case rebootInProgress = "REBOOT_IN_PROGRESS"
+        case replica = "REPLICA"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum BrokerStorageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BrokerStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebs = "EBS"
         case efs = "EFS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplicationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case crdr = "CRDR"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -66,20 +73,26 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
         case clusterMultiAz = "CLUSTER_MULTI_AZ"
         case singleInstance = "SINGLE_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activemq = "ACTIVEMQ"
         case rabbitmq = "RABBITMQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum PromoteMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failover = "FAILOVER"
+        case switchover = "SWITCHOVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
         case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
         case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
@@ -89,9 +102,9 @@ extension MQ {
     // MARK: Shapes
 
     public struct ActionRequired: AWSDecodableShape {
-        /// The code you can use to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state. You can find instructions by choosing the link for your code from the list of action required codes in Amazon MQ action required codes. Each code references a topic with detailed information, instructions, and recommendations for how to resolve the issue and prevent future occurrences.
+        /// The code you can use to find instructions on the action required to resolve your broker issue.
         public let actionRequiredCode: String?
-        /// Information about the action required to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state.
+        /// Information about the action required to resolve your broker issue.
         public let actionRequiredInfo: String?
 
         public init(actionRequiredCode: String? = nil, actionRequiredInfo: String? = nil) {
@@ -194,7 +207,7 @@ extension MQ {
         public let brokerArn: String?
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
-        /// The broker's name. This value is unique in your AWS account, 1-50 characters long, and containing only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
+        /// The broker's name. This value is unique in your Amazon Web Services account, 1-50 characters long, and containing only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
         public let brokerName: String?
         /// The broker's status.
         public let brokerState: BrokerState?
@@ -202,13 +215,13 @@ extension MQ {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var created: Date?
         /// The broker's deployment mode.
-        public let deploymentMode: DeploymentMode
+        public let deploymentMode: DeploymentMode?
         /// The type of broker engine.
-        public let engineType: EngineType
+        public let engineType: EngineType?
         /// The broker's instance type.
         public let hostInstanceType: String?
 
-        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode, engineType: EngineType, hostInstanceType: String? = nil) {
+        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
             self.brokerName = brokerName
@@ -233,28 +246,28 @@ extension MQ {
 
     public struct Configuration: AWSDecodableShape {
         /// Required. The ARN of the configuration.
-        public let arn: String
+        public let arn: String?
         /// Optional. The authentication strategy associated with the configuration. The default is SIMPLE.
-        public let authenticationStrategy: AuthenticationStrategy
+        public let authenticationStrategy: AuthenticationStrategy?
         /// Required. The date and time of the configuration revision.
-        @CustomCoding<ISO8601DateCoder>
-        public var created: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         /// Required. The description of the configuration.
-        public let description: String
+        public let description: String?
         /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
-        public let engineType: EngineType
+        public let engineType: EngineType?
         /// Required. The broker engine's version. For a list of supported engine versions, see, Supported engines.
-        public let engineVersion: String
+        public let engineVersion: String?
         /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String
+        public let id: String?
         /// Required. The latest revision of the configuration.
-        public let latestRevision: ConfigurationRevision
+        public let latestRevision: ConfigurationRevision?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
-        public let name: String
+        public let name: String?
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
 
-        public init(arn: String, authenticationStrategy: AuthenticationStrategy, created: Date, description: String, engineType: EngineType, engineVersion: String, id: String, latestRevision: ConfigurationRevision, name: String, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
             self.created = created
@@ -283,11 +296,11 @@ extension MQ {
 
     public struct ConfigurationId: AWSEncodableShape & AWSDecodableShape {
         /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String
+        public let id: String?
         /// The revision number of the configuration.
         public let revision: Int?
 
-        public init(id: String, revision: Int? = nil) {
+        public init(id: String? = nil, revision: Int? = nil) {
             self.id = id
             self.revision = revision
         }
@@ -300,14 +313,14 @@ extension MQ {
 
     public struct ConfigurationRevision: AWSDecodableShape {
         /// Required. The date and time of the configuration revision.
-        @CustomCoding<ISO8601DateCoder>
-        public var created: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var created: Date?
         /// The description of the configuration revision.
         public let description: String?
         /// Required. The revision number of the configuration.
-        public let revision: Int
+        public let revision: Int?
 
-        public init(created: Date, description: String? = nil, revision: Int) {
+        public init(created: Date? = nil, description: String? = nil, revision: Int? = nil) {
             self.created = created
             self.description = description
             self.revision = revision
@@ -345,23 +358,27 @@ extension MQ {
         /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot. Set to true by default, if no value is specified.
-        public let autoMinorVersionUpgrade: Bool
-        /// Required. The broker's name. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
-        public let brokerName: String
+        public let autoMinorVersionUpgrade: Bool?
+        /// Required. The broker's name. This value must be unique in your Amazon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.
+        public let brokerName: String?
         /// A list of information about the configuration.
         public let configuration: ConfigurationId?
-        /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
+        /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
         public let creatorRequestId: String?
+        /// Defines whether this broker is a part of a data replication pair.
+        public let dataReplicationMode: DataReplicationMode?
+        /// The Amazon Resource Name (ARN) of the primary broker that is used to replicate data from in a data replication pair, and is applied to the replica broker. Must be set when dataReplicationMode is set to CRDR.
+        public let dataReplicationPrimaryBrokerArn: String?
         /// Required. The broker's deployment mode.
-        public let deploymentMode: DeploymentMode
-        /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+        public let deploymentMode: DeploymentMode?
+        /// Encryption options for the broker.
         public let encryptionOptions: EncryptionOptions?
         /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
-        public let engineType: EngineType
+        public let engineType: EngineType?
         /// Required. The broker engine's version. For a list of supported engine versions, see Supported engines.
-        public let engineVersion: String
+        public let engineVersion: String?
         /// Required. The broker's instance type.
-        public let hostInstanceType: String
+        public let hostInstanceType: String?
         /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ brokers.
         public let ldapServerMetadata: LdapServerMetadataInput?
         /// Enables Amazon CloudWatch logging for brokers.
@@ -369,24 +386,26 @@ extension MQ {
         /// The parameters that determine the WeeklyStartTime.
         public let maintenanceWindowStartTime: WeeklyStartTime?
         /// Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is provided.
-        public let publiclyAccessible: Bool
+        public let publiclyAccessible: Bool?
         /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
         public let securityGroups: [String]?
         /// The broker's storage type.
         public let storageType: BrokerStorageType?
-        /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your AWS account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your AWS account.
+        /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account.
         public let subnetIds: [String]?
         /// Create tags when creating the broker.
         public let tags: [String: String]?
-        /// Required. The list of broker users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Amazon MQ for RabbitMQ When you create an Amazon MQ for RabbitMQ broker, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
-        public let users: [User]
+        /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
+        public let users: [User]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool = false, brokerName: String, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType, engineVersion: String, hostInstanceType: String, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool = false, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), dataReplicationMode: DataReplicationMode? = nil, dataReplicationPrimaryBrokerArn: String? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
             self.creatorRequestId = creatorRequestId
+            self.dataReplicationMode = dataReplicationMode
+            self.dataReplicationPrimaryBrokerArn = dataReplicationPrimaryBrokerArn
             self.deploymentMode = deploymentMode
             self.encryptionOptions = encryptionOptions
             self.engineType = engineType
@@ -409,6 +428,8 @@ extension MQ {
             case brokerName = "brokerName"
             case configuration = "configuration"
             case creatorRequestId = "creatorRequestId"
+            case dataReplicationMode = "dataReplicationMode"
+            case dataReplicationPrimaryBrokerArn = "dataReplicationPrimaryBrokerArn"
             case deploymentMode = "deploymentMode"
             case encryptionOptions = "encryptionOptions"
             case engineType = "engineType"
@@ -447,15 +468,15 @@ extension MQ {
         /// Optional. The authentication strategy associated with the configuration. The default is SIMPLE.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
-        public let engineType: EngineType
+        public let engineType: EngineType?
         /// Required. The broker engine's version. For a list of supported engine versions, see Supported engines.
-        public let engineVersion: String
+        public let engineVersion: String?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
-        public let name: String
+        public let name: String?
         /// Create tags when creating the configuration.
         public let tags: [String: String]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, engineType: EngineType, engineVersion: String, name: String, tags: [String: String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -537,15 +558,18 @@ extension MQ {
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let groups: [String]?
         /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
-        public let password: String
+        public let password: String?
+        /// Defines if this user is intended for CRDR replication purposes.
+        public let replicationUser: Bool?
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
-        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String, username: String) {
+        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.password = password
+            self.replicationUser = replicationUser
             self.username = username
         }
 
@@ -555,7 +579,8 @@ extension MQ {
             request.encodePath(self.brokerId, key: "BrokerId")
             try container.encodeIfPresent(self.consoleAccess, forKey: .consoleAccess)
             try container.encodeIfPresent(self.groups, forKey: .groups)
-            try container.encode(self.password, forKey: .password)
+            try container.encodeIfPresent(self.password, forKey: .password)
+            try container.encodeIfPresent(self.replicationUser, forKey: .replicationUser)
             request.encodePath(self.username, key: "Username")
         }
 
@@ -563,11 +588,46 @@ extension MQ {
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case password = "password"
+            case replicationUser = "replicationUser"
         }
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DataReplicationCounterpart: AWSDecodableShape {
+        /// Required. The unique broker id generated by Amazon MQ.
+        public let brokerId: String?
+        /// Required. The region of the broker.
+        public let region: String?
+
+        public init(brokerId: String? = nil, region: String? = nil) {
+            self.brokerId = brokerId
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+            case region = "region"
+        }
+    }
+
+    public struct DataReplicationMetadataOutput: AWSDecodableShape {
+        /// Describes the replica/primary broker. Only returned if this broker is currently set as a primary or replica in the broker's dataReplicationRole property.
+        public let dataReplicationCounterpart: DataReplicationCounterpart?
+        /// Defines the role of this broker in a data replication pair. When a replica broker is promoted to primary, this role is interchanged.
+        public let dataReplicationRole: String?
+
+        public init(dataReplicationCounterpart: DataReplicationCounterpart? = nil, dataReplicationRole: String? = nil) {
+            self.dataReplicationCounterpart = dataReplicationCounterpart
+            self.dataReplicationRole = dataReplicationRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataReplicationCounterpart = "dataReplicationCounterpart"
+            case dataReplicationRole = "dataReplicationRole"
+        }
     }
 
     public struct DeleteBrokerRequest: AWSEncodableShape {
@@ -604,9 +664,9 @@ extension MQ {
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
         /// An array of tag keys to delete
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -774,7 +834,7 @@ extension MQ {
     }
 
     public struct DescribeBrokerResponse: AWSDecodableShape {
-        /// A list of actions required for a broker.
+        /// Actions required for a broker.
         public let actionsRequired: [ActionRequired]?
         /// The authentication strategy used to secure the broker. The default is SIMPLE.
         public let authenticationStrategy: AuthenticationStrategy?
@@ -786,7 +846,7 @@ extension MQ {
         public let brokerId: String?
         /// A list of information about allocated brokers.
         public let brokerInstances: [BrokerInstance]?
-        /// The broker's name. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
+        /// The broker's name. This value must be unique in your Amazon Web Services account account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
         public let brokerName: String?
         /// The broker's status.
         public let brokerState: BrokerState?
@@ -795,9 +855,13 @@ extension MQ {
         /// The time when the broker was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var created: Date?
+        /// The replication details of the data replication-enabled broker. Only returned if dataReplicationMode is set to CRDR.
+        public let dataReplicationMetadata: DataReplicationMetadataOutput?
+        /// Describes whether this broker is a part of a data replication pair.
+        public let dataReplicationMode: DataReplicationMode?
         /// The broker's deployment mode.
         public let deploymentMode: DeploymentMode?
-        /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+        /// Encryption options for the broker.
         public let encryptionOptions: EncryptionOptions?
         /// The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
         public let engineType: EngineType?
@@ -813,6 +877,10 @@ extension MQ {
         public let maintenanceWindowStartTime: WeeklyStartTime?
         /// The authentication strategy that will be applied when the broker is rebooted. The default is SIMPLE.
         public let pendingAuthenticationStrategy: AuthenticationStrategy?
+        /// The pending replication details of the data replication-enabled broker. Only returned if pendingDataReplicationMode is set to CRDR.
+        public let pendingDataReplicationMetadata: DataReplicationMetadataOutput?
+        /// Describes whether this broker will be a part of a data replication pair after reboot.
+        public let pendingDataReplicationMode: DataReplicationMode?
         /// The broker engine version to upgrade to. For a list of supported engine versions, see Supported engines.
         public let pendingEngineVersion: String?
         /// The broker's host instance type to upgrade to. For a list of supported instance types, see Broker instance types.
@@ -834,7 +902,7 @@ extension MQ {
         /// The list of all broker usernames for the specified broker.
         public let users: [UserSummary]?
 
-        public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.actionsRequired = actionsRequired
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -845,6 +913,8 @@ extension MQ {
             self.brokerState = brokerState
             self.configurations = configurations
             self.created = created
+            self.dataReplicationMetadata = dataReplicationMetadata
+            self.dataReplicationMode = dataReplicationMode
             self.deploymentMode = deploymentMode
             self.encryptionOptions = encryptionOptions
             self.engineType = engineType
@@ -854,6 +924,8 @@ extension MQ {
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.pendingAuthenticationStrategy = pendingAuthenticationStrategy
+            self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
+            self.pendingDataReplicationMode = pendingDataReplicationMode
             self.pendingEngineVersion = pendingEngineVersion
             self.pendingHostInstanceType = pendingHostInstanceType
             self.pendingLdapServerMetadata = pendingLdapServerMetadata
@@ -877,6 +949,8 @@ extension MQ {
             case brokerState = "brokerState"
             case configurations = "configurations"
             case created = "created"
+            case dataReplicationMetadata = "dataReplicationMetadata"
+            case dataReplicationMode = "dataReplicationMode"
             case deploymentMode = "deploymentMode"
             case encryptionOptions = "encryptionOptions"
             case engineType = "engineType"
@@ -886,6 +960,8 @@ extension MQ {
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case pendingAuthenticationStrategy = "pendingAuthenticationStrategy"
+            case pendingDataReplicationMetadata = "pendingDataReplicationMetadata"
+            case pendingDataReplicationMode = "pendingDataReplicationMode"
             case pendingEngineVersion = "pendingEngineVersion"
             case pendingHostInstanceType = "pendingHostInstanceType"
             case pendingLdapServerMetadata = "pendingLdapServerMetadata"
@@ -993,7 +1069,7 @@ extension MQ {
         /// Required. The date and time of the configuration.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var created: Date?
-        /// Required. The base64-encoded XML configuration.
+        /// Amazon MQ for ActiveMQ: the base64-encoded XML configuration. Amazon MQ for RabbitMQ: base64-encoded Cuttlefish.
         public let data: String?
         /// The description of the configuration.
         public let description: String?
@@ -1043,14 +1119,17 @@ extension MQ {
         public let groups: [String]?
         /// The status of the changes pending for the ActiveMQ user.
         public let pending: UserPendingChanges?
+        /// Describes whether the user is intended for data replication
+        public let replicationUser: Bool?
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
 
-        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
+        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, replicationUser: Bool? = nil, username: String? = nil) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.pending = pending
+            self.replicationUser = replicationUser
             self.username = username
         }
 
@@ -1059,17 +1138,18 @@ extension MQ {
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case pending = "pending"
+            case replicationUser = "replicationUser"
             case username = "username"
         }
     }
 
     public struct EncryptionOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
+        /// The customer master key (CMK) to use for the A KMS (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
         public let kmsKeyId: String?
-        /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers.
-        public let useAwsOwnedKey: Bool
+        /// Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers.
+        public let useAwsOwnedKey: Bool?
 
-        public init(kmsKeyId: String? = nil, useAwsOwnedKey: Bool) {
+        public init(kmsKeyId: String? = nil, useAwsOwnedKey: Bool? = nil) {
             self.kmsKeyId = kmsKeyId
             self.useAwsOwnedKey = useAwsOwnedKey
         }
@@ -1094,30 +1174,30 @@ extension MQ {
     }
 
     public struct LdapServerMetadataInput: AWSEncodableShape {
-        /// Specifies the location of the LDAP server such as AWS Directory Service for Microsoft Active Directory . Optional failover server.
-        public let hosts: [String]
+        /// Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server.
+        public let hosts: [String]?
         /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com.
-        public let roleBase: String
+        public let roleBase: String?
         /// Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query.
         public let roleName: String?
         /// The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) after string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase.
-        public let roleSearchMatching: String
+        public let roleSearchMatching: String?
         /// The directory search scope for the role. If set to true, scope is to search the entire subtree.
         public let roleSearchSubtree: Bool?
         /// Service account password. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com.
-        public let serviceAccountPassword: String
+        public let serviceAccountPassword: String?
         /// Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com.
-        public let serviceAccountUsername: String
+        public let serviceAccountUsername: String?
         /// Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com.
-        public let userBase: String
+        public let userBase: String?
         /// Specifies the name of the LDAP attribute for the user group membership.
         public let userRoleName: String?
         /// The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search filter becomes (uid=janedoe) after string substitution. It will result in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com.
-        public let userSearchMatching: String
+        public let userSearchMatching: String?
         /// The directory search scope for the user. If set to true, scope is to search the entire subtree.
         public let userSearchSubtree: Bool?
 
-        public init(hosts: [String], roleBase: String, roleName: String? = nil, roleSearchMatching: String, roleSearchSubtree: Bool? = nil, serviceAccountPassword: String, serviceAccountUsername: String, userBase: String, userRoleName: String? = nil, userSearchMatching: String, userSearchSubtree: Bool? = nil) {
+        public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountPassword: String? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
             self.hosts = hosts
             self.roleBase = roleBase
             self.roleName = roleName
@@ -1147,28 +1227,28 @@ extension MQ {
     }
 
     public struct LdapServerMetadataOutput: AWSDecodableShape {
-        /// Specifies the location of the LDAP server such as AWS Directory Service for Microsoft Active Directory . Optional failover server.
-        public let hosts: [String]
+        /// Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server.
+        public let hosts: [String]?
         /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com.
-        public let roleBase: String
+        public let roleBase: String?
         /// Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query.
         public let roleName: String?
         /// The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) after string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase.
-        public let roleSearchMatching: String
+        public let roleSearchMatching: String?
         /// The directory search scope for the role. If set to true, scope is to search the entire subtree.
         public let roleSearchSubtree: Bool?
         /// Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com.
-        public let serviceAccountUsername: String
+        public let serviceAccountUsername: String?
         /// Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com.
-        public let userBase: String
+        public let userBase: String?
         /// Specifies the name of the LDAP attribute for the user group membership.
         public let userRoleName: String?
         /// The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search filter becomes (uid=janedoe) after string substitution. It will result in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com.
-        public let userSearchMatching: String
+        public let userSearchMatching: String?
         /// The directory search scope for the user. If set to true, scope is to search the entire subtree.
         public let userSearchSubtree: Bool?
 
-        public init(hosts: [String], roleBase: String, roleName: String? = nil, roleSearchMatching: String, roleSearchSubtree: Bool? = nil, serviceAccountUsername: String, userBase: String, userRoleName: String? = nil, userSearchMatching: String, userSearchSubtree: Bool? = nil) {
+        public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
             self.hosts = hosts
             self.roleBase = roleBase
             self.roleName = roleName
@@ -1448,13 +1528,13 @@ extension MQ {
         /// The location of the CloudWatch Logs log group where audit logs are sent.
         public let auditLogGroup: String?
         /// Enables general logging.
-        public let general: Bool
+        public let general: Bool?
         /// The location of the CloudWatch Logs log group where general logs are sent.
-        public let generalLogGroup: String
+        public let generalLogGroup: String?
         /// The list of information about logs pending to be deployed for the specified broker.
         public let pending: PendingLogs?
 
-        public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool, generalLogGroup: String, pending: PendingLogs? = nil) {
+        public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: PendingLogs? = nil) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
             self.general = general
@@ -1488,6 +1568,42 @@ extension MQ {
         }
     }
 
+    public struct PromoteRequest: AWSEncodableShape {
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String
+        /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER.
+        public let mode: PromoteMode?
+
+        public init(brokerId: String, mode: PromoteMode? = nil) {
+            self.brokerId = brokerId
+            self.mode = mode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+        }
+    }
+
+    public struct PromoteResponse: AWSDecodableShape {
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+
+        public init(brokerId: String? = nil) {
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+        }
+    }
+
     public struct RebootBrokerRequest: AWSEncodableShape {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
@@ -1510,14 +1626,14 @@ extension MQ {
     }
 
     public struct SanitizationWarning: AWSDecodableShape {
-        /// The name of the XML attribute that has been sanitized.
+        /// The name of the configuration attribute that has been sanitized.
         public let attributeName: String?
-        /// The name of the XML element that has been sanitized.
+        /// The name of the configuration element that has been sanitized.
         public let elementName: String?
-        /// Required. The reason for which the XML elements or attributes were sanitized.
-        public let reason: SanitizationWarningReason
+        /// The reason for which the configuration elements or attributes were sanitized.
+        public let reason: SanitizationWarningReason?
 
-        public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason) {
+        public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason? = nil) {
             self.attributeName = attributeName
             self.elementName = elementName
             self.reason = reason
@@ -1539,6 +1655,8 @@ extension MQ {
         public let brokerId: String
         /// A list of information about the configuration.
         public let configuration: ConfigurationId?
+        /// Defines whether this broker is a part of a data replication pair.
+        public let dataReplicationMode: DataReplicationMode?
         /// The broker engine version. For a list of supported engine versions, see Supported engines.
         public let engineVersion: String?
         /// The broker's host instance type to upgrade to. For a list of supported instance types, see Broker instance types.
@@ -1552,11 +1670,12 @@ extension MQ {
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, securityGroups: [String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
+            self.dataReplicationMode = dataReplicationMode
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
             self.ldapServerMetadata = ldapServerMetadata
@@ -1572,6 +1691,7 @@ extension MQ {
             try container.encodeIfPresent(self.autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
             request.encodePath(self.brokerId, key: "BrokerId")
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.dataReplicationMode, forKey: .dataReplicationMode)
             try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
             try container.encodeIfPresent(self.hostInstanceType, forKey: .hostInstanceType)
             try container.encodeIfPresent(self.ldapServerMetadata, forKey: .ldapServerMetadata)
@@ -1584,6 +1704,7 @@ extension MQ {
             case authenticationStrategy = "authenticationStrategy"
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case configuration = "configuration"
+            case dataReplicationMode = "dataReplicationMode"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
             case ldapServerMetadata = "ldapServerMetadata"
@@ -1602,6 +1723,10 @@ extension MQ {
         public let brokerId: String?
         /// The ID of the updated configuration.
         public let configuration: ConfigurationId?
+        /// The replication details of the data replication-enabled broker. Only returned if dataReplicationMode is set to CRDR.
+        public let dataReplicationMetadata: DataReplicationMetadataOutput?
+        /// Describes whether this broker is a part of a data replication pair.
+        public let dataReplicationMode: DataReplicationMode?
         /// The broker engine version to upgrade to. For a list of supported engine versions, see Supported engines.
         public let engineVersion: String?
         /// The broker's host instance type to upgrade to. For a list of supported instance types, see Broker instance types.
@@ -1612,19 +1737,27 @@ extension MQ {
         public let logs: Logs?
         /// The parameters that determine the WeeklyStartTime.
         public let maintenanceWindowStartTime: WeeklyStartTime?
+        /// The pending replication details of the data replication-enabled broker. Only returned if pendingDataReplicationMode is set to CRDR.
+        public let pendingDataReplicationMetadata: DataReplicationMetadataOutput?
+        /// Describes whether this broker will be a part of a data replication pair after reboot.
+        public let pendingDataReplicationMode: DataReplicationMode?
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, securityGroups: [String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
+            self.dataReplicationMetadata = dataReplicationMetadata
+            self.dataReplicationMode = dataReplicationMode
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
             self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
+            self.pendingDataReplicationMode = pendingDataReplicationMode
             self.securityGroups = securityGroups
         }
 
@@ -1633,11 +1766,15 @@ extension MQ {
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
             case brokerId = "brokerId"
             case configuration = "configuration"
+            case dataReplicationMetadata = "dataReplicationMetadata"
+            case dataReplicationMode = "dataReplicationMode"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
             case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case pendingDataReplicationMetadata = "pendingDataReplicationMetadata"
+            case pendingDataReplicationMode = "pendingDataReplicationMode"
             case securityGroups = "securityGroups"
         }
     }
@@ -1645,12 +1782,12 @@ extension MQ {
     public struct UpdateConfigurationRequest: AWSEncodableShape {
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
-        /// Required. The base64-encoded XML configuration.
-        public let data: String
+        /// Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.
+        public let data: String?
         /// The description of the configuration.
         public let description: String?
 
-        public init(configurationId: String, data: String, description: String? = nil) {
+        public init(configurationId: String, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.data = data
             self.description = description
@@ -1660,7 +1797,7 @@ extension MQ {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationId, key: "ConfigurationId")
-            try container.encode(self.data, forKey: .data)
+            try container.encodeIfPresent(self.data, forKey: .data)
             try container.encodeIfPresent(self.description, forKey: .description)
         }
 
@@ -1671,18 +1808,18 @@ extension MQ {
     }
 
     public struct UpdateConfigurationResponse: AWSDecodableShape {
-        /// Required. The Amazon Resource Name (ARN) of the configuration.
+        /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// Required. The date and time of the configuration.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var created: Date?
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        /// The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
         /// The latest revision of the configuration.
         public let latestRevision: ConfigurationRevision?
-        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+        /// The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
-        /// The list of the first 20 warnings about the configuration XML elements or attributes that were sanitized.
+        /// The list of the first 20 warnings about the configuration elements or attributes that were sanitized.
         public let warnings: [SanitizationWarning]?
 
         public init(arn: String? = nil, created: Date? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
@@ -1713,14 +1850,17 @@ extension MQ {
         public let groups: [String]?
         /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
         public let password: String?
+        /// Defines whether the user is intended for data replication.
+        public let replicationUser: Bool?
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
-        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
+        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.password = password
+            self.replicationUser = replicationUser
             self.username = username
         }
 
@@ -1731,6 +1871,7 @@ extension MQ {
             try container.encodeIfPresent(self.consoleAccess, forKey: .consoleAccess)
             try container.encodeIfPresent(self.groups, forKey: .groups)
             try container.encodeIfPresent(self.password, forKey: .password)
+            try container.encodeIfPresent(self.replicationUser, forKey: .replicationUser)
             request.encodePath(self.username, key: "Username")
         }
 
@@ -1738,6 +1879,7 @@ extension MQ {
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case password = "password"
+            case replicationUser = "replicationUser"
         }
     }
 
@@ -1751,14 +1893,17 @@ extension MQ {
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Does not apply to RabbitMQ brokers.
         public let groups: [String]?
         /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
-        public let password: String
-        /// important>Amazon MQ for ActiveMQ For ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long./important> Amazon MQ for RabbitMQ For RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long.
-        public let username: String
+        public let password: String?
+        /// Defines if this user is intended for CRDR replication purposes.
+        public let replicationUser: Bool?
+        /// The username of the broker user. The following restrictions apply to broker usernames: For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. para>For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
+        public let username: String?
 
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String, username: String) {
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.password = password
+            self.replicationUser = replicationUser
             self.username = username
         }
 
@@ -1766,6 +1911,7 @@ extension MQ {
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case password = "password"
+            case replicationUser = "replicationUser"
             case username = "username"
         }
     }
@@ -1776,9 +1922,9 @@ extension MQ {
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let groups: [String]?
         /// Required. The type of change pending for the ActiveMQ user.
-        public let pendingChange: ChangeType
+        public let pendingChange: ChangeType?
 
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType) {
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.pendingChange = pendingChange
@@ -1795,9 +1941,9 @@ extension MQ {
         /// The type of change pending for the broker user.
         public let pendingChange: ChangeType?
         /// Required. The username of the broker user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let username: String
+        public let username: String?
 
-        public init(pendingChange: ChangeType? = nil, username: String) {
+        public init(pendingChange: ChangeType? = nil, username: String? = nil) {
             self.pendingChange = pendingChange
             self.username = username
         }
@@ -1810,13 +1956,13 @@ extension MQ {
 
     public struct WeeklyStartTime: AWSEncodableShape & AWSDecodableShape {
         /// Required. The day of the week.
-        public let dayOfWeek: DayOfWeek
+        public let dayOfWeek: DayOfWeek?
         /// Required. The time, in 24-hour format.
-        public let timeOfDay: String
+        public let timeOfDay: String?
         /// The time zone, UTC by default, in either the Country/City format, or the UTC offset format.
         public let timeZone: String?
 
-        public init(dayOfWeek: DayOfWeek, timeOfDay: String, timeZone: String? = nil) {
+        public init(dayOfWeek: DayOfWeek? = nil, timeOfDay: String? = nil, timeZone: String? = nil) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
             self.timeZone = timeZone

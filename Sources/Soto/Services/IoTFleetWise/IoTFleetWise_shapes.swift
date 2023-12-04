@@ -26,7 +26,7 @@ import Foundation
 extension IoTFleetWise {
     // MARK: Enums
 
-    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case running = "RUNNING"
         case suspended = "SUSPENDED"
@@ -34,43 +34,66 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum Compression: String, CustomStringConvertible, Codable, Sendable {
+    public enum Compression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case snappy = "SNAPPY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiagnosticsMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiagnosticsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case sendActiveDtcs = "SEND_ACTIVE_DTCS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failure = "FAILURE"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fleetwiseDefaultEncryption = "FLEETWISE_DEFAULT_ENCRYPTION"
+        case kmsBasedEncryption = "KMS_BASED_ENCRYPTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManifestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case draft = "DRAFT"
+        case invalid = "INVALID"
+        case validating = "VALIDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canInterface = "CAN_INTERFACE"
+        case customerDecodedInterface = "CUSTOMER_DECODED_INTERFACE"
         case obdInterface = "OBD_INTERFACE"
+        case vehicleMiddleware = "VEHICLE_MIDDLEWARE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeDataType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodeDataEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case binary = "BINARY"
+        case typed = "TYPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case booleanArray = "BOOLEAN_ARRAY"
         case double = "DOUBLE"
@@ -87,6 +110,8 @@ extension IoTFleetWise {
         case int8Array = "INT8_ARRAY"
         case string = "STRING"
         case stringArray = "STRING_ARRAY"
+        case `struct` = "STRUCT"
+        case structArray = "STRUCT_ARRAY"
         case uint16 = "UINT16"
         case uint16Array = "UINT16_ARRAY"
         case uint32 = "UINT32"
@@ -101,38 +126,66 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ROS2PrimitiveType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bool = "BOOL"
+        case byte = "BYTE"
+        case char = "CHAR"
+        case float32 = "FLOAT32"
+        case float64 = "FLOAT64"
+        case int16 = "INT16"
+        case int32 = "INT32"
+        case int64 = "INT64"
+        case int8 = "INT8"
+        case string = "STRING"
+        case uint16 = "UINT16"
+        case uint32 = "UINT32"
+        case uint64 = "UINT64"
+        case uint8 = "UINT8"
+        case wstring = "WSTRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case registrationFailure = "REGISTRATION_FAILURE"
         case registrationPending = "REGISTRATION_PENDING"
         case registrationSuccess = "REGISTRATION_SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SignalDecoderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SignalDecoderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canSignal = "CAN_SIGNAL"
+        case customerDecodedSignal = "CUSTOMER_DECODED_SIGNAL"
+        case messageSignal = "MESSAGE_SIGNAL"
         case obdSignal = "OBD_SIGNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpoolingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SpoolingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case toDisk = "TO_DISK"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageCompressionFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageCompressionFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StructuredMessageListType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamicBoundedCapacity = "DYNAMIC_BOUNDED_CAPACITY"
+        case dynamicUnboundedCapacity = "DYNAMIC_UNBOUNDED_CAPACITY"
+        case fixedCapacity = "FIXED_CAPACITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case always = "ALWAYS"
         case risingEdge = "RISING_EDGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateCampaignAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateCampaignAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approve = "APPROVE"
         case resume = "RESUME"
         case suspend = "SUSPEND"
@@ -140,19 +193,24 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case merge = "Merge"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
-    public enum VehicleAssociationBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum VehicleAssociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createIotThing = "CreateIotThing"
         case validateIotThingExists = "ValidateIotThingExists"
         public var description: String { return self.rawValue }
     }
 
-    public enum VehicleState: String, CustomStringConvertible, Codable, Sendable {
+    public enum VehicleMiddlewareProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ros2 = "ROS_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VehicleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case deleting = "DELETING"
         case healthy = "HEALTHY"
@@ -268,7 +326,11 @@ extension IoTFleetWise {
         case attribute(Attribute)
         /// Information about a node specified as a branch.  A group of signals that are defined in a hierarchical structure.
         case branch(Branch)
+        /// Represents a member of the complex data structure. The datatype of the property can be either primitive or another struct.
+        case property(CustomProperty)
         case sensor(Sensor)
+        /// Represents a complex or higher-order data structure.
+        case `struct`(CustomStruct)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -289,9 +351,15 @@ extension IoTFleetWise {
             case .branch:
                 let value = try container.decode(Branch.self, forKey: .branch)
                 self = .branch(value)
+            case .property:
+                let value = try container.decode(CustomProperty.self, forKey: .property)
+                self = .property(value)
             case .sensor:
                 let value = try container.decode(Sensor.self, forKey: .sensor)
                 self = .sensor(value)
+            case .`struct`:
+                let value = try container.decode(CustomStruct.self, forKey: .`struct`)
+                self = .`struct`(value)
             }
         }
 
@@ -304,8 +372,12 @@ extension IoTFleetWise {
                 try container.encode(value, forKey: .attribute)
             case .branch(let value):
                 try container.encode(value, forKey: .branch)
+            case .property(let value):
+                try container.encode(value, forKey: .property)
             case .sensor(let value):
                 try container.encode(value, forKey: .sensor)
+            case .`struct`(let value):
+                try container.encode(value, forKey: .`struct`)
             }
         }
 
@@ -317,8 +389,12 @@ extension IoTFleetWise {
                 try value.validate(name: "\(name).attribute")
             case .branch(let value):
                 try value.validate(name: "\(name).branch")
+            case .property(let value):
+                try value.validate(name: "\(name).property")
             case .sensor(let value):
                 try value.validate(name: "\(name).sensor")
+            case .`struct`(let value):
+                try value.validate(name: "\(name).`struct`")
             }
         }
 
@@ -326,7 +402,73 @@ extension IoTFleetWise {
             case actuator = "actuator"
             case attribute = "attribute"
             case branch = "branch"
+            case property = "property"
             case sensor = "sensor"
+            case `struct` = "struct"
+        }
+    }
+
+    public indirect enum StructuredMessage: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Represents a primitive type node of the complex data structure.
+        case primitiveMessageDefinition(PrimitiveMessageDefinition)
+        /// Represents a struct type node of the complex data structure.
+        case structuredMessageDefinition([StructuredMessageFieldNameAndDataTypePair])
+        /// Represents a list type node of the complex data structure.
+        case structuredMessageListDefinition(StructuredMessageListDefinition)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .primitiveMessageDefinition:
+                let value = try container.decode(PrimitiveMessageDefinition.self, forKey: .primitiveMessageDefinition)
+                self = .primitiveMessageDefinition(value)
+            case .structuredMessageDefinition:
+                let value = try container.decode([StructuredMessageFieldNameAndDataTypePair].self, forKey: .structuredMessageDefinition)
+                self = .structuredMessageDefinition(value)
+            case .structuredMessageListDefinition:
+                let value = try container.decode(StructuredMessageListDefinition.self, forKey: .structuredMessageListDefinition)
+                self = .structuredMessageListDefinition(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .primitiveMessageDefinition(let value):
+                try container.encode(value, forKey: .primitiveMessageDefinition)
+            case .structuredMessageDefinition(let value):
+                try container.encode(value, forKey: .structuredMessageDefinition)
+            case .structuredMessageListDefinition(let value):
+                try container.encode(value, forKey: .structuredMessageListDefinition)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .primitiveMessageDefinition(let value):
+                try value.validate(name: "\(name).primitiveMessageDefinition")
+            case .structuredMessageDefinition(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).structuredMessageDefinition[]")
+                }
+                try self.validate(value, name: "structuredMessageDefinition", parent: name, max: 500)
+                try self.validate(value, name: "structuredMessageDefinition", parent: name, min: 1)
+            case .structuredMessageListDefinition(let value):
+                try value.validate(name: "\(name).structuredMessageListDefinition")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primitiveMessageDefinition = "primitiveMessageDefinition"
+            case structuredMessageDefinition = "structuredMessageDefinition"
+            case structuredMessageListDefinition = "structuredMessageListDefinition"
         }
     }
 
@@ -351,10 +493,12 @@ extension IoTFleetWise {
         public let max: Double?
         /// The specified possible minimum value of an actuator.
         public let min: Double?
+        /// The fully qualified name of the struct node for the actuator if the data type of the actuator is Struct or StructArray. For example, the struct fully qualified name of an actuator might be Vehicle.Door.LockStruct.
+        public let structFullyQualifiedName: String?
         /// The scientific unit for the actuator.
         public let unit: String?
 
-        public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
+        public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = nil
             self.comment = comment
@@ -364,11 +508,12 @@ extension IoTFleetWise {
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
             self.min = min
+            self.structFullyQualifiedName = structFullyQualifiedName
             self.unit = unit
         }
 
         @available(*, deprecated, message: "Members assignedValue have been deprecated")
-        public init(allowedValues: [String]? = nil, assignedValue: String? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
+        public init(allowedValues: [String]? = nil, assignedValue: String? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
             self.comment = comment
@@ -378,6 +523,7 @@ extension IoTFleetWise {
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
             self.min = min
+            self.structFullyQualifiedName = structFullyQualifiedName
             self.unit = unit
         }
 
@@ -391,6 +537,9 @@ extension IoTFleetWise {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, max: 150)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, min: 1)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -403,6 +552,7 @@ extension IoTFleetWise {
             case fullyQualifiedName = "fullyQualifiedName"
             case max = "max"
             case min = "min"
+            case structFullyQualifiedName = "structFullyQualifiedName"
             case unit = "unit"
         }
     }
@@ -676,7 +826,7 @@ extension IoTFleetWise {
     }
 
     public struct CanDbcDefinition: AWSEncodableShape {
-        /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list.
+        /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB.
         public let canDbcFiles: [AWSBase64Data]
         /// Contains information about a network interface.
         public let networkInterface: String
@@ -690,6 +840,9 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.canDbcFiles.forEach {
+                try validate($0, name: "canDbcFiles[]", parent: name, max: 200000000)
+            }
             try self.validate(self.canDbcFiles, name: "canDbcFiles", parent: name, max: 5)
             try self.validate(self.canDbcFiles, name: "canDbcFiles", parent: name, min: 1)
             try self.validate(self.networkInterface, name: "networkInterface", parent: name, max: 50)
@@ -843,7 +996,7 @@ extension IoTFleetWise {
         public let collectionScheme: CollectionScheme
         ///  (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
         public let compression: Compression?
-        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics.  You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
         public let dataDestinationConfigs: [DataDestinationConfig]?
         ///  (Optional) A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
         public let dataExtraDimensions: [String]?
@@ -1430,6 +1583,95 @@ extension IoTFleetWise {
         }
     }
 
+    public struct CustomProperty: AWSEncodableShape & AWSDecodableShape {
+        /// A comment in addition to the description.
+        public let comment: String?
+        /// Indicates whether the property is binary data.
+        public let dataEncoding: NodeDataEncoding?
+        /// The data type for the custom property.
+        public let dataType: NodeDataType
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public let deprecationMessage: String?
+        /// A brief description of the custom property.
+        public let description: String?
+        /// The fully qualified name of the custom property. For example, the fully qualified name of a custom property might be ComplexDataTypes.VehicleDataTypes.SVMCamera.FPS.
+        public let fullyQualifiedName: String
+        /// The fully qualified name of the struct node for the custom property if the data type of the custom property is Struct or StructArray.
+        public let structFullyQualifiedName: String?
+
+        public init(comment: String? = nil, dataEncoding: NodeDataEncoding? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, structFullyQualifiedName: String? = nil) {
+            self.comment = comment
+            self.dataEncoding = dataEncoding
+            self.dataType = dataType
+            self.deprecationMessage = deprecationMessage
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+            self.structFullyQualifiedName = structFullyQualifiedName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 2048)
+            try self.validate(self.comment, name: "comment", parent: name, min: 1)
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, max: 2048)
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, min: 1)
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, max: 150)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, min: 1)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+            case dataEncoding = "dataEncoding"
+            case dataType = "dataType"
+            case deprecationMessage = "deprecationMessage"
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case structFullyQualifiedName = "structFullyQualifiedName"
+        }
+    }
+
+    public struct CustomStruct: AWSEncodableShape & AWSDecodableShape {
+        /// A comment in addition to the description.
+        public let comment: String?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public let deprecationMessage: String?
+        /// A brief description of the custom structure.
+        public let description: String?
+        /// The fully qualified name of the custom structure. For example, the fully qualified name of a custom structure might be ComplexDataTypes.VehicleDataTypes.SVMCamera.
+        public let fullyQualifiedName: String
+
+        public init(comment: String? = nil, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String) {
+            self.comment = comment
+            self.deprecationMessage = deprecationMessage
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 2048)
+            try self.validate(self.comment, name: "comment", parent: name, min: 1)
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, max: 2048)
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, min: 1)
+            try self.validate(self.deprecationMessage, name: "deprecationMessage", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+            case deprecationMessage = "deprecationMessage"
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
+        }
+    }
+
     public struct DecoderManifestSummary: AWSDecodableShape {
         /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
         public let arn: String?
@@ -1439,6 +1681,8 @@ extension IoTFleetWise {
         public let description: String?
         /// The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         public let lastModificationTime: Date
+        /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
+        public let message: String?
         /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
         public let modelManifestArn: String?
         /// The name of the decoder manifest.
@@ -1446,11 +1690,12 @@ extension IoTFleetWise {
         /// The state of the decoder manifest. If the status is ACTIVE, the decoder manifest can't be edited. If the status is marked DRAFT, you can edit the decoder manifest.
         public let status: ManifestStatus?
 
-        public init(arn: String? = nil, creationTime: Date, description: String? = nil, lastModificationTime: Date, modelManifestArn: String? = nil, name: String? = nil, status: ManifestStatus? = nil) {
+        public init(arn: String? = nil, creationTime: Date, description: String? = nil, lastModificationTime: Date, message: String? = nil, modelManifestArn: String? = nil, name: String? = nil, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.lastModificationTime = lastModificationTime
+            self.message = message
             self.modelManifestArn = modelManifestArn
             self.name = name
             self.status = status
@@ -1461,6 +1706,7 @@ extension IoTFleetWise {
             case creationTime = "creationTime"
             case description = "description"
             case lastModificationTime = "lastModificationTime"
+            case message = "message"
             case modelManifestArn = "modelManifestArn"
             case name = "name"
             case status = "status"
@@ -1916,6 +2162,8 @@ extension IoTFleetWise {
         public let description: String?
         ///  The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         public let lastModificationTime: Date
+        /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
+        public let message: String?
         ///  The ARN of a vehicle model (model manifest) associated with the decoder manifest.
         public let modelManifestArn: String?
         ///  The name of the decoder manifest.
@@ -1923,11 +2171,12 @@ extension IoTFleetWise {
         ///  The state of the decoder manifest. If the status is ACTIVE, the decoder manifest can't be edited. If the status is marked DRAFT, you can edit the decoder manifest.
         public let status: ManifestStatus?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, lastModificationTime: Date, modelManifestArn: String? = nil, name: String, status: ManifestStatus? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, lastModificationTime: Date, message: String? = nil, modelManifestArn: String? = nil, name: String, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.lastModificationTime = lastModificationTime
+            self.message = message
             self.modelManifestArn = modelManifestArn
             self.name = name
             self.status = status
@@ -1938,9 +2187,47 @@ extension IoTFleetWise {
             case creationTime = "creationTime"
             case description = "description"
             case lastModificationTime = "lastModificationTime"
+            case message = "message"
             case modelManifestArn = "modelManifestArn"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct GetEncryptionConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let creationTime: Date?
+        /// The encryption status.
+        public let encryptionStatus: EncryptionStatus
+        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use a KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+        public let encryptionType: EncryptionType
+        /// The error message that describes why encryption settings couldn't be configured, if applicable.
+        public let errorMessage: String?
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+        /// The time when encryption was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let lastModificationTime: Date?
+
+        public init(creationTime: Date? = nil, encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, errorMessage: String? = nil, kmsKeyId: String? = nil, lastModificationTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.errorMessage = errorMessage
+            self.kmsKeyId = kmsKeyId
+            self.lastModificationTime = lastModificationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case encryptionStatus = "encryptionStatus"
+            case encryptionType = "encryptionType"
+            case errorMessage = "errorMessage"
+            case kmsKeyId = "kmsKeyId"
+            case lastModificationTime = "lastModificationTime"
         }
     }
 
@@ -3067,6 +3354,30 @@ extension IoTFleetWise {
         }
     }
 
+    public struct MessageSignal: AWSEncodableShape & AWSDecodableShape {
+        /// The structured message for the message signal. It can be defined with either a primitiveMessageDefinition, structuredMessageListDefinition, or structuredMessageDefinition recursively.
+        public let structuredMessage: StructuredMessage
+        /// The topic name for the message signal. It corresponds to topics in ROS 2.
+        public let topicName: String
+
+        public init(structuredMessage: StructuredMessage, topicName: String) {
+            self.structuredMessage = structuredMessage
+            self.topicName = topicName
+        }
+
+        public func validate(name: String) throws {
+            try self.structuredMessage.validate(name: "\(name).structuredMessage")
+            try self.validate(self.topicName, name: "topicName", parent: name, max: 150)
+            try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
+            try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^[a-zA-Z0-9_\\-#:./]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case structuredMessage = "structuredMessage"
+            case topicName = "topicName"
+        }
+    }
+
     public struct ModelManifestSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the vehicle model.
         public let arn: String?
@@ -3113,12 +3424,15 @@ extension IoTFleetWise {
         public let obdInterface: ObdInterface?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         public let type: NetworkInterfaceType
+        /// The vehicle middleware defined as a type of network interface. Examples of vehicle middleware include ROS2 and SOME/IP.
+        public let vehicleMiddleware: VehicleMiddleware?
 
-        public init(canInterface: CanInterface? = nil, interfaceId: String, obdInterface: ObdInterface? = nil, type: NetworkInterfaceType) {
+        public init(canInterface: CanInterface? = nil, interfaceId: String, obdInterface: ObdInterface? = nil, type: NetworkInterfaceType, vehicleMiddleware: VehicleMiddleware? = nil) {
             self.canInterface = canInterface
             self.interfaceId = interfaceId
             self.obdInterface = obdInterface
             self.type = type
+            self.vehicleMiddleware = vehicleMiddleware
         }
 
         public func validate(name: String) throws {
@@ -3126,6 +3440,7 @@ extension IoTFleetWise {
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, min: 1)
             try self.obdInterface?.validate(name: "\(name).obdInterface")
+            try self.vehicleMiddleware?.validate(name: "\(name).vehicleMiddleware")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3133,6 +3448,7 @@ extension IoTFleetWise {
             case interfaceId = "interfaceId"
             case obdInterface = "obdInterface"
             case type = "type"
+            case vehicleMiddleware = "vehicleMiddleware"
         }
     }
 
@@ -3145,15 +3461,21 @@ extension IoTFleetWise {
         public let totalBranches: Int?
         /// The total number of nodes in a vehicle network.
         public let totalNodes: Int?
+        /// The total properties for the node.
+        public let totalProperties: Int?
         /// The total number of nodes in a vehicle network that represent sensors.
         public let totalSensors: Int?
+        /// The total structure for the node.
+        public let totalStructs: Int?
 
-        public init(totalActuators: Int? = nil, totalAttributes: Int? = nil, totalBranches: Int? = nil, totalNodes: Int? = nil, totalSensors: Int? = nil) {
+        public init(totalActuators: Int? = nil, totalAttributes: Int? = nil, totalBranches: Int? = nil, totalNodes: Int? = nil, totalProperties: Int? = nil, totalSensors: Int? = nil, totalStructs: Int? = nil) {
             self.totalActuators = totalActuators
             self.totalAttributes = totalAttributes
             self.totalBranches = totalBranches
             self.totalNodes = totalNodes
+            self.totalProperties = totalProperties
             self.totalSensors = totalSensors
+            self.totalStructs = totalStructs
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3161,7 +3483,9 @@ extension IoTFleetWise {
             case totalAttributes = "totalAttributes"
             case totalBranches = "totalBranches"
             case totalNodes = "totalNodes"
+            case totalProperties = "totalProperties"
             case totalSensors = "totalSensors"
+            case totalStructs = "totalStructs"
         }
     }
 
@@ -3269,6 +3593,44 @@ extension IoTFleetWise {
         }
     }
 
+    public struct PutEncryptionConfigurationRequest: AWSEncodableShape {
+        /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
+        public let encryptionType: EncryptionType
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+
+        public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct PutEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The encryption status.
+        public let encryptionStatus: EncryptionStatus
+        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+        public let encryptionType: EncryptionType
+        /// The ID of the KMS key that is used for encryption.
+        public let kmsKeyId: String?
+
+        public init(encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionStatus = "encryptionStatus"
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
     public struct PutLoggingOptionsRequest: AWSEncodableShape {
         /// Creates or updates the log delivery option to Amazon CloudWatch Logs.
         public let cloudWatchLogDelivery: CloudWatchLogDeliveryOptions
@@ -3288,6 +3650,36 @@ extension IoTFleetWise {
 
     public struct PutLoggingOptionsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ROS2PrimitiveMessageDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
+        public let offset: Double?
+        /// The primitive type (integer, floating point, boolean, etc.) for the ROS 2 primitive message definition.
+        public let primitiveType: ROS2PrimitiveType
+        /// A multiplier used to decode the message.
+        public let scaling: Double?
+        /// An optional attribute specifying the upper bound for STRING and WSTRING.
+        public let upperBound: Int64?
+
+        public init(offset: Double? = nil, primitiveType: ROS2PrimitiveType, scaling: Double? = nil, upperBound: Int64? = nil) {
+            self.offset = offset
+            self.primitiveType = primitiveType
+            self.scaling = scaling
+            self.upperBound = upperBound
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.upperBound, name: "upperBound", parent: name, max: 2048)
+            try self.validate(self.upperBound, name: "upperBound", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offset = "offset"
+            case primitiveType = "primitiveType"
+            case scaling = "scaling"
+            case upperBound = "upperBound"
+        }
     }
 
     public struct RegisterAccountRequest: AWSEncodableShape {
@@ -3396,10 +3788,12 @@ extension IoTFleetWise {
         public let max: Double?
         /// The specified possible minimum value of the sensor.
         public let min: Double?
+        /// The fully qualified name of the struct node for a sensor if the data type of the actuator is Struct or StructArray. For example, the struct fully qualified name of a sensor might be Vehicle.ADAS.CameraStruct.
+        public let structFullyQualifiedName: String?
         /// The scientific unit of measurement for data collected by the sensor.
         public let unit: String?
 
-        public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
+        public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.comment = comment
             self.dataType = dataType
@@ -3408,6 +3802,7 @@ extension IoTFleetWise {
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
             self.min = min
+            self.structFullyQualifiedName = structFullyQualifiedName
             self.unit = unit
         }
 
@@ -3421,6 +3816,9 @@ extension IoTFleetWise {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, max: 150)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, min: 1)
+            try self.validate(self.structFullyQualifiedName, name: "structFullyQualifiedName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3432,6 +3830,7 @@ extension IoTFleetWise {
             case fullyQualifiedName = "fullyQualifiedName"
             case max = "max"
             case min = "min"
+            case structFullyQualifiedName = "structFullyQualifiedName"
             case unit = "unit"
         }
     }
@@ -3468,15 +3867,18 @@ extension IoTFleetWise {
         public let fullyQualifiedName: String
         /// The ID of a network interface that specifies what network protocol a vehicle follows.
         public let interfaceId: String
+        /// The decoding information for a specific message which supports higher order data types.
+        public let messageSignal: MessageSignal?
         /// Information about signal decoder using the On-board diagnostic (OBD) II protocol.
         public let obdSignal: ObdSignal?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         public let type: SignalDecoderType
 
-        public init(canSignal: CanSignal? = nil, fullyQualifiedName: String, interfaceId: String, obdSignal: ObdSignal? = nil, type: SignalDecoderType) {
+        public init(canSignal: CanSignal? = nil, fullyQualifiedName: String, interfaceId: String, messageSignal: MessageSignal? = nil, obdSignal: ObdSignal? = nil, type: SignalDecoderType) {
             self.canSignal = canSignal
             self.fullyQualifiedName = fullyQualifiedName
             self.interfaceId = interfaceId
+            self.messageSignal = messageSignal
             self.obdSignal = obdSignal
             self.type = type
         }
@@ -3487,6 +3889,7 @@ extension IoTFleetWise {
             try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, min: 1)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, min: 1)
+            try self.messageSignal?.validate(name: "\(name).messageSignal")
             try self.obdSignal?.validate(name: "\(name).obdSignal")
         }
 
@@ -3494,6 +3897,7 @@ extension IoTFleetWise {
             case canSignal = "canSignal"
             case fullyQualifiedName = "fullyQualifiedName"
             case interfaceId = "interfaceId"
+            case messageSignal = "messageSignal"
             case obdSignal = "obdSignal"
             case type = "type"
         }
@@ -3526,6 +3930,61 @@ extension IoTFleetWise {
         private enum CodingKeys: String, CodingKey {
             case maxSampleCount = "maxSampleCount"
             case minimumSamplingIntervalMs = "minimumSamplingIntervalMs"
+            case name = "name"
+        }
+    }
+
+    public struct StructuredMessageFieldNameAndDataTypePair: AWSEncodableShape & AWSDecodableShape {
+        /// The data type.
+        public let dataType: StructuredMessage
+        /// The field name of the structured message. It determines how a data value is referenced in the target language.
+        public let fieldName: String
+
+        public init(dataType: StructuredMessage, fieldName: String) {
+            self.dataType = dataType
+            self.fieldName = fieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.dataType.validate(name: "\(name).dataType")
+            try self.validate(self.fieldName, name: "fieldName", parent: name, max: 150)
+            try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "dataType"
+            case fieldName = "fieldName"
+        }
+    }
+
+    public struct StructuredMessageListDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The capacity of the structured message list definition when the list type is FIXED_CAPACITY or DYNAMIC_BOUNDED_CAPACITY.
+        public let capacity: Int?
+        /// The type of list of the structured message list definition.
+        public let listType: StructuredMessageListType
+        /// The member type of the structured message list definition.
+        public let memberType: StructuredMessage
+        /// The name of the structured message list definition.
+        public let name: String
+
+        public init(capacity: Int? = nil, listType: StructuredMessageListType, memberType: StructuredMessage, name: String) {
+            self.capacity = capacity
+            self.listType = listType
+            self.memberType = memberType
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacity, name: "capacity", parent: name, min: 0)
+            try self.memberType.validate(name: "\(name).memberType")
+            try self.validate(self.name, name: "name", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "capacity"
+            case listType = "listType"
+            case memberType = "memberType"
             case name = "name"
         }
     }
@@ -4262,6 +4721,28 @@ extension IoTFleetWise {
         }
     }
 
+    public struct VehicleMiddleware: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the vehicle middleware.
+        public let name: String
+        /// The protocol name of the vehicle middleware.
+        public let protocolName: VehicleMiddlewareProtocol
+
+        public init(name: String, protocolName: VehicleMiddlewareProtocol) {
+            self.name = name
+            self.protocolName = protocolName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case protocolName = "protocolName"
+        }
+    }
+
     public struct VehicleStatus: AWSDecodableShape {
         /// The name of a campaign.
         public let campaignName: String?
@@ -4343,6 +4824,23 @@ extension IoTFleetWise {
 
         private enum CodingKeys: String, CodingKey {
             case canDbc = "canDbc"
+        }
+    }
+
+    public struct PrimitiveMessageDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Information about a PrimitiveMessage using a ROS 2 compliant primitive type message of the complex data structure.
+        public let ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition?
+
+        public init(ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition? = nil) {
+            self.ros2PrimitiveMessageDefinition = ros2PrimitiveMessageDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.ros2PrimitiveMessageDefinition?.validate(name: "\(name).ros2PrimitiveMessageDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ros2PrimitiveMessageDefinition = "ros2PrimitiveMessageDefinition"
         }
     }
 }

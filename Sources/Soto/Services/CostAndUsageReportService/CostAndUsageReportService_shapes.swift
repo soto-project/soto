@@ -26,7 +26,7 @@ import Foundation
 extension CostAndUsageReportService {
     // MARK: Enums
 
-    public enum AWSRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum AWSRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bahrain = "me-south-1"
         case beijing = "cn-north-1"
         case canadaCentral = "ca-central-1"
@@ -58,39 +58,47 @@ extension CostAndUsageReportService {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdditionalArtifact: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdditionalArtifact: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case athena = "ATHENA"
         case quicksight = "QUICKSIGHT"
         case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case parquet = "Parquet"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum LastStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case errorNoBucket = "ERROR_NO_BUCKET"
+        case errorPermissions = "ERROR_PERMISSIONS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "textORcsv"
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportVersioning: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportVersioning: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createNewReport = "CREATE_NEW_REPORT"
         case overwriteReport = "OVERWRITE_REPORT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaElement: String, CustomStringConvertible, Codable, Sendable {
+    public enum SchemaElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manualDiscountCompatibility = "MANUAL_DISCOUNT_COMPATIBILITY"
         case resources = "RESOURCES"
         case splitCostAllocationData = "SPLIT_COST_ALLOCATION_DATA"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "DAILY"
         case hourly = "HOURLY"
         case monthly = "MONTHLY"
@@ -101,9 +109,9 @@ extension CostAndUsageReportService {
 
     public struct DeleteReportDefinitionRequest: AWSEncodableShape {
         /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
-        public let reportName: String?
+        public let reportName: String
 
-        public init(reportName: String? = nil) {
+        public init(reportName: String) {
             self.reportName = reportName
         }
 
@@ -153,7 +161,7 @@ extension CostAndUsageReportService {
 
     public struct DescribeReportDefinitionsResponse: AWSDecodableShape {
         public let nextToken: String?
-        /// A list of AWS Cost and Usage reports owned by the account.
+        /// An Amazon Web Services Cost and Usage Report list owned by the account.
         public let reportDefinitions: [ReportDefinition]?
 
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
@@ -164,6 +172,37 @@ extension CostAndUsageReportService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case reportDefinitions = "ReportDefinitions"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The report name of the report definition that tags are to be returned for.
+        public let reportName: String
+
+        public init(reportName: String) {
+            self.reportName = reportName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
+            try self.validate(self.reportName, name: "reportName", parent: name, pattern: "^[0-9A-Za-z!\\-_.*\\'()]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportName = "ReportName"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags assigned to the report definition resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -195,17 +234,25 @@ extension CostAndUsageReportService {
     public struct PutReportDefinitionRequest: AWSEncodableShape {
         /// Represents the output of the PutReportDefinition operation. The content consists of the detailed  metadata and data file information.
         public let reportDefinition: ReportDefinition
+        /// The tags to be assigned to the report definition resource.
+        public let tags: [Tag]?
 
-        public init(reportDefinition: ReportDefinition) {
+        public init(reportDefinition: ReportDefinition, tags: [Tag]? = nil) {
             self.reportDefinition = reportDefinition
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.reportDefinition.validate(name: "\(name).reportDefinition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case reportDefinition = "ReportDefinition"
+            case tags = "Tags"
         }
     }
 
@@ -218,13 +265,15 @@ extension CostAndUsageReportService {
         public let additionalArtifacts: [AdditionalArtifact]?
         /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs.
         public let additionalSchemaElements: [SchemaElement]
-        ///  The Amazon resource name of the billing view. You can get this value by using the billing view service public APIs.
+        ///  The Amazon resource name of the billing view. The BillingViewArn is needed to create Amazon Web Services Cost and Usage Report for each billing group maintained in the Amazon Web Services Billing Conductor service. The BillingViewArn for a billing group can be constructed as: arn:aws:billing::payer-account-id:billingview/billing-group-primary-account-id
         public let billingViewArn: String?
         public let compression: CompressionFormat
         public let format: ReportFormat
         /// Whether you want Amazon Web Services to update your reports after they have been finalized if Amazon Web Services detects charges related to  previous months. These charges can include refunds, credits, or support fees.
         public let refreshClosedReports: Bool?
         public let reportName: String
+        /// The status of the report.
+        public let reportStatus: ReportStatus?
         /// Whether you want Amazon Web Services to overwrite the previous version of each report or  to deliver the report in addition to the previous versions.
         public let reportVersioning: ReportVersioning?
         public let s3Bucket: String
@@ -232,7 +281,7 @@ extension CostAndUsageReportService {
         public let s3Region: AWSRegion
         public let timeUnit: TimeUnit
 
-        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], billingViewArn: String? = nil, compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
+        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], billingViewArn: String? = nil, compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportStatus: ReportStatus? = nil, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
             self.billingViewArn = billingViewArn
@@ -240,6 +289,7 @@ extension CostAndUsageReportService {
             self.format = format
             self.refreshClosedReports = refreshClosedReports
             self.reportName = reportName
+            self.reportStatus = reportStatus
             self.reportVersioning = reportVersioning
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -252,6 +302,7 @@ extension CostAndUsageReportService {
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^(arn:aws(-cn)?:billing::[0-9]{12}:billingview/)?[a-zA-Z0-9_\\+=\\.\\-@].{1,30}$")
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "^[0-9A-Za-z!\\-_.*\\'()]+$")
+            try self.reportStatus?.validate(name: "\(name).reportStatus")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 256)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[A-Za-z0-9_\\.\\-]+$")
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 256)
@@ -266,12 +317,123 @@ extension CostAndUsageReportService {
             case format = "Format"
             case refreshClosedReports = "RefreshClosedReports"
             case reportName = "ReportName"
+            case reportStatus = "ReportStatus"
             case reportVersioning = "ReportVersioning"
             case s3Bucket = "S3Bucket"
             case s3Prefix = "S3Prefix"
             case s3Region = "S3Region"
             case timeUnit = "TimeUnit"
         }
+    }
+
+    public struct ReportStatus: AWSEncodableShape & AWSDecodableShape {
+        /// A timestamp that gives the date of a report delivery.
+        public let lastDelivery: String?
+        /// An enum that gives the status of a report delivery.
+        public let lastStatus: LastStatus?
+
+        public init(lastDelivery: String? = nil, lastStatus: LastStatus? = nil) {
+            self.lastDelivery = lastDelivery
+            self.lastStatus = lastStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lastDelivery, name: "lastDelivery", parent: name, max: 20)
+            try self.validate(self.lastDelivery, name: "lastDelivery", parent: name, min: 16)
+            try self.validate(self.lastDelivery, name: "lastDelivery", parent: name, pattern: "^[0-9]{8}[T][0-9]{6}([Z]|[+-][0-9]{4})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastDelivery = "lastDelivery"
+            case lastStatus = "lastStatus"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the existing tag value will be updated to the new value.
+        public let key: String
+        /// The value of the tag. Tag values are case-sensitive. This can be an empty string.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: ".*")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The report name of the report definition that tags are to be associated with.
+        public let reportName: String
+        /// The tags to be assigned to the report definition resource.
+        public let tags: [Tag]
+
+        public init(reportName: String, tags: [Tag]) {
+            self.reportName = reportName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
+            try self.validate(self.reportName, name: "reportName", parent: name, pattern: "^[0-9A-Za-z!\\-_.*\\'()]+$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportName = "ReportName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The report name of the report definition that tags are to be disassociated from.
+        public let reportName: String
+        /// The tags to be disassociated from the report definition resource.
+        public let tagKeys: [String]
+
+        public init(reportName: String, tagKeys: [String]) {
+            self.reportName = reportName
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
+            try self.validate(self.reportName, name: "reportName", parent: name, pattern: "^[0-9A-Za-z!\\-_.*\\'()]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportName = "ReportName"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }
 
@@ -283,6 +445,7 @@ public struct CostAndUsageReportServiceErrorType: AWSErrorType {
         case duplicateReportNameException = "DuplicateReportNameException"
         case internalErrorException = "InternalErrorException"
         case reportLimitReachedException = "ReportLimitReachedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case validationException = "ValidationException"
     }
 
@@ -310,7 +473,9 @@ public struct CostAndUsageReportServiceErrorType: AWSErrorType {
     public static var internalErrorException: Self { .init(.internalErrorException) }
     /// This account already has five reports defined. To define a new report, you must delete an existing report.
     public static var reportLimitReachedException: Self { .init(.reportLimitReachedException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The specified report (ReportName) in the request doesn't exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

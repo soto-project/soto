@@ -26,70 +26,86 @@ import Foundation
 extension Pipes {
     // MARK: Enums
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobDependencyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchJobDependencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nToN = "N_TO_N"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchResourceRequirementType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchResourceRequirementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
         case memory = "MEMORY"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum DynamoDBStreamStartPosition: String, CustomStringConvertible, Codable, Sendable {
+    public enum DynamoDBStreamStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcsEnvironmentFileType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EcsEnvironmentFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcsResourceRequirementType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EcsResourceRequirementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
         case inferenceAccelerator = "InferenceAccelerator"
         public var description: String { return self.rawValue }
     }
 
-    public enum KinesisStreamStartPosition: String, CustomStringConvertible, Codable, Sendable {
+    public enum IncludeExecutionDataOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KinesisStreamStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MSKStartPosition: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case info = "INFO"
+        case off = "OFF"
+        case trace = "TRACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MSKStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnPartialBatchItemFailureStreams: String, CustomStringConvertible, Codable, Sendable {
+    public enum OnPartialBatchItemFailureStreams: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automaticBisect = "AUTOMATIC_BISECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipeState: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
+        case createRollbackFailed = "CREATE_ROLLBACK_FAILED"
         case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteRollbackFailed = "DELETE_ROLLBACK_FAILED"
         case deleting = "DELETING"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -98,48 +114,56 @@ extension Pipes {
         case stopping = "STOPPING"
         case stopFailed = "STOP_FAILED"
         case updateFailed = "UPDATE_FAILED"
+        case updateRollbackFailed = "UPDATE_ROLLBACK_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipeTargetInvocationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipeTargetInvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fireAndForget = "FIRE_AND_FORGET"
         case requestResponse = "REQUEST_RESPONSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedPipeState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RequestedPipeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedPipeStateDescribeResponse: String, CustomStringConvertible, Codable, Sendable {
+    public enum RequestedPipeStateDescribeResponse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelfManagedKafkaStartPosition: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "json"
+        case plain = "plain"
+        case w3c = "w3c"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelfManagedKafkaStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
@@ -457,6 +481,38 @@ extension Pipes {
         }
     }
 
+    public struct CloudwatchLogsLogDestination: AWSDecodableShape {
+        /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
+        public let logGroupArn: String?
+
+        public init(logGroupArn: String? = nil) {
+            self.logGroupArn = logGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "LogGroupArn"
+        }
+    }
+
+    public struct CloudwatchLogsLogDestinationParameters: AWSEncodableShape {
+        /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
+        public let logGroupArn: String
+
+        public init(logGroupArn: String) {
+            self.logGroupArn = logGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 1600)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 1)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:logs:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):log-group:.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "LogGroupArn"
+        }
+    }
+
     public struct CreatePipeRequest: AWSEncodableShape {
         /// A description of the pipe.
         public let description: String?
@@ -466,6 +522,8 @@ extension Pipes {
         public let enrichment: String?
         /// The parameters required to set up enrichment on your pipe.
         public let enrichmentParameters: PipeEnrichmentParameters?
+        /// The logging configuration settings for the pipe.
+        public let logConfiguration: PipeLogConfigurationParameters?
         /// The name of the pipe.
         public let name: String
         /// The ARN of the role that allows the pipe to send data to the target.
@@ -478,14 +536,15 @@ extension Pipes {
         public let tags: [String: String]?
         /// The ARN of the target resource.
         public let target: String
-        /// The parameters required to set up a target for your pipe.
+        /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, name: String, roleArn: String, source: String, sourceParameters: PipeSourceParameters? = nil, tags: [String: String]? = nil, target: String, targetParameters: PipeTargetParameters? = nil) {
+        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, source: String, sourceParameters: PipeSourceParameters? = nil, tags: [String: String]? = nil, target: String, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
+            self.logConfiguration = logConfiguration
             self.name = name
             self.roleArn = roleArn
             self.source = source
@@ -502,6 +561,7 @@ extension Pipes {
             try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
             try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
             try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             request.encodePath(self.name, key: "Name")
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.source, forKey: .source)
@@ -517,6 +577,7 @@ extension Pipes {
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
             try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -545,6 +606,7 @@ extension Pipes {
             case desiredState = "DesiredState"
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
+            case logConfiguration = "LogConfiguration"
             case roleArn = "RoleArn"
             case source = "Source"
             case sourceParameters = "SourceParameters"
@@ -588,7 +650,7 @@ extension Pipes {
     }
 
     public struct DeadLetterConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Amazon SQS queue specified as the target for the dead-letter queue.
+        /// The ARN of the specified target for the dead-letter queue.  For Amazon Kinesis stream and Amazon DynamoDB stream sources, specify either an Amazon SNS topic or Amazon SQS queue ARN.
         public let arn: String?
 
         public init(arn: String? = nil) {
@@ -702,6 +764,8 @@ extension Pipes {
         public let enrichmentParameters: PipeEnrichmentParameters?
         /// When the pipe was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: Date?
+        /// The logging configuration settings for the pipe.
+        public let logConfiguration: PipeLogConfiguration?
         /// The name of the pipe.
         public let name: String?
         /// The ARN of the role that allows the pipe to send data to the target.
@@ -716,10 +780,10 @@ extension Pipes {
         public let tags: [String: String]?
         /// The ARN of the target resource.
         public let target: String?
-        /// The parameters required to set up a target for your pipe.
+        /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, description: String? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, lastModifiedTime: Date? = nil, name: String? = nil, roleArn: String? = nil, source: String? = nil, sourceParameters: PipeSourceParameters? = nil, stateReason: String? = nil, tags: [String: String]? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, description: String? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, lastModifiedTime: Date? = nil, logConfiguration: PipeLogConfiguration? = nil, name: String? = nil, roleArn: String? = nil, source: String? = nil, sourceParameters: PipeSourceParameters? = nil, stateReason: String? = nil, tags: [String: String]? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.currentState = currentState
@@ -728,6 +792,7 @@ extension Pipes {
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
             self.lastModifiedTime = lastModifiedTime
+            self.logConfiguration = logConfiguration
             self.name = name
             self.roleArn = roleArn
             self.source = source
@@ -747,6 +812,7 @@ extension Pipes {
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
             case lastModifiedTime = "LastModifiedTime"
+            case logConfiguration = "LogConfiguration"
             case name = "Name"
             case roleArn = "RoleArn"
             case source = "Source"
@@ -969,6 +1035,38 @@ extension Pipes {
         }
     }
 
+    public struct FirehoseLogDestination: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        public let deliveryStreamArn: String?
+
+        public init(deliveryStreamArn: String? = nil) {
+            self.deliveryStreamArn = deliveryStreamArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamArn = "DeliveryStreamArn"
+        }
+    }
+
+    public struct FirehoseLogDestinationParameters: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        public let deliveryStreamArn: String
+
+        public init(deliveryStreamArn: String) {
+            self.deliveryStreamArn = deliveryStreamArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, max: 1600)
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, min: 1)
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:firehose:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):deliverystream/.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamArn = "DeliveryStreamArn"
+        }
+    }
+
     public struct ListPipesRequest: AWSEncodableShape {
         /// The state the pipe is in.
         public let currentState: PipeState?
@@ -1167,7 +1265,6 @@ extension Pipes {
             try self.pathParameterValues?.forEach {
                 try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
-            try self.validate(self.pathParameterValues, name: "pathParameterValues", parent: name, max: 1)
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
                 try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
@@ -1186,7 +1283,7 @@ extension Pipes {
     public struct PipeEnrichmentParameters: AWSEncodableShape & AWSDecodableShape {
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: PipeEnrichmentHttpParameters?
-        /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
+        /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format. To remove an input template, specify an empty string.
         public let inputTemplate: String?
 
         public init(httpParameters: PipeEnrichmentHttpParameters? = nil, inputTemplate: String? = nil) {
@@ -1202,6 +1299,69 @@ extension Pipes {
         private enum CodingKeys: String, CodingKey {
             case httpParameters = "HttpParameters"
             case inputTemplate = "InputTemplate"
+        }
+    }
+
+    public struct PipeLogConfiguration: AWSDecodableShape {
+        /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+        public let cloudwatchLogsLogDestination: CloudwatchLogsLogDestination?
+        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        public let firehoseLogDestination: FirehoseLogDestination?
+        /// Whether the execution data (specifically, the payload,  awsRequest, and awsResponse fields) is included in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide.
+        public let includeExecutionData: [IncludeExecutionDataOption]?
+        /// The level of logging detail to include. This applies to all log destinations for the pipe.
+        public let level: LogLevel?
+        /// The Amazon S3 logging configuration settings for the pipe.
+        public let s3LogDestination: S3LogDestination?
+
+        public init(cloudwatchLogsLogDestination: CloudwatchLogsLogDestination? = nil, firehoseLogDestination: FirehoseLogDestination? = nil, includeExecutionData: [IncludeExecutionDataOption]? = nil, level: LogLevel? = nil, s3LogDestination: S3LogDestination? = nil) {
+            self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
+            self.firehoseLogDestination = firehoseLogDestination
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+            self.s3LogDestination = s3LogDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudwatchLogsLogDestination = "CloudwatchLogsLogDestination"
+            case firehoseLogDestination = "FirehoseLogDestination"
+            case includeExecutionData = "IncludeExecutionData"
+            case level = "Level"
+            case s3LogDestination = "S3LogDestination"
+        }
+    }
+
+    public struct PipeLogConfigurationParameters: AWSEncodableShape {
+        /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+        public let cloudwatchLogsLogDestination: CloudwatchLogsLogDestinationParameters?
+        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        public let firehoseLogDestination: FirehoseLogDestinationParameters?
+        /// Specify ON to include the execution data (specifically, the payload and awsRequest fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide. The default is OFF.
+        public let includeExecutionData: [IncludeExecutionDataOption]?
+        /// The level of logging detail to include. This applies to all log destinations for the pipe. For more information, see Specifying EventBridge Pipes log level in the Amazon EventBridge User Guide.
+        public let level: LogLevel
+        /// The Amazon S3 logging configuration settings for the pipe.
+        public let s3LogDestination: S3LogDestinationParameters?
+
+        public init(cloudwatchLogsLogDestination: CloudwatchLogsLogDestinationParameters? = nil, firehoseLogDestination: FirehoseLogDestinationParameters? = nil, includeExecutionData: [IncludeExecutionDataOption]? = nil, level: LogLevel, s3LogDestination: S3LogDestinationParameters? = nil) {
+            self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
+            self.firehoseLogDestination = firehoseLogDestination
+            self.includeExecutionData = includeExecutionData
+            self.level = level
+            self.s3LogDestination = s3LogDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudwatchLogsLogDestination?.validate(name: "\(name).cloudwatchLogsLogDestination")
+            try self.firehoseLogDestination?.validate(name: "\(name).firehoseLogDestination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudwatchLogsLogDestination = "CloudwatchLogsLogDestination"
+            case firehoseLogDestination = "FirehoseLogDestination"
+            case includeExecutionData = "IncludeExecutionData"
+            case level = "Level"
+            case s3LogDestination = "S3LogDestination"
         }
     }
 
@@ -1413,7 +1573,7 @@ extension Pipes {
         public let activeMQBrokerParameters: PipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
         public let dynamoDBStreamParameters: PipeSourceDynamoDBStreamParameters?
-        /// The collection of event patterns used to filter events. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let filterCriteria: FilterCriteria?
         /// The parameters for using a Kinesis stream as a source.
         public let kinesisStreamParameters: PipeSourceKinesisStreamParameters?
@@ -1761,7 +1921,7 @@ extension Pipes {
     public struct PipeTargetEventBridgeEventBusParameters: AWSEncodableShape & AWSDecodableShape {
         /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
         public let endpointId: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
@@ -1831,7 +1991,6 @@ extension Pipes {
             try self.pathParameterValues?.forEach {
                 try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
-            try self.validate(self.pathParameterValues, name: "pathParameterValues", parent: name, max: 1)
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
                 try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
@@ -1865,7 +2024,7 @@ extension Pipes {
     }
 
     public struct PipeTargetLambdaFunctionParameters: AWSEncodableShape & AWSDecodableShape {
-        /// Choose from the following options.    RequestResponse (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.    DryRun - Validate parameter values and verify that the user or role has permission to invoke the function.
+        /// Specify whether to invoke the function synchronously or asynchronously.    REQUEST_RESPONSE (default) - Invoke synchronously. This corresponds to the RequestResponse option in the InvocationType parameter for the Lambda Invoke API.    FIRE_AND_FORGET - Invoke asynchronously. This corresponds to the Event option in the InvocationType parameter for the Lambda Invoke API.   For more information, see Invocation types in the Amazon EventBridge User Guide.
         public let invocationType: PipeTargetInvocationType?
 
         public init(invocationType: PipeTargetInvocationType? = nil) {
@@ -1888,17 +2047,17 @@ extension Pipes {
         public let eventBridgeEventBusParameters: PipeTargetEventBridgeEventBusParameters?
         /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations.
         public let httpParameters: PipeTargetHttpParameters?
-        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
+        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format. To remove an input template, specify an empty string.
         public let inputTemplate: String?
-        /// The parameters for using a Kinesis stream as a source.
+        /// The parameters for using a Kinesis stream as a target.
         public let kinesisStreamParameters: PipeTargetKinesisStreamParameters?
         /// The parameters for using a Lambda function as a target.
         public let lambdaFunctionParameters: PipeTargetLambdaFunctionParameters?
-        /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API ExecuteStatement.
+        /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
         public let redshiftDataParameters: PipeTargetRedshiftDataParameters?
         /// The parameters for using a SageMaker pipeline as a target.
         public let sageMakerPipelineParameters: PipeTargetSageMakerPipelineParameters?
-        /// The parameters for using a Amazon SQS stream as a source.
+        /// The parameters for using a Amazon SQS stream as a target.
         public let sqsQueueParameters: PipeTargetSqsQueueParameters?
         /// The parameters for using a Step Functions state machine as a target.
         public let stepFunctionStateMachineParameters: PipeTargetStateMachineParameters?
@@ -1952,7 +2111,7 @@ extension Pipes {
         public let database: String
         /// The database user name. Required when authenticating using temporary credentials.
         public let dbUser: String?
-        /// The name or ARN of the secret that enables access to the database. Required when authenticating using SageMaker.
+        /// The name or ARN of the secret that enables access to the database. Required when authenticating using Secrets Manager.
         public let secretManagerArn: String?
         /// The SQL statement text to run.
         public let sqls: [String]
@@ -1982,6 +2141,7 @@ extension Pipes {
                 try validate($0, name: "sqls[]", parent: name, max: 100000)
                 try validate($0, name: "sqls[]", parent: name, min: 1)
             }
+            try self.validate(self.sqls, name: "sqls", parent: name, max: 40)
             try self.validate(self.sqls, name: "sqls", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
@@ -2040,7 +2200,7 @@ extension Pipes {
     }
 
     public struct PipeTargetStateMachineParameters: AWSEncodableShape & AWSDecodableShape {
-        /// Specify whether to wait for the state machine to finish or not.
+        /// Specify whether to invoke the Step Functions state machine synchronously or asynchronously.    REQUEST_RESPONSE (default) - Invoke synchronously. For more information, see StartSyncExecution in the Step Functions API Reference.   REQUEST_RESPONSE is not supported for STANDARD state machine workflows.     FIRE_AND_FORGET - Invoke asynchronously. For more information, see StartExecution in the Step Functions API Reference.   For more information, see Invocation types in the Amazon EventBridge User Guide.
         public let invocationType: PipeTargetInvocationType?
 
         public init(invocationType: PipeTargetInvocationType? = nil) {
@@ -2091,6 +2251,56 @@ extension Pipes {
         private enum CodingKeys: String, CodingKey {
             case field = "field"
             case type = "type"
+        }
+    }
+
+    public struct S3LogDestination: AWSDecodableShape {
+        /// The name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public let bucketName: String?
+        /// The Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public let bucketOwner: String?
+        /// The format EventBridge uses for the log records.    json: JSON     plain: Plain text    w3c: W3C extended logging file format
+        public let outputFormat: S3OutputFormat?
+        /// The prefix text with which to begin Amazon S3 log object names. For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
+        public let prefix: String?
+
+        public init(bucketName: String? = nil, bucketOwner: String? = nil, outputFormat: S3OutputFormat? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.bucketOwner = bucketOwner
+            self.outputFormat = outputFormat
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case bucketOwner = "BucketOwner"
+            case outputFormat = "OutputFormat"
+            case prefix = "Prefix"
+        }
+    }
+
+    public struct S3LogDestinationParameters: AWSEncodableShape {
+        /// Specifies the name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public let bucketName: String
+        /// Specifies the Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
+        public let bucketOwner: String
+        /// How EventBridge should format the log records.    json: JSON     plain: Plain text    w3c: W3C extended logging file format
+        public let outputFormat: S3OutputFormat?
+        /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets.  A prefix is a string of characters at the beginning of the object key name.  A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes).  For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
+        public let prefix: String?
+
+        public init(bucketName: String, bucketOwner: String, outputFormat: S3OutputFormat? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.bucketOwner = bucketOwner
+            self.outputFormat = outputFormat
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case bucketOwner = "BucketOwner"
+            case outputFormat = "OutputFormat"
+            case prefix = "Prefix"
         }
     }
 
@@ -2370,6 +2580,8 @@ extension Pipes {
         public let enrichment: String?
         /// The parameters required to set up enrichment on your pipe.
         public let enrichmentParameters: PipeEnrichmentParameters?
+        /// The logging configuration settings for the pipe.
+        public let logConfiguration: PipeLogConfigurationParameters?
         /// The name of the pipe.
         public let name: String
         /// The ARN of the role that allows the pipe to send data to the target.
@@ -2378,14 +2590,15 @@ extension Pipes {
         public let sourceParameters: UpdatePipeSourceParameters?
         /// The ARN of the target resource.
         public let target: String?
-        /// The parameters required to set up a target for your pipe.
+        /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, name: String, roleArn: String, sourceParameters: UpdatePipeSourceParameters? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
+        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, sourceParameters: UpdatePipeSourceParameters? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
+            self.logConfiguration = logConfiguration
             self.name = name
             self.roleArn = roleArn
             self.sourceParameters = sourceParameters
@@ -2400,6 +2613,7 @@ extension Pipes {
             try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
             try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
             try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             request.encodePath(self.name, key: "Name")
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.sourceParameters, forKey: .sourceParameters)
@@ -2413,6 +2627,7 @@ extension Pipes {
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
             try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -2431,6 +2646,7 @@ extension Pipes {
             case desiredState = "DesiredState"
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
+            case logConfiguration = "LogConfiguration"
             case roleArn = "RoleArn"
             case sourceParameters = "SourceParameters"
             case target = "Target"
@@ -2642,7 +2858,7 @@ extension Pipes {
         public let activeMQBrokerParameters: UpdatePipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
         public let dynamoDBStreamParameters: UpdatePipeSourceDynamoDBStreamParameters?
-        /// The collection of event patterns used to filter events. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let filterCriteria: FilterCriteria?
         /// The parameters for using a Kinesis stream as a source.
         public let kinesisStreamParameters: UpdatePipeSourceKinesisStreamParameters?

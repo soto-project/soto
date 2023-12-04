@@ -26,38 +26,52 @@ import Foundation
 extension ChimeSDKIdentity {
     // MARK: Enums
 
-    public enum AllowMessages: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowMessages: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppInstanceUserEndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppInstanceUserEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
         case gcm = "GCM"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatusReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidDeviceToken = "INVALID_DEVICE_TOKEN"
         case invalidPinpointArn = "INVALID_PINPOINT_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationCriterion: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExpirationCriterion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdTimestamp = "CREATED_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum RespondsTo: String, CustomStringConvertible, Codable, Sendable {
+    public enum RespondsTo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case standardMessages = "STANDARD_MESSAGES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandardMessages: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case auto = "AUTO"
+        case mentions = "MENTIONS"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetedMessages: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -1072,17 +1086,37 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct InvokedBy: AWSEncodableShape & AWSDecodableShape {
+        /// Sets standard messages as the bot trigger. For standard messages:    ALL: The bot processes all standard messages.    AUTO: The bot responds to ALL messages when the channel has one other non-hidden member, and responds to MENTIONS when the  channel has more than one other non-hidden member.    MENTIONS: The bot processes all standard messages that have a message attribute with CHIME.mentions and a  value of the bot ARN.    NONE: The bot processes no standard messages.
+        public let standardMessages: StandardMessages
+        /// Sets targeted messages as the bot trigger. For targeted messages:    ALL: The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender.     NONE: The bot processes no targeted messages.
+        public let targetedMessages: TargetedMessages
+
+        public init(standardMessages: StandardMessages, targetedMessages: TargetedMessages) {
+            self.standardMessages = standardMessages
+            self.targetedMessages = targetedMessages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardMessages = "StandardMessages"
+            case targetedMessages = "TargetedMessages"
+        }
+    }
+
     public struct LexConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the type of message that triggers a bot.
+        public let invokedBy: InvokedBy?
         /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:  arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS
         public let lexBotAliasArn: String
         /// Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the  supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same  locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide.
         public let localeId: String
-        /// Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
-        public let respondsTo: RespondsTo
+        ///   Deprecated. Use InvokedBy instead.  Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
+        public let respondsTo: RespondsTo?
         /// The name of the welcome intent configured in the Amazon Lex V2 bot.
         public let welcomeIntent: String?
 
-        public init(lexBotAliasArn: String, localeId: String, respondsTo: RespondsTo, welcomeIntent: String? = nil) {
+        public init(invokedBy: InvokedBy? = nil, lexBotAliasArn: String, localeId: String, respondsTo: RespondsTo? = nil, welcomeIntent: String? = nil) {
+            self.invokedBy = invokedBy
             self.lexBotAliasArn = lexBotAliasArn
             self.localeId = localeId
             self.respondsTo = respondsTo
@@ -1099,6 +1133,7 @@ extension ChimeSDKIdentity {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case invokedBy = "InvokedBy"
             case lexBotAliasArn = "LexBotAliasArn"
             case localeId = "LocaleId"
             case respondsTo = "RespondsTo"
@@ -1665,13 +1700,16 @@ extension ChimeSDKIdentity {
     public struct UpdateAppInstanceBotRequest: AWSEncodableShape {
         /// The ARN of the AppInstanceBot.
         public let appInstanceBotArn: String
+        /// The configuration for the bot update.
+        public let configuration: Configuration?
         /// The metadata of the AppInstanceBot.
         public let metadata: String
         /// The name of the AppInstanceBot.
         public let name: String
 
-        public init(appInstanceBotArn: String, metadata: String, name: String) {
+        public init(appInstanceBotArn: String, configuration: Configuration? = nil, metadata: String, name: String) {
             self.appInstanceBotArn = appInstanceBotArn
+            self.configuration = configuration
             self.metadata = metadata
             self.name = name
         }
@@ -1680,6 +1718,7 @@ extension ChimeSDKIdentity {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.appInstanceBotArn, key: "AppInstanceBotArn")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
             try container.encode(self.metadata, forKey: .metadata)
             try container.encode(self.name, forKey: .name)
         }
@@ -1688,6 +1727,7 @@ extension ChimeSDKIdentity {
             try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, max: 1600)
             try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, min: 5)
             try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -1695,6 +1735,7 @@ extension ChimeSDKIdentity {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
             case metadata = "Metadata"
             case name = "Name"
         }

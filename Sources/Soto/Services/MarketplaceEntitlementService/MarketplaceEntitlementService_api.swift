@@ -97,3 +97,38 @@ extension MarketplaceEntitlementService {
         self.config = from.config.with(patch: patch)
     }
 }
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension MarketplaceEntitlementService {
+    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getEntitlementsPaginator(
+        _ input: GetEntitlementsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetEntitlementsRequest, GetEntitlementsResult> {
+        return .init(
+            input: input,
+            command: self.getEntitlements,
+            inputKey: \GetEntitlementsRequest.nextToken,
+            outputKey: \GetEntitlementsResult.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension MarketplaceEntitlementService.GetEntitlementsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MarketplaceEntitlementService.GetEntitlementsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            productCode: self.productCode
+        )
+    }
+}

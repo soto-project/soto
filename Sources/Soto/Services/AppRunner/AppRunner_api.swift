@@ -110,7 +110,7 @@ public struct AppRunner: AWSService {
         )
     }
 
-    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub repositories. GitHub requires a user interface approval process through the App Runner console before you can use the connection.
+    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
     @Sendable
     public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionResponse {
         return try await self.client.execute(
@@ -175,7 +175,7 @@ public struct AppRunner: AWSService {
         )
     }
 
-    /// Delete an App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
+    /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
     @Sendable
     public func deleteAutoScalingConfiguration(_ input: DeleteAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutoScalingConfigurationResponse {
         return try await self.client.execute(
@@ -409,6 +409,19 @@ public struct AppRunner: AWSService {
         )
     }
 
+    /// Returns a list of the associated App Runner services using an auto scaling configuration.
+    @Sendable
+    public func listServicesForAutoScalingConfiguration(_ input: ListServicesForAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesForAutoScalingConfigurationResponse {
+        return try await self.client.execute(
+            operation: "ListServicesForAutoScalingConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -505,6 +518,19 @@ public struct AppRunner: AWSService {
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
             operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
+    @Sendable
+    public func updateDefaultAutoScalingConfiguration(_ input: UpdateDefaultAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDefaultAutoScalingConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateDefaultAutoScalingConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -667,6 +693,25 @@ extension AppRunner {
         )
     }
 
+    /// Returns a list of the associated App Runner services using an auto scaling configuration.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listServicesForAutoScalingConfigurationPaginator(
+        _ input: ListServicesForAutoScalingConfigurationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServicesForAutoScalingConfigurationRequest, ListServicesForAutoScalingConfigurationResponse> {
+        return .init(
+            input: input,
+            command: self.listServicesForAutoScalingConfiguration,
+            inputKey: \ListServicesForAutoScalingConfigurationRequest.nextToken,
+            outputKey: \ListServicesForAutoScalingConfigurationResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of App Runner VPC connectors in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
@@ -754,6 +799,16 @@ extension AppRunner.ListOperationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serviceArn: self.serviceArn
+        )
+    }
+}
+
+extension AppRunner.ListServicesForAutoScalingConfigurationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppRunner.ListServicesForAutoScalingConfigurationRequest {
+        return .init(
+            autoScalingConfigurationArn: self.autoScalingConfigurationArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -26,47 +26,47 @@ import Foundation
 extension Imagebuilder {
     // MARK: Enums
 
-    public enum BuildType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BuildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `import` = "IMPORT"
         case scheduled = "SCHEDULED"
         case userInitiated = "USER_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComponentFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case shell = "SHELL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deprecated = "DEPRECATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComponentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case test = "TEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerRepositoryService: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerRepositoryService: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecr = "ECR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case docker = "DOCKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskImageFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiskImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case raw = "RAW"
         case vhd = "VHD"
         case vmdk = "VMDK"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsVolumeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EbsVolumeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -77,7 +77,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageScanStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageScanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case abandoned = "ABANDONED"
         case collecting = "COLLECTING"
         case completed = "COMPLETED"
@@ -88,7 +88,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonManaged = "AMAZON_MANAGED"
         case awsMarketplace = "AWS_MARKETPLACE"
         case custom = "CUSTOM"
@@ -96,13 +96,14 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case building = "BUILDING"
         case cancelled = "CANCELLED"
         case creating = "CREATING"
         case deleted = "DELETED"
         case deprecated = "DEPRECATED"
+        case disabled = "DISABLED"
         case distributing = "DISTRIBUTING"
         case failed = "FAILED"
         case integrating = "INTEGRATING"
@@ -111,13 +112,71 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ami = "AMI"
         case docker = "DOCKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ownership: String, CustomStringConvertible, Codable, Sendable {
+    public enum LifecycleExecutionResourceActionName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case delete = "DELETE"
+        case deprecate = "DEPRECATE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecycleExecutionResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecycleExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyDetailActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delete = "DELETE"
+        case deprecate = "DEPRECATE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyDetailFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case age = "AGE"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amiImage = "AMI_IMAGE"
+        case containerImage = "CONTAINER_IMAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyTimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        case months = "MONTHS"
+        case weeks = "WEEKS"
+        case years = "YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ownership: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case _self = "Self"
         case amazon = "Amazon"
         case shared = "Shared"
@@ -125,25 +184,33 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expressionMatchAndDependencyUpdatesAvailable = "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE"
         case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "Linux"
         case windows = "Windows"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case deprecated = "DEPRECATED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkflowExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -154,7 +221,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowStepExecutionRollbackStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkflowStepExecutionRollbackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -162,7 +229,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowStepExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkflowStepExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -171,7 +238,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkflowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case distribution = "DISTRIBUTION"
         case test = "TEST"
@@ -343,7 +410,7 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationResponse: AWSDecodableShape {
-        /// The idempotency token that was used for this request.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The ARN of the image whose creation this request canceled.
         public let imageBuildVersionArn: String?
@@ -360,6 +427,42 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case imageBuildVersionArn = "imageBuildVersionArn"
             case requestId = "requestId"
+        }
+    }
+
+    public struct CancelLifecycleExecutionRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// Identifies the specific runtime instance of the image lifecycle to cancel.
+        public let lifecycleExecutionId: String
+
+        public init(clientToken: String = CancelLifecycleExecutionRequest.idempotencyToken(), lifecycleExecutionId: String) {
+            self.clientToken = clientToken
+            self.lifecycleExecutionId = lifecycleExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.lifecycleExecutionId, name: "lifecycleExecutionId", parent: name, pattern: "^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case lifecycleExecutionId = "lifecycleExecutionId"
+        }
+    }
+
+    public struct CancelLifecycleExecutionResponse: AWSDecodableShape {
+        /// The unique identifier for the image lifecycle runtime instance that was canceled.
+        public let lifecycleExecutionId: String?
+
+        public init(lifecycleExecutionId: String? = nil) {
+            self.lifecycleExecutionId = lifecycleExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecutionId = "lifecycleExecutionId"
         }
     }
 
@@ -390,8 +493,8 @@ extension Imagebuilder {
         public let parameters: [ComponentParameterDetail]?
         /// The operating system platform of the component.
         public let platform: Platform?
-        /// Contains the name of the publisher if this is a third-party component. Otherwise, this
-        /// 			property is empty.
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
         public let publisher: String?
         /// Describes the current status of the component. This is used for components that are no
         /// 			longer active.
@@ -557,15 +660,15 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the component.
         public let name: String?
-        /// Indicates whether component source is hidden from view in the console, and from
-        /// 			component detail results for API, CLI, or SDK operations.
+        /// Indicates whether component source is hidden from view in the console,
+        /// 			and from component detail results for API, CLI, or SDK operations.
         public let obfuscate: Bool?
         /// The owner of the component.
         public let owner: String?
         /// The operating system platform of the component.
         public let platform: Platform?
-        /// Contains the name of the publisher if this is a third-party component. Otherwise, this
-        /// 			property is empty.
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
         public let publisher: String?
         /// Describes the current status of the component.
         public let state: ComponentState?
@@ -863,7 +966,7 @@ extension Imagebuilder {
         /// 			version, or what makes this version different from other versions of this
         /// 			component.
         public let changeDescription: String?
-        /// The idempotency token of the component.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// Component data contains inline YAML document content for the component.
         /// 			Alternatively, you can specify the uri of a YAML document file stored in
@@ -957,9 +1060,9 @@ extension Imagebuilder {
     }
 
     public struct CreateComponentResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the component that this request created.
+        /// The Amazon Resource Name (ARN) of the component that the request created.
         public let componentBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -978,7 +1081,7 @@ extension Imagebuilder {
     }
 
     public struct CreateContainerRecipeRequest: AWSEncodableShape {
-        /// The client token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// Components for build and test that are included in the container recipe.
         /// 			Recipes require a minimum of one build component, and can
@@ -1095,7 +1198,7 @@ extension Imagebuilder {
     }
 
     public struct CreateContainerRecipeResponse: AWSDecodableShape {
-        /// The client token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// Returns the Amazon Resource Name (ARN) of the container recipe that the request
         /// 			created.
@@ -1117,7 +1220,7 @@ extension Imagebuilder {
     }
 
     public struct CreateDistributionConfigurationRequest: AWSEncodableShape {
-        /// The idempotency token of the distribution configuration.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the distribution configuration.
         public let description: String?
@@ -1165,7 +1268,7 @@ extension Imagebuilder {
     }
 
     public struct CreateDistributionConfigurationResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration that was created by
         /// 			this request.
@@ -1187,7 +1290,7 @@ extension Imagebuilder {
     }
 
     public struct CreateImagePipelineRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the container recipe that is used to configure
         /// 			images created by this container pipeline.
@@ -1277,7 +1380,7 @@ extension Imagebuilder {
     }
 
     public struct CreateImagePipelineResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image pipeline that was created by this
         /// 			request.
@@ -1303,7 +1406,7 @@ extension Imagebuilder {
         public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
         /// The block device mappings of the image recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The components included in the image recipe.
         public let components: [ComponentConfiguration]
@@ -1388,7 +1491,7 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRecipeResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image recipe that was created by this
         /// 			request.
@@ -1410,7 +1513,7 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the container recipe that defines how images are
         /// 			configured and tested.
@@ -1480,9 +1583,9 @@ extension Imagebuilder {
     }
 
     public struct CreateImageResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the image that this request created.
+        /// The Amazon Resource Name (ARN) of the image that the request created.
         public let imageBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1501,7 +1604,7 @@ extension Imagebuilder {
     }
 
     public struct CreateInfrastructureConfigurationRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the infrastructure configuration.
         public let description: String?
@@ -1615,7 +1718,7 @@ extension Imagebuilder {
     }
 
     public struct CreateInfrastructureConfigurationResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by
         /// 			this request.
@@ -1633,6 +1736,94 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
             case requestId = "requestId"
+        }
+    }
+
+    public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// Optional description for the lifecycle policy.
+        public let description: String?
+        /// The role name or Amazon Resource Name (ARN) for the IAM role that grants
+        /// 			Image Builder access to run lifecycle actions.
+        public let executionRole: String
+        /// The name of the  lifecycle policy to create.
+        public let name: String
+        /// Configuration details for the lifecycle policy rules.
+        public let policyDetails: [LifecyclePolicyDetail]
+        /// Selection criteria for the resources that the lifecycle policy applies to.
+        public let resourceSelection: LifecyclePolicyResourceSelection
+        /// The type of Image Builder resource that the lifecycle policy applies to.
+        public let resourceType: LifecyclePolicyResourceType
+        /// Indicates whether the lifecycle policy resource is enabled.
+        public let status: LifecyclePolicyStatus?
+        /// Tags to apply to the lifecycle policy resource.
+        public let tags: [String: String]?
+
+        public init(clientToken: String = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, executionRole: String, name: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.executionRole = executionRole
+            self.name = name
+            self.policyDetails = policyDetails
+            self.resourceSelection = resourceSelection
+            self.resourceType = resourceType
+            self.status = status
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.policyDetails.forEach {
+                try $0.validate(name: "\(name).policyDetails[]")
+            }
+            try self.validate(self.policyDetails, name: "policyDetails", parent: name, max: 3)
+            try self.validate(self.policyDetails, name: "policyDetails", parent: name, min: 1)
+            try self.resourceSelection.validate(name: "\(name).resourceSelection")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case executionRole = "executionRole"
+            case name = "name"
+            case policyDetails = "policyDetails"
+            case resourceSelection = "resourceSelection"
+            case resourceType = "resourceType"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateLifecyclePolicyResponse: AWSDecodableShape {
+        /// The client token that uniquely identifies the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the lifecycle policy that the request created.
+        public let lifecyclePolicyArn: String?
+
+        public init(clientToken: String? = nil, lifecyclePolicyArn: String? = nil) {
+            self.clientToken = clientToken
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case lifecyclePolicyArn = "lifecyclePolicyArn"
         }
     }
 
@@ -1980,6 +2171,41 @@ extension Imagebuilder {
         }
     }
 
+    public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete.
+        public let lifecyclePolicyArn: String
+
+        public init(lifecyclePolicyArn: String) {
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lifecyclePolicyArn, key: "lifecyclePolicyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, max: 1024)
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, pattern: "^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
+        /// The ARN of the lifecycle policy that was deleted.
+        public let lifecyclePolicyArn: String?
+
+        public init(lifecyclePolicyArn: String? = nil) {
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicyArn = "lifecyclePolicyArn"
+        }
+    }
+
     public struct Distribution: AWSEncodableShape & AWSDecodableShape {
         /// The specific AMI settings; for example, launch permissions or AMI tags.
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
@@ -2237,7 +2463,6 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.launchTemplate?.validate(name: "\(name).launchTemplate")
-            try self.validate(self.maxParallelLaunches, name: "maxParallelLaunches", parent: name, max: 10000)
             try self.validate(self.maxParallelLaunches, name: "maxParallelLaunches", parent: name, min: 1)
             try self.snapshotConfiguration?.validate(name: "\(name).snapshotConfiguration")
         }
@@ -2750,6 +2975,75 @@ extension Imagebuilder {
         }
     }
 
+    public struct GetLifecycleExecutionRequest: AWSEncodableShape {
+        /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
+        public let lifecycleExecutionId: String
+
+        public init(lifecycleExecutionId: String) {
+            self.lifecycleExecutionId = lifecycleExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lifecycleExecutionId, key: "lifecycleExecutionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lifecycleExecutionId, name: "lifecycleExecutionId", parent: name, pattern: "^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLifecycleExecutionResponse: AWSDecodableShape {
+        /// Runtime details for the specified runtime instance of the lifecycle policy.
+        public let lifecycleExecution: LifecycleExecution?
+
+        public init(lifecycleExecution: LifecycleExecution? = nil) {
+            self.lifecycleExecution = lifecycleExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecution = "lifecycleExecution"
+        }
+    }
+
+    public struct GetLifecyclePolicyRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get.
+        public let lifecyclePolicyArn: String
+
+        public init(lifecyclePolicyArn: String) {
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lifecyclePolicyArn, key: "lifecyclePolicyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, max: 1024)
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, pattern: "^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLifecyclePolicyResponse: AWSDecodableShape {
+        /// The ARN of the image lifecycle policy resource that was returned.
+        public let lifecyclePolicy: LifecyclePolicy?
+
+        public init(lifecyclePolicy: LifecyclePolicy? = nil) {
+            self.lifecyclePolicy = lifecyclePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicy = "lifecyclePolicy"
+        }
+    }
+
     public struct GetWorkflowExecutionRequest: AWSEncodableShape {
         /// Use the unique identifier for a runtime instance of the workflow to get
         /// 			runtime details.
@@ -2957,18 +3251,20 @@ extension Imagebuilder {
         /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
         /// 					the image to use as the base image for the recipe.
         public let buildType: BuildType?
-        /// For container images, this is the container recipe that Image Builder used to create the image.
-        /// 			For images that distribute an AMI, this is empty.
+        /// For container images, this is the container recipe that Image Builder used to create the
+        /// 			image. For images that distribute an AMI, this is empty.
         public let containerRecipe: ContainerRecipe?
         /// The date on which Image Builder created this image.
         public let dateCreated: String?
+        /// The time when deprecation occurs for an image resource. This can be a past or future date.
+        public let deprecationTime: Date?
         /// The distribution configuration that Image Builder used to create this image.
         public let distributionConfiguration: DistributionConfiguration?
-        /// Indicates whether Image Builder collects additional information about the image, such as the
-        /// 			operating system (OS) version and package list.
+        /// Indicates whether Image Builder collects additional information about the image, such as
+        /// 			the operating system (OS) version and package list.
         public let enhancedImageMetadataEnabled: Bool?
-        /// For images that distribute an AMI, this is the image recipe that Image Builder used to create
-        /// 			the image. For container images, this is empty.
+        /// For images that distribute an AMI, this is the image recipe that Image Builder used to
+        /// 			create the image. For container images, this is empty.
         public let imageRecipe: ImageRecipe?
         /// Contains settings for vulnerability scans.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -2978,6 +3274,8 @@ extension Imagebuilder {
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The infrastructure that Image Builder used to create this image.
         public let infrastructureConfiguration: InfrastructureConfiguration?
+        /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
+        public let lifecycleExecutionId: String?
         /// The name of the image.
         public let name: String?
         /// The operating system version for instances that launch from this image. For example,
@@ -3010,11 +3308,12 @@ extension Imagebuilder {
         /// 	wildcards.
         public let version: String?
 
-        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, scanState: ImageScanState? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, scanState: ImageScanState? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.containerRecipe = containerRecipe
             self.dateCreated = dateCreated
+            self.deprecationTime = deprecationTime
             self.distributionConfiguration = distributionConfiguration
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipe = imageRecipe
@@ -3022,6 +3321,7 @@ extension Imagebuilder {
             self.imageSource = imageSource
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
+            self.lifecycleExecutionId = lifecycleExecutionId
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -3040,6 +3340,7 @@ extension Imagebuilder {
             case buildType = "buildType"
             case containerRecipe = "containerRecipe"
             case dateCreated = "dateCreated"
+            case deprecationTime = "deprecationTime"
             case distributionConfiguration = "distributionConfiguration"
             case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipe = "imageRecipe"
@@ -3047,6 +3348,7 @@ extension Imagebuilder {
             case imageSource = "imageSource"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfiguration = "infrastructureConfiguration"
+            case lifecycleExecutionId = "lifecycleExecutionId"
             case name = "name"
             case osVersion = "osVersion"
             case outputResources = "outputResources"
@@ -3106,7 +3408,7 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// This is no longer supported, and does not return a value.
         public let dateLastRun: String?
-        /// This is no longer supported, and does not return a value.
+        /// The next date when the pipeline is scheduled to run.
         public let dateNextRun: String?
         /// The date on which this image pipeline was last updated.
         public let dateUpdated: String?
@@ -3498,8 +3800,12 @@ extension Imagebuilder {
         public let buildType: BuildType?
         /// The date on which Image Builder created this image.
         public let dateCreated: String?
+        /// The time when deprecation occurs for an image resource. This can be a past or future date.
+        public let deprecationTime: Date?
         /// The origin of the base image that Image Builder used to build this image.
         public let imageSource: ImageSource?
+        /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
+        public let lifecycleExecutionId: String?
         /// The name of the image.
         public let name: String?
         /// The operating system version of the instances that launch from this image. For
@@ -3520,11 +3826,13 @@ extension Imagebuilder {
         /// The version of the image.
         public let version: String?
 
-        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, imageSource: ImageSource? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, imageSource: ImageSource? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
+            self.deprecationTime = deprecationTime
             self.imageSource = imageSource
+            self.lifecycleExecutionId = lifecycleExecutionId
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -3540,7 +3848,9 @@ extension Imagebuilder {
             case arn = "arn"
             case buildType = "buildType"
             case dateCreated = "dateCreated"
+            case deprecationTime = "deprecationTime"
             case imageSource = "imageSource"
+            case lifecycleExecutionId = "lifecycleExecutionId"
             case name = "name"
             case osVersion = "osVersion"
             case outputResources = "outputResources"
@@ -3648,7 +3958,7 @@ extension Imagebuilder {
         /// 			has been made in this version, or what makes this version different from other versions
         /// 			of this component.
         public let changeDescription: String?
-        /// The idempotency token of the component.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The data of the component. Used to specify the data inline. Either data
         /// 			or uri can be used to specify the data within the component.
@@ -3736,7 +4046,7 @@ extension Imagebuilder {
     }
 
     public struct ImportComponentResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the imported component.
         public let componentBuildVersionArn: String?
@@ -3827,7 +4137,7 @@ extension Imagebuilder {
     }
 
     public struct ImportVmImageResponse: AWSDecodableShape {
-        /// The idempotency token that was used for this request.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the AMI that was created during the VM import
         /// 			process. This AMI is used as the base image for the recipe that imported the VM.
@@ -4153,13 +4463,546 @@ extension Imagebuilder {
         }
     }
 
+    public struct LifecycleExecution: AWSDecodableShape {
+        /// The timestamp when the lifecycle runtime instance completed.
+        public let endTime: Date?
+        /// Identifies the lifecycle policy runtime instance.
+        public let lifecycleExecutionId: String?
+        /// The Amazon Resource Name (ARN) of the lifecycle policy that ran.
+        public let lifecyclePolicyArn: String?
+        /// Contains information about associated resources that are identified for action by
+        /// 			the runtime instance of the lifecycle policy.
+        public let resourcesImpactedSummary: LifecycleExecutionResourcesImpactedSummary?
+        /// The timestamp when the lifecycle runtime instance started.
+        public let startTime: Date?
+        /// Runtime state that reports if the policy action ran successfully,
+        /// 			failed, or was skipped.
+        public let state: LifecycleExecutionState?
+
+        public init(endTime: Date? = nil, lifecycleExecutionId: String? = nil, lifecyclePolicyArn: String? = nil, resourcesImpactedSummary: LifecycleExecutionResourcesImpactedSummary? = nil, startTime: Date? = nil, state: LifecycleExecutionState? = nil) {
+            self.endTime = endTime
+            self.lifecycleExecutionId = lifecycleExecutionId
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+            self.resourcesImpactedSummary = resourcesImpactedSummary
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case lifecycleExecutionId = "lifecycleExecutionId"
+            case lifecyclePolicyArn = "lifecyclePolicyArn"
+            case resourcesImpactedSummary = "resourcesImpactedSummary"
+            case startTime = "startTime"
+            case state = "state"
+        }
+    }
+
+    public struct LifecycleExecutionResource: AWSDecodableShape {
+        /// The account that owns the impacted resource.
+        public let accountId: String?
+        /// The action to take for the identified resource.
+        public let action: LifecycleExecutionResourceAction?
+        /// For an impacted container image, this identifies a list of URIs for associated
+        /// 			container images distributed to ECR repositories.
+        public let imageUris: [String]?
+        /// The Amazon Web Services Region where the lifecycle execution resource is stored.
+        public let region: String?
+        /// Identifies the impacted resource. The resource ID depends on the type of
+        /// 			resource, as follows.   Image Builder image resources: Amazon Resource Name (ARN)   Distributed AMIs: AMI ID   Container images distributed to an ECR repository: image URI or SHA Digest
+        public let resourceId: String?
+        /// A list of associated resource snapshots for the impacted resource if
+        /// 			it’s an AMI.
+        public let snapshots: [LifecycleExecutionSnapshotResource]?
+        /// The runtime state for the lifecycle execution.
+        public let state: LifecycleExecutionResourceState?
+
+        public init(accountId: String? = nil, action: LifecycleExecutionResourceAction? = nil, imageUris: [String]? = nil, region: String? = nil, resourceId: String? = nil, snapshots: [LifecycleExecutionSnapshotResource]? = nil, state: LifecycleExecutionResourceState? = nil) {
+            self.accountId = accountId
+            self.action = action
+            self.imageUris = imageUris
+            self.region = region
+            self.resourceId = resourceId
+            self.snapshots = snapshots
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case action = "action"
+            case imageUris = "imageUris"
+            case region = "region"
+            case resourceId = "resourceId"
+            case snapshots = "snapshots"
+            case state = "state"
+        }
+    }
+
+    public struct LifecycleExecutionResourceAction: AWSDecodableShape {
+        /// The name of the resource that was identified for a lifecycle policy action.
+        public let name: LifecycleExecutionResourceActionName?
+        /// The reason why the lifecycle policy action is taken.
+        public let reason: String?
+
+        public init(name: LifecycleExecutionResourceActionName? = nil, reason: String? = nil) {
+            self.name = name
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case reason = "reason"
+        }
+    }
+
+    public struct LifecycleExecutionResourceState: AWSDecodableShape {
+        /// Messaging that clarifies the reason for the assigned status.
+        public let reason: String?
+        /// The runtime status of the lifecycle action taken for the
+        /// 			impacted resource.
+        public let status: LifecycleExecutionResourceStatus?
+
+        public init(reason: String? = nil, status: LifecycleExecutionResourceStatus? = nil) {
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case status = "status"
+        }
+    }
+
+    public struct LifecycleExecutionResourcesImpactedSummary: AWSDecodableShape {
+        /// Indicates whether an image resource that was identified for a lifecycle action has
+        /// 			associated resources that are also impacted.
+        public let hasImpactedResources: Bool?
+
+        public init(hasImpactedResources: Bool? = nil) {
+            self.hasImpactedResources = hasImpactedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasImpactedResources = "hasImpactedResources"
+        }
+    }
+
+    public struct LifecycleExecutionSnapshotResource: AWSDecodableShape {
+        /// Identifies the impacted snapshot resource.
+        public let snapshotId: String?
+        /// The runtime status of the lifecycle action taken for the snapshot.
+        public let state: LifecycleExecutionResourceState?
+
+        public init(snapshotId: String? = nil, state: LifecycleExecutionResourceState? = nil) {
+            self.snapshotId = snapshotId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "snapshotId"
+            case state = "state"
+        }
+    }
+
+    public struct LifecycleExecutionState: AWSDecodableShape {
+        /// The reason for the current status.
+        public let reason: String?
+        /// The runtime status of the lifecycle execution.
+        public let status: LifecycleExecutionStatus?
+
+        public init(reason: String? = nil, status: LifecycleExecutionStatus? = nil) {
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case status = "status"
+        }
+    }
+
+    public struct LifecyclePolicy: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
+        public let arn: String?
+        /// The timestamp when Image Builder created the lifecycle policy resource.
+        public let dateCreated: Date?
+        /// The timestamp for the last time Image Builder ran the lifecycle policy.
+        public let dateLastRun: Date?
+        /// The timestamp when Image Builder updated the lifecycle policy resource.
+        public let dateUpdated: Date?
+        /// Optional description for the lifecycle policy.
+        public let description: String?
+        /// The name of the IAM role that Image Builder uses to run the lifecycle policy.
+        /// 			This is a custom role that you create.
+        public let executionRole: String?
+        /// The name of the lifecycle policy.
+        public let name: String?
+        /// The configuration details for a lifecycle policy resource.
+        public let policyDetails: [LifecyclePolicyDetail]?
+        /// Resource selection criteria used to run the lifecycle policy.
+        public let resourceSelection: LifecyclePolicyResourceSelection?
+        /// The type of resources the lifecycle policy targets.
+        public let resourceType: LifecyclePolicyResourceType?
+        /// Indicates whether the lifecycle policy resource is enabled.
+        public let status: LifecyclePolicyStatus?
+        /// To help manage your lifecycle policy resources, you can assign your own
+        /// 			metadata to each resource in the form of tags. Each tag consists of a key and
+        /// 			an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, dateCreated: Date? = nil, dateLastRun: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, executionRole: String? = nil, name: String? = nil, policyDetails: [LifecyclePolicyDetail]? = nil, resourceSelection: LifecyclePolicyResourceSelection? = nil, resourceType: LifecyclePolicyResourceType? = nil, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.dateCreated = dateCreated
+            self.dateLastRun = dateLastRun
+            self.dateUpdated = dateUpdated
+            self.description = description
+            self.executionRole = executionRole
+            self.name = name
+            self.policyDetails = policyDetails
+            self.resourceSelection = resourceSelection
+            self.resourceType = resourceType
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateLastRun = "dateLastRun"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case executionRole = "executionRole"
+            case name = "name"
+            case policyDetails = "policyDetails"
+            case resourceSelection = "resourceSelection"
+            case resourceType = "resourceType"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct LifecyclePolicyDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration details for the policy action.
+        public let action: LifecyclePolicyDetailAction
+        /// Additional rules to specify resources that should be exempt from policy actions.
+        public let exclusionRules: LifecyclePolicyDetailExclusionRules?
+        /// Specifies the resources that the lifecycle policy applies to.
+        public let filter: LifecyclePolicyDetailFilter
+
+        public init(action: LifecyclePolicyDetailAction, exclusionRules: LifecyclePolicyDetailExclusionRules? = nil, filter: LifecyclePolicyDetailFilter) {
+            self.action = action
+            self.exclusionRules = exclusionRules
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionRules?.validate(name: "\(name).exclusionRules")
+            try self.filter.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case exclusionRules = "exclusionRules"
+            case filter = "filter"
+        }
+    }
+
+    public struct LifecyclePolicyDetailAction: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the resources that the lifecycle policy applies to.
+        public let includeResources: LifecyclePolicyDetailActionIncludeResources?
+        /// Specifies the lifecycle action to take.
+        public let type: LifecyclePolicyDetailActionType
+
+        public init(includeResources: LifecyclePolicyDetailActionIncludeResources? = nil, type: LifecyclePolicyDetailActionType) {
+            self.includeResources = includeResources
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeResources = "includeResources"
+            case type = "type"
+        }
+    }
+
+    public struct LifecyclePolicyDetailActionIncludeResources: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the lifecycle action should apply to distributed AMIs.
+        public let amis: Bool?
+        /// Specifies whether the lifecycle action should apply to distributed containers.
+        public let containers: Bool?
+        /// Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs.
+        public let snapshots: Bool?
+
+        public init(amis: Bool? = nil, containers: Bool? = nil, snapshots: Bool? = nil) {
+            self.amis = amis
+            self.containers = containers
+            self.snapshots = snapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amis = "amis"
+            case containers = "containers"
+            case snapshots = "snapshots"
+        }
+    }
+
+    public struct LifecyclePolicyDetailExclusionRules: AWSEncodableShape & AWSDecodableShape {
+        /// Lists configuration values that apply to AMIs that Image Builder should exclude
+        /// 			from the lifecycle action.
+        public let amis: LifecyclePolicyDetailExclusionRulesAmis?
+        /// Contains a list of tags that Image Builder uses to skip lifecycle actions for AMIs that have them.
+        public let tagMap: [String: String]?
+
+        public init(amis: LifecyclePolicyDetailExclusionRulesAmis? = nil, tagMap: [String: String]? = nil) {
+            self.amis = amis
+            self.tagMap = tagMap
+        }
+
+        public func validate(name: String) throws {
+            try self.amis?.validate(name: "\(name).amis")
+            try self.tagMap?.forEach {
+                try validate($0.key, name: "tagMap.key", parent: name, max: 128)
+                try validate($0.key, name: "tagMap.key", parent: name, min: 1)
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
+            try self.validate(self.tagMap, name: "tagMap", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amis = "amis"
+            case tagMap = "tagMap"
+        }
+    }
+
+    public struct LifecyclePolicyDetailExclusionRulesAmis: AWSEncodableShape & AWSDecodableShape {
+        /// Configures whether public AMIs are excluded from the lifecycle action.
+        public let isPublic: Bool?
+        /// Configures Amazon Web Services Regions that are excluded from the lifecycle action.
+        public let lastLaunched: LifecyclePolicyDetailExclusionRulesAmisLastLaunched?
+        /// Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action.
+        public let regions: [String]?
+        /// Specifies configuration details for Image Builder to exclude the most recent resources
+        /// 			from lifecycle actions.
+        public let sharedAccounts: [String]?
+        /// Lists tags that should be excluded from lifecycle actions for the AMIs that have them.
+        public let tagMap: [String: String]?
+
+        public init(isPublic: Bool? = nil, lastLaunched: LifecyclePolicyDetailExclusionRulesAmisLastLaunched? = nil, regions: [String]? = nil, sharedAccounts: [String]? = nil, tagMap: [String: String]? = nil) {
+            self.isPublic = isPublic
+            self.lastLaunched = lastLaunched
+            self.regions = regions
+            self.sharedAccounts = sharedAccounts
+            self.tagMap = tagMap
+        }
+
+        public func validate(name: String) throws {
+            try self.lastLaunched?.validate(name: "\(name).lastLaunched")
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, max: 1024)
+                try validate($0, name: "regions[]", parent: name, min: 1)
+            }
+            try self.sharedAccounts?.forEach {
+                try validate($0, name: "sharedAccounts[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.sharedAccounts, name: "sharedAccounts", parent: name, max: 1536)
+            try self.validate(self.sharedAccounts, name: "sharedAccounts", parent: name, min: 1)
+            try self.tagMap?.forEach {
+                try validate($0.key, name: "tagMap.key", parent: name, max: 128)
+                try validate($0.key, name: "tagMap.key", parent: name, min: 1)
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
+            try self.validate(self.tagMap, name: "tagMap", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPublic = "isPublic"
+            case lastLaunched = "lastLaunched"
+            case regions = "regions"
+            case sharedAccounts = "sharedAccounts"
+            case tagMap = "tagMap"
+        }
+    }
+
+    public struct LifecyclePolicyDetailExclusionRulesAmisLastLaunched: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the unit of time that the lifecycle policy uses to calculate elapsed time
+        /// 			since the last instance launched from the AMI. For example: days, weeks, months, or years.
+        public let unit: LifecyclePolicyTimeUnit
+        /// The integer number of units for the time period. For example 6 (months).
+        public let value: Int
+
+        public init(unit: LifecyclePolicyTimeUnit, value: Int) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 365)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
+        }
+    }
+
+    public struct LifecyclePolicyDetailFilter: AWSEncodableShape & AWSDecodableShape {
+        /// For age-based filters, this is the number of resources to keep on hand after the lifecycle
+        /// 			DELETE action is applied. Impacted resources are only deleted if you have more than
+        /// 			this number of resources. If you have fewer resources than this number, the impacted resource
+        /// 			is not deleted.
+        public let retainAtLeast: Int?
+        /// Filter resources based on either age or count.
+        public let type: LifecyclePolicyDetailFilterType
+        /// Defines the unit of time that the lifecycle policy uses to determine impacted
+        /// 			resources. This is required for age-based rules.
+        public let unit: LifecyclePolicyTimeUnit?
+        /// The number of units for the time period or for the count. For example, a value of
+        /// 			6 might refer to six months or six AMIs.  For count-based filters, this value represents the minimum number of resources
+        /// 				to keep on hand. If you have fewer resources than this number, the resource is
+        /// 				excluded from lifecycle actions.
+        public let value: Int
+
+        public init(retainAtLeast: Int? = nil, type: LifecyclePolicyDetailFilterType, unit: LifecyclePolicyTimeUnit? = nil, value: Int) {
+            self.retainAtLeast = retainAtLeast
+            self.type = type
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retainAtLeast, name: "retainAtLeast", parent: name, max: 10)
+            try self.validate(self.retainAtLeast, name: "retainAtLeast", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 1000)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retainAtLeast = "retainAtLeast"
+            case type = "type"
+            case unit = "unit"
+            case value = "value"
+        }
+    }
+
+    public struct LifecyclePolicyResourceSelection: AWSEncodableShape & AWSDecodableShape {
+        /// A list of recipes that are used as selection criteria for the output
+        /// 			images that the lifecycle policy applies to.
+        public let recipes: [LifecyclePolicyResourceSelectionRecipe]?
+        /// A list of tags that are used as selection criteria for the resources
+        /// 			that the lifecycle policy applies to.
+        public let tagMap: [String: String]?
+
+        public init(recipes: [LifecyclePolicyResourceSelectionRecipe]? = nil, tagMap: [String: String]? = nil) {
+            self.recipes = recipes
+            self.tagMap = tagMap
+        }
+
+        public func validate(name: String) throws {
+            try self.recipes?.forEach {
+                try $0.validate(name: "\(name).recipes[]")
+            }
+            try self.validate(self.recipes, name: "recipes", parent: name, max: 50)
+            try self.validate(self.recipes, name: "recipes", parent: name, min: 1)
+            try self.tagMap?.forEach {
+                try validate($0.key, name: "tagMap.key", parent: name, max: 128)
+                try validate($0.key, name: "tagMap.key", parent: name, min: 1)
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
+            try self.validate(self.tagMap, name: "tagMap", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recipes = "recipes"
+            case tagMap = "tagMap"
+        }
+    }
+
+    public struct LifecyclePolicyResourceSelectionRecipe: AWSEncodableShape & AWSDecodableShape {
+        /// The name of an Image Builder recipe that the lifecycle policy uses for resource selection.
+        public let name: String
+        /// The version of the Image Builder recipe specified by the name field.
+        public let semanticVersion: String
+
+        public init(name: String, semanticVersion: String) {
+            self.name = name
+            self.semanticVersion = semanticVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case semanticVersion = "semanticVersion"
+        }
+    }
+
+    public struct LifecyclePolicySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the lifecycle policy summary resource.
+        public let arn: String?
+        /// The timestamp when Image Builder created the lifecycle policy resource.
+        public let dateCreated: Date?
+        /// The timestamp for the last time Image Builder ran the lifecycle policy.
+        public let dateLastRun: Date?
+        /// The timestamp when Image Builder updated the lifecycle policy resource.
+        public let dateUpdated: Date?
+        /// Optional description for the lifecycle policy.
+        public let description: String?
+        /// The name of the IAM role that Image Builder uses to run the lifecycle policy.
+        public let executionRole: String?
+        /// The name of the lifecycle policy.
+        public let name: String?
+        /// The type of resources the lifecycle policy targets.
+        public let resourceType: LifecyclePolicyResourceType?
+        /// The lifecycle policy resource status.
+        public let status: LifecyclePolicyStatus?
+        /// To help manage your lifecycle policy resources, you can assign your own
+        /// 			metadata to each resource in the form of tags. Each tag consists of a key and
+        /// 			an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, dateCreated: Date? = nil, dateLastRun: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, executionRole: String? = nil, name: String? = nil, resourceType: LifecyclePolicyResourceType? = nil, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.dateCreated = dateCreated
+            self.dateLastRun = dateLastRun
+            self.dateUpdated = dateUpdated
+            self.description = description
+            self.executionRole = executionRole
+            self.name = name
+            self.resourceType = resourceType
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateLastRun = "dateLastRun"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case executionRole = "executionRole"
+            case name = "name"
+            case resourceType = "resourceType"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct ListComponentBuildVersionsRequest: AWSEncodableShape {
         /// The component version Amazon Resource Name (ARN) whose versions you want to
         /// 			list.
         public let componentVersionArn: String
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4188,7 +5031,7 @@ extension Imagebuilder {
         /// The list of component summaries for the specified semantic version.
         public let componentSummaryList: [ComponentSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4214,7 +5057,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// Filters results based on the type of owner for the component. By default, this request
@@ -4257,7 +5100,7 @@ extension Imagebuilder {
         /// 	You can assign values for the first three, and can filter on all of them.
         public let componentVersionList: [ComponentVersion]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4281,7 +5124,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// Returns container recipes belonging to the specified owner, that have been shared with
@@ -4320,7 +5163,7 @@ extension Imagebuilder {
         /// The list of container recipes returned for the request.
         public let containerRecipeSummaryList: [ContainerRecipeSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4344,7 +5187,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4377,7 +5220,7 @@ extension Imagebuilder {
         /// The list of distributions.
         public let distributionConfigurationSummaryList: [DistributionConfigurationSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4404,7 +5247,7 @@ extension Imagebuilder {
         public let imageVersionArn: String
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4440,7 +5283,7 @@ extension Imagebuilder {
         /// The list of image build versions.
         public let imageSummaryList: [ImageSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4464,7 +5307,7 @@ extension Imagebuilder {
         public let imageBuildVersionArn: String
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4493,7 +5336,7 @@ extension Imagebuilder {
         /// The list of Image Packages returned in the response.
         public let imagePackageList: [ImagePackage]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4520,7 +5363,7 @@ extension Imagebuilder {
         public let imagePipelineArn: String
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4556,7 +5399,7 @@ extension Imagebuilder {
         /// The list of images built by this pipeline.
         public let imageSummaryList: [ImageSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4580,7 +5423,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4613,7 +5456,7 @@ extension Imagebuilder {
         /// The list of image pipelines.
         public let imagePipelineList: [ImagePipeline]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4637,7 +5480,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The owner defines which image recipes you want to list. By default, this request will
@@ -4677,7 +5520,7 @@ extension Imagebuilder {
         /// The list of image pipelines.
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4698,7 +5541,7 @@ extension Imagebuilder {
 
     public struct ListImageScanFindingAggregationsRequest: AWSEncodableShape {
         public let filter: Filter?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4726,7 +5569,7 @@ extension Imagebuilder {
         /// 			level findings, plus a total for all of the findings for each key value.
         public let aggregationType: String?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4755,7 +5598,7 @@ extension Imagebuilder {
         public let filters: [ImageScanFindingsFilter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4789,7 +5632,7 @@ extension Imagebuilder {
         /// 			criteria.
         public let findings: [ImageScanFinding]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4817,7 +5660,7 @@ extension Imagebuilder {
         public let includeDeprecated: Bool?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The owner defines which images you want to list. By default, this request will only
@@ -4865,7 +5708,7 @@ extension Imagebuilder {
         /// 	wildcards.
         public let imageVersionList: [ImageVersion]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4889,7 +5732,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -4922,7 +5765,7 @@ extension Imagebuilder {
         /// The list of infrastructure configurations.
         public let infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -4941,6 +5784,175 @@ extension Imagebuilder {
         }
     }
 
+    public struct ListLifecycleExecutionResourcesRequest: AWSEncodableShape {
+        /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
+        public let lifecycleExecutionId: String
+        /// The maximum items to return in a request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
+        public let nextToken: String?
+        /// You can  leave this empty to get a list of Image Builder resources that were identified for lifecycle actions. To get a list of associated resources that are impacted for an individual resource (the parent), specify
+        /// 			its Amazon Resource Name (ARN). Associated resources are produced from your image and distributed when you run a build, such as
+        /// 			AMIs or container images stored in ECR repositories.
+        public let parentResourceId: String?
+
+        public init(lifecycleExecutionId: String, maxResults: Int? = nil, nextToken: String? = nil, parentResourceId: String? = nil) {
+            self.lifecycleExecutionId = lifecycleExecutionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.parentResourceId = parentResourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lifecycleExecutionId, name: "lifecycleExecutionId", parent: name, pattern: "^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.parentResourceId, name: "parentResourceId", parent: name, max: 1024)
+            try self.validate(self.parentResourceId, name: "parentResourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecutionId = "lifecycleExecutionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case parentResourceId = "parentResourceId"
+        }
+    }
+
+    public struct ListLifecycleExecutionResourcesResponse: AWSDecodableShape {
+        /// Runtime details for the specified runtime instance of the lifecycle policy.
+        public let lifecycleExecutionId: String?
+        /// The current state of the lifecycle runtime instance.
+        public let lifecycleExecutionState: LifecycleExecutionState?
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
+        public let nextToken: String?
+        /// A list of resources that were identified for lifecycle actions.
+        public let resources: [LifecycleExecutionResource]?
+
+        public init(lifecycleExecutionId: String? = nil, lifecycleExecutionState: LifecycleExecutionState? = nil, nextToken: String? = nil, resources: [LifecycleExecutionResource]? = nil) {
+            self.lifecycleExecutionId = lifecycleExecutionId
+            self.lifecycleExecutionState = lifecycleExecutionState
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecutionId = "lifecycleExecutionId"
+            case lifecycleExecutionState = "lifecycleExecutionState"
+            case nextToken = "nextToken"
+            case resources = "resources"
+        }
+    }
+
+    public struct ListLifecycleExecutionsRequest: AWSEncodableShape {
+        /// The maximum items to return in a request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances.
+        public let resourceArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListLifecycleExecutionsResponse: AWSDecodableShape {
+        /// A list of lifecycle runtime instances for the specified resource.
+        public let lifecycleExecutions: [LifecycleExecution]?
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
+        public let nextToken: String?
+
+        public init(lifecycleExecutions: [LifecycleExecution]? = nil, nextToken: String? = nil) {
+            self.lifecycleExecutions = lifecycleExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecutions = "lifecycleExecutions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLifecyclePoliciesRequest: AWSEncodableShape {
+        /// Streamline results based on one of the following values: Name,
+        /// 			Status.
+        public let filters: [Filter]?
+        /// The maximum items to return in a request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLifecyclePoliciesResponse: AWSDecodableShape {
+        /// A list of lifecycle policies in your Amazon Web Services account that meet the criteria
+        /// 			specified in the request.
+        public let lifecyclePolicySummaryList: [LifecyclePolicySummary]?
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
+        public let nextToken: String?
+
+        public init(lifecyclePolicySummaryList: [LifecyclePolicySummary]? = nil, nextToken: String? = nil) {
+            self.lifecyclePolicySummaryList = lifecyclePolicySummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicySummaryList = "lifecyclePolicySummaryList"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
@@ -4956,7 +5968,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4981,7 +5993,7 @@ extension Imagebuilder {
         public let imageBuildVersionArn: String
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -5013,7 +6025,7 @@ extension Imagebuilder {
         /// The output message from the list action, if applicable.
         public let message: String?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -5042,7 +6054,7 @@ extension Imagebuilder {
     public struct ListWorkflowStepExecutionsRequest: AWSEncodableShape {
         /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken
+        /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The unique identifier that Image Builder assigned to keep track of runtime details
@@ -5077,7 +6089,7 @@ extension Imagebuilder {
         /// The output message from the list action, if applicable.
         public let message: String?
         /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service has'ot included in this request. Use this token
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
@@ -5400,6 +6412,56 @@ extension Imagebuilder {
         }
     }
 
+    public struct ResourceState: AWSEncodableShape {
+        /// Shows the current lifecycle policy action that was applied to an impacted resource.
+        public let status: ResourceStatus?
+
+        public init(status: ResourceStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct ResourceStateUpdateExclusionRules: AWSEncodableShape {
+        public let amis: LifecyclePolicyDetailExclusionRulesAmis?
+
+        public init(amis: LifecyclePolicyDetailExclusionRulesAmis? = nil) {
+            self.amis = amis
+        }
+
+        public func validate(name: String) throws {
+            try self.amis?.validate(name: "\(name).amis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amis = "amis"
+        }
+    }
+
+    public struct ResourceStateUpdateIncludeResources: AWSEncodableShape {
+        /// Specifies whether the lifecycle action should apply to distributed AMIs
+        public let amis: Bool?
+        /// Specifies whether the lifecycle action should apply to distributed containers.
+        public let containers: Bool?
+        /// Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs.
+        public let snapshots: Bool?
+
+        public init(amis: Bool? = nil, containers: Bool? = nil, snapshots: Bool? = nil) {
+            self.amis = amis
+            self.containers = containers
+            self.snapshots = snapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amis = "amis"
+            case containers = "containers"
+            case snapshots = "snapshots"
+        }
+    }
+
     public struct S3ExportConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Export the updated image to one of the following supported disk image formats:    Virtual Hard Disk (VHD) – Compatible
         /// 					with Citrix Xen and Microsoft Hyper-V virtualization products.    Stream-optimized ESX Virtual Machine Disk
@@ -5528,7 +6590,7 @@ extension Imagebuilder {
     }
 
     public struct StartImagePipelineExecutionRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually
         /// 			invoke.
@@ -5552,9 +6614,9 @@ extension Imagebuilder {
     }
 
     public struct StartImagePipelineExecutionResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the image that was created by this request.
+        /// The Amazon Resource Name (ARN) of the image that the request created.
         public let imageBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -5569,6 +6631,73 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case imageBuildVersionArn = "imageBuildVersionArn"
             case requestId = "requestId"
+        }
+    }
+
+    public struct StartResourceStateUpdateRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// Skip action on the image resource and associated resources if specified
+        /// 			exclusion rules are met.
+        public let exclusionRules: ResourceStateUpdateExclusionRules?
+        /// The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
+        public let executionRole: String?
+        /// A list of image resources to update state for.
+        public let includeResources: ResourceStateUpdateIncludeResources?
+        /// The ARN of the Image Builder resource that is updated. The state update might also
+        /// 			impact associated resources.
+        public let resourceArn: String
+        /// Indicates the lifecycle action to take for this request.
+        public let state: ResourceState
+        /// The timestamp that indicates when resources are updated by a lifecycle action.
+        public let updateAt: Date?
+
+        public init(clientToken: String = StartResourceStateUpdateRequest.idempotencyToken(), exclusionRules: ResourceStateUpdateExclusionRules? = nil, executionRole: String? = nil, includeResources: ResourceStateUpdateIncludeResources? = nil, resourceArn: String, state: ResourceState, updateAt: Date? = nil) {
+            self.clientToken = clientToken
+            self.exclusionRules = exclusionRules
+            self.executionRole = executionRole
+            self.includeResources = includeResources
+            self.resourceArn = resourceArn
+            self.state = state
+            self.updateAt = updateAt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.exclusionRules?.validate(name: "\(name).exclusionRules")
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case exclusionRules = "exclusionRules"
+            case executionRole = "executionRole"
+            case includeResources = "includeResources"
+            case resourceArn = "resourceArn"
+            case state = "state"
+            case updateAt = "updateAt"
+        }
+    }
+
+    public struct StartResourceStateUpdateResponse: AWSDecodableShape {
+        /// Identifies the lifecycle runtime instance that started the resource
+        /// 			state update.
+        public let lifecycleExecutionId: String?
+        /// The requested ARN of the Image Builder resource for the asynchronous update.
+        public let resourceArn: String?
+
+        public init(lifecycleExecutionId: String? = nil, resourceArn: String? = nil) {
+            self.lifecycleExecutionId = lifecycleExecutionId
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleExecutionId = "lifecycleExecutionId"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -5607,7 +6736,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -5669,7 +6798,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -5687,7 +6816,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateDistributionConfigurationRequest: AWSEncodableShape {
-        /// The idempotency token of the distribution configuration.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the distribution configuration.
         public let description: String?
@@ -5724,7 +6853,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateDistributionConfigurationResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by
         /// 			this request.
@@ -5746,7 +6875,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateImagePipelineRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the container pipeline to update.
         public let containerRecipeArn: String?
@@ -5823,7 +6952,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateImagePipelineResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this
         /// 			request.
@@ -5845,7 +6974,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateInfrastructureConfigurationRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the infrastructure configuration.
         public let description: String?
@@ -5951,7 +7080,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateInfrastructureConfigurationResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The client token that uniquely identifies the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by
         /// 			this request.
@@ -5969,6 +7098,79 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
             case requestId = "requestId"
+        }
+    }
+
+    public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// Optional description for the lifecycle policy.
+        public let description: String?
+        /// The name of the IAM role that Image Builder should use to update the
+        /// 			lifecycle policy.
+        public let executionRole: String
+        /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
+        public let lifecyclePolicyArn: String
+        /// The configuration details for a lifecycle policy resource.
+        public let policyDetails: [LifecyclePolicyDetail]
+        /// Selection criteria for resources that the lifecycle policy applies to.
+        public let resourceSelection: LifecyclePolicyResourceSelection
+        /// The type of image resource that the lifecycle policy applies to.
+        public let resourceType: LifecyclePolicyResourceType
+        /// Indicates whether the lifecycle policy resource is enabled.
+        public let status: LifecyclePolicyStatus?
+
+        public init(clientToken: String = UpdateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, executionRole: String, lifecyclePolicyArn: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.executionRole = executionRole
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+            self.policyDetails = policyDetails
+            self.resourceSelection = resourceSelection
+            self.resourceType = resourceType
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, max: 1024)
+            try self.validate(self.lifecyclePolicyArn, name: "lifecyclePolicyArn", parent: name, pattern: "^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$")
+            try self.policyDetails.forEach {
+                try $0.validate(name: "\(name).policyDetails[]")
+            }
+            try self.validate(self.policyDetails, name: "policyDetails", parent: name, max: 3)
+            try self.validate(self.policyDetails, name: "policyDetails", parent: name, min: 1)
+            try self.resourceSelection.validate(name: "\(name).resourceSelection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case executionRole = "executionRole"
+            case lifecyclePolicyArn = "lifecyclePolicyArn"
+            case policyDetails = "policyDetails"
+            case resourceSelection = "resourceSelection"
+            case resourceType = "resourceType"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateLifecyclePolicyResponse: AWSDecodableShape {
+        /// The ARN of the image lifecycle policy resource that was updated.
+        public let lifecyclePolicyArn: String?
+
+        public init(lifecyclePolicyArn: String? = nil) {
+            self.lifecyclePolicyArn = lifecyclePolicyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicyArn = "lifecyclePolicyArn"
         }
     }
 

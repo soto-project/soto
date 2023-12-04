@@ -29,6 +29,19 @@
         ]
     },
     "shapes": {
+        "com.amazonaws.codestarconnections#AccessDeniedException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>You do not have sufficient access to perform this action.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 403
+            }
+        },
         "com.amazonaws.codestarconnections#AccountId": {
             "type": "string",
             "traits": {
@@ -36,7 +49,7 @@
                     "min": 12,
                     "max": 12
                 },
-                "smithy.api#pattern": "[0-9]{12}"
+                "smithy.api#pattern": "^[0-9]{12}$"
             }
         },
         "com.amazonaws.codestarconnections#AmazonResourceName": {
@@ -46,7 +59,45 @@
                     "min": 1,
                     "max": 1011
                 },
-                "smithy.api#pattern": "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+"
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$"
+            }
+        },
+        "com.amazonaws.codestarconnections#BlockerStatus": {
+            "type": "enum",
+            "members": {
+                "ACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ACTIVE"
+                    }
+                },
+                "RESOLVED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RESOLVED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#BlockerType": {
+            "type": "enum",
+            "members": {
+                "AUTOMATED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AUTOMATED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#BranchName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^.*$"
             }
         },
         "com.amazonaws.codestarconnections#CodeStar_connections_20191201": {
@@ -60,10 +111,22 @@
                     "target": "com.amazonaws.codestarconnections#CreateHost"
                 },
                 {
+                    "target": "com.amazonaws.codestarconnections#CreateRepositoryLink"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#CreateSyncConfiguration"
+                },
+                {
                     "target": "com.amazonaws.codestarconnections#DeleteConnection"
                 },
                 {
                     "target": "com.amazonaws.codestarconnections#DeleteHost"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#DeleteRepositoryLink"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#DeleteSyncConfiguration"
                 },
                 {
                     "target": "com.amazonaws.codestarconnections#GetConnection"
@@ -72,10 +135,34 @@
                     "target": "com.amazonaws.codestarconnections#GetHost"
                 },
                 {
+                    "target": "com.amazonaws.codestarconnections#GetRepositoryLink"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#GetRepositorySyncStatus"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#GetResourceSyncStatus"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#GetSyncBlockerSummary"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#GetSyncConfiguration"
+                },
+                {
                     "target": "com.amazonaws.codestarconnections#ListConnections"
                 },
                 {
                     "target": "com.amazonaws.codestarconnections#ListHosts"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ListRepositoryLinks"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ListRepositorySyncDefinitions"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ListSyncConfigurations"
                 },
                 {
                     "target": "com.amazonaws.codestarconnections#ListTagsForResource"
@@ -88,6 +175,15 @@
                 },
                 {
                     "target": "com.amazonaws.codestarconnections#UpdateHost"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UpdateRepositoryLink"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UpdateSyncBlocker"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UpdateSyncConfiguration"
                 }
             ],
             "traits": {
@@ -102,7 +198,7 @@
                     "name": "codestar-connections"
                 },
                 "aws.protocols#awsJson1_0": {},
-                "smithy.api#documentation": "<fullname>AWS CodeStar Connections</fullname>\n         <p>This AWS CodeStar Connections API Reference provides descriptions and usage examples of\n      the operations and data types for the AWS CodeStar Connections API. You can use the\n      connections API to work with connections and installations.</p>\n         <p>\n            <i>Connections</i> are configurations that you use to connect AWS\n      resources to external code repositories. Each connection is a resource that can be given to\n      services such as CodePipeline to connect to a third-party repository such as Bitbucket. For\n      example, you can add the connection in CodePipeline so that it triggers your pipeline when a\n      code change is made to your third-party code repository. Each connection is named and\n      associated with a unique ARN that is used to reference the connection.</p>\n         <p>When you create a connection, the console initiates a third-party connection handshake.\n        <i>Installations</i> are the apps that are used to conduct this handshake. For\n      example, the installation for the Bitbucket provider type is the Bitbucket app. When you\n      create a connection, you can choose an existing installation or create one.</p>\n         <p>When you want to create a connection to an installed provider type such as GitHub\n      Enterprise Server, you create a <i>host</i> for your connections.</p>\n         <p>You can work with connections by calling:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateConnection</a>, which creates a uniquely named connection that can be\n          referenced by services such as CodePipeline.</p>\n            </li>\n            <li>\n               <p>\n                  <a>DeleteConnection</a>, which deletes the specified connection.</p>\n            </li>\n            <li>\n               <p>\n                  <a>GetConnection</a>, which returns information about the connection, including\n          the connection status.</p>\n            </li>\n            <li>\n               <p>\n                  <a>ListConnections</a>, which lists the connections associated with your\n          account.</p>\n            </li>\n         </ul>\n         <p>You can work with hosts by calling:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateHost</a>, which creates a host that represents the infrastructure where your provider is installed.</p>\n            </li>\n            <li>\n               <p>\n                  <a>DeleteHost</a>, which deletes the specified host.</p>\n            </li>\n            <li>\n               <p>\n                  <a>GetHost</a>, which returns information about the host, including\n          the setup status.</p>\n            </li>\n            <li>\n               <p>\n                  <a>ListHosts</a>, which lists the hosts associated with your\n          account.</p>\n            </li>\n         </ul>\n         <p>You can work with tags in AWS CodeStar Connections by calling the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>ListTagsForResource</a>, which gets information about AWS tags for a\n          specified Amazon Resource Name (ARN) in AWS CodeStar Connections.</p>\n            </li>\n            <li>\n               <p>\n                  <a>TagResource</a>, which adds or updates tags for a resource in AWS CodeStar\n          Connections.</p>\n            </li>\n            <li>\n               <p>\n                  <a>UntagResource</a>, which removes tags for a resource in AWS CodeStar\n          Connections.</p>\n            </li>\n         </ul>\n         <p>For information about how to use AWS CodeStar Connections, see the <a href=\"https://docs.aws.amazon.com/dtconsole/latest/userguide/welcome-connections.html\">Developer Tools User\n        Guide</a>.</p>",
+                "smithy.api#documentation": "<fullname>AWS CodeStar Connections</fullname>\n         <p>This Amazon Web Services CodeStar Connections API Reference provides descriptions and usage examples of\n      the operations and data types for the Amazon Web Services CodeStar Connections API. You can use the\n      connections API to work with connections and installations.</p>\n         <p>\n            <i>Connections</i> are configurations that you use to connect Amazon Web Services\n      resources to external code repositories. Each connection is a resource that can be given to\n      services such as CodePipeline to connect to a third-party repository such as Bitbucket. For\n      example, you can add the connection in CodePipeline so that it triggers your pipeline when a\n      code change is made to your third-party code repository. Each connection is named and\n      associated with a unique ARN that is used to reference the connection.</p>\n         <p>When you create a connection, the console initiates a third-party connection handshake.\n        <i>Installations</i> are the apps that are used to conduct this handshake. For\n      example, the installation for the Bitbucket provider type is the Bitbucket app. When you\n      create a connection, you can choose an existing installation or create one.</p>\n         <p>When you want to create a connection to an installed provider type such as GitHub\n      Enterprise Server, you create a <i>host</i> for your connections.</p>\n         <p>You can work with connections by calling:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateConnection</a>, which creates a uniquely named connection that can be\n          referenced by services such as CodePipeline.</p>\n            </li>\n            <li>\n               <p>\n                  <a>DeleteConnection</a>, which deletes the specified connection.</p>\n            </li>\n            <li>\n               <p>\n                  <a>GetConnection</a>, which returns information about the connection, including\n          the connection status.</p>\n            </li>\n            <li>\n               <p>\n                  <a>ListConnections</a>, which lists the connections associated with your\n          account.</p>\n            </li>\n         </ul>\n         <p>You can work with hosts by calling:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateHost</a>, which creates a host that represents the infrastructure where your provider is installed.</p>\n            </li>\n            <li>\n               <p>\n                  <a>DeleteHost</a>, which deletes the specified host.</p>\n            </li>\n            <li>\n               <p>\n                  <a>GetHost</a>, which returns information about the host, including\n          the setup status.</p>\n            </li>\n            <li>\n               <p>\n                  <a>ListHosts</a>, which lists the hosts associated with your\n          account.</p>\n            </li>\n         </ul>\n         <p>You can work with tags in Amazon Web Services CodeStar Connections by calling the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>ListTagsForResource</a>, which gets information about Amazon Web Services tags for a\n          specified Amazon Resource Name (ARN) in Amazon Web Services CodeStar Connections.</p>\n            </li>\n            <li>\n               <p>\n                  <a>TagResource</a>, which adds or updates tags for a resource in Amazon Web Services CodeStar\n          Connections.</p>\n            </li>\n            <li>\n               <p>\n                  <a>UntagResource</a>, which removes tags for a resource in Amazon Web Services CodeStar\n          Connections.</p>\n            </li>\n         </ul>\n         <p>For information about how to use Amazon Web Services CodeStar Connections, see the <a href=\"https://docs.aws.amazon.com/dtconsole/latest/userguide/welcome-connections.html\">Developer Tools User\n        Guide</a>.</p>",
                 "smithy.api#title": "AWS CodeStar connections",
                 "smithy.rules#endpointRuleSet": {
                     "version": "1.0",
@@ -146,7 +242,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -164,9 +259,187 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
-                                    "type": "tree",
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://codestar-connections-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://codestar-connections-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -179,278 +452,65 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
-                                                "properties": {},
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
+                                                                true,
                                                                 {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://codestar-connections-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://codestar-connections-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://codestar-connections.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
                                                             "endpoint": {
-                                                                "url": "https://codestar-connections.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "url": "https://codestar-connections.{Region}.{PartitionResult#dualStackDnsSuffix}",
                                                                 "properties": {},
                                                                 "headers": {}
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [],
+                                            "endpoint": {
+                                                "url": "https://codestar-connections.{Region}.{PartitionResult#dnsSuffix}",
+                                                "properties": {},
+                                                "headers": {}
+                                            },
+                                            "type": "endpoint"
                                         }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [],
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -465,8 +525,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -478,8 +538,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -491,8 +551,8 @@
                             },
                             "params": {
                                 "Region": "ap-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -504,8 +564,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -517,8 +577,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -530,8 +590,8 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -543,8 +603,8 @@
                             },
                             "params": {
                                 "Region": "eu-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -556,8 +616,8 @@
                             },
                             "params": {
                                 "Region": "eu-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -569,8 +629,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -582,8 +642,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -595,8 +655,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-3",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -608,8 +668,8 @@
                             },
                             "params": {
                                 "Region": "sa-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -621,8 +681,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -634,8 +694,8 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -647,8 +707,8 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -660,8 +720,8 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -673,8 +733,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -686,8 +746,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -699,8 +759,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -712,8 +772,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -725,8 +785,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -738,8 +798,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -751,8 +811,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -764,8 +824,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -777,8 +837,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -790,8 +850,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -803,8 +863,19 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -816,8 +887,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -829,8 +911,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -842,8 +935,19 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -855,8 +959,8 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -868,8 +972,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -881,8 +985,8 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -893,8 +997,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": true,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -905,14 +1009,46 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
                                 "UseFIPS": false,
+                                "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
                     "version": "1.0"
                 }
+            }
+        },
+        "com.amazonaws.codestarconnections#ConcurrentModificationException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time. </p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 409
+            }
+        },
+        "com.amazonaws.codestarconnections#ConditionalCheckFailedException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The conditional check failed. Try again later.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 409
             }
         },
         "com.amazonaws.codestarconnections#ConflictException": {
@@ -934,13 +1070,13 @@
                 "ConnectionName": {
                     "target": "com.amazonaws.codestarconnections#ConnectionName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the connection. Connection names must be unique in an AWS user account.</p>"
+                        "smithy.api#documentation": "<p>The name of the connection. Connection names must be unique in an Amazon Web Services account.</p>"
                     }
                 },
                 "ConnectionArn": {
                     "target": "com.amazonaws.codestarconnections#ConnectionArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection\n      reference when the connection is shared between AWS services.</p>\n         <note>\n            <p>The ARN is never reused if the connection is deleted.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection\n      reference when the connection is shared between Amazon Web Services.</p>\n         <note>\n            <p>The ARN is never reused if the connection is deleted.</p>\n         </note>"
                     }
                 },
                 "ProviderType": {
@@ -969,7 +1105,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A resource that is used to connect third-party source providers with services like AWS CodePipeline.</p>\n         <p>Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the \n      connection in the console.</p>"
+                "smithy.api#documentation": "<p>A resource that is used to connect third-party source providers with services like CodePipeline.</p>\n         <p>Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the \n      connection in the console.</p>"
             }
         },
         "com.amazonaws.codestarconnections#ConnectionArn": {
@@ -979,7 +1115,7 @@
                     "min": 0,
                     "max": 256
                 },
-                "smithy.api#pattern": "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+"
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$"
             }
         },
         "com.amazonaws.codestarconnections#ConnectionList": {
@@ -995,26 +1131,30 @@
                     "min": 1,
                     "max": 32
                 },
-                "smithy.api#pattern": "[\\s\\S]*"
+                "smithy.api#pattern": "^[\\s\\S]*$"
             }
         },
         "com.amazonaws.codestarconnections#ConnectionStatus": {
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "PENDING",
-                        "name": "PENDING"
-                    },
-                    {
-                        "value": "AVAILABLE",
-                        "name": "AVAILABLE"
-                    },
-                    {
-                        "value": "ERROR",
-                        "name": "ERROR"
+            "type": "enum",
+            "members": {
+                "PENDING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PENDING"
                     }
-                ]
+                },
+                "AVAILABLE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AVAILABLE"
+                    }
+                },
+                "ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ERROR"
+                    }
+                }
             }
         },
         "com.amazonaws.codestarconnections#CreateConnection": {
@@ -1037,7 +1177,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a connection that can then be given to other AWS services like CodePipeline so\n      that it can access third-party code repositories. The connection is in pending status until\n      the third-party connection handshake is completed from the console.</p>"
+                "smithy.api#documentation": "<p>Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so\n      that it can access third-party code repositories. The connection is in pending status until\n      the third-party connection handshake is completed from the console.</p>"
             }
         },
         "com.amazonaws.codestarconnections#CreateConnectionInput": {
@@ -1052,7 +1192,7 @@
                 "ConnectionName": {
                     "target": "com.amazonaws.codestarconnections#ConnectionName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the connection to be created. The name must be unique in the calling AWS\n      account.</p>",
+                        "smithy.api#documentation": "<p>The name of the connection to be created.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1068,6 +1208,9 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the host associated with the connection to be created.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#CreateConnectionOutput": {
@@ -1076,7 +1219,7 @@
                 "ConnectionArn": {
                     "target": "com.amazonaws.codestarconnections#ConnectionArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the\n      connection reference when the connection is shared between AWS services.</p>\n         <note>\n            <p>The ARN is never reused if the connection is deleted.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the\n      connection reference when the connection is shared between Amazon Web Services services.</p>\n         <note>\n            <p>The ARN is never reused if the connection is deleted.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1086,6 +1229,9 @@
                         "smithy.api#documentation": "<p>Specifies the tags applied to the resource.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#CreateHost": {
@@ -1111,7 +1257,7 @@
                 "Name": {
                     "target": "com.amazonaws.codestarconnections#HostName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the host to be created. The name must be unique in the calling AWS\n      account.</p>",
+                        "smithy.api#documentation": "<p>The name of the host to be created.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1136,8 +1282,14 @@
                     }
                 },
                 "Tags": {
-                    "target": "com.amazonaws.codestarconnections#TagList"
+                    "target": "com.amazonaws.codestarconnections#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Tags for the host to be created.</p>"
+                    }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#CreateHostOutput": {
@@ -1150,9 +1302,209 @@
                     }
                 },
                 "Tags": {
-                    "target": "com.amazonaws.codestarconnections#TagList"
+                    "target": "com.amazonaws.codestarconnections#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Tags for the created host.</p>"
+                    }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
+        },
+        "com.amazonaws.codestarconnections#CreateRepositoryLink": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#CreateRepositoryLinkInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#CreateRepositoryLinkOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceAlreadyExistsException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#CreateRepositoryLinkInput": {
+            "type": "structure",
+            "members": {
+                "ConnectionArn": {
+                    "target": "com.amazonaws.codestarconnections#ConnectionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection to be associated with the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OwnerId": {
+                    "target": "com.amazonaws.codestarconnections#OwnerId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The owner ID for the repository associated with a specific sync configuration, such as\n      the owner ID in GitHub.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryName": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the repository to be associated with the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EncryptionKeyArn": {
+                    "target": "com.amazonaws.codestarconnections#KmsKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link.</p>"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.codestarconnections#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags for the repository to be associated with the repository link.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#CreateRepositoryLinkOutput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkInfo": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The returned information about the created repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#CreateSyncConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#CreateSyncConfigurationInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#CreateSyncConfigurationOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceAlreadyExistsException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates a sync configuration which allows Amazon Web Services to sync content from a Git\n      repository to update a specified Amazon Web Services resource. Parameters for the sync\n      configuration are determined by the sync type.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#CreateSyncConfigurationInput": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch in the repository from which changes will be synced.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ConfigFile": {
+                    "target": "com.amazonaws.codestarconnections#DeploymentFilePath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link created for the connection. A repository link allows Git\n      sync to monitor and sync changes to files in a specified Git repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource (for example, a CloudFormation stack in the\n      case of CFN_STACK_SYNC) that will be synchronized from the linked repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.codestarconnections#IamRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to\n      update a given Amazon Web Services resource on your behalf.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#CreateSyncConfigurationOutput": {
+            "type": "structure",
+            "members": {
+                "SyncConfiguration": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The created sync configuration for the connection. A sync configuration allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services\n      resource. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#CreatedReason": {
+            "type": "string"
         },
         "com.amazonaws.codestarconnections#DeleteConnection": {
             "type": "operation",
@@ -1181,11 +1533,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#DeleteConnectionOutput": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.codestarconnections#DeleteHost": {
             "type": "operation",
@@ -1217,11 +1575,144 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#DeleteHostOutput": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteRepositoryLink": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#DeleteRepositoryLinkInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#DeleteRepositoryLinkOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationStillExistsException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UnsupportedProviderTypeException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes the association between your connection and a specified external Git repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteRepositoryLinkInput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link to be deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteRepositoryLinkOutput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteSyncConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#DeleteSyncConfigurationInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#DeleteSyncConfigurationOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes the sync configuration for a specified repository and connection.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteSyncConfigurationInput": {
+            "type": "structure",
+            "members": {
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of sync configuration to be deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource associated with the sync configuration to be\n      deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#DeleteSyncConfigurationOutput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#DeploymentFilePath": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#Directory": {
+            "type": "string"
         },
         "com.amazonaws.codestarconnections#ErrorMessage": {
             "type": "string",
@@ -1231,6 +1722,12 @@
                     "max": 600
                 }
             }
+        },
+        "com.amazonaws.codestarconnections#Event": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#ExternalId": {
+            "type": "string"
         },
         "com.amazonaws.codestarconnections#GetConnection": {
             "type": "operation",
@@ -1262,6 +1759,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#GetConnectionOutput": {
@@ -1273,6 +1773,9 @@
                         "smithy.api#documentation": "<p>The connection details, such as status, owner, and provider type.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#GetHost": {
@@ -1305,6 +1808,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#GetHostOutput": {
@@ -1340,6 +1846,354 @@
                         "smithy.api#documentation": "<p>The VPC configuration of the requested host.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositoryLink": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#GetRepositoryLinkInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#GetRepositoryLinkOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns details about a repository link. A repository link allows Git sync to monitor\n      and sync changes from files in a specified Git repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositoryLinkInput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link to get.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositoryLinkOutput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkInfo": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The information returned for a specified repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositorySyncStatus": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#GetRepositorySyncStatusInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#GetRepositorySyncStatusOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns details about the sync status for a repository. A repository sync uses Git sync\n      to push and pull changes from your remote repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositorySyncStatusInput": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch of the repository link for the requested repository sync status.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The repository link ID for the requested repository sync status.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type of the requested sync status.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetRepositorySyncStatusOutput": {
+            "type": "structure",
+            "members": {
+                "LatestSync": {
+                    "target": "com.amazonaws.codestarconnections#RepositorySyncAttempt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the latest sync returned for a specified repository and branch.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetResourceSyncStatus": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#GetResourceSyncStatusInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#GetResourceSyncStatusOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns the status of the sync with the Git repository for a specific Amazon Web Services\n      resource.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#GetResourceSyncStatusInput": {
+            "type": "structure",
+            "members": {
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource for the sync status with the Git\n      repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type for the sync status with the Git repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetResourceSyncStatusOutput": {
+            "type": "structure",
+            "members": {
+                "DesiredState": {
+                    "target": "com.amazonaws.codestarconnections#Revision",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired state of the Amazon Web Services resource for the sync status with the Git\n      repository.</p>"
+                    }
+                },
+                "LatestSuccessfulSync": {
+                    "target": "com.amazonaws.codestarconnections#ResourceSyncAttempt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The latest successful sync for the sync status with the Git repository.</p>"
+                    }
+                },
+                "LatestSync": {
+                    "target": "com.amazonaws.codestarconnections#ResourceSyncAttempt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The latest sync for the sync status with the Git repository, whether successful or not.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncBlockerSummary": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#GetSyncBlockerSummaryInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#GetSyncBlockerSummaryOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of the most recent sync blockers.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncBlockerSummaryInput": {
+            "type": "structure",
+            "members": {
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type for the sync blocker summary.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncBlockerSummaryOutput": {
+            "type": "structure",
+            "members": {
+                "SyncBlockerSummary": {
+                    "target": "com.amazonaws.codestarconnections#SyncBlockerSummary",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of sync blockers for a specified resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#GetSyncConfigurationInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#GetSyncConfigurationOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncConfigurationInput": {
+            "type": "structure",
+            "members": {
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type for the sync configuration for which you want to retrieve information.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource for the sync configuration for which you\n      want to retrieve information.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#GetSyncConfigurationOutput": {
+            "type": "structure",
+            "members": {
+                "SyncConfiguration": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details about the sync configuration for which you want to retrieve information.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#Host": {
@@ -1399,7 +2253,7 @@
                     "min": 0,
                     "max": 256
                 },
-                "smithy.api#pattern": "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+"
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+$"
             }
         },
         "com.amazonaws.codestarconnections#HostList": {
@@ -1431,6 +2285,67 @@
         "com.amazonaws.codestarconnections#HostStatusMessage": {
             "type": "string"
         },
+        "com.amazonaws.codestarconnections#IamRoleArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$"
+            }
+        },
+        "com.amazonaws.codestarconnections#Id": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 50
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#InternalServerException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Received an internal server exception. Try again later.</p>",
+                "smithy.api#error": "server",
+                "smithy.api#httpError": 503
+            }
+        },
+        "com.amazonaws.codestarconnections#InvalidInputException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The input is not valid. Verify that the action is typed correctly.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.codestarconnections#KmsKeyArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:kms:[a-z\\-0-9]+:\\d{12}:key/[a-zA-Z0-9\\-]+$"
+            }
+        },
+        "com.amazonaws.codestarconnections#LatestSyncBlockerList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#SyncBlocker"
+            }
+        },
         "com.amazonaws.codestarconnections#LimitExceededException": {
             "type": "structure",
             "members": {
@@ -1452,6 +2367,11 @@
             "output": {
                 "target": "com.amazonaws.codestarconnections#ListConnectionsOutput"
             },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                }
+            ],
             "traits": {
                 "smithy.api#documentation": "<p>Lists the connections associated with your account.</p>",
                 "smithy.api#paginated": {
@@ -1489,6 +2409,9 @@
                         "smithy.api#documentation": "<p>The token that was returned from the previous <code>ListConnections</code> call, which\n      can be used to return the next set of connections in the list.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#ListConnectionsOutput": {
@@ -1506,6 +2429,9 @@
                         "smithy.api#documentation": "<p>A token that can be used in the next <code>ListConnections</code> call. To view all\n      items in the list, continue to call this operation with each subsequent token until no more\n      <code>nextToken</code> values are returned.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#ListHosts": {
@@ -1541,6 +2467,9 @@
                         "smithy.api#documentation": "<p>The token that was returned from the previous <code>ListHosts</code> call, which can be\n      used to return the next set of hosts in the list.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#ListHostsOutput": {
@@ -1558,6 +2487,250 @@
                         "smithy.api#documentation": "<p>A token that can be used in the next <code>ListHosts</code> call. To view all items in the\n      list, continue to call this operation with each subsequent token until no more\n      <code>nextToken</code> values are returned.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositoryLinks": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#ListRepositoryLinksInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#ListRepositoryLinksOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists the repository links created for connections in your account.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositoryLinksInput": {
+            "type": "structure",
+            "members": {
+                "MaxResults": {
+                    "target": "com.amazonaws.codestarconnections#MaxResults",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\nA non-zero, non-negative integer used to limit the number of returned results.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.codestarconnections#SharpNextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nAn enumeration token that, when provided in a request, returns the next batch of the results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositoryLinksOutput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinks": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Lists the repository links called by the list repository links operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.codestarconnections#SharpNextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An enumeration token that allows the operation to batch the results of the operation. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositorySyncDefinitions": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#ListRepositorySyncDefinitionsInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#ListRepositorySyncDefinitionsOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists the repository sync definitions for repository links in your account.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositorySyncDefinitionsInput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link for the sync definition for which you want to retrieve information.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type of the repository link for the the sync definition for which you want to retrieve information.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListRepositorySyncDefinitionsOutput": {
+            "type": "structure",
+            "members": {
+                "RepositorySyncDefinitions": {
+                    "target": "com.amazonaws.codestarconnections#RepositorySyncDefinitionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of repository sync definitions returned by the request. A\n        <code>RepositorySyncDefinition</code> is a mapping from a repository branch to all the\n        Amazon Web Services resources that are being synced from that branch.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.codestarconnections#SharpNextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An enumeration token that, when provided in a request, returns the next batch of the\n      results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListSyncConfigurations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#ListSyncConfigurationsInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#ListSyncConfigurationsOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of sync configurations for a specified repository.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#ListSyncConfigurationsInput": {
+            "type": "structure",
+            "members": {
+                "MaxResults": {
+                    "target": "com.amazonaws.codestarconnections#MaxResults",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>A non-zero, non-negative integer used to limit the number of returned results.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.codestarconnections#SharpNextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An enumeration token that allows the operation to batch the results of the operation.</p>"
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link for the requested list of sync configurations.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type for the requested list of sync configurations.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#ListSyncConfigurationsOutput": {
+            "type": "structure",
+            "members": {
+                "SyncConfigurations": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of repository sync definitions returned by the request.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.codestarconnections#SharpNextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An enumeration token that allows the operation to batch the next results of the operation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#ListTagsForResource": {
@@ -1587,6 +2760,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#ListTagsForResourceOutput": {
@@ -1598,6 +2774,9 @@
                         "smithy.api#documentation": "<p>A list of tag key and value pairs associated with the specified resource.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.codestarconnections#MaxResults": {
@@ -1617,26 +2796,312 @@
                     "min": 1,
                     "max": 1024
                 },
-                "smithy.api#pattern": ".*"
+                "smithy.api#pattern": "^.*$"
             }
         },
-        "com.amazonaws.codestarconnections#ProviderType": {
+        "com.amazonaws.codestarconnections#OwnerId": {
             "type": "string",
             "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "Bitbucket",
-                        "name": "BITBUCKET"
-                    },
-                    {
-                        "value": "GitHub",
-                        "name": "GITHUB"
-                    },
-                    {
-                        "value": "GitHubEnterpriseServer",
-                        "name": "GITHUB_ENTERPRISE_SERVER"
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^.*$"
+            }
+        },
+        "com.amazonaws.codestarconnections#Parent": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#ProviderType": {
+            "type": "enum",
+            "members": {
+                "BITBUCKET": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Bitbucket"
                     }
-                ]
+                },
+                "GITHUB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "GitHub"
+                    }
+                },
+                "GITHUB_ENTERPRISE_SERVER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "GitHubEnterpriseServer"
+                    }
+                },
+                "GITLAB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "GitLab"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositoryLinkArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:aws(?:-[a-z]+)*:codestar-connections:[a-z\\-0-9]+:\\d{12}:repository-link\\/[a-zA-Z0-9\\-:/]+$"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositoryLinkId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositoryLinkInfo": {
+            "type": "structure",
+            "members": {
+                "ConnectionArn": {
+                    "target": "com.amazonaws.codestarconnections#ConnectionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection associated with the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "EncryptionKeyArn": {
+                    "target": "com.amazonaws.codestarconnections#KmsKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the encryption key for the repository associated with the repository link.</p>"
+                    }
+                },
+                "OwnerId": {
+                    "target": "com.amazonaws.codestarconnections#OwnerId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The owner ID for the repository associated with the repository link, such as the owner\n      ID in GitHub.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ProviderType": {
+                    "target": "com.amazonaws.codestarconnections#ProviderType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The provider type for the connection, such as GitHub, associated with the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryLinkArn": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryName": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the repository associated with the repository link.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the repository link resource, such as the repository link ARN, the associated connection ARN, encryption key ARN, and owner ID.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositoryLinkList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#RepositoryLinkInfo"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositoryName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^.*$"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncAttempt": {
+            "type": "structure",
+            "members": {
+                "StartedAt": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The start time of a specific sync attempt.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.codestarconnections#RepositorySyncStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of a specific sync attempt. The following are valid statuses:</p>\n         <ul>\n            <li>\n               <p>INITIATED - A repository sync attempt has been created and will begin soon.</p>\n            </li>\n            <li>\n               <p>IN_PROGRESS - A repository sync attempt has started and work is being done to\n          reconcile the branch.</p>\n            </li>\n            <li>\n               <p>SUCCEEDED - The repository sync attempt has completed successfully.</p>\n            </li>\n            <li>\n               <p>FAILED - The repository sync attempt has failed.</p>\n            </li>\n            <li>\n               <p>QUEUED - The repository sync attempt didn't execute and was queued.</p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Events": {
+                    "target": "com.amazonaws.codestarconnections#RepositorySyncEventList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The events associated with a specific sync attempt.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a repository sync attempt for a repository with a sync configuration.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncDefinition": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch specified for a repository sync definition.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Directory": {
+                    "target": "com.amazonaws.codestarconnections#Directory",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration file for a repository sync definition. This value comes from creating\n      or updating the <code>config-file</code> field of a <code>sync-configuration</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Parent": {
+                    "target": "com.amazonaws.codestarconnections#Parent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The parent resource specified for a repository sync definition.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Target": {
+                    "target": "com.amazonaws.codestarconnections#Target",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The target resource specified for a repository sync definition. In some cases, such as CFN_STACK_SYNC, the parent and target resource are the same.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The definition for a repository with a sync configuration.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncDefinitionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#RepositorySyncDefinition"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncEvent": {
+            "type": "structure",
+            "members": {
+                "Event": {
+                    "target": "com.amazonaws.codestarconnections#Event",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A description of a repository sync event.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ExternalId": {
+                    "target": "com.amazonaws.codestarconnections#ExternalId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for a repository sync event.</p>"
+                    }
+                },
+                "Time": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that a repository sync event occurred.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.codestarconnections#Type",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The event type for a repository sync event.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a repository sync event.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncEventList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#RepositorySyncEvent"
+            }
+        },
+        "com.amazonaws.codestarconnections#RepositorySyncStatus": {
+            "type": "enum",
+            "members": {
+                "FAILED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FAILED"
+                    }
+                },
+                "INITIATED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INITIATED"
+                    }
+                },
+                "IN_PROGRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IN_PROGRESS"
+                    }
+                },
+                "SUCCEEDED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUCCEEDED"
+                    }
+                },
+                "QUEUED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "QUEUED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#ResolvedReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 250
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#ResourceAlreadyExistsException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Unable to create resource. Resource already exists.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 409
+            }
+        },
+        "com.amazonaws.codestarconnections#ResourceName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                },
+                "smithy.api#pattern": "^[0-9A-Za-z]+[0-9A-Za-z_\\\\-]*$"
             }
         },
         "com.amazonaws.codestarconnections#ResourceNotFoundException": {
@@ -1652,6 +3117,126 @@
                 "smithy.api#httpError": 404
             }
         },
+        "com.amazonaws.codestarconnections#ResourceSyncAttempt": {
+            "type": "structure",
+            "members": {
+                "Events": {
+                    "target": "com.amazonaws.codestarconnections#ResourceSyncEventList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The events related to a resource sync attempt.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "InitialRevision": {
+                    "target": "com.amazonaws.codestarconnections#Revision",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current state of the resource as defined in the resource's <code>config-file</code>\n      in the linked repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "StartedAt": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The start time for a resource sync attempt.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.codestarconnections#ResourceSyncStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status for a resource sync attempt. The follow are valid statuses:</p>\n         <ul>\n            <li>\n               <p>SYNC-INITIATED - A resource sync attempt has been created and will begin soon.</p>\n            </li>\n            <li>\n               <p>SYNCING - Syncing has started and work is being done to reconcile state.</p>\n            </li>\n            <li>\n               <p>SYNCED - Syncing has completed successfully.</p>\n            </li>\n            <li>\n               <p>SYNC_FAILED - A resource sync attempt has failed.</p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "TargetRevision": {
+                    "target": "com.amazonaws.codestarconnections#Revision",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired state of the resource as defined in the resource's <code>config-file</code>\n      in the linked repository. Git sync attempts to update the resource to this state.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Target": {
+                    "target": "com.amazonaws.codestarconnections#Target",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource that is attempted to be synchronized.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a resource sync attempt.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#ResourceSyncEvent": {
+            "type": "structure",
+            "members": {
+                "Event": {
+                    "target": "com.amazonaws.codestarconnections#Event",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The event for a resource sync event.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ExternalId": {
+                    "target": "com.amazonaws.codestarconnections#ExternalId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for a resource sync event.</p>"
+                    }
+                },
+                "Time": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that a resource sync event occurred.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.codestarconnections#Type",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of resource sync event.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a resource sync event for the resource associated with a sync configuration.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#ResourceSyncEventList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#ResourceSyncEvent"
+            }
+        },
+        "com.amazonaws.codestarconnections#ResourceSyncStatus": {
+            "type": "enum",
+            "members": {
+                "FAILED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FAILED"
+                    }
+                },
+                "INITIATED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INITIATED"
+                    }
+                },
+                "IN_PROGRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IN_PROGRESS"
+                    }
+                },
+                "SUCCEEDED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUCCEEDED"
+                    }
+                }
+            }
+        },
         "com.amazonaws.codestarconnections#ResourceUnavailableException": {
             "type": "structure",
             "members": {
@@ -1665,6 +3250,78 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.codestarconnections#RetryLatestCommitFailedException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Retrying the latest commit failed. Try again later.</p>",
+                "smithy.api#error": "server",
+                "smithy.api#httpError": 503
+            }
+        },
+        "com.amazonaws.codestarconnections#Revision": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch name for a specific revision.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Directory": {
+                    "target": "com.amazonaws.codestarconnections#Directory",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The directory, if any, for a specific revision.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OwnerId": {
+                    "target": "com.amazonaws.codestarconnections#OwnerId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The owner ID for a specific revision, such as the GitHub owner ID for a GitHub repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryName": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The repository name for a specific revision.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ProviderType": {
+                    "target": "com.amazonaws.codestarconnections#ProviderType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The provider type for a revision, such as GitHub.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Sha": {
+                    "target": "com.amazonaws.codestarconnections#SHA",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The SHA, such as the commit ID, for a specific revision.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the revision for a specific sync event, such as the branch, owner ID, and name of the repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#SHA": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                }
+            }
+        },
         "com.amazonaws.codestarconnections#SecurityGroupId": {
             "type": "string",
             "traits": {
@@ -1672,7 +3329,7 @@
                     "min": 11,
                     "max": 20
                 },
-                "smithy.api#pattern": "sg-\\w{8}(\\w{9})?"
+                "smithy.api#pattern": "^sg-\\w{8}(\\w{9})?$"
             }
         },
         "com.amazonaws.codestarconnections#SecurityGroupIds": {
@@ -1687,6 +3344,16 @@
                 }
             }
         },
+        "com.amazonaws.codestarconnections#SharpNextToken": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^.*$"
+            }
+        },
         "com.amazonaws.codestarconnections#SubnetId": {
             "type": "string",
             "traits": {
@@ -1694,7 +3361,7 @@
                     "min": 15,
                     "max": 24
                 },
-                "smithy.api#pattern": "subnet-\\w{8}(\\w{9})?"
+                "smithy.api#pattern": "^subnet-\\w{8}(\\w{9})?$"
             }
         },
         "com.amazonaws.codestarconnections#SubnetIds": {
@@ -1706,6 +3373,241 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 10
+                }
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncBlocker": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.codestarconnections#Id",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.codestarconnections#BlockerType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync blocker type.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.codestarconnections#BlockerStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "CreatedReason": {
+                    "target": "com.amazonaws.codestarconnections#CreatedReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The provided reason for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The creation time for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Contexts": {
+                    "target": "com.amazonaws.codestarconnections#SyncBlockerContextList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The contexts for a specific sync blocker.</p>"
+                    }
+                },
+                "ResolvedReason": {
+                    "target": "com.amazonaws.codestarconnections#ResolvedReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resolved reason for a specific sync blocker.</p>"
+                    }
+                },
+                "ResolvedAt": {
+                    "target": "com.amazonaws.codestarconnections#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that a specific sync blocker was resolved.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a blocker for a sync event.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerContext": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.codestarconnections#SyncBlockerContextKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key provided for a context key-value pair for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.codestarconnections#SyncBlockerContextValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value provided for a context key-value pair for a specific sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The context for a specific sync blocker.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerContextKey": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerContextList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#SyncBlockerContext"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerContextValue": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerDoesNotExistException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Unable to continue. The sync blocker does not exist.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 404
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncBlockerSummary": {
+            "type": "structure",
+            "members": {
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource name for sync blocker summary.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ParentResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The parent resource name for a sync blocker summary.</p>"
+                    }
+                },
+                "LatestBlockers": {
+                    "target": "com.amazonaws.codestarconnections#LatestSyncBlockerList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The latest events for a sync blocker summary.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A summary for sync blockers.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncConfiguration": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch associated with a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ConfigFile": {
+                    "target": "com.amazonaws.codestarconnections#DeploymentFilePath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The file path to the configuration file associated with a specific sync configuration. The path should point to an actual file in the sync configurations linked repository.</p>"
+                    }
+                },
+                "OwnerId": {
+                    "target": "com.amazonaws.codestarconnections#OwnerId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The owner ID for the repository associated with a specific sync configuration, such as\n      the owner ID in GitHub.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ProviderType": {
+                    "target": "com.amazonaws.codestarconnections#ProviderType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The connection provider type associated with a specific sync configuration, such as\n      GitHub.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link associated with a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RepositoryName": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the repository associated with a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the connection resource associated with a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.codestarconnections#IamRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role associated with a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of sync for a specific sync configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information, such as repository, branch, provider, and resource names for a specific sync configuration.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncConfigurationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codestarconnections#SyncConfiguration"
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncConfigurationStillExistsException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Unable to continue. The sync blocker still exists.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 409
+            }
+        },
+        "com.amazonaws.codestarconnections#SyncConfigurationType": {
+            "type": "enum",
+            "members": {
+                "CFN_STACK_SYNC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CFN_STACK_SYNC"
+                    }
                 }
             }
         },
@@ -1728,7 +3630,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A tag is a key-value pair that is used to manage the resource.</p>\n         <p>This tag is available for use by AWS services that support tags.</p>"
+                "smithy.api#documentation": "<p>A tag is a key-value pair that is used to manage the resource.</p>\n         <p>This tag is available for use by Amazon Web Services services that support tags.</p>"
             }
         },
         "com.amazonaws.codestarconnections#TagKey": {
@@ -1802,11 +3704,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#TagResourceOutput": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.codestarconnections#TagValue": {
             "type": "string",
@@ -1818,6 +3726,25 @@
                 "smithy.api#pattern": ".*"
             }
         },
+        "com.amazonaws.codestarconnections#Target": {
+            "type": "string"
+        },
+        "com.amazonaws.codestarconnections#ThrottlingException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The request was denied due to request throttling.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 429
+            }
+        },
+        "com.amazonaws.codestarconnections#Timestamp": {
+            "type": "timestamp"
+        },
         "com.amazonaws.codestarconnections#TlsCertificate": {
             "type": "string",
             "traits": {
@@ -1825,8 +3752,11 @@
                     "min": 1,
                     "max": 16384
                 },
-                "smithy.api#pattern": "[\\s\\S]*"
+                "smithy.api#pattern": "^[\\s\\S]*$"
             }
+        },
+        "com.amazonaws.codestarconnections#Type": {
+            "type": "string"
         },
         "com.amazonaws.codestarconnections#UnsupportedOperationException": {
             "type": "structure",
@@ -1837,6 +3767,19 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The operation is not supported. Check the connection status and try again.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.codestarconnections#UnsupportedProviderTypeException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The specified provider type is not supported for connections.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
             }
@@ -1855,7 +3798,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Removes tags from an AWS resource.</p>"
+                "smithy.api#documentation": "<p>Removes tags from an Amazon Web Services resource.</p>"
             }
         },
         "com.amazonaws.codestarconnections#UntagResourceInput": {
@@ -1875,11 +3818,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#UntagResourceOutput": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.codestarconnections#UpdateHost": {
             "type": "operation",
@@ -1929,11 +3878,302 @@
                         "smithy.api#documentation": "<p>The VPC configuration of the host to be updated. A VPC must be configured and the\n      infrastructure to be represented by the host must already be connected to the VPC.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.codestarconnections#UpdateHostOutput": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateOutOfSyncException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.codestarconnections#ErrorMessage"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The update is out of sync. Try syncing again.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 409
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateRepositoryLink": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#UpdateRepositoryLinkInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#UpdateRepositoryLinkOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConditionalCheckFailedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UpdateOutOfSyncException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the association between your connection and a specified external Git repository.\n      A repository link allows Git sync to monitor and sync changes to files in a specified Git\n      repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateRepositoryLinkInput": {
+            "type": "structure",
+            "members": {
+                "ConnectionArn": {
+                    "target": "com.amazonaws.codestarconnections#ConnectionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link.</p>"
+                    }
+                },
+                "EncryptionKeyArn": {
+                    "target": "com.amazonaws.codestarconnections#KmsKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the encryption key for the repository link to be updated.</p>"
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateRepositoryLinkOutput": {
+            "type": "structure",
+            "members": {
+                "RepositoryLinkInfo": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkInfo",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the repository link to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncBlocker": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#UpdateSyncBlockerInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#UpdateSyncBlockerOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#RetryLatestCommitFailedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#SyncBlockerDoesNotExistException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncBlockerInput": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.codestarconnections#Id",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the sync blocker to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type of the sync blocker to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the resource for the sync blocker to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResolvedReason": {
+                    "target": "com.amazonaws.codestarconnections#ResolvedReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason for resolving the sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncBlockerOutput": {
+            "type": "structure",
+            "members": {
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource name for the sync blocker.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ParentResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The parent resource name for the sync blocker.</p>"
+                    }
+                },
+                "SyncBlocker": {
+                    "target": "com.amazonaws.codestarconnections#SyncBlocker",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the sync blocker to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncConfiguration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codestarconnections#UpdateSyncConfigurationInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codestarconnections#UpdateSyncConfigurationOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codestarconnections#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ConcurrentModificationException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.codestarconnections#UpdateOutOfSyncException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the sync configuration for your connection and a specified external Git repository.</p>"
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncConfigurationInput": {
+            "type": "structure",
+            "members": {
+                "Branch": {
+                    "target": "com.amazonaws.codestarconnections#BranchName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The branch for the sync configuration to be updated.</p>"
+                    }
+                },
+                "ConfigFile": {
+                    "target": "com.amazonaws.codestarconnections#DeploymentFilePath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration file for the sync configuration to be updated.</p>"
+                    }
+                },
+                "RepositoryLinkId": {
+                    "target": "com.amazonaws.codestarconnections#RepositoryLinkId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the repository link for the sync configuration to be updated.</p>"
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.codestarconnections#ResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services resource for the sync configuration to be\n      updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.codestarconnections#IamRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role for the sync configuration to be updated.</p>"
+                    }
+                },
+                "SyncType": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfigurationType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sync type for the sync configuration to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codestarconnections#UpdateSyncConfigurationOutput": {
+            "type": "structure",
+            "members": {
+                "SyncConfiguration": {
+                    "target": "com.amazonaws.codestarconnections#SyncConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The information returned for the sync configuration to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.codestarconnections#Url": {
             "type": "string",
@@ -1987,7 +4227,7 @@
                     "min": 12,
                     "max": 21
                 },
-                "smithy.api#pattern": "vpc-\\w{8}(\\w{9})?"
+                "smithy.api#pattern": "^vpc-\\w{8}(\\w{9})?$"
             }
         }
     }

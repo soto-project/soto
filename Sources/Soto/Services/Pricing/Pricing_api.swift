@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Pricing service.
 ///
-/// Amazon Web Services Price List API is a centralized and convenient way to programmatically query Amazon Web Services for services, products, and pricing information. The Amazon Web Services Price List uses standardized product attributes such as Location, Storage Class, and Operating System, and provides prices at the SKU level. You can use the Amazon Web Services Price List to build cost control and scenario planning tools, reconcile billing data, forecast future spend for budgeting purposes, and provide cost benefit analysis that compare your internal workloads with Amazon Web Services. Use GetServices without a service code to retrieve the service codes for all AWS services, then  GetServices with a service code to retrieve the attribute names for  that service. After you have the service code and attribute names, you can use GetAttributeValues to see what values are available for an attribute. With the service code and an attribute name and value,  you can use GetProducts to find specific products that you're interested in, such as  an AmazonEC2 instance, with a Provisioned IOPS volumeType. Service Endpoint Amazon Web Services Price List service API provides the following two endpoints:   https://api.pricing.us-east-1.amazonaws.com   https://api.pricing.ap-south-1.amazonaws.com
+/// The Amazon Web Services Price List API is a centralized and convenient way to programmatically query Amazon Web Services for services, products, and pricing information. The Amazon Web Services Price List uses standardized product attributes such as Location, Storage Class, and Operating System, and provides prices at the SKU level. You can use the Amazon Web Services Price List to do the following:   Build cost control and scenario planning tools   Reconcile billing data   Forecast future spend for budgeting purposes   Provide cost benefit analysis that compare your internal workloads with Amazon Web Services   Use GetServices without a service code to retrieve the service codes for all Amazon Web Services, then GetServices with a service code to retrieve the attribute names for that service. After you have the service code and attribute names, you can use GetAttributeValues to see what values are available for an attribute. With the service code and an attribute name and value, you can use GetProducts to find specific products that you're interested in, such as an AmazonEC2 instance, with a Provisioned IOPS volumeType. For more information, see Using the Amazon Web Services Price List API in the Billing User Guide.
 public struct Pricing: AWSService {
     // MARK: Member variables
 
@@ -101,7 +101,7 @@ public struct Pricing: AWSService {
         )
     }
 
-    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the  ListPriceLists response.
+    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response.
     @Sendable
     public func getPriceListFileUrl(_ input: GetPriceListFileUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPriceListFileUrlResponse {
         return try await self.client.execute(
@@ -127,7 +127,7 @@ public struct Pricing: AWSService {
         )
     }
 
-    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the  GetPriceListFileUrl API.
+    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the GetPriceListFileUrl API.
     @Sendable
     public func listPriceLists(_ input: ListPriceListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPriceListsResponse {
         return try await self.client.execute(
@@ -211,7 +211,7 @@ extension Pricing {
         )
     }
 
-    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the  GetPriceListFileUrl API.
+    ///   This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the GetPriceListFileUrl API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

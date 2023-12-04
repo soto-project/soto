@@ -26,18 +26,18 @@ import Foundation
 extension RolesAnywhere {
     // MARK: Enums
 
-    public enum NotificationChannel: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case caCertificateExpiry = "CA_CERTIFICATE_EXPIRY"
         case endEntityCertificateExpiry = "END_ENTITY_CERTIFICATE_EXPIRY"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustAnchorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrustAnchorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAcmPca = "AWS_ACM_PCA"
         case certificateBundle = "CERTIFICATE_BUNDLE"
         case selfSignedRepository = "SELF_SIGNED_REPOSITORY"

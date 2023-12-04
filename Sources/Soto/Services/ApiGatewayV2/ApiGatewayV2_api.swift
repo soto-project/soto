@@ -383,7 +383,7 @@ public struct ApiGatewayV2: AWSService {
         )
     }
 
-    /// Deletes a route request parameter.
+    /// Deletes a route request parameter. Supported only for WebSocket APIs.
     @Sendable
     public func deleteRouteRequestParameter(_ input: DeleteRouteRequestParameterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

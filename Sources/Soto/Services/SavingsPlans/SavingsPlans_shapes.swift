@@ -26,40 +26,40 @@ import Foundation
 extension SavingsPlans {
     // MARK: Enums
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cny = "CNY"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceFamily = "instanceFamily"
         case region = "region"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceFamily = "instanceFamily"
         case region = "region"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allUpfront = "All Upfront"
         case noUpfront = "No Upfront"
         case partialUpfront = "Partial Upfront"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "Fargate"
         case lambda = "Lambda"
-        case sageMaker = "SageMaker"
+        case sagemaker = "SageMaker"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceFamily = "instanceFamily"
         case instanceType = "instanceType"
         case productDescription = "productDescription"
@@ -69,7 +69,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceType = "instanceType"
         case operation = "operation"
         case productDescription = "productDescription"
@@ -81,7 +81,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceFamily = "instanceFamily"
         case instanceType = "instanceType"
         case productDescription = "productDescription"
@@ -90,23 +90,23 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, Sendable {
-        case awsLambda = "AWSLambda"
-        case amazonEC2 = "AmazonEC2"
-        case amazonECS = "AmazonECS"
-        case amazonEKS = "AmazonEKS"
-        case amazonSageMaker = "AmazonSageMaker"
+    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2 = "AmazonEC2"
+        case fargate = "AmazonECS"
+        case fargateEks = "AmazonEKS"
+        case lambda = "AWSLambda"
+        case sagemaker = "AmazonSageMaker"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, Sendable {
-        case hrs = "Hrs"
-        case lambdaGBSecond = "Lambda-GB-Second"
+    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hours = "Hrs"
+        case lambdaGbSecond = "Lambda-GB-Second"
         case request = "Request"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case paymentFailed = "payment-failed"
         case paymentPending = "payment-pending"
@@ -116,14 +116,14 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compute = "Compute"
         case ec2Instance = "EC2Instance"
-        case sageMaker = "SageMaker"
+        case sagemaker = "SageMaker"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commitment = "commitment"
         case ec2InstanceFamily = "ec2-instance-family"
         case end = "end"

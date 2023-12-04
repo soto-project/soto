@@ -199,6 +199,19 @@ public struct Route53Resolver: AWSService {
         )
     }
 
+    /// Creates an Route 53 Resolver on an Outpost.
+    @Sendable
+    public func createOutpostResolver(_ input: CreateOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOutpostResolverResponse {
+        return try await self.client.execute(
+            operation: "CreateOutpostResolver", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
     /// 				from your network.   An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC
     /// 				to your network.
@@ -276,6 +289,19 @@ public struct Route53Resolver: AWSService {
     public func deleteFirewallRuleGroup(_ input: DeleteFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallRuleGroupResponse {
         return try await self.client.execute(
             operation: "DeleteFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a Resolver on the Outpost.
+    @Sendable
+    public func deleteOutpostResolver(_ input: DeleteOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOutpostResolverResponse {
+        return try await self.client.execute(
+            operation: "DeleteOutpostResolver", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -450,6 +476,20 @@ public struct Route53Resolver: AWSService {
     public func getFirewallRuleGroupPolicy(_ input: GetFirewallRuleGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallRuleGroupPolicyResponse {
         return try await self.client.execute(
             operation: "GetFirewallRuleGroupPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information about a specified Resolver on the Outpost, such as its instance count and
+    /// 			type, name, and the current status of the Resolver.
+    @Sendable
+    public func getOutpostResolver(_ input: GetOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutpostResolverResponse {
+        return try await self.client.execute(
+            operation: "GetOutpostResolver", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -667,6 +707,19 @@ public struct Route53Resolver: AWSService {
     public func listFirewallRules(_ input: ListFirewallRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRulesResponse {
         return try await self.client.execute(
             operation: "ListFirewallRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+    @Sendable
+    public func listOutpostResolvers(_ input: ListOutpostResolversRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOutpostResolversResponse {
+        return try await self.client.execute(
+            operation: "ListOutpostResolvers", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -916,6 +969,19 @@ public struct Route53Resolver: AWSService {
         )
     }
 
+    /// You can use UpdateOutpostResolver to  update the instance count, type, or  name of a Resolver on an Outpost.
+    @Sendable
+    public func updateOutpostResolver(_ input: UpdateOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOutpostResolverResponse {
+        return try await self.client.execute(
+            operation: "UpdateOutpostResolver", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
     /// 				Amazon Virtual Private Cloud.
     @Sendable
@@ -1095,6 +1161,25 @@ extension Route53Resolver {
             command: self.listFirewallRules,
             inputKey: \ListFirewallRulesRequest.nextToken,
             outputKey: \ListFirewallRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listOutpostResolversPaginator(
+        _ input: ListOutpostResolversRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOutpostResolversRequest, ListOutpostResolversResponse> {
+        return .init(
+            input: input,
+            command: self.listOutpostResolvers,
+            inputKey: \ListOutpostResolversRequest.nextToken,
+            outputKey: \ListOutpostResolversResponse.nextToken,
             logger: logger
         )
     }
@@ -1331,6 +1416,16 @@ extension Route53Resolver.ListFirewallRulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             priority: self.priority
+        )
+    }
+}
+
+extension Route53Resolver.ListOutpostResolversRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListOutpostResolversRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostArn: self.outpostArn
         )
     }
 }

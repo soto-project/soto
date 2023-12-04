@@ -111,7 +111,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see Working with roles. For more information about instance profiles, see About instance profiles.
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @Sendable
     public func addRoleToInstanceProfile(_ input: AddRoleToInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -137,7 +137,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use PutGroupPolicy. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use  PutGroupPolicy . As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
     @Sendable
     public func attachGroupPolicy(_ input: AttachGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -150,7 +150,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed policies and inline policies in the IAM User Guide. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using  CreateRole . You can update a role's trust policy using  UpdateAssumerolePolicy .  Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use  PutRolePolicy . For more information about policies, see Managed policies and inline policies in the IAM User Guide. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide.
     @Sendable
     public func attachRolePolicy(_ input: AttachRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -163,7 +163,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy. As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use  PutUserPolicy . As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
     @Sendable
     public func attachUserPolicy(_ input: AttachUserPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -254,7 +254,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in to Amazon Web Services and are available for your use. Instead, you can move directly to creating new roles using your identity provider. To learn more, see Creating a role for web identity or OpenID connect federation in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications allowed to authenticate using the OIDC provider   A list of tags that are attached to the specified IAM OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users.
+    /// Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in to Amazon Web Services and are available for your use. Instead, you can move directly to creating new roles using your identity provider. To learn more, see Creating a role for web identity or OpenID connect federation in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications allowed to authenticate using the OIDC provider   A list of tags that are attached to the specified IAM OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted root certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Auth0, GitHub, Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users.
     @Sendable
     public func createOpenIDConnectProvider(_ input: CreateOpenIDConnectProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOpenIDConnectProviderResponse {
         return try await self.client.execute(
@@ -293,7 +293,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Creates a new role for your Amazon Web Services account. For more information about roles, see IAM roles. For information about quotas for role names and the number of roles you can create, see IAM and STS quotas in the IAM User Guide.
+    /// Creates a new role for your Amazon Web Services account. For more information about roles, see IAM roles in the IAM User Guide. For information about quotas for role names and the number of roles you can create, see IAM and STS quotas in the IAM User Guide.
     @Sendable
     public func createRole(_ input: CreateRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoleResponse {
         return try await self.client.execute(
@@ -448,7 +448,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Deletes the specified instance profile. The instance profile must not have an associated role.  Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.  For more information about instance profiles, see About instance profiles.
+    /// Deletes the specified instance profile. The instance profile must not have an associated role.  Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.  For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @Sendable
     public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -759,7 +759,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
+    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked. For more information about services and actions for which action last accessed information is displayed, see IAM action last accessed information services and actions.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
     @Sendable
     public func generateServiceLastAccessedDetails(_ input: GenerateServiceLastAccessedDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateServiceLastAccessedDetailsResponse {
         return try await self.client.execute(
@@ -886,7 +886,7 @@ public struct IAM: AWSService {
         )
     }
 
-    ///  Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see About instance profiles in the IAM User Guide.
+    ///  Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @Sendable
     public func getInstanceProfile(_ input: GetInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceProfileResponse {
         return try await self.client.execute(
@@ -904,6 +904,19 @@ public struct IAM: AWSService {
     public func getLoginProfile(_ input: GetLoginProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoginProfileResponse {
         return try await self.client.execute(
             operation: "GetLoginProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about an MFA device for a specified user.
+    @Sendable
+    public func getMFADevice(_ input: GetMFADeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMFADeviceResponse {
+        return try await self.client.execute(
+            operation: "GetMFADevice", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -964,7 +977,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see Working with roles.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.
+    /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see IAM roles in the IAM User Guide.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.
     @Sendable
     public func getRole(_ input: GetRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRoleResponse {
         return try await self.client.execute(
@@ -977,7 +990,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed policies and inline policies in the IAM User Guide. For more information about roles, see Using roles to delegate permissions and federate identities.
+    /// Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this operation are URL-encoded compliant  with RFC 3986. You can use a URL  decoding method to convert the policy back to plain JSON text. For example, if you use Java, you  can use the decode method of the java.net.URLDecoder utility class in  the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed policies and inline policies in the IAM User Guide. For more information about roles, see IAM roles in the IAM User Guide.
     @Sendable
     public func getRolePolicy(_ input: GetRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRolePolicyResponse {
         return try await self.client.execute(
@@ -1094,7 +1107,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.  To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
+    /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. If the Amazon Web Services account has no associated users, the root user returns it's own access key IDs by running this command.  To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
     @Sendable
     public func listAccessKeys(_ input: ListAccessKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessKeysResponse {
         return try await self.client.execute(
@@ -1224,7 +1237,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see About instance profiles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see Using instance profiles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     public func listInstanceProfiles(_ input: ListInstanceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceProfilesResponse {
         return try await self.client.execute(
@@ -1237,7 +1250,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About instance profiles. You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     public func listInstanceProfilesForRole(_ input: ListInstanceProfilesForRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceProfilesForRoleResponse {
         return try await self.client.execute(
@@ -1380,7 +1393,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see Working with roles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     public func listRoles(_ input: ListRolesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRolesResponse {
         return try await self.client.execute(
@@ -1510,7 +1523,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   Tags   To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
         return try await self.client.execute(
@@ -1536,7 +1549,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use  AttachGroupPolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @Sendable
     public func putGroupPolicy(_ input: PutGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1562,7 +1575,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. For more information about IAM roles, see Using roles to delegate permissions and federate identities. A role can also have a managed policy attached to it. To attach a managed policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using  CreateRole . You can update a role's trust policy using  UpdateAssumeRolePolicy . For more information about roles, see IAM roles in the IAM User Guide. A role can also have a managed policy attached to it. To attach a managed policy to a role, use  AttachRolePolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @Sendable
     public func putRolePolicy(_ input: PutRolePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1588,7 +1601,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use AttachUserPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use  AttachUserPolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @Sendable
     public func putUserPolicy(_ input: PutUserPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1614,7 +1627,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.  For more information about IAM roles, see Working with roles. For more information about instance profiles, see About instance profiles.
+    /// Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @Sendable
     public func removeRoleFromInstanceProfile(_ input: RemoveRoleFromInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1991,7 +2004,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
+    /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.  Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted root certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Auth0, GitHub, Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation.   Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
     @Sendable
     public func updateOpenIDConnectProviderThumbprint(_ input: UpdateOpenIDConnectProviderThumbprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2199,7 +2212,7 @@ extension IAM {
         )
     }
 
-    /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.  To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
+    /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. If the Amazon Web Services account has no associated users, the root user returns it's own access key IDs by running this command.  To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2370,7 +2383,26 @@ extension IAM {
         )
     }
 
-    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see About instance profiles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInstanceProfileTagsPaginator(
+        _ input: ListInstanceProfileTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInstanceProfileTagsRequest, ListInstanceProfileTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listInstanceProfileTags,
+            inputKey: \ListInstanceProfileTagsRequest.marker,
+            outputKey: \ListInstanceProfileTagsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see Using instance profiles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2389,7 +2421,7 @@ extension IAM {
         )
     }
 
-    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About instance profiles. You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2404,6 +2436,25 @@ extension IAM {
             command: self.listInstanceProfilesForRole,
             inputKey: \ListInstanceProfilesForRoleRequest.marker,
             outputKey: \ListInstanceProfilesForRoleResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMFADeviceTagsPaginator(
+        _ input: ListMFADeviceTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMFADeviceTagsRequest, ListMFADeviceTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listMFADeviceTags,
+            inputKey: \ListMFADeviceTagsRequest.marker,
+            outputKey: \ListMFADeviceTagsResponse.marker,
             logger: logger
         )
     }
@@ -2427,6 +2478,25 @@ extension IAM {
         )
     }
 
+    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federation. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listOpenIDConnectProviderTagsPaginator(
+        _ input: ListOpenIDConnectProviderTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOpenIDConnectProviderTagsRequest, ListOpenIDConnectProviderTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listOpenIDConnectProviderTags,
+            inputKey: \ListOpenIDConnectProviderTagsRequest.marker,
+            outputKey: \ListOpenIDConnectProviderTagsResponse.marker,
+            logger: logger
+        )
+    }
+
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed policies and inline policies in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see GetPolicy.
     /// Return PaginatorSequence for operation.
     ///
@@ -2442,6 +2512,25 @@ extension IAM {
             command: self.listPolicies,
             inputKey: \ListPoliciesRequest.marker,
             outputKey: \ListPoliciesResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPolicyTagsPaginator(
+        _ input: ListPolicyTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyTagsRequest, ListPolicyTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyTags,
+            inputKey: \ListPolicyTagsRequest.marker,
+            outputKey: \ListPolicyTagsResponse.marker,
             logger: logger
         )
     }
@@ -2484,7 +2573,26 @@ extension IAM {
         )
     }
 
-    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see Working with roles.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRoleTagsPaginator(
+        _ input: ListRoleTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRoleTagsRequest, ListRoleTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listRoleTags,
+            inputKey: \ListRoleTagsRequest.marker,
+            outputKey: \ListRoleTagsResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all of the information for a role, see GetRole.  You can paginate the results using the MaxItems and Marker parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2499,6 +2607,25 @@ extension IAM {
             command: self.listRoles,
             inputKey: \ListRolesRequest.marker,
             outputKey: \ListRolesResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based federation. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSAMLProviderTagsPaginator(
+        _ input: ListSAMLProviderTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSAMLProviderTagsRequest, ListSAMLProviderTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listSAMLProviderTags,
+            inputKey: \ListSAMLProviderTagsRequest.marker,
+            outputKey: \ListSAMLProviderTagsResponse.marker,
             logger: logger
         )
     }
@@ -2518,6 +2645,25 @@ extension IAM {
             command: self.listSSHPublicKeys,
             inputKey: \ListSSHPublicKeysRequest.marker,
             outputKey: \ListSSHPublicKeysResponse.marker,
+            logger: logger
+        )
+    }
+
+    /// Lists the tags that are attached to the specified IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.  For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certificates in the IAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listServerCertificateTagsPaginator(
+        _ input: ListServerCertificateTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServerCertificateTagsRequest, ListServerCertificateTagsResponse> {
+        return .init(
+            input: input,
+            command: self.listServerCertificateTags,
+            inputKey: \ListServerCertificateTagsRequest.marker,
+            outputKey: \ListServerCertificateTagsResponse.marker,
             logger: logger
         )
     }
@@ -2598,7 +2744,7 @@ extension IAM {
         )
     }
 
-    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
+    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available  attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:   PermissionsBoundary   Tags   To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2790,6 +2936,16 @@ extension IAM.ListGroupsRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListInstanceProfileTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfileTagsRequest {
+        return .init(
+            instanceProfileName: self.instanceProfileName,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesForRoleRequest {
         return .init(
@@ -2810,12 +2966,32 @@ extension IAM.ListInstanceProfilesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListMFADeviceTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListMFADeviceTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            serialNumber: self.serialNumber
+        )
+    }
+}
+
 extension IAM.ListMFADevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListMFADevicesRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,
             userName: self.userName
+        )
+    }
+}
+
+extension IAM.ListOpenIDConnectProviderTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListOpenIDConnectProviderTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            openIDConnectProviderArn: self.openIDConnectProviderArn
         )
     }
 }
@@ -2829,6 +3005,16 @@ extension IAM.ListPoliciesRequest: AWSPaginateToken {
             pathPrefix: self.pathPrefix,
             policyUsageFilter: self.policyUsageFilter,
             scope: self.scope
+        )
+    }
+}
+
+extension IAM.ListPolicyTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListPolicyTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            policyArn: self.policyArn
         )
     }
 }
@@ -2853,6 +3039,16 @@ extension IAM.ListRolePoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListRoleTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListRoleTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            roleName: self.roleName
+        )
+    }
+}
+
 extension IAM.ListRolesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListRolesRequest {
         return .init(
@@ -2863,12 +3059,32 @@ extension IAM.ListRolesRequest: AWSPaginateToken {
     }
 }
 
+extension IAM.ListSAMLProviderTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListSAMLProviderTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            samlProviderArn: self.samlProviderArn
+        )
+    }
+}
+
 extension IAM.ListSSHPublicKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListSSHPublicKeysRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,
             userName: self.userName
+        )
+    }
+}
+
+extension IAM.ListServerCertificateTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListServerCertificateTagsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            serverCertificateName: self.serverCertificateName
         )
     }
 }

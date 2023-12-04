@@ -26,7 +26,7 @@ import Foundation
 extension EventBridge {
     // MARK: Enums
 
-    public enum ApiDestinationHttpMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiDestinationHttpMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
@@ -37,13 +37,13 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiDestinationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApiDestinationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArchiveState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ArchiveState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case disabled = "DISABLED"
@@ -53,27 +53,27 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionAuthorizationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionAuthorizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiKey = "API_KEY"
         case basic = "BASIC"
         case oauthClientCredentials = "OAUTH_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionOAuthHttpMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionOAuthHttpMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorized = "AUTHORIZED"
         case authorizing = "AUTHORIZING"
         case creating = "CREATING"
@@ -84,7 +84,7 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -95,39 +95,39 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSourceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventSourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplayState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplayState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -137,15 +137,16 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case enabledWithAllCloudtrailManagementEvents = "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
         public var description: String { return self.rawValue }
     }
 
@@ -3217,15 +3218,15 @@ extension EventBridge {
     }
 
     public struct PutEventsRequestEntry: AWSEncodableShape {
-        /// A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested subobjects.
+        /// A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested sub-objects.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let detail: String?
-        /// Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
+        /// Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let detailType: String?
-        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you must enter the name, not the ARN, of the event bus in either  the primary or secondary Region here and the corresponding event bus in the  other Region will be determined based on the endpoint referenced by the EndpointId.
+        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you can enter either the name or Amazon Resource Name (ARN) of the event bus  in either the primary or secondary Region here. EventBridge then determines the corresponding event bus in the  other Region based on the endpoint referenced by the EndpointId. Specifying the event bus ARN is preferred.
         public let eventBusName: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
-        /// The source of the event.
+        /// The source of the event.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: Date?
@@ -3282,7 +3283,7 @@ extension EventBridge {
     }
 
     public struct PutEventsResultEntry: AWSDecodableShape {
-        /// The error code that indicates why the event submission failed.
+        /// The error code that indicates why the event submission failed. Retryable errors include:     InternalFailure   The request processing has failed because of an unknown error, exception or failure.     ThrottlingException   The request was denied due to request throttling.   Non-retryable errors include:     AccessDeniedException   You do not have sufficient access to perform this action.    InvalidAccountIdException  The account ID provided is not valid.    InvalidArgument  A specified parameter is not valid.    MalformedDetail  The JSON provided is not valid.    RedactionFailure  Redacting the CloudTrail event failed.    NotAuthorizedForSourceException  You do not have permissions to publish events with this source onto this event bus.    NotAuthorizedForDetailTypeException  You do not have permissions to publish events with this detail type onto this event bus.
         public let errorCode: String?
         /// The error message that explains why the event submission failed.
         public let errorMessage: String?
@@ -3324,13 +3325,13 @@ extension EventBridge {
     }
 
     public struct PutPartnerEventsRequestEntry: AWSEncodableShape {
-        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
+        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested sub-objects.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let detail: String?
-        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
+        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let detailType: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
-        /// The event source that is generating the entry.
+        /// The event source that is generating the entry.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let source: String?
         /// The date and time of the event.
         public let time: Date?
@@ -3362,7 +3363,7 @@ extension EventBridge {
     }
 
     public struct PutPartnerEventsResponse: AWSDecodableShape {
-        /// The list of events from this operation that were successfully written to the partner event bus.
+        /// The results for each event entry the partner submitted in this request.  If the event was successfully submitted, the entry has the event ID in it.  Otherwise, you can use the error code and error message to identify the problem with the entry. For each record, the index of the response element is the same as the index in the request array.
         public let entries: [PutPartnerEventsResultEntry]?
         /// The number of events from this operation that could not be written to the partner event bus.
         public let failedEntryCount: Int?
@@ -3460,7 +3461,7 @@ extension EventBridge {
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
-        /// Indicates whether the rule is enabled or disabled.
+        /// The state of the rule. Valid values include:    DISABLED: The rule is disabled. EventBridge does not match any events against the rule.    ENABLED: The rule is enabled.  EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.    ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see Logging management events in the CloudTrail User Guide, and Filtering management events from Amazon Web Services services in the Amazon EventBridge User Guide. This value is only valid for rules on the default event bus  or custom event buses.  It does not apply to partner event buses.
         public let state: RuleState?
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]?
@@ -3594,12 +3595,13 @@ extension EventBridge {
     public struct RedshiftDataParameters: AWSEncodableShape & AWSDecodableShape {
         /// The name of the database. Required when authenticating using temporary credentials.
         public let database: String
-        /// The database user name. Required when authenticating using temporary credentials. Do not provide this parameter when connecting to a Redshift Serverless workgroup.
+        /// The database user name. Required when authenticating using temporary credentials.
         public let dbUser: String?
         /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public let secretManagerArn: String?
         /// The SQL statement text to run.
         public let sql: String?
+        /// One or more SQL statements to run. The SQL statements are run as a single transaction. They run serially in the order of the array.  Subsequent SQL statements don't start until the previous statement in the array completes.  If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
         public let sqls: [String]?
         /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
         public let statementName: String?
@@ -3897,7 +3899,7 @@ extension EventBridge {
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)". For more information, see Creating an Amazon EventBridge rule that runs on a schedule.
         public let scheduleExpression: String?
-        /// The state of the rule.
+        /// The state of the rule. Valid values include:    DISABLED: The rule is disabled. EventBridge does not match any events against the rule.    ENABLED: The rule is enabled.  EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.    ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see Logging management events in the CloudTrail User Guide, and Filtering management events from Amazon Web Services services in the Amazon EventBridge User Guide. This value is only valid for rules on the default event bus  or custom event buses.  It does not apply to partner event buses.
         public let state: RuleState?
 
         public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {

@@ -26,20 +26,20 @@ import Foundation
 extension MediaConnect {
     // MARK: Enums
 
-    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "aes128"
         case aes192 = "aes192"
         case aes256 = "aes256"
         public var description: String { return self.rawValue }
     }
 
-    public enum BridgePlacement: String, CustomStringConvertible, Codable, Sendable {
+    public enum BridgePlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case locked = "LOCKED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BridgeState: String, CustomStringConvertible, Codable, Sendable {
+    public enum BridgeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -55,7 +55,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum Colorimetry: String, CustomStringConvertible, Codable, Sendable {
+    public enum Colorimetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bt2020 = "BT2020"
         case bt2100 = "BT2100"
         case bt601 = "BT601"
@@ -66,31 +66,31 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DesiredState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DurationUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum DurationUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case months = "MONTHS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncoderProfile: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncoderProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "high"
         case main = "main"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingName: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncodingName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jxsv = "jxsv"
         case pcm = "pcm"
         case raw = "raw"
@@ -98,19 +98,19 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailoverMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailoverMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failover = "FAILOVER"
         case merge = "MERGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayState: String, CustomStringConvertible, Codable, Sendable {
+    public enum GatewayState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -120,7 +120,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deregistered = "DEREGISTERED"
         case deregistering = "DEREGISTERING"
@@ -130,14 +130,14 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case speke = "speke"
         case srtPassword = "srt-password"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaintenanceDay: String, CustomStringConvertible, Codable, Sendable {
+    public enum MaintenanceDay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "Friday"
         case monday = "Monday"
         case saturday = "Saturday"
@@ -148,32 +148,32 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaStreamType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MediaStreamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ancillaryData = "ancillary-data"
         case audio = "audio"
         case video = "video"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case efa = "efa"
         case ena = "ena"
         public var description: String { return self.rawValue }
     }
 
-    public enum PriceUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum PriceUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hourly = "HOURLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Range: String, CustomStringConvertible, Codable, Sendable {
+    public enum Range: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case full = "FULL"
         case fullprotect = "FULLPROTECT"
         case narrow = "NARROW"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReservationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case expired = "EXPIRED"
@@ -181,31 +181,31 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlace = "interlace"
         case progressive = "progressive"
         case progressiveSegmentedFrame = "progressive-segmented-frame"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case entitled = "ENTITLED"
         case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, Sendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -216,7 +216,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum Tcs: String, CustomStringConvertible, Codable, Sendable {
+    public enum Tcs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bt2100linhlg = "BT2100LINHLG"
         case bt2100linpq = "BT2100LINPQ"
         case density = "DENSITY"
@@ -229,7 +229,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
         case rist = "rist"
@@ -248,13 +248,13 @@ extension MediaConnect {
 
     public struct AddBridgeFlowSourceRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of this bridge.
-        public let flowArn: String
+        public let flowArn: String?
         /// The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
         /// The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
-        public let name: String
+        public let name: String?
 
-        public init(flowArn: String, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String) {
+        public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String? = nil) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
             self.name = name
@@ -269,19 +269,19 @@ extension MediaConnect {
 
     public struct AddBridgeNetworkOutputRequest: AWSEncodableShape {
         /// The network output IP Address.
-        public let ipAddress: String
+        public let ipAddress: String?
         /// The network output name. This name is used to reference the output and must be unique among outputs in this bridge.
-        public let name: String
+        public let name: String?
         /// The network output's gateway network name.
-        public let networkName: String
+        public let networkName: String?
         /// The network output port.
-        public let port: Int
+        public let port: Int?
         /// The network output protocol.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
         /// The network output TTL.
-        public let ttl: Int
+        public let ttl: Int?
 
-        public init(ipAddress: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`, ttl: Int = 0) {
+        public init(ipAddress: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
             self.ipAddress = ipAddress
             self.name = name
             self.networkName = networkName
@@ -302,17 +302,17 @@ extension MediaConnect {
 
     public struct AddBridgeNetworkSourceRequest: AWSEncodableShape {
         /// The network source multicast IP.
-        public let multicastIp: String
+        public let multicastIp: String?
         /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
-        public let name: String
+        public let name: String?
         /// The network source's gateway network name.
-        public let networkName: String
+        public let networkName: String?
         /// The network source port.
-        public let port: Int
+        public let port: Int?
         /// The network source protocol.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
 
-        public init(multicastIp: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`) {
+        public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
             self.name = name
             self.networkName = networkName
@@ -345,9 +345,9 @@ extension MediaConnect {
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The outputs that you want to add to this bridge.
-        public let outputs: [AddBridgeOutputRequest]
+        public let outputs: [AddBridgeOutputRequest]?
 
-        public init(bridgeArn: String, outputs: [AddBridgeOutputRequest]) {
+        public init(bridgeArn: String, outputs: [AddBridgeOutputRequest]? = nil) {
             self.bridgeArn = bridgeArn
             self.outputs = outputs
         }
@@ -356,7 +356,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bridgeArn, key: "BridgeArn")
-            try container.encode(self.outputs, forKey: .outputs)
+            try container.encodeIfPresent(self.outputs, forKey: .outputs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -400,9 +400,9 @@ extension MediaConnect {
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
         /// The sources that you want to add to this bridge.
-        public let sources: [AddBridgeSourceRequest]
+        public let sources: [AddBridgeSourceRequest]?
 
-        public init(bridgeArn: String, sources: [AddBridgeSourceRequest]) {
+        public init(bridgeArn: String, sources: [AddBridgeSourceRequest]? = nil) {
             self.bridgeArn = bridgeArn
             self.sources = sources
         }
@@ -411,7 +411,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bridgeArn, key: "BridgeArn")
-            try container.encode(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.sources, forKey: .sources)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -438,9 +438,9 @@ extension MediaConnect {
 
     public struct AddEgressGatewayBridgeRequest: AWSEncodableShape {
         /// The maximum expected bitrate (in bps).
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
 
-        public init(maxBitrate: Int = 0) {
+        public init(maxBitrate: Int? = nil) {
             self.maxBitrate = maxBitrate
         }
 
@@ -453,9 +453,9 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
         /// The media streams that you want to add to the flow.
-        public let mediaStreams: [AddMediaStreamRequest]
+        public let mediaStreams: [AddMediaStreamRequest]?
 
-        public init(flowArn: String, mediaStreams: [AddMediaStreamRequest]) {
+        public init(flowArn: String, mediaStreams: [AddMediaStreamRequest]? = nil) {
             self.flowArn = flowArn
             self.mediaStreams = mediaStreams
         }
@@ -464,7 +464,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
-            try container.encode(self.mediaStreams, forKey: .mediaStreams)
+            try container.encodeIfPresent(self.mediaStreams, forKey: .mediaStreams)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,9 +493,9 @@ extension MediaConnect {
         /// The flow that you want to add outputs to.
         public let flowArn: String
         /// A list of outputs that you want to add.
-        public let outputs: [AddOutputRequest]
+        public let outputs: [AddOutputRequest]?
 
-        public init(flowArn: String, outputs: [AddOutputRequest]) {
+        public init(flowArn: String, outputs: [AddOutputRequest]? = nil) {
             self.flowArn = flowArn
             self.outputs = outputs
         }
@@ -504,7 +504,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
-            try container.encode(self.outputs, forKey: .outputs)
+            try container.encodeIfPresent(self.outputs, forKey: .outputs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -533,9 +533,9 @@ extension MediaConnect {
         /// The flow that you want to mutate.
         public let flowArn: String
         /// A list of sources that you want to add.
-        public let sources: [SetSourceRequest]
+        public let sources: [SetSourceRequest]?
 
-        public init(flowArn: String, sources: [SetSourceRequest]) {
+        public init(flowArn: String, sources: [SetSourceRequest]? = nil) {
             self.flowArn = flowArn
             self.sources = sources
         }
@@ -544,7 +544,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
-            try container.encode(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.sources, forKey: .sources)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,9 +573,9 @@ extension MediaConnect {
         /// The flow that you want to mutate.
         public let flowArn: String
         /// A list of VPC interfaces that you want to add.
-        public let vpcInterfaces: [VpcInterfaceRequest]
+        public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(flowArn: String, vpcInterfaces: [VpcInterfaceRequest]) {
+        public init(flowArn: String, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.flowArn = flowArn
             self.vpcInterfaces = vpcInterfaces
         }
@@ -584,7 +584,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
-            try container.encode(self.vpcInterfaces, forKey: .vpcInterfaces)
+            try container.encodeIfPresent(self.vpcInterfaces, forKey: .vpcInterfaces)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -611,11 +611,11 @@ extension MediaConnect {
 
     public struct AddIngressGatewayBridgeRequest: AWSEncodableShape {
         /// The maximum expected bitrate (in bps).
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
         /// The maximum number of expected outputs.
-        public let maxOutputs: Int
+        public let maxOutputs: Int?
 
-        public init(maxBitrate: Int = 0, maxOutputs: Int = 0) {
+        public init(maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
         }
@@ -628,11 +628,11 @@ extension MediaConnect {
 
     public struct AddMaintenance: AWSEncodableShape {
         /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
-        public let maintenanceDay: MaintenanceDay
+        public let maintenanceDay: MaintenanceDay?
         /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
-        public let maintenanceStartHour: String
+        public let maintenanceStartHour: String?
 
-        public init(maintenanceDay: MaintenanceDay, maintenanceStartHour: String) {
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceStartHour: String? = nil) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceStartHour = maintenanceStartHour
         }
@@ -651,15 +651,15 @@ extension MediaConnect {
         /// A description that can help you quickly identify what your media stream is used for.
         public let description: String?
         /// A unique identifier for the media stream.
-        public let mediaStreamId: Int
+        public let mediaStreamId: Int?
         /// A name that helps you distinguish one media stream from another.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
         /// The type of media stream.
-        public let mediaStreamType: MediaStreamType
+        public let mediaStreamType: MediaStreamType?
         /// The resolution of the video.
         public let videoFormat: String?
 
-        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int = 0, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -700,7 +700,7 @@ extension MediaConnect {
         /// The port to use when content is distributed to this output.
         public let port: Int?
         /// The protocol to use for the output.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
         /// The remote ID for the Zixi-pull output stream.
         public let remoteId: String?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
@@ -712,7 +712,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -751,22 +751,22 @@ extension MediaConnect {
 
     public struct Bridge: AWSDecodableShape {
         /// The Amazon Resource Number (ARN) of the bridge.
-        public let bridgeArn: String
+        public let bridgeArn: String?
         public let bridgeMessages: [MessageDetail]?
-        public let bridgeState: BridgeState
+        public let bridgeState: BridgeState?
         public let egressGatewayBridge: EgressGatewayBridge?
         public let ingressGatewayBridge: IngressGatewayBridge?
         /// The name of the bridge.
-        public let name: String
+        public let name: String?
         /// The outputs on this bridge.
         public let outputs: [BridgeOutput]?
         /// The placement Amazon Resource Number (ARN) of the bridge.
-        public let placementArn: String
+        public let placementArn: String?
         public let sourceFailoverConfig: FailoverConfig?
         /// The sources on this bridge.
         public let sources: [BridgeSource]?
 
-        public init(bridgeArn: String, bridgeMessages: [MessageDetail]? = nil, bridgeState: BridgeState, egressGatewayBridge: EgressGatewayBridge? = nil, ingressGatewayBridge: IngressGatewayBridge? = nil, name: String, outputs: [BridgeOutput]? = nil, placementArn: String, sourceFailoverConfig: FailoverConfig? = nil, sources: [BridgeSource]? = nil) {
+        public init(bridgeArn: String? = nil, bridgeMessages: [MessageDetail]? = nil, bridgeState: BridgeState? = nil, egressGatewayBridge: EgressGatewayBridge? = nil, ingressGatewayBridge: IngressGatewayBridge? = nil, name: String? = nil, outputs: [BridgeOutput]? = nil, placementArn: String? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [BridgeSource]? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgeMessages = bridgeMessages
             self.bridgeState = bridgeState
@@ -795,13 +795,13 @@ extension MediaConnect {
 
     public struct BridgeFlowOutput: AWSDecodableShape {
         /// The Amazon Resource Number (ARN) of the cloud flow.
-        public let flowArn: String
+        public let flowArn: String?
         /// The Amazon Resource Number (ARN) of the flow source.
-        public let flowSourceArn: String
+        public let flowSourceArn: String?
         /// The name of the bridge's output.
-        public let name: String
+        public let name: String?
 
-        public init(flowArn: String, flowSourceArn: String, name: String) {
+        public init(flowArn: String? = nil, flowSourceArn: String? = nil, name: String? = nil) {
             self.flowArn = flowArn
             self.flowSourceArn = flowSourceArn
             self.name = name
@@ -816,15 +816,15 @@ extension MediaConnect {
 
     public struct BridgeFlowSource: AWSDecodableShape {
         /// The ARN of the cloud flow used as a source of this bridge.
-        public let flowArn: String
+        public let flowArn: String?
         /// The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
         /// The name of the flow source.
-        public let name: String
+        public let name: String?
         /// The Amazon Resource Number (ARN) of the output.
         public let outputArn: String?
 
-        public init(flowArn: String, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String, outputArn: String? = nil) {
+        public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String? = nil, outputArn: String? = nil) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
             self.name = name
@@ -841,19 +841,19 @@ extension MediaConnect {
 
     public struct BridgeNetworkOutput: AWSDecodableShape {
         /// The network output IP Address.
-        public let ipAddress: String
+        public let ipAddress: String?
         /// The network output name.
-        public let name: String
+        public let name: String?
         /// The network output's gateway network name.
-        public let networkName: String
+        public let networkName: String?
         /// The network output port.
-        public let port: Int
+        public let port: Int?
         /// The network output protocol.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
         /// The network output TTL.
-        public let ttl: Int
+        public let ttl: Int?
 
-        public init(ipAddress: String, name: String, networkName: String, port: Int, protocol: `Protocol`, ttl: Int) {
+        public init(ipAddress: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
             self.ipAddress = ipAddress
             self.name = name
             self.networkName = networkName
@@ -874,17 +874,17 @@ extension MediaConnect {
 
     public struct BridgeNetworkSource: AWSDecodableShape {
         /// The network source multicast IP.
-        public let multicastIp: String
+        public let multicastIp: String?
         /// The name of the network source.
-        public let name: String
+        public let name: String?
         /// The network source's gateway network name.
-        public let networkName: String
+        public let networkName: String?
         /// The network source port.
-        public let port: Int
+        public let port: Int?
         /// The network source protocol.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
 
-        public init(multicastIp: String, name: String, networkName: String, port: Int, protocol: `Protocol`) {
+        public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
             self.name = name
             self.networkName = networkName
@@ -937,17 +937,17 @@ extension MediaConnect {
         /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public let ingressGatewayBridge: AddIngressGatewayBridgeRequest?
         /// The name of the bridge. This name can not be modified after the bridge is created.
-        public let name: String
+        public let name: String?
         /// The outputs that you want to add to this bridge.
         public let outputs: [AddBridgeOutputRequest]?
         /// The bridge placement Amazon Resource Number (ARN).
-        public let placementArn: String
+        public let placementArn: String?
         /// The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
         /// The sources that you want to add to this bridge.
-        public let sources: [AddBridgeSourceRequest]
+        public let sources: [AddBridgeSourceRequest]?
 
-        public init(egressGatewayBridge: AddEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: AddIngressGatewayBridgeRequest? = nil, name: String, outputs: [AddBridgeOutputRequest]? = nil, placementArn: String, sourceFailoverConfig: FailoverConfig? = nil, sources: [AddBridgeSourceRequest]) {
+        public init(egressGatewayBridge: AddEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: AddIngressGatewayBridgeRequest? = nil, name: String? = nil, outputs: [AddBridgeOutputRequest]? = nil, placementArn: String? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [AddBridgeSourceRequest]? = nil) {
             self.egressGatewayBridge = egressGatewayBridge
             self.ingressGatewayBridge = ingressGatewayBridge
             self.name = name
@@ -989,7 +989,7 @@ extension MediaConnect {
         /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
         public let mediaStreams: [AddMediaStreamRequest]?
         /// The name of the flow.
-        public let name: String
+        public let name: String?
         /// The outputs that you want to add to this flow.
         public let outputs: [AddOutputRequest]?
         public let source: SetSourceRequest?
@@ -998,7 +998,7 @@ extension MediaConnect {
         /// The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
             self.maintenance = maintenance
@@ -1039,13 +1039,13 @@ extension MediaConnect {
 
     public struct CreateGatewayRequest: AWSEncodableShape {
         /// The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let egressCidrBlocks: [String]
+        public let egressCidrBlocks: [String]?
         /// The name of the gateway. This name can not be modified after the gateway is created.
-        public let name: String
+        public let name: String?
         /// The list of networks that you want to add.
-        public let networks: [GatewayNetwork]
+        public let networks: [GatewayNetwork]?
 
-        public init(egressCidrBlocks: [String], name: String, networks: [GatewayNetwork]) {
+        public init(egressCidrBlocks: [String]? = nil, name: String? = nil, networks: [GatewayNetwork]? = nil) {
             self.egressCidrBlocks = egressCidrBlocks
             self.name = name
             self.networks = networks
@@ -1381,15 +1381,15 @@ extension MediaConnect {
 
     public struct DestinationConfiguration: AWSDecodableShape {
         /// The IP address where contents of the media stream will be sent.
-        public let destinationIp: String
+        public let destinationIp: String?
         /// The port to use when the content of the media stream is distributed to the output.
-        public let destinationPort: Int
+        public let destinationPort: Int?
         /// The VPC interface that is used for the media stream associated with the output.
-        public let interface: Interface
+        public let interface: Interface?
         /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS protocol.
-        public let outboundIp: String
+        public let outboundIp: String?
 
-        public init(destinationIp: String, destinationPort: Int, interface: Interface, outboundIp: String) {
+        public init(destinationIp: String? = nil, destinationPort: Int? = nil, interface: Interface? = nil, outboundIp: String? = nil) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.interface = interface
@@ -1406,13 +1406,13 @@ extension MediaConnect {
 
     public struct DestinationConfigurationRequest: AWSEncodableShape {
         /// The IP address where you want MediaConnect to send contents of the media stream.
-        public let destinationIp: String
+        public let destinationIp: String?
         /// The port that you want MediaConnect to use when it distributes the media stream to the output.
-        public let destinationPort: Int
+        public let destinationPort: Int?
         /// The VPC interface that you want to use for the media stream associated with the output.
-        public let interface: InterfaceRequest
+        public let interface: InterfaceRequest?
 
-        public init(destinationIp: String, destinationPort: Int = 0, interface: InterfaceRequest) {
+        public init(destinationIp: String? = nil, destinationPort: Int? = nil, interface: InterfaceRequest? = nil) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.interface = interface
@@ -1429,9 +1429,9 @@ extension MediaConnect {
         /// The ID of the instance running this bridge.
         public let instanceId: String?
         /// The maximum expected bitrate (in bps) of the egress bridge.
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
 
-        public init(instanceId: String? = nil, maxBitrate: Int) {
+        public init(instanceId: String? = nil, maxBitrate: Int? = nil) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
         }
@@ -1444,11 +1444,11 @@ extension MediaConnect {
 
     public struct EncodingParameters: AWSDecodableShape {
         /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
-        public let compressionFactor: Double
+        public let compressionFactor: Double?
         /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
-        public let encoderProfile: EncoderProfile
+        public let encoderProfile: EncoderProfile?
 
-        public init(compressionFactor: Double, encoderProfile: EncoderProfile) {
+        public init(compressionFactor: Double? = nil, encoderProfile: EncoderProfile? = nil) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
         }
@@ -1461,11 +1461,11 @@ extension MediaConnect {
 
     public struct EncodingParametersRequest: AWSEncodableShape {
         /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
-        public let compressionFactor: Double
+        public let compressionFactor: Double?
         /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
-        public let encoderProfile: EncoderProfile
+        public let encoderProfile: EncoderProfile?
 
-        public init(compressionFactor: Double = 0, encoderProfile: EncoderProfile) {
+        public init(compressionFactor: Double? = nil, encoderProfile: EncoderProfile? = nil) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
         }
@@ -1490,13 +1490,13 @@ extension MediaConnect {
         /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let resourceId: String?
         /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
-        public let roleArn: String
+        public let roleArn: String?
         /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public let secretArn: String?
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
-        public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String, secretArn: String? = nil, url: String? = nil) {
+        public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String? = nil, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
             self.deviceId = deviceId
@@ -1529,15 +1529,15 @@ extension MediaConnect {
         /// The type of encryption that will be used on the output that is associated with this entitlement.
         public let encryption: Encryption?
         /// The ARN of the entitlement.
-        public let entitlementArn: String
+        public let entitlementArn: String?
         /// An indication of whether the entitlement is enabled.
         public let entitlementStatus: EntitlementStatus?
         /// The name of the entitlement.
-        public let name: String
+        public let name: String?
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
-        public let subscribers: [String]
+        public let subscribers: [String]?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, name: String, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
@@ -1584,31 +1584,31 @@ extension MediaConnect {
 
     public struct Flow: AWSDecodableShape {
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
         public let description: String?
         /// The IP address from which video will be sent to output destinations.
         public let egressIp: String?
         /// The entitlements in this flow.
-        public let entitlements: [Entitlement]
+        public let entitlements: [Entitlement]?
         /// The Amazon Resource Name (ARN) of the flow.
-        public let flowArn: String
+        public let flowArn: String?
         public let maintenance: Maintenance?
         /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
         public let mediaStreams: [MediaStream]?
         /// The name of the flow.
-        public let name: String
+        public let name: String?
         /// The outputs in this flow.
-        public let outputs: [Output]
-        public let source: Source
+        public let outputs: [Output]?
+        public let source: Source?
         public let sourceFailoverConfig: FailoverConfig?
         public let sources: [Source]?
         /// The current status of the flow.
-        public let status: Status
+        public let status: Status?
         /// The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
-        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
@@ -1719,18 +1719,18 @@ extension MediaConnect {
 
     public struct Gateway: AWSDecodableShape {
         /// The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let egressCidrBlocks: [String]
+        public let egressCidrBlocks: [String]?
         /// The Amazon Resource Name (ARN) of the gateway.
-        public let gatewayArn: String
+        public let gatewayArn: String?
         public let gatewayMessages: [MessageDetail]?
         /// The current status of the gateway.
         public let gatewayState: GatewayState?
         /// The name of the gateway. This name can not be modified after the gateway is created.
-        public let name: String
+        public let name: String?
         /// The list of networks in the gateway.
-        public let networks: [GatewayNetwork]
+        public let networks: [GatewayNetwork]?
 
-        public init(egressCidrBlocks: [String], gatewayArn: String, gatewayMessages: [MessageDetail]? = nil, gatewayState: GatewayState? = nil, name: String, networks: [GatewayNetwork]) {
+        public init(egressCidrBlocks: [String]? = nil, gatewayArn: String? = nil, gatewayMessages: [MessageDetail]? = nil, gatewayState: GatewayState? = nil, name: String? = nil, networks: [GatewayNetwork]? = nil) {
             self.egressCidrBlocks = egressCidrBlocks
             self.gatewayArn = gatewayArn
             self.gatewayMessages = gatewayMessages
@@ -1751,11 +1751,11 @@ extension MediaConnect {
 
     public struct GatewayBridgeSource: AWSDecodableShape {
         /// The ARN of the bridge feeding this flow.
-        public let bridgeArn: String
+        public let bridgeArn: String?
         /// The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(bridgeArn: String, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -1768,22 +1768,22 @@ extension MediaConnect {
 
     public struct GatewayInstance: AWSDecodableShape {
         /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
-        public let bridgePlacement: BridgePlacement
+        public let bridgePlacement: BridgePlacement?
         /// The connection state of the instance.
-        public let connectionStatus: ConnectionStatus
+        public let connectionStatus: ConnectionStatus?
         /// The Amazon Resource Name (ARN) of the instance.
-        public let gatewayArn: String
+        public let gatewayArn: String?
         /// The Amazon Resource Name (ARN) of the gateway.
-        public let gatewayInstanceArn: String
+        public let gatewayInstanceArn: String?
         /// The managed instance ID generated by the SSM install. This will begin with "mi-".
-        public let instanceId: String
+        public let instanceId: String?
         public let instanceMessages: [MessageDetail]?
         /// The status of the instance.
-        public let instanceState: InstanceState
+        public let instanceState: InstanceState?
         /// The running bridge count.
-        public let runningBridgeCount: Int
+        public let runningBridgeCount: Int?
 
-        public init(bridgePlacement: BridgePlacement, connectionStatus: ConnectionStatus, gatewayArn: String, gatewayInstanceArn: String, instanceId: String, instanceMessages: [MessageDetail]? = nil, instanceState: InstanceState, runningBridgeCount: Int) {
+        public init(bridgePlacement: BridgePlacement? = nil, connectionStatus: ConnectionStatus? = nil, gatewayArn: String? = nil, gatewayInstanceArn: String? = nil, instanceId: String? = nil, instanceMessages: [MessageDetail]? = nil, instanceState: InstanceState? = nil, runningBridgeCount: Int? = nil) {
             self.bridgePlacement = bridgePlacement
             self.connectionStatus = connectionStatus
             self.gatewayArn = gatewayArn
@@ -1808,11 +1808,11 @@ extension MediaConnect {
 
     public struct GatewayNetwork: AWSEncodableShape & AWSDecodableShape {
         /// A unique IP address range to use for this network. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let cidrBlock: String
+        public let cidrBlock: String?
         /// The name of the network. This name is used to reference the network and must be unique among networks in this gateway.
-        public let name: String
+        public let name: String?
 
-        public init(cidrBlock: String, name: String) {
+        public init(cidrBlock: String? = nil, name: String? = nil) {
             self.cidrBlock = cidrBlock
             self.name = name
         }
@@ -1835,9 +1835,9 @@ extension MediaConnect {
         /// The name of the entitlement. This value must be unique within the current flow.
         public let name: String?
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
-        public let subscribers: [String]
+        public let subscribers: [String]?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
@@ -1858,11 +1858,11 @@ extension MediaConnect {
 
     public struct GrantFlowEntitlementsRequest: AWSEncodableShape {
         /// The list of entitlements that you want to grant.
-        public let entitlements: [GrantEntitlementRequest]
+        public let entitlements: [GrantEntitlementRequest]?
         /// The flow that you want to grant entitlements on.
         public let flowArn: String
 
-        public init(entitlements: [GrantEntitlementRequest], flowArn: String) {
+        public init(entitlements: [GrantEntitlementRequest]? = nil, flowArn: String) {
             self.entitlements = entitlements
             self.flowArn = flowArn
         }
@@ -1870,7 +1870,7 @@ extension MediaConnect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.entitlements, forKey: .entitlements)
+            try container.encodeIfPresent(self.entitlements, forKey: .entitlements)
             request.encodePath(self.flowArn, key: "FlowArn")
         }
 
@@ -1900,11 +1900,11 @@ extension MediaConnect {
         /// The ID of the instance running this bridge.
         public let instanceId: String?
         /// The maximum expected bitrate (in bps) of the ingress bridge.
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
         /// The maximum number of outputs on the ingress bridge.
-        public let maxOutputs: Int
+        public let maxOutputs: Int?
 
-        public init(instanceId: String? = nil, maxBitrate: Int, maxOutputs: Int) {
+        public init(instanceId: String? = nil, maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
@@ -1919,13 +1919,13 @@ extension MediaConnect {
 
     public struct InputConfiguration: AWSDecodableShape {
         /// The IP address that the flow listens on for incoming content for a media stream.
-        public let inputIp: String
+        public let inputIp: String?
         /// The port that the flow listens on for an incoming media stream.
-        public let inputPort: Int
+        public let inputPort: Int?
         /// The VPC interface where the media stream comes in from.
-        public let interface: Interface
+        public let interface: Interface?
 
-        public init(inputIp: String, inputPort: Int, interface: Interface) {
+        public init(inputIp: String? = nil, inputPort: Int? = nil, interface: Interface? = nil) {
             self.inputIp = inputIp
             self.inputPort = inputPort
             self.interface = interface
@@ -1940,11 +1940,11 @@ extension MediaConnect {
 
     public struct InputConfigurationRequest: AWSEncodableShape {
         /// The port that you want the flow to listen on for an incoming media stream.
-        public let inputPort: Int
+        public let inputPort: Int?
         /// The VPC interface that you want to use for the incoming media stream.
-        public let interface: InterfaceRequest
+        public let interface: InterfaceRequest?
 
-        public init(inputPort: Int = 0, interface: InterfaceRequest) {
+        public init(inputPort: Int? = nil, interface: InterfaceRequest? = nil) {
             self.inputPort = inputPort
             self.interface = interface
         }
@@ -1957,9 +1957,9 @@ extension MediaConnect {
 
     public struct Interface: AWSDecodableShape {
         /// The name of the VPC interface.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1970,9 +1970,9 @@ extension MediaConnect {
 
     public struct InterfaceRequest: AWSEncodableShape {
         /// The name of the VPC interface.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -2322,16 +2322,16 @@ extension MediaConnect {
 
     public struct ListedBridge: AWSDecodableShape {
         /// The ARN of the bridge.
-        public let bridgeArn: String
-        public let bridgeState: BridgeState
+        public let bridgeArn: String?
+        public let bridgeState: BridgeState?
         /// The type of the bridge.
-        public let bridgeType: String
+        public let bridgeType: String?
         /// The name of the bridge.
-        public let name: String
+        public let name: String?
         /// The ARN of the gateway associated with the bridge.
-        public let placementArn: String
+        public let placementArn: String?
 
-        public init(bridgeArn: String, bridgeState: BridgeState, bridgeType: String, name: String, placementArn: String) {
+        public init(bridgeArn: String? = nil, bridgeState: BridgeState? = nil, bridgeType: String? = nil, name: String? = nil, placementArn: String? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgeState = bridgeState
             self.bridgeType = bridgeType
@@ -2352,11 +2352,11 @@ extension MediaConnect {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// The ARN of the entitlement.
-        public let entitlementArn: String
+        public let entitlementArn: String?
         /// The name of the entitlement.
-        public let entitlementName: String
+        public let entitlementName: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, entitlementArn: String, entitlementName: String) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, entitlementArn: String? = nil, entitlementName: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.entitlementArn = entitlementArn
             self.entitlementName = entitlementName
@@ -2371,20 +2371,20 @@ extension MediaConnect {
 
     public struct ListedFlow: AWSDecodableShape {
         /// The Availability Zone that the flow was created in.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// A description of the flow.
-        public let description: String
+        public let description: String?
         /// The ARN of the flow.
-        public let flowArn: String
+        public let flowArn: String?
         public let maintenance: Maintenance?
         /// The name of the flow.
-        public let name: String
+        public let name: String?
         /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
-        public let sourceType: SourceType
+        public let sourceType: SourceType?
         /// The current status of the flow.
-        public let status: Status
+        public let status: Status?
 
-        public init(availabilityZone: String, description: String, flowArn: String, maintenance: Maintenance? = nil, name: String, sourceType: SourceType, status: Status) {
+        public init(availabilityZone: String? = nil, description: String? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, name: String? = nil, sourceType: SourceType? = nil, status: Status? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.flowArn = flowArn
@@ -2407,12 +2407,12 @@ extension MediaConnect {
 
     public struct ListedGateway: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the gateway.
-        public let gatewayArn: String
-        public let gatewayState: GatewayState
+        public let gatewayArn: String?
+        public let gatewayState: GatewayState?
         /// The name of the gateway.
-        public let name: String
+        public let name: String?
 
-        public init(gatewayArn: String, gatewayState: GatewayState, name: String) {
+        public init(gatewayArn: String? = nil, gatewayState: GatewayState? = nil, name: String? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayState = gatewayState
             self.name = name
@@ -2427,15 +2427,15 @@ extension MediaConnect {
 
     public struct ListedGatewayInstance: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the gateway.
-        public let gatewayArn: String
+        public let gatewayArn: String?
         /// The Amazon Resource Name (ARN) of the instance.
-        public let gatewayInstanceArn: String
+        public let gatewayInstanceArn: String?
         /// The managed instance ID generated by the SSM install. This will begin with "mi-".
-        public let instanceId: String
+        public let instanceId: String?
         /// The status of the instance.
         public let instanceState: InstanceState?
 
-        public init(gatewayArn: String, gatewayInstanceArn: String, instanceId: String, instanceState: InstanceState? = nil) {
+        public init(gatewayArn: String? = nil, gatewayInstanceArn: String? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayInstanceArn = gatewayInstanceArn
             self.instanceId = instanceId
@@ -2483,17 +2483,17 @@ extension MediaConnect {
         /// A description that can help you quickly identify what your media stream is used for.
         public let description: String?
         /// The format type number (sometimes referred to as RTP payload type) of the media stream. MediaConnect assigns this value to the media stream. For ST 2110 JPEG XS outputs, you need to provide this value to the receiver.
-        public let fmt: Int
+        public let fmt: Int?
         /// A unique identifier for the media stream.
-        public let mediaStreamId: Int
+        public let mediaStreamId: Int?
         /// A name that helps you distinguish one media stream from another.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
         /// The type of media stream.
-        public let mediaStreamType: MediaStreamType
+        public let mediaStreamType: MediaStreamType?
         /// The resolution of the video.
         public let videoFormat: String?
 
-        public init(attributes: MediaStreamAttributes? = nil, clockRate: Int? = nil, description: String? = nil, fmt: Int, mediaStreamId: Int, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributes? = nil, clockRate: Int? = nil, description: String? = nil, fmt: Int? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -2518,11 +2518,11 @@ extension MediaConnect {
 
     public struct MediaStreamAttributes: AWSDecodableShape {
         /// A set of parameters that define the media stream.
-        public let fmtp: Fmtp
+        public let fmtp: Fmtp?
         /// The audio language, in a format that is recognized by the receiver.
         public let lang: String?
 
-        public init(fmtp: Fmtp, lang: String? = nil) {
+        public init(fmtp: Fmtp? = nil, lang: String? = nil) {
             self.fmtp = fmtp
             self.lang = lang
         }
@@ -2554,13 +2554,13 @@ extension MediaConnect {
         /// The transport parameters that are associated with each outbound media stream.
         public let destinationConfigurations: [DestinationConfiguration]?
         /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
-        public let encodingName: EncodingName
+        public let encodingName: EncodingName?
         /// Encoding parameters
         public let encodingParameters: EncodingParameters?
         /// The name of the media stream.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
 
-        public init(destinationConfigurations: [DestinationConfiguration]? = nil, encodingName: EncodingName, encodingParameters: EncodingParameters? = nil, mediaStreamName: String) {
+        public init(destinationConfigurations: [DestinationConfiguration]? = nil, encodingName: EncodingName? = nil, encodingParameters: EncodingParameters? = nil, mediaStreamName: String? = nil) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
             self.encodingParameters = encodingParameters
@@ -2579,13 +2579,13 @@ extension MediaConnect {
         /// The transport parameters that you want to associate with the media stream.
         public let destinationConfigurations: [DestinationConfigurationRequest]?
         /// The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
-        public let encodingName: EncodingName
+        public let encodingName: EncodingName?
         /// A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
         public let encodingParameters: EncodingParametersRequest?
         /// The name of the media stream that is associated with the output.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
 
-        public init(destinationConfigurations: [DestinationConfigurationRequest]? = nil, encodingName: EncodingName, encodingParameters: EncodingParametersRequest? = nil, mediaStreamName: String) {
+        public init(destinationConfigurations: [DestinationConfigurationRequest]? = nil, encodingName: EncodingName? = nil, encodingParameters: EncodingParametersRequest? = nil, mediaStreamName: String? = nil) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
             self.encodingParameters = encodingParameters
@@ -2602,13 +2602,13 @@ extension MediaConnect {
 
     public struct MediaStreamSourceConfiguration: AWSDecodableShape {
         /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
-        public let encodingName: EncodingName
+        public let encodingName: EncodingName?
         /// The transport parameters that are associated with an incoming media stream.
         public let inputConfigurations: [InputConfiguration]?
         /// The name of the media stream.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
 
-        public init(encodingName: EncodingName, inputConfigurations: [InputConfiguration]? = nil, mediaStreamName: String) {
+        public init(encodingName: EncodingName? = nil, inputConfigurations: [InputConfiguration]? = nil, mediaStreamName: String? = nil) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
             self.mediaStreamName = mediaStreamName
@@ -2623,13 +2623,13 @@ extension MediaConnect {
 
     public struct MediaStreamSourceConfigurationRequest: AWSEncodableShape {
         /// The format you want to use to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
-        public let encodingName: EncodingName
+        public let encodingName: EncodingName?
         /// The transport parameters that you want to associate with the media stream.
         public let inputConfigurations: [InputConfigurationRequest]?
         /// The name of the media stream.
-        public let mediaStreamName: String
+        public let mediaStreamName: String?
 
-        public init(encodingName: EncodingName, inputConfigurations: [InputConfigurationRequest]? = nil, mediaStreamName: String) {
+        public init(encodingName: EncodingName? = nil, inputConfigurations: [InputConfigurationRequest]? = nil, mediaStreamName: String? = nil) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
             self.mediaStreamName = mediaStreamName
@@ -2644,13 +2644,13 @@ extension MediaConnect {
 
     public struct MessageDetail: AWSDecodableShape {
         /// The error code.
-        public let code: String
+        public let code: String?
         /// The specific error message that MediaConnect returns to help you understand the reason that the request did not succeed.
-        public let message: String
+        public let message: String?
         /// The name of the resource.
         public let resourceName: String?
 
-        public init(code: String, message: String, resourceName: String? = nil) {
+        public init(code: String? = nil, message: String? = nil, resourceName: String? = nil) {
             self.code = code
             self.message = message
             self.resourceName = resourceName
@@ -2665,9 +2665,9 @@ extension MediaConnect {
 
     public struct Messages: AWSDecodableShape {
         /// A list of errors that might have been generated from processes on this flow.
-        public let errors: [String]
+        public let errors: [String]?
 
-        public init(errors: [String]) {
+        public init(errors: [String]? = nil) {
             self.errors = errors
         }
 
@@ -2678,23 +2678,23 @@ extension MediaConnect {
 
     public struct Offering: AWSDecodableShape {
         /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
-        public let currencyCode: String
+        public let currencyCode: String?
         /// The length of time that your reservation would be active.
-        public let duration: Int
+        public let duration: Int?
         /// The unit of measurement for the duration of the offering.
-        public let durationUnits: DurationUnits
+        public let durationUnits: DurationUnits?
         /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
-        public let offeringArn: String
+        public let offeringArn: String?
         /// A description of the offering.
-        public let offeringDescription: String
+        public let offeringDescription: String?
         /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate.
-        public let pricePerUnit: String
+        public let pricePerUnit: String?
         /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate.
-        public let priceUnits: PriceUnits
+        public let priceUnits: PriceUnits?
         /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
-        public let resourceSpecification: ResourceSpecification
+        public let resourceSpecification: ResourceSpecification?
 
-        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, resourceSpecification: ResourceSpecification) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, durationUnits: DurationUnits? = nil, offeringArn: String? = nil, offeringDescription: String? = nil, pricePerUnit: String? = nil, priceUnits: PriceUnits? = nil, resourceSpecification: ResourceSpecification? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.durationUnits = durationUnits
@@ -2739,9 +2739,9 @@ extension MediaConnect {
         /// The configuration for each media stream that is associated with the output.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]?
         /// The name of the output. This value must be unique within the current flow.
-        public let name: String
+        public let name: String?
         /// The ARN of the output.
-        public let outputArn: String
+        public let outputArn: String?
         /// The port to use when content is distributed to this output.
         public let port: Int?
         /// Attributes related to the transport stream that are used in the output.
@@ -2749,7 +2749,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
@@ -2790,11 +2790,11 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
         /// The name that you want to use for the reservation.
-        public let reservationName: String
+        public let reservationName: String?
         /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
-        public let start: String
+        public let start: String?
 
-        public init(offeringArn: String, reservationName: String, start: String) {
+        public init(offeringArn: String, reservationName: String? = nil, start: String? = nil) {
             self.offeringArn = offeringArn
             self.reservationName = reservationName
             self.start = start
@@ -2804,8 +2804,8 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.offeringArn, key: "OfferingArn")
-            try container.encode(self.reservationName, forKey: .reservationName)
-            try container.encode(self.start, forKey: .start)
+            try container.encodeIfPresent(self.reservationName, forKey: .reservationName)
+            try container.encodeIfPresent(self.start, forKey: .start)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3056,33 +3056,33 @@ extension MediaConnect {
 
     public struct Reservation: AWSDecodableShape {
         /// The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
-        public let currencyCode: String
+        public let currencyCode: String?
         /// The length of time that this reservation is active. MediaConnect defines this value in the offering.
-        public let duration: Int
+        public let duration: Int?
         /// The unit of measurement for the duration of the reservation. MediaConnect defines this value in the offering.
-        public let durationUnits: DurationUnits
+        public let durationUnits: DurationUnits?
         /// The day and time that this reservation expires. This value is calculated based on the start date and time that you set and the offering's duration.
-        public let end: String
+        public let end: String?
         /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
-        public let offeringArn: String
+        public let offeringArn: String?
         /// A description of the offering. MediaConnect defines this value in the offering.
-        public let offeringDescription: String
+        public let offeringDescription: String?
         /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate. MediaConnect defines this value in the offering.
-        public let pricePerUnit: String
+        public let pricePerUnit: String?
         /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate. MediaConnect defines this value in the offering.
-        public let priceUnits: PriceUnits
+        public let priceUnits: PriceUnits?
         /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation when you purchase an offering.
-        public let reservationArn: String
+        public let reservationArn: String?
         /// The name that you assigned to the reservation when you purchased the offering.
-        public let reservationName: String
+        public let reservationName: String?
         /// The status of your reservation.
-        public let reservationState: ReservationState
+        public let reservationState: ReservationState?
         /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering. MediaConnect defines the values that make up the resourceSpecification in the offering.
-        public let resourceSpecification: ResourceSpecification
+        public let resourceSpecification: ResourceSpecification?
         /// The day and time that the reservation becomes active. You set this value when you purchase the offering.
-        public let start: String
+        public let start: String?
 
-        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, end: String, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, reservationArn: String, reservationName: String, reservationState: ReservationState, resourceSpecification: ResourceSpecification, start: String) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, durationUnits: DurationUnits? = nil, end: String? = nil, offeringArn: String? = nil, offeringDescription: String? = nil, pricePerUnit: String? = nil, priceUnits: PriceUnits? = nil, reservationArn: String? = nil, reservationName: String? = nil, reservationState: ReservationState? = nil, resourceSpecification: ResourceSpecification? = nil, start: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.durationUnits = durationUnits
@@ -3119,9 +3119,9 @@ extension MediaConnect {
         /// The amount of outbound bandwidth that is discounted in the offering.
         public let reservedBitrate: Int?
         /// The type of resource and the unit that is being billed for.
-        public let resourceType: ResourceType
+        public let resourceType: ResourceType?
 
-        public init(reservedBitrate: Int? = nil, resourceType: ResourceType) {
+        public init(reservedBitrate: Int? = nil, resourceType: ResourceType? = nil) {
             self.reservedBitrate = reservedBitrate
             self.resourceType = resourceType
         }
@@ -3172,11 +3172,11 @@ extension MediaConnect {
 
     public struct SetGatewayBridgeSourceRequest: AWSEncodableShape {
         /// The ARN of the bridge feeding this flow.
-        public let bridgeArn: String
+        public let bridgeArn: String?
         /// The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(bridgeArn: String, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -3290,13 +3290,13 @@ extension MediaConnect {
         /// The media streams that are associated with the source, and the parameters for those associations.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]?
         /// The name of the source.
-        public let name: String
+        public let name: String?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
         /// The ARN of the source.
-        public let sourceArn: String
+        public let sourceArn: String?
         /// Attributes related to the transport stream that are used in the source.
         public let transport: Transport?
         /// The name of the VPC interface that is used for this source.
@@ -3304,7 +3304,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String? = nil, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -3426,9 +3426,9 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
         public let resourceArn: String
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -3437,7 +3437,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3457,7 +3457,7 @@ extension MediaConnect {
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         /// The protocol that is used by the source or output.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
         /// The remote ID for the Zixi-pull stream.
         public let remoteId: String?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
@@ -3473,7 +3473,7 @@ extension MediaConnect {
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
 
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -3510,9 +3510,9 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
         public let resourceArn: String
         /// The keys of the tags to be removed.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -3732,9 +3732,9 @@ extension MediaConnect {
     public struct UpdateBridgeStateRequest: AWSEncodableShape {
         /// The ARN of the bridge that you want to update.
         public let bridgeArn: String
-        public let desiredState: DesiredState
+        public let desiredState: DesiredState?
 
-        public init(bridgeArn: String, desiredState: DesiredState) {
+        public init(bridgeArn: String, desiredState: DesiredState? = nil) {
             self.bridgeArn = bridgeArn
             self.desiredState = desiredState
         }
@@ -3743,7 +3743,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bridgeArn, key: "BridgeArn")
-            try container.encode(self.desiredState, forKey: .desiredState)
+            try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4351,19 +4351,19 @@ extension MediaConnect {
 
     public struct VpcInterface: AWSDecodableShape {
         /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
-        public let name: String
+        public let name: String?
         /// IDs of the network interfaces created in customer's account by MediaConnect.
-        public let networkInterfaceIds: [String]
+        public let networkInterfaceIds: [String]?
         /// The type of network interface.
-        public let networkInterfaceType: NetworkInterfaceType
+        public let networkInterfaceType: NetworkInterfaceType?
         /// Role Arn MediaConnect can assumes to create ENIs in customer's account
-        public let roleArn: String
+        public let roleArn: String?
         /// Security Group IDs to be used on ENI.
-        public let securityGroupIds: [String]
+        public let securityGroupIds: [String]?
         /// Subnet must be in the AZ of the Flow
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(name: String, networkInterfaceIds: [String], networkInterfaceType: NetworkInterfaceType, roleArn: String, securityGroupIds: [String], subnetId: String) {
+        public init(name: String? = nil, networkInterfaceIds: [String]? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
             self.name = name
             self.networkInterfaceIds = networkInterfaceIds
             self.networkInterfaceType = networkInterfaceType
@@ -4397,17 +4397,17 @@ extension MediaConnect {
 
     public struct VpcInterfaceRequest: AWSEncodableShape {
         /// The name of the VPC Interface. This value must be unique within the current flow.
-        public let name: String
+        public let name: String?
         /// The type of network interface. If this value is not included in the request, MediaConnect uses ENA as the networkInterfaceType.
         public let networkInterfaceType: NetworkInterfaceType?
         /// Role Arn MediaConnect can assumes to create ENIs in customer's account
-        public let roleArn: String
+        public let roleArn: String?
         /// Security Group IDs to be used on ENI.
-        public let securityGroupIds: [String]
+        public let securityGroupIds: [String]?
         /// Subnet must be in the AZ of the Flow
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(name: String, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String, securityGroupIds: [String], subnetId: String) {
+        public init(name: String? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn

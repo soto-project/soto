@@ -26,14 +26,14 @@ import Foundation
 extension Account {
     // MARK: Enums
 
-    public enum AlternateContactType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlternateContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billing = "BILLING"
         case operations = "OPERATIONS"
         case security = "SECURITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionOptStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RegionOptStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"

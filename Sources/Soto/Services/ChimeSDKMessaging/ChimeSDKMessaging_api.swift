@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ChimeSDKMessaging service.
 ///
-/// The Amazon Chime SDK Messaging APIs in this section allow software developers to send and receive messages in custom messaging applications. These APIs depend on the frameworks provided by the Amazon Chime SDK Identity APIs. For more information about the messaging APIs, see Amazon Chime SDK messaging.
+/// The Amazon Chime SDK messaging APIs in this section allow software developers to send and receive messages in custom messaging applications. These APIs depend on the frameworks provided by the Amazon Chime SDK identity APIs. For more information about the messaging APIs, see Amazon Chime SDK messaging.
 public struct ChimeSDKMessaging: AWSService {
     // MARK: Member variables
 
@@ -107,7 +107,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Calls back Chime SDK Messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API. You can return one of the following processing responses:   Update message content or metadata   Deny a message   Make no changes to the message
+    /// Calls back Amazon Chime SDK messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API. You can return one of the following processing responses:   Update message content or metadata   Deny a message   Make no changes to the message
     @Sendable
     public func channelFlowCallback(_ input: ChannelFlowCallbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChannelFlowCallbackResponse {
         return try await self.client.execute(
@@ -146,7 +146,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as stripping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items:   New and updated messages   Persistent and non-persistent messages   The Standard message type    Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK Messaging, refer to  Message types in the Amazon Chime developer guide.
+    /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as stripping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items:   New and updated messages   Persistent and non-persistent messages   The Standard message type    Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to  Message types in the Amazon Chime developer guide.
     @Sendable
     public func createChannelFlow(_ input: CreateChannelFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelFlowResponse {
         return try await self.client.execute(
@@ -380,7 +380,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot  for the specified channel. A user or a bot must be a member of the channel and own the membership to be able  to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't  retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the  channel from which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot  for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership preferences.  Users or bots in the AppInstanceAdmin and channel moderator roles can't  retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the  channel from which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @Sendable
     public func getChannelMembershipPreferences(_ input: GetChannelMembershipPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelMembershipPreferencesResponse {
         return try await self.client.execute(
@@ -406,7 +406,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Gets message status for a specified messageId. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to  retrieving message status if the event was not received because a client wasn't connected to a websocket.  Messages can have any one of these statuses.  SENT  Message processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED  Messasge denied by the processor      This API does not return statuses for denied messages, because we don't store them once the processor denies them.    Only the message sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Gets message status for a specified messageId. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to  retrieving message status if the event was not received because a client wasn't connected to a websocket.  Messages can have any one of these statuses.  SENT  Message processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED  Message denied by the processor      This API does not return statuses for denied messages, because we don't store them once the processor denies them.    Only the message sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @Sendable
     public func getChannelMessageStatus(_ input: GetChannelMessageStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelMessageStatusResponse {
         return try await self.client.execute(
@@ -484,7 +484,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    ///  Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    ///  Lists all channels that an AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @Sendable
     public func listChannelMembershipsForAppInstanceUser(_ input: ListChannelMembershipsForAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelMembershipsForAppInstanceUserResponse {
         return try await self.client.execute(
@@ -601,7 +601,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Sets the membership preferences of an AppInstanceUser or AppIntanceBot  for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the  membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set  preferences for other users or users. Banned users or bots can't set membership preferences for the channel from  which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of an  AppInstanceUser or AppInstanceBot that makes the API call as the value in the  header.
+    /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot  for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the  membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set  preferences for other users. Banned users or bots can't set membership preferences for the channel from  which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of an  AppInstanceUser or AppInstanceBot that makes the API call as the value in the  header.
     @Sendable
     public func putChannelMembershipPreferences(_ input: PutChannelMembershipPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutChannelMembershipPreferencesResponse {
         return try await self.client.execute(
@@ -653,7 +653,7 @@ public struct ChimeSDKMessaging: AWSService {
         )
     }
 
-    /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
+    /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,  and you can use it in a variety of ways, such as containing a link to an attachment.  CONTROL messages are limited to 30 bytes and do not contain metadata.
     @Sendable
     public func sendChannelMessage(_ input: SendChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendChannelMessageResponse {
         return try await self.client.execute(
@@ -815,7 +815,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    ///  Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    ///  Lists all channels that an AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

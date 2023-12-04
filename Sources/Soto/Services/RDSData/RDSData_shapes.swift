@@ -26,25 +26,25 @@ import Foundation
 extension RDSData {
     // MARK: Enums
 
-    public enum DecimalReturnType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DecimalReturnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case doubleOrLong = "DOUBLE_OR_LONG"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LongReturnType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LongReturnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case long = "LONG"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordsFormatType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecordsFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TypeHint: String, CustomStringConvertible, Codable, Sendable {
+    public enum TypeHint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case date = "DATE"
         case decimal = "DECIMAL"
         case json = "JSON"

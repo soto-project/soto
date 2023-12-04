@@ -29,10 +29,28 @@
         ]
     },
     "shapes": {
+        "com.amazonaws.personalizeruntime#ActionID": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                }
+            }
+        },
+        "com.amazonaws.personalizeruntime#ActionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.personalizeruntime#PredictedAction"
+            }
+        },
         "com.amazonaws.personalizeruntime#AmazonPersonalizeRuntime": {
             "type": "service",
             "version": "2018-05-22",
             "operations": [
+                {
+                    "target": "com.amazonaws.personalizeruntime#GetActionRecommendations"
+                },
                 {
                     "target": "com.amazonaws.personalizeruntime#GetPersonalizedRanking"
                 },
@@ -96,7 +114,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -114,9 +131,187 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
-                                    "type": "tree",
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://personalize-runtime-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://personalize-runtime-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -129,278 +324,65 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
-                                                "properties": {},
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
+                                                                true,
                                                                 {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://personalize-runtime-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://personalize-runtime-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://personalize-runtime.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
                                                             "endpoint": {
-                                                                "url": "https://personalize-runtime.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "url": "https://personalize-runtime.{Region}.{PartitionResult#dualStackDnsSuffix}",
                                                                 "properties": {},
                                                                 "headers": {}
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [],
+                                            "endpoint": {
+                                                "url": "https://personalize-runtime.{Region}.{PartitionResult#dnsSuffix}",
+                                                "properties": {},
+                                                "headers": {}
+                                            },
+                                            "type": "endpoint"
                                         }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [],
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -415,8 +397,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -428,8 +410,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -441,8 +423,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -454,8 +436,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -467,8 +449,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -480,8 +462,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -493,8 +475,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -506,8 +488,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -519,8 +501,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -532,8 +514,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -545,8 +527,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -558,8 +540,19 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -571,8 +564,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -584,8 +588,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -597,8 +612,19 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -610,8 +636,8 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -623,8 +649,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -636,8 +662,8 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -648,8 +674,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": true,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -660,9 +686,15 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
                                 "UseFIPS": false,
+                                "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
@@ -700,6 +732,36 @@
                 "smithy.api#sensitive": {}
             }
         },
+        "com.amazonaws.personalizeruntime#ColumnName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 150
+                }
+            }
+        },
+        "com.amazonaws.personalizeruntime#ColumnNamesList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.personalizeruntime#ColumnName"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 99
+                }
+            }
+        },
+        "com.amazonaws.personalizeruntime#ColumnValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 20000
+                }
+            }
+        },
         "com.amazonaws.personalizeruntime#Context": {
             "type": "map",
             "key": {
@@ -712,6 +774,15 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 150
+                }
+            }
+        },
+        "com.amazonaws.personalizeruntime#DatasetType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
                 }
             }
         },
@@ -753,6 +824,91 @@
                 }
             }
         },
+        "com.amazonaws.personalizeruntime#GetActionRecommendations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.personalizeruntime#GetActionRecommendationsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.personalizeruntime#GetActionRecommendationsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.personalizeruntime#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.personalizeruntime#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of recommended actions in sorted in descending order by prediction score. \n      Use the <code>GetActionRecommendations</code> API if you have a custom\n       campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe.\n    </p>\n         <p>For more information about PERSONALIZED_ACTIONS recipes, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html\">PERSONALIZED_ACTIONS recipes</a>.\n      For more information about getting action recommendations, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html\">Getting action recommendations</a>.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/action-recommendations",
+                    "code": 200
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.personalizeruntime#GetActionRecommendationsRequest": {
+            "type": "structure",
+            "members": {
+                "campaignArn": {
+                    "target": "com.amazonaws.personalizeruntime#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the campaign to use for getting action recommendations. This campaign must deploy a solution version trained with a PERSONALIZED_ACTIONS recipe.</p>"
+                    }
+                },
+                "userId": {
+                    "target": "com.amazonaws.personalizeruntime#UserID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user ID of the user to provide action recommendations for.</p>"
+                    }
+                },
+                "numResults": {
+                    "target": "com.amazonaws.personalizeruntime#NumResults",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The number of results to return. The default is 5. The maximum is 100.</p>"
+                    }
+                },
+                "filterArn": {
+                    "target": "com.amazonaws.personalizeruntime#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the filter to apply to the returned recommendations. For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering Recommendations</a>.</p>\n         <p>When using this parameter, be sure the filter resource is <code>ACTIVE</code>.</p>"
+                    }
+                },
+                "filterValues": {
+                    "target": "com.amazonaws.personalizeruntime#FilterValues",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case)\n      as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.\n    </p>\n         <p>For filter expressions that use an <code>INCLUDE</code> element to include actions,\n    you must provide values for all parameters that are defined in the expression. For\n    filters with expressions that use an <code>EXCLUDE</code> element to exclude actions, you\n      can omit the <code>filter-values</code>. In this case, Amazon Personalize doesn't use that portion of\n    the expression to filter recommendations.</p>\n         <p>For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering recommendations and user segments</a>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.personalizeruntime#GetActionRecommendationsResponse": {
+            "type": "structure",
+            "members": {
+                "actionList": {
+                    "target": "com.amazonaws.personalizeruntime#ActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of action recommendations sorted in descending order by prediction score. There can be a maximum of 100 actions\n      in the list. For information about action scores, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html\">How action recommendation scoring\n      works</a>.</p>"
+                    }
+                },
+                "recommendationId": {
+                    "target": "com.amazonaws.personalizeruntime#RecommendationID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the recommendation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.personalizeruntime#GetPersonalizedRanking": {
             "type": "operation",
             "input": {
@@ -792,7 +948,7 @@
                 "inputList": {
                     "target": "com.amazonaws.personalizeruntime#InputList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of items (by <code>itemId</code>) to rank. If an item was not included in the training dataset,\n      the item is appended to the end of the reranked list. The maximum is 500.</p>",
+                        "smithy.api#documentation": "<p>A list of items (by <code>itemId</code>) to rank. If an item was not included in the training dataset,\n      the item is appended to the end of the reranked list. If you are including \n      metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -818,9 +974,18 @@
                 "filterValues": {
                     "target": "com.amazonaws.personalizeruntime#FilterValues",
                     "traits": {
-                        "smithy.api#documentation": "<p>The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case)\n      as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.\n    </p> \n         <p>For filter expressions that use an <code>INCLUDE</code> element to include items,\n      you must provide values for all parameters that are defined in the expression. For\n      filters with expressions that use an <code>EXCLUDE</code> element to exclude items, you\n      can omit the <code>filter-values</code>.In this case, Amazon Personalize doesn't use that portion of\n      the expression to filter recommendations.</p>\n         <p>For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering Recommendations</a>.</p>"
+                        "smithy.api#documentation": "<p>The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case)\n      as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.\n    </p>\n         <p>For filter expressions that use an <code>INCLUDE</code> element to include items,\n      you must provide values for all parameters that are defined in the expression. For\n      filters with expressions that use an <code>EXCLUDE</code> element to exclude items, you\n      can omit the <code>filter-values</code>.In this case, Amazon Personalize doesn't use that portion of\n      the expression to filter recommendations.</p>\n         <p>For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering Recommendations</a>.</p>"
+                    }
+                },
+                "metadataColumns": {
+                    "target": "com.amazonaws.personalizeruntime#MetadataColumns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If you enabled metadata in recommendations when you created or updated the campaign, specify metadata columns from your Items dataset to include\n      in the personalized ranking.\n      The map key is <code>ITEMS</code> and the value is a list of column names from your Items dataset.\n      The maximum number of columns you can provide is 10.</p>\n         <p>\n      For information about enabling metadata for a campaign, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/create-campaign-return-metadata.html\">Enabling metadata in recommendations for a campaign</a>.\n    </p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.personalizeruntime#GetPersonalizedRankingResponse": {
@@ -838,6 +1003,9 @@
                         "smithy.api#documentation": "<p>The ID of the recommendation.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.personalizeruntime#GetRecommendations": {
@@ -891,7 +1059,7 @@
                     "target": "com.amazonaws.personalizeruntime#NumResults",
                     "traits": {
                         "smithy.api#default": 0,
-                        "smithy.api#documentation": "<p>The number of results to return. The default is 25. The maximum is 500.</p>"
+                        "smithy.api#documentation": "<p>The number of results to return. The default is 25. If you are including \n      metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.</p>"
                     }
                 },
                 "context": {
@@ -909,7 +1077,7 @@
                 "filterValues": {
                     "target": "com.amazonaws.personalizeruntime#FilterValues",
                     "traits": {
-                        "smithy.api#documentation": "<p>The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case)\n      as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.\n    </p> \n         <p>For filter expressions that use an <code>INCLUDE</code> element to include items,\n    you must provide values for all parameters that are defined in the expression. For\n    filters with expressions that use an <code>EXCLUDE</code> element to exclude items, you\n      can omit the <code>filter-values</code>.In this case, Amazon Personalize doesn't use that portion of\n    the expression to filter recommendations.</p>\n         <p>For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering recommendations and user segments</a>.</p>"
+                        "smithy.api#documentation": "<p>The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case)\n      as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.\n    </p>\n         <p>For filter expressions that use an <code>INCLUDE</code> element to include items,\n    you must provide values for all parameters that are defined in the expression. For\n    filters with expressions that use an <code>EXCLUDE</code> element to exclude items, you\n      can omit the <code>filter-values</code>.In this case, Amazon Personalize doesn't use that portion of\n    the expression to filter recommendations.</p>\n         <p>For more information, see\n      <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/filter.html\">Filtering recommendations and user segments</a>.</p>"
                     }
                 },
                 "recommenderArn": {
@@ -923,7 +1091,16 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The promotions to apply to the recommendation request. \n      A promotion defines additional business rules that apply to a configurable subset of recommended items.</p>"
                     }
+                },
+                "metadataColumns": {
+                    "target": "com.amazonaws.personalizeruntime#MetadataColumns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If you enabled metadata in recommendations when you created or updated the campaign or recommender, specify the metadata columns from your Items dataset to include in item recommendations. \n      The map key is <code>ITEMS</code> and the value is a list of column names from your Items dataset.\n    The maximum number of columns you can provide is 10.</p>\n         <p>\n      For information about enabling metadata for a campaign, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/create-campaign-return-metadata.html\">Enabling metadata in recommendations for a campaign</a>.\n      For information about enabling metadata for a recommender, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/create-recommender-return-metadata.html\">Enabling metadata in recommendations for a recommender</a>.\n    </p>"
+                    }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.personalizeruntime#GetRecommendationsResponse": {
@@ -941,6 +1118,9 @@
                         "smithy.api#documentation": "<p>The ID of the recommendation.</p>"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.personalizeruntime#InputList": {
@@ -977,6 +1157,30 @@
                 "target": "com.amazonaws.personalizeruntime#PredictedItem"
             }
         },
+        "com.amazonaws.personalizeruntime#Metadata": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.personalizeruntime#ColumnName"
+            },
+            "value": {
+                "target": "com.amazonaws.personalizeruntime#ColumnValue"
+            }
+        },
+        "com.amazonaws.personalizeruntime#MetadataColumns": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.personalizeruntime#DatasetType"
+            },
+            "value": {
+                "target": "com.amazonaws.personalizeruntime#ColumnNamesList"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1
+                }
+            }
+        },
         "com.amazonaws.personalizeruntime#Name": {
             "type": "string",
             "traits": {
@@ -999,11 +1203,30 @@
         "com.amazonaws.personalizeruntime#PercentPromotedItems": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
                 }
+            }
+        },
+        "com.amazonaws.personalizeruntime#PredictedAction": {
+            "type": "structure",
+            "members": {
+                "actionId": {
+                    "target": "com.amazonaws.personalizeruntime#ActionID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the recommended action.</p>"
+                    }
+                },
+                "score": {
+                    "target": "com.amazonaws.personalizeruntime#Score",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The score of the recommended action. For information about action scores, see <a href=\"https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html\">How action recommendation scoring works</a>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object that identifies an action.</p>\n         <p>The  API returns a list of\n      <code>PredictedAction</code>s.</p>"
             }
         },
         "com.amazonaws.personalizeruntime#PredictedItem": {
@@ -1026,6 +1249,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The name of the promotion that included the predicted item.</p>"
                     }
+                },
+                "metadata": {
+                    "target": "com.amazonaws.personalizeruntime#Metadata",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metadata about the item from your Items dataset.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1044,7 +1273,6 @@
                 "percentPromotedItems": {
                     "target": "com.amazonaws.personalizeruntime#PercentPromotedItems",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of recommended items to apply the promotion to.</p>"
                     }
                 },

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CodeStarConnections service.
 ///
-/// AWS CodeStar Connections This AWS CodeStar Connections API Reference provides descriptions and usage examples of the operations and data types for the AWS CodeStar Connections API. You can use the connections API to work with connections and installations.  Connections are configurations that you use to connect AWS resources to external code repositories. Each connection is a resource that can be given to services such as CodePipeline to connect to a third-party repository such as Bitbucket. For example, you can add the connection in CodePipeline so that it triggers your pipeline when a code change is made to your third-party code repository. Each connection is named and associated with a unique ARN that is used to reference the connection. When you create a connection, the console initiates a third-party connection handshake. Installations are the apps that are used to conduct this handshake. For example, the installation for the Bitbucket provider type is the Bitbucket app. When you create a connection, you can choose an existing installation or create one. When you want to create a connection to an installed provider type such as GitHub Enterprise Server, you create a host for your connections. You can work with connections by calling:    CreateConnection, which creates a uniquely named connection that can be referenced by services such as CodePipeline.    DeleteConnection, which deletes the specified connection.    GetConnection, which returns information about the connection, including the connection status.    ListConnections, which lists the connections associated with your account.   You can work with hosts by calling:    CreateHost, which creates a host that represents the infrastructure where your provider is installed.    DeleteHost, which deletes the specified host.    GetHost, which returns information about the host, including the setup status.    ListHosts, which lists the hosts associated with your account.   You can work with tags in AWS CodeStar Connections by calling the following:    ListTagsForResource, which gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeStar Connections.    TagResource, which adds or updates tags for a resource in AWS CodeStar Connections.    UntagResource, which removes tags for a resource in AWS CodeStar Connections.   For information about how to use AWS CodeStar Connections, see the Developer Tools User Guide.
+/// AWS CodeStar Connections This Amazon Web Services CodeStar Connections API Reference provides descriptions and usage examples of the operations and data types for the Amazon Web Services CodeStar Connections API. You can use the connections API to work with connections and installations.  Connections are configurations that you use to connect Amazon Web Services resources to external code repositories. Each connection is a resource that can be given to services such as CodePipeline to connect to a third-party repository such as Bitbucket. For example, you can add the connection in CodePipeline so that it triggers your pipeline when a code change is made to your third-party code repository. Each connection is named and associated with a unique ARN that is used to reference the connection. When you create a connection, the console initiates a third-party connection handshake. Installations are the apps that are used to conduct this handshake. For example, the installation for the Bitbucket provider type is the Bitbucket app. When you create a connection, you can choose an existing installation or create one. When you want to create a connection to an installed provider type such as GitHub Enterprise Server, you create a host for your connections. You can work with connections by calling:    CreateConnection, which creates a uniquely named connection that can be referenced by services such as CodePipeline.    DeleteConnection, which deletes the specified connection.    GetConnection, which returns information about the connection, including the connection status.    ListConnections, which lists the connections associated with your account.   You can work with hosts by calling:    CreateHost, which creates a host that represents the infrastructure where your provider is installed.    DeleteHost, which deletes the specified host.    GetHost, which returns information about the host, including the setup status.    ListHosts, which lists the hosts associated with your account.   You can work with tags in Amazon Web Services CodeStar Connections by calling the following:    ListTagsForResource, which gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Amazon Web Services CodeStar Connections.    TagResource, which adds or updates tags for a resource in Amazon Web Services CodeStar Connections.    UntagResource, which removes tags for a resource in Amazon Web Services CodeStar Connections.   For information about how to use Amazon Web Services CodeStar Connections, see the Developer Tools User Guide.
 public struct CodeStarConnections: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,7 @@ public struct CodeStarConnections: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
+    /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     @Sendable
     public func createConnection(_ input: CreateConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionOutput {
         return try await self.client.execute(
@@ -92,6 +92,32 @@ public struct CodeStarConnections: AWSService {
     public func createHost(_ input: CreateHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHostOutput {
         return try await self.client.execute(
             operation: "CreateHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+    @Sendable
+    public func createRepositoryLink(_ input: CreateRepositoryLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryLinkOutput {
+        return try await self.client.execute(
+            operation: "CreateRepositoryLink", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type.
+    @Sendable
+    public func createSyncConfiguration(_ input: CreateSyncConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSyncConfigurationOutput {
+        return try await self.client.execute(
+            operation: "CreateSyncConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -126,6 +152,32 @@ public struct CodeStarConnections: AWSService {
         )
     }
 
+    /// Deletes the association between your connection and a specified external Git repository.
+    @Sendable
+    public func deleteRepositoryLink(_ input: DeleteRepositoryLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryLinkOutput {
+        return try await self.client.execute(
+            operation: "DeleteRepositoryLink", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the sync configuration for a specified repository and connection.
+    @Sendable
+    public func deleteSyncConfiguration(_ input: DeleteSyncConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSyncConfigurationOutput {
+        return try await self.client.execute(
+            operation: "DeleteSyncConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the connection ARN and details such as status, owner, and provider type.
     @Sendable
     public func getConnection(_ input: GetConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionOutput {
@@ -144,6 +196,71 @@ public struct CodeStarConnections: AWSService {
     public func getHost(_ input: GetHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostOutput {
         return try await self.client.execute(
             operation: "GetHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository.
+    @Sendable
+    public func getRepositoryLink(_ input: GetRepositoryLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryLinkOutput {
+        return try await self.client.execute(
+            operation: "GetRepositoryLink", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository.
+    @Sendable
+    public func getRepositorySyncStatus(_ input: GetRepositorySyncStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositorySyncStatusOutput {
+        return try await self.client.execute(
+            operation: "GetRepositorySyncStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource.
+    @Sendable
+    public func getResourceSyncStatus(_ input: GetResourceSyncStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSyncStatusOutput {
+        return try await self.client.execute(
+            operation: "GetResourceSyncStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of the most recent sync blockers.
+    @Sendable
+    public func getSyncBlockerSummary(_ input: GetSyncBlockerSummaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSyncBlockerSummaryOutput {
+        return try await self.client.execute(
+            operation: "GetSyncBlockerSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
+    @Sendable
+    public func getSyncConfiguration(_ input: GetSyncConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSyncConfigurationOutput {
+        return try await self.client.execute(
+            operation: "GetSyncConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -178,6 +295,45 @@ public struct CodeStarConnections: AWSService {
         )
     }
 
+    /// Lists the repository links created for connections in your account.
+    @Sendable
+    public func listRepositoryLinks(_ input: ListRepositoryLinksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoryLinksOutput {
+        return try await self.client.execute(
+            operation: "ListRepositoryLinks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the repository sync definitions for repository links in your account.
+    @Sendable
+    public func listRepositorySyncDefinitions(_ input: ListRepositorySyncDefinitionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositorySyncDefinitionsOutput {
+        return try await self.client.execute(
+            operation: "ListRepositorySyncDefinitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of sync configurations for a specified repository.
+    @Sendable
+    public func listSyncConfigurations(_ input: ListSyncConfigurationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSyncConfigurationsOutput {
+        return try await self.client.execute(
+            operation: "ListSyncConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -204,7 +360,7 @@ public struct CodeStarConnections: AWSService {
         )
     }
 
-    /// Removes tags from an AWS resource.
+    /// Removes tags from an Amazon Web Services resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
         return try await self.client.execute(
@@ -222,6 +378,45 @@ public struct CodeStarConnections: AWSService {
     public func updateHost(_ input: UpdateHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostOutput {
         return try await self.client.execute(
             operation: "UpdateHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+    @Sendable
+    public func updateRepositoryLink(_ input: UpdateRepositoryLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRepositoryLinkOutput {
+        return try await self.client.execute(
+            operation: "UpdateRepositoryLink", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
+    @Sendable
+    public func updateSyncBlocker(_ input: UpdateSyncBlockerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSyncBlockerOutput {
+        return try await self.client.execute(
+            operation: "UpdateSyncBlocker", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the sync configuration for your connection and a specified external Git repository.
+    @Sendable
+    public func updateSyncConfiguration(_ input: UpdateSyncConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSyncConfigurationOutput {
+        return try await self.client.execute(
+            operation: "UpdateSyncConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -281,6 +476,44 @@ extension CodeStarConnections {
             logger: logger
         )
     }
+
+    /// Lists the repository links created for connections in your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRepositoryLinksPaginator(
+        _ input: ListRepositoryLinksInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRepositoryLinksInput, ListRepositoryLinksOutput> {
+        return .init(
+            input: input,
+            command: self.listRepositoryLinks,
+            inputKey: \ListRepositoryLinksInput.nextToken,
+            outputKey: \ListRepositoryLinksOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of sync configurations for a specified repository.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSyncConfigurationsPaginator(
+        _ input: ListSyncConfigurationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSyncConfigurationsInput, ListSyncConfigurationsOutput> {
+        return .init(
+            input: input,
+            command: self.listSyncConfigurations,
+            inputKey: \ListSyncConfigurationsInput.nextToken,
+            outputKey: \ListSyncConfigurationsOutput.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension CodeStarConnections.ListConnectionsInput: AWSPaginateToken {
@@ -299,6 +532,26 @@ extension CodeStarConnections.ListHostsInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CodeStarConnections.ListRepositoryLinksInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeStarConnections.ListRepositoryLinksInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CodeStarConnections.ListSyncConfigurationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeStarConnections.ListSyncConfigurationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            repositoryLinkId: self.repositoryLinkId,
+            syncType: self.syncType
         )
     }
 }

@@ -26,41 +26,163 @@ import Foundation
 extension SSOAdmin {
     // MARK: Enums
 
-    public enum InstanceAccessControlAttributeConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationMethodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FederationProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oauth = "OAUTH"
+        case saml = "SAML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authorizationCode = "authorization_code"
+        case jwtBearer = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+        case refreshToken = "refresh_token"
+        case tokenExchange = "urn:ietf:params:oauth:grant-type:token-exchange"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceAccessControlAttributeConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JwksRetrievalOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case openIdDiscovery = "OPEN_ID_DISCOVERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionTargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProvisionTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allProvisionedAccounts = "ALL_PROVISIONED_ACCOUNTS"
         case awsAccount = "AWS_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latestPermissionSetNotProvisioned = "LATEST_PERMISSION_SET_NOT_PROVISIONED"
         case latestPermissionSetProvisioned = "LATEST_PERMISSION_SET_PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusValues: String, CustomStringConvertible, Codable, Sendable {
+    public enum SignInOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        case identityCenter = "IDENTITY_CENTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAccount = "AWS_ACCOUNT"
         public var description: String { return self.rawValue }
+    }
+
+    public enum TrustedTokenIssuerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oidcJwt = "OIDC_JWT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Grant: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Configuration options for the authorization_code grant type.
+        case authorizationCode(AuthorizationCodeGrant)
+        /// Configuration options for the urn:ietf:params:oauth:grant-type:jwt-bearer grant type.
+        case jwtBearer(JwtBearerGrant)
+        /// Configuration options for the refresh_token grant type.
+        case refreshToken(RefreshTokenGrant)
+        /// Configuration options for the urn:ietf:params:oauth:grant-type:token-exchange grant type.
+        case tokenExchange(TokenExchangeGrant)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .authorizationCode:
+                let value = try container.decode(AuthorizationCodeGrant.self, forKey: .authorizationCode)
+                self = .authorizationCode(value)
+            case .jwtBearer:
+                let value = try container.decode(JwtBearerGrant.self, forKey: .jwtBearer)
+                self = .jwtBearer(value)
+            case .refreshToken:
+                let value = try container.decode(RefreshTokenGrant.self, forKey: .refreshToken)
+                self = .refreshToken(value)
+            case .tokenExchange:
+                let value = try container.decode(TokenExchangeGrant.self, forKey: .tokenExchange)
+                self = .tokenExchange(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .authorizationCode(let value):
+                try container.encode(value, forKey: .authorizationCode)
+            case .jwtBearer(let value):
+                try container.encode(value, forKey: .jwtBearer)
+            case .refreshToken(let value):
+                try container.encode(value, forKey: .refreshToken)
+            case .tokenExchange(let value):
+                try container.encode(value, forKey: .tokenExchange)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .authorizationCode(let value):
+                try value.validate(name: "\(name).authorizationCode")
+            case .jwtBearer(let value):
+                try value.validate(name: "\(name).jwtBearer")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCode = "AuthorizationCode"
+            case jwtBearer = "JwtBearer"
+            case refreshToken = "RefreshToken"
+            case tokenExchange = "TokenExchange"
+        }
     }
 
     // MARK: Shapes
@@ -112,14 +234,39 @@ extension SSOAdmin {
     }
 
     public struct AccountAssignment: AWSDecodableShape {
-        /// The identifier of the AWS account.
+        /// The identifier of the Amazon Web Services account.
         public let accountId: String?
         /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String?
         /// The entity type for which the assignment will be created.
+        public let principalType: PrincipalType?
+
+        public init(accountId: String? = nil, permissionSetArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
+            self.accountId = accountId
+            self.permissionSetArn = permissionSetArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case permissionSetArn = "PermissionSetArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct AccountAssignmentForPrincipal: AWSDecodableShape {
+        /// The account ID number of the Amazon Web Services account.
+        public let accountId: String?
+        /// The ARN of the IAM Identity Center permission set assigned to this principal for this Amazon Web Services account.
+        public let permissionSetArn: String?
+        /// The ID of the principal.
+        public let principalId: String?
+        /// The type of the principal.
         public let principalType: PrincipalType?
 
         public init(accountId: String? = nil, permissionSetArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
@@ -143,7 +290,7 @@ extension SSOAdmin {
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
         /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String?
@@ -153,7 +300,7 @@ extension SSOAdmin {
         public let requestId: String?
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType?
@@ -204,8 +351,120 @@ extension SSOAdmin {
         }
     }
 
+    public struct Application: AWSDecodableShape {
+        /// The Amazon Web Services account ID number of the application.
+        public let applicationAccount: String?
+        /// The ARN of the application.
+        public let applicationArn: String?
+        /// The ARN of the application provider for this application.
+        public let applicationProviderArn: String?
+        /// The date and time when the application was originally created.
+        public let createdDate: Date?
+        /// The description of the application.
+        public let description: String?
+        /// The ARN of the instance of IAM Identity Center that is configured with this application.
+        public let instanceArn: String?
+        /// The name of the application.
+        public let name: String?
+        /// A structure that describes the options for the access portal associated with this application.
+        public let portalOptions: PortalOptions?
+        /// The current status of the application in this instance of IAM Identity Center.
+        public let status: ApplicationStatus?
+
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+            self.applicationAccount = applicationAccount
+            self.applicationArn = applicationArn
+            self.applicationProviderArn = applicationProviderArn
+            self.createdDate = createdDate
+            self.description = description
+            self.instanceArn = instanceArn
+            self.name = name
+            self.portalOptions = portalOptions
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAccount = "ApplicationAccount"
+            case applicationArn = "ApplicationArn"
+            case applicationProviderArn = "ApplicationProviderArn"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case portalOptions = "PortalOptions"
+            case status = "Status"
+        }
+    }
+
+    public struct ApplicationAssignment: AWSDecodableShape {
+        /// The ARN of the application that has principals assigned.
+        public let applicationArn: String
+        /// The unique identifier of the principal assigned to the application.
+        public let principalId: String
+        /// The type of the principal assigned to the application.
+        public let principalType: PrincipalType
+
+        public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct ApplicationAssignmentForPrincipal: AWSDecodableShape {
+        /// The ARN of the application to which the specified principal is assigned.
+        public let applicationArn: String?
+        /// The unique identifier of the principal assigned to the application.
+        public let principalId: String?
+        /// The type of the principal assigned to the application.
+        public let principalType: PrincipalType?
+
+        public init(applicationArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct ApplicationProvider: AWSDecodableShape {
+        /// The ARN of the application provider.
+        public let applicationProviderArn: String
+        /// A structure that describes how IAM Identity Center represents the application provider in the portal.
+        public let displayData: DisplayData?
+        /// The protocol that the application provider uses to perform federation.
+        public let federationProtocol: FederationProtocol?
+        /// A structure that describes the application provider's resource server.
+        public let resourceServerConfig: ResourceServerConfig?
+
+        public init(applicationProviderArn: String, displayData: DisplayData? = nil, federationProtocol: FederationProtocol? = nil, resourceServerConfig: ResourceServerConfig? = nil) {
+            self.applicationProviderArn = applicationProviderArn
+            self.displayData = displayData
+            self.federationProtocol = federationProtocol
+            self.resourceServerConfig = resourceServerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationProviderArn = "ApplicationProviderArn"
+            case displayData = "DisplayData"
+            case federationProtocol = "FederationProtocol"
+            case resourceServerConfig = "ResourceServerConfig"
+        }
+    }
+
     public struct AttachCustomerManagedPolicyReferenceToPermissionSetRequest: AWSEncodableShape {
-        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
         public let customerManagedPolicyReference: CustomerManagedPolicyReference
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
@@ -241,9 +500,9 @@ extension SSOAdmin {
 
     public struct AttachManagedPolicyToPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
-        /// The AWS managed policy ARN to be attached to a permission set.
+        /// The Amazon Web Services managed policy ARN to be attached to a permission set.
         public let managedPolicyArn: String
         /// The ARN of the PermissionSet that the managed policy should be attached to.
         public let permissionSetArn: String
@@ -278,10 +537,10 @@ extension SSOAdmin {
     }
 
     public struct AttachedManagedPolicy: AWSDecodableShape {
-        /// The ARN of the AWS managed policy. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
-        /// The name of the AWS managed policy.
+        /// The name of the Amazon Web Services managed policy.
         public let name: String?
 
         public init(arn: String? = nil, name: String? = nil) {
@@ -295,9 +554,73 @@ extension SSOAdmin {
         }
     }
 
+    public struct AuthenticationMethodItem: AWSDecodableShape {
+        /// A structure that describes an authentication method. The contents of this structure is determined by the AuthenticationMethodType.
+        public let authenticationMethod: AuthenticationMethod?
+        /// The type of authentication that is used by this method.
+        public let authenticationMethodType: AuthenticationMethodType?
+
+        public init(authenticationMethod: AuthenticationMethod? = nil, authenticationMethodType: AuthenticationMethodType? = nil) {
+            self.authenticationMethod = authenticationMethod
+            self.authenticationMethodType = authenticationMethodType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMethod = "AuthenticationMethod"
+            case authenticationMethodType = "AuthenticationMethodType"
+        }
+    }
+
+    public struct AuthorizationCodeGrant: AWSEncodableShape & AWSDecodableShape {
+        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.
+        public let redirectUris: [String]?
+
+        public init(redirectUris: [String]? = nil) {
+            self.redirectUris = redirectUris
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.redirectUris, name: "redirectUris", parent: name, max: 10)
+            try self.validate(self.redirectUris, name: "redirectUris", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redirectUris = "RedirectUris"
+        }
+    }
+
+    public struct AuthorizedTokenIssuer: AWSEncodableShape & AWSDecodableShape {
+        /// An array list of authorized audiences, or applications, that can consume the tokens generated by the associated trusted token issuer.
+        public let authorizedAudiences: [String]?
+        /// The ARN of the trusted token issuer.
+        public let trustedTokenIssuerArn: String?
+
+        public init(authorizedAudiences: [String]? = nil, trustedTokenIssuerArn: String? = nil) {
+            self.authorizedAudiences = authorizedAudiences
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizedAudiences?.forEach {
+                try validate($0, name: "authorizedAudiences[]", parent: name, max: 512)
+                try validate($0, name: "authorizedAudiences[]", parent: name, min: 1)
+            }
+            try self.validate(self.authorizedAudiences, name: "authorizedAudiences", parent: name, max: 10)
+            try self.validate(self.authorizedAudiences, name: "authorizedAudiences", parent: name, min: 1)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedAudiences = "AuthorizedAudiences"
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        }
+    }
+
     public struct CreateAccountAssignmentRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that the admin wants to grant the principal access to.
         public let permissionSetArn: String
@@ -305,7 +628,7 @@ extension SSOAdmin {
         public let principalId: String
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType
@@ -357,6 +680,116 @@ extension SSOAdmin {
         }
     }
 
+    public struct CreateApplicationAssignmentRequest: AWSEncodableShape {
+        /// The ARN of the application provider under which the operation will run.
+        public let applicationArn: String
+        /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
+        public let principalId: String
+        /// The entity type for which the assignment will be created.
+        public let principalType: PrincipalType
+
+        public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct CreateApplicationAssignmentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// The ARN of the application provider under which the operation will run.
+        public let applicationProviderArn: String
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String?
+        /// The description of the .
+        public let description: String?
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String
+        /// The name of the .
+        public let name: String
+        /// A structure that describes the options for the portal associated with an application.
+        public let portalOptions: PortalOptions?
+        /// Specifies whether the application is enabled or disabled.
+        public let status: ApplicationStatus?
+        /// Specifies tags to be attached to the application.
+        public let tags: [Tag]?
+
+        public init(applicationProviderArn: String, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, instanceArn: String, name: String, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil, tags: [Tag]? = nil) {
+            self.applicationProviderArn = applicationProviderArn
+            self.clientToken = clientToken
+            self.description = description
+            self.instanceArn = instanceArn
+            self.name = name
+            self.portalOptions = portalOptions
+            self.status = status
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, max: 1224)
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, min: 10)
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 128)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.portalOptions?.validate(name: "\(name).portalOptions")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 75)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationProviderArn = "ApplicationProviderArn"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case portalOptions = "PortalOptions"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSDecodableShape {
+        /// Specifies the ARN of the application.
+        public let applicationArn: String?
+
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
     public struct CreateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
         /// Specifies the IAM Identity Center identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion. Doing so provides an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center will replace the attribute value with the value from the IAM Identity Center identity store.
         public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
@@ -385,11 +818,58 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct CreateInstanceRequest: AWSEncodableShape {
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String?
+        /// The name of the instance of IAM Identity Center.
+        public let name: String?
+        /// Specifies tags to be attached to the instance of IAM Identity Center.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 75)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateInstanceResponse: AWSDecodableShape {
+        /// The ARN of the instance of IAM Identity Center under which the operation will run.  For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
+
+        public init(instanceArn: String? = nil) {
+            self.instanceArn = instanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
     public struct CreatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The name of the PermissionSet.
         public let name: String
@@ -412,7 +892,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A0-\\u00FF]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
@@ -428,7 +908,7 @@ extension SSOAdmin {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 75)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -442,7 +922,7 @@ extension SSOAdmin {
     }
 
     public struct CreatePermissionSetResponse: AWSDecodableShape {
-        /// Defines the level of access on an AWS account.
+        /// Defines the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
         public init(permissionSet: PermissionSet? = nil) {
@@ -451,6 +931,69 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case permissionSet = "PermissionSet"
+        }
+    }
+
+    public struct CreateTrustedTokenIssuerRequest: AWSEncodableShape {
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String?
+        /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration.
+        public let instanceArn: String
+        /// Specifies the name of the new trusted token issuer configuration.
+        public let name: String
+        /// Specifies tags to be attached to the new trusted token issuer configuration.
+        public let tags: [Tag]?
+        /// Specifies settings that apply to the new trusted token issuer configuration. The settings that are available depend on what TrustedTokenIssuerType you specify.
+        public let trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration
+        /// Specifies the type of the new trusted token issuer.
+        public let trustedTokenIssuerType: TrustedTokenIssuerType
+
+        public init(clientToken: String? = CreateTrustedTokenIssuerRequest.idempotencyToken(), instanceArn: String, name: String, tags: [Tag]? = nil, trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration, trustedTokenIssuerType: TrustedTokenIssuerType) {
+            self.clientToken = clientToken
+            self.instanceArn = instanceArn
+            self.name = name
+            self.tags = tags
+            self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+            self.trustedTokenIssuerType = trustedTokenIssuerType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 75)
+            try self.trustedTokenIssuerConfiguration.validate(name: "\(name).trustedTokenIssuerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case tags = "Tags"
+            case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+            case trustedTokenIssuerType = "TrustedTokenIssuerType"
+        }
+    }
+
+    public struct CreateTrustedTokenIssuerResponse: AWSDecodableShape {
+        /// The ARN of the new trusted token issuer configuration.
+        public let trustedTokenIssuerArn: String?
+
+        public init(trustedTokenIssuerArn: String? = nil) {
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
         }
     }
 
@@ -482,7 +1025,7 @@ extension SSOAdmin {
 
     public struct DeleteAccountAssignmentRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
@@ -490,7 +1033,7 @@ extension SSOAdmin {
         public let principalId: String
         /// The entity type for which the assignment will be deleted.
         public let principalType: PrincipalType
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
         public let targetId: String
         /// The entity type for which the assignment will be deleted.
         public let targetType: TargetType
@@ -542,9 +1085,137 @@ extension SSOAdmin {
         }
     }
 
+    public struct DeleteApplicationAccessScopeRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the access scope to delete.
+        public let applicationArn: String
+        /// Specifies the name of the access scope to remove from the application.
+        public let scope: String
+
+        public init(applicationArn: String, scope: String) {
+            self.applicationArn = applicationArn
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.scope, name: "scope", parent: name, pattern: "^([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case scope = "Scope"
+        }
+    }
+
+    public struct DeleteApplicationAssignmentRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application.
+        public let applicationArn: String
+        /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
+        public let principalId: String
+        /// The entity type for which the assignment will be deleted.
+        public let principalType: PrincipalType
+
+        public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct DeleteApplicationAssignmentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteApplicationAuthenticationMethodRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the authentication method to delete.
+        public let applicationArn: String
+        /// Specifies the authentication method type to delete from the application.
+        public let authenticationMethodType: AuthenticationMethodType
+
+        public init(applicationArn: String, authenticationMethodType: AuthenticationMethodType) {
+            self.applicationArn = applicationArn
+            self.authenticationMethodType = authenticationMethodType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case authenticationMethodType = "AuthenticationMethodType"
+        }
+    }
+
+    public struct DeleteApplicationGrantRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the grant to delete.
+        public let applicationArn: String
+        /// Specifies the type of grant to delete from the application.
+        public let grantType: GrantType
+
+        public init(applicationArn: String, grantType: GrantType) {
+            self.applicationArn = applicationArn
+            self.grantType = grantType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case grantType = "GrantType"
+        }
+    }
+
+    public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct DeleteApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteInlinePolicyFromPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
@@ -596,9 +1267,32 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct DeleteInstanceRequest: AWSEncodableShape {
+        /// The ARN of the instance of IAM Identity Center under which the operation will run.
+        public let instanceArn: String
+
+        public init(instanceArn: String) {
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct DeleteInstanceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that should be deleted.
         public let permissionSetArn: String
@@ -657,11 +1351,34 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct DeleteTrustedTokenIssuerRequest: AWSEncodableShape {
+        /// Specifies the ARN of the trusted token issuer configuration to delete.
+        public let trustedTokenIssuerArn: String
+
+        public init(trustedTokenIssuerArn: String) {
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        }
+    }
+
+    public struct DeleteTrustedTokenIssuerResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentCreationRequestId: String
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         public init(accountAssignmentCreationRequestId: String, instanceArn: String) {
@@ -701,7 +1418,7 @@ extension SSOAdmin {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentDeletionRequestId: String
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         public init(accountAssignmentDeletionRequestId: String, instanceArn: String) {
@@ -734,6 +1451,169 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case accountAssignmentDeletionStatus = "AccountAssignmentDeletionStatus"
+        }
+    }
+
+    public struct DescribeApplicationAssignmentRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+        /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
+        public let principalId: String
+        /// The entity type for which the assignment will be created.
+        public let principalType: PrincipalType
+
+        public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct DescribeApplicationAssignmentResponse: AWSDecodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String?
+        /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
+        public let principalId: String?
+        /// The entity type for which the assignment will be created.
+        public let principalType: PrincipalType?
+
+        public init(applicationArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct DescribeApplicationProviderRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application provider for which you want details.
+        public let applicationProviderArn: String
+
+        public init(applicationProviderArn: String) {
+            self.applicationProviderArn = applicationProviderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, max: 1224)
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, min: 10)
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationProviderArn = "ApplicationProviderArn"
+        }
+    }
+
+    public struct DescribeApplicationProviderResponse: AWSDecodableShape {
+        /// The ARN of the application provider.
+        public let applicationProviderArn: String
+        /// A structure with details about the display data for the application provider.
+        public let displayData: DisplayData?
+        /// The protocol used to federate to the application provider.
+        public let federationProtocol: FederationProtocol?
+        /// A structure with details about the receiving application.
+        public let resourceServerConfig: ResourceServerConfig?
+
+        public init(applicationProviderArn: String, displayData: DisplayData? = nil, federationProtocol: FederationProtocol? = nil, resourceServerConfig: ResourceServerConfig? = nil) {
+            self.applicationProviderArn = applicationProviderArn
+            self.displayData = displayData
+            self.federationProtocol = federationProtocol
+            self.resourceServerConfig = resourceServerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationProviderArn = "ApplicationProviderArn"
+            case displayData = "DisplayData"
+            case federationProtocol = "FederationProtocol"
+            case resourceServerConfig = "ResourceServerConfig"
+        }
+    }
+
+    public struct DescribeApplicationRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct DescribeApplicationResponse: AWSDecodableShape {
+        /// The account ID.
+        public let applicationAccount: String?
+        /// Specifies the ARN of the application.
+        public let applicationArn: String?
+        /// The ARN of the application provider under which the operation will run.
+        public let applicationProviderArn: String?
+        /// The date the application was created.
+        public let createdDate: Date?
+        /// The description of the .
+        public let description: String?
+        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
+        /// The application name.
+        public let name: String?
+        /// A structure that describes the options for the portal associated with an application.
+        public let portalOptions: PortalOptions?
+        /// Specifies whether the application is enabled or disabled.
+        public let status: ApplicationStatus?
+
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+            self.applicationAccount = applicationAccount
+            self.applicationArn = applicationArn
+            self.applicationProviderArn = applicationProviderArn
+            self.createdDate = createdDate
+            self.description = description
+            self.instanceArn = instanceArn
+            self.name = name
+            self.portalOptions = portalOptions
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAccount = "ApplicationAccount"
+            case applicationArn = "ApplicationArn"
+            case applicationProviderArn = "ApplicationProviderArn"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case portalOptions = "PortalOptions"
+            case status = "Status"
         }
     }
 
@@ -777,9 +1657,62 @@ extension SSOAdmin {
         }
     }
 
+    public struct DescribeInstanceRequest: AWSEncodableShape {
+        /// The ARN of the instance of IAM Identity Center under which the operation will run.
+        public let instanceArn: String
+
+        public init(instanceArn: String) {
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct DescribeInstanceResponse: AWSDecodableShape {
+        /// The date the instance was created.
+        public let createdDate: Date?
+        /// The identifier of the identity store that is connected to the instance of IAM Identity Center.
+        public let identityStoreId: String?
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
+        /// Specifies the instance name.
+        public let name: String?
+        /// The identifier of the Amazon Web Services account for which the instance was created.
+        public let ownerAccountId: String?
+        /// The status of the instance.
+        public let status: InstanceStatus?
+
+        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
+            self.createdDate = createdDate
+            self.identityStoreId = identityStoreId
+            self.instanceArn = instanceArn
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case identityStoreId = "IdentityStoreId"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case ownerAccountId = "OwnerAccountId"
+            case status = "Status"
+        }
+    }
+
     public struct DescribePermissionSetProvisioningStatusRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
         public let provisionPermissionSetRequestId: String
@@ -819,7 +1752,7 @@ extension SSOAdmin {
 
     public struct DescribePermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -845,7 +1778,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetResponse: AWSDecodableShape {
-        /// Describes the level of access on an AWS account.
+        /// Describes the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
         public init(permissionSet: PermissionSet? = nil) {
@@ -857,8 +1790,52 @@ extension SSOAdmin {
         }
     }
 
+    public struct DescribeTrustedTokenIssuerRequest: AWSEncodableShape {
+        /// Specifies the ARN of the trusted token issuer configuration that you want details about.
+        public let trustedTokenIssuerArn: String
+
+        public init(trustedTokenIssuerArn: String) {
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        }
+    }
+
+    public struct DescribeTrustedTokenIssuerResponse: AWSDecodableShape {
+        /// The name of the trusted token issuer configuration.
+        public let name: String?
+        /// The ARN of the trusted token issuer configuration.
+        public let trustedTokenIssuerArn: String?
+        /// A structure the describes the settings that apply of this trusted token issuer.
+        public let trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration?
+        /// The type of the trusted token issuer.
+        public let trustedTokenIssuerType: TrustedTokenIssuerType?
+
+        public init(name: String? = nil, trustedTokenIssuerArn: String? = nil, trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration? = nil, trustedTokenIssuerType: TrustedTokenIssuerType? = nil) {
+            self.name = name
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+            self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+            self.trustedTokenIssuerType = trustedTokenIssuerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+            case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+            case trustedTokenIssuerType = "TrustedTokenIssuerType"
+        }
+    }
+
     public struct DetachCustomerManagedPolicyReferenceFromPermissionSetRequest: AWSEncodableShape {
-        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
         public let customerManagedPolicyReference: CustomerManagedPolicyReference
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
@@ -894,9 +1871,9 @@ extension SSOAdmin {
 
     public struct DetachManagedPolicyFromPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
-        /// The AWS managed policy ARN to be detached from a permission set.
+        /// The Amazon Web Services managed policy ARN to be detached from a permission set.
         public let managedPolicyArn: String
         /// The ARN of the PermissionSet from which the policy should be detached.
         public let permissionSetArn: String
@@ -930,9 +1907,176 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct DisplayData: AWSDecodableShape {
+        /// The description of the application provider that appears in the portal.
+        public let description: String?
+        /// The name of the application provider that appears in the portal.
+        public let displayName: String?
+        /// A URL that points to an icon that represents the application provider.
+        public let iconUrl: String?
+
+        public init(description: String? = nil, displayName: String? = nil, iconUrl: String? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.iconUrl = iconUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case iconUrl = "IconUrl"
+        }
+    }
+
+    public struct GetApplicationAccessScopeRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the access scope that you want to retrieve.
+        public let applicationArn: String
+        /// Specifies the name of the access scope for which you want the authorized targets.
+        public let scope: String
+
+        public init(applicationArn: String, scope: String) {
+            self.applicationArn = applicationArn
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.scope, name: "scope", parent: name, pattern: "^([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case scope = "Scope"
+        }
+    }
+
+    public struct GetApplicationAccessScopeResponse: AWSDecodableShape {
+        /// An array of authorized targets associated with this access scope.
+        public let authorizedTargets: [String]?
+        /// The name of the access scope that can be used with the authorized targets.
+        public let scope: String
+
+        public init(authorizedTargets: [String]? = nil, scope: String) {
+            self.authorizedTargets = authorizedTargets
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedTargets = "AuthorizedTargets"
+            case scope = "Scope"
+        }
+    }
+
+    public struct GetApplicationAssignmentConfigurationRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct GetApplicationAssignmentConfigurationResponse: AWSDecodableShape {
+        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
+        public let assignmentRequired: Bool
+
+        public init(assignmentRequired: Bool) {
+            self.assignmentRequired = assignmentRequired
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentRequired = "AssignmentRequired"
+        }
+    }
+
+    public struct GetApplicationAuthenticationMethodRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application.
+        public let applicationArn: String
+        /// Specifies the type of authentication method for which you want details.
+        public let authenticationMethodType: AuthenticationMethodType
+
+        public init(applicationArn: String, authenticationMethodType: AuthenticationMethodType) {
+            self.applicationArn = applicationArn
+            self.authenticationMethodType = authenticationMethodType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case authenticationMethodType = "AuthenticationMethodType"
+        }
+    }
+
+    public struct GetApplicationAuthenticationMethodResponse: AWSDecodableShape {
+        /// A structure that contains details about the requested authentication method.
+        public let authenticationMethod: AuthenticationMethod?
+
+        public init(authenticationMethod: AuthenticationMethod? = nil) {
+            self.authenticationMethod = authenticationMethod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMethod = "AuthenticationMethod"
+        }
+    }
+
+    public struct GetApplicationGrantRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application that contains the grant.
+        public let applicationArn: String
+        /// Specifies the type of grant.
+        public let grantType: GrantType
+
+        public init(applicationArn: String, grantType: GrantType) {
+            self.applicationArn = applicationArn
+            self.grantType = grantType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case grantType = "GrantType"
+        }
+    }
+
+    public struct GetApplicationGrantResponse: AWSDecodableShape {
+        /// A structure that describes the requested grant.
+        public let grant: Grant
+
+        public init(grant: Grant) {
+            self.grant = grant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grant = "Grant"
+        }
+    }
+
     public struct GetInlinePolicyForPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -958,7 +2102,7 @@ extension SSOAdmin {
     }
 
     public struct GetInlinePolicyForPermissionSetResponse: AWSDecodableShape {
-        /// The inline policy that is attached to the permission set.
+        /// The inline policy that is attached to the permission set.  For Length Constraints, if a valid ARN is provided for a permission set, it is possible for an empty inline policy to be returned.
         public let inlinePolicy: String?
 
         public init(inlinePolicy: String? = nil) {
@@ -1009,6 +2153,36 @@ extension SSOAdmin {
         }
     }
 
+    public struct GrantItem: AWSDecodableShape {
+        /// The configuration structure for the selected grant.
+        public let grant: Grant
+        /// The type of the selected grant.
+        public let grantType: GrantType
+
+        public init(grant: Grant, grantType: GrantType) {
+            self.grant = grant
+            self.grantType = grantType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grant = "Grant"
+            case grantType = "GrantType"
+        }
+    }
+
+    public struct IamAuthenticationMethod: AWSEncodableShape & AWSDecodableShape {
+        /// An IAM policy document in JSON.
+        public let actorPolicy: String
+
+        public init(actorPolicy: String) {
+            self.actorPolicy = actorPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorPolicy = "ActorPolicy"
+        }
+    }
+
     public struct InstanceAccessControlAttributeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Lists the attributes that are configured for ABAC in the specified IAM Identity Center instance.
         public let accessControlAttributes: [AccessControlAttribute]
@@ -1030,20 +2204,57 @@ extension SSOAdmin {
     }
 
     public struct InstanceMetadata: AWSDecodableShape {
-        /// The identifier of the identity store that is connected to the IAM Identity Center instance.
+        /// The date and time that the Identity Center instance was created.
+        public let createdDate: Date?
+        /// The identifier of the identity store that is connected to the Identity Center instance.
         public let identityStoreId: String?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The ARN of the Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
+        /// The name of the Identity Center instance.
+        public let name: String?
+        /// The Amazon Web Services account ID number of the owner of the Identity Center instance.
+        public let ownerAccountId: String?
+        /// The current status of this Identity Center instance.
+        public let status: InstanceStatus?
 
-        public init(identityStoreId: String? = nil, instanceArn: String? = nil) {
+        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
+            self.createdDate = createdDate
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
             case identityStoreId = "IdentityStoreId"
             case instanceArn = "InstanceArn"
+            case name = "Name"
+            case ownerAccountId = "OwnerAccountId"
+            case status = "Status"
+        }
+    }
+
+    public struct JwtBearerGrant: AWSEncodableShape & AWSDecodableShape {
+        /// A list of allowed token issuers trusted by the Identity Center instances for this application.
+        public let authorizedTokenIssuers: [AuthorizedTokenIssuer]?
+
+        public init(authorizedTokenIssuers: [AuthorizedTokenIssuer]? = nil) {
+            self.authorizedTokenIssuers = authorizedTokenIssuers
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizedTokenIssuers?.forEach {
+                try $0.validate(name: "\(name).authorizedTokenIssuers[]")
+            }
+            try self.validate(self.authorizedTokenIssuers, name: "authorizedTokenIssuers", parent: name, max: 10)
+            try self.validate(self.authorizedTokenIssuers, name: "authorizedTokenIssuers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedTokenIssuers = "AuthorizedTokenIssuers"
         }
     }
 
@@ -1051,7 +2262,7 @@ extension SSOAdmin {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1104,7 +2315,7 @@ extension SSOAdmin {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1153,11 +2364,94 @@ extension SSOAdmin {
         }
     }
 
+    public struct ListAccountAssignmentsFilter: AWSEncodableShape {
+        /// The ID number of an Amazon Web Services account that filters the results in the response.
+        public let accountId: String?
+
+        public init(accountId: String? = nil) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct ListAccountAssignmentsForPrincipalRequest: AWSEncodableShape {
+        /// Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number.
+        public let filter: ListAccountAssignmentsFilter?
+        /// Specifies the ARN of the instance of IAM Identity Center that contains the principal.
+        public let instanceArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+        /// Specifies the principal for which you want to retrieve the list of account assignments.
+        public let principalId: String
+        /// Specifies the type of the principal.
+        public let principalType: PrincipalType
+
+        public init(filter: ListAccountAssignmentsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String, principalType: PrincipalType) {
+            self.filter = filter
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct ListAccountAssignmentsForPrincipalResponse: AWSDecodableShape {
+        /// An array list of the account assignments for the principal.
+        public let accountAssignments: [AccountAssignmentForPrincipal]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(accountAssignments: [AccountAssignmentForPrincipal]? = nil, nextToken: String? = nil) {
+            self.accountAssignments = accountAssignments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssignments = "AccountAssignments"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAccountAssignmentsRequest: AWSEncodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1200,7 +2494,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountAssignmentsResponse: AWSDecodableShape {
-        /// The list of assignments that match the input AWS account and permission set.
+        /// The list of assignments that match the input Amazon Web Services account and permission set.
         public let accountAssignments: [AccountAssignment]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1218,15 +2512,15 @@ extension SSOAdmin {
 
     public struct ListAccountsForProvisionedPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// The ARN of the PermissionSet from which the associated AWS accounts will be listed.
+        /// The ARN of the PermissionSet from which the associated Amazon Web Services accounts will be listed.
         public let permissionSetArn: String
-        /// The permission set provisioning status for an AWS account.
+        /// The permission set provisioning status for an Amazon Web Services account.
         public let provisioningStatus: ProvisioningStatus?
 
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String, provisioningStatus: ProvisioningStatus? = nil) {
@@ -1260,7 +2554,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountsForProvisionedPermissionSetResponse: AWSDecodableShape {
-        /// The list of AWS AccountIds.
+        /// The list of Amazon Web Services AccountIds.
         public let accountIds: [String]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1272,6 +2566,390 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAccessScopesRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application.
+        public let applicationArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(applicationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationArn = applicationArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAccessScopesResponse: AWSDecodableShape {
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+        /// An array list of access scopes and their authorized targets that are associated with the application.
+        public let scopes: [ScopeDetails]
+
+        public init(nextToken: String? = nil, scopes: [ScopeDetails]) {
+            self.nextToken = nextToken
+            self.scopes = scopes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scopes = "Scopes"
+        }
+    }
+
+    public struct ListApplicationAssignmentsFilter: AWSEncodableShape {
+        /// The ARN of an application.
+        public let applicationArn: String?
+
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct ListApplicationAssignmentsForPrincipalRequest: AWSEncodableShape {
+        /// Filters the output to include only assignments associated with the application that has the specified ARN.
+        public let filter: ListApplicationAssignmentsFilter?
+        /// Specifies the instance of IAM Identity Center that contains principal and applications.
+        public let instanceArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+        /// Specifies the unique identifier of the principal for which you want to retrieve its assignments.
+        public let principalId: String
+        /// Specifies the type of the principal for which you want to retrieve its assignments.
+        public let principalType: PrincipalType
+
+        public init(filter: ListApplicationAssignmentsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String, principalType: PrincipalType) {
+            self.filter = filter
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case principalId = "PrincipalId"
+            case principalType = "PrincipalType"
+        }
+    }
+
+    public struct ListApplicationAssignmentsForPrincipalResponse: AWSDecodableShape {
+        /// An array list of the application assignments for the specified principal.
+        public let applicationAssignments: [ApplicationAssignmentForPrincipal]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(applicationAssignments: [ApplicationAssignmentForPrincipal]? = nil, nextToken: String? = nil) {
+            self.applicationAssignments = applicationAssignments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAssignments = "ApplicationAssignments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAssignmentsRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application.
+        public let applicationArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(applicationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationArn = applicationArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAssignmentsResponse: AWSDecodableShape {
+        /// The list of users assigned to an application.
+        public let applicationAssignments: [ApplicationAssignment]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(applicationAssignments: [ApplicationAssignment]? = nil, nextToken: String? = nil) {
+            self.applicationAssignments = applicationAssignments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAssignments = "ApplicationAssignments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAuthenticationMethodsRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the authentication methods you want to list.
+        public let applicationArn: String
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(applicationArn: String, nextToken: String? = nil) {
+            self.applicationArn = applicationArn
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationAuthenticationMethodsResponse: AWSDecodableShape {
+        /// An array list of authentication methods for the specified application.
+        public let authenticationMethods: [AuthenticationMethodItem]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(authenticationMethods: [AuthenticationMethodItem]? = nil, nextToken: String? = nil) {
+            self.authenticationMethods = authenticationMethods
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMethods = "AuthenticationMethods"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationGrantsRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application whose grants you want to list.
+        public let applicationArn: String
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(applicationArn: String, nextToken: String? = nil) {
+            self.applicationArn = applicationArn
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationGrantsResponse: AWSDecodableShape {
+        /// An array list of structures that describe the requested grants.
+        public let grants: [GrantItem]
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(grants: [GrantItem], nextToken: String? = nil) {
+            self.grants = grants
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grants = "Grants"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationProvidersRequest: AWSEncodableShape {
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationProvidersResponse: AWSDecodableShape {
+        /// An array list of structures that describe application providers.
+        public let applicationProviders: [ApplicationProvider]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(applicationProviders: [ApplicationProvider]? = nil, nextToken: String? = nil) {
+            self.applicationProviders = applicationProviders
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationProviders = "ApplicationProviders"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationsFilter: AWSEncodableShape {
+        /// An Amazon Web Services account ID number that filters the results in the response.
+        public let applicationAccount: String?
+        /// The ARN of an application provider that can filter the results in the response.
+        public let applicationProvider: String?
+
+        public init(applicationAccount: String? = nil, applicationProvider: String? = nil) {
+            self.applicationAccount = applicationAccount
+            self.applicationProvider = applicationProvider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationAccount, name: "applicationAccount", parent: name, max: 12)
+            try self.validate(self.applicationAccount, name: "applicationAccount", parent: name, min: 12)
+            try self.validate(self.applicationAccount, name: "applicationAccount", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, max: 1224)
+            try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, min: 10)
+            try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAccount = "ApplicationAccount"
+            case applicationProvider = "ApplicationProvider"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSEncodableShape {
+        /// Filters response results.
+        public let filter: ListApplicationsFilter?
+        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(filter: ListApplicationsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationsResponse: AWSDecodableShape {
+        /// Retrieves all applications associated with the instance.
+        public let applications: [Application]?
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+
+        public init(applications: [Application]? = nil, nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
             case nextToken = "NextToken"
         }
     }
@@ -1374,7 +3052,7 @@ extension SSOAdmin {
 
     public struct ListManagedPoliciesInPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
@@ -1432,7 +3110,7 @@ extension SSOAdmin {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1482,10 +3160,10 @@ extension SSOAdmin {
     }
 
     public struct ListPermissionSetsProvisionedToAccountRequest: AWSEncodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1527,7 +3205,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsProvisionedToAccountResponse: AWSDecodableShape {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// Defines the level of access that an AWS account has.
+        /// Defines the level of access that an Amazon Web Services account has.
         public let permissionSets: [String]?
 
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
@@ -1543,7 +3221,7 @@ extension SSOAdmin {
 
     public struct ListPermissionSetsRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -1576,7 +3254,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsResponse: AWSDecodableShape {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
-        /// Defines the level of access on an AWS account.
+        /// Defines the level of access on an Amazon Web Services account.
         public let permissionSets: [String]?
 
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
@@ -1592,14 +3270,14 @@ extension SSOAdmin {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let instanceArn: String
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
 
-        public init(instanceArn: String, nextToken: String? = nil, resourceArn: String) {
+        public init(instanceArn: String? = nil, nextToken: String? = nil, resourceArn: String) {
             self.instanceArn = instanceArn
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1613,7 +3291,7 @@ extension SSOAdmin {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1640,6 +3318,121 @@ extension SSOAdmin {
         }
     }
 
+    public struct ListTrustedTokenIssuersRequest: AWSEncodableShape {
+        /// Specifies the ARN of the instance of IAM Identity Center with the trusted token issuer configurations that you want to list.
+        public let instanceArn: String
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+
+        public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTrustedTokenIssuersResponse: AWSDecodableShape {
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+        /// An array list of the trusted token issuer configurations.
+        public let trustedTokenIssuers: [TrustedTokenIssuerMetadata]?
+
+        public init(nextToken: String? = nil, trustedTokenIssuers: [TrustedTokenIssuerMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.trustedTokenIssuers = trustedTokenIssuers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trustedTokenIssuers = "TrustedTokenIssuers"
+        }
+    }
+
+    public struct OidcJwtConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public let claimAttributePath: String
+        /// The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public let identityStoreAttributePath: String
+        /// The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery is used to obtain the information required to verify the tokens that the trusted token issuer generates.
+        public let issuerUrl: String
+        /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
+        public let jwksRetrievalOption: JwksRetrievalOption
+
+        public init(claimAttributePath: String, identityStoreAttributePath: String, issuerUrl: String, jwksRetrievalOption: JwksRetrievalOption) {
+            self.claimAttributePath = claimAttributePath
+            self.identityStoreAttributePath = identityStoreAttributePath
+            self.issuerUrl = issuerUrl
+            self.jwksRetrievalOption = jwksRetrievalOption
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, max: 255)
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, min: 1)
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, pattern: "^\\p{L}+(?:(\\.|\\_)\\p{L}+){0,2}$")
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, max: 255)
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, min: 1)
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, pattern: "^\\p{L}+(?:\\.\\p{L}+){0,2}$")
+            try self.validate(self.issuerUrl, name: "issuerUrl", parent: name, max: 512)
+            try self.validate(self.issuerUrl, name: "issuerUrl", parent: name, min: 1)
+            try self.validate(self.issuerUrl, name: "issuerUrl", parent: name, pattern: "^https?:\\/\\/[-a-zA-Z0-9+&@\\/%=~_|!:,.;]*[-a-zA-Z0-9+&@\\/%=~_|]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimAttributePath = "ClaimAttributePath"
+            case identityStoreAttributePath = "IdentityStoreAttributePath"
+            case issuerUrl = "IssuerUrl"
+            case jwksRetrievalOption = "JwksRetrievalOption"
+        }
+    }
+
+    public struct OidcJwtUpdateConfiguration: AWSEncodableShape {
+        /// The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public let claimAttributePath: String?
+        /// The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public let identityStoreAttributePath: String?
+        /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
+        public let jwksRetrievalOption: JwksRetrievalOption?
+
+        public init(claimAttributePath: String? = nil, identityStoreAttributePath: String? = nil, jwksRetrievalOption: JwksRetrievalOption? = nil) {
+            self.claimAttributePath = claimAttributePath
+            self.identityStoreAttributePath = identityStoreAttributePath
+            self.jwksRetrievalOption = jwksRetrievalOption
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, max: 255)
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, min: 1)
+            try self.validate(self.claimAttributePath, name: "claimAttributePath", parent: name, pattern: "^\\p{L}+(?:(\\.|\\_)\\p{L}+){0,2}$")
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, max: 255)
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, min: 1)
+            try self.validate(self.identityStoreAttributePath, name: "identityStoreAttributePath", parent: name, pattern: "^\\p{L}+(?:\\.\\p{L}+){0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimAttributePath = "ClaimAttributePath"
+            case identityStoreAttributePath = "IdentityStoreAttributePath"
+            case jwksRetrievalOption = "JwksRetrievalOption"
+        }
+    }
+
     public struct OperationStatusFilter: AWSEncodableShape {
         /// Filters the list operations result based on the status attribute.
         public let status: StatusValues?
@@ -1661,7 +3454,7 @@ extension SSOAdmin {
         /// The name of the permission set.
         public let name: String?
         /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// Used to redirect users within the application during the federation authentication process.
         public let relayState: String?
@@ -1688,14 +3481,14 @@ extension SSOAdmin {
     }
 
     public struct PermissionSetProvisioningStatus: AWSDecodableShape {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String?
         /// The date that the permission set was created.
         public let createdDate: Date?
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
         /// The ARN of the permission set that is being provisioned. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// The identifier for tracking the request operation that is generated by the universally unique identifier (UUID) workflow.
         public let requestId: String?
@@ -1743,9 +3536,9 @@ extension SSOAdmin {
     }
 
     public struct PermissionsBoundary: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
         public let customerManagedPolicyReference: CustomerManagedPolicyReference?
-        /// The AWS managed policy ARN that you want to attach to a permission set as a permissions boundary.
+        /// The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary.
         public let managedPolicyArn: String?
 
         public init(customerManagedPolicyReference: CustomerManagedPolicyReference? = nil, managedPolicyArn: String? = nil) {
@@ -1766,13 +3559,34 @@ extension SSOAdmin {
         }
     }
 
+    public struct PortalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that describes the sign-in options for the access portal.
+        public let signInOptions: SignInOptions?
+        /// Indicates whether this application is visible in the access portal.
+        public let visibility: ApplicationVisibility?
+
+        public init(signInOptions: SignInOptions? = nil, visibility: ApplicationVisibility? = nil) {
+            self.signInOptions = signInOptions
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.signInOptions?.validate(name: "\(name).signInOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signInOptions = "SignInOptions"
+            case visibility = "Visibility"
+        }
+    }
+
     public struct ProvisionPermissionSetRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
         public let targetId: String?
         /// The entity type for which the assignment will be created.
         public let targetType: ProvisionTargetType
@@ -1817,11 +3631,129 @@ extension SSOAdmin {
         }
     }
 
+    public struct PutApplicationAccessScopeRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the access scope with the targets to add or update.
+        public let applicationArn: String
+        /// Specifies an array list of ARNs that represent the authorized targets for this access scope.
+        public let authorizedTargets: [String]?
+        /// Specifies the name of the access scope to be associated with the specified targets.
+        public let scope: String
+
+        public init(applicationArn: String, authorizedTargets: [String]? = nil, scope: String) {
+            self.applicationArn = applicationArn
+            self.authorizedTargets = authorizedTargets
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.authorizedTargets?.forEach {
+                try validate($0, name: "authorizedTargets[]", parent: name, max: 100)
+                try validate($0, name: "authorizedTargets[]", parent: name, min: 1)
+                try validate($0, name: "authorizedTargets[]", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:instance/(sso)?ins-[a-zA-Z0-9-.]{16})$")
+            }
+            try self.validate(self.authorizedTargets, name: "authorizedTargets", parent: name, max: 10)
+            try self.validate(self.authorizedTargets, name: "authorizedTargets", parent: name, min: 1)
+            try self.validate(self.scope, name: "scope", parent: name, pattern: "^([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case authorizedTargets = "AuthorizedTargets"
+            case scope = "Scope"
+        }
+    }
+
+    public struct PutApplicationAssignmentConfigurationRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
+        public let assignmentRequired: Bool
+
+        public init(applicationArn: String, assignmentRequired: Bool = true) {
+            self.applicationArn = applicationArn
+            self.assignmentRequired = assignmentRequired
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case assignmentRequired = "AssignmentRequired"
+        }
+    }
+
+    public struct PutApplicationAssignmentConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutApplicationAuthenticationMethodRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application with the authentication method to add or update.
+        public let applicationArn: String
+        /// Specifies a structure that describes the authentication method to add or update. The structure type you provide is determined by the AuthenticationMethodType parameter.
+        public let authenticationMethod: AuthenticationMethod
+        /// Specifies the type of the authentication method that you want to add or update.
+        public let authenticationMethodType: AuthenticationMethodType
+
+        public init(applicationArn: String, authenticationMethod: AuthenticationMethod, authenticationMethodType: AuthenticationMethodType) {
+            self.applicationArn = applicationArn
+            self.authenticationMethod = authenticationMethod
+            self.authenticationMethodType = authenticationMethodType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case authenticationMethod = "AuthenticationMethod"
+            case authenticationMethodType = "AuthenticationMethodType"
+        }
+    }
+
+    public struct PutApplicationGrantRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application to update.
+        public let applicationArn: String
+        /// Specifies a structure that describes the grant to update.
+        public let grant: Grant
+        /// Specifies the type of grant to update.
+        public let grantType: GrantType
+
+        public init(applicationArn: String, grant: Grant, grantType: GrantType) {
+            self.applicationArn = applicationArn
+            self.grant = grant
+            self.grantType = grantType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.grant.validate(name: "\(name).grant")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case grant = "Grant"
+            case grantType = "GrantType"
+        }
+    }
+
     public struct PutInlinePolicyToPermissionSetRequest: AWSEncodableShape {
         /// The inline policy to attach to a PermissionSet.
         public let inlinePolicy: String
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -1833,7 +3765,7 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, max: 10240)
+            try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, max: 32768)
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, min: 1)
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
@@ -1890,6 +3822,80 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct RefreshTokenGrant: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ResourceServerConfig: AWSDecodableShape {
+        /// A list of the IAM Identity Center access scopes that are associated with this resource server.
+        public let scopes: [String: ResourceServerScopeDetails]?
+
+        public init(scopes: [String: ResourceServerScopeDetails]? = nil) {
+            self.scopes = scopes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopes = "Scopes"
+        }
+    }
+
+    public struct ResourceServerScopeDetails: AWSDecodableShape {
+        /// The title of an access scope for a resource server.
+        public let detailedTitle: String?
+        /// The description of an access scope for a resource server.
+        public let longDescription: String?
+
+        public init(detailedTitle: String? = nil, longDescription: String? = nil) {
+            self.detailedTitle = detailedTitle
+            self.longDescription = longDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailedTitle = "DetailedTitle"
+            case longDescription = "LongDescription"
+        }
+    }
+
+    public struct ScopeDetails: AWSDecodableShape {
+        /// An array list of ARNs of applications.
+        public let authorizedTargets: [String]?
+        /// The name of the access scope.
+        public let scope: String
+
+        public init(authorizedTargets: [String]? = nil, scope: String) {
+            self.authorizedTargets = authorizedTargets
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedTargets = "AuthorizedTargets"
+            case scope = "Scope"
+        }
+    }
+
+    public struct SignInOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The URL that accepts authentication requests for an application. This is a required parameter if the Origin parameter is APPLICATION.
+        public let applicationUrl: String?
+        /// This determines how IAM Identity Center navigates the user to the target application. It can be one of the following values:    APPLICATION: IAM Identity Center redirects the customer to the configured ApplicationUrl.    IDENTITY_CENTER: IAM Identity Center uses SAML identity-provider initiated authentication to sign the customer directly into a SAML-based application.
+        public let origin: SignInOrigin
+
+        public init(applicationUrl: String? = nil, origin: SignInOrigin) {
+            self.applicationUrl = applicationUrl
+            self.origin = origin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationUrl, name: "applicationUrl", parent: name, max: 512)
+            try self.validate(self.applicationUrl, name: "applicationUrl", parent: name, min: 1)
+            try self.validate(self.applicationUrl, name: "applicationUrl", parent: name, pattern: "^http(s)?:\\/\\/[-a-zA-Z0-9+&@#\\/%?=~_|!:,.;]*[-a-zA-Z0-9+&bb@#\\/%?=~_|]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationUrl = "ApplicationUrl"
+            case origin = "Origin"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key for the tag.
         public let key: String
@@ -1917,14 +3923,14 @@ extension SSOAdmin {
 
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let instanceArn: String
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
         /// A set of key-value pairs that are used to manage the resource.
         public let tags: [Tag]
 
-        public init(instanceArn: String, resourceArn: String, tags: [Tag]) {
+        public init(instanceArn: String? = nil, resourceArn: String, tags: [Tag]) {
             self.instanceArn = instanceArn
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1936,11 +3942,11 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 75)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1954,16 +3960,41 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct TokenExchangeGrant: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct TrustedTokenIssuerMetadata: AWSDecodableShape {
+        /// The name of the trusted token issuer configuration in the instance of IAM Identity Center.
+        public let name: String?
+        /// The ARN of the trusted token issuer configuration in the instance of IAM Identity Center.
+        public let trustedTokenIssuerArn: String?
+        /// The type of trusted token issuer.
+        public let trustedTokenIssuerType: TrustedTokenIssuerType?
+
+        public init(name: String? = nil, trustedTokenIssuerArn: String? = nil, trustedTokenIssuerType: TrustedTokenIssuerType? = nil) {
+            self.name = name
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+            self.trustedTokenIssuerType = trustedTokenIssuerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+            case trustedTokenIssuerType = "TrustedTokenIssuerType"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let instanceArn: String
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
         /// The keys of tags that are attached to the resource.
         public let tagKeys: [String]
 
-        public init(instanceArn: String, resourceArn: String, tagKeys: [String]) {
+        public init(instanceArn: String? = nil, resourceArn: String, tagKeys: [String]) {
             self.instanceArn = instanceArn
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1975,13 +4006,13 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 75)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -1993,6 +4024,67 @@ extension SSOAdmin {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateApplicationPortalOptions: AWSEncodableShape {
+        public let signInOptions: SignInOptions?
+
+        public init(signInOptions: SignInOptions? = nil) {
+            self.signInOptions = signInOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.signInOptions?.validate(name: "\(name).signInOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signInOptions = "SignInOptions"
+        }
+    }
+
+    public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let applicationArn: String
+        /// The description of the .
+        public let description: String?
+        /// Specifies the updated name for the application.
+        public let name: String?
+        /// A structure that describes the options for the portal associated with an application.
+        public let portalOptions: UpdateApplicationPortalOptions?
+        /// Specifies whether the application is enabled or disabled.
+        public let status: ApplicationStatus?
+
+        public init(applicationArn: String, description: String? = nil, name: String? = nil, portalOptions: UpdateApplicationPortalOptions? = nil, status: ApplicationStatus? = nil) {
+            self.applicationArn = applicationArn
+            self.description = description
+            self.name = name
+            self.portalOptions = portalOptions
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.description, name: "description", parent: name, max: 128)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.portalOptions?.validate(name: "\(name).portalOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case description = "Description"
+            case name = "Name"
+            case portalOptions = "PortalOptions"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateApplicationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2024,11 +4116,41 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct UpdateInstanceRequest: AWSEncodableShape {
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String
+        /// Updates the instance name.
+        public let name: String
+
+        public init(instanceArn: String, name: String) {
+            self.instanceArn = instanceArn
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateInstanceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -2048,7 +4170,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A0-\\u00FF]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
@@ -2074,6 +4196,88 @@ extension SSOAdmin {
 
     public struct UpdatePermissionSetResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateTrustedTokenIssuerRequest: AWSEncodableShape {
+        /// Specifies the updated name to be applied to the trusted token issuer configuration.
+        public let name: String?
+        /// Specifies the ARN of the trusted token issuer configuration that you want to update.
+        public let trustedTokenIssuerArn: String
+        /// Specifies a structure with settings to apply to the specified trusted token issuer. The settings that you can provide are determined by the type of the trusted token issuer that you are updating.
+        public let trustedTokenIssuerConfiguration: TrustedTokenIssuerUpdateConfiguration?
+
+        public init(name: String? = nil, trustedTokenIssuerArn: String, trustedTokenIssuerConfiguration: TrustedTokenIssuerUpdateConfiguration? = nil) {
+            self.name = name
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+            self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.trustedTokenIssuerConfiguration?.validate(name: "\(name).trustedTokenIssuerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+            case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+        }
+    }
+
+    public struct UpdateTrustedTokenIssuerResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AuthenticationMethod: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that describes details for IAM authentication.
+        public let iam: IamAuthenticationMethod?
+
+        public init(iam: IamAuthenticationMethod? = nil) {
+            self.iam = iam
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iam = "Iam"
+        }
+    }
+
+    public struct TrustedTokenIssuerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that describes the settings for a trusted token issuer that works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
+        public let oidcJwtConfiguration: OidcJwtConfiguration?
+
+        public init(oidcJwtConfiguration: OidcJwtConfiguration? = nil) {
+            self.oidcJwtConfiguration = oidcJwtConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.oidcJwtConfiguration?.validate(name: "\(name).oidcJwtConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oidcJwtConfiguration = "OidcJwtConfiguration"
+        }
+    }
+
+    public struct TrustedTokenIssuerUpdateConfiguration: AWSEncodableShape {
+        /// A structure that describes an updated configuration for a trusted token issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
+        public let oidcJwtConfiguration: OidcJwtUpdateConfiguration?
+
+        public init(oidcJwtConfiguration: OidcJwtUpdateConfiguration? = nil) {
+            self.oidcJwtConfiguration = oidcJwtConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.oidcJwtConfiguration?.validate(name: "\(name).oidcJwtConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oidcJwtConfiguration = "OidcJwtConfiguration"
+        }
     }
 }
 

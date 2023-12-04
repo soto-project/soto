@@ -26,32 +26,32 @@ import Foundation
 extension DAX {
     // MARK: Enums
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case immediate = "IMMEDIATE"
         case requiresReboot = "REQUIRES_REBOOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case tls = "TLS"
         public var description: String { return self.rawValue }
     }
 
-    public enum IsModifiable: String, CustomStringConvertible, Codable, Sendable {
-        case conditional = "CONDITIONAL"
+    public enum IsModifiable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
+        case conditional = "CONDITIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SSEStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SSEStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -59,7 +59,7 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cluster = "CLUSTER"
         case parameterGroup = "PARAMETER_GROUP"
         case subnetGroup = "SUBNET_GROUP"

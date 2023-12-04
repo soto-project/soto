@@ -26,7 +26,7 @@ import Foundation
 extension GroundStation {
     // MARK: Enums
 
-    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -34,32 +34,32 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum AngleUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum AngleUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case degreeAngle = "DEGREE_ANGLE"
         case radian = "RADIAN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditResults: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuditResults: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum BandwidthUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum BandwidthUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gHz = "GHz"
         case mHz = "MHz"
         case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapabilityHealth: String, CustomStringConvertible, Codable, Sendable {
+    public enum CapabilityHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapabilityHealthReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum CapabilityHealthReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dataplaneFailure = "DATAPLANE_FAILURE"
         case healthy = "HEALTHY"
         case initializingDataplane = "INITIALIZING_DATAPLANE"
@@ -70,7 +70,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case antennaDownlink = "antenna-downlink"
         case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
         case antennaUplink = "antenna-uplink"
@@ -81,7 +81,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case awsCancelled = "AWS_CANCELLED"
         case awsFailed = "AWS_FAILED"
@@ -98,19 +98,19 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum Criticality: String, CustomStringConvertible, Codable, Sendable {
+    public enum Criticality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preferred = "PREFERRED"
         case removed = "REMOVED"
         case required = "REQUIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EirpUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum EirpUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dBW = "dBW"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "created"
         case creating = "creating"
         case deleted = "deleted"
@@ -119,7 +119,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Provided KMS key is invalid
         case kmsKeyInvalid = "KMS_KEY_INVALID"
         /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
@@ -133,13 +133,13 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum EphemerisSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerProvided = "CUSTOMER_PROVIDED"
         case spaceTrack = "SPACE_TRACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EphemerisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case error = "ERROR"
@@ -149,14 +149,14 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable {
+    public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gHz = "GHz"
         case mHz = "MHz"
         case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
-    public enum Polarization: String, CustomStringConvertible, Codable, Sendable {
+    public enum Polarization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case leftHand = "LEFT_HAND"
         case none = "NONE"
         case rightHand = "RIGHT_HAND"
@@ -352,6 +352,8 @@ extension GroundStation {
     public enum KmsKey: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// KMS Alias Arn.
         case kmsAliasArn(String)
+        /// KMS Alias Name.
+        case kmsAliasName(String)
         /// KMS Key Arn.
         case kmsKeyArn(String)
 
@@ -368,6 +370,9 @@ extension GroundStation {
             case .kmsAliasArn:
                 let value = try container.decode(String.self, forKey: .kmsAliasArn)
                 self = .kmsAliasArn(value)
+            case .kmsAliasName:
+                let value = try container.decode(String.self, forKey: .kmsAliasName)
+                self = .kmsAliasName(value)
             case .kmsKeyArn:
                 let value = try container.decode(String.self, forKey: .kmsKeyArn)
                 self = .kmsKeyArn(value)
@@ -379,6 +384,8 @@ extension GroundStation {
             switch self {
             case .kmsAliasArn(let value):
                 try container.encode(value, forKey: .kmsAliasArn)
+            case .kmsAliasName(let value):
+                try container.encode(value, forKey: .kmsAliasName)
             case .kmsKeyArn(let value):
                 try container.encode(value, forKey: .kmsKeyArn)
             }
@@ -390,6 +397,10 @@ extension GroundStation {
                 try self.validate(value, name: "kmsAliasArn", parent: name, max: 512)
                 try self.validate(value, name: "kmsAliasArn", parent: name, min: 1)
                 try self.validate(value, name: "kmsAliasArn", parent: name, pattern: "^arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\\d{1}:\\d{12}:((alias/[a-zA-Z0-9:/_-]{1,256}))$")
+            case .kmsAliasName(let value):
+                try self.validate(value, name: "kmsAliasName", parent: name, max: 256)
+                try self.validate(value, name: "kmsAliasName", parent: name, min: 1)
+                try self.validate(value, name: "kmsAliasName", parent: name, pattern: "^alias/[a-zA-Z0-9:/_-]+$")
             default:
                 break
             }
@@ -397,6 +408,7 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case kmsAliasArn = "kmsAliasArn"
+            case kmsAliasName = "kmsAliasName"
             case kmsKeyArn = "kmsKeyArn"
         }
     }

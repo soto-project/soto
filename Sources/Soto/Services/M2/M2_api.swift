@@ -77,6 +77,8 @@ public struct M2: AWSService {
             "ca-central-1": "m2-fips.ca-central-1.amazonaws.com",
             "us-east-1": "m2-fips.us-east-1.amazonaws.com",
             "us-east-2": "m2-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "m2-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "m2-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "m2-fips.us-west-1.amazonaws.com",
             "us-west-2": "m2-fips.us-west-2.amazonaws.com"
         ])
@@ -275,6 +277,18 @@ public struct M2: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+    @Sendable
+    public func getSignedBluinsightsUrl(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSignedBluinsightsUrlResponse {
+        return try await self.client.execute(
+            operation: "GetSignedBluinsightsUrl", 
+            path: "/signed-bi-url", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
             logger: logger
         )
     }
@@ -748,6 +762,7 @@ extension M2.ListDataSetsRequest: AWSPaginateToken {
         return .init(
             applicationId: self.applicationId,
             maxResults: self.maxResults,
+            nameFilter: self.nameFilter,
             nextToken: token,
             prefix: self.prefix
         )

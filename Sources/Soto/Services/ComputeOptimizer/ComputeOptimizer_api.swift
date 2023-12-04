@@ -78,17 +78,24 @@ public struct ComputeOptimizer: AWSService {
         "ap-northeast-2": "compute-optimizer.ap-northeast-2.amazonaws.com",
         "ap-northeast-3": "compute-optimizer.ap-northeast-3.amazonaws.com",
         "ap-south-1": "compute-optimizer.ap-south-1.amazonaws.com",
+        "ap-south-2": "compute-optimizer.ap-south-2.amazonaws.com",
         "ap-southeast-1": "compute-optimizer.ap-southeast-1.amazonaws.com",
         "ap-southeast-2": "compute-optimizer.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "compute-optimizer.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "compute-optimizer.ap-southeast-4.amazonaws.com",
         "ca-central-1": "compute-optimizer.ca-central-1.amazonaws.com",
         "cn-north-1": "compute-optimizer.cn-north-1.amazonaws.com.cn",
         "cn-northwest-1": "compute-optimizer.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "compute-optimizer.eu-central-1.amazonaws.com",
+        "eu-central-2": "compute-optimizer.eu-central-2.amazonaws.com",
         "eu-north-1": "compute-optimizer.eu-north-1.amazonaws.com",
         "eu-south-1": "compute-optimizer.eu-south-1.amazonaws.com",
+        "eu-south-2": "compute-optimizer.eu-south-2.amazonaws.com",
         "eu-west-1": "compute-optimizer.eu-west-1.amazonaws.com",
         "eu-west-2": "compute-optimizer.eu-west-2.amazonaws.com",
         "eu-west-3": "compute-optimizer.eu-west-3.amazonaws.com",
+        "il-central-1": "compute-optimizer.il-central-1.amazonaws.com",
+        "me-central-1": "compute-optimizer.me-central-1.amazonaws.com",
         "me-south-1": "compute-optimizer.me-south-1.amazonaws.com",
         "sa-east-1": "compute-optimizer.sa-east-1.amazonaws.com",
         "us-east-1": "compute-optimizer.us-east-1.amazonaws.com",
@@ -186,6 +193,19 @@ public struct ComputeOptimizer: AWSService {
     public func exportLambdaFunctionRecommendations(_ input: ExportLambdaFunctionRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportLambdaFunctionRecommendationsResponse {
         return try await self.client.execute(
             operation: "ExportLambdaFunctionRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Export optimization recommendations for your licenses.  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one license export job in progress per Amazon Web Services Region.
+    @Sendable
+    public func exportLicenseRecommendations(_ input: ExportLicenseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportLicenseRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "ExportLicenseRecommendations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -316,6 +336,19 @@ public struct ComputeOptimizer: AWSService {
     public func getLambdaFunctionRecommendations(_ input: GetLambdaFunctionRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLambdaFunctionRecommendationsResponse {
         return try await self.client.execute(
             operation: "GetLambdaFunctionRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    @Sendable
+    public func getLicenseRecommendations(_ input: GetLicenseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLicenseRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "GetLicenseRecommendations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

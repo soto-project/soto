@@ -79,6 +79,7 @@ public struct CodePipeline: AWSService {
             "ca-central-1": "codepipeline-fips.ca-central-1.amazonaws.com",
             "us-east-1": "codepipeline-fips.us-east-1.amazonaws.com",
             "us-east-2": "codepipeline-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "codepipeline-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "codepipeline-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "codepipeline-fips.us-west-1.amazonaws.com",
             "us-west-2": "codepipeline-fips.us-west-2.amazonaws.com"
@@ -503,7 +504,7 @@ public struct CodePipeline: AWSService {
         )
     }
 
-    /// Resumes the pipeline execution by retrying the last failed actions in a stage. You can retry a stage immediately if any of the actions in the stage fail. When you retry, all actions that are still in progress continue working, and failed actions are triggered again.
+    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     @Sendable
     public func retryStageExecution(_ input: RetryStageExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryStageExecutionOutput {
         return try await self.client.execute(

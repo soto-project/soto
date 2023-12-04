@@ -26,20 +26,20 @@ import Foundation
 extension IAM {
     // MARK: Enums
 
-    public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionLevel = "ACTION_LEVEL"
         case serviceLevel = "SERVICE_LEVEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case any = "Any"
         case assigned = "Assigned"
         case unassigned = "Unassigned"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "binary"
         case binaryList = "binaryList"
         case boolean = "boolean"
@@ -55,7 +55,7 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -63,13 +63,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pem = "PEM"
         case ssh = "SSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsManagedPolicy = "AWSManagedPolicy"
         case group = "Group"
         case localManagedPolicy = "LocalManagedPolicy"
@@ -78,46 +78,46 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1Token = "v1Token"
         case v2Token = "v2Token"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policy = "PermissionsBoundaryPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowed = "allowed"
         case explicitDeny = "explicitDeny"
         case implicitDeny = "implicitDeny"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyScopeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case aws = "AWS"
         case local = "Local"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicySourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicySourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsManaged = "aws-managed"
         case group = "group"
         case iamPolicy = "IAM Policy"
@@ -129,31 +129,31 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inline = "INLINE"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyUsageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case permissionsBoundary = "PermissionsBoundary"
         case permissionsPolicy = "PermissionsPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormatType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case textCsv = "text/csv"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportStateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case inprogress = "INPROGRESS"
         case started = "STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastAuthenticatedTimeAscending = "LAST_AUTHENTICATED_TIME_ASCENDING"
         case lastAuthenticatedTimeDescending = "LAST_AUTHENTICATED_TIME_DESCENDING"
         case serviceNamespaceAscending = "SERVICE_NAMESPACE_ASCENDING"
@@ -161,13 +161,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum SummaryKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SummaryKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessKeysPerUserQuota = "AccessKeysPerUserQuota"
         case accountAccessKeysPresent = "AccountAccessKeysPresent"
         case accountMFAEnabled = "AccountMFAEnabled"
@@ -2418,6 +2418,58 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case loginProfile = "LoginProfile"
+        }
+    }
+
+    public struct GetMFADeviceRequest: AWSEncodableShape {
+        /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs.
+        public let serialNumber: String
+        /// The friendly name identifying the user.
+        public let userName: String?
+
+        public init(serialNumber: String, userName: String? = nil) {
+            self.serialNumber = serialNumber
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 9)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "^[\\w+=/:,.@-]+$")
+            try self.validate(self.userName, name: "userName", parent: name, max: 64)
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serialNumber = "SerialNumber"
+            case userName = "UserName"
+        }
+    }
+
+    public struct GetMFADeviceResponse: AWSDecodableShape {
+        /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from  FIDO Alliance Metadata Service (MDS).
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var certifications: [String: String]?
+        /// The date that a specified user's MFA device was first enabled.
+        public let enableDate: Date?
+        /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key ARNs.
+        public let serialNumber: String
+        /// The friendly name identifying the user.
+        public let userName: String?
+
+        public init(certifications: [String: String]? = nil, enableDate: Date? = nil, serialNumber: String, userName: String? = nil) {
+            self.certifications = certifications
+            self.enableDate = enableDate
+            self.serialNumber = serialNumber
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certifications = "Certifications"
+            case enableDate = "EnableDate"
+            case serialNumber = "SerialNumber"
+            case userName = "UserName"
         }
     }
 
@@ -5382,7 +5434,7 @@ extension IAM {
     public struct PutGroupPolicyRequest: AWSEncodableShape {
         /// The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-.
         public let groupName: String
-        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to = IAM. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
+        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         public let policyDocument: String
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String

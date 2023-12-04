@@ -26,7 +26,7 @@ import Foundation
 extension ConnectCampaigns {
     // MARK: Enums
 
-    public enum CampaignState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CampaignState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Campaign is in failed state
         case failed = "Failed"
         /// Campaign is in initialized state
@@ -40,12 +40,12 @@ extension ConnectCampaigns {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// The request failed to satisfy the constraints specified by the service
         case invalidInput = "InvalidInput"
         /// Request throttled due to large number of pending dial requests
@@ -55,7 +55,7 @@ extension ConnectCampaigns {
         public var description: String { return self.rawValue }
     }
 
-    public enum GetCampaignStateBatchFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum GetCampaignStateBatchFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// The specified resource was not found
         case resourceNotFound = "ResourceNotFound"
         /// Unexpected error during processing of request
@@ -63,13 +63,13 @@ extension ConnectCampaigns {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceIdFilterOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceIdFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Equals operator
         case eq = "Eq"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceOnboardingJobFailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceOnboardingJobFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventBridgeAccessDenied = "EVENT_BRIDGE_ACCESS_DENIED"
         case eventBridgeManagedRuleLimitExceeded = "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED"
         case iamAccessDenied = "IAM_ACCESS_DENIED"
@@ -79,7 +79,7 @@ extension ConnectCampaigns {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceOnboardingJobStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstanceOnboardingJobStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
@@ -87,6 +87,7 @@ extension ConnectCampaigns {
     }
 
     public enum DialerConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        case agentlessDialerConfig(AgentlessDialerConfig)
         case predictiveDialerConfig(PredictiveDialerConfig)
         case progressiveDialerConfig(ProgressiveDialerConfig)
 
@@ -100,6 +101,9 @@ extension ConnectCampaigns {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .agentlessDialerConfig:
+                let value = try container.decode(AgentlessDialerConfig.self, forKey: .agentlessDialerConfig)
+                self = .agentlessDialerConfig(value)
             case .predictiveDialerConfig:
                 let value = try container.decode(PredictiveDialerConfig.self, forKey: .predictiveDialerConfig)
                 self = .predictiveDialerConfig(value)
@@ -112,6 +116,8 @@ extension ConnectCampaigns {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .agentlessDialerConfig(let value):
+                try container.encode(value, forKey: .agentlessDialerConfig)
             case .predictiveDialerConfig(let value):
                 try container.encode(value, forKey: .predictiveDialerConfig)
             case .progressiveDialerConfig(let value):
@@ -121,6 +127,8 @@ extension ConnectCampaigns {
 
         public func validate(name: String) throws {
             switch self {
+            case .agentlessDialerConfig(let value):
+                try value.validate(name: "\(name).agentlessDialerConfig")
             case .predictiveDialerConfig(let value):
                 try value.validate(name: "\(name).predictiveDialerConfig")
             case .progressiveDialerConfig(let value):
@@ -129,12 +137,30 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentlessDialerConfig = "agentlessDialerConfig"
             case predictiveDialerConfig = "predictiveDialerConfig"
             case progressiveDialerConfig = "progressiveDialerConfig"
         }
     }
 
     // MARK: Shapes
+
+    public struct AgentlessDialerConfig: AWSEncodableShape & AWSDecodableShape {
+        public let dialingCapacity: Double?
+
+        public init(dialingCapacity: Double? = nil) {
+            self.dialingCapacity = dialingCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, max: 1.0)
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, min: 0.01)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dialingCapacity = "dialingCapacity"
+        }
+    }
 
     public struct AnswerMachineDetectionConfig: AWSEncodableShape & AWSDecodableShape {
         /// Enable or disable answering machine detection
@@ -712,10 +738,10 @@ extension ConnectCampaigns {
     public struct OutboundCallConfig: AWSEncodableShape & AWSDecodableShape {
         public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
         public let connectContactFlowId: String
-        public let connectQueueId: String
+        public let connectQueueId: String?
         public let connectSourcePhoneNumber: String?
 
-        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String, connectQueueId: String, connectSourcePhoneNumber: String? = nil) {
+        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String, connectQueueId: String? = nil, connectSourcePhoneNumber: String? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectQueueId = connectQueueId
@@ -758,35 +784,45 @@ extension ConnectCampaigns {
 
     public struct PredictiveDialerConfig: AWSEncodableShape & AWSDecodableShape {
         public let bandwidthAllocation: Double
+        public let dialingCapacity: Double?
 
-        public init(bandwidthAllocation: Double) {
+        public init(bandwidthAllocation: Double, dialingCapacity: Double? = nil) {
             self.bandwidthAllocation = bandwidthAllocation
+            self.dialingCapacity = dialingCapacity
         }
 
         public func validate(name: String) throws {
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, max: 1.0)
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, min: 0.01)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthAllocation = "bandwidthAllocation"
+            case dialingCapacity = "dialingCapacity"
         }
     }
 
     public struct ProgressiveDialerConfig: AWSEncodableShape & AWSDecodableShape {
         public let bandwidthAllocation: Double
+        public let dialingCapacity: Double?
 
-        public init(bandwidthAllocation: Double) {
+        public init(bandwidthAllocation: Double, dialingCapacity: Double? = nil) {
             self.bandwidthAllocation = bandwidthAllocation
+            self.dialingCapacity = dialingCapacity
         }
 
         public func validate(name: String) throws {
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, max: 1.0)
+            try self.validate(self.dialingCapacity, name: "dialingCapacity", parent: name, min: 0.01)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthAllocation = "bandwidthAllocation"
+            case dialingCapacity = "dialingCapacity"
         }
     }
 

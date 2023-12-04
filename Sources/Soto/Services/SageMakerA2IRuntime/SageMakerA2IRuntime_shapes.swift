@@ -26,13 +26,13 @@ import Foundation
 extension SageMakerA2IRuntime {
     // MARK: Enums
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum HumanLoopStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum HumanLoopStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -41,7 +41,7 @@ extension SageMakerA2IRuntime {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
@@ -101,24 +101,24 @@ extension SageMakerA2IRuntime {
 
     public struct DescribeHumanLoopResponse: AWSDecodableShape {
         /// The creation time when Amazon Augmented AI created the human loop.
-        @CustomCoding<ISO8601DateCoder>
-        public var creationTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// A failure code that identifies the type of failure. Possible values: ValidationError, Expired, InternalError
         public let failureCode: String?
         /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow definition.
-        public let flowDefinitionArn: String
+        public let flowDefinitionArn: String?
         /// The Amazon Resource Name (ARN) of the human loop.
-        public let humanLoopArn: String
+        public let humanLoopArn: String?
         /// The name of the human loop. The name must be lowercase, unique within the Region in your account, and can have up to 63 characters. Valid characters: a-z, 0-9, and - (hyphen).
-        public let humanLoopName: String
+        public let humanLoopName: String?
         /// An object that contains information about the output of the human loop.
         public let humanLoopOutput: HumanLoopOutput?
         /// The status of the human loop.
-        public let humanLoopStatus: HumanLoopStatus
+        public let humanLoopStatus: HumanLoopStatus?
 
-        public init(creationTime: Date, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopName: String, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus) {
+        public init(creationTime: Date? = nil, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopArn: String? = nil, humanLoopName: String? = nil, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
             self.creationTime = creationTime
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -143,9 +143,9 @@ extension SageMakerA2IRuntime {
 
     public struct HumanLoopDataAttributes: AWSEncodableShape {
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information.
-        public let contentClassifiers: [ContentClassifier]
+        public let contentClassifiers: [ContentClassifier]?
 
-        public init(contentClassifiers: [ContentClassifier]) {
+        public init(contentClassifiers: [ContentClassifier]? = nil) {
             self.contentClassifiers = contentClassifiers
         }
 
@@ -160,9 +160,9 @@ extension SageMakerA2IRuntime {
 
     public struct HumanLoopInput: AWSEncodableShape {
         /// Serialized input from the human loop. The input must be a string representation of a file in JSON format.
-        public let inputContent: String
+        public let inputContent: String?
 
-        public init(inputContent: String) {
+        public init(inputContent: String? = nil) {
             self.inputContent = inputContent
         }
 
@@ -177,9 +177,9 @@ extension SageMakerA2IRuntime {
 
     public struct HumanLoopOutput: AWSDecodableShape {
         /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output.
-        public let outputS3Uri: String
+        public let outputS3Uri: String?
 
-        public init(outputS3Uri: String) {
+        public init(outputS3Uri: String? = nil) {
             self.outputS3Uri = outputS3Uri
         }
 
@@ -226,7 +226,7 @@ extension SageMakerA2IRuntime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeBefore: Date?
         /// The Amazon Resource Name (ARN) of a flow definition.
-        public let flowDefinitionArn: String
+        public let flowDefinitionArn: String?
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken is returned in the output. You can use this token to display the next page of results.
         public let maxResults: Int?
         /// A token to display the next page of results.
@@ -234,7 +234,7 @@ extension SageMakerA2IRuntime {
         /// Optional. The order for displaying results. Valid values: Ascending and Descending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, flowDefinitionArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, flowDefinitionArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.flowDefinitionArn = flowDefinitionArn
@@ -268,11 +268,11 @@ extension SageMakerA2IRuntime {
 
     public struct ListHumanLoopsResponse: AWSDecodableShape {
         /// An array of objects that contain information about the human loops.
-        public let humanLoopSummaries: [HumanLoopSummary]
+        public let humanLoopSummaries: [HumanLoopSummary]?
         /// A token to display the next page of results.
         public let nextToken: String?
 
-        public init(humanLoopSummaries: [HumanLoopSummary], nextToken: String? = nil) {
+        public init(humanLoopSummaries: [HumanLoopSummary]? = nil, nextToken: String? = nil) {
             self.humanLoopSummaries = humanLoopSummaries
             self.nextToken = nextToken
         }
@@ -287,13 +287,13 @@ extension SageMakerA2IRuntime {
         /// Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content.
         public let dataAttributes: HumanLoopDataAttributes?
         /// The Amazon Resource Name (ARN) of the flow definition associated with this human loop.
-        public let flowDefinitionArn: String
+        public let flowDefinitionArn: String?
         /// An object that contains information about the human loop.
-        public let humanLoopInput: HumanLoopInput
+        public let humanLoopInput: HumanLoopInput?
         /// The name of the human loop.
-        public let humanLoopName: String
+        public let humanLoopName: String?
 
-        public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String, humanLoopInput: HumanLoopInput, humanLoopName: String) {
+        public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String? = nil, humanLoopInput: HumanLoopInput? = nil, humanLoopName: String? = nil) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
             self.humanLoopInput = humanLoopInput
@@ -304,7 +304,7 @@ extension SageMakerA2IRuntime {
             try self.dataAttributes?.validate(name: "\(name).dataAttributes")
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/")
-            try self.humanLoopInput.validate(name: "\(name).humanLoopInput")
+            try self.humanLoopInput?.validate(name: "\(name).humanLoopInput")
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
@@ -333,9 +333,9 @@ extension SageMakerA2IRuntime {
 
     public struct StopHumanLoopRequest: AWSEncodableShape {
         /// The name of the human loop that you want to stop.
-        public let humanLoopName: String
+        public let humanLoopName: String?
 
-        public init(humanLoopName: String) {
+        public init(humanLoopName: String? = nil) {
             self.humanLoopName = humanLoopName
         }
 

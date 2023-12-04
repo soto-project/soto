@@ -85,6 +85,19 @@ public struct AppStream: AWSService {
 
     // MARK: API Calls
 
+    /// Associates the specified app block builder with the specified app block.
+    @Sendable
+    public func associateAppBlockBuilderAppBlock(_ input: AssociateAppBlockBuilderAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAppBlockBuilderAppBlockResult {
+        return try await self.client.execute(
+            operation: "AssociateAppBlockBuilderAppBlock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     @Sendable
     public func associateApplicationFleet(_ input: AssociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateApplicationFleetResult {
@@ -168,6 +181,32 @@ public struct AppStream: AWSService {
     public func createAppBlock(_ input: CreateAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppBlockResult {
         return try await self.client.execute(
             operation: "CreateAppBlock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an app block builder.
+    @Sendable
+    public func createAppBlockBuilder(_ input: CreateAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppBlockBuilderResult {
+        return try await self.client.execute(
+            operation: "CreateAppBlockBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a URL to start a create app block builder streaming session.
+    @Sendable
+    public func createAppBlockBuilderStreamingURL(_ input: CreateAppBlockBuilderStreamingURLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppBlockBuilderStreamingURLResult {
+        return try await self.client.execute(
+            operation: "CreateAppBlockBuilderStreamingURL", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -332,6 +371,19 @@ public struct AppStream: AWSService {
         )
     }
 
+    /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
+    @Sendable
+    public func deleteAppBlockBuilder(_ input: DeleteAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppBlockBuilderResult {
+        return try await self.client.execute(
+            operation: "DeleteAppBlockBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes an application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResult {
@@ -454,6 +506,32 @@ public struct AppStream: AWSService {
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResult {
         return try await self.client.execute(
             operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list that describes one or more app block builder associations.
+    @Sendable
+    public func describeAppBlockBuilderAppBlockAssociations(_ input: DescribeAppBlockBuilderAppBlockAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppBlockBuilderAppBlockAssociationsResult {
+        return try await self.client.execute(
+            operation: "DescribeAppBlockBuilderAppBlockAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list that describes one or more app block builders.
+    @Sendable
+    public func describeAppBlockBuilders(_ input: DescribeAppBlockBuildersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppBlockBuildersResult {
+        return try await self.client.execute(
+            operation: "DescribeAppBlockBuilders", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -657,6 +735,19 @@ public struct AppStream: AWSService {
         )
     }
 
+    /// Disassociates a specified app block builder from a specified app block.
+    @Sendable
+    public func disassociateAppBlockBuilderAppBlock(_ input: DisassociateAppBlockBuilderAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAppBlockBuilderAppBlockResult {
+        return try await self.client.execute(
+            operation: "DisassociateAppBlockBuilderAppBlock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disassociates the specified application from the fleet.
     @Sendable
     public func disassociateApplicationFleet(_ input: DisassociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationFleetResult {
@@ -774,6 +865,19 @@ public struct AppStream: AWSService {
         )
     }
 
+    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
+    @Sendable
+    public func startAppBlockBuilder(_ input: StartAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAppBlockBuilderResult {
+        return try await self.client.execute(
+            operation: "StartAppBlockBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the specified fleet.
     @Sendable
     public func startFleet(_ input: StartFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFleetResult {
@@ -792,6 +896,19 @@ public struct AppStream: AWSService {
     public func startImageBuilder(_ input: StartImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImageBuilderResult {
         return try await self.client.execute(
             operation: "StartImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
+    @Sendable
+    public func stopAppBlockBuilder(_ input: StopAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAppBlockBuilderResult {
+        return try await self.client.execute(
+            operation: "StopAppBlockBuilder", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -844,6 +961,19 @@ public struct AppStream: AWSService {
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
             operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
+    @Sendable
+    public func updateAppBlockBuilder(_ input: UpdateAppBlockBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppBlockBuilderResult {
+        return try await self.client.execute(
+            operation: "UpdateAppBlockBuilder", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -944,6 +1074,44 @@ extension AppStream {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppStream {
+    /// Retrieves a list that describes one or more app block builder associations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeAppBlockBuilderAppBlockAssociationsPaginator(
+        _ input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsRequest, DescribeAppBlockBuilderAppBlockAssociationsResult> {
+        return .init(
+            input: input,
+            command: self.describeAppBlockBuilderAppBlockAssociations,
+            inputKey: \DescribeAppBlockBuilderAppBlockAssociationsRequest.nextToken,
+            outputKey: \DescribeAppBlockBuilderAppBlockAssociationsResult.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list that describes one or more app block builders.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeAppBlockBuildersPaginator(
+        _ input: DescribeAppBlockBuildersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAppBlockBuildersRequest, DescribeAppBlockBuildersResult> {
+        return .init(
+            input: input,
+            command: self.describeAppBlockBuilders,
+            inputKey: \DescribeAppBlockBuildersRequest.nextToken,
+            outputKey: \DescribeAppBlockBuildersResult.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     /// Return PaginatorSequence for operation.
     ///
@@ -979,6 +1147,27 @@ extension AppStream {
             inputKey: \DescribeImagesRequest.nextToken,
             outputKey: \DescribeImagesResult.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension AppStream.DescribeAppBlockBuilderAppBlockAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeAppBlockBuilderAppBlockAssociationsRequest {
+        return .init(
+            appBlockArn: self.appBlockArn,
+            appBlockBuilderName: self.appBlockBuilderName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppStream.DescribeAppBlockBuildersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppStream.DescribeAppBlockBuildersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            names: self.names,
+            nextToken: token
         )
     }
 }

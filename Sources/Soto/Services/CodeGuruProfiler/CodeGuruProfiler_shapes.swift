@@ -26,13 +26,13 @@ import Foundation
 extension CodeGuruProfiler {
     // MARK: Enums
 
-    public enum ActionGroup: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionGroup: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Permission group type for Agent APIs - ConfigureAgent, PostAgentProfile
         case agentPermissions = "agentPermissions"
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentParameterField: String, CustomStringConvertible, Codable, Sendable {
+    public enum AgentParameterField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Maximum stack depth to be captured by the CodeGuru Profiler.
         case maxStackDepth = "MaxStackDepth"
         /// Percentage of memory to be used by CodeGuru profiler. Minimum of 30MB is required for the agent.
@@ -46,7 +46,7 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationPeriod: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregationPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Period of one day.
         case p1d = "P1D"
         /// Period of one hour.
@@ -56,7 +56,7 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputePlatform: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComputePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Compute platform meant to used for AWS Lambda.
         case awsLambda = "AWSLambda"
         /// Compute platform meant to used for all usecases (like EC2, Fargate, physical servers etc.) but AWS Lambda.
@@ -64,13 +64,13 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventPublisher: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventPublisher: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Notifications for Anomaly Detection
         case anomalyDetection = "AnomalyDetection"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeedbackType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FeedbackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Profiler recommendation flagged as not useful.
         case negative = "Negative"
         /// Profiler recommendation flagged as useful.
@@ -78,7 +78,7 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetadataField: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetadataField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Unique identifier for the agent instance.
         case agentId = "AgentId"
         /// AWS requestId of the Lambda invocation.
@@ -100,13 +100,13 @@ extension CodeGuruProfiler {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Metric value aggregated for all instances of a frame name in a profile relative to the root frame.
         case aggregatedRelativeTotalTime = "AggregatedRelativeTotalTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Order by timestamp in ascending order.
         case timestampAscending = "TimestampAscending"
         /// Order by timestamp in descending order.

@@ -26,7 +26,13 @@ import Foundation
 extension CloudTrail {
     // MARK: Enums
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extendableRetentionPricing = "EXTENDABLE_RETENTION_PRICING"
+        case fixedRetentionPricing = "FIXED_RETENTION_PRICING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case accessDeniedSigningFile = "ACCESS_DENIED_SIGNING_FILE"
         case cancelled = "CANCELLED"
@@ -39,18 +45,18 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsService = "AWS_SERVICE"
         case eventDataStore = "EVENT_DATA_STORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insight = "insight"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventDataStoreStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventDataStoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case enabled = "ENABLED"
         case pendingDeletion = "PENDING_DELETION"
@@ -60,14 +66,22 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFailureStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FederationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportFailureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case retry = "RETRY"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -76,13 +90,13 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InsightType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiCallRateInsight = "ApiCallRateInsight"
         case apiErrorRateInsight = "ApiErrorRateInsight"
         public var description: String { return self.rawValue }
     }
 
-    public enum LookupAttributeKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum LookupAttributeKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessKeyId = "AccessKeyId"
         case eventId = "EventId"
         case eventName = "EventName"
@@ -94,7 +108,7 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case finished = "FINISHED"
@@ -104,7 +118,7 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadWriteType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReadWriteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case readOnly = "ReadOnly"
         case writeOnly = "WriteOnly"
@@ -172,7 +186,7 @@ extension CloudTrail {
         public let endsWith: [String]?
         ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
-        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported.  For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.      readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This is required and must be set to Equals.      For CloudTrail event records, the value must be Management or Data.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For non-Amazon Web Services events, the value must be ActivityAuditLog.        resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object     AWS::CloudTrail::Channel     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object    You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.     arn::s3:::/     arn::s3::://    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table/    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::lambda:::function:    When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cloudtrail:::channel/    When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cognito-identity:::identitypool/    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table//stream/    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::ec2:::snapshot/    When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::finspace:::environment/    When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::glue:::table//    When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::guardduty:::detector/    When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::kendra-ranking:::rescore-execution-plan/    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::managedblockchain:::nodes/    When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::experiment-trial-component/    When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::feature-group/    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn::s3:::accesspoint/     arn::s3:::accesspoint//object/    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-object-lambda:::accesspoint/    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-outposts:::
+        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported.  For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.      readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - For filtering management events only. This can be set to NotEquals kms.amazonaws.com or NotEquals rdsdata.amazonaws.com.     eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This is required and must be set to Equals.      For CloudTrail event records, the value must be Management or Data.      For CloudTrail Insights event records, the value must be Insight.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For non-Amazon Web Services events, the value must be ActivityAuditLog.        resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object     AWS::CloudTrail::Channel     AWS::CodeWhisperer::Customization     AWS::CodeWhisperer::Profile     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::EMRWAL::Workspace     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::KinesisVideo::Stream     AWS::ManagedBlockchain::Network     AWS::ManagedBlockchain::Node     AWS::MedicalImaging::Datastore     AWS::PCAConnectorAD::Connector     AWS::SageMaker::Endpoint     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::SNS::PlatformEndpoint     AWS::SNS::Topic     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object     AWS::SSMMessages::ControlChannel     AWS::Timestream::Database     AWS::Timestream::Table     AWS::VerifiedPermissions::PolicyStore    You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.     arn::s3:::/     arn::s3::://    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table/    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::lambda:::function:    When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cloudtrail:::channel/    When resources.type equals AWS::CodeWhisperer::Customization, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::codewhisperer:::customization/    When resources.type equals AWS::CodeWhisperer::Profile, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::codewhisperer:::profile/    When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cognito-identity:::identitypool/    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table//stream/    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::ec2:::snapshot/    When resources.type equals AWS::EMRWAL::Workspace, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::emrwal:::workspace/    When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::finspace:::environment/    When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::glue:::table//    When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::guardduty:::detector/    When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::kendra-ranking:::rescore-execution-plan/    When resources.type equals AWS::KinesisVideo::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::kinesisvideo:::stream/    When resources.type equals AWS::ManagedBlockchain::Network, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::managedblockchain:::networks/    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::managedblockchain:::nodes/    When resources.type equals AWS::MedicalImaging::Datastore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::medical-imaging:::datastore/    When resources.type equals AWS::PCAConnectorAD::Connector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::pca-connector-ad:::connector/    When resources.type equals AWS::SageMaker::Endpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::endpoint/    When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::experiment-trial-component/    When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::feature-group/    When resources.type equals AWS::SNS::PlatformEndpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sns:::endpoint///    When resources.type equals AWS::SNS::Topic, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sns:::    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn::s3:::accesspoint/     arn::s3:::accesspoint//object/    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-object-lambda:::accesspoint/    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-outposts:::    When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::ssmmessages:::control-channel/    When resources.type equals AWS::Timestream::Database, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::timestream:::database/    When resources.type equals AWS::Timestream::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::timestream:::database//table/    When resources.type equals AWS::VerifiedPermissions::PolicyStore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::verifiedpermissions:::policy-store/
         public let field: String
         ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
@@ -385,6 +399,8 @@ extension CloudTrail {
     public struct CreateEventDataStoreRequest: AWSEncodableShape {
         /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see Log events by using advanced event selectors in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see Create an event data store for Config configuration items in the CloudTrail User Guide. For more information about how to use advanced event selectors to include non-Amazon Web Services events in your event data store, see Create an integration to log events from outside Amazon Web Services in the CloudTrail User Guide.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:    EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a flexible retention period of up to 3653 days (about 10 years).  The default retention period for this billing mode is 366 days.    FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years).  The default retention period for this billing mode is 2557 days.   The default value is EXTENDABLE_RETENTION_PRICING. For more information about CloudTrail pricing,  see CloudTrail Pricing and  Managing CloudTrail Lake costs.
+        public let billingMode: BillingMode?
         /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store.  CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies whether the event data store includes events from all Regions, or only from the Region in which the event data store is created.
@@ -393,7 +409,7 @@ extension CloudTrail {
         public let name: String
         /// Specifies whether an event data store collects events logged for an organization in Organizations.
         public let organizationEnabled: Bool?
-        /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years.
+        /// The retention period of the event data store, in days. If BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING, you can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail  Lake determines whether to retain an event by checking if the eventTime  of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events  when the eventTime is older than 90 days.  If you plan to copy trail events to this event data store, we recommend  that you consider both the age of the events that you want to copy as well as how long you want to keep the copied events in your event data store. For example, if you copy trail events that are 5 years old  and specify a retention period of 7 years, the event data store  will retain those events for two years.
         public let retentionPeriod: Int?
         /// Specifies whether the event data store should start ingesting live events. The default is true.
         public let startIngestion: Bool?
@@ -401,8 +417,9 @@ extension CloudTrail {
         /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
         public let terminationProtectionEnabled: Bool?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, startIngestion: Bool? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, startIngestion: Bool? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
@@ -423,7 +440,7 @@ extension CloudTrail {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
-            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 3653)
             try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
             try self.tagsList?.forEach {
                 try $0.validate(name: "\(name).tagsList[]")
@@ -433,6 +450,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
@@ -447,6 +465,8 @@ extension CloudTrail {
     public struct CreateEventDataStoreResponse: AWSDecodableShape {
         /// The advanced event selectors that were used to select the events for the data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The billing mode for the event data store.
+        public let billingMode: BillingMode?
         /// The timestamp that shows when the event data store was created.
         public let createdTimestamp: Date?
         /// The ARN of the event data store.
@@ -469,8 +489,9 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
             self.kmsKeyId = kmsKeyId
@@ -486,6 +507,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
             case kmsKeyId = "KmsKeyId"
@@ -501,7 +523,7 @@ extension CloudTrail {
     }
 
     public struct CreateTrailRequest: AWSEncodableShape {
-        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
+        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.  Only the management account can configure a CloudWatch Logs log group for an organization trail.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
         public let cloudWatchLogsRoleArn: String?
@@ -642,7 +664,7 @@ extension CloudTrail {
     }
 
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
-        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::CloudTrail::Channel     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object
+        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector.    AWS::CloudTrail::Channel     AWS::CodeWhisperer::Customization     AWS::CodeWhisperer::Profile     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::EMRWAL::Workspace     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::KinesisVideo::Stream     AWS::ManagedBlockchain::Network     AWS::ManagedBlockchain::Node     AWS::MedicalImaging::Datastore     AWS::PCAConnectorAD::Connector     AWS::SageMaker::Endpoint     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::SNS::PlatformEndpoint     AWS::SNS::Topic     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object     AWS::SSMMessages::ControlChannel     AWS::Timestream::Database     AWS::Timestream::Table     AWS::VerifiedPermissions::PolicyStore
         public let type: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
@@ -770,17 +792,21 @@ extension CloudTrail {
     public struct DescribeQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
         public let eventDataStore: String?
+        ///  The alias that identifies a query template.
+        public let queryAlias: String?
         /// The query ID.
-        public let queryId: String
+        public let queryId: String?
 
-        public init(queryId: String) {
+        public init(queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = nil
+            self.queryAlias = queryAlias
             self.queryId = queryId
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
-        public init(eventDataStore: String? = nil, queryId: String) {
+        public init(eventDataStore: String? = nil, queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = eventDataStore
+            self.queryAlias = queryAlias
             self.queryId = queryId
         }
 
@@ -788,6 +814,9 @@ extension CloudTrail {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
@@ -795,6 +824,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case queryAlias = "QueryAlias"
             case queryId = "QueryId"
         }
     }
@@ -886,6 +916,89 @@ extension CloudTrail {
         private enum CodingKeys: String, CodingKey {
             case location = "Location"
             case type = "Type"
+        }
+    }
+
+    public struct DisableFederationRequest: AWSEncodableShape {
+        ///  The ARN (or ID suffix of the ARN) of the event data store for which you want to disable Lake query federation.
+        public let eventDataStore: String
+
+        public init(eventDataStore: String) {
+            self.eventDataStore = eventDataStore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+        }
+    }
+
+    public struct DisableFederationResponse: AWSDecodableShape {
+        ///  The ARN of the event data store for which you disabled Lake query federation.
+        public let eventDataStoreArn: String?
+        ///  The federation status.
+        public let federationStatus: FederationStatus?
+
+        public init(eventDataStoreArn: String? = nil, federationStatus: FederationStatus? = nil) {
+            self.eventDataStoreArn = eventDataStoreArn
+            self.federationStatus = federationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStoreArn = "EventDataStoreArn"
+            case federationStatus = "FederationStatus"
+        }
+    }
+
+    public struct EnableFederationRequest: AWSEncodableShape {
+        /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation.
+        public let eventDataStore: String
+        ///  The ARN of the federation role to use for the event data store. Amazon Web Services services like Lake Formation use this federation role to access data for the federated event  data store. The federation role must exist in your account and provide the required minimum permissions.
+        public let federationRoleArn: String
+
+        public init(eventDataStore: String, federationRoleArn: String) {
+            self.eventDataStore = eventDataStore
+            self.federationRoleArn = federationRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.federationRoleArn, name: "federationRoleArn", parent: name, max: 125)
+            try self.validate(self.federationRoleArn, name: "federationRoleArn", parent: name, min: 3)
+            try self.validate(self.federationRoleArn, name: "federationRoleArn", parent: name, pattern: "^[a-zA-Z0-9._/\\-:@=\\+,\\.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+            case federationRoleArn = "FederationRoleArn"
+        }
+    }
+
+    public struct EnableFederationResponse: AWSDecodableShape {
+        ///  The ARN of the event data store for which you enabled Lake query federation.
+        public let eventDataStoreArn: String?
+        ///  The ARN of the federation role.
+        public let federationRoleArn: String?
+        ///  The federation status.
+        public let federationStatus: FederationStatus?
+
+        public init(eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil) {
+            self.eventDataStoreArn = eventDataStoreArn
+            self.federationRoleArn = federationRoleArn
+            self.federationStatus = federationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStoreArn = "EventDataStoreArn"
+            case federationRoleArn = "FederationRoleArn"
+            case federationStatus = "FederationStatus"
         }
     }
 
@@ -1096,10 +1209,16 @@ extension CloudTrail {
     public struct GetEventDataStoreResponse: AWSDecodableShape {
         /// The advanced event selectors used to select events for the data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The billing mode for the event data store.
+        public let billingMode: BillingMode?
         /// The timestamp of the event data store's creation.
         public let createdTimestamp: Date?
         /// The event data store Amazon Resource Number (ARN).
         public let eventDataStoreArn: String?
+        ///  If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
+        public let federationRoleArn: String?
+        ///  Indicates the Lake query federation status. The status is  ENABLED if Lake query federation is enabled, or DISABLED if Lake query federation is disabled. You cannot delete an event data store if the FederationStatus is ENABLED.
+        public let federationStatus: FederationStatus?
         /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
@@ -1117,10 +1236,13 @@ extension CloudTrail {
         /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.federationRoleArn = federationRoleArn
+            self.federationStatus = federationStatus
             self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
@@ -1133,8 +1255,11 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case federationRoleArn = "FederationRoleArn"
+            case federationStatus = "FederationStatus"
             case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
@@ -1245,30 +1370,48 @@ extension CloudTrail {
     }
 
     public struct GetInsightSelectorsRequest: AWSEncodableShape {
-        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
-        public let trailName: String
+        ///  Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors.  You cannot use this parameter with the TrailName parameter.
+        public let eventDataStore: String?
+        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  You cannot use this parameter with the EventDataStore parameter.
+        public let trailName: String?
 
-        public init(trailName: String) {
+        public init(eventDataStore: String? = nil, trailName: String? = nil) {
+            self.eventDataStore = eventDataStore
             self.trailName = trailName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
             case trailName = "TrailName"
         }
     }
 
     public struct GetInsightSelectorsResponse: AWSDecodableShape {
-        /// A JSON string that contains the insight types you want to log on a trail. In this release, ApiErrorRateInsight and ApiCallRateInsight are supported as insight types.
+        ///  The ARN of the source event data store that enabled Insights events.
+        public let eventDataStoreArn: String?
+        ///  The ARN of the destination event data store that logs Insights events.
+        public let insightsDestination: String?
+        /// A JSON string that contains the Insight types you want to log on a trail or event data store. ApiErrorRateInsight and ApiCallRateInsight are supported as Insights types.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
         public let trailARN: String?
 
-        public init(insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+        public init(eventDataStoreArn: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+            self.eventDataStoreArn = eventDataStoreArn
+            self.insightsDestination = insightsDestination
             self.insightSelectors = insightSelectors
             self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDataStoreArn = "EventDataStoreArn"
+            case insightsDestination = "InsightsDestination"
             case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
         }
@@ -1631,7 +1774,7 @@ extension CloudTrail {
     }
 
     public struct InsightSelector: AWSEncodableShape & AWSDecodableShape {
-        /// The type of Insights events to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public let insightType: InsightType?
 
         public init(insightType: InsightType? = nil) {
@@ -2146,34 +2289,59 @@ extension CloudTrail {
     }
 
     public struct PutInsightSelectorsRequest: AWSEncodableShape {
-        /// A JSON string that contains the insight types you want to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the  EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
+        public let eventDataStore: String?
+        ///  The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the  EventDataStore and InsightsDestination parameters.  You cannot use this parameter with the TrailName parameter.
+        public let insightsDestination: String?
+        /// A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public let insightSelectors: [InsightSelector]
-        /// The name of the CloudTrail trail for which you want to change or add Insights selectors.
-        public let trailName: String
+        /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
+        public let trailName: String?
 
-        public init(insightSelectors: [InsightSelector], trailName: String) {
+        public init(eventDataStore: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector], trailName: String? = nil) {
+            self.eventDataStore = eventDataStore
+            self.insightsDestination = insightsDestination
             self.insightSelectors = insightSelectors
             self.trailName = trailName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.insightsDestination, name: "insightsDestination", parent: name, max: 256)
+            try self.validate(self.insightsDestination, name: "insightsDestination", parent: name, min: 3)
+            try self.validate(self.insightsDestination, name: "insightsDestination", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+            case insightsDestination = "InsightsDestination"
             case insightSelectors = "InsightSelectors"
             case trailName = "TrailName"
         }
     }
 
     public struct PutInsightSelectorsResponse: AWSDecodableShape {
-        /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights types in this release are ApiErrorRateInsight and ApiCallRateInsight.
+        /// The Amazon Resource Name (ARN) of the source event data store for which you want to change or add Insights selectors.
+        public let eventDataStoreArn: String?
+        ///  The ARN of the destination event data store that logs Insights events.
+        public let insightsDestination: String?
+        /// A JSON string that contains the Insights event types that you want to log on a trail or event data store. The valid Insights types are ApiErrorRateInsight and ApiCallRateInsight.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
         public let trailARN: String?
 
-        public init(insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+        public init(eventDataStoreArn: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
+            self.eventDataStoreArn = eventDataStoreArn
+            self.insightsDestination = insightsDestination
             self.insightSelectors = insightSelectors
             self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDataStoreArn = "EventDataStoreArn"
+            case insightsDestination = "InsightsDestination"
             case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
         }
@@ -2399,6 +2567,8 @@ extension CloudTrail {
     public struct RestoreEventDataStoreResponse: AWSDecodableShape {
         /// The advanced event selectors that were used to select events.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The billing mode for the event data store.
+        public let billingMode: BillingMode?
         /// The timestamp of an event data store's creation.
         public let createdTimestamp: Date?
         /// The event data store ARN.
@@ -2420,8 +2590,9 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
             self.kmsKeyId = kmsKeyId
@@ -2436,6 +2607,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
             case kmsKeyId = "KmsKeyId"
@@ -2613,17 +2785,33 @@ extension CloudTrail {
     public struct StartQueryRequest: AWSEncodableShape {
         ///  The URI for the S3 bucket where CloudTrail delivers the query results.
         public let deliveryS3Uri: String?
+        ///  The alias that identifies a query template.
+        public let queryAlias: String?
+        ///  The query parameters for the specified QueryAlias.
+        public let queryParameters: [String]?
         /// The SQL code of your query.
-        public let queryStatement: String
+        public let queryStatement: String?
 
-        public init(deliveryS3Uri: String? = nil, queryStatement: String) {
+        public init(deliveryS3Uri: String? = nil, queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
+            self.queryAlias = queryAlias
+            self.queryParameters = queryParameters
             self.queryStatement = queryStatement
         }
 
         public func validate(name: String) throws {
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, max: 1024)
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
+            try self.queryParameters?.forEach {
+                try validate($0, name: "queryParameters[]", parent: name, max: 1024)
+                try validate($0, name: "queryParameters[]", parent: name, min: 1)
+                try validate($0, name: "queryParameters[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^(?s)")
@@ -2631,6 +2819,8 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case deliveryS3Uri = "DeliveryS3Uri"
+            case queryAlias = "QueryAlias"
+            case queryParameters = "QueryParameters"
             case queryStatement = "QueryStatement"
         }
     }
@@ -2953,6 +3143,8 @@ extension CloudTrail {
     public struct UpdateEventDataStoreRequest: AWSEncodableShape {
         /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        ///  You can't change the billing mode from EXTENDABLE_RETENTION_PRICING to FIXED_RETENTION_PRICING. If BillingMode is set to  EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETENTION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RETENTION_PRICING.  The billing mode for the event data store determines the cost  for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:    EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is  366 days.    FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years).  The default retention period for this billing mode is 2557 days.   For more information about CloudTrail pricing,  see CloudTrail Pricing and  Managing CloudTrail Lake costs.
+        public let billingMode: BillingMode?
         /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update.
         public let eventDataStore: String
         /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store.  CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
@@ -2961,15 +3153,16 @@ extension CloudTrail {
         public let multiRegionEnabled: Bool?
         /// The event data store name.
         public let name: String?
-        /// Specifies whether an event data store collects events logged for an organization in Organizations.
+        /// Specifies whether an event data store collects events logged for an organization in Organizations.  Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to  an organization event data store.
         public let organizationEnabled: Bool?
-        /// The retention period, in days.
+        /// The retention period of the event data store, in days. If BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING, you can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail  Lake determines whether to retain an event by checking if the eventTime  of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events  when the eventTime is older than 90 days.  If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous  retention period was 365 days and you decrease it to 100 days, CloudTrail  will remove events with an eventTime older than 100 days.
         public let retentionPeriod: Int?
         /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
         public let terminationProtectionEnabled: Bool?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventDataStore: String, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, eventDataStore: String, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.eventDataStore = eventDataStore
             self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
@@ -2992,12 +3185,13 @@ extension CloudTrail {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
-            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 3653)
             try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
         }
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case eventDataStore = "EventDataStore"
             case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
@@ -3011,10 +3205,16 @@ extension CloudTrail {
     public struct UpdateEventDataStoreResponse: AWSDecodableShape {
         /// The advanced event selectors that are applied to the event data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The billing mode for the event data store.
+        public let billingMode: BillingMode?
         /// The timestamp that shows when an event data store was first created.
         public let createdTimestamp: Date?
         /// The ARN of the event data store.
         public let eventDataStoreArn: String?
+        ///  If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
+        public let federationRoleArn: String?
+        ///  Indicates the Lake query federation status. The status is  ENABLED if Lake query federation is enabled, or DISABLED if Lake query federation is disabled. You cannot delete an event data store if the FederationStatus is ENABLED.
+        public let federationStatus: FederationStatus?
         /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
@@ -3032,10 +3232,13 @@ extension CloudTrail {
         /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.billingMode = billingMode
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.federationRoleArn = federationRoleArn
+            self.federationStatus = federationStatus
             self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
@@ -3048,8 +3251,11 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case billingMode = "BillingMode"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case federationRoleArn = "FederationRoleArn"
+            case federationStatus = "FederationStatus"
             case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
@@ -3062,7 +3268,7 @@ extension CloudTrail {
     }
 
     public struct UpdateTrailRequest: AWSEncodableShape {
-        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
+        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.  Only the management account can configure a CloudWatch Logs log group for an organization trail.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
         public let cloudWatchLogsRoleArn: String?
@@ -3072,7 +3278,7 @@ extension CloudTrail {
         public let includeGlobalServiceEvents: Bool?
         /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
         public let isMultiRegionTrail: Bool?
-        /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.
+        /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.  Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to  an organization trail.
         public let isOrganizationTrail: Bool?
         /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
@@ -3137,7 +3343,7 @@ extension CloudTrail {
         public let s3KeyPrefix: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The following is the format of a topic ARN.  arn:aws:sns:us-east-2:123456789012:MyTopic
         public let snsTopicARN: String?
-        /// This field is no longer in use. Use UpdateTrailResponse$SnsTopicARN.
+        /// This field is no longer in use. Use SnsTopicARN.
         public let snsTopicName: String?
         /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
@@ -3198,6 +3404,7 @@ extension CloudTrail {
 /// Error enum for CloudTrail
 public struct CloudTrailErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case accountHasOngoingImportException = "AccountHasOngoingImportException"
         case accountNotFoundException = "AccountNotFoundException"
         case accountNotRegisteredException = "AccountNotRegisteredException"
@@ -3212,10 +3419,12 @@ public struct CloudTrailErrorType: AWSErrorType {
         case cloudTrailAccessNotEnabledException = "CloudTrailAccessNotEnabledException"
         case cloudTrailInvalidClientTokenIdException = "CloudTrailInvalidClientTokenIdException"
         case cloudWatchLogsDeliveryUnavailableException = "CloudWatchLogsDeliveryUnavailableException"
+        case concurrentModificationException = "ConcurrentModificationException"
         case conflictException = "ConflictException"
         case delegatedAdminAccountLimitExceededException = "DelegatedAdminAccountLimitExceededException"
         case eventDataStoreARNInvalidException = "EventDataStoreARNInvalidException"
         case eventDataStoreAlreadyExistsException = "EventDataStoreAlreadyExistsException"
+        case eventDataStoreFederationEnabledException = "EventDataStoreFederationEnabledException"
         case eventDataStoreHasOngoingImportException = "EventDataStoreHasOngoingImportException"
         case eventDataStoreMaxLimitExceededException = "EventDataStoreMaxLimitExceededException"
         case eventDataStoreNotFoundException = "EventDataStoreNotFoundException"
@@ -3273,6 +3482,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case resourceTypeNotSupportedException = "ResourceTypeNotSupportedException"
         case s3BucketDoesNotExistException = "S3BucketDoesNotExistException"
         case tagsLimitExceededException = "TagsLimitExceededException"
+        case throttlingException = "ThrottlingException"
         case trailAlreadyExistsException = "TrailAlreadyExistsException"
         case trailNotFoundException = "TrailNotFoundException"
         case trailNotProvidedException = "TrailNotProvidedException"
@@ -3297,6 +3507,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  You do not have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  This exception is thrown when you start a new import and a previous import is still in progress.
     public static var accountHasOngoingImportException: Self { .init(.accountHasOngoingImportException) }
     /// This exception is thrown when the specified account is not found or not part of an organization.
@@ -3317,7 +3529,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var channelMaxLimitExceededException: Self { .init(.channelMaxLimitExceededException) }
     /// This exception is thrown when CloudTrail cannot find the specified channel.
     public static var channelNotFoundException: Self { .init(.channelNotFoundException) }
-    /// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
     /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see Enabling Trusted Access with Other Amazon Web Services Services and Prepare For Creating a Trail For Your Organization.
     public static var cloudTrailAccessNotEnabledException: Self { .init(.cloudTrailAccessNotEnabledException) }
@@ -3325,6 +3537,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var cloudTrailInvalidClientTokenIdException: Self { .init(.cloudTrailInvalidClientTokenIdException) }
     /// Cannot set a CloudWatch Logs delivery for this Region.
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
+    ///  You are trying to update a resource when another request is in progress. Allow sufficient wait time for the previous request to complete, then retry your request.
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     public static var conflictException: Self { .init(.conflictException) }
     /// This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
@@ -3333,6 +3547,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var eventDataStoreARNInvalidException: Self { .init(.eventDataStoreARNInvalidException) }
     /// An event data store with that name already exists.
     public static var eventDataStoreAlreadyExistsException: Self { .init(.eventDataStoreAlreadyExistsException) }
+    ///  You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to  disable Lake query federation on the event data store.
+    public static var eventDataStoreFederationEnabledException: Self { .init(.eventDataStoreFederationEnabledException) }
     ///  This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
     public static var eventDataStoreHasOngoingImportException: Self { .init(.eventDataStoreHasOngoingImportException) }
     /// Your account has used the maximum number of event data stores.
@@ -3347,7 +3563,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var inactiveEventDataStoreException: Self { .init(.inactiveEventDataStoreException) }
     /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
     public static var inactiveQueryException: Self { .init(.inactiveQueryException) }
-    /// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
+    /// If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
     public static var insightNotEnabledException: Self { .init(.insightNotEnabledException) }
     /// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     public static var insufficientDependencyServiceAccessPermissionException: Self { .init(.insufficientDependencyServiceAccessPermissionException) }
@@ -3375,7 +3591,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidHomeRegionException: Self { .init(.invalidHomeRegionException) }
     ///  This exception is thrown when the provided source S3 bucket is not valid for import.
     public static var invalidImportSourceException: Self { .init(.invalidImportSourceException) }
-    /// The formatting or syntax of the InsightSelectors JSON statement in your PutInsightSelectors or GetInsightSelectors request is not valid, or the specified insight type in the InsightSelectors statement is not a valid insight type.
+    /// For PutInsightSelectors, this exception is thrown when the formatting or syntax of the InsightSelectors JSON statement is not valid, or the specified InsightType in the InsightSelectors statement is not valid. Valid values for InsightType are ApiCallRateInsight and ApiErrorRateInsight. To enable Insights on an event data store, the destination event data store specified by the  InsightsDestination parameter must log Insights events and the source event data  store specified by the EventDataStore parameter must log management events. For UpdateEventDataStore, this exception is thrown if Insights are enabled on the event data store and the updated  advanced event selectors are not compatible with the configured InsightSelectors.  If the InsightSelectors includes an InsightType of ApiCallRateInsight, the source event data store must log write management events.  If the InsightSelectors includes an InsightType of ApiErrorRateInsight, the source event data store must log management events.
     public static var invalidInsightSelectorsException: Self { .init(.invalidInsightSelectorsException) }
     /// This exception is thrown when the KMS key ARN is not valid.
     public static var invalidKmsKeyIdException: Self { .init(.invalidKmsKeyIdException) }
@@ -3415,7 +3631,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var kmsKeyDisabledException: Self { .init(.kmsKeyDisabledException) }
     /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same Region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same Region.
     public static var kmsKeyNotFoundException: Self { .init(.kmsKeyNotFoundException) }
-    /// You are already running the maximum number of concurrent queries. Wait a minute for some queries to finish, and then run the query again.
+    /// You are already running the maximum number of concurrent queries. The maximum number of concurrent queries is 10. Wait a minute for some queries to finish, and then run the query again.
     public static var maxConcurrentQueriesException: Self { .init(.maxConcurrentQueriesException) }
     /// This exception is thrown when the maximum number of trails is reached.
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }
@@ -3447,6 +3663,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var s3BucketDoesNotExistException: Self { .init(.s3BucketDoesNotExistException) }
     /// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     public static var tagsLimitExceededException: Self { .init(.tagsLimitExceededException) }
+    ///  This exception is thrown when the request rate exceeds the limit.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// This exception is thrown when the specified trail already exists.
     public static var trailAlreadyExistsException: Self { .init(.trailAlreadyExistsException) }
     /// This exception is thrown when the trail with the given name is not found.

@@ -26,12 +26,12 @@ import Foundation
 extension TimestreamWrite {
     // MARK: Enums
 
-    public enum BatchLoadDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchLoadDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchLoadStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchLoadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -41,12 +41,12 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -56,25 +56,25 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartitionKeyEnforcementLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum PartitionKeyEnforcementLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "OPTIONAL"
         case required = "REQUIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartitionKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PartitionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dimension = "DIMENSION"
         case measure = "MEASURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalarMeasureValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalarMeasureValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -83,14 +83,14 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case restoring = "RESTORING"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case microseconds = "MICROSECONDS"
         case milliseconds = "MILLISECONDS"
         case nanoseconds = "NANOSECONDS"

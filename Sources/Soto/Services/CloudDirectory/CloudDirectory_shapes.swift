@@ -26,7 +26,7 @@ import Foundation
 extension CloudDirectory {
     // MARK: Enums
 
-    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDeniedException = "AccessDeniedException"
         case cannotListParentOfRootException = "CannotListParentOfRootException"
         case directoryNotEnabledException = "DirectoryNotEnabledException"
@@ -43,20 +43,20 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConsistencyLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConsistencyLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventual = "EVENTUAL"
         case serializable = "SERIALIZABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectoryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FacetAttributeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FacetAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "BINARY"
         case boolean = "BOOLEAN"
         case datetime = "DATETIME"
@@ -66,13 +66,13 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum FacetStyle: String, CustomStringConvertible, Codable, Sendable {
+    public enum FacetStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case dynamic = "DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case index = "INDEX"
         case leafNode = "LEAF_NODE"
         case node = "NODE"
@@ -80,7 +80,7 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum RangeMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RangeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclusive = "EXCLUSIVE"
         case first = "FIRST"
         case inclusive = "INCLUSIVE"
@@ -89,13 +89,13 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notRequired = "NOT_REQUIRED"
         case requiredAlways = "REQUIRED_ALWAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binaryLength = "BINARY_LENGTH"
         case numberComparison = "NUMBER_COMPARISON"
         case stringFromSet = "STRING_FROM_SET"
@@ -103,7 +103,7 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createOrUpdate = "CREATE_OR_UPDATE"
         case delete = "DELETE"
         public var description: String { return self.rawValue }

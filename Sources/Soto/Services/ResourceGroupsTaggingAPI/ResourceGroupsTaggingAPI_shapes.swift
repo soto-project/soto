@@ -26,20 +26,20 @@ import Foundation
 extension ResourceGroupsTaggingAPI {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServiceException = "InternalServiceException"
         case invalidParameterException = "InvalidParameterException"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupByAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupByAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case region = "REGION"
         case resourceType = "RESOURCE_TYPE"
         case targetId = "TARGET_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetIdType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case ou = "OU"
         case root = "ROOT"

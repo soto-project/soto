@@ -26,7 +26,7 @@ import Foundation
 extension NetworkFirewall {
     // MARK: Enums
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -36,95 +36,109 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSyncState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationSyncState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerKms = "CUSTOMER_KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallStatusValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum FirewallStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case provisioning = "PROVISIONING"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeneratedRulesType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeneratedRulesType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowlist = "ALLOWLIST"
         case denylist = "DENYLIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualstack = "DUALSTACK"
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentifiedType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case statelessRuleContainsTcpFlags = "STATELESS_RULE_CONTAINS_TCP_FLAGS"
+        case statelessRuleForwardingAsymmetrically = "STATELESS_RULE_FORWARDING_ASYMMETRICALLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatchLogs = "CloudWatchLogs"
         case kinesisDataFirehose = "KinesisDataFirehose"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alert = "ALERT"
         case flow = "FLOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum OverrideAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum OverrideAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dropToAlert = "DROP_TO_ALERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceManagedStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceManagedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceManagedType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceManagedType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsManagedDomainLists = "AWS_MANAGED_DOMAIN_LISTS"
         case awsManagedThreatSignatures = "AWS_MANAGED_THREAT_SIGNATURES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
+        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleGroupType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RevocationCheckAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drop = "DROP"
+        case pass = "PASS"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case stateful = "STATEFUL"
         case stateless = "STATELESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultActionOrder = "DEFAULT_ACTION_ORDER"
         case strictOrder = "STRICT_ORDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatefulAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alert = "ALERT"
         case drop = "DROP"
         case pass = "PASS"
@@ -132,13 +146,13 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulRuleDirection: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatefulRuleDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case any = "ANY"
         case forward = "FORWARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulRuleProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatefulRuleProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case any = "IP"
         case dcerpc = "DCERPC"
         case dhcp = "DHCP"
@@ -161,14 +175,14 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamExceptionPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamExceptionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `continue` = "CONTINUE"
         case drop = "DROP"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TCPFlag: String, CustomStringConvertible, Codable, Sendable {
+    public enum TCPFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ack = "ACK"
         case cwr = "CWR"
         case ece = "ECE"
@@ -180,7 +194,7 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
         public var description: String { return self.rawValue }
@@ -221,6 +235,27 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case addressDefinition = "AddressDefinition"
+        }
+    }
+
+    public struct AnalysisResult: AWSDecodableShape {
+        /// Provides analysis details for the identified rule.
+        public let analysisDetail: String?
+        /// The priority number of the stateless rules identified in the analysis.
+        public let identifiedRuleIds: [String]?
+        /// The types of rule configurations that Network Firewall analyzes your rule groups for. Network Firewall analyzes stateless rule groups for the following types of rule configurations:    STATELESS_RULE_FORWARDING_ASYMMETRICALLY  Cause: One or more stateless rules with the action pass or forward are forwarding traffic asymmetrically. Specifically, the rule's set of source IP addresses  or their associated port numbers, don't match the set of destination IP addresses or their associated port numbers. To mitigate: Make sure that there's an existing return path. For example, if the rule allows traffic from source 10.1.0.0/24 to destination 20.1.0.0/24, you should allow return traffic from source 20.1.0.0/24 to destination 10.1.0.0/24.    STATELESS_RULE_CONTAINS_TCP_FLAGS  Cause: At least one stateless rule with the action pass orforward contains TCP flags that are inconsistent in the forward and return directions. To mitigate: Prevent asymmetric routing issues caused by TCP flags by following these actions:   Remove unnecessary TCP flag inspections from the rules.   If you need to inspect TCP flags, check that the rules correctly account for changes in TCP flags throughout the TCP connection cycle, for example SYN and ACK flags used in a 3-way TCP handshake.
+        public let identifiedType: IdentifiedType?
+
+        public init(analysisDetail: String? = nil, identifiedRuleIds: [String]? = nil, identifiedType: IdentifiedType? = nil) {
+            self.analysisDetail = analysisDetail
+            self.identifiedRuleIds = identifiedRuleIds
+            self.identifiedType = identifiedType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisDetail = "AnalysisDetail"
+            case identifiedRuleIds = "IdentifiedRuleIds"
+            case identifiedType = "IdentifiedType"
         }
     }
 
@@ -410,6 +445,23 @@ extension NetworkFirewall {
         }
     }
 
+    public struct CheckCertificateRevocationStatusActions: AWSEncodableShape & AWSDecodableShape {
+        /// Configures how Network Firewall processes traffic when it determines that the certificate presented by the server in the SSL/TLS connection has a revoked status.    PASS - Allow the connection to continue, and pass subsequent packets to the stateful engine for inspection.    DROP - Network Firewall closes the connection and drops subsequent packets for that connection.    REJECT - Network Firewall sends a TCP reject packet back to your client. The service closes the connection and drops subsequent packets for that connection. REJECT is available only for TCP traffic.
+        public let revokedStatusAction: RevocationCheckAction?
+        /// Configures how Network Firewall processes traffic when it determines that the certificate presented by the server in the SSL/TLS connection has an unknown status, or a status that cannot be determined for any other reason, including when the service is unable to connect to the OCSP and CRL endpoints for the certificate.    PASS - Allow the connection to continue, and pass subsequent packets to the stateful engine for inspection.    DROP - Network Firewall closes the connection and drops subsequent packets for that connection.    REJECT - Network Firewall sends a TCP reject packet back to your client. The service closes the connection and drops subsequent packets for that connection. REJECT is available only for TCP traffic.
+        public let unknownStatusAction: RevocationCheckAction?
+
+        public init(revokedStatusAction: RevocationCheckAction? = nil, unknownStatusAction: RevocationCheckAction? = nil) {
+            self.revokedStatusAction = revokedStatusAction
+            self.unknownStatusAction = unknownStatusAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revokedStatusAction = "RevokedStatusAction"
+            case unknownStatusAction = "UnknownStatusAction"
+        }
+    }
+
     public struct CreateFirewallPolicyRequest: AWSEncodableShape {
         /// A description of the firewall policy.
         public let description: String?
@@ -562,6 +614,8 @@ extension NetworkFirewall {
     }
 
     public struct CreateRuleGroupRequest: AWSEncodableShape {
+        /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then creates the rule group for you. To run the stateless rule group analyzer without creating the rule group, set DryRun to TRUE.
+        public let analyzeRuleGroup: Bool?
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.   You can't change or exceed this capacity when you update the rule group, so leave room for your rule group to grow.    Capacity for a stateless rule group  For a stateless rule group, the capacity required is the sum of the capacity requirements of the individual rules that you expect to have in the rule group.  To calculate the capacity requirement of a single rule, multiply the capacity requirement values of each of the rule's match settings:   A match setting with no criteria specified has a value of 1.    A match setting with Any specified has a value of 1.    All other match settings have a value equal to the number of elements provided in the setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.    A rule with no criteria specified in any of its match settings has a capacity requirement of 1. A rule with protocol setting ["UDP","TCP"], source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single specification or no specification for each of the other match settings has a capacity requirement of 6.   Capacity for a stateful rule group  For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
         public let capacity: Int
         /// A description of the rule group.
@@ -586,7 +640,8 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType
 
-        public init(capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
+        public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
+            self.analyzeRuleGroup = analyzeRuleGroup
             self.capacity = capacity
             self.description = description
             self.dryRun = dryRun
@@ -617,6 +672,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzeRuleGroup = "AnalyzeRuleGroup"
             case capacity = "Capacity"
             case description = "Description"
             case dryRun = "DryRun"
@@ -653,7 +709,7 @@ extension NetworkFirewall {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
@@ -1155,6 +1211,8 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupRequest: AWSEncodableShape {
+        /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis.
+        public let analyzeRuleGroup: Bool?
         /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -1163,7 +1221,8 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
-        public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
+        public init(analyzeRuleGroup: Bool? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
+            self.analyzeRuleGroup = analyzeRuleGroup
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
             self.type = type
@@ -1179,6 +1238,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzeRuleGroup = "AnalyzeRuleGroup"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
             case type = "Type"
@@ -1233,7 +1293,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeTLSInspectionConfigurationResponse: AWSDecodableShape {
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration?
         /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
@@ -1706,7 +1766,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
         }
@@ -1751,7 +1811,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
             try self.vpcIds?.forEach {
@@ -1808,7 +1868,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
         }
@@ -1853,7 +1913,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
         }
@@ -1898,7 +1958,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
@@ -2216,7 +2276,7 @@ extension NetworkFirewall {
         public let rulesSource: RulesSource
         /// Settings that are available for use in the rules in the rule group. You can only use these for stateful rule groups.
         public let ruleVariables: RuleVariables?
-        /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings.
+        /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings. Some limitations apply; for more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulRuleOptions: StatefulRuleOptions?
 
         public init(referenceSets: ReferenceSets? = nil, rulesSource: RulesSource, ruleVariables: RuleVariables? = nil, statefulRuleOptions: StatefulRuleOptions? = nil) {
@@ -2258,6 +2318,8 @@ extension NetworkFirewall {
     }
 
     public struct RuleGroupResponse: AWSDecodableShape {
+        /// The list of analysis results for AnalyzeRuleGroup. If you set AnalyzeRuleGroup to TRUE in CreateRuleGroup, UpdateRuleGroup, or DescribeRuleGroup, Network Firewall analyzes the rule group and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in the list of analysis results.
+        public let analysisResults: [AnalysisResult]?
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.
         public let capacity: Int?
         /// The number of capacity units currently consumed by the rule group rules.
@@ -2291,7 +2353,8 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
-        public init(capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
+        public init(analysisResults: [AnalysisResult]? = nil, capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
+            self.analysisResults = analysisResults
             self.capacity = capacity
             self.consumedCapacity = consumedCapacity
             self.description = description
@@ -2309,6 +2372,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisResults = "AnalysisResults"
             case capacity = "Capacity"
             case consumedCapacity = "ConsumedCapacity"
             case description = "Description"
@@ -2327,7 +2391,9 @@ extension NetworkFirewall {
     }
 
     public struct RuleOption: AWSEncodableShape & AWSDecodableShape {
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see Rule options in the Suricata documentation.
         public let keyword: String
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see Rule options.
         public let settings: [String]?
 
         public init(keyword: String, settings: [String]? = nil) {
@@ -2387,7 +2453,7 @@ extension NetworkFirewall {
     public struct RulesSource: AWSEncodableShape & AWSDecodableShape {
         /// Stateful inspection criteria for a domain list rule group.
         public let rulesSourceList: RulesSourceList?
-        /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
+        /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.  You can't use the priority keyword if the RuleOrder option in StatefulRuleOptions is set to  STRICT_ORDER.
         public let rulesString: String?
         /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see Rules Format.
         public let statefulRules: [StatefulRule]?
@@ -2439,7 +2505,7 @@ extension NetworkFirewall {
     }
 
     public struct ServerCertificate: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate.
+        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate that's used for inbound SSL/TLS inspection.
         public let resourceArn: String?
 
         public init(resourceArn: String? = nil) {
@@ -2458,17 +2524,26 @@ extension NetworkFirewall {
     }
 
     public struct ServerCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of a server certificate configuration's scopes.
+        /// The Amazon Resource Name (ARN) of the imported certificate authority (CA) certificate within Certificate Manager (ACM) to use for outbound SSL/TLS inspection. The following limitations apply:   You can use CA certificates that you imported into ACM, but you can't generate CA certificates with ACM.   You can't use certificates issued by Private Certificate Authority.   For more information about configuring certificates for outbound inspection, see Using SSL/TLS certificates with certificates with TLS inspection configurations in the Network Firewall Developer Guide.  For information about working with certificates in ACM, see Importing certificates in the Certificate Manager User Guide.
+        public let certificateAuthorityArn: String?
+        /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in ServerCertificateConfiguration.
+        public let checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions?
+        /// A list of scopes.
         public let scopes: [ServerCertificateScope]?
-        /// The list of a server certificate configuration's Certificate Manager SSL/TLS certificates.
+        /// The list of server certificates to use for inbound SSL/TLS inspection.
         public let serverCertificates: [ServerCertificate]?
 
-        public init(scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
+        public init(certificateAuthorityArn: String? = nil, checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions? = nil, scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
             self.scopes = scopes
             self.serverCertificates = serverCertificates
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 256)
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 1)
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:aws")
             try self.scopes?.forEach {
                 try $0.validate(name: "\(name).scopes[]")
             }
@@ -2478,6 +2553,8 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case checkCertificateRevocationStatus = "CheckCertificateRevocationStatus"
             case scopes = "Scopes"
             case serverCertificates = "ServerCertificates"
         }
@@ -2561,7 +2638,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.    DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.    CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.    REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public let streamExceptionPolicy: StreamExceptionPolicy?
@@ -2578,7 +2655,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRule: AWSEncodableShape & AWSDecodableShape {
-        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.    REJECT - Drops TCP traffic that matches the conditions of the stateful rule, and sends a TCP reset packet back to sender of the packet. A TCP reset packet is a packet with no payload and a RST bit contained in the TCP header flags. Also sends an alert log mesage if alert logging is configured in the Firewall LoggingConfiguration.  REJECT isn't currently available for use with IMAP and FTP protocols.
+        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
         public let action: StatefulAction
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
         public let header: Header
@@ -2822,6 +2899,7 @@ extension NetworkFirewall {
     }
 
     public struct TLSInspectionConfigurationResponse: AWSDecodableShape {
+        public let certificateAuthority: TlsCertificateData?
         /// A list of the certificates associated with the TLS inspection configuration.
         public let certificates: [TlsCertificateData]?
         /// A description of the TLS inspection configuration.
@@ -2843,7 +2921,8 @@ extension NetworkFirewall {
         /// Detailed information about the current status of a TLSInspectionConfiguration. You can retrieve this for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration and providing the TLS inspection configuration name and ARN.
         public let tlsInspectionConfigurationStatus: ResourceStatus?
 
-        public init(certificates: [TlsCertificateData]? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil, tlsInspectionConfigurationArn: String, tlsInspectionConfigurationId: String, tlsInspectionConfigurationName: String, tlsInspectionConfigurationStatus: ResourceStatus? = nil) {
+        public init(certificateAuthority: TlsCertificateData? = nil, certificates: [TlsCertificateData]? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil, tlsInspectionConfigurationArn: String, tlsInspectionConfigurationId: String, tlsInspectionConfigurationName: String, tlsInspectionConfigurationStatus: ResourceStatus? = nil) {
+            self.certificateAuthority = certificateAuthority
             self.certificates = certificates
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -2857,6 +2936,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateAuthority = "CertificateAuthority"
             case certificates = "Certificates"
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
@@ -3240,7 +3320,7 @@ extension NetworkFirewall {
         public let dryRun: Bool?
         /// A complex type that contains settings for encryption of your firewall policy resources.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The updated firewall policy to use for the firewall.
+        /// The updated firewall policy to use for the firewall. You can't add or remove a TLSInspectionConfiguration after you create a firewall policy. However, you can replace an existing TLS inspection configuration with another TLSInspectionConfiguration.
         public let firewallPolicy: FirewallPolicy
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
@@ -3355,6 +3435,8 @@ extension NetworkFirewall {
     }
 
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
+        /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then updates the rule group for you. To run the stateless rule group analyzer without updating the rule group, set DryRun to TRUE.
+        public let analyzeRuleGroup: Bool?
         /// A description of the rule group.
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
@@ -3379,7 +3461,8 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
-        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, type: RuleGroupType? = nil, updateToken: String) {
+        public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, type: RuleGroupType? = nil, updateToken: String) {
+            self.analyzeRuleGroup = analyzeRuleGroup
             self.description = description
             self.dryRun = dryRun
             self.encryptionConfiguration = encryptionConfiguration
@@ -3411,6 +3494,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzeRuleGroup = "AnalyzeRuleGroup"
             case description = "Description"
             case dryRun = "DryRun"
             case encryptionConfiguration = "EncryptionConfiguration"
@@ -3508,7 +3592,7 @@ extension NetworkFirewall {
         public let description: String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration
         /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
@@ -3610,7 +3694,7 @@ public struct NetworkFirewallErrorType: AWSErrorType {
 
     /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
     public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
-    /// Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     public static var internalServerError: Self { .init(.internalServerError) }
     /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }

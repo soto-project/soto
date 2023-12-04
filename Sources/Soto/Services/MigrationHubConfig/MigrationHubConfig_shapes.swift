@@ -26,7 +26,7 @@ import Foundation
 extension MigrationHubConfig {
     // MARK: Enums
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
@@ -72,6 +72,29 @@ extension MigrationHubConfig {
         private enum CodingKeys: String, CodingKey {
             case homeRegionControl = "HomeRegionControl"
         }
+    }
+
+    public struct DeleteHomeRegionControlRequest: AWSEncodableShape {
+        /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
+        public let controlId: String
+
+        public init(controlId: String) {
+            self.controlId = controlId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.controlId, name: "controlId", parent: name, max: 50)
+            try self.validate(self.controlId, name: "controlId", parent: name, min: 1)
+            try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^hrc-[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlId = "ControlId"
+        }
+    }
+
+    public struct DeleteHomeRegionControlResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeHomeRegionControlsRequest: AWSEncodableShape {

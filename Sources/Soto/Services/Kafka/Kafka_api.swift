@@ -157,6 +157,19 @@ public struct Kafka: AWSService {
         )
     }
 
+    /// Creates the replicator.
+    @Sendable
+    public func createReplicator(_ input: CreateReplicatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicatorResponse {
+        return try await self.client.execute(
+            operation: "CreateReplicator", 
+            path: "/replication/v1/replicators", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new MSK VPC connection.
     @Sendable
     public func createVpcConnection(_ input: CreateVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcConnectionResponse {
@@ -209,6 +222,19 @@ public struct Kafka: AWSService {
         )
     }
 
+    /// Deletes a replicator.
+    @Sendable
+    public func deleteReplicator(_ input: DeleteReplicatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicatorResponse {
+        return try await self.client.execute(
+            operation: "DeleteReplicator", 
+            path: "/replication/v1/replicators/{ReplicatorArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a MSK VPC connection.
     @Sendable
     public func deleteVpcConnection(_ input: DeleteVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcConnectionResponse {
@@ -248,6 +274,19 @@ public struct Kafka: AWSService {
         )
     }
 
+    /// Returns a description of the cluster operation specified by the ARN.
+    @Sendable
+    public func describeClusterOperationV2(_ input: DescribeClusterOperationV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterOperationV2Response {
+        return try await self.client.execute(
+            operation: "DescribeClusterOperationV2", 
+            path: "/api/v2/operations/{ClusterOperationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     @Sendable
     public func describeClusterV2(_ input: DescribeClusterV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterV2Response {
@@ -280,6 +319,19 @@ public struct Kafka: AWSService {
         return try await self.client.execute(
             operation: "DescribeConfigurationRevision", 
             path: "/v1/configurations/{Arn}/revisions/{Revision}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes a replicator.
+    @Sendable
+    public func describeReplicator(_ input: DescribeReplicatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicatorResponse {
+        return try await self.client.execute(
+            operation: "DescribeReplicator", 
+            path: "/replication/v1/replicators/{ReplicatorArn}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -365,6 +417,19 @@ public struct Kafka: AWSService {
         )
     }
 
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    @Sendable
+    public func listClusterOperationsV2(_ input: ListClusterOperationsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterOperationsV2Response {
+        return try await self.client.execute(
+            operation: "ListClusterOperationsV2", 
+            path: "/api/v2/clusters/{ClusterArn}/operations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of all the MSK clusters in the current Region.
     @Sendable
     public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
@@ -436,6 +501,19 @@ public struct Kafka: AWSService {
         return try await self.client.execute(
             operation: "ListNodes", 
             path: "/v1/clusters/{ClusterArn}/nodes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the replicators.
+    @Sendable
+    public func listReplicators(_ input: ListReplicatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReplicatorsResponse {
+        return try await self.client.execute(
+            operation: "ListReplicators", 
+            path: "/replication/v1/replicators", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -651,6 +729,19 @@ public struct Kafka: AWSService {
         )
     }
 
+    /// Updates replication info of a replicator.
+    @Sendable
+    public func updateReplicationInfo(_ input: UpdateReplicationInfoRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReplicationInfoResponse {
+        return try await self.client.execute(
+            operation: "UpdateReplicationInfo", 
+            path: "/replication/v1/replicators/{ReplicatorArn}/replication-info", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     @Sendable
     public func updateSecurity(_ input: UpdateSecurityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityResponse {
@@ -725,6 +816,25 @@ extension Kafka {
             command: self.listClusterOperations,
             inputKey: \ListClusterOperationsRequest.nextToken,
             outputKey: \ListClusterOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listClusterOperationsV2Paginator(
+        _ input: ListClusterOperationsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterOperationsV2Request, ListClusterOperationsV2Response> {
+        return .init(
+            input: input,
+            command: self.listClusterOperationsV2,
+            inputKey: \ListClusterOperationsV2Request.nextToken,
+            outputKey: \ListClusterOperationsV2Response.nextToken,
             logger: logger
         )
     }
@@ -843,6 +953,25 @@ extension Kafka {
         )
     }
 
+    /// Lists the replicators.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listReplicatorsPaginator(
+        _ input: ListReplicatorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReplicatorsRequest, ListReplicatorsResponse> {
+        return .init(
+            input: input,
+            command: self.listReplicators,
+            inputKey: \ListReplicatorsRequest.nextToken,
+            outputKey: \ListReplicatorsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     /// Return PaginatorSequence for operation.
     ///
@@ -894,6 +1023,16 @@ extension Kafka.ListClientVpcConnectionsRequest: AWSPaginateToken {
 
 extension Kafka.ListClusterOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListClusterOperationsV2Request: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsV2Request {
         return .init(
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,
@@ -957,6 +1096,16 @@ extension Kafka.ListNodesRequest: AWSPaginateToken {
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListReplicatorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListReplicatorsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicatorNameFilter: self.replicatorNameFilter
         )
     }
 }

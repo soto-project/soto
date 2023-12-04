@@ -26,7 +26,7 @@ import Foundation
 extension Location {
     // MARK: Enums
 
-    public enum BatchItemErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchItemErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Access to the resource was denied.
         case accessDeniedError = "AccessDeniedError"
         /// The target resource already exists.
@@ -42,19 +42,19 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case feet = "Feet"
         case meters = "Meters"
         public var description: String { return self.rawValue }
     }
 
-    public enum DistanceUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum DistanceUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kilometers = "Kilometers"
         case miles = "Miles"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntendedUse: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
         case singleUse = "SingleUse"
         /// Indicates that results of the operation may be stored locally.
@@ -62,7 +62,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionFiltering: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionFiltering: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Filters device position updates according to their accuracy
         case accuracyBased = "AccuracyBased"
         /// Filters device position updates according to the distance between them
@@ -72,7 +72,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable {
+    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// This pricing plan must be picked for mobile asset management use cases
         case mobileAssetManagement = "MobileAssetManagement"
         /// This pricing plan must be picked for mobile asset tracking use cases.
@@ -82,7 +82,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteMatrixErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteMatrixErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case departurePositionNotFound = "DeparturePositionNotFound"
         case destinationPositionNotFound = "DestinationPositionNotFound"
         case otherValidationError = "OtherValidationError"
@@ -92,7 +92,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// List all active API keys.
         case active = "Active"
         /// List all expired API keys.
@@ -100,7 +100,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum TravelMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum TravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bicycle = "Bicycle"
         case car = "Car"
         case motorcycle = "Motorcycle"
@@ -109,7 +109,7 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
-    public enum VehicleWeightUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum VehicleWeightUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kilograms = "Kilograms"
         case pounds = "Pounds"
         public var description: String { return self.rawValue }
@@ -131,11 +131,11 @@ extension Location {
     }
 
     public struct ApiKeyRestrictions: AWSEncodableShape & AWSDecodableShape {
-        /// A list of allowed actions that an API key resource grants permissions to perform  Currently, the only valid action is geo:GetMap* as an input to the list. For example, ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not.
+        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.    Map actions     geo:GetMap* - Allows all actions needed for map rendering.      Place actions     geo:SearchPlaceIndexForText - Allows geocoding.    geo:SearchPlaceIndexForPosition - Allows reverse  geocoding.    geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.    GetPlace - Allows finding a place by place ID.      Route actions     geo:CalculateRoute - Allows point to point routing.    geo:CalculateRouteMatrix - Allows calculating a matrix of routes.      You must use these strings exactly. For example, to provide access to map  rendering, the only valid action is geo:GetMap* as an input to  the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
         public let allowActions: [String]
         /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&amp;    May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes.   May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (including hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits).   No spaces allowed. For example, https://example.com.
         public let allowReferers: [String]?
-        /// A list of allowed resource ARNs that a API key bearer can perform actions on For more information about ARN format, see Amazon Resource Names (ARNs).  In this preview, you can allow only map resources.  Requirements:   Must be prefixed with arn.    partition and service must not be empty and should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).    region and account-id can be empty or should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).    resource-id can begin with any character except for forward slash (/) and contain any characters after, including forward slashes to form a path.  resource-id can also include wildcard characters, denoted by an asterisk (*).    arn, partition, service, region, account-id and resource-id must be delimited by a colon (:).   No spaces allowed. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
+        /// A list of allowed resource ARNs that a API key bearer can perform actions on.   The ARN must be the correct ARN for a map, place, or route ARN. You may  include wildcards in the resource-id to match multiple resources of the  same type.   The resources must be in the same partition,  region, and account-id as the key that is being  created.   Other than wildcards, you must include the full ARN, including the  arn, partition, service, region, account-id and resource-id, delimited by colons (:).   No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.   For more information about ARN format, see Amazon Resource Names (ARNs).
         public let allowResources: [String]
 
         public init(allowActions: [String], allowReferers: [String]? = nil, allowResources: [String]) {
@@ -533,11 +533,14 @@ extension Location {
     public struct BatchPutGeofenceRequestEntry: AWSEncodableShape {
         /// The identifier for the geofence to be stored in a given geofence collection.
         public let geofenceId: String
+        /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
+        public let geofenceProperties: [String: String]?
         /// Contains the details of the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
-        public init(geofenceId: String, geometry: GeofenceGeometry) {
+        public init(geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
         }
 
@@ -545,11 +548,13 @@ extension Location {
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
+            try self.validate(self.geofenceProperties, name: "geofenceProperties", parent: name, max: 3)
             try self.geometry.validate(name: "\(name).geometry")
         }
 
         private enum CodingKeys: String, CodingKey {
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
         }
     }
@@ -619,7 +624,7 @@ extension Location {
     public struct BatchUpdateDevicePositionRequest: AWSEncodableShape {
         /// The name of the tracker resource to update.
         public let trackerName: String
-        /// Contains the position update details for each device.
+        /// Contains the position update details for each device, up to 10 devices.
         public let updates: [DevicePositionUpdate]
 
         public init(trackerName: String, updates: [DevicePositionUpdate]) {
@@ -694,12 +699,14 @@ extension Location {
         public let destinationPositions: [[Double]]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.     Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more information about using Grab as a data provider, see GrabMaps in the Amazon Location Service Developer Guide.  Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
 
-        public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePositions: [[Double]], departureTime: Date? = nil, destinationPositions: [[Double]], distanceUnit: DistanceUnit? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil) {
+        public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePositions: [[Double]], departureTime: Date? = nil, destinationPositions: [[Double]], distanceUnit: DistanceUnit? = nil, key: String? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil) {
             self.calculatorName = calculatorName
             self.carModeOptions = carModeOptions
             self.departNow = departNow
@@ -707,6 +714,7 @@ extension Location {
             self.departureTime = departureTime
             self.destinationPositions = destinationPositions
             self.distanceUnit = distanceUnit
+            self.key = key
             self.travelMode = travelMode
             self.truckModeOptions = truckModeOptions
         }
@@ -721,6 +729,7 @@ extension Location {
             try container.encodeIfPresent(self.departureTime, forKey: .departureTime)
             try container.encode(self.destinationPositions, forKey: .destinationPositions)
             try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
+            request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
             try container.encodeIfPresent(self.truckModeOptions, forKey: .truckModeOptions)
         }
@@ -737,6 +746,7 @@ extension Location {
                 try validate($0, name: "destinationPositions[]", parent: name, max: 2)
                 try validate($0, name: "destinationPositions[]", parent: name, min: 2)
             }
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -819,6 +829,8 @@ extension Location {
         public let distanceUnit: DistanceUnit?
         /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false  Valid Values: false | true
         public let includeLegGeometry: Bool?
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck,  Walking, Bicycle or Motorcycle as options for  the TravelMode.   Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Developer Guide.  The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
@@ -826,7 +838,7 @@ extension Location {
         /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let waypointPositions: [[Double]]?
 
-        public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePosition: [Double], departureTime: Date? = nil, destinationPosition: [Double], distanceUnit: DistanceUnit? = nil, includeLegGeometry: Bool? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil, waypointPositions: [[Double]]? = nil) {
+        public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePosition: [Double], departureTime: Date? = nil, destinationPosition: [Double], distanceUnit: DistanceUnit? = nil, includeLegGeometry: Bool? = nil, key: String? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil, waypointPositions: [[Double]]? = nil) {
             self.calculatorName = calculatorName
             self.carModeOptions = carModeOptions
             self.departNow = departNow
@@ -835,6 +847,7 @@ extension Location {
             self.destinationPosition = destinationPosition
             self.distanceUnit = distanceUnit
             self.includeLegGeometry = includeLegGeometry
+            self.key = key
             self.travelMode = travelMode
             self.truckModeOptions = truckModeOptions
             self.waypointPositions = waypointPositions
@@ -851,6 +864,7 @@ extension Location {
             try container.encode(self.destinationPosition, forKey: .destinationPosition)
             try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
             try container.encodeIfPresent(self.includeLegGeometry, forKey: .includeLegGeometry)
+            request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
             try container.encodeIfPresent(self.truckModeOptions, forKey: .truckModeOptions)
             try container.encodeIfPresent(self.waypointPositions, forKey: .waypointPositions)
@@ -864,6 +878,7 @@ extension Location {
             try self.validate(self.departurePosition, name: "departurePosition", parent: name, min: 2)
             try self.validate(self.destinationPosition, name: "destinationPosition", parent: name, max: 2)
             try self.validate(self.destinationPosition, name: "destinationPosition", parent: name, min: 2)
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.waypointPositions?.forEach {
                 try validate($0, name: "waypointPositions[]", parent: name, max: 2)
                 try validate($0, name: "waypointPositions[]", parent: name, min: 2)
@@ -1370,6 +1385,10 @@ extension Location {
     public struct CreateTrackerRequest: AWSEncodableShape {
         /// An optional description for the tracker resource.
         public let description: String?
+        /// Whether to enable position UPDATE events from this tracker to be sent to  EventBridge.  You do not need enable this feature to get ENTER and  EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+        public let eventBridgeEnabled: Bool?
+        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default.  This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to  true when creating or updating a Tracker.
+        public let kmsKeyEnableGeospatialQueries: Bool?
         /// A key identifier for an  Amazon Web Services  KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
         /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations.    This field is optional. If not specified, the default value is TimeBased.
@@ -1383,8 +1402,10 @@ extension Location {
         /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
         public let trackerName: String
 
-        public init(description: String? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerName: String) {
+        public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.kmsKeyId = kmsKeyId
             self.positionFiltering = positionFiltering
             self.pricingPlan = nil
@@ -1394,8 +1415,10 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
-        public init(description: String? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
+        public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.kmsKeyId = kmsKeyId
             self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
@@ -1423,6 +1446,8 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case eventBridgeEnabled = "EventBridgeEnabled"
+            case kmsKeyEnableGeospatialQueries = "KmsKeyEnableGeospatialQueries"
             case kmsKeyId = "KmsKeyId"
             case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
@@ -1662,6 +1687,8 @@ extension Location {
         public var createTime: Date
         /// The optional description for the geofence collection.
         public let description: String
+        /// The number of geofences in the geofence collection.
+        public let geofenceCount: Int?
         /// A key identifier for an  Amazon Web Services  KMS customer managed key assigned to the Amazon Location resource
         public let kmsKeyId: String?
         /// No longer used. Always returns RequestBasedUsage.
@@ -1674,11 +1701,12 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, kmsKeyId: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, geofenceCount: Int? = nil, kmsKeyId: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
+            self.geofenceCount = geofenceCount
             self.kmsKeyId = kmsKeyId
             self.pricingPlan = nil
             self.pricingPlanDataSource = nil
@@ -1687,11 +1715,12 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
-        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, kmsKeyId: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, geofenceCount: Int? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
+            self.geofenceCount = geofenceCount
             self.kmsKeyId = kmsKeyId
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
@@ -1704,6 +1733,7 @@ extension Location {
             case collectionName = "CollectionName"
             case createTime = "CreateTime"
             case description = "Description"
+            case geofenceCount = "GeofenceCount"
             case kmsKeyId = "KmsKeyId"
             case pricingPlan = "PricingPlan"
             case pricingPlanDataSource = "PricingPlanDataSource"
@@ -2055,6 +2085,10 @@ extension Location {
         public var createTime: Date
         /// The optional description for the tracker resource.
         public let description: String
+        /// Whether UPDATE events from this tracker in EventBridge are enabled. If set to true these events will be sent to EventBridge.
+        public let eventBridgeEnabled: Bool?
+        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default.  This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to  true when creating or updating a Tracker.
+        public let kmsKeyEnableGeospatialQueries: Bool?
         /// A key identifier for an Amazon Web Services KMS customer managed key assigned to the Amazon Location resource.
         public let kmsKeyId: String?
         /// The position filtering method of the tracker resource.
@@ -2073,9 +2107,11 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, description: String, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
+        public init(createTime: Date, description: String, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.kmsKeyId = kmsKeyId
             self.positionFiltering = positionFiltering
             self.pricingPlan = nil
@@ -2087,9 +2123,11 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
-        public init(createTime: Date, description: String, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
+        public init(createTime: Date, description: String, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.kmsKeyId = kmsKeyId
             self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
@@ -2103,6 +2141,8 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case description = "Description"
+            case eventBridgeEnabled = "EventBridgeEnabled"
+            case kmsKeyEnableGeospatialQueries = "KmsKeyEnableGeospatialQueries"
             case kmsKeyId = "KmsKeyId"
             case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
@@ -2419,6 +2459,8 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
+        /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
+        public let geofenceProperties: [String: String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
@@ -2427,9 +2469,10 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, geofenceId: String, geometry: GeofenceGeometry, status: String, updateTime: Date) {
+        public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
             self.status = status
             self.updateTime = updateTime
@@ -2438,6 +2481,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
             case status = "Status"
             case updateTime = "UpdateTime"
@@ -2445,7 +2489,7 @@ extension Location {
     }
 
     public struct GetMapGlyphsRequest: AWSEncodableShape {
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2687,13 +2731,16 @@ extension Location {
     public struct GetPlaceRequest: AWSEncodableShape {
         /// The name of the place index resource that you want to use for the search.
         public let indexName: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// The identifier of the place to find.
         public let placeId: String
 
-        public init(indexName: String, language: String? = nil, placeId: String) {
+        public init(indexName: String, key: String? = nil, language: String? = nil, placeId: String) {
             self.indexName = indexName
+            self.key = key
             self.language = language
             self.placeId = placeId
         }
@@ -2702,6 +2749,7 @@ extension Location {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.indexName, key: "IndexName")
+            request.encodeQuery(self.key, key: "key")
             request.encodeQuery(self.language, key: "language")
             request.encodePath(self.placeId, key: "PlaceId")
         }
@@ -2710,6 +2758,7 @@ extension Location {
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
             try self.validate(self.language, name: "language", parent: name, min: 2)
         }
@@ -2777,6 +2826,8 @@ extension Location {
     }
 
     public struct ListDevicePositionsRequest: AWSEncodableShape {
+        /// The geomerty used to filter device positions.
+        public let filterGeometry: TrackingFilterGeometry?
         /// An optional limit for the number of entries returned in a single call. Default value: 100
         public let maxResults: Int?
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
@@ -2784,7 +2835,8 @@ extension Location {
         /// The tracker resource containing the requested devices.
         public let trackerName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, trackerName: String) {
+        public init(filterGeometry: TrackingFilterGeometry? = nil, maxResults: Int? = nil, nextToken: String? = nil, trackerName: String) {
+            self.filterGeometry = filterGeometry
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trackerName = trackerName
@@ -2793,12 +2845,14 @@ extension Location {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filterGeometry, forKey: .filterGeometry)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             request.encodePath(self.trackerName, key: "TrackerName")
         }
 
         public func validate(name: String) throws {
+            try self.filterGeometry?.validate(name: "\(name).filterGeometry")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
@@ -2807,13 +2861,14 @@ extension Location {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterGeometry = "FilterGeometry"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
     public struct ListDevicePositionsResponse: AWSDecodableShape {
-        /// Contains details about each device's last known position. These details includes the device ID, the time when the position was sampled on the device, the time that the service received the update, and the most recent coordinates.
+        /// Contains details about each device's last known position.
         public let entries: [ListDevicePositionsResponseEntry]
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
@@ -2949,6 +3004,8 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
+        /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
+        public let geofenceProperties: [String: String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
@@ -2957,9 +3014,10 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, geofenceId: String, geometry: GeofenceGeometry, status: String, updateTime: Date) {
+        public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
             self.status = status
             self.updateTime = updateTime
@@ -2968,6 +3026,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
             case status = "Status"
             case updateTime = "UpdateTime"
@@ -3576,6 +3635,8 @@ extension Location {
     public struct Place: AWSDecodableShape {
         /// The numerical portion of an address, such as a building number.
         public let addressNumber: String?
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let categories: [String]?
         /// A country/region specified using ISO 3166 3-digit country/region code. For example, CAN.
         public let country: String?
         public let geometry: PlaceGeometry
@@ -3595,15 +3656,18 @@ extension Location {
         public let street: String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
-        /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public let supplementalCategories: [String]?
+        /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public let timeZone: TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri as a data provider. Is not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri or Grab as a data provider. Is  not returned for SearchPlaceIndexForPosition.
         public let unitNumber: String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  Returned only for a place index that uses Esri as a data provider.
         public let unitType: String?
 
-        public init(addressNumber: String? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
+        public init(addressNumber: String? = nil, categories: [String]? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, supplementalCategories: [String]? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
             self.addressNumber = addressNumber
+            self.categories = categories
             self.country = country
             self.geometry = geometry
             self.interpolated = interpolated
@@ -3614,6 +3678,7 @@ extension Location {
             self.region = region
             self.street = street
             self.subRegion = subRegion
+            self.supplementalCategories = supplementalCategories
             self.timeZone = timeZone
             self.unitNumber = unitNumber
             self.unitType = unitType
@@ -3621,6 +3686,7 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case addressNumber = "AddressNumber"
+            case categories = "Categories"
             case country = "Country"
             case geometry = "Geometry"
             case interpolated = "Interpolated"
@@ -3631,6 +3697,7 @@ extension Location {
             case region = "Region"
             case street = "Street"
             case subRegion = "SubRegion"
+            case supplementalCategories = "SupplementalCategories"
             case timeZone = "TimeZone"
             case unitNumber = "UnitNumber"
             case unitType = "UnitType"
@@ -3668,12 +3735,15 @@ extension Location {
         public let collectionName: String
         /// An identifier for the geofence. For example, ExampleGeofence-1.
         public let geofenceId: String
+        /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
+        public let geofenceProperties: [String: String]?
         /// Contains the details to specify the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
-        public init(collectionName: String, geofenceId: String, geometry: GeofenceGeometry) {
+        public init(collectionName: String, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
         }
 
@@ -3682,6 +3752,7 @@ extension Location {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.collectionName, key: "CollectionName")
             request.encodePath(self.geofenceId, key: "GeofenceId")
+            try container.encodeIfPresent(self.geofenceProperties, forKey: .geofenceProperties)
             try container.encode(self.geometry, forKey: .geometry)
         }
 
@@ -3692,10 +3763,12 @@ extension Location {
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
+            try self.validate(self.geofenceProperties, name: "geofenceProperties", parent: name, max: 3)
             try self.geometry.validate(name: "\(name).geometry")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
         }
     }
@@ -3783,18 +3856,26 @@ extension Location {
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let categories: [String]?
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public let supplementalCategories: [String]?
         /// The text of the place suggestion, typically formatted as an address string.
         public let text: String
 
-        public init(placeId: String? = nil, text: String) {
+        public init(categories: [String]? = nil, placeId: String? = nil, supplementalCategories: [String]? = nil, text: String) {
+            self.categories = categories
             self.placeId = placeId
+            self.supplementalCategories = supplementalCategories
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
             case placeId = "PlaceId"
+            case supplementalCategories = "SupplementalCategories"
             case text = "Text"
         }
     }
@@ -3827,6 +3908,8 @@ extension Location {
     public struct SearchPlaceIndexForPositionRequest: AWSEncodableShape {
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request. Default value: 50
@@ -3834,8 +3917,9 @@ extension Location {
         /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
-        public init(indexName: String, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
+        public init(indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
             self.indexName = indexName
+            self.key = key
             self.language = language
             self.maxResults = maxResults
             self.position = position
@@ -3845,6 +3929,7 @@ extension Location {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.indexName, key: "IndexName")
+            request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.language, forKey: .language)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encode(self.position, forKey: .position)
@@ -3854,6 +3939,7 @@ extension Location {
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
             try self.validate(self.language, name: "language", parent: name, min: 2)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
@@ -3916,10 +4002,14 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en. The results found will most likely be returned as Athens, Greece. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα, Ελλάδα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 5
@@ -3927,11 +4017,13 @@ extension Location {
         /// The free-form partial text to use to generate place suggestions. For example, eiffel tow.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.indexName = indexName
+            self.key = key
             self.language = language
             self.maxResults = maxResults
             self.text = text
@@ -3942,8 +4034,10 @@ extension Location {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.biasPosition, forKey: .biasPosition)
             try container.encodeIfPresent(self.filterBBox, forKey: .filterBBox)
+            try container.encodeIfPresent(self.filterCategories, forKey: .filterCategories)
             try container.encodeIfPresent(self.filterCountries, forKey: .filterCountries)
             request.encodePath(self.indexName, key: "IndexName")
+            request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.language, forKey: .language)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encode(self.text, forKey: .text)
@@ -3954,6 +4048,11 @@ extension Location {
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 4)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
+            try self.filterCategories?.forEach {
+                try validate($0, name: "filterCategories[]", parent: name, max: 35)
+            }
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
@@ -3962,6 +4061,7 @@ extension Location {
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
             try self.validate(self.language, name: "language", parent: name, min: 2)
         }
@@ -3969,6 +4069,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case biasPosition = "BiasPosition"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -4000,6 +4101,8 @@ extension Location {
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
+        /// The optional category filter specified in the request.
+        public let filterCategories: [String]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
@@ -4009,10 +4112,11 @@ extension Location {
         /// The free-form partial text input specified in the request.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults
@@ -4023,6 +4127,7 @@ extension Location {
             case biasPosition = "BiasPosition"
             case dataSource = "DataSource"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -4035,10 +4140,14 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 50
@@ -4046,11 +4155,13 @@ extension Location {
         /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.indexName = indexName
+            self.key = key
             self.language = language
             self.maxResults = maxResults
             self.text = text
@@ -4061,8 +4172,10 @@ extension Location {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.biasPosition, forKey: .biasPosition)
             try container.encodeIfPresent(self.filterBBox, forKey: .filterBBox)
+            try container.encodeIfPresent(self.filterCategories, forKey: .filterCategories)
             try container.encodeIfPresent(self.filterCountries, forKey: .filterCountries)
             request.encodePath(self.indexName, key: "IndexName")
+            request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.language, forKey: .language)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encode(self.text, forKey: .text)
@@ -4073,6 +4186,11 @@ extension Location {
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 4)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
+            try self.filterCategories?.forEach {
+                try validate($0, name: "filterCategories[]", parent: name, max: 35)
+            }
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
@@ -4081,6 +4199,7 @@ extension Location {
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
             try self.validate(self.language, name: "language", parent: name, min: 2)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
@@ -4090,6 +4209,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case biasPosition = "BiasPosition"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -4121,6 +4241,8 @@ extension Location {
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
+        /// The optional category filter specified in the request.
+        public let filterCategories: [String]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
@@ -4132,10 +4254,11 @@ extension Location {
         /// The search text specified in the request.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, resultBBox: [Double]? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, resultBBox: [Double]? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults
@@ -4147,6 +4270,7 @@ extension Location {
             case biasPosition = "BiasPosition"
             case dataSource = "DataSource"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -4238,6 +4362,26 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case offset = "Offset"
+        }
+    }
+
+    public struct TrackingFilterGeometry: AWSEncodableShape {
+        /// The set of arrays which define the polygon. A polygon can have between 4 and 1000 vertices.
+        public let polygon: [[[Double]]]?
+
+        public init(polygon: [[[Double]]]? = nil) {
+            self.polygon = polygon
+        }
+
+        public func validate(name: String) throws {
+            try self.polygon?.forEach {
+                try validate($0, name: "polygon[]", parent: name, min: 4)
+            }
+            try self.validate(self.polygon, name: "polygon", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case polygon = "Polygon"
         }
     }
 
@@ -4667,6 +4811,10 @@ extension Location {
     public struct UpdateTrackerRequest: AWSEncodableShape {
         /// Updates the description for the tracker resource.
         public let description: String?
+        /// Whether to enable position UPDATE events from this tracker to be sent to  EventBridge.  You do not need enable this feature to get ENTER and  EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+        public let eventBridgeEnabled: Bool?
+        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.
+        public let kmsKeyEnableGeospatialQueries: Bool?
         /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise  when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
         public let positionFiltering: PositionFiltering?
         /// No longer used. If included, the only allowed value is  RequestBasedUsage.
@@ -4676,8 +4824,10 @@ extension Location {
         /// The name of the tracker resource to update.
         public let trackerName: String
 
-        public init(description: String? = nil, positionFiltering: PositionFiltering? = nil, trackerName: String) {
+        public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, positionFiltering: PositionFiltering? = nil, trackerName: String) {
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.positionFiltering = positionFiltering
             self.pricingPlan = nil
             self.pricingPlanDataSource = nil
@@ -4685,8 +4835,10 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
-        public init(description: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
+        public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
             self.description = description
+            self.eventBridgeEnabled = eventBridgeEnabled
+            self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
             self.positionFiltering = positionFiltering
             self.pricingPlan = pricingPlan
             self.pricingPlanDataSource = pricingPlanDataSource
@@ -4697,6 +4849,8 @@ extension Location {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.eventBridgeEnabled, forKey: .eventBridgeEnabled)
+            try container.encodeIfPresent(self.kmsKeyEnableGeospatialQueries, forKey: .kmsKeyEnableGeospatialQueries)
             try container.encodeIfPresent(self.positionFiltering, forKey: .positionFiltering)
             try container.encodeIfPresent(self.pricingPlan, forKey: .pricingPlan)
             try container.encodeIfPresent(self.pricingPlanDataSource, forKey: .pricingPlanDataSource)
@@ -4712,6 +4866,8 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case eventBridgeEnabled = "EventBridgeEnabled"
+            case kmsKeyEnableGeospatialQueries = "KmsKeyEnableGeospatialQueries"
             case positionFiltering = "PositionFiltering"
             case pricingPlan = "PricingPlan"
             case pricingPlanDataSource = "PricingPlanDataSource"

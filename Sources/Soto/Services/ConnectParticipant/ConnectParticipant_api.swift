@@ -109,6 +109,19 @@ public struct ConnectParticipant: AWSService {
         )
     }
 
+    /// Retrieves the view for the specified view token.
+    @Sendable
+    public func describeView(_ input: DescribeViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeViewResponse {
+        return try await self.client.execute(
+            operation: "DescribeView", 
+            path: "/participant/views/{ViewToken}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disconnects a participant.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
     @Sendable
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectParticipantResponse {

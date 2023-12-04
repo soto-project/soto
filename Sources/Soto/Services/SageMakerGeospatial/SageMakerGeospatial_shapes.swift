@@ -26,13 +26,13 @@ import Foundation
 extension SageMakerGeospatial {
     // MARK: Enums
 
-    public enum AlgorithmNameCloudRemoval: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlgorithmNameCloudRemoval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// INTERPOLATION
         case interpolation = "INTERPOLATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlgorithmNameGeoMosaic: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlgorithmNameGeoMosaic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// AVERAGE
         case average = "AVERAGE"
         /// BILINEAR
@@ -64,7 +64,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum AlgorithmNameResampling: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlgorithmNameResampling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// AVERAGE
         case average = "AVERAGE"
         /// BILINEAR
@@ -96,7 +96,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// EQUALS
         case equals = "EQUALS"
         /// NOT_EQUALS
@@ -106,7 +106,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataCollectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataCollectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// PREMIUM
         case premium = "PREMIUM"
         /// PUBLIC
@@ -116,7 +116,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum EarthObservationJobErrorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EarthObservationJobErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// CLIENT_ERROR
         case clientError = "CLIENT_ERROR"
         /// SERVER_ERROR
@@ -124,7 +124,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum EarthObservationJobExportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EarthObservationJobExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// FAILED
         case failed = "FAILED"
         /// IN_PROGRESS
@@ -134,7 +134,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum EarthObservationJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EarthObservationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// COMPLETED
         case completed = "COMPLETED"
         /// DELETED
@@ -154,7 +154,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportErrorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// CLIENT_ERROR
         case clientError = "CLIENT_ERROR"
         /// SERVER_ERROR
@@ -162,7 +162,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// ALL
         case all = "ALL"
         /// YEARLY
@@ -170,13 +170,13 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// AND
         case and = "AND"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// FLOAT32
         case float32 = "FLOAT32"
         /// FLOAT64
@@ -190,7 +190,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredefinedResolution: String, CustomStringConvertible, Codable, Sendable {
+    public enum PredefinedResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// AVERAGE
         case average = "AVERAGE"
         /// HIGHEST
@@ -200,7 +200,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// ASCENDING
         case ascending = "ASCENDING"
         /// DESCENDING
@@ -208,7 +208,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetOptions: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// INPUT
         case input = "INPUT"
         /// OUTPUT
@@ -216,7 +216,7 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum TemporalStatistics: String, CustomStringConvertible, Codable, Sendable {
+    public enum TemporalStatistics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// MEAN
         case mean = "MEAN"
         /// MEDIAN
@@ -226,18 +226,18 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// METERS
         case meters = "METERS"
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobDocumentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobErrorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// CLIENT_ERROR
         case clientError = "CLIENT_ERROR"
         /// SERVER_ERROR
@@ -245,20 +245,20 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobExportErrorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobExportErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientError = "CLIENT_ERROR"
         case serverError = "SERVER_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobExportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -270,13 +270,13 @@ extension SageMakerGeospatial {
         public var description: String { return self.rawValue }
     }
 
-    public enum VectorEnrichmentJobType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VectorEnrichmentJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mapMatching = "MAP_MATCHING"
         case reverseGeocoding = "REVERSE_GEOCODING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ZonalStatistics: String, CustomStringConvertible, Codable, Sendable {
+    public enum ZonalStatistics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// MAX
         case max = "MAX"
         /// MEAN

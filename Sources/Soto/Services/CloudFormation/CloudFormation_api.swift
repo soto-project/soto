@@ -469,7 +469,7 @@ public struct CloudFormation: AWSService {
         )
     }
 
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, an ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, a ValidationError is returned.
     @Sendable
     public func describeStacks(_ input: DescribeStacksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStacksOutput {
         return try await self.client.execute(
@@ -656,6 +656,19 @@ public struct CloudFormation: AWSService {
     public func listImports(_ input: ListImportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportsOutput {
         return try await self.client.execute(
             operation: "ListImports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns drift information for resources in a stack instance.   ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
+    @Sendable
+    public func listStackInstanceResourceDrifts(_ input: ListStackInstanceResourceDriftsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStackInstanceResourceDriftsOutput {
+        return try await self.client.execute(
+            operation: "ListStackInstanceResourceDrifts", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1060,7 +1073,7 @@ extension CloudFormation {
         )
     }
 
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, an ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, a ValidationError is returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

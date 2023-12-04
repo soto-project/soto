@@ -26,13 +26,44 @@ import Foundation
 extension ARCZonalShift {
     // MARK: Enums
 
-    public enum AppliedStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppliedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applied = "APPLIED"
         case notApplied = "NOT_APPLIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ZonalShiftStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoshiftAppliedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applied = "APPLIED"
+        case notApplied = "NOT_APPLIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoshiftExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlConditionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatch = "CLOUDWATCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PracticeRunOutcome: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case interrupted = "INTERRUPTED"
+        case pending = "PENDING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ZonalAutoshiftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ZonalShiftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case expired = "EXPIRED"
@@ -40,6 +71,67 @@ extension ARCZonalShift {
     }
 
     // MARK: Shapes
+
+    public struct AutoshiftInResource: AWSDecodableShape {
+        /// The appliedStatus field specifies which application traffic shift is in effect for a
+        /// 			resource when there is more than one traffic shift active. There can be more than one application traffic
+        /// 			shift in progress at the same time - that is, practice run zonal shifts, customer-started zonal shifts,
+        /// 			or an autoshift. The appliedStatus field for an autoshift for a resource can have one of two
+        /// 			values: APPLIED or NOT_APPLIED. The zonal shift or autoshift
+        /// 			that is currently in effect for the resource has an applied status set to APPLIED. The overall principle for precedence is that zonal shifts that you start as a customer take precedence
+        /// 			autoshifts, which take precedence over practice runs. That is, customer-started zonal shifts &gt; autoshifts &gt; practice run
+        /// 			zonal shifts. For more information, see
+        /// 			How zonal autoshift
+        /// 				and practice runs work in the Amazon Route 53 Application Recovery Controller Developer Guide.
+        public let appliedStatus: AutoshiftAppliedStatus
+        /// The Availability Zone that traffic is shifted away from for a resource, when Amazon Web Services starts an autoshift.
+        /// 			Until the autoshift ends, traffic for the resource is instead directed to other Availability Zones in the Amazon Web Services Region.
+        /// 			An autoshift can end for a resource, for example, when Amazon Web Services ends the autoshift for the Availability Zone or when
+        /// 			you disable zonal autoshift for the resource.
+        public let awayFrom: String
+        /// The time (UTC) when the autoshift started.
+        public let startTime: Date
+
+        public init(appliedStatus: AutoshiftAppliedStatus, awayFrom: String, startTime: Date) {
+            self.appliedStatus = appliedStatus
+            self.awayFrom = awayFrom
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedStatus = "appliedStatus"
+            case awayFrom = "awayFrom"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct AutoshiftSummary: AWSDecodableShape {
+        /// The Availability Zone that traffic is shifted away from for a resource when Amazon Web Services starts an autoshift.
+        /// 			Until the autoshift ends, traffic for the resource is instead directed to other Availability Zones in the Amazon Web Services Region.
+        /// 			An autoshift can end for a resource, for example, when Amazon Web Services ends the autoshift for the Availability Zone or when
+        /// 			you disable zonal autoshift for the resource.
+        public let awayFrom: String
+        /// The time (in UTC) when the autoshift ended.
+        public let endTime: Date
+        /// The time (in UTC) when the autoshift started.
+        public let startTime: Date
+        /// The status for an autoshift.
+        public let status: AutoshiftExecutionStatus
+
+        public init(awayFrom: String, endTime: Date, startTime: Date, status: AutoshiftExecutionStatus) {
+            self.awayFrom = awayFrom
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awayFrom = "awayFrom"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
 
     public struct CancelZonalShiftRequest: AWSEncodableShape {
         /// The internally-generated identifier of a zonal shift.
@@ -64,8 +156,188 @@ extension ARCZonalShift {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ControlCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the Amazon CloudWatch alarm that you specify as a control condition for a practice run.
+        public let alarmIdentifier: String
+        /// The type of alarm specified for a practice run. The only valid value is CLOUDWATCH.
+        public let type: ControlConditionType
+
+        public init(alarmIdentifier: String, type: ControlConditionType) {
+            self.alarmIdentifier = alarmIdentifier
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmIdentifier, name: "alarmIdentifier", parent: name, max: 1024)
+            try self.validate(self.alarmIdentifier, name: "alarmIdentifier", parent: name, min: 8)
+            try self.validate(self.alarmIdentifier, name: "alarmIdentifier", parent: name, pattern: "^arn:.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmIdentifier = "alarmIdentifier"
+            case type = "type"
+        }
+    }
+
+    public struct CreatePracticeRunConfigurationRequest: AWSEncodableShape {
+        /// Optionally, you can block Route 53 ARC from starting practice runs for a resource
+        /// 			on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates,
+        /// 			that dates and times for practice runs are in UTC. Separate multiple blocked
+        /// 			dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and
+        /// 			you don't want practice runs to shift traffic away at that time, you could set a blocked date
+        /// 			for 2024-05-01.
+        public let blockedDates: [String]?
+        /// Optionally, you can block Route 53 ARC from starting practice runs for specific windows of
+        /// 			days and times.  The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates,
+        /// 			that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments
+        /// 			that might be required for daylight saving time differences. Separate multiple blocked windows
+        /// 			with spaces. For example, say you run business report summaries three days a week. For
+        /// 			this scenario, you might set the following recurring days and times as blocked windows,
+        /// 			for example: MON-20:30-21:30 WED-20:30-21:30
+        /// 				FRI-20:30-21:30.
+        public let blockedWindows: [String]?
+        /// An Amazon CloudWatch alarm that you can specify for zonal autoshift
+        /// 			practice runs. This alarm blocks Route 53 ARC from starting practice run zonal
+        /// 			shifts, and ends a practice run that's in progress, when the alarm is in
+        /// 			an ALARM state.
+        public let blockingAlarms: [ControlCondition]?
+        /// The outcome alarm for practice runs is a required
+        /// 			Amazon CloudWatch alarm that you specify that ends a practice run when the
+        /// 			alarm is in an ALARM state. Configure the alarm to monitor the health of your application
+        /// 			when traffic is shifted away from an Availability Zone during each weekly
+        /// 			practice run. You should configure the alarm to go into an ALARM state
+        /// 			if your application is impacted by the zonal shift, and you want to stop the
+        /// 			zonal shift, to let traffic for the resource return to the Availability Zone.
+        public let outcomeAlarms: [ControlCondition]
+        /// The identifier of the resource to shift away traffic for when a practice
+        /// 			run starts a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        public let resourceIdentifier: String
+
+        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition], resourceIdentifier: String) {
+            self.blockedDates = blockedDates
+            self.blockedWindows = blockedWindows
+            self.blockingAlarms = blockingAlarms
+            self.outcomeAlarms = outcomeAlarms
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.blockedDates?.forEach {
+                try validate($0, name: "blockedDates[]", parent: name, max: 10)
+                try validate($0, name: "blockedDates[]", parent: name, min: 10)
+                try validate($0, name: "blockedDates[]", parent: name, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+            }
+            try self.validate(self.blockedDates, name: "blockedDates", parent: name, max: 15)
+            try self.blockedWindows?.forEach {
+                try validate($0, name: "blockedWindows[]", parent: name, max: 19)
+                try validate($0, name: "blockedWindows[]", parent: name, min: 19)
+                try validate($0, name: "blockedWindows[]", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}$")
+            }
+            try self.validate(self.blockedWindows, name: "blockedWindows", parent: name, max: 15)
+            try self.blockingAlarms?.forEach {
+                try $0.validate(name: "\(name).blockingAlarms[]")
+            }
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 1)
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, min: 1)
+            try self.outcomeAlarms.forEach {
+                try $0.validate(name: "\(name).outcomeAlarms[]")
+            }
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 1)
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedDates = "blockedDates"
+            case blockedWindows = "blockedWindows"
+            case blockingAlarms = "blockingAlarms"
+            case outcomeAlarms = "outcomeAlarms"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
+    public struct CreatePracticeRunConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you configured  the practice
+        /// 			run for.
+        public let arn: String
+        /// The name of the resource that you configured  the practice run for.
+        public let name: String
+        /// A practice run configuration for a resource. Configurations include the
+        /// 			outcome alarm that you specify for practice runs, and, optionally, a
+        /// 			blocking alarm and blocking dates and windows.
+        public let practiceRunConfiguration: PracticeRunConfiguration
+        /// The status for zonal autoshift for a resource. When you specify the
+        /// 			autoshift status as ENABLED, Amazon Web Services shifts traffic
+        /// 			away from shifts away application resource traffic from an Availability Zone,
+        /// 			on your behalf, when Amazon Web Services determines that there's an issue in
+        /// 			the Availability Zone that could potentially affect customers. When you enable zonal autoshift, you must also configure practice runs for
+        /// 			the resource.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus
+
+        public init(arn: String, name: String, practiceRunConfiguration: PracticeRunConfiguration, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
+            self.arn = arn
+            self.name = name
+            self.practiceRunConfiguration = practiceRunConfiguration
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case practiceRunConfiguration = "practiceRunConfiguration"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+        }
+    }
+
+    public struct DeletePracticeRunConfigurationRequest: AWSEncodableShape {
+        /// The identifier for the resource that you want to delete the practice
+        /// 			run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
+        public let resourceIdentifier: String
+
+        public init(resourceIdentifier: String) {
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePracticeRunConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you deleted the practice
+        /// 			run for.
+        public let arn: String
+        /// The name of the resource that you deleted the practice
+        /// 			run for.
+        public let name: String
+        /// The status of zonal autoshift for the resource.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus
+
+        public init(arn: String, name: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
+            self.arn = arn
+            self.name = name
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+        }
+    }
+
     public struct GetManagedResourceRequest: AWSEncodableShape {
-        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
         public init(resourceIdentifier: String) {
@@ -91,23 +363,91 @@ extension ARCZonalShift {
         public let appliedWeights: [String: Float]
         /// The Amazon Resource Name (ARN) for the resource.
         public let arn: String?
+        /// An array of the autoshifts that are active for the resource.
+        public let autoshifts: [AutoshiftInResource]?
         /// The name of the resource.
         public let name: String?
+        /// The practice run configuration for zonal autoshift that's associated with
+        /// 			the resource.
+        public let practiceRunConfiguration: PracticeRunConfiguration?
+        /// The status for zonal autoshift for a resource. When the
+        /// 			autoshift status is ENABLED, Amazon Web Services shifts traffic
+        /// 			for a resource away from an Availability Zone, on your behalf, when
+        /// 			Amazon Web Services determines that there's an issue in
+        /// 			the Availability Zone that could potentially affect customers.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus?
         /// The zonal shifts that are currently active for a resource.
         public let zonalShifts: [ZonalShiftInResource]
 
-        public init(appliedWeights: [String: Float], arn: String? = nil, name: String? = nil, zonalShifts: [ZonalShiftInResource]) {
+        public init(appliedWeights: [String: Float], arn: String? = nil, autoshifts: [AutoshiftInResource]? = nil, name: String? = nil, practiceRunConfiguration: PracticeRunConfiguration? = nil, zonalAutoshiftStatus: ZonalAutoshiftStatus? = nil, zonalShifts: [ZonalShiftInResource]) {
             self.appliedWeights = appliedWeights
             self.arn = arn
+            self.autoshifts = autoshifts
             self.name = name
+            self.practiceRunConfiguration = practiceRunConfiguration
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
             self.zonalShifts = zonalShifts
         }
 
         private enum CodingKeys: String, CodingKey {
             case appliedWeights = "appliedWeights"
             case arn = "arn"
+            case autoshifts = "autoshifts"
             case name = "name"
+            case practiceRunConfiguration = "practiceRunConfiguration"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
             case zonalShifts = "zonalShifts"
+        }
+    }
+
+    public struct ListAutoshiftsRequest: AWSEncodableShape {
+        /// The number of objects that you want to return with this call.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the
+        /// 			previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous
+        /// 			call's NextToken response to request the next page of results.
+        public let nextToken: String?
+        /// The status of the autoshift.
+        public let status: AutoshiftExecutionStatus?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: AutoshiftExecutionStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutoshiftsResponse: AWSDecodableShape {
+        /// The items in the response list.
+        public let items: [AutoshiftSummary]?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the
+        /// 			previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous
+        /// 			call's NextToken response to request the next page of results.
+        public let nextToken: String?
+
+        public init(items: [AutoshiftSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -159,12 +499,16 @@ extension ARCZonalShift {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// A status for a zonal shift. 	     The Status for a zonal shift can have one of the following values: 	        ACTIVE: The zonal shift is started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
+        /// The identifier for the resource that you want to list zonal shifts for.
+        /// 			The identifier is the Amazon Resource Name (ARN) for the resource.
+        public let resourceIdentifier: String?
+        /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:    ACTIVE: The zonal shift has been started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
         public let status: ZonalShiftStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: ZonalShiftStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String? = nil, status: ZonalShiftStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resourceIdentifier = resourceIdentifier
             self.status = status
         }
 
@@ -173,12 +517,15 @@ extension ARCZonalShift {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceIdentifier, key: "resourceIdentifier")
             request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -202,34 +549,92 @@ extension ARCZonalShift {
     }
 
     public struct ManagedResourceSummary: AWSDecodableShape {
+        /// A collection of key-value pairs that indicate whether resources are active in Availability Zones or not.
+        /// 			The key name is the Availability Zone where the resource is deployed. The value is 1 or 0.
+        public let appliedWeights: [String: Float]?
         /// The Amazon Resource Name (ARN) for the managed resource.
         public let arn: String?
+        /// An array of the autoshifts that have been completed for a resource.
+        public let autoshifts: [AutoshiftInResource]?
         /// The Availability Zones that a resource is deployed in.
         public let availabilityZones: [String]
         /// The name of the managed resource.
         public let name: String?
+        /// This status tracks whether a practice run configuration exists for a resource. When you configure
+        /// 			a practice run for a resource so that a practice run configuration exists, Route 53 ARC sets this value to
+        /// 			ENABLED. If a you have not configured a practice run for the resource, or delete a practice
+        /// 			run configuration, Route 53 ARC sets the value to DISABLED. Route 53 ARC updates this status; you can't set a practice run status to ENABLED or
+        /// 			DISABLED.
+        public let practiceRunStatus: ZonalAutoshiftStatus?
+        /// The status of autoshift for a resource. When you configure zonal autoshift for a
+        /// 			resource, you can set the value of the status to ENABLED or DISABLED.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus?
+        /// An array of the zonal shifts for a resource.
+        public let zonalShifts: [ZonalShiftInResource]?
 
-        public init(arn: String? = nil, availabilityZones: [String], name: String? = nil) {
+        public init(appliedWeights: [String: Float]? = nil, arn: String? = nil, autoshifts: [AutoshiftInResource]? = nil, availabilityZones: [String], name: String? = nil, practiceRunStatus: ZonalAutoshiftStatus? = nil, zonalAutoshiftStatus: ZonalAutoshiftStatus? = nil, zonalShifts: [ZonalShiftInResource]? = nil) {
+            self.appliedWeights = appliedWeights
             self.arn = arn
+            self.autoshifts = autoshifts
             self.availabilityZones = availabilityZones
             self.name = name
+            self.practiceRunStatus = practiceRunStatus
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+            self.zonalShifts = zonalShifts
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appliedWeights = "appliedWeights"
             case arn = "arn"
+            case autoshifts = "autoshifts"
             case availabilityZones = "availabilityZones"
             case name = "name"
+            case practiceRunStatus = "practiceRunStatus"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+            case zonalShifts = "zonalShifts"
+        }
+    }
+
+    public struct PracticeRunConfiguration: AWSDecodableShape {
+        /// An array of one or more dates that you can specify when Amazon Web Services does not start practice runs for a resource. Specify blocked dates, in UTC, in the format YYYY-MM-DD, separated by spaces.
+        public let blockedDates: [String]?
+        /// An array of one or more windows of days and times that you can block Route 53 ARC
+        /// 			from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by
+        /// 			spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30.
+        public let blockedWindows: [String]?
+        /// The blocking alarm for practice runs is an optional alarm that you can
+        /// 			specify that blocks practice runs when the alarm is in an ALARM state.
+        public let blockingAlarms: [ControlCondition]?
+        /// The outcome alarm for practice runs is an alarm that you specify that
+        /// 			ends a practice run when the alarm is in an ALARM state.
+        public let outcomeAlarms: [ControlCondition]
+
+        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]) {
+            self.blockedDates = blockedDates
+            self.blockedWindows = blockedWindows
+            self.blockingAlarms = blockingAlarms
+            self.outcomeAlarms = outcomeAlarms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedDates = "blockedDates"
+            case blockedWindows = "blockedWindows"
+            case blockingAlarms = "blockingAlarms"
+            case outcomeAlarms = "outcomeAlarms"
         }
     }
 
     public struct StartZonalShiftRequest: AWSEncodableShape {
-        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
+        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
         public let awayFrom: String
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. A new comment overwrites any existing comment string.
         public let comment: String
-        /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). 		Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). 	     If you want to still keep traffic away from an Availability Zone, you can update the  		zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to  		restore traffic to the Availability Zone. 	     To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: 	 	        A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To specify that the value is in hours.   	     For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
+        /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time).
+        /// 		Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the
+        /// 		zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to
+        /// 		restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:    A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To specify that the value is in hours.   For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
         public let expiresIn: String
-        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
         public init(awayFrom: String, comment: String, expiresIn: String, resourceIdentifier: String) {
@@ -257,10 +662,166 @@ extension ARCZonalShift {
         }
     }
 
+    public struct UpdatePracticeRunConfigurationRequest: AWSEncodableShape {
+        /// Add, change, or remove blocked dates for a practice run in zonal autoshift. Optionally, you can block practice runs for specific calendar dates.
+        /// 			The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates,
+        /// 			that dates and times for practice runs are in UTC. Separate multiple blocked
+        /// 			dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and
+        /// 			you don't want practice runs to shift traffic away at that time, you could set a blocked date
+        /// 			for 2024-05-01.
+        public let blockedDates: [String]?
+        /// Add, change, or remove windows of days and times for when you can, optionally,
+        /// 			block Route 53 ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates,
+        /// 			that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments
+        /// 			that might be required for daylight saving time differences. Separate multiple blocked windows
+        /// 			with spaces. For example, say you run business report summaries three days a week. For
+        /// 			this scenario, you might set the following recurring days and times as blocked windows,
+        /// 			for example: MON-20:30-21:30 WED-20:30-21:30
+        /// 				FRI-20:30-21:30.
+        public let blockedWindows: [String]?
+        /// Add, change, or remove the Amazon CloudWatch alarm that you optionally
+        /// 			specify as the blocking alarm for practice runs.
+        public let blockingAlarms: [ControlCondition]?
+        /// Specify a new the Amazon CloudWatch alarm as the outcome alarm for practice runs.
+        public let outcomeAlarms: [ControlCondition]?
+        /// The identifier for the resource that you want to update the practice
+        /// 			run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
+        public let resourceIdentifier: String
+
+        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]? = nil, resourceIdentifier: String) {
+            self.blockedDates = blockedDates
+            self.blockedWindows = blockedWindows
+            self.blockingAlarms = blockingAlarms
+            self.outcomeAlarms = outcomeAlarms
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.blockedDates, forKey: .blockedDates)
+            try container.encodeIfPresent(self.blockedWindows, forKey: .blockedWindows)
+            try container.encodeIfPresent(self.blockingAlarms, forKey: .blockingAlarms)
+            try container.encodeIfPresent(self.outcomeAlarms, forKey: .outcomeAlarms)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.blockedDates?.forEach {
+                try validate($0, name: "blockedDates[]", parent: name, max: 10)
+                try validate($0, name: "blockedDates[]", parent: name, min: 10)
+                try validate($0, name: "blockedDates[]", parent: name, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+            }
+            try self.validate(self.blockedDates, name: "blockedDates", parent: name, max: 15)
+            try self.blockedWindows?.forEach {
+                try validate($0, name: "blockedWindows[]", parent: name, max: 19)
+                try validate($0, name: "blockedWindows[]", parent: name, min: 19)
+                try validate($0, name: "blockedWindows[]", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}$")
+            }
+            try self.validate(self.blockedWindows, name: "blockedWindows", parent: name, max: 15)
+            try self.blockingAlarms?.forEach {
+                try $0.validate(name: "\(name).blockingAlarms[]")
+            }
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 1)
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, min: 1)
+            try self.outcomeAlarms?.forEach {
+                try $0.validate(name: "\(name).outcomeAlarms[]")
+            }
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 1)
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedDates = "blockedDates"
+            case blockedWindows = "blockedWindows"
+            case blockingAlarms = "blockingAlarms"
+            case outcomeAlarms = "outcomeAlarms"
+        }
+    }
+
+    public struct UpdatePracticeRunConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you updated the practice
+        /// 			run for.
+        public let arn: String
+        /// The name of the resource that you updated the practice
+        /// 			run for.
+        public let name: String
+        /// The practice run configuration that was updated.
+        public let practiceRunConfiguration: PracticeRunConfiguration
+        /// The zonal autoshift status for the resource that you updated the practice
+        /// 		run for.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus
+
+        public init(arn: String, name: String, practiceRunConfiguration: PracticeRunConfiguration, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
+            self.arn = arn
+            self.name = name
+            self.practiceRunConfiguration = practiceRunConfiguration
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case practiceRunConfiguration = "practiceRunConfiguration"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+        }
+    }
+
+    public struct UpdateZonalAutoshiftConfigurationRequest: AWSEncodableShape {
+        /// The identifier for the resource that you want to update the zonal autoshift
+        /// 			configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
+        public let resourceIdentifier: String
+        /// The zonal autoshift status for the resource that you want to update the zonal
+        /// 			autoshift configuration for.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus
+
+        public init(resourceIdentifier: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
+            self.resourceIdentifier = resourceIdentifier
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "resourceIdentifier")
+            try container.encode(self.zonalAutoshiftStatus, forKey: .zonalAutoshiftStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+        }
+    }
+
+    public struct UpdateZonalAutoshiftConfigurationResponse: AWSDecodableShape {
+        /// The identifier for the resource that you updated the zonal autoshift
+        /// 			configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
+        public let resourceIdentifier: String
+        /// The zonal autoshift status for the resource that you updated the zonal
+        /// 			autoshift configuration for.
+        public let zonalAutoshiftStatus: ZonalAutoshiftStatus
+
+        public init(resourceIdentifier: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
+            self.resourceIdentifier = resourceIdentifier
+            self.zonalAutoshiftStatus = zonalAutoshiftStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifier = "resourceIdentifier"
+            case zonalAutoshiftStatus = "zonalAutoshiftStatus"
+        }
+    }
+
     public struct UpdateZonalShiftRequest: AWSEncodableShape {
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. A new comment overwrites any existing comment string.
         public let comment: String?
-        /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). 		Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). 	     If you want to still keep traffic away from an Availability Zone, you can update the  		zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to  		restore traffic to the Availability Zone. 	     To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: 	        A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To specify that the value is in hours.   	     For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
+        /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). 		Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the  		zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to  		restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:    A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To specify that the value is in hours.   For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
         public let expiresIn: String?
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
@@ -297,23 +858,21 @@ extension ARCZonalShift {
 
     public struct ZonalShift: AWSDecodableShape {
         /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.
-        /// 			Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
+        /// 			Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
         public let awayFrom: String
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. A new comment overwrites any existing comment string.
         public let comment: String
-        /// The expiry time (expiration time) for the zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.
+        /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.
         /// 			You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift
-        /// 			to set a new expiration at any time.
-        /// 		       When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts
-        /// 			to an expiry time (expiration time). You can cancel a zonal shift, for example, if you're ready to restore traffic to the Availability Zone. Or you
-        /// 			can update the zonal shift to specify another length of time to expire in.
+        /// 			to set a new expiration at any time.  When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts
+        /// 			to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or
+        /// 			just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         public let expiryTime: Date
-        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource.
-        /// 		       At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
-        /// The time (UTC) when the zonal shift is started.
+        /// The time (UTC) when the zonal shift starts.
         public let startTime: Date
-        /// A status for a zonal shift. 	     The Status for a zonal shift can have one of the following values: 	        ACTIVE: The zonal shift is started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
+        /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:    ACTIVE: The zonal shift has been started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
         public let status: ZonalShiftStatus
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
@@ -340,26 +899,36 @@ extension ARCZonalShift {
     }
 
     public struct ZonalShiftInResource: AWSDecodableShape {
-        /// An appliedStatus for a zonal shift for a resource can have one of two values: APPLIED 		or NOT_APPLIED.
+        /// The appliedStatus field specifies which application traffic shift is in effect for a 		resource when there is more than one traffic shift active. There can be more than one application traffic  		shift in progress at the same time - that is, practice run zonal shifts, customer-started zonal shifts,  		or an autoshift. The appliedStatus field for an autoshift for a resource can have one of two  		values: APPLIED or NOT_APPLIED. The zonal shift or autoshift  		that is currently in effect for the resource has an applied status set to APPLIED. The overall principle for precedence is that zonal shifts that you start as a customer take precedence  		autoshifts, which take precedence over practice runs. That is, customer-started zonal shifts &gt; autoshifts &gt; practice run  		zonal shifts. For more information, see  		How zonal autoshift  			and practice runs work in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let appliedStatus: AppliedStatus
-        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
+        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
         public let awayFrom: String
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. That is, a new comment overwrites any existing comment string.
         public let comment: String
-        /// The expiry time (expiration time) for the zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.  		You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift  		to set a new expiration at any time.  	     When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts  		to an expiry time (expiration time). You can cancel a zonal shift, for example, if you're ready to restore traffic to the Availability Zone. Or you 		can update the zonal shift to specify another length of time to expire in.
+        /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.  		You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift  		to set a new expiration at any time.  When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts  		to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or 		just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         public let expiryTime: Date
-        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        /// The outcome, or end state, returned for a practice run. The following values can be returned:    PENDING: Outcome value when a practice run is in progress.    SUCCEEDED: Outcome value when the outcome alarm specified for
+        /// 				the practice run configuration does not go into an ALARM state during the practice run, and the practice run
+        /// 				was not interrupted before it completed the expected 30 minute zonal shift.    INTERRUPTED: Outcome value when the practice run was stopped before the
+        /// 				expected 30 minute zonal shift duration, or there was another problem with the practice run that created an inconclusive outcome.    FAILED: Outcome value when the outcome alarm specified for
+        /// 				the practice run configuration goes into an ALARM state during the practice run, and the practice run
+        /// 				was not interrupted before it completed.   For more information about practice run outcomes, see
+        ///
+        /// 				Considerations when you configure zonal autoshift in the Amazon Route 53 Application Recovery Controller Developer Guide.
+        public let practiceRunOutcome: PracticeRunOutcome?
+        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
-        /// The time (UTC) when the zonal shift is started.
+        /// The time (UTC) when the zonal shift starts.
         public let startTime: Date
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
-        public init(appliedStatus: AppliedStatus, awayFrom: String, comment: String, expiryTime: Date, resourceIdentifier: String, startTime: Date, zonalShiftId: String) {
+        public init(appliedStatus: AppliedStatus, awayFrom: String, comment: String, expiryTime: Date, practiceRunOutcome: PracticeRunOutcome? = nil, resourceIdentifier: String, startTime: Date, zonalShiftId: String) {
             self.appliedStatus = appliedStatus
             self.awayFrom = awayFrom
             self.comment = comment
             self.expiryTime = expiryTime
+            self.practiceRunOutcome = practiceRunOutcome
             self.resourceIdentifier = resourceIdentifier
             self.startTime = startTime
             self.zonalShiftId = zonalShiftId
@@ -370,6 +939,7 @@ extension ARCZonalShift {
             case awayFrom = "awayFrom"
             case comment = "comment"
             case expiryTime = "expiryTime"
+            case practiceRunOutcome = "practiceRunOutcome"
             case resourceIdentifier = "resourceIdentifier"
             case startTime = "startTime"
             case zonalShiftId = "zonalShiftId"
@@ -377,25 +947,35 @@ extension ARCZonalShift {
     }
 
     public struct ZonalShiftSummary: AWSDecodableShape {
-        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
+        /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift.  		Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
         public let awayFrom: String
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment 		history is maintained. That is, a new comment overwrites any existing comment string.
         public let comment: String
-        /// The expiry time (expiration time) for the zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.  		You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift  		to set a new expiration at any time.  	     When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts  		to an expiry time (expiration time). You can cancel a zonal shift, for example, if you're ready to restore traffic to the Availability Zone. Or you 		can update the zonal shift to specify another length of time to expire in.
+        /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift.  		You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift  		to set a new expiration at any time.  When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts  		to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or 		just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         public let expiryTime: Date
-        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+        /// The outcome, or end state, of a practice run. The following values can be returned:    PENDING: Outcome value when the practice run is in progress.    SUCCEEDED: Outcome value when the outcome alarm specified for
+        /// 				the practice run configuration does not go into an ALARM state during the practice run, and the practice run
+        /// 				was not interrupted before it completed.    INTERRUPTED: Outcome value when the practice run did not run for the
+        /// 				expected 30 minutes or there was another problem with the practice run that created an inconclusive outcome.    FAILED: Outcome value when the outcome alarm specified for
+        /// 				the practice run configuration goes into an ALARM state during the practice run, and the practice run
+        /// 				was not interrupted before it completed.   For more information about practice run outcomes, see
+        ///
+        /// 				Considerations when you configure zonal autoshift in the Amazon Route 53 Application Recovery Controller Developer Guide.
+        public let practiceRunOutcome: PracticeRunOutcome?
+        /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
-        /// The time (UTC) when the zonal shift is started.
+        /// The time (UTC) when the zonal shift starts.
         public let startTime: Date
-        /// A status for a zonal shift. 	     The Status for a zonal shift can have one of the following values: 	        ACTIVE: The zonal shift is started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
+        /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:    ACTIVE: The zonal shift has been started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
         public let status: ZonalShiftStatus
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
-        public init(awayFrom: String, comment: String, expiryTime: Date, resourceIdentifier: String, startTime: Date, status: ZonalShiftStatus, zonalShiftId: String) {
+        public init(awayFrom: String, comment: String, expiryTime: Date, practiceRunOutcome: PracticeRunOutcome? = nil, resourceIdentifier: String, startTime: Date, status: ZonalShiftStatus, zonalShiftId: String) {
             self.awayFrom = awayFrom
             self.comment = comment
             self.expiryTime = expiryTime
+            self.practiceRunOutcome = practiceRunOutcome
             self.resourceIdentifier = resourceIdentifier
             self.startTime = startTime
             self.status = status
@@ -406,6 +986,7 @@ extension ARCZonalShift {
             case awayFrom = "awayFrom"
             case comment = "comment"
             case expiryTime = "expiryTime"
+            case practiceRunOutcome = "practiceRunOutcome"
             case resourceIdentifier = "resourceIdentifier"
             case startTime = "startTime"
             case status = "status"
@@ -455,7 +1036,7 @@ public struct ARCZonalShiftErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

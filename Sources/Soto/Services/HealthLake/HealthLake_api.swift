@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS HealthLake service.
 ///
-/// Amazon HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
+/// AWS HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
 public struct HealthLake: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,7 @@ public struct HealthLake: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a Data Store that can ingest and export FHIR formatted data.
+    /// Creates a data store that can ingest and export FHIR formatted data.
     @Sendable
     public func createFHIRDatastore(_ input: CreateFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFHIRDatastoreResponse {
         return try await self.client.execute(
@@ -87,7 +87,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    /// Deletes a Data Store.
+    /// Deletes a data store.
     @Sendable
     public func deleteFHIRDatastore(_ input: DeleteFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFHIRDatastoreResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    /// Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
+    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     @Sendable
     public func describeFHIRDatastore(_ input: DescribeFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFHIRDatastoreResponse {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
     @Sendable
     public func listFHIRDatastores(_ input: ListFHIRDatastoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFHIRDatastoresResponse {
         return try await self.client.execute(
@@ -178,7 +178,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    ///  Returns a list of all existing tags associated with a Data Store.
+    ///  Returns a list of all existing tags associated with a data store.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    ///  Adds a user specified key and value tag to a Data Store.
+    ///  Adds a user specified key and value tag to a data store.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -230,7 +230,7 @@ public struct HealthLake: AWSService {
         )
     }
 
-    ///  Removes tags from a Data Store.
+    ///  Removes tags from a data store.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -257,7 +257,7 @@ extension HealthLake {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension HealthLake {
-    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

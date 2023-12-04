@@ -26,13 +26,13 @@ import Foundation
 extension Macie2 {
     // MARK: Enums
 
-    public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disablingInProgress = "DISABLING_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowListStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowListStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ok = "OK"
         case s3ObjectAccessDenied = "S3_OBJECT_ACCESS_DENIED"
         case s3ObjectEmpty = "S3_OBJECT_EMPTY"
@@ -44,56 +44,56 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowsUnencryptedObjectUploads: String, CustomStringConvertible, Codable, Sendable {
+    public enum AllowsUnencryptedObjectUploads: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutomatedDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutomatedDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AvailabilityCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketMetadataErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum BucketMetadataErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClassificationScopeUpdateOperation: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClassificationScopeUpdateOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case add = "ADD"
         case remove = "REMOVE"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataIdentifierSeverity: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataIdentifierSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataIdentifierType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataIdentifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -104,14 +104,14 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EffectivePermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum EffectivePermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `public` = "PUBLIC"
         case notPublic = "NOT_PUBLIC"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         case none = "NONE"
@@ -119,37 +119,37 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientError = "ClientError"
         case internalError = "InternalError"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsApiCall = "AWS_API_CALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case classification = "CLASSIFICATION"
         case policy = "POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fifteenMinutes = "FIFTEEN_MINUTES"
         case oneHour = "ONE_HOUR"
         case sixHours = "SIX_HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case count = "count"
         case groupKey = "groupKey"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyIamuserS3Blockpublicaccessdisabled = "Policy:IAMUser/S3BlockPublicAccessDisabled"
         case policyIamuserS3Bucketencryptiondisabled = "Policy:IAMUser/S3BucketEncryptionDisabled"
         case policyIamuserS3Bucketpublic = "Policy:IAMUser/S3BucketPublic"
@@ -164,13 +164,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingsFilterAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingsFilterAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archive = "ARCHIVE"
         case noop = "NOOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case classificationDetailsJobid = "classificationDetails.jobId"
         case resourcesAffectedS3BucketName = "resourcesAffected.s3Bucket.name"
         case severityDescription = "severity.description"
@@ -178,21 +178,21 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IsDefinedInJob: String, CustomStringConvertible, Codable, Sendable {
+    public enum IsDefinedInJob: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum IsMonitoredByJob: String, CustomStringConvertible, Codable, Sendable {
+    public enum IsMonitoredByJob: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobComparator: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobComparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
         case eq = "EQ"
         case gt = "GT"
@@ -204,7 +204,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case complete = "COMPLETE"
         case idle = "IDLE"
@@ -214,19 +214,19 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneTime = "ONE_TIME"
         case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastRunErrorStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum LastRunErrorStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListJobsFilterKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListJobsFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "createdAt"
         case jobStatus = "jobStatus"
         case jobType = "jobType"
@@ -234,7 +234,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "createdAt"
         case jobStatus = "jobStatus"
         case jobType = "jobType"
@@ -242,33 +242,34 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MacieStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MacieStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         case paused = "PAUSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedDataIdentifierSelector: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManagedDataIdentifierSelector: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         case none = "NONE"
+        case recommended = "RECOMMENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatedSensitiveDataDiscovery = "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
         case sensitiveDataDiscoveryJob = "SENSITIVE_DATA_DISCOVERY_JOB"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountSuspended = "AccountSuspended"
         case created = "Created"
         case emailVerificationFailed = "EmailVerificationFailed"
@@ -282,20 +283,26 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RevealRequestStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RetrievalMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assumeRole = "ASSUME_ROLE"
+        case callerCredentials = "CALLER_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevealRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case processing = "PROCESSING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RevealStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RevealStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeFilterKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScopeFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case objectExtension = "OBJECT_EXTENSION"
         case objectKey = "OBJECT_KEY"
         case objectLastModifiedDate = "OBJECT_LAST_MODIFIED_DATE"
@@ -303,13 +310,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesComparator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchResourcesComparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eq = "EQ"
         case ne = "NE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
         case s3BucketName = "S3_BUCKET_NAME"
@@ -317,7 +324,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SearchResourcesSortAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case resourceName = "RESOURCE_NAME"
         case s3ClassifiableObjectCount = "S3_CLASSIFIABLE_OBJECT_COUNT"
@@ -325,7 +332,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SensitiveDataItemCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum SensitiveDataItemCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case credentials = "CREDENTIALS"
         case customIdentifier = "CUSTOM_IDENTIFIER"
         case financialInformation = "FINANCIAL_INFORMATION"
@@ -333,14 +340,14 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SeverityDescription: String, CustomStringConvertible, Codable, Sendable {
+    public enum SeverityDescription: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharedAccess: String, CustomStringConvertible, Codable, Sendable {
+    public enum SharedAccess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `internal` = "INTERNAL"
         case external = "EXTERNAL"
         case notShared = "NOT_SHARED"
@@ -348,7 +355,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimpleCriterionKeyForJob: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimpleCriterionKeyForJob: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
         case s3BucketName = "S3_BUCKET_NAME"
@@ -356,7 +363,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -369,32 +376,38 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TagTarget: String, CustomStringConvertible, Codable, Sendable {
+    public enum TagTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3Object = "S3_OBJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeRange: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeRange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case monthToDate = "MONTH_TO_DATE"
         case past30Days = "PAST_30_DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnavailabilityReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum UnavailabilityReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountNotInOrganization = "ACCOUNT_NOT_IN_ORGANIZATION"
         case invalidClassificationResult = "INVALID_CLASSIFICATION_RESULT"
+        case invalidResultSignature = "INVALID_RESULT_SIGNATURE"
+        case memberRoleTooPermissive = "MEMBER_ROLE_TOO_PERMISSIVE"
+        case missingGetMemberPermission = "MISSING_GET_MEMBER_PERMISSION"
         case objectExceedsSizeQuota = "OBJECT_EXCEEDS_SIZE_QUOTA"
         case objectUnavailable = "OBJECT_UNAVAILABLE"
+        case resultNotSigned = "RESULT_NOT_SIGNED"
+        case roleTooPermissive = "ROLE_TOO_PERMISSIVE"
         case unsupportedFindingType = "UNSUPPORTED_FINDING_TYPE"
         case unsupportedObjectType = "UNSUPPORTED_OBJECT_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case terabytes = "TERABYTES"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsFilterComparator: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageStatisticsFilterComparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
         case eq = "EQ"
         case gt = "GT"
@@ -405,7 +418,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "accountId"
         case freeTrialStartDate = "freeTrialStartDate"
         case serviceLimit = "serviceLimit"
@@ -413,7 +426,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "accountId"
         case freeTrialStartDate = "freeTrialStartDate"
         case serviceLimitValue = "serviceLimitValue"
@@ -421,7 +434,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatedObjectMonitoring = "AUTOMATED_OBJECT_MONITORING"
         case automatedSensitiveDataDiscovery = "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
         case dataInventoryEvaluation = "DATA_INVENTORY_EVALUATION"
@@ -429,7 +442,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assumedRole = "AssumedRole"
         case awsAccount = "AWSAccount"
         case awsService = "AWSService"
@@ -439,7 +452,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         case none = "NONE"
@@ -452,11 +465,11 @@ extension Macie2 {
         /// The Amazon Web Services account ID for the account that sent the invitation.
         public let administratorAccountId: String?
         /// The unique identifier for the invitation to accept.
-        public let invitationId: String
+        public let invitationId: String?
         /// (Deprecated) The Amazon Web Services account ID for the account that sent the invitation. This property has been replaced by the administratorAccountId property and is retained only for backward compatibility.
         public let masterAccount: String?
 
-        public init(administratorAccountId: String? = nil, invitationId: String, masterAccount: String? = nil) {
+        public init(administratorAccountId: String? = nil, invitationId: String? = nil, masterAccount: String? = nil) {
             self.administratorAccountId = administratorAccountId
             self.invitationId = invitationId
             self.masterAccount = masterAccount
@@ -492,11 +505,11 @@ extension Macie2 {
 
     public struct AccountDetail: AWSEncodableShape {
         /// The Amazon Web Services account ID for the account.
-        public let accountId: String
+        public let accountId: String?
         /// The email address for the account.
-        public let email: String
+        public let email: String?
 
-        public init(accountId: String, email: String) {
+        public init(accountId: String? = nil, email: String? = nil) {
             self.accountId = accountId
             self.email = email
         }
@@ -563,11 +576,11 @@ extension Macie2 {
 
     public struct AllowListStatus: AWSDecodableShape {
         /// The current status of the allow list. If the list's criteria specify a regular expression (regex), this value is typically OK. Amazon Macie can compile the expression. If the list's criteria specify an S3 object, possible values are: OK - Macie can retrieve and parse the contents of the object. S3_OBJECT_ACCESS_DENIED - Macie isn't allowed to access the object or the object is encrypted with a customer managed KMS key that Macie isn't allowed to use. Check the bucket policy and other permissions settings for the bucket and the object. If the object is encrypted, also ensure that it's encrypted with a key that Macie is allowed to use. S3_OBJECT_EMPTY - Macie can retrieve the object but the object doesn't contain any content. Ensure that the object contains the correct entries. Also ensure that the list's criteria specify the correct bucket and object names. S3_OBJECT_NOT_FOUND - The object doesn't exist in Amazon S3. Ensure that the list's criteria specify the correct bucket and object names. S3_OBJECT_OVERSIZE - Macie can retrieve the object. However, the object contains too many entries or its storage size exceeds the quota for an allow list. Try breaking the list into multiple files and ensure that each file doesn't exceed any quotas. Then configure list settings in Macie for each file. S3_THROTTLED - Amazon S3 throttled the request to retrieve the object. Wait a few minutes and then try again. S3_USER_ACCESS_DENIED - Amazon S3 denied the request to retrieve the object. If the specified object exists, you're not allowed to access it or it's encrypted with an KMS key that you're not allowed to use. Work with your Amazon Web Services administrator to ensure that the list's criteria specify the correct bucket and object names, and you have read access to the bucket and the object. If the object is encrypted, also ensure that it's encrypted with a key that you're allowed to use. UNKNOWN_ERROR - A transient or internal error occurred when Macie attempted to retrieve or parse the object. Wait a few minutes and then try again. A list can also have this status if it's encrypted with a key that Amazon S3 and Macie can't access or use.
-        public let code: AllowListStatusCode
+        public let code: AllowListStatusCode?
         /// A brief description of the status of the allow list. Amazon Macie uses this value to provide additional information about an error that occurred when Macie tried to access and use the list's criteria.
         public let description: String?
 
-        public init(code: AllowListStatusCode, description: String? = nil) {
+        public init(code: AllowListStatusCode? = nil, description: String? = nil) {
             self.code = code
             self.description = description
         }
@@ -1236,7 +1249,7 @@ extension Macie2 {
     }
 
     public struct ClassificationResult: AWSDecodableShape {
-        /// Specifies whether Amazon Macie detected additional occurrences of sensitive data in the S3 object. A finding includes location data for a maximum of 15 occurrences of sensitive data. This value can help you determine whether to investigate additional occurrences of sensitive data in an object. You can do this by referring to the corresponding sensitive data discovery result for the finding (ClassificationDetails.detailedResultsLocation).
+        /// Specifies whether Amazon Macie detected additional occurrences of sensitive data in the S3 object. A finding includes location data for a maximum of 15 occurrences of sensitive data. This value can help you determine whether to investigate additional occurrences of sensitive data in an object. You can do this by referring to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation).
         public let additionalOccurrences: Bool?
         /// The custom data identifiers that detected the sensitive data and the number of occurrences of the data that they detected.
         public let customDataIdentifiers: CustomDataIdentifiers?
@@ -1271,7 +1284,7 @@ extension Macie2 {
     public struct ClassificationResultStatus: AWSDecodableShape {
         /// The status of the finding. Possible values are: COMPLETE - Amazon Macie successfully completed its analysis of the S3 object that the finding applies to. PARTIAL - Macie analyzed only a subset of the data in the S3 object that the finding applies to. For example, the object is an archive file that contains files in an unsupported format. SKIPPED - Macie wasn't able to analyze the S3 object that the finding applies to. For example, the object is a file that uses an unsupported format.
         public let code: String?
-        /// A brief description of the status of the finding. This value is null if the status (code) of the finding is COMPLETE. Amazon Macie uses this value to notify you of any errors, warnings, or considerations that might impact your analysis of the finding and the affected S3 object. Possible values are: ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie extracted and analyzed only some or none of the files in the archive. To determine which files Macie analyzed, if any, refer to the corresponding sensitive data discovery result for the finding (ClassificationDetails.detailedResultsLocation). ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total storage size exceeds the size quota for this type of archive. ARCHIVE_NESTING_LEVEL_OVER_LIMIT - The object is an archive file whose nested depth exceeds the quota for the maximum number of nested levels that Macie analyzes for this type of archive. ARCHIVE_TOTAL_BYTES_EXTRACTED_OVER_LIMIT - The object is an archive file that exceeds the quota for the maximum amount of data that Macie extracts and analyzes for this type of archive. ARCHIVE_TOTAL_DOCUMENTS_PROCESSED_OVER_LIMIT - The object is an archive file that contains more than the maximum number of files that Macie extracts and analyzes for this type of archive. FILE_EXCEEDS_SIZE_LIMIT - The storage size of the object exceeds the size quota for this type of file. INVALID_ENCRYPTION - The object is encrypted using server-side encryption but Macie isn't allowed to use the key. Macie can't decrypt and analyze the object. INVALID_KMS_KEY - The object is encrypted with an KMS key that was disabled or is being deleted. Macie can't decrypt and analyze the object. INVALID_OBJECT_STATE - The object doesn't use a supported Amazon S3 storage class. JSON_NESTING_LEVEL_OVER_LIMIT - The object contains JSON data and the nested depth of the data exceeds the quota for the number of nested levels that Macie analyzes for this type of file. MALFORMED_FILE - The object is a malformed or corrupted file. An error occurred when Macie attempted to detect the file's type or extract data from the file. MALFORMED_OR_FILE_SIZE_EXCEEDS_LIMIT - The object is a Microsoft Office file that is malformed or exceeds the size quota for this type of file. If the file is malformed, an error occurred when Macie attempted to extract data from the file. NO_SUCH_BUCKET_AVAILABLE - The object was in a bucket that was deleted shortly before or when Macie attempted to analyze the object. OBJECT_VERSION_MISMATCH - The object was changed while Macie was analyzing it. OOXML_UNCOMPRESSED_RATIO_EXCEEDS_LIMIT - The object is an Office Open XML file whose compression ratio exceeds the compression quota for this type of file. OOXML_UNCOMPRESSED_SIZE_EXCEEDS_LIMIT - The object is an Office Open XML file that exceeds the size quota for this type of file. PERMISSION_DENIED - Macie isn't allowed to access the object. The object's permissions settings prevent Macie from analyzing the object. SOURCE_OBJECT_NO_LONGER_AVAILABLE - The object was deleted shortly before or when Macie attempted to analyze it. TIME_CUT_OFF_REACHED - Macie started analyzing the object but additional analysis would exceed the time quota for analyzing an object. UNABLE_TO_PARSE_FILE - The object is a file that contains structured data and an error occurred when Macie attempted to parse the data. UNSUPPORTED_FILE_TYPE_EXCEPTION - The object is a file that uses an unsupported file or storage format. For information about quotas, supported storage classes, and supported file and storage formats, see Quotas and Supported storage classes and formats in the Amazon Macie User Guide.
+        /// A brief description of the status of the finding. This value is null if the status (code) of the finding is COMPLETE. Amazon Macie uses this value to notify you of any errors, warnings, or considerations that might impact your analysis of the finding and the affected S3 object. Possible values are: ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie extracted and analyzed only some or none of the files in the archive. To determine which files Macie analyzed, if any, refer to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation). ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total storage size exceeds the size quota for this type of archive. ARCHIVE_NESTING_LEVEL_OVER_LIMIT - The object is an archive file whose nested depth exceeds the quota for the maximum number of nested levels that Macie analyzes for this type of archive. ARCHIVE_TOTAL_BYTES_EXTRACTED_OVER_LIMIT - The object is an archive file that exceeds the quota for the maximum amount of data that Macie extracts and analyzes for this type of archive. ARCHIVE_TOTAL_DOCUMENTS_PROCESSED_OVER_LIMIT - The object is an archive file that contains more than the maximum number of files that Macie extracts and analyzes for this type of archive. FILE_EXCEEDS_SIZE_LIMIT - The storage size of the object exceeds the size quota for this type of file. INVALID_ENCRYPTION - The object is encrypted using server-side encryption but Macie isn't allowed to use the key. Macie can't decrypt and analyze the object. INVALID_KMS_KEY - The object is encrypted with an KMS key that was disabled or is being deleted. Macie can't decrypt and analyze the object. INVALID_OBJECT_STATE - The object doesn't use a supported Amazon S3 storage class. JSON_NESTING_LEVEL_OVER_LIMIT - The object contains JSON data and the nested depth of the data exceeds the quota for the number of nested levels that Macie analyzes for this type of file. MALFORMED_FILE - The object is a malformed or corrupted file. An error occurred when Macie attempted to detect the file's type or extract data from the file. MALFORMED_OR_FILE_SIZE_EXCEEDS_LIMIT - The object is a Microsoft Office file that is malformed or exceeds the size quota for this type of file. If the file is malformed, an error occurred when Macie attempted to extract data from the file. NO_SUCH_BUCKET_AVAILABLE - The object was in a bucket that was deleted shortly before or when Macie attempted to analyze the object. OBJECT_VERSION_MISMATCH - The object was changed while Macie was analyzing it. OOXML_UNCOMPRESSED_RATIO_EXCEEDS_LIMIT - The object is an Office Open XML file whose compression ratio exceeds the compression quota for this type of file. OOXML_UNCOMPRESSED_SIZE_EXCEEDS_LIMIT - The object is an Office Open XML file that exceeds the size quota for this type of file. PERMISSION_DENIED - Macie isn't allowed to access the object. The object's permissions settings prevent Macie from analyzing the object. SOURCE_OBJECT_NO_LONGER_AVAILABLE - The object was deleted shortly before or when Macie attempted to analyze it. TIME_CUT_OFF_REACHED - Macie started analyzing the object but additional analysis would exceed the time quota for analyzing an object. UNABLE_TO_PARSE_FILE - The object is a file that contains structured data and an error occurred when Macie attempted to parse the data. UNSUPPORTED_FILE_TYPE_EXCEPTION - The object is a file that uses an unsupported file or storage format. For information about quotas, supported storage classes, and supported file and storage formats, see Quotas and Supported storage classes and formats in the Amazon Macie User Guide.
         public let reason: String?
 
         public init(code: String? = nil, reason: String? = nil) {
@@ -1304,17 +1317,17 @@ extension Macie2 {
 
     public struct CreateAllowListRequest: AWSEncodableShape {
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-        public let clientToken: String
+        public let clientToken: String?
         /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore.
-        public let criteria: AllowListCriteria
+        public let criteria: AllowListCriteria?
         /// A custom description of the allow list. The description can contain as many as 512 characters.
         public let description: String?
         /// A custom name for the allow list. The name can contain as many as 128 characters.
-        public let name: String
+        public let name: String?
         /// A map of key-value pairs that specifies the tags to associate with the allow list. An allow list can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(clientToken: String = CreateAllowListRequest.idempotencyToken(), criteria: AllowListCriteria, description: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = nil, criteria: AllowListCriteria? = nil, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.criteria = criteria
             self.description = description
@@ -1323,7 +1336,7 @@ extension Macie2 {
         }
 
         public func validate(name: String) throws {
-            try self.criteria.validate(name: "\(name).criteria")
+            try self.criteria?.validate(name: "\(name).criteria")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
@@ -1362,7 +1375,7 @@ extension Macie2 {
         /// An array of unique identifiers, one for each allow list for the job to use when it analyzes data.
         public let allowListIds: [String]?
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-        public let clientToken: String
+        public let clientToken: String?
         /// An array of unique identifiers, one for each custom data identifier for the job to use when it analyzes data. To use only managed data identifiers, don't specify a value for this property and specify a value other than NONE for the managedDataIdentifierSelector property.
         public let customDataIdentifierIds: [String]?
         /// A custom description of the job. The description can contain as many as 200 characters.
@@ -1370,15 +1383,15 @@ extension Macie2 {
         /// For a recurring job, specifies whether to analyze all existing, eligible objects immediately after the job is created (true). To analyze only those objects that are created or changed after you create the job and before the job's first scheduled run, set this value to false. If you configure the job to run only once, don't specify a value for this property.
         public let initialRun: Bool?
         /// The schedule for running the job. Valid values are: ONE_TIME - Run the job only once. If you specify this value, don't specify a value for the scheduleFrequency property. SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to define the recurrence pattern for the job.
-        public let jobType: JobType
+        public let jobType: JobType?
         /// An array of unique identifiers, one for each managed data identifier for the job to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type that you specify for the job (managedDataIdentifierSelector). To retrieve a list of valid values for this property, use the ListManagedDataIdentifiers operation.
         public let managedDataIdentifierIds: [String]?
-        /// The selection type to apply when determining which managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all the managed data identifiers that Amazon Macie provides. If you specify this value, don't specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all the managed data identifiers that Macie provides except the managed data identifiers specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. If you specify this value, specify at least one custom data identifier for the job (customDataIdentifierIds) and don't specify any values for the managedDataIdentifierIds property. If you don't specify a value for this property, the job uses all managed data identifiers. If you don't specify a value for this property or you specify ALL or EXCLUDE for a recurring job, the job also uses new managed data identifiers as they are released.
+        /// The selection type to apply when determining which managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. If you specify this value, specify at least one value for the customDataIdentifierIds property and don't specify any values for the managedDataIdentifierIds property. RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see Using managed data identifiers and Recommended managed data identifiers in the Amazon Macie User Guide.
         public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         /// A custom name for the job. The name can contain as many as 500 characters.
-        public let name: String
+        public let name: String?
         /// The S3 buckets that contain the objects to analyze, and the scope of that analysis.
-        public let s3JobDefinition: S3JobDefinition
+        public let s3JobDefinition: S3JobDefinition?
         /// The sampling depth, as a percentage, for the job to apply when processing objects. This value determines the percentage of eligible objects that the job analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at random, up to the specified percentage, and analyzes all the data in those objects.
         public let samplingPercentage: Int?
         /// The recurrence pattern for running the job. To run the job only once, don't specify a value for this property and set the value for the jobType property to ONE_TIME.
@@ -1386,7 +1399,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(allowListIds: [String]? = nil, clientToken: String = CreateClassificationJobRequest.idempotencyToken(), customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobType: JobType, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String, s3JobDefinition: S3JobDefinition, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, tags: [String: String]? = nil) {
+        public init(allowListIds: [String]? = nil, clientToken: String? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobType: JobType? = nil, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, tags: [String: String]? = nil) {
             self.allowListIds = allowListIds
             self.clientToken = clientToken
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -1448,15 +1461,15 @@ extension Macie2 {
         /// The maximum number of characters that can exist between the end of at least one complete character sequence specified by the keywords array and the end of the text that matches the regex pattern. If a complete keyword precedes all the text that matches the pattern and the keyword is within the specified distance, Amazon Macie includes the result. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
         /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
-        public let name: String
+        public let name: String?
         /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
-        public let regex: String
-        /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that matches the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
+        public let regex: String?
+        /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
         public let severityLevels: [SeverityLevel]?
         /// A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String, regex: String, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.ignoreWords = ignoreWords
@@ -1496,21 +1509,21 @@ extension Macie2 {
 
     public struct CreateFindingsFilterRequest: AWSEncodableShape {
         /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
-        public let action: FindingsFilterAction
+        public let action: FindingsFilterAction?
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users of your account might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
         public let description: String?
         /// The criteria to use to filter findings.
-        public let findingCriteria: FindingCriteria
+        public let findingCriteria: FindingCriteria?
         /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
-        public let name: String
+        public let name: String?
         /// The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
         public let position: Int?
         /// A map of key-value pairs that specifies the tags to associate with the filter. A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(action: FindingsFilterAction, clientToken: String? = CreateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria, name: String, position: Int? = nil, tags: [String: String]? = nil) {
+        public init(action: FindingsFilterAction? = nil, clientToken: String? = CreateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria? = nil, name: String? = nil, position: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.description = description
@@ -1550,13 +1563,13 @@ extension Macie2 {
 
     public struct CreateInvitationsRequest: AWSEncodableShape {
         /// An array that lists Amazon Web Services account IDs, one for each account to send the invitation to.
-        public let accountIds: [String]
+        public let accountIds: [String]?
         /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The default value is false.
         public let disableEmailNotification: Bool?
         /// Custom text to include in the email message that contains the invitation. The text can contain as many as 80 alphanumeric characters.
         public let message: String?
 
-        public init(accountIds: [String], disableEmailNotification: Bool? = nil, message: String? = nil) {
+        public init(accountIds: [String]? = nil, disableEmailNotification: Bool? = nil, message: String? = nil) {
             self.accountIds = accountIds
             self.disableEmailNotification = disableEmailNotification
             self.message = message
@@ -1584,11 +1597,11 @@ extension Macie2 {
 
     public struct CreateMemberRequest: AWSEncodableShape {
         /// The details of the account to associate with the administrator account.
-        public let account: AccountDetail
+        public let account: AccountDetail?
         /// A map of key-value pairs that specifies the tags to associate with the account in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(account: AccountDetail, tags: [String: String]? = nil) {
+        public init(account: AccountDetail? = nil, tags: [String: String]? = nil) {
             self.account = account
             self.tags = tags
         }
@@ -1774,9 +1787,9 @@ extension Macie2 {
 
     public struct DeclineInvitationsRequest: AWSEncodableShape {
         /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to decline.
-        public let accountIds: [String]
+        public let accountIds: [String]?
 
-        public init(accountIds: [String]) {
+        public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
 
@@ -1888,9 +1901,9 @@ extension Macie2 {
 
     public struct DeleteInvitationsRequest: AWSEncodableShape {
         /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to delete.
-        public let accountIds: [String]
+        public let accountIds: [String]?
 
-        public init(accountIds: [String]) {
+        public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
 
@@ -2019,9 +2032,9 @@ extension Macie2 {
         /// The date and time, in UTC and extended ISO 8601 format, when the job started. If the job is a recurring job, this value indicates when the most recent run started or, if the job hasn't run yet, when the job was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastRunTime: Date?
-        /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector). This value is null if the job's managed data identifier selection type is ALL or the job uses only custom data identifiers (customDataIdentifierIds) to analyze data.
+        /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector).This value is null if the job's managed data identifier selection type is ALL, NONE, or RECOMMENDED.
         public let managedDataIdentifierIds: [String]?
-        /// The selection type that determines which managed data identifiers the job uses to analyze data. Possible values are: ALL - Use all the managed data identifiers that Amazon Macie provides. EXCLUDE - Use all the managed data identifiers that Macie provides except the managed data identifiers specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. If this value is null, the job uses all managed data identifiers. If this value is null, ALL, or EXCLUDE for a recurring job, the job also uses new managed data identifiers as they are released.
+        /// The selection type that determines which managed data identifiers the job uses when it analyzes data. Possible values are: ALL - Use all managed data identifiers. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. Use only custom data identifiers (customDataIdentifierIds). RECOMMENDED (default) - Use the recommended set of managed data identifiers. If this value is null, the job uses the recommended set of managed data identifiers. If the job is a recurring job and this value is ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If this value is null or RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see Using managed data identifiers and Recommended managed data identifiers in the Amazon Macie User Guide.
         public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         /// The custom name of the job.
         public let name: String?
@@ -2109,10 +2122,10 @@ extension Macie2 {
     }
 
     public struct DetectedDataDetails: AWSDecodableShape {
-        /// An occurrence of the specified type of sensitive data. Each occurrence can contain 1-128 characters.
-        public let value: String
+        /// An occurrence of the specified type of sensitive data. Each occurrence contains 1-128 characters.
+        public let value: String?
 
-        public init(value: String) {
+        public init(value: String? = nil) {
             self.value = value
         }
 
@@ -2164,9 +2177,9 @@ extension Macie2 {
 
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
-        public let adminAccountId: String
+        public let adminAccountId: String?
 
-        public init(adminAccountId: String) {
+        public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
 
@@ -2260,11 +2273,11 @@ extension Macie2 {
 
     public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organization.
-        public let adminAccountId: String
+        public let adminAccountId: String?
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
 
-        public init(adminAccountId: String, clientToken: String? = EnableOrganizationAdminAccountRequest.idempotencyToken()) {
+        public init(adminAccountId: String? = nil, clientToken: String? = EnableOrganizationAdminAccountRequest.idempotencyToken()) {
             self.adminAccountId = adminAccountId
             self.clientToken = clientToken
         }
@@ -2782,7 +2795,7 @@ extension Macie2 {
         public let name: String?
         /// The regular expression (regex) that defines the pattern to match.
         public let regex: String?
-        /// Specifies the severity that's assigned to findings that the custom data identifier produces, based on the number of occurrences of text that matches the custom data identifier's detection criteria. By default, Amazon Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
+        /// Specifies the severity that's assigned to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. By default, Amazon Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
         public let severityLevels: [SeverityLevel]?
         /// A map of key-value pairs that identifies the tags (keys and values) that are associated with the custom data identifier.
         public let tags: [String: String]?
@@ -2822,13 +2835,13 @@ extension Macie2 {
         /// The criteria to use to filter the query results.
         public let findingCriteria: FindingCriteria?
         /// The finding property to use to group the query results. Valid values are: classificationDetails.jobId - The unique identifier for the classification job that produced the finding. resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. severity.description - The severity level of the finding, such as High or Medium. type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal.
-        public let groupBy: GroupBy
+        public let groupBy: GroupBy?
         /// The maximum number of items to include in each page of the response.
         public let size: Int?
         /// The criteria to use to sort the query results.
         public let sortCriteria: FindingStatisticsSortCriteria?
 
-        public init(findingCriteria: FindingCriteria? = nil, groupBy: GroupBy, size: Int? = nil, sortCriteria: FindingStatisticsSortCriteria? = nil) {
+        public init(findingCriteria: FindingCriteria? = nil, groupBy: GroupBy? = nil, size: Int? = nil, sortCriteria: FindingStatisticsSortCriteria? = nil) {
             self.findingCriteria = findingCriteria
             self.groupBy = groupBy
             self.size = size
@@ -2933,11 +2946,11 @@ extension Macie2 {
 
     public struct GetFindingsRequest: AWSEncodableShape {
         /// An array of strings that lists the unique identifiers for the findings to retrieve. You can specify as many as 50 unique identifiers in this array.
-        public let findingIds: [String]
+        public let findingIds: [String]?
         /// The criteria for sorting the results of the request.
         public let sortCriteria: SortCriteria?
 
-        public init(findingIds: [String], sortCriteria: SortCriteria? = nil) {
+        public init(findingIds: [String]? = nil, sortCriteria: SortCriteria? = nil) {
             self.findingIds = findingIds
             self.sortCriteria = sortCriteria
         }
@@ -2992,7 +3005,7 @@ extension Macie2 {
         public let serviceRole: String?
         /// The current status of the Amazon Macie account. Possible values are: PAUSED, the account is enabled but all Macie activities are suspended (paused) for the account; and, ENABLED, the account is enabled and all Macie activities are enabled for the account.
         public let status: MacieStatus?
-        /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status of the Amazon Macie account.
+        /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status or configuration settings for the Amazon Macie account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -3096,9 +3109,9 @@ extension Macie2 {
 
     public struct GetResourceProfileRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-        public let resourceArn: String
+        public let resourceArn: String?
 
-        public init(resourceArn: String) {
+        public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
 
@@ -3142,15 +3155,19 @@ extension Macie2 {
     }
 
     public struct GetRevealConfigurationResponse: AWSDecodableShape {
-        /// The current configuration settings and the status of the configuration for the account.
+        /// The KMS key that's used to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
         public let configuration: RevealConfiguration?
+        /// The access method and settings that are used to retrieve the sensitive data.
+        public let retrievalConfiguration: RetrievalConfiguration?
 
-        public init(configuration: RevealConfiguration? = nil) {
+        public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: RetrievalConfiguration? = nil) {
             self.configuration = configuration
+            self.retrievalConfiguration = retrievalConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case retrievalConfiguration = "retrievalConfiguration"
         }
     }
 
@@ -3174,7 +3191,7 @@ extension Macie2 {
     public struct GetSensitiveDataOccurrencesAvailabilityResponse: AWSDecodableShape {
         /// Specifies whether occurrences of sensitive data can be retrieved for the finding. Possible values are: AVAILABLE, the sensitive data can be retrieved; and, UNAVAILABLE, the sensitive data can't be retrieved. If this value is UNAVAILABLE, the reasons array indicates why the data can't be retrieved.
         public let code: AvailabilityCode?
-        /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are: INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the ClassificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format. OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data. OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object might have been renamed, moved, or deleted. Or the object was changed after Macie created the finding. UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding. UNSUPPORTED_OBJECT_TYPE - The affected S3 object uses a file or storage format that Macie doesn't support for retrieving occurrences of sensitive data. This value is null if sensitive data can be retrieved for the finding.
+        /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are: ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie. INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve. INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve. MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data. MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account. OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file. OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding. RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve. ROLE_TOO_PERMISSIVE - Your account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Macie can’t assume the role to retrieve the sensitive data. UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding. UNSUPPORTED_OBJECT_TYPE - The affected S3 object uses a file or storage format that Macie doesn't support for retrieving occurrences of sensitive data. This value is null if sensitive data can be retrieved for the finding.
         public let reasons: [UnavailabilityReasonCode]?
 
         public init(code: AvailabilityCode? = nil, reasons: [UnavailabilityReasonCode]? = nil) {
@@ -3248,7 +3265,7 @@ extension Macie2 {
         public let description: String?
         /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
         public let excludes: SensitivityInspectionTemplateExcludes?
-        /// The allow lists, custom data identifiers, and managed data identifiers that are included (used) when analyzing data.
+        /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when analyzing data.
         public let includes: SensitivityInspectionTemplateIncludes?
         /// The name of the template: automated-sensitive-data-discovery.
         public let name: String?
@@ -4142,9 +4159,9 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-        public let resourceArn: String
+        public let resourceArn: String?
 
-        public init(nextToken: String? = nil, resourceArn: String) {
+        public init(nextToken: String? = nil, resourceArn: String? = nil) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
         }
@@ -4182,9 +4199,9 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-        public let resourceArn: String
+        public let resourceArn: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -4575,9 +4592,9 @@ extension Macie2 {
 
     public struct PutClassificationExportConfigurationRequest: AWSEncodableShape {
         /// The location to store data classification results in, and the encryption settings to use when storing results in that location.
-        public let configuration: ClassificationExportConfiguration
+        public let configuration: ClassificationExportConfiguration?
 
-        public init(configuration: ClassificationExportConfiguration) {
+        public init(configuration: ClassificationExportConfiguration? = nil) {
             self.configuration = configuration
         }
 
@@ -4642,7 +4659,7 @@ extension Macie2 {
     }
 
     public struct Record: AWSDecodableShape {
-        /// The path, as a JSONPath expression, to the sensitive data. For an Avro object container or Parquet file, this is the path to the field in the record (recordIndex) that contains the data. For a JSON or JSON Lines file, this is the path to the field or array that contains the data. If the data is a value in an array, the path also indicates which value contains the data. If Amazon Macie detects sensitive data in the name of any element in the path, Macie omits this field. If the name of an element exceeds 20 characters, Macie truncates the name by removing characters from the beginning of the name. If the resulting full path exceeds 250 characters, Macie also truncates the path, starting with the first element in the path, until the path contains 250 or fewer characters.
+        /// The path, as a JSONPath expression, to the sensitive data. For an Avro object container or Parquet file, this is the path to the field in the record (recordIndex) that contains the data. For a JSON or JSON Lines file, this is the path to the field or array that contains the data. If the data is a value in an array, the path also indicates which value contains the data. If Amazon Macie detects sensitive data in the name of any element in the path, Macie omits this field. If the name of an element exceeds 240 characters, Macie truncates the name by removing characters from the beginning of the name. If the resulting full path exceeds 250 characters, Macie also truncates the path, starting with the first element in the path, until the path contains 250 or fewer characters.
         public let jsonPath: String?
         /// For an Avro object container or Parquet file, the record index, starting from 0, for the record that contains the sensitive data. For a JSON Lines file, the line index, starting from 0, for the line that contains the sensitive data. This value is always 0 for JSON files.
         public let recordIndex: Int64?
@@ -4681,13 +4698,13 @@ extension Macie2 {
 
     public struct ResourceProfileArtifact: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the object.
-        public let arn: String
+        public let arn: String?
         /// The status of the analysis. Possible values are: COMPLETE - Amazon Macie successfully completed its analysis of the object. PARTIAL - Macie analyzed only a subset of data in the object. For example, the object is an archive file that contains files in an unsupported format. SKIPPED - Macie wasn't able to analyze the object. For example, the object is a malformed file.
-        public let classificationResultStatus: String
+        public let classificationResultStatus: String?
         /// Specifies whether Amazon Macie found sensitive data in the object.
         public let sensitive: Bool?
 
-        public init(arn: String, classificationResultStatus: String, sensitive: Bool? = nil) {
+        public init(arn: String? = nil, classificationResultStatus: String? = nil, sensitive: Bool? = nil) {
             self.arn = arn
             self.classificationResultStatus = classificationResultStatus
             self.sensitive = sensitive
@@ -4711,13 +4728,13 @@ extension Macie2 {
         public let totalItemsClassified: Int64?
         /// The total number of the bucket's objects that Amazon Macie has found sensitive data in.
         public let totalItemsSensitive: Int64?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket due to an error or issue. For example, the object is a malformed file. This value includes objects that Macie hasn't analyzed for reasons reported by other statistics in the ResourceStatistics object.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to an object-level issue or error. For example, an object is a malformed file. This value includes objects that Macie wasn't able to analyze for reasons reported by other statistics in the ResourceStatistics object.
         public let totalItemsSkipped: Int64?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with a key that Macie isn't allowed to use.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket because the objects are encrypted with a key that Macie can't access. The objects use server-side encryption with customer-provided keys (SSE-C).
         public let totalItemsSkippedInvalidEncryption: Int64?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with an KMS key that was disabled or deleted.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket because the objects are encrypted with KMS keys that were disabled, are scheduled for deletion, or were deleted.
         public let totalItemsSkippedInvalidKms: Int64?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because Macie isn't allowed to access the objects.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to the permissions settings for the objects or the permissions settings for the keys that were used to encrypt the objects.
         public let totalItemsSkippedPermissionDenied: Int64?
 
         public init(totalBytesClassified: Int64? = nil, totalDetections: Int64? = nil, totalDetectionsSuppressed: Int64? = nil, totalItemsClassified: Int64? = nil, totalItemsSensitive: Int64? = nil, totalItemsSkipped: Int64? = nil, totalItemsSkippedInvalidEncryption: Int64? = nil, totalItemsSkippedInvalidKms: Int64? = nil, totalItemsSkippedPermissionDenied: Int64? = nil) {
@@ -4762,13 +4779,34 @@ extension Macie2 {
         }
     }
 
+    public struct RetrievalConfiguration: AWSDecodableShape {
+        /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). The trust policy must include an sts:ExternalId condition that requires this ID. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume a role. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
+        public let externalId: String?
+        /// The access method that's used when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
+        public let retrievalMode: RetrievalMode?
+        /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
+        public let roleName: String?
+
+        public init(externalId: String? = nil, retrievalMode: RetrievalMode? = nil, roleName: String? = nil) {
+            self.externalId = externalId
+            self.retrievalMode = retrievalMode
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "externalId"
+            case retrievalMode = "retrievalMode"
+            case roleName = "roleName"
+        }
+    }
+
     public struct RevealConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
+        /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
         public let kmsKeyId: String?
         /// The status of the configuration for the Amazon Macie account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account.
-        public let status: RevealStatus
+        public let status: RevealStatus?
 
-        public init(kmsKeyId: String? = nil, status: RevealStatus) {
+        public init(kmsKeyId: String? = nil, status: RevealStatus? = nil) {
             self.kmsKeyId = kmsKeyId
             self.status = status
         }
@@ -4845,11 +4883,11 @@ extension Macie2 {
 
     public struct S3BucketDefinitionForJob: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the Amazon Web Services account that owns the buckets.
-        public let accountId: String
+        public let accountId: String?
         /// An array that lists the names of the buckets.
-        public let buckets: [String]
+        public let buckets: [String]?
 
-        public init(accountId: String, buckets: [String]) {
+        public init(accountId: String? = nil, buckets: [String]? = nil) {
             self.accountId = accountId
             self.buckets = buckets
         }
@@ -4879,9 +4917,9 @@ extension Macie2 {
 
     public struct S3ClassificationScope: AWSDecodableShape {
         /// The S3 buckets that are excluded.
-        public let excludes: S3ClassificationScopeExclusion
+        public let excludes: S3ClassificationScopeExclusion?
 
-        public init(excludes: S3ClassificationScopeExclusion) {
+        public init(excludes: S3ClassificationScopeExclusion? = nil) {
             self.excludes = excludes
         }
 
@@ -4892,9 +4930,9 @@ extension Macie2 {
 
     public struct S3ClassificationScopeExclusion: AWSDecodableShape {
         /// An array of strings, one for each S3 bucket that is excluded. Each string is the full name of an excluded bucket.
-        public let bucketNames: [String]
+        public let bucketNames: [String]?
 
-        public init(bucketNames: [String]) {
+        public init(bucketNames: [String]? = nil) {
             self.bucketNames = bucketNames
         }
 
@@ -4905,17 +4943,17 @@ extension Macie2 {
 
     public struct S3ClassificationScopeExclusionUpdate: AWSEncodableShape {
         /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an S3 bucket. Values are case sensitive.
-        public let bucketNames: [String]
+        public let bucketNames: [String]?
         /// Specifies how to apply the changes to the exclusion list. Valid values are: ADD - Append the specified bucket names to the current list. REMOVE - Remove the specified bucket names from the current list. REPLACE - Overwrite the current list with the specified list of bucket names. If you specify this value, Amazon Macie removes all existing names from the list and adds all the specified names to the list.
-        public let operation: ClassificationScopeUpdateOperation
+        public let operation: ClassificationScopeUpdateOperation?
 
-        public init(bucketNames: [String], operation: ClassificationScopeUpdateOperation) {
+        public init(bucketNames: [String]? = nil, operation: ClassificationScopeUpdateOperation? = nil) {
             self.bucketNames = bucketNames
             self.operation = operation
         }
 
         public func validate(name: String) throws {
-            try self.bucketNames.forEach {
+            try self.bucketNames?.forEach {
                 try validate($0, name: "bucketNames[]", parent: name, pattern: "^[A-Za-z0-9.\\-_]{3,255}$")
             }
         }
@@ -4928,14 +4966,14 @@ extension Macie2 {
 
     public struct S3ClassificationScopeUpdate: AWSEncodableShape {
         /// The names of the S3 buckets to add or remove from the list.
-        public let excludes: S3ClassificationScopeExclusionUpdate
+        public let excludes: S3ClassificationScopeExclusionUpdate?
 
-        public init(excludes: S3ClassificationScopeExclusionUpdate) {
+        public init(excludes: S3ClassificationScopeExclusionUpdate? = nil) {
             self.excludes = excludes
         }
 
         public func validate(name: String) throws {
-            try self.excludes.validate(name: "\(name).excludes")
+            try self.excludes?.validate(name: "\(name).excludes")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4945,13 +4983,13 @@ extension Macie2 {
 
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
         /// The name of the bucket.
-        public let bucketName: String
+        public let bucketName: String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public let keyPrefix: String?
-        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's in the same Amazon Web Services Region as the bucket.
-        public let kmsKeyArn: String
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's enabled in the same Amazon Web Services Region as the bucket.
+        public let kmsKeyArn: String?
 
-        public init(bucketName: String, keyPrefix: String? = nil, kmsKeyArn: String) {
+        public init(bucketName: String? = nil, keyPrefix: String? = nil, kmsKeyArn: String? = nil) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
             self.kmsKeyArn = kmsKeyArn
@@ -4992,12 +5030,12 @@ extension Macie2 {
         public let eTag: String?
         /// The file name extension of the object. If the object doesn't have a file name extension, this value is "".
         public let `extension`: String?
-        /// The full key (name) that's assigned to the object.
+        /// The full name (key) of the object, including the object's prefix if applicable.
         public let key: String?
         /// The date and time, in UTC and extended ISO 8601 format, when the object was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
-        /// The path to the object, including the full key (name).
+        /// The full path to the affected object, including the name of the affected bucket and the object's name (key).
         public let path: String?
         /// Specifies whether the object is publicly accessible due to the combination of permissions settings that apply to the object.
         public let publicAccess: Bool?
@@ -5045,11 +5083,11 @@ extension Macie2 {
 
     public struct S3WordsList: AWSEncodableShape & AWSDecodableShape {
         /// The full name of the S3 bucket that contains the object.
-        public let bucketName: String
+        public let bucketName: String?
         /// The full name (key) of the object.
-        public let objectKey: String
+        public let objectKey: String?
 
-        public init(bucketName: String, objectKey: String) {
+        public init(bucketName: String? = nil, objectKey: String? = nil) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -5249,11 +5287,11 @@ extension Macie2 {
 
     public struct SecurityHubConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether to publish sensitive data findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all sensitive data findings that weren't suppressed by a findings filter. The default value is false.
-        public let publishClassificationFindings: Bool
+        public let publishClassificationFindings: Bool?
         /// Specifies whether to publish policy findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all new and updated policy findings that weren't suppressed by a findings filter. The default value is true.
-        public let publishPolicyFindings: Bool
+        public let publishPolicyFindings: Bool?
 
-        public init(publishClassificationFindings: Bool, publishPolicyFindings: Bool) {
+        public init(publishClassificationFindings: Bool? = nil, publishPolicyFindings: Bool? = nil) {
             self.publishClassificationFindings = publishClassificationFindings
             self.publishPolicyFindings = publishPolicyFindings
         }
@@ -5482,11 +5520,11 @@ extension Macie2 {
 
     public struct SeverityLevel: AWSEncodableShape & AWSDecodableShape {
         /// The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to produce a finding with the specified severity (severity).
-        public let occurrencesThreshold: Int64
+        public let occurrencesThreshold: Int64?
         /// The severity to assign to a finding: if the number of occurrences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of occurrences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH.
-        public let severity: DataIdentifierSeverity
+        public let severity: DataIdentifierSeverity?
 
-        public init(occurrencesThreshold: Int64, severity: DataIdentifierSeverity) {
+        public init(occurrencesThreshold: Int64? = nil, severity: DataIdentifierSeverity? = nil) {
             self.occurrencesThreshold = occurrencesThreshold
             self.severity = severity
         }
@@ -5519,11 +5557,11 @@ extension Macie2 {
     }
 
     public struct SimpleScopeTerm: AWSEncodableShape & AWSDecodableShape {
-        /// The operator to use in the condition. Valid values for each supported property (key) are: OBJECT_EXTENSION - EQ (equals) or NE (not equals) OBJECT_KEY - STARTS_WITH OBJECT_LAST_MODIFIED_DATE - Any operator except CONTAINS OBJECT_SIZE - Any operator except CONTAINS
+        /// The operator to use in the condition. Valid values for each supported property (key) are: OBJECT_EXTENSION - EQ (equals) or NE (not equals) OBJECT_KEY - STARTS_WITH OBJECT_LAST_MODIFIED_DATE - EQ (equals), GT (greater than), GTE (greater than or equals), LT (less than), LTE (less than or equals), or NE (not equals) OBJECT_SIZE - EQ (equals), GT (greater than), GTE (greater than or equals), LT (less than), LTE (less than or equals), or NE (not equals)
         public let comparator: JobComparator?
         /// The object property to use in the condition.
         public let key: ScopeFilterKey?
-        /// An array that lists the values to use in the condition. If the value for the key property is OBJECT_EXTENSION or OBJECT_KEY, this array can specify multiple values and Amazon Macie uses OR logic to join the values. Otherwise, this array can specify only one value. Valid values for each supported property (key) are: OBJECT_EXTENSION - A string that represents the file name extension of an object. For example: docx or pdf OBJECT_KEY - A string that represents the key prefix (folder name or path) of an object. For example: logs or awslogs/eventlogs. This value applies a condition to objects whose keys (names) begin with the specified value. OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601 format) when an object was created or last changed, whichever is latest. For example: 2020-09-28T14:31:13Z OBJECT_SIZE - An integer that represents the storage size (in bytes) of an object. Macie doesn't support use of wildcard characters in these values. Also, string values are case sensitive.
+        /// An array that lists the values to use in the condition. If the value for the key property is OBJECT_EXTENSION or OBJECT_KEY, this array can specify multiple values and Amazon Macie uses OR logic to join the values. Otherwise, this array can specify only one value. Valid values for each supported property (key) are: OBJECT_EXTENSION - A string that represents the file name extension of an object. For example: docx or pdf OBJECT_KEY - A string that represents the key prefix (folder name or path) of an object. For example: logs or awslogs/eventlogs. This value applies a condition to objects whose keys (names) begin with the specified value. OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601 format) when an object was created or last changed, whichever is latest. For example: 2023-09-24T14:31:13Z OBJECT_SIZE - An integer that represents the storage size (in bytes) of an object. Macie doesn't support use of wildcard characters in these values. Also, string values are case sensitive.
         public let values: [String]?
 
         public init(comparator: JobComparator? = nil, key: ScopeFilterKey? = nil, values: [String]? = nil) {
@@ -5540,7 +5578,7 @@ extension Macie2 {
     }
 
     public struct SortCriteria: AWSEncodableShape {
-        /// The name of the property to sort the results by. This value can be the name of any property that Amazon Macie defines for a finding.
+        /// The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDetails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt.
         public let attributeName: String?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
@@ -5628,9 +5666,9 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -5639,7 +5677,7 @@ extension Macie2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "resourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5701,11 +5739,11 @@ extension Macie2 {
         /// The maximum number of characters that can exist between the end of at least one complete character sequence specified by the keywords array and the end of the text that matches the regex pattern. If a complete keyword precedes all the text that matches the pattern and the keyword is within the specified distance, Amazon Macie includes the result. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
         /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
-        public let regex: String
+        public let regex: String?
         /// The sample text to inspect by using the custom data identifier. The text can contain as many as 1,000 characters.
-        public let sampleText: String
+        public let sampleText: String?
 
-        public init(ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, regex: String, sampleText: String) {
+        public init(ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, regex: String? = nil, sampleText: String? = nil) {
             self.ignoreWords = ignoreWords
             self.keywords = keywords
             self.maximumMatchDistance = maximumMatchDistance
@@ -5760,9 +5798,9 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// One or more tags (keys) to remove from the resource. In an HTTP request to remove multiple tags, append the tagKeys parameter and argument for each tag to remove, separated by an ampersand (&amp;).
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -5783,15 +5821,15 @@ extension Macie2 {
 
     public struct UpdateAllowListRequest: AWSEncodableShape {
         /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around.
-        public let criteria: AllowListCriteria
+        public let criteria: AllowListCriteria?
         /// A custom description of the allow list. The description can contain as many as 512 characters.
         public let description: String?
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
         /// A custom name for the allow list. The name can contain as many as 128 characters.
-        public let name: String
+        public let name: String?
 
-        public init(criteria: AllowListCriteria, description: String? = nil, id: String, name: String) {
+        public init(criteria: AllowListCriteria? = nil, description: String? = nil, id: String, name: String? = nil) {
             self.criteria = criteria
             self.description = description
             self.id = id
@@ -5801,14 +5839,14 @@ extension Macie2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.criteria, forKey: .criteria)
+            try container.encodeIfPresent(self.criteria, forKey: .criteria)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.id, key: "id")
-            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
-            try self.criteria.validate(name: "\(name).criteria")
+            try self.criteria?.validate(name: "\(name).criteria")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
@@ -5843,9 +5881,9 @@ extension Macie2 {
 
     public struct UpdateAutomatedDiscoveryConfigurationRequest: AWSEncodableShape {
         /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, start or resume automated sensitive data discovery activities for the account; and, DISABLED, stop performing automated sensitive data discovery activities for the account. When you enable automated sensitive data discovery for the first time, Amazon Macie uses default configuration settings to determine which data sources to analyze and which managed data identifiers to use. To change these settings, use the UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively. If you change the settings and subsequently disable the configuration, Amazon Macie retains your changes.
-        public let status: AutomatedDiscoveryStatus
+        public let status: AutomatedDiscoveryStatus?
 
-        public init(status: AutomatedDiscoveryStatus) {
+        public init(status: AutomatedDiscoveryStatus? = nil) {
             self.status = status
         }
 
@@ -5862,9 +5900,9 @@ extension Macie2 {
         /// The unique identifier for the classification job.
         public let jobId: String
         /// The new status for the job. Valid values are: CANCELLED - Stops the job permanently and cancels it. This value is valid only if the job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is valid only if the job's current status is USER_PAUSED. If you paused the job while it was actively running and you specify this value less than 30 days after you paused the job, Macie immediately resumes processing from the point where you paused the job. Otherwise, Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's current status is RUNNING, Macie immediately begins to pause all processing tasks for the job. If you pause a one-time job and you don't resume it within 30 days, the job expires and Macie cancels the job. If you pause a recurring job when its status is RUNNING and you don't resume it within 30 days, the job run expires and Macie cancels the run. To check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
-        public let jobStatus: JobStatus
+        public let jobStatus: JobStatus?
 
-        public init(jobId: String, jobStatus: JobStatus) {
+        public init(jobId: String, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
         }
@@ -5873,7 +5911,7 @@ extension Macie2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.jobId, key: "jobId")
-            try container.encode(self.jobStatus, forKey: .jobStatus)
+            try container.encodeIfPresent(self.jobStatus, forKey: .jobStatus)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6006,9 +6044,9 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
         /// Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
-        public let status: MacieStatus
+        public let status: MacieStatus?
 
-        public init(id: String, status: MacieStatus) {
+        public init(id: String, status: MacieStatus? = nil) {
             self.id = id
             self.status = status
         }
@@ -6017,7 +6055,7 @@ extension Macie2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.id, key: "id")
-            try container.encode(self.status, forKey: .status)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6031,9 +6069,9 @@ extension Macie2 {
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
         /// Specifies whether to enable Amazon Macie automatically for an account when the account is added to the organization in Organizations.
-        public let autoEnable: Bool
+        public let autoEnable: Bool?
 
-        public init(autoEnable: Bool = false) {
+        public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
 
@@ -6048,11 +6086,11 @@ extension Macie2 {
 
     public struct UpdateResourceProfileDetectionsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-        public let resourceArn: String
+        public let resourceArn: String?
         /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
         public let suppressDataIdentifiers: [SuppressDataIdentifier]?
 
-        public init(resourceArn: String, suppressDataIdentifiers: [SuppressDataIdentifier]? = nil) {
+        public init(resourceArn: String? = nil, suppressDataIdentifiers: [SuppressDataIdentifier]? = nil) {
             self.resourceArn = resourceArn
             self.suppressDataIdentifiers = suppressDataIdentifiers
         }
@@ -6075,11 +6113,11 @@ extension Macie2 {
 
     public struct UpdateResourceProfileRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-        public let resourceArn: String
+        public let resourceArn: String?
         /// The new sensitivity score for the bucket. Valid values are: 100, assign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates automatically after you submit the request.
         public let sensitivityScoreOverride: Int?
 
-        public init(resourceArn: String, sensitivityScoreOverride: Int? = nil) {
+        public init(resourceArn: String? = nil, sensitivityScoreOverride: Int? = nil) {
             self.resourceArn = resourceArn
             self.sensitivityScoreOverride = sensitivityScoreOverride
         }
@@ -6100,33 +6138,65 @@ extension Macie2 {
         public init() {}
     }
 
-    public struct UpdateRevealConfigurationRequest: AWSEncodableShape {
-        /// The new configuration settings and the status of the configuration for the account.
-        public let configuration: RevealConfiguration
+    public struct UpdateRetrievalConfiguration: AWSEncodableShape {
+        /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
+        public let retrievalMode: RetrievalMode?
+        /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. The trust and permissions policies for the role must meet all requirements for Macie to assume the role.
+        public let roleName: String?
 
-        public init(configuration: RevealConfiguration) {
-            self.configuration = configuration
+        public init(retrievalMode: RetrievalMode? = nil, roleName: String? = nil) {
+            self.retrievalMode = retrievalMode
+            self.roleName = roleName
         }
 
         public func validate(name: String) throws {
-            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
+            try self.validate(self.roleName, name: "roleName", parent: name, min: 1)
+            try self.validate(self.roleName, name: "roleName", parent: name, pattern: "^[\\w+=,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalMode = "retrievalMode"
+            case roleName = "roleName"
+        }
+    }
+
+    public struct UpdateRevealConfigurationRequest: AWSEncodableShape {
+        /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
+        public let configuration: RevealConfiguration?
+        /// The access method and settings to use to retrieve the sensitive data.
+        public let retrievalConfiguration: UpdateRetrievalConfiguration?
+
+        public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: UpdateRetrievalConfiguration? = nil) {
+            self.configuration = configuration
+            self.retrievalConfiguration = retrievalConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case retrievalConfiguration = "retrievalConfiguration"
         }
     }
 
     public struct UpdateRevealConfigurationResponse: AWSDecodableShape {
-        /// The new configuration settings and the status of the configuration for the account.
+        /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
         public let configuration: RevealConfiguration?
+        /// The access method and settings to use to retrieve the sensitive data.
+        public let retrievalConfiguration: RetrievalConfiguration?
 
-        public init(configuration: RevealConfiguration? = nil) {
+        public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: RetrievalConfiguration? = nil) {
             self.configuration = configuration
+            self.retrievalConfiguration = retrievalConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case retrievalConfiguration = "retrievalConfiguration"
         }
     }
 
@@ -6137,7 +6207,7 @@ extension Macie2 {
         public let excludes: SensitivityInspectionTemplateExcludes?
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
-        /// The allow lists, custom data identifiers, and managed data identifiers to include (use) when analyzing data.
+        /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when analyzing data.
         public let includes: SensitivityInspectionTemplateIncludes?
 
         public init(description: String? = nil, excludes: SensitivityInspectionTemplateExcludes? = nil, id: String, includes: SensitivityInspectionTemplateIncludes? = nil) {

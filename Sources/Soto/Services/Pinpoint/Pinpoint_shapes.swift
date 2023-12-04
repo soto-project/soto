@@ -26,21 +26,21 @@ import Foundation
 extension Pinpoint {
     // MARK: Enums
 
-    public enum Action: String, CustomStringConvertible, Codable, Sendable {
+    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepLink = "DEEP_LINK"
         case openApp = "OPEN_APP"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Alignment: String, CustomStringConvertible, Codable, Sendable {
+    public enum Alignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case center = "CENTER"
         case left = "LEFT"
         case right = "RIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case after = "AFTER"
         case before = "BEFORE"
         case between = "BETWEEN"
@@ -51,14 +51,14 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum ButtonAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ButtonAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case close = "CLOSE"
         case deepLink = "DEEP_LINK"
         case link = "LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case deleted = "DELETED"
         case executing = "EXECUTING"
@@ -69,7 +69,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -86,7 +86,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -97,7 +97,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case duplicate = "DUPLICATE"
         case optOut = "OPT_OUT"
         case permanentFailure = "PERMANENT_FAILURE"
@@ -108,13 +108,13 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclusive = "EXCLUSIVE"
         case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Duration: String, CustomStringConvertible, Codable, Sendable {
+    public enum Duration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day14 = "DAY_14"
         case day30 = "DAY_30"
         case day7 = "DAY_7"
@@ -122,7 +122,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -139,19 +139,19 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case endpoint = "ENDPOINT"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum Frequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum Frequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "DAILY"
         case event = "EVENT"
         case hourly = "HOURLY"
@@ -162,14 +162,14 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum Include: String, CustomStringConvertible, Codable, Sendable {
+    public enum Include: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case completing = "COMPLETING"
         case created = "CREATED"
@@ -182,7 +182,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum JourneyRunStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JourneyRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case running = "RUNNING"
@@ -190,7 +190,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum Layout: String, CustomStringConvertible, Codable, Sendable {
+    public enum Layout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bottomBanner = "BOTTOM_BANNER"
         case carousel = "CAROUSEL"
         case middleBanner = "MIDDLE_BANNER"
@@ -200,44 +200,44 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case promotional = "PROMOTIONAL"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delivery = "DELIVERY"
         case filter = "FILTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case any = "ANY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecencyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `import` = "IMPORT"
         case dimensional = "DIMENSIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, Sendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case cancelled = "CANCELLED"
         case closed = "CLOSED"
@@ -247,7 +247,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case email = "EMAIL"
         case inapp = "INAPP"
         case push = "PUSH"
@@ -256,7 +256,13 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimezoneEstimationMethodsElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case phoneNumber = "PHONE_NUMBER"
+        case postalCode = "POSTAL_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
@@ -267,13 +273,13 @@ extension Pinpoint {
 
     public struct ADMChannelRequest: AWSEncodableShape {
         /// The Client ID that you received from Amazon to send messages by using ADM.
-        public let clientId: String
+        public let clientId: String?
         /// The Client Secret that you received from Amazon to send messages by using ADM.
-        public let clientSecret: String
+        public let clientSecret: String?
         /// Specifies whether to enable the ADM channel for the application.
         public let enabled: Bool?
 
-        public init(clientId: String, clientSecret: String, enabled: Bool? = nil) {
+        public init(clientId: String? = nil, clientSecret: String? = nil, enabled: Bool? = nil) {
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.enabled = enabled
@@ -304,11 +310,11 @@ extension Pinpoint {
         /// The date and time when the ADM channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the ADM channel, this value is ADM.
-        public let platform: String
+        public let platform: String?
         /// The current version of the ADM channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -471,11 +477,11 @@ extension Pinpoint {
         /// The date and time when the APNs channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the APNs channel, this value is APNS.
-        public let platform: String
+        public let platform: String?
         /// The current version of the APNs channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -687,11 +693,11 @@ extension Pinpoint {
         /// The date and time when the APNs sandbox channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the APNs sandbox channel, this value is APNS_SANDBOX.
-        public let platform: String
+        public let platform: String?
         /// The current version of the APNs sandbox channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -785,11 +791,11 @@ extension Pinpoint {
         /// The date and time when the APNs VoIP channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the APNs VoIP channel, this value is APNS_VOIP.
-        public let platform: String
+        public let platform: String?
         /// The current version of the APNs VoIP channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -883,11 +889,11 @@ extension Pinpoint {
         /// The date and time when the APNs VoIP sandbox channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the APNs VoIP sandbox channel, this value is APNS_VOIP_SANDBOX.
-        public let platform: String
+        public let platform: String?
         /// The current version of the APNs VoIP sandbox channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -920,11 +926,11 @@ extension Pinpoint {
 
     public struct ActivitiesResponse: AWSDecodableShape {
         /// An array of responses, one for each activity that was performed by the campaign.
-        public let item: [ActivityResponse]
+        public let item: [ActivityResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [ActivityResponse], nextToken: String? = nil) {
+        public init(item: [ActivityResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -990,15 +996,15 @@ extension Pinpoint {
 
     public struct ActivityResponse: AWSDecodableShape {
         /// The unique identifier for the application that the campaign applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the campaign that the activity applies to.
-        public let campaignId: String
+        public let campaignId: String?
         /// The actual time, in ISO 8601 format, when the activity was marked CANCELLED or COMPLETED.
         public let end: String?
         /// A JSON object that contains metrics relating to the campaign execution for this campaign activity. For information about the structure and contents of the results, see Standard Amazon Pinpoint analytics metrics in the Amazon Pinpoint Developer Guide.
         public let executionMetrics: [String: String]?
         /// The unique identifier for the activity.
-        public let id: String
+        public let id: String?
         /// Specifies whether the activity succeeded. Possible values are SUCCESS and FAIL.
         public let result: String?
         /// The scheduled start time, in ISO 8601 format, for the activity.
@@ -1018,7 +1024,7 @@ extension Pinpoint {
         /// The unique identifier for the campaign treatment that the activity applies to. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentId: String?
 
-        public init(applicationId: String, campaignId: String, end: String? = nil, executionMetrics: [String: String]? = nil, id: String, result: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, successfulEndpointCount: Int? = nil, timezonesCompletedCount: Int? = nil, timezonesTotalCount: Int? = nil, totalEndpointCount: Int? = nil, treatmentId: String? = nil) {
+        public init(applicationId: String? = nil, campaignId: String? = nil, end: String? = nil, executionMetrics: [String: String]? = nil, id: String? = nil, result: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, successfulEndpointCount: Int? = nil, timezonesCompletedCount: Int? = nil, timezonesTotalCount: Int? = nil, totalEndpointCount: Int? = nil, treatmentId: String? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.end = end
@@ -1133,21 +1139,21 @@ extension Pinpoint {
 
     public struct ApplicationDateRangeKpiResponse: AWSDecodableShape {
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var endTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
-        public let kpiName: String
+        public let kpiName: String?
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
-        public let kpiResult: BaseKpiResult
+        public let kpiResult: BaseKpiResult?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Application Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var startTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
-        public init(applicationId: String, endTime: Date, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
+        public init(applicationId: String? = nil, endTime: Date? = nil, kpiName: String? = nil, kpiResult: BaseKpiResult? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.kpiName = kpiName
@@ -1168,17 +1174,17 @@ extension Pinpoint {
 
     public struct ApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application.
-        public let arn: String
+        public let arn: String?
         /// The date and time when the Application was created.
         public let creationDate: String?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
-        public let id: String
+        public let id: String?
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
-        public let name: String
+        public let name: String?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
 
-        public init(arn: String, creationDate: String? = nil, id: String, name: String, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, creationDate: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.id = id
@@ -1195,11 +1201,34 @@ extension Pinpoint {
         }
     }
 
+    public struct ApplicationSettingsJourneyLimits: AWSEncodableShape & AWSDecodableShape {
+        /// The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply.
+        public let dailyCap: Int?
+        /// The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
+        public let timeframeCap: JourneyTimeframeCap?
+        /// The default maximum number of messages that a single journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public let totalCap: Int?
+
+        public init(dailyCap: Int? = nil, timeframeCap: JourneyTimeframeCap? = nil, totalCap: Int? = nil) {
+            self.dailyCap = dailyCap
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyCap = "DailyCap"
+            case timeframeCap = "TimeframeCap"
+            case totalCap = "TotalCap"
+        }
+    }
+
     public struct ApplicationSettingsResource: AWSDecodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
-        public let applicationId: String
+        public let applicationId: String?
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application.
         public let campaignHook: CampaignHook?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public let journeyLimits: ApplicationSettingsJourneyLimits?
         /// The date and time, in ISO 8601 format, when the application's settings were last modified.
         public let lastModifiedDate: String?
         /// The default sending limits for campaigns in the application.
@@ -1207,9 +1236,10 @@ extension Pinpoint {
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
 
-        public init(applicationId: String, campaignHook: CampaignHook? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
+        public init(applicationId: String? = nil, campaignHook: CampaignHook? = nil, journeyLimits: ApplicationSettingsJourneyLimits? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.applicationId = applicationId
             self.campaignHook = campaignHook
+            self.journeyLimits = journeyLimits
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.quietTime = quietTime
@@ -1218,6 +1248,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
             case campaignHook = "CampaignHook"
+            case journeyLimits = "JourneyLimits"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case quietTime = "QuietTime"
@@ -1245,9 +1276,9 @@ extension Pinpoint {
         /// The type of segment dimension to use. Valid values are: INCLUSIVE - endpoints that have attributes matching the values are included in the segment.EXCLUSIVE - endpoints that have attributes matching the values are excluded in the segment.CONTAINS - endpoints that have attributes' substrings match the values are included in the segment.BEFORE - endpoints with attributes read as ISO_INSTANT datetimes before the value are included in the segment.AFTER - endpoints with attributes read as ISO_INSTANT datetimes after the value are included in the segment.ON - endpoints with attributes read as ISO_INSTANT dates on the value are included in the segment. Time is ignored in this comparison.BETWEEN - endpoints with attributes read as ISO_INSTANT datetimes between the values are included in the segment.
         public let attributeType: AttributeType?
         /// The criteria values to use for the segment dimension. Depending on the value of the AttributeType property, endpoints are included or excluded from the segment if their attribute values match the criteria values.
-        public let values: [String]
+        public let values: [String]?
 
-        public init(attributeType: AttributeType? = nil, values: [String]) {
+        public init(attributeType: AttributeType? = nil, values: [String]? = nil) {
             self.attributeType = attributeType
             self.values = values
         }
@@ -1260,13 +1291,13 @@ extension Pinpoint {
 
     public struct AttributesResource: AWSDecodableShape {
         /// The unique identifier for the application.
-        public let applicationId: String
+        public let applicationId: String?
         /// An array that specifies the names of the attributes that were removed from the endpoints.
         public let attributes: [String]?
         /// The type of attribute or attributes that were removed from the endpoints. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints. endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints. endpoint-user-attributes - Custom attributes that describe users.
-        public let attributeType: String
+        public let attributeType: String?
 
-        public init(applicationId: String, attributes: [String]? = nil, attributeType: String) {
+        public init(applicationId: String? = nil, attributes: [String]? = nil, attributeType: String? = nil) {
             self.applicationId = applicationId
             self.attributes = attributes
             self.attributeType = attributeType
@@ -1281,13 +1312,13 @@ extension Pinpoint {
 
     public struct BaiduChannelRequest: AWSEncodableShape {
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
-        public let apiKey: String
+        public let apiKey: String?
         /// Specifies whether to enable the Baidu channel for the application.
         public let enabled: Bool?
         /// The secret key that you received from the Baidu Cloud Push service to communicate with the service.
-        public let secretKey: String
+        public let secretKey: String?
 
-        public init(apiKey: String, enabled: Bool? = nil, secretKey: String) {
+        public init(apiKey: String? = nil, enabled: Bool? = nil, secretKey: String? = nil) {
             self.apiKey = apiKey
             self.enabled = enabled
             self.secretKey = secretKey
@@ -1306,7 +1337,7 @@ extension Pinpoint {
         /// The date and time when the Baidu channel was enabled.
         public let creationDate: String?
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
-        public let credential: String
+        public let credential: String?
         /// Specifies whether the Baidu channel is enabled for the application.
         public let enabled: Bool?
         /// (Not used) This property is retained only for backward compatibility.
@@ -1320,11 +1351,11 @@ extension Pinpoint {
         /// The date and time when the Baidu channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the Baidu channel, this value is BAIDU.
-        public let platform: String
+        public let platform: String?
         /// The current version of the Baidu channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
@@ -1420,9 +1451,9 @@ extension Pinpoint {
 
     public struct BaseKpiResult: AWSDecodableShape {
         /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
-        public let rows: [ResultRow]
+        public let rows: [ResultRow]?
 
-        public init(rows: [ResultRow]) {
+        public init(rows: [ResultRow]? = nil) {
             self.rows = rows
         }
 
@@ -1446,23 +1477,23 @@ extension Pinpoint {
 
     public struct CampaignDateRangeKpiResponse: AWSDecodableShape {
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the campaign that the metric applies to.
-        public let campaignId: String
+        public let campaignId: String?
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var endTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
-        public let kpiName: String
+        public let kpiName: String?
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
-        public let kpiResult: BaseKpiResult
+        public let kpiResult: BaseKpiResult?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Campaign Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var startTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
-        public init(applicationId: String, campaignId: String, endTime: Date, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
+        public init(applicationId: String? = nil, campaignId: String? = nil, endTime: Date? = nil, kpiName: String? = nil, kpiResult: BaseKpiResult? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.endTime = endTime
@@ -1510,11 +1541,11 @@ extension Pinpoint {
 
     public struct CampaignEventFilter: AWSEncodableShape & AWSDecodableShape {
         /// The dimension settings of the event filter for the campaign.
-        public let dimensions: EventDimensions
+        public let dimensions: EventDimensions?
         /// The type of event that causes the campaign to be sent. Valid values are: SYSTEM, sends the campaign when a system event occurs; and, ENDPOINT, sends the campaign when an endpoint event (Events resource) occurs.
-        public let filterType: FilterType
+        public let filterType: FilterType?
 
-        public init(dimensions: EventDimensions, filterType: FilterType) {
+        public init(dimensions: EventDimensions? = nil, filterType: FilterType? = nil) {
             self.dimensions = dimensions
             self.filterType = filterType
         }
@@ -1604,11 +1635,11 @@ extension Pinpoint {
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
         /// The unique identifier for the application that the campaign applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The Amazon Resource Name (ARN) of the campaign.
-        public let arn: String
+        public let arn: String?
         /// The date, in ISO 8601 format, when the campaign was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The delivery configuration settings for sending the campaign through a custom channel.
         public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The current status of the campaign's default treatment. This value exists only for campaigns that have more than one treatment.
@@ -1620,11 +1651,11 @@ extension Pinpoint {
         /// The settings for the AWS Lambda function to use as a code hook for the campaign. You can use this hook to customize the segment that's used by the campaign.
         public let hook: CampaignHook?
         /// The unique identifier for the campaign.
-        public let id: String
+        public let id: String?
         /// Specifies whether the campaign is paused. A paused campaign doesn't run unless you resume it by changing this value to false.
         public let isPaused: Bool?
         /// The date, in ISO 8601 format, when the campaign was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The messaging limits for the campaign.
         public let limits: CampaignLimits?
         /// The message configuration settings for the campaign.
@@ -1636,9 +1667,9 @@ extension Pinpoint {
         /// The schedule settings for the campaign.
         public let schedule: Schedule?
         /// The unique identifier for the segment that's associated with the campaign.
-        public let segmentId: String
+        public let segmentId: String?
         /// The version number of the segment that's associated with the campaign.
-        public let segmentVersion: Int
+        public let segmentVersion: Int?
         /// The current status of the campaign.
         public let state: CampaignState?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the campaign. Each tag consists of a required tag key and an associated tag value.
@@ -1652,7 +1683,7 @@ extension Pinpoint {
         /// The version number of the campaign.
         public let version: Int?
 
-        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, priority: Int? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
+        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String? = nil, arn: String? = nil, creationDate: String? = nil, customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String? = nil, isPaused: Bool? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, priority: Int? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, state: CampaignState? = nil, tags: [String: String]? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
             self.arn = arn
@@ -1757,11 +1788,11 @@ extension Pinpoint {
 
     public struct CampaignsResponse: AWSDecodableShape {
         /// An array of responses, one for each campaign that's associated with the application.
-        public let item: [CampaignResponse]
+        public let item: [CampaignResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [CampaignResponse], nextToken: String? = nil) {
+        public init(item: [CampaignResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -1819,9 +1850,9 @@ extension Pinpoint {
 
     public struct ChannelsResponse: AWSDecodableShape {
         /// A map that contains a multipart response for each channel. For each item in this object, the ChannelType is the key and the Channel is the value.
-        public let channels: [String: ChannelResponse]
+        public let channels: [String: ChannelResponse]?
 
-        public init(channels: [String: ChannelResponse]) {
+        public init(channels: [String: ChannelResponse]? = nil) {
             self.channels = channels
         }
 
@@ -1936,9 +1967,9 @@ extension Pinpoint {
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
-        public let createApplicationRequest: CreateApplicationRequest
+        public let createApplicationRequest: CreateApplicationRequest?
 
-        public init(createApplicationRequest: CreateApplicationRequest) {
+        public init(createApplicationRequest: CreateApplicationRequest? = nil) {
             self.createApplicationRequest = createApplicationRequest
         }
 
@@ -1951,9 +1982,9 @@ extension Pinpoint {
     }
 
     public struct CreateAppResponse: AWSDecodableShape {
-        public let applicationResponse: ApplicationResponse
+        public let applicationResponse: ApplicationResponse?
 
-        public init(applicationResponse: ApplicationResponse) {
+        public init(applicationResponse: ApplicationResponse? = nil) {
             self.applicationResponse = applicationResponse
         }
 
@@ -1967,11 +1998,11 @@ extension Pinpoint {
 
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
-        public let name: String
+        public let name: String?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
 
-        public init(name: String, tags: [String: String]? = nil) {
+        public init(name: String? = nil, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
         }
@@ -1985,9 +2016,9 @@ extension Pinpoint {
     public struct CreateCampaignRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let writeCampaignRequest: WriteCampaignRequest
+        public let writeCampaignRequest: WriteCampaignRequest?
 
-        public init(applicationId: String, writeCampaignRequest: WriteCampaignRequest) {
+        public init(applicationId: String, writeCampaignRequest: WriteCampaignRequest? = nil) {
             self.applicationId = applicationId
             self.writeCampaignRequest = writeCampaignRequest
         }
@@ -2003,9 +2034,9 @@ extension Pinpoint {
     }
 
     public struct CreateCampaignResponse: AWSDecodableShape {
-        public let campaignResponse: CampaignResponse
+        public let campaignResponse: CampaignResponse?
 
-        public init(campaignResponse: CampaignResponse) {
+        public init(campaignResponse: CampaignResponse? = nil) {
             self.campaignResponse = campaignResponse
         }
 
@@ -2018,11 +2049,11 @@ extension Pinpoint {
     }
 
     public struct CreateEmailTemplateRequest: AWSEncodableShape {
-        public let emailTemplateRequest: EmailTemplateRequest
+        public let emailTemplateRequest: EmailTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
 
-        public init(emailTemplateRequest: EmailTemplateRequest, templateName: String) {
+        public init(emailTemplateRequest: EmailTemplateRequest? = nil, templateName: String) {
             self.emailTemplateRequest = emailTemplateRequest
             self.templateName = templateName
         }
@@ -2038,9 +2069,9 @@ extension Pinpoint {
     }
 
     public struct CreateEmailTemplateResponse: AWSDecodableShape {
-        public let createTemplateMessageBody: CreateTemplateMessageBody
+        public let createTemplateMessageBody: CreateTemplateMessageBody?
 
-        public init(createTemplateMessageBody: CreateTemplateMessageBody) {
+        public init(createTemplateMessageBody: CreateTemplateMessageBody? = nil) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
@@ -2055,9 +2086,9 @@ extension Pinpoint {
     public struct CreateExportJobRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let exportJobRequest: ExportJobRequest
+        public let exportJobRequest: ExportJobRequest?
 
-        public init(applicationId: String, exportJobRequest: ExportJobRequest) {
+        public init(applicationId: String, exportJobRequest: ExportJobRequest? = nil) {
             self.applicationId = applicationId
             self.exportJobRequest = exportJobRequest
         }
@@ -2073,9 +2104,9 @@ extension Pinpoint {
     }
 
     public struct CreateExportJobResponse: AWSDecodableShape {
-        public let exportJobResponse: ExportJobResponse
+        public let exportJobResponse: ExportJobResponse?
 
-        public init(exportJobResponse: ExportJobResponse) {
+        public init(exportJobResponse: ExportJobResponse? = nil) {
             self.exportJobResponse = exportJobResponse
         }
 
@@ -2090,9 +2121,9 @@ extension Pinpoint {
     public struct CreateImportJobRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let importJobRequest: ImportJobRequest
+        public let importJobRequest: ImportJobRequest?
 
-        public init(applicationId: String, importJobRequest: ImportJobRequest) {
+        public init(applicationId: String, importJobRequest: ImportJobRequest? = nil) {
             self.applicationId = applicationId
             self.importJobRequest = importJobRequest
         }
@@ -2108,9 +2139,9 @@ extension Pinpoint {
     }
 
     public struct CreateImportJobResponse: AWSDecodableShape {
-        public let importJobResponse: ImportJobResponse
+        public let importJobResponse: ImportJobResponse?
 
-        public init(importJobResponse: ImportJobResponse) {
+        public init(importJobResponse: ImportJobResponse? = nil) {
             self.importJobResponse = importJobResponse
         }
 
@@ -2123,11 +2154,11 @@ extension Pinpoint {
     }
 
     public struct CreateInAppTemplateRequest: AWSEncodableShape {
-        public let inAppTemplateRequest: InAppTemplateRequest
+        public let inAppTemplateRequest: InAppTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
 
-        public init(inAppTemplateRequest: InAppTemplateRequest, templateName: String) {
+        public init(inAppTemplateRequest: InAppTemplateRequest? = nil, templateName: String) {
             self.inAppTemplateRequest = inAppTemplateRequest
             self.templateName = templateName
         }
@@ -2143,9 +2174,9 @@ extension Pinpoint {
     }
 
     public struct CreateInAppTemplateResponse: AWSDecodableShape {
-        public let templateCreateMessageBody: TemplateCreateMessageBody
+        public let templateCreateMessageBody: TemplateCreateMessageBody?
 
-        public init(templateCreateMessageBody: TemplateCreateMessageBody) {
+        public init(templateCreateMessageBody: TemplateCreateMessageBody? = nil) {
             self.templateCreateMessageBody = templateCreateMessageBody
         }
 
@@ -2160,9 +2191,9 @@ extension Pinpoint {
     public struct CreateJourneyRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let writeJourneyRequest: WriteJourneyRequest
+        public let writeJourneyRequest: WriteJourneyRequest?
 
-        public init(applicationId: String, writeJourneyRequest: WriteJourneyRequest) {
+        public init(applicationId: String, writeJourneyRequest: WriteJourneyRequest? = nil) {
             self.applicationId = applicationId
             self.writeJourneyRequest = writeJourneyRequest
         }
@@ -2178,9 +2209,9 @@ extension Pinpoint {
     }
 
     public struct CreateJourneyResponse: AWSDecodableShape {
-        public let journeyResponse: JourneyResponse
+        public let journeyResponse: JourneyResponse?
 
-        public init(journeyResponse: JourneyResponse) {
+        public init(journeyResponse: JourneyResponse? = nil) {
             self.journeyResponse = journeyResponse
         }
 
@@ -2193,11 +2224,11 @@ extension Pinpoint {
     }
 
     public struct CreatePushTemplateRequest: AWSEncodableShape {
-        public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
+        public let pushNotificationTemplateRequest: PushNotificationTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
 
-        public init(pushNotificationTemplateRequest: PushNotificationTemplateRequest, templateName: String) {
+        public init(pushNotificationTemplateRequest: PushNotificationTemplateRequest? = nil, templateName: String) {
             self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
             self.templateName = templateName
         }
@@ -2213,9 +2244,9 @@ extension Pinpoint {
     }
 
     public struct CreatePushTemplateResponse: AWSDecodableShape {
-        public let createTemplateMessageBody: CreateTemplateMessageBody
+        public let createTemplateMessageBody: CreateTemplateMessageBody?
 
-        public init(createTemplateMessageBody: CreateTemplateMessageBody) {
+        public init(createTemplateMessageBody: CreateTemplateMessageBody? = nil) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
@@ -2228,9 +2259,9 @@ extension Pinpoint {
     }
 
     public struct CreateRecommenderConfigurationRequest: AWSEncodableShape {
-        public let createRecommenderConfiguration: CreateRecommenderConfigurationShape
+        public let createRecommenderConfiguration: CreateRecommenderConfigurationShape?
 
-        public init(createRecommenderConfiguration: CreateRecommenderConfigurationShape) {
+        public init(createRecommenderConfiguration: CreateRecommenderConfigurationShape? = nil) {
             self.createRecommenderConfiguration = createRecommenderConfiguration
         }
 
@@ -2243,9 +2274,9 @@ extension Pinpoint {
     }
 
     public struct CreateRecommenderConfigurationResponse: AWSDecodableShape {
-        public let recommenderConfigurationResponse: RecommenderConfigurationResponse
+        public let recommenderConfigurationResponse: RecommenderConfigurationResponse?
 
-        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
+        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse? = nil) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
@@ -2267,9 +2298,9 @@ extension Pinpoint {
         /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
         public let recommendationProviderIdType: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data from the recommender model.
-        public let recommendationProviderRoleArn: String
+        public let recommendationProviderRoleArn: String?
         /// The Amazon Resource Name (ARN) of the recommender model to retrieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign.
-        public let recommendationProviderUri: String
+        public let recommendationProviderUri: String?
         /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
         public let recommendationsDisplayName: String?
         /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
@@ -2277,7 +2308,7 @@ extension Pinpoint {
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function to invoke for additional processing of recommendation data that's retrieved from the recommender model.
         public let recommendationTransformerUri: String?
 
-        public init(attributes: [String: String]? = nil, description: String? = nil, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String, recommendationProviderUri: String, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
+        public init(attributes: [String: String]? = nil, description: String? = nil, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String? = nil, recommendationProviderUri: String? = nil, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
             self.attributes = attributes
             self.description = description
             self.name = name
@@ -2305,9 +2336,9 @@ extension Pinpoint {
     public struct CreateSegmentRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let writeSegmentRequest: WriteSegmentRequest
+        public let writeSegmentRequest: WriteSegmentRequest?
 
-        public init(applicationId: String, writeSegmentRequest: WriteSegmentRequest) {
+        public init(applicationId: String, writeSegmentRequest: WriteSegmentRequest? = nil) {
             self.applicationId = applicationId
             self.writeSegmentRequest = writeSegmentRequest
         }
@@ -2323,9 +2354,9 @@ extension Pinpoint {
     }
 
     public struct CreateSegmentResponse: AWSDecodableShape {
-        public let segmentResponse: SegmentResponse
+        public let segmentResponse: SegmentResponse?
 
-        public init(segmentResponse: SegmentResponse) {
+        public init(segmentResponse: SegmentResponse? = nil) {
             self.segmentResponse = segmentResponse
         }
 
@@ -2338,11 +2369,11 @@ extension Pinpoint {
     }
 
     public struct CreateSmsTemplateRequest: AWSEncodableShape {
-        public let smsTemplateRequest: SMSTemplateRequest
+        public let smsTemplateRequest: SMSTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
 
-        public init(smsTemplateRequest: SMSTemplateRequest, templateName: String) {
+        public init(smsTemplateRequest: SMSTemplateRequest? = nil, templateName: String) {
             self.smsTemplateRequest = smsTemplateRequest
             self.templateName = templateName
         }
@@ -2358,9 +2389,9 @@ extension Pinpoint {
     }
 
     public struct CreateSmsTemplateResponse: AWSDecodableShape {
-        public let createTemplateMessageBody: CreateTemplateMessageBody
+        public let createTemplateMessageBody: CreateTemplateMessageBody?
 
-        public init(createTemplateMessageBody: CreateTemplateMessageBody) {
+        public init(createTemplateMessageBody: CreateTemplateMessageBody? = nil) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
@@ -2396,9 +2427,9 @@ extension Pinpoint {
     public struct CreateVoiceTemplateRequest: AWSEncodableShape {
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
-        public let voiceTemplateRequest: VoiceTemplateRequest
+        public let voiceTemplateRequest: VoiceTemplateRequest?
 
-        public init(templateName: String, voiceTemplateRequest: VoiceTemplateRequest) {
+        public init(templateName: String, voiceTemplateRequest: VoiceTemplateRequest? = nil) {
             self.templateName = templateName
             self.voiceTemplateRequest = voiceTemplateRequest
         }
@@ -2414,9 +2445,9 @@ extension Pinpoint {
     }
 
     public struct CreateVoiceTemplateResponse: AWSDecodableShape {
-        public let createTemplateMessageBody: CreateTemplateMessageBody
+        public let createTemplateMessageBody: CreateTemplateMessageBody?
 
-        public init(createTemplateMessageBody: CreateTemplateMessageBody) {
+        public init(createTemplateMessageBody: CreateTemplateMessageBody? = nil) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
@@ -2430,11 +2461,11 @@ extension Pinpoint {
 
     public struct CustomDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The destination to send the campaign or treatment to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
-        public let deliveryUri: String
+        public let deliveryUri: String?
         /// The types of endpoints to send the campaign or treatment to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
         public let endpointTypes: [EndpointTypesElement]?
 
-        public init(deliveryUri: String, endpointTypes: [EndpointTypesElement]? = nil) {
+        public init(deliveryUri: String? = nil, endpointTypes: [EndpointTypesElement]? = nil) {
             self.deliveryUri = deliveryUri
             self.endpointTypes = endpointTypes
         }
@@ -2484,15 +2515,15 @@ extension Pinpoint {
         /// The border radius of the button.
         public let borderRadius: Int?
         /// Action triggered by the button.
-        public let buttonAction: ButtonAction
+        public let buttonAction: ButtonAction?
         /// Button destination.
         public let link: String?
         /// Button text.
-        public let text: String
+        public let text: String?
         /// The text color of the button.
         public let textColor: String?
 
-        public init(backgroundColor: String? = nil, borderRadius: Int? = nil, buttonAction: ButtonAction, link: String? = nil, text: String, textColor: String? = nil) {
+        public init(backgroundColor: String? = nil, borderRadius: Int? = nil, buttonAction: ButtonAction? = nil, link: String? = nil, text: String? = nil, textColor: String? = nil) {
             self.backgroundColor = backgroundColor
             self.borderRadius = borderRadius
             self.buttonAction = buttonAction
@@ -2612,9 +2643,9 @@ extension Pinpoint {
     }
 
     public struct DeleteAdmChannelResponse: AWSDecodableShape {
-        public let admChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse?
 
-        public init(admChannelResponse: ADMChannelResponse) {
+        public init(admChannelResponse: ADMChannelResponse? = nil) {
             self.admChannelResponse = admChannelResponse
         }
 
@@ -2644,9 +2675,9 @@ extension Pinpoint {
     }
 
     public struct DeleteApnsChannelResponse: AWSDecodableShape {
-        public let apnsChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse?
 
-        public init(apnsChannelResponse: APNSChannelResponse) {
+        public init(apnsChannelResponse: APNSChannelResponse? = nil) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
@@ -2676,9 +2707,9 @@ extension Pinpoint {
     }
 
     public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape {
-        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse?
 
-        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse? = nil) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
@@ -2708,9 +2739,9 @@ extension Pinpoint {
     }
 
     public struct DeleteApnsVoipChannelResponse: AWSDecodableShape {
-        public let apnsVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse?
 
-        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse? = nil) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
@@ -2740,9 +2771,9 @@ extension Pinpoint {
     }
 
     public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape {
-        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse?
 
-        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse? = nil) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
@@ -2772,9 +2803,9 @@ extension Pinpoint {
     }
 
     public struct DeleteAppResponse: AWSDecodableShape {
-        public let applicationResponse: ApplicationResponse
+        public let applicationResponse: ApplicationResponse?
 
-        public init(applicationResponse: ApplicationResponse) {
+        public init(applicationResponse: ApplicationResponse? = nil) {
             self.applicationResponse = applicationResponse
         }
 
@@ -2804,9 +2835,9 @@ extension Pinpoint {
     }
 
     public struct DeleteBaiduChannelResponse: AWSDecodableShape {
-        public let baiduChannelResponse: BaiduChannelResponse
+        public let baiduChannelResponse: BaiduChannelResponse?
 
-        public init(baiduChannelResponse: BaiduChannelResponse) {
+        public init(baiduChannelResponse: BaiduChannelResponse? = nil) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
@@ -2840,9 +2871,9 @@ extension Pinpoint {
     }
 
     public struct DeleteCampaignResponse: AWSDecodableShape {
-        public let campaignResponse: CampaignResponse
+        public let campaignResponse: CampaignResponse?
 
-        public init(campaignResponse: CampaignResponse) {
+        public init(campaignResponse: CampaignResponse? = nil) {
             self.campaignResponse = campaignResponse
         }
 
@@ -2872,9 +2903,9 @@ extension Pinpoint {
     }
 
     public struct DeleteEmailChannelResponse: AWSDecodableShape {
-        public let emailChannelResponse: EmailChannelResponse
+        public let emailChannelResponse: EmailChannelResponse?
 
-        public init(emailChannelResponse: EmailChannelResponse) {
+        public init(emailChannelResponse: EmailChannelResponse? = nil) {
             self.emailChannelResponse = emailChannelResponse
         }
 
@@ -2908,9 +2939,9 @@ extension Pinpoint {
     }
 
     public struct DeleteEmailTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -2925,7 +2956,7 @@ extension Pinpoint {
     public struct DeleteEndpointRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        /// The unique identifier for the endpoint.
+        /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
         public let endpointId: String
 
         public init(applicationId: String, endpointId: String) {
@@ -2944,9 +2975,9 @@ extension Pinpoint {
     }
 
     public struct DeleteEndpointResponse: AWSDecodableShape {
-        public let endpointResponse: EndpointResponse
+        public let endpointResponse: EndpointResponse?
 
-        public init(endpointResponse: EndpointResponse) {
+        public init(endpointResponse: EndpointResponse? = nil) {
             self.endpointResponse = endpointResponse
         }
 
@@ -2976,9 +3007,9 @@ extension Pinpoint {
     }
 
     public struct DeleteEventStreamResponse: AWSDecodableShape {
-        public let eventStream: EventStream
+        public let eventStream: EventStream?
 
-        public init(eventStream: EventStream) {
+        public init(eventStream: EventStream? = nil) {
             self.eventStream = eventStream
         }
 
@@ -3008,9 +3039,9 @@ extension Pinpoint {
     }
 
     public struct DeleteGcmChannelResponse: AWSDecodableShape {
-        public let gcmChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse?
 
-        public init(gcmChannelResponse: GCMChannelResponse) {
+        public init(gcmChannelResponse: GCMChannelResponse? = nil) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
@@ -3044,9 +3075,9 @@ extension Pinpoint {
     }
 
     public struct DeleteInAppTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -3080,9 +3111,9 @@ extension Pinpoint {
     }
 
     public struct DeleteJourneyResponse: AWSDecodableShape {
-        public let journeyResponse: JourneyResponse
+        public let journeyResponse: JourneyResponse?
 
-        public init(journeyResponse: JourneyResponse) {
+        public init(journeyResponse: JourneyResponse? = nil) {
             self.journeyResponse = journeyResponse
         }
 
@@ -3116,9 +3147,9 @@ extension Pinpoint {
     }
 
     public struct DeletePushTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -3148,9 +3179,9 @@ extension Pinpoint {
     }
 
     public struct DeleteRecommenderConfigurationResponse: AWSDecodableShape {
-        public let recommenderConfigurationResponse: RecommenderConfigurationResponse
+        public let recommenderConfigurationResponse: RecommenderConfigurationResponse?
 
-        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
+        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse? = nil) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
@@ -3184,9 +3215,9 @@ extension Pinpoint {
     }
 
     public struct DeleteSegmentResponse: AWSDecodableShape {
-        public let segmentResponse: SegmentResponse
+        public let segmentResponse: SegmentResponse?
 
-        public init(segmentResponse: SegmentResponse) {
+        public init(segmentResponse: SegmentResponse? = nil) {
             self.segmentResponse = segmentResponse
         }
 
@@ -3216,9 +3247,9 @@ extension Pinpoint {
     }
 
     public struct DeleteSmsChannelResponse: AWSDecodableShape {
-        public let smsChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse?
 
-        public init(smsChannelResponse: SMSChannelResponse) {
+        public init(smsChannelResponse: SMSChannelResponse? = nil) {
             self.smsChannelResponse = smsChannelResponse
         }
 
@@ -3252,9 +3283,9 @@ extension Pinpoint {
     }
 
     public struct DeleteSmsTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -3288,9 +3319,9 @@ extension Pinpoint {
     }
 
     public struct DeleteUserEndpointsResponse: AWSDecodableShape {
-        public let endpointsResponse: EndpointsResponse
+        public let endpointsResponse: EndpointsResponse?
 
-        public init(endpointsResponse: EndpointsResponse) {
+        public init(endpointsResponse: EndpointsResponse? = nil) {
             self.endpointsResponse = endpointsResponse
         }
 
@@ -3320,9 +3351,9 @@ extension Pinpoint {
     }
 
     public struct DeleteVoiceChannelResponse: AWSDecodableShape {
-        public let voiceChannelResponse: VoiceChannelResponse
+        public let voiceChannelResponse: VoiceChannelResponse?
 
-        public init(voiceChannelResponse: VoiceChannelResponse) {
+        public init(voiceChannelResponse: VoiceChannelResponse? = nil) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
@@ -3356,9 +3387,9 @@ extension Pinpoint {
     }
 
     public struct DeleteVoiceTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -3421,13 +3452,13 @@ extension Pinpoint {
         /// Specifies whether to enable the email channel for the application.
         public let enabled: Bool?
         /// The verified email address that you want to send email from when you send email through the channel.
-        public let fromAddress: String
+        public let fromAddress: String?
         /// The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel.
-        public let identity: String
+        public let identity: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel.
         public let roleArn: String?
 
-        public init(configurationSet: String? = nil, enabled: Bool? = nil, fromAddress: String, identity: String, roleArn: String? = nil) {
+        public init(configurationSet: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, identity: String? = nil, roleArn: String? = nil) {
             self.configurationSet = configurationSet
             self.enabled = enabled
             self.fromAddress = fromAddress
@@ -3470,13 +3501,13 @@ extension Pinpoint {
         /// The maximum number of emails that can be sent through the channel each second.
         public let messagesPerSecond: Int?
         /// The type of messaging or notification platform for the channel. For the email channel, this value is EMAIL.
-        public let platform: String
+        public let platform: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Pinpoint uses to submit email-related event data for the channel.
         public let roleArn: String?
         /// The current version of the email channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int? = nil, platform: String, roleArn: String? = nil, version: Int? = nil) {
+        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int? = nil, platform: String? = nil, roleArn: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.configurationSet = configurationSet
             self.creationDate = creationDate
@@ -3616,13 +3647,13 @@ extension Pinpoint {
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The date, in ISO 8601 format, when the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public let defaultSubstitutions: String?
         /// The message body, in HTML format, that's used in email messages that are based on the message template.
         public let htmlPart: String?
         /// The date, in ISO 8601 format, when the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The unique identifier for the recommender model that's used by the message template.
         public let recommenderId: String?
         /// The subject line, or title, that's used in email messages that are based on the message template.
@@ -3632,15 +3663,15 @@ extension Pinpoint {
         /// The custom description of the message template.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
+        public let templateName: String?
         /// The type of channel that the message template is designed for. For an email template, this value is EMAIL.
-        public let templateType: TemplateType
+        public let templateType: TemplateType?
         /// The message body, in plain text format, that's used in email messages that are based on the message template.
         public let textPart: String?
         /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
         public let version: String?
 
-        public init(arn: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, htmlPart: String? = nil, lastModifiedDate: String, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, textPart: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, htmlPart: String? = nil, lastModifiedDate: String? = nil, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, textPart: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
@@ -3732,9 +3763,9 @@ extension Pinpoint {
 
     public struct EndpointBatchRequest: AWSEncodableShape {
         /// An array that defines the endpoints to create or update and, for each endpoint, the property values to set or change. An array can contain a maximum of 100 items.
-        public let item: [EndpointBatchItem]
+        public let item: [EndpointBatchItem]?
 
-        public init(item: [EndpointBatchItem]) {
+        public init(item: [EndpointBatchItem]? = nil) {
             self.item = item
         }
 
@@ -3838,17 +3869,17 @@ extension Pinpoint {
         /// The endpoint address that the message was delivered to.
         public let address: String?
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again. OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.    SUCCESSFUL - The message was successfully delivered to the endpoint. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
-        public let deliveryStatus: DeliveryStatus
+        public let deliveryStatus: DeliveryStatus?
         /// The unique identifier for the message that was sent.
         public let messageId: String?
         /// The downstream service status code for delivering the message.
-        public let statusCode: Int
+        public let statusCode: Int?
         /// The status message for delivering the message.
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the endpoint's device registration token was updated as part of delivering the message.
         public let updatedToken: String?
 
-        public init(address: String? = nil, deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int, statusMessage: String? = nil, updatedToken: String? = nil) {
+        public init(address: String? = nil, deliveryStatus: DeliveryStatus? = nil, messageId: String? = nil, statusCode: Int? = nil, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.address = address
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
@@ -4037,9 +4068,9 @@ extension Pinpoint {
 
     public struct EndpointsResponse: AWSDecodableShape {
         /// An array of responses, one for each endpoint that's associated with the user ID.
-        public let item: [EndpointResponse]
+        public let item: [EndpointResponse]?
 
-        public init(item: [EndpointResponse]) {
+        public init(item: [EndpointResponse]? = nil) {
             self.item = item
         }
 
@@ -4060,7 +4091,7 @@ extension Pinpoint {
         /// The version of the SDK that's running on the client device.
         public let clientSdkVersion: String?
         /// The name of the event.
-        public let eventType: String
+        public let eventType: String?
         /// One or more custom metrics that are associated with the event.
         public let metrics: [String: Double]?
         /// The name of the SDK that's being used to record the event.
@@ -4068,9 +4099,9 @@ extension Pinpoint {
         /// Information about the session in which the event occurred.
         public let session: Session?
         /// The date and time, in ISO 8601 format, when the event occurred.
-        public let timestamp: String
+        public let timestamp: String?
 
-        public init(appPackageName: String? = nil, appTitle: String? = nil, appVersionCode: String? = nil, attributes: [String: String]? = nil, clientSdkVersion: String? = nil, eventType: String, metrics: [String: Double]? = nil, sdkName: String? = nil, session: Session? = nil, timestamp: String) {
+        public init(appPackageName: String? = nil, appTitle: String? = nil, appVersionCode: String? = nil, attributes: [String: String]? = nil, clientSdkVersion: String? = nil, eventType: String? = nil, metrics: [String: Double]? = nil, sdkName: String? = nil, session: Session? = nil, timestamp: String? = nil) {
             self.appPackageName = appPackageName
             self.appTitle = appTitle
             self.appVersionCode = appVersionCode
@@ -4137,11 +4168,11 @@ extension Pinpoint {
 
     public struct EventFilter: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions for the event filter to use for the campaign or the journey activity.
-        public let dimensions: EventDimensions
+        public let dimensions: EventDimensions?
         /// The type of event that causes the campaign to be sent or the journey activity to be performed. Valid values are: SYSTEM, sends the campaign or performs the activity when a system event occurs; and, ENDPOINT, sends the campaign or performs the activity when an endpoint event (Events resource) occurs.
-        public let filterType: FilterType
+        public let filterType: FilterType?
 
-        public init(dimensions: EventDimensions, filterType: FilterType) {
+        public init(dimensions: EventDimensions? = nil, filterType: FilterType? = nil) {
             self.dimensions = dimensions
             self.filterType = filterType
         }
@@ -4186,9 +4217,9 @@ extension Pinpoint {
 
     public struct EventStream: AWSDecodableShape {
         /// The unique identifier for the application to publish event data for.
-        public let applicationId: String
+        public let applicationId: String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name
-        public let destinationStreamArn: String
+        public let destinationStreamArn: String?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when publishing event data, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
         public let externalId: String?
         /// The date, in ISO 8601 format, when the event stream was last modified.
@@ -4196,9 +4227,9 @@ extension Pinpoint {
         /// The IAM user who last modified the event stream.
         public let lastUpdatedBy: String?
         /// The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(applicationId: String, destinationStreamArn: String, externalId: String? = nil, lastModifiedDate: String? = nil, lastUpdatedBy: String? = nil, roleArn: String) {
+        public init(applicationId: String? = nil, destinationStreamArn: String? = nil, externalId: String? = nil, lastModifiedDate: String? = nil, lastUpdatedBy: String? = nil, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.destinationStreamArn = destinationStreamArn
             self.externalId = externalId
@@ -4219,11 +4250,11 @@ extension Pinpoint {
 
     public struct EventsBatch: AWSEncodableShape {
         /// A set of properties and attributes that are associated with the endpoint.
-        public let endpoint: PublicEndpoint
+        public let endpoint: PublicEndpoint?
         /// A set of properties that are associated with the event.
-        public let events: [String: Event]
+        public let events: [String: Event]?
 
-        public init(endpoint: PublicEndpoint, events: [String: Event]) {
+        public init(endpoint: PublicEndpoint? = nil, events: [String: Event]? = nil) {
             self.endpoint = endpoint
             self.events = events
         }
@@ -4236,9 +4267,9 @@ extension Pinpoint {
 
     public struct EventsRequest: AWSEncodableShape {
         /// The batch of events to process. For each item in a batch, the endpoint ID acts as a key that has an EventsBatch object as its value.
-        public let batchItem: [String: EventsBatch]
+        public let batchItem: [String: EventsBatch]?
 
-        public init(batchItem: [String: EventsBatch]) {
+        public init(batchItem: [String: EventsBatch]? = nil) {
             self.batchItem = batchItem
         }
 
@@ -4262,15 +4293,15 @@ extension Pinpoint {
 
     public struct ExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to.
-        public let roleArn: String
+        public let roleArn: String?
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
-        public let s3UrlPrefix: String
+        public let s3UrlPrefix: String?
         /// The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application.
         public let segmentId: String?
         /// The version of the segment to export endpoint definitions from, if specified.
         public let segmentVersion: Int?
 
-        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int? = nil) {
+        public init(roleArn: String? = nil, s3UrlPrefix: String? = nil, segmentId: String? = nil, segmentVersion: Int? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -4287,15 +4318,15 @@ extension Pinpoint {
 
     public struct ExportJobResource: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location where the endpoint definitions were exported to.
-        public let roleArn: String
+        public let roleArn: String?
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where the endpoint definitions were exported to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
-        public let s3UrlPrefix: String
+        public let s3UrlPrefix: String?
         /// The identifier for the segment that the endpoint definitions were exported from. If this value isn't present, Amazon Pinpoint exported definitions for all the endpoints that are associated with the application.
         public let segmentId: String?
         /// The version of the segment that the endpoint definitions were exported from.
         public let segmentVersion: Int?
 
-        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int? = nil) {
+        public init(roleArn: String? = nil, s3UrlPrefix: String? = nil, segmentId: String? = nil, segmentVersion: Int? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -4312,23 +4343,23 @@ extension Pinpoint {
 
     public struct ExportJobResponse: AWSDecodableShape {
         /// The unique identifier for the application that's associated with the export job.
-        public let applicationId: String
+        public let applicationId: String?
         /// The number of pieces that were processed successfully (completed) by the export job, as of the time of the request.
         public let completedPieces: Int?
         /// The date, in ISO 8601 format, when the export job was completed.
         public let completionDate: String?
         /// The date, in ISO 8601 format, when the export job was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The resource settings that apply to the export job.
-        public let definition: ExportJobResource
+        public let definition: ExportJobResource?
         /// The number of pieces that weren't processed successfully (failed) by the export job, as of the time of the request.
         public let failedPieces: Int?
         /// An array of entries, one for each of the first 100 entries that weren't processed successfully (failed) by the export job, if any.
         public let failures: [String]?
         /// The unique identifier for the export job.
-        public let id: String
+        public let id: String?
         /// The status of the export job. The job status is FAILED if Amazon Pinpoint wasn't able to process one or more pieces in the job.
-        public let jobStatus: JobStatus
+        public let jobStatus: JobStatus?
         /// The total number of endpoint definitions that weren't processed successfully (failed) by the export job, typically because an error, such as a syntax error, occurred.
         public let totalFailures: Int?
         /// The total number of pieces that must be processed to complete the export job. Each piece consists of an approximately equal portion of the endpoint definitions that are part of the export job.
@@ -4336,9 +4367,9 @@ extension Pinpoint {
         /// The total number of endpoint definitions that were processed by the export job.
         public let totalProcessed: Int?
         /// The job type. This value is EXPORT for export jobs.
-        public let type: String
+        public let type: String?
 
-        public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ExportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
+        public init(applicationId: String? = nil, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String? = nil, definition: ExportJobResource? = nil, failedPieces: Int? = nil, failures: [String]? = nil, id: String? = nil, jobStatus: JobStatus? = nil, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String? = nil) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -4373,11 +4404,11 @@ extension Pinpoint {
 
     public struct ExportJobsResponse: AWSDecodableShape {
         /// An array of responses, one for each export job that's associated with the application (Export Jobs resource) or segment (Segment Export Jobs resource).
-        public let item: [ExportJobResponse]
+        public let item: [ExportJobResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [ExportJobResponse], nextToken: String? = nil) {
+        public init(item: [ExportJobResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -4390,18 +4421,26 @@ extension Pinpoint {
 
     public struct GCMChannelRequest: AWSEncodableShape {
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        public let apiKey: String
+        public let apiKey: String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public let defaultAuthenticationMethod: String?
         /// Specifies whether to enable the GCM channel for the application.
         public let enabled: Bool?
+        /// The contents of the JSON file provided by Google during registration in order to generate an access token for authentication. For more information see Migrate from legacy FCM APIs to HTTP v1.
+        public let serviceJson: String?
 
-        public init(apiKey: String, enabled: Bool? = nil) {
+        public init(apiKey: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, serviceJson: String? = nil) {
             self.apiKey = apiKey
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
+            self.serviceJson = serviceJson
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiKey = "ApiKey"
+            case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
             case enabled = "Enabled"
+            case serviceJson = "ServiceJson"
         }
     }
 
@@ -4411,11 +4450,15 @@ extension Pinpoint {
         /// The date and time when the GCM channel was enabled.
         public let creationDate: String?
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        public let credential: String
+        public let credential: String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public let defaultAuthenticationMethod: String?
         /// Specifies whether the GCM channel is enabled for the application.
         public let enabled: Bool?
         /// (Not used) This property is retained only for backward compatibility.
         public let hasCredential: Bool?
+        /// Returns true if the JSON file provided by Google during registration process was used in the ServiceJson field of the request.
+        public let hasFcmServiceCredentials: Bool?
         /// (Deprecated) An identifier for the GCM channel. This property is retained only for backward compatibility.
         public let id: String?
         /// Specifies whether the GCM channel is archived.
@@ -4425,16 +4468,18 @@ extension Pinpoint {
         /// The date and time when the GCM channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the GCM channel, this value is GCM.
-        public let platform: String
+        public let platform: String?
         /// The current version of the GCM channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasFcmServiceCredentials: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
             self.hasCredential = hasCredential
+            self.hasFcmServiceCredentials = hasFcmServiceCredentials
             self.id = id
             self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
@@ -4447,8 +4492,10 @@ extension Pinpoint {
             case applicationId = "ApplicationId"
             case creationDate = "CreationDate"
             case credential = "Credential"
+            case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
             case enabled = "Enabled"
             case hasCredential = "HasCredential"
+            case hasFcmServiceCredentials = "HasFcmServiceCredentials"
             case id = "Id"
             case isArchived = "IsArchived"
             case lastModifiedBy = "LastModifiedBy"
@@ -4473,7 +4520,9 @@ extension Pinpoint {
         public let imageIconUrl: String?
         /// The URL of an image to display in the push notification.
         public let imageUrl: String?
-        /// para>normal - The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem> high - The notification is sent immediately and might wake a sleeping device./para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
+        /// The preferred authentication method, with valid values "KEY" or "TOKEN". If a value isn't provided then the DefaultAuthenticationMethod is used.
+        public let preferredAuthenticationMethod: String?
+        /// para>normal – The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem> high – The notification is sent immediately and might wake a sleeping device./para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
         public let priority: String?
         /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
         public let rawContent: String?
@@ -4494,7 +4543,7 @@ extension Pinpoint {
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.collapseKey = collapseKey
@@ -4502,6 +4551,7 @@ extension Pinpoint {
             self.iconReference = iconReference
             self.imageIconUrl = imageIconUrl
             self.imageUrl = imageUrl
+            self.preferredAuthenticationMethod = preferredAuthenticationMethod
             self.priority = priority
             self.rawContent = rawContent
             self.restrictedPackageName = restrictedPackageName
@@ -4522,6 +4572,7 @@ extension Pinpoint {
             case iconReference = "IconReference"
             case imageIconUrl = "ImageIconUrl"
             case imageUrl = "ImageUrl"
+            case preferredAuthenticationMethod = "PreferredAuthenticationMethod"
             case priority = "Priority"
             case rawContent = "RawContent"
             case restrictedPackageName = "RestrictedPackageName"
@@ -4537,11 +4588,11 @@ extension Pinpoint {
 
     public struct GPSCoordinates: AWSEncodableShape & AWSDecodableShape {
         /// The latitude coordinate of the location.
-        public let latitude: Double
+        public let latitude: Double?
         /// The longitude coordinate of the location.
-        public let longitude: Double
+        public let longitude: Double?
 
-        public init(latitude: Double, longitude: Double) {
+        public init(latitude: Double? = nil, longitude: Double? = nil) {
             self.latitude = latitude
             self.longitude = longitude
         }
@@ -4554,11 +4605,11 @@ extension Pinpoint {
 
     public struct GPSPointDimension: AWSEncodableShape & AWSDecodableShape {
         /// The GPS coordinates to measure distance from.
-        public let coordinates: GPSCoordinates
+        public let coordinates: GPSCoordinates?
         /// The range, in kilometers, from the GPS coordinates.
         public let rangeInKilometers: Double?
 
-        public init(coordinates: GPSCoordinates, rangeInKilometers: Double? = nil) {
+        public init(coordinates: GPSCoordinates? = nil, rangeInKilometers: Double? = nil) {
             self.coordinates = coordinates
             self.rangeInKilometers = rangeInKilometers
         }
@@ -4587,9 +4638,9 @@ extension Pinpoint {
     }
 
     public struct GetAdmChannelResponse: AWSDecodableShape {
-        public let admChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse?
 
-        public init(admChannelResponse: ADMChannelResponse) {
+        public init(admChannelResponse: ADMChannelResponse? = nil) {
             self.admChannelResponse = admChannelResponse
         }
 
@@ -4619,9 +4670,9 @@ extension Pinpoint {
     }
 
     public struct GetApnsChannelResponse: AWSDecodableShape {
-        public let apnsChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse?
 
-        public init(apnsChannelResponse: APNSChannelResponse) {
+        public init(apnsChannelResponse: APNSChannelResponse? = nil) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
@@ -4651,9 +4702,9 @@ extension Pinpoint {
     }
 
     public struct GetApnsSandboxChannelResponse: AWSDecodableShape {
-        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse?
 
-        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse? = nil) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
@@ -4683,9 +4734,9 @@ extension Pinpoint {
     }
 
     public struct GetApnsVoipChannelResponse: AWSDecodableShape {
-        public let apnsVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse?
 
-        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse? = nil) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
@@ -4715,9 +4766,9 @@ extension Pinpoint {
     }
 
     public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape {
-        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse?
 
-        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse? = nil) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
@@ -4747,9 +4798,9 @@ extension Pinpoint {
     }
 
     public struct GetAppResponse: AWSDecodableShape {
-        public let applicationResponse: ApplicationResponse
+        public let applicationResponse: ApplicationResponse?
 
-        public init(applicationResponse: ApplicationResponse) {
+        public init(applicationResponse: ApplicationResponse? = nil) {
             self.applicationResponse = applicationResponse
         }
 
@@ -4801,9 +4852,9 @@ extension Pinpoint {
     }
 
     public struct GetApplicationDateRangeKpiResponse: AWSDecodableShape {
-        public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse
+        public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse?
 
-        public init(applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse) {
+        public init(applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse? = nil) {
             self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
         }
 
@@ -4833,9 +4884,9 @@ extension Pinpoint {
     }
 
     public struct GetApplicationSettingsResponse: AWSDecodableShape {
-        public let applicationSettingsResource: ApplicationSettingsResource
+        public let applicationSettingsResource: ApplicationSettingsResource?
 
-        public init(applicationSettingsResource: ApplicationSettingsResource) {
+        public init(applicationSettingsResource: ApplicationSettingsResource? = nil) {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
@@ -4869,9 +4920,9 @@ extension Pinpoint {
     }
 
     public struct GetAppsResponse: AWSDecodableShape {
-        public let applicationsResponse: ApplicationsResponse
+        public let applicationsResponse: ApplicationsResponse?
 
-        public init(applicationsResponse: ApplicationsResponse) {
+        public init(applicationsResponse: ApplicationsResponse? = nil) {
             self.applicationsResponse = applicationsResponse
         }
 
@@ -4901,9 +4952,9 @@ extension Pinpoint {
     }
 
     public struct GetBaiduChannelResponse: AWSDecodableShape {
-        public let baiduChannelResponse: BaiduChannelResponse
+        public let baiduChannelResponse: BaiduChannelResponse?
 
-        public init(baiduChannelResponse: BaiduChannelResponse) {
+        public init(baiduChannelResponse: BaiduChannelResponse? = nil) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
@@ -4945,9 +4996,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignActivitiesResponse: AWSDecodableShape {
-        public let activitiesResponse: ActivitiesResponse
+        public let activitiesResponse: ActivitiesResponse?
 
-        public init(activitiesResponse: ActivitiesResponse) {
+        public init(activitiesResponse: ActivitiesResponse? = nil) {
             self.activitiesResponse = activitiesResponse
         }
 
@@ -5003,9 +5054,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignDateRangeKpiResponse: AWSDecodableShape {
-        public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse
+        public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse?
 
-        public init(campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse) {
+        public init(campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse? = nil) {
             self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
         }
 
@@ -5039,9 +5090,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignResponse: AWSDecodableShape {
-        public let campaignResponse: CampaignResponse
+        public let campaignResponse: CampaignResponse?
 
-        public init(campaignResponse: CampaignResponse) {
+        public init(campaignResponse: CampaignResponse? = nil) {
             self.campaignResponse = campaignResponse
         }
 
@@ -5079,9 +5130,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignVersionResponse: AWSDecodableShape {
-        public let campaignResponse: CampaignResponse
+        public let campaignResponse: CampaignResponse?
 
-        public init(campaignResponse: CampaignResponse) {
+        public init(campaignResponse: CampaignResponse? = nil) {
             self.campaignResponse = campaignResponse
         }
 
@@ -5123,9 +5174,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignVersionsResponse: AWSDecodableShape {
-        public let campaignsResponse: CampaignsResponse
+        public let campaignsResponse: CampaignsResponse?
 
-        public init(campaignsResponse: CampaignsResponse) {
+        public init(campaignsResponse: CampaignsResponse? = nil) {
             self.campaignsResponse = campaignsResponse
         }
 
@@ -5163,9 +5214,9 @@ extension Pinpoint {
     }
 
     public struct GetCampaignsResponse: AWSDecodableShape {
-        public let campaignsResponse: CampaignsResponse
+        public let campaignsResponse: CampaignsResponse?
 
-        public init(campaignsResponse: CampaignsResponse) {
+        public init(campaignsResponse: CampaignsResponse? = nil) {
             self.campaignsResponse = campaignsResponse
         }
 
@@ -5195,9 +5246,9 @@ extension Pinpoint {
     }
 
     public struct GetChannelsResponse: AWSDecodableShape {
-        public let channelsResponse: ChannelsResponse
+        public let channelsResponse: ChannelsResponse?
 
-        public init(channelsResponse: ChannelsResponse) {
+        public init(channelsResponse: ChannelsResponse? = nil) {
             self.channelsResponse = channelsResponse
         }
 
@@ -5227,9 +5278,9 @@ extension Pinpoint {
     }
 
     public struct GetEmailChannelResponse: AWSDecodableShape {
-        public let emailChannelResponse: EmailChannelResponse
+        public let emailChannelResponse: EmailChannelResponse?
 
-        public init(emailChannelResponse: EmailChannelResponse) {
+        public init(emailChannelResponse: EmailChannelResponse? = nil) {
             self.emailChannelResponse = emailChannelResponse
         }
 
@@ -5263,9 +5314,9 @@ extension Pinpoint {
     }
 
     public struct GetEmailTemplateResponse: AWSDecodableShape {
-        public let emailTemplateResponse: EmailTemplateResponse
+        public let emailTemplateResponse: EmailTemplateResponse?
 
-        public init(emailTemplateResponse: EmailTemplateResponse) {
+        public init(emailTemplateResponse: EmailTemplateResponse? = nil) {
             self.emailTemplateResponse = emailTemplateResponse
         }
 
@@ -5280,7 +5331,7 @@ extension Pinpoint {
     public struct GetEndpointRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        /// The unique identifier for the endpoint.
+        /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
         public let endpointId: String
 
         public init(applicationId: String, endpointId: String) {
@@ -5299,9 +5350,9 @@ extension Pinpoint {
     }
 
     public struct GetEndpointResponse: AWSDecodableShape {
-        public let endpointResponse: EndpointResponse
+        public let endpointResponse: EndpointResponse?
 
-        public init(endpointResponse: EndpointResponse) {
+        public init(endpointResponse: EndpointResponse? = nil) {
             self.endpointResponse = endpointResponse
         }
 
@@ -5331,9 +5382,9 @@ extension Pinpoint {
     }
 
     public struct GetEventStreamResponse: AWSDecodableShape {
-        public let eventStream: EventStream
+        public let eventStream: EventStream?
 
-        public init(eventStream: EventStream) {
+        public init(eventStream: EventStream? = nil) {
             self.eventStream = eventStream
         }
 
@@ -5367,9 +5418,9 @@ extension Pinpoint {
     }
 
     public struct GetExportJobResponse: AWSDecodableShape {
-        public let exportJobResponse: ExportJobResponse
+        public let exportJobResponse: ExportJobResponse?
 
-        public init(exportJobResponse: ExportJobResponse) {
+        public init(exportJobResponse: ExportJobResponse? = nil) {
             self.exportJobResponse = exportJobResponse
         }
 
@@ -5407,9 +5458,9 @@ extension Pinpoint {
     }
 
     public struct GetExportJobsResponse: AWSDecodableShape {
-        public let exportJobsResponse: ExportJobsResponse
+        public let exportJobsResponse: ExportJobsResponse?
 
-        public init(exportJobsResponse: ExportJobsResponse) {
+        public init(exportJobsResponse: ExportJobsResponse? = nil) {
             self.exportJobsResponse = exportJobsResponse
         }
 
@@ -5439,9 +5490,9 @@ extension Pinpoint {
     }
 
     public struct GetGcmChannelResponse: AWSDecodableShape {
-        public let gcmChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse?
 
-        public init(gcmChannelResponse: GCMChannelResponse) {
+        public init(gcmChannelResponse: GCMChannelResponse? = nil) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
@@ -5475,9 +5526,9 @@ extension Pinpoint {
     }
 
     public struct GetImportJobResponse: AWSDecodableShape {
-        public let importJobResponse: ImportJobResponse
+        public let importJobResponse: ImportJobResponse?
 
-        public init(importJobResponse: ImportJobResponse) {
+        public init(importJobResponse: ImportJobResponse? = nil) {
             self.importJobResponse = importJobResponse
         }
 
@@ -5515,9 +5566,9 @@ extension Pinpoint {
     }
 
     public struct GetImportJobsResponse: AWSDecodableShape {
-        public let importJobsResponse: ImportJobsResponse
+        public let importJobsResponse: ImportJobsResponse?
 
-        public init(importJobsResponse: ImportJobsResponse) {
+        public init(importJobsResponse: ImportJobsResponse? = nil) {
             self.importJobsResponse = importJobsResponse
         }
 
@@ -5551,9 +5602,9 @@ extension Pinpoint {
     }
 
     public struct GetInAppMessagesResponse: AWSDecodableShape {
-        public let inAppMessagesResponse: InAppMessagesResponse
+        public let inAppMessagesResponse: InAppMessagesResponse?
 
-        public init(inAppMessagesResponse: InAppMessagesResponse) {
+        public init(inAppMessagesResponse: InAppMessagesResponse? = nil) {
             self.inAppMessagesResponse = inAppMessagesResponse
         }
 
@@ -5587,9 +5638,9 @@ extension Pinpoint {
     }
 
     public struct GetInAppTemplateResponse: AWSDecodableShape {
-        public let inAppTemplateResponse: InAppTemplateResponse
+        public let inAppTemplateResponse: InAppTemplateResponse?
 
-        public init(inAppTemplateResponse: InAppTemplateResponse) {
+        public init(inAppTemplateResponse: InAppTemplateResponse? = nil) {
             self.inAppTemplateResponse = inAppTemplateResponse
         }
 
@@ -5645,9 +5696,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyDateRangeKpiResponse: AWSDecodableShape {
-        public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse
+        public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse?
 
-        public init(journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse) {
+        public init(journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse? = nil) {
             self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
         }
 
@@ -5693,9 +5744,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyExecutionActivityMetricsResponse: AWSDecodableShape {
-        public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse
+        public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse?
 
-        public init(journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse) {
+        public init(journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse? = nil) {
             self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
         }
 
@@ -5737,9 +5788,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyExecutionMetricsResponse: AWSDecodableShape {
-        public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse
+        public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse?
 
-        public init(journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse) {
+        public init(journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse? = nil) {
             self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
         }
 
@@ -5773,9 +5824,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyResponse: AWSDecodableShape {
-        public let journeyResponse: JourneyResponse
+        public let journeyResponse: JourneyResponse?
 
-        public init(journeyResponse: JourneyResponse) {
+        public init(journeyResponse: JourneyResponse? = nil) {
             self.journeyResponse = journeyResponse
         }
 
@@ -5825,9 +5876,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyRunExecutionActivityMetricsResponse: AWSDecodableShape {
-        public let journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse
+        public let journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse?
 
-        public init(journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse) {
+        public init(journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse? = nil) {
             self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
         }
 
@@ -5873,9 +5924,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyRunExecutionMetricsResponse: AWSDecodableShape {
-        public let journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse
+        public let journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse?
 
-        public init(journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse) {
+        public init(journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse? = nil) {
             self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
         }
 
@@ -5917,9 +5968,9 @@ extension Pinpoint {
     }
 
     public struct GetJourneyRunsResponse: AWSDecodableShape {
-        public let journeyRunsResponse: JourneyRunsResponse
+        public let journeyRunsResponse: JourneyRunsResponse?
 
-        public init(journeyRunsResponse: JourneyRunsResponse) {
+        public init(journeyRunsResponse: JourneyRunsResponse? = nil) {
             self.journeyRunsResponse = journeyRunsResponse
         }
 
@@ -5953,9 +6004,9 @@ extension Pinpoint {
     }
 
     public struct GetPushTemplateResponse: AWSDecodableShape {
-        public let pushNotificationTemplateResponse: PushNotificationTemplateResponse
+        public let pushNotificationTemplateResponse: PushNotificationTemplateResponse?
 
-        public init(pushNotificationTemplateResponse: PushNotificationTemplateResponse) {
+        public init(pushNotificationTemplateResponse: PushNotificationTemplateResponse? = nil) {
             self.pushNotificationTemplateResponse = pushNotificationTemplateResponse
         }
 
@@ -5985,9 +6036,9 @@ extension Pinpoint {
     }
 
     public struct GetRecommenderConfigurationResponse: AWSDecodableShape {
-        public let recommenderConfigurationResponse: RecommenderConfigurationResponse
+        public let recommenderConfigurationResponse: RecommenderConfigurationResponse?
 
-        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
+        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse? = nil) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
@@ -6021,9 +6072,9 @@ extension Pinpoint {
     }
 
     public struct GetRecommenderConfigurationsResponse: AWSDecodableShape {
-        public let listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse
+        public let listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse?
 
-        public init(listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse) {
+        public init(listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse? = nil) {
             self.listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponse
         }
 
@@ -6065,9 +6116,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentExportJobsResponse: AWSDecodableShape {
-        public let exportJobsResponse: ExportJobsResponse
+        public let exportJobsResponse: ExportJobsResponse?
 
-        public init(exportJobsResponse: ExportJobsResponse) {
+        public init(exportJobsResponse: ExportJobsResponse? = nil) {
             self.exportJobsResponse = exportJobsResponse
         }
 
@@ -6109,9 +6160,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentImportJobsResponse: AWSDecodableShape {
-        public let importJobsResponse: ImportJobsResponse
+        public let importJobsResponse: ImportJobsResponse?
 
-        public init(importJobsResponse: ImportJobsResponse) {
+        public init(importJobsResponse: ImportJobsResponse? = nil) {
             self.importJobsResponse = importJobsResponse
         }
 
@@ -6145,9 +6196,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentResponse: AWSDecodableShape {
-        public let segmentResponse: SegmentResponse
+        public let segmentResponse: SegmentResponse?
 
-        public init(segmentResponse: SegmentResponse) {
+        public init(segmentResponse: SegmentResponse? = nil) {
             self.segmentResponse = segmentResponse
         }
 
@@ -6185,9 +6236,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentVersionResponse: AWSDecodableShape {
-        public let segmentResponse: SegmentResponse
+        public let segmentResponse: SegmentResponse?
 
-        public init(segmentResponse: SegmentResponse) {
+        public init(segmentResponse: SegmentResponse? = nil) {
             self.segmentResponse = segmentResponse
         }
 
@@ -6229,9 +6280,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentVersionsResponse: AWSDecodableShape {
-        public let segmentsResponse: SegmentsResponse
+        public let segmentsResponse: SegmentsResponse?
 
-        public init(segmentsResponse: SegmentsResponse) {
+        public init(segmentsResponse: SegmentsResponse? = nil) {
             self.segmentsResponse = segmentsResponse
         }
 
@@ -6269,9 +6320,9 @@ extension Pinpoint {
     }
 
     public struct GetSegmentsResponse: AWSDecodableShape {
-        public let segmentsResponse: SegmentsResponse
+        public let segmentsResponse: SegmentsResponse?
 
-        public init(segmentsResponse: SegmentsResponse) {
+        public init(segmentsResponse: SegmentsResponse? = nil) {
             self.segmentsResponse = segmentsResponse
         }
 
@@ -6301,9 +6352,9 @@ extension Pinpoint {
     }
 
     public struct GetSmsChannelResponse: AWSDecodableShape {
-        public let smsChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse?
 
-        public init(smsChannelResponse: SMSChannelResponse) {
+        public init(smsChannelResponse: SMSChannelResponse? = nil) {
             self.smsChannelResponse = smsChannelResponse
         }
 
@@ -6337,9 +6388,9 @@ extension Pinpoint {
     }
 
     public struct GetSmsTemplateResponse: AWSDecodableShape {
-        public let smsTemplateResponse: SMSTemplateResponse
+        public let smsTemplateResponse: SMSTemplateResponse?
 
-        public init(smsTemplateResponse: SMSTemplateResponse) {
+        public init(smsTemplateResponse: SMSTemplateResponse? = nil) {
             self.smsTemplateResponse = smsTemplateResponse
         }
 
@@ -6373,9 +6424,9 @@ extension Pinpoint {
     }
 
     public struct GetUserEndpointsResponse: AWSDecodableShape {
-        public let endpointsResponse: EndpointsResponse
+        public let endpointsResponse: EndpointsResponse?
 
-        public init(endpointsResponse: EndpointsResponse) {
+        public init(endpointsResponse: EndpointsResponse? = nil) {
             self.endpointsResponse = endpointsResponse
         }
 
@@ -6405,9 +6456,9 @@ extension Pinpoint {
     }
 
     public struct GetVoiceChannelResponse: AWSDecodableShape {
-        public let voiceChannelResponse: VoiceChannelResponse
+        public let voiceChannelResponse: VoiceChannelResponse?
 
-        public init(voiceChannelResponse: VoiceChannelResponse) {
+        public init(voiceChannelResponse: VoiceChannelResponse? = nil) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
@@ -6441,9 +6492,9 @@ extension Pinpoint {
     }
 
     public struct GetVoiceTemplateResponse: AWSDecodableShape {
-        public let voiceTemplateResponse: VoiceTemplateResponse
+        public let voiceTemplateResponse: VoiceTemplateResponse?
 
-        public init(voiceTemplateResponse: VoiceTemplateResponse) {
+        public init(voiceTemplateResponse: VoiceTemplateResponse? = nil) {
             self.voiceTemplateResponse = voiceTemplateResponse
         }
 
@@ -6459,9 +6510,9 @@ extension Pinpoint {
         /// The unique identifier for the next activity to perform, after performing the holdout activity.
         public let nextActivity: String?
         /// The percentage of participants who shouldn't continue the journey. To determine which participants are held out, Amazon Pinpoint applies a probability-based algorithm to the percentage that you specify. Therefore, the actual percentage of participants who are held out may not be equal to the percentage that you specify.
-        public let percentage: Int
+        public let percentage: Int?
 
-        public init(nextActivity: String? = nil, percentage: Int) {
+        public init(nextActivity: String? = nil, percentage: Int? = nil) {
             self.nextActivity = nextActivity
             self.percentage = percentage
         }
@@ -6478,19 +6529,19 @@ extension Pinpoint {
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
         public let externalId: String?
         /// The format of the files that contain the endpoint definitions to import. Valid values are: CSV, for comma-separated values format; and, JSON, for newline-delimited JSON format. If the Amazon S3 location stores multiple files that use different formats, Amazon Pinpoint imports data only from the files that use the specified format.
-        public let format: Format
+        public let format: Format?
         /// Specifies whether to register the endpoints with Amazon Pinpoint, when the endpoint definitions are imported.
         public let registerEndpoints: Bool?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location to import endpoint definitions from.
-        public let roleArn: String
+        public let roleArn: String?
         /// The URL of the Amazon Simple Storage Service (Amazon S3) bucket that contains the endpoint definitions to import. This location can be a folder or a single file. If the location is a folder, Amazon Pinpoint imports endpoint definitions from the files in this location, including any subfolders that the folder contains. The URL should be in the following format: s3://bucket-name/folder-name/file-name. The location can end with the key for an individual object or a prefix that qualifies multiple objects.
-        public let s3Url: String
+        public let s3Url: String?
         /// The identifier for the segment to update or add the imported endpoint definitions to, if the import job is meant to update an existing segment.
         public let segmentId: String?
         /// A custom name for the segment that's created by the import job, if the value of the DefineSegment property is true.
         public let segmentName: String?
 
-        public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format, registerEndpoints: Bool? = nil, roleArn: String, s3Url: String, segmentId: String? = nil, segmentName: String? = nil) {
+        public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format? = nil, registerEndpoints: Bool? = nil, roleArn: String? = nil, s3Url: String? = nil, segmentId: String? = nil, segmentName: String? = nil) {
             self.defineSegment = defineSegment
             self.externalId = externalId
             self.format = format
@@ -6519,19 +6570,19 @@ extension Pinpoint {
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
         public let externalId: String?
         /// The format of the files that contain the endpoint definitions to import. Valid values are: CSV, for comma-separated values format; and, JSON, for newline-delimited JSON format. If the files are stored in an Amazon S3 location and that location contains multiple files that use different formats, Amazon Pinpoint imports data only from the files that use the specified format.
-        public let format: Format
+        public let format: Format?
         /// Specifies whether the import job registers the endpoints with Amazon Pinpoint, when the endpoint definitions are imported.
         public let registerEndpoints: Bool?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location to import endpoint definitions from.
-        public let roleArn: String
+        public let roleArn: String?
         /// The URL of the Amazon Simple Storage Service (Amazon S3) bucket that contains the endpoint definitions to import. This location can be a folder or a single file. If the location is a folder, Amazon Pinpoint imports endpoint definitions from the files in this location, including any subfolders that the folder contains. The URL should be in the following format: s3://bucket-name/folder-name/file-name. The location can end with the key for an individual object or a prefix that qualifies multiple objects.
-        public let s3Url: String
+        public let s3Url: String?
         /// The identifier for the segment that the import job updates or adds endpoint definitions to, if the import job updates an existing segment.
         public let segmentId: String?
         /// The custom name for the segment that's created by the import job, if the value of the DefineSegment property is true.
         public let segmentName: String?
 
-        public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format, registerEndpoints: Bool? = nil, roleArn: String, s3Url: String, segmentId: String? = nil, segmentName: String? = nil) {
+        public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format? = nil, registerEndpoints: Bool? = nil, roleArn: String? = nil, s3Url: String? = nil, segmentId: String? = nil, segmentName: String? = nil) {
             self.defineSegment = defineSegment
             self.externalId = externalId
             self.format = format
@@ -6556,23 +6607,23 @@ extension Pinpoint {
 
     public struct ImportJobResponse: AWSDecodableShape {
         /// The unique identifier for the application that's associated with the import job.
-        public let applicationId: String
+        public let applicationId: String?
         /// The number of pieces that were processed successfully (completed) by the import job, as of the time of the request.
         public let completedPieces: Int?
         /// The date, in ISO 8601 format, when the import job was completed.
         public let completionDate: String?
         /// The date, in ISO 8601 format, when the import job was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The resource settings that apply to the import job.
-        public let definition: ImportJobResource
+        public let definition: ImportJobResource?
         /// The number of pieces that weren't processed successfully (failed) by the import job, as of the time of the request.
         public let failedPieces: Int?
         /// An array of entries, one for each of the first 100 entries that weren't processed successfully (failed) by the import job, if any.
         public let failures: [String]?
         /// The unique identifier for the import job.
-        public let id: String
+        public let id: String?
         /// The status of the import job. The job status is FAILED if Amazon Pinpoint wasn't able to process one or more pieces in the job.
-        public let jobStatus: JobStatus
+        public let jobStatus: JobStatus?
         /// The total number of endpoint definitions that weren't processed successfully (failed) by the import job, typically because an error, such as a syntax error, occurred.
         public let totalFailures: Int?
         /// The total number of pieces that must be processed to complete the import job. Each piece consists of an approximately equal portion of the endpoint definitions that are part of the import job.
@@ -6580,9 +6631,9 @@ extension Pinpoint {
         /// The total number of endpoint definitions that were processed by the import job.
         public let totalProcessed: Int?
         /// The job type. This value is IMPORT for import jobs.
-        public let type: String
+        public let type: String?
 
-        public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ImportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
+        public init(applicationId: String? = nil, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String? = nil, definition: ImportJobResource? = nil, failedPieces: Int? = nil, failures: [String]? = nil, id: String? = nil, jobStatus: JobStatus? = nil, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String? = nil) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -6617,11 +6668,11 @@ extension Pinpoint {
 
     public struct ImportJobsResponse: AWSDecodableShape {
         /// An array of responses, one for each import job that's associated with the application (Import Jobs resource) or segment (Segment Import Jobs resource).
-        public let item: [ImportJobResponse]
+        public let item: [ImportJobResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [ImportJobResponse], nextToken: String? = nil) {
+        public init(item: [ImportJobResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -6676,13 +6727,13 @@ extension Pinpoint {
 
     public struct InAppMessageBodyConfig: AWSEncodableShape & AWSDecodableShape {
         /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
-        public let alignment: Alignment
+        public let alignment: Alignment?
         /// Message Body.
-        public let body: String
+        public let body: String?
         /// The text color.
-        public let textColor: String
+        public let textColor: String?
 
-        public init(alignment: Alignment, body: String, textColor: String) {
+        public init(alignment: Alignment? = nil, body: String? = nil, textColor: String? = nil) {
             self.alignment = alignment
             self.body = body
             self.textColor = textColor
@@ -6796,13 +6847,13 @@ extension Pinpoint {
 
     public struct InAppMessageHeaderConfig: AWSEncodableShape & AWSDecodableShape {
         /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
-        public let alignment: Alignment
+        public let alignment: Alignment?
         /// Message Header.
-        public let header: String
+        public let header: String?
         /// The text color.
-        public let textColor: String
+        public let textColor: String?
 
-        public init(alignment: Alignment, header: String, textColor: String) {
+        public init(alignment: Alignment? = nil, header: String? = nil, textColor: String? = nil) {
             self.alignment = alignment
             self.header = header
             self.textColor = textColor
@@ -6863,11 +6914,11 @@ extension Pinpoint {
         /// The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional.
         public let content: [InAppMessageContent]?
         /// The creation date of the template.
-        public let creationDate: String
+        public let creationDate: String?
         /// Custom config to be sent to client.
         public let customConfig: [String: String]?
         /// The last modified date of the template.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The layout of the message.
         public let layout: Layout?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
@@ -6875,13 +6926,13 @@ extension Pinpoint {
         /// The description of the template.
         public let templateDescription: String?
         /// The name of the template.
-        public let templateName: String
+        public let templateName: String?
         /// The type of the template.
-        public let templateType: TemplateType
+        public let templateType: TemplateType?
         /// The version id of the template.
         public let version: String?
 
-        public init(arn: String? = nil, content: [InAppMessageContent]? = nil, creationDate: String, customConfig: [String: String]? = nil, lastModifiedDate: String, layout: Layout? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
+        public init(arn: String? = nil, content: [InAppMessageContent]? = nil, creationDate: String? = nil, customConfig: [String: String]? = nil, lastModifiedDate: String? = nil, layout: Layout? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, version: String? = nil) {
             self.arn = arn
             self.content = content
             self.creationDate = creationDate
@@ -6959,23 +7010,23 @@ extension Pinpoint {
 
     public struct JourneyDateRangeKpiResponse: AWSDecodableShape {
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var endTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         /// The unique identifier for the journey that the metric applies to.
-        public let journeyId: String
+        public let journeyId: String?
         /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
-        public let kpiName: String
+        public let kpiName: String?
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
-        public let kpiResult: BaseKpiResult
+        public let kpiResult: BaseKpiResult?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Journey Engagement Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
-        @CustomCoding<ISO8601DateCoder>
-        public var startTime: Date
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
-        public init(applicationId: String, endTime: Date, journeyId: String, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: Date) {
+        public init(applicationId: String? = nil, endTime: Date? = nil, journeyId: String? = nil, kpiName: String? = nil, kpiResult: BaseKpiResult? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.journeyId = journeyId
@@ -7011,19 +7062,19 @@ extension Pinpoint {
 
     public struct JourneyExecutionActivityMetricsResponse: AWSDecodableShape {
         /// The type of activity that the metric applies to. Possible values are: CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey. HOLDOUT – For a holdout activity, which is an activity that stops a journey for a specified percentage of participants. MESSAGE – For an email activity, which is an activity that sends an email message to participants. MULTI_CONDITIONAL_SPLIT – For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey. RANDOM_SPLIT – For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey. WAIT – For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
-        public let activityType: String
+        public let activityType: String?
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the activity that the metric applies to.
-        public let journeyActivityId: String
+        public let journeyActivityId: String?
         /// The unique identifier for the journey that the metric applies to.
-        public let journeyId: String
+        public let journeyId: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the execution status of the activity and updated the data for the metric.
-        public let lastEvaluatedTime: String
+        public let lastEvaluatedTime: String?
         /// A JSON object that contains the results of the query. The results vary depending on the type of activity (ActivityType). For information about the structure and contents of the results, see the Amazon Pinpoint Developer Guide.
-        public let metrics: [String: String]
+        public let metrics: [String: String]?
 
-        public init(activityType: String, applicationId: String, journeyActivityId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String]) {
+        public init(activityType: String? = nil, applicationId: String? = nil, journeyActivityId: String? = nil, journeyId: String? = nil, lastEvaluatedTime: String? = nil, metrics: [String: String]? = nil) {
             self.activityType = activityType
             self.applicationId = applicationId
             self.journeyActivityId = journeyActivityId
@@ -7044,15 +7095,15 @@ extension Pinpoint {
 
     public struct JourneyExecutionMetricsResponse: AWSDecodableShape {
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the journey that the metric applies to.
-        public let journeyId: String
+        public let journeyId: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the journey and updated the data for the metric.
-        public let lastEvaluatedTime: String
+        public let lastEvaluatedTime: String?
         /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see the Amazon Pinpoint Developer Guide.
-        public let metrics: [String: String]
+        public let metrics: [String: String]?
 
-        public init(applicationId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String]) {
+        public init(applicationId: String? = nil, journeyId: String? = nil, lastEvaluatedTime: String? = nil, metrics: [String: String]? = nil) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -7076,12 +7127,18 @@ extension Pinpoint {
         public let endpointReentryInterval: String?
         /// The maximum number of messages that the journey can send each second.
         public let messagesPerSecond: Int?
+        /// The number of messages that an endpoint can receive during the specified timeframe.
+        public let timeframeCap: JourneyTimeframeCap?
+        /// The maximum number of messages a journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public let totalCap: Int?
 
-        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, endpointReentryInterval: String? = nil, messagesPerSecond: Int? = nil) {
+        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, endpointReentryInterval: String? = nil, messagesPerSecond: Int? = nil, timeframeCap: JourneyTimeframeCap? = nil, totalCap: Int? = nil) {
             self.dailyCap = dailyCap
             self.endpointReentryCap = endpointReentryCap
             self.endpointReentryInterval = endpointReentryInterval
             self.messagesPerSecond = messagesPerSecond
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7089,6 +7146,8 @@ extension Pinpoint {
             case endpointReentryCap = "EndpointReentryCap"
             case endpointReentryInterval = "EndpointReentryInterval"
             case messagesPerSecond = "MessagesPerSecond"
+            case timeframeCap = "TimeframeCap"
+            case totalCap = "TotalCap"
         }
     }
 
@@ -7109,13 +7168,13 @@ extension Pinpoint {
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity.
         public let activities: [String: Activity]?
         /// The unique identifier for the application that the journey applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The time when a journey will not send messages. QuietTime should be configured first and SendingSchedule should be set to true.
         public let closedDays: ClosedDays?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
         /// The unique identifier for the journey.
-        public let id: String
+        public let id: String?
         /// The channel-specific configurations for the journey.
         public let journeyChannelSettings: JourneyChannelSettings?
         /// The date, in ISO 8601 format, when the journey was last modified.
@@ -7125,7 +7184,7 @@ extension Pinpoint {
         /// Specifies whether the journey's scheduled start and end times use each participant's local time. If this value is true, the schedule uses each participant's local time.
         public let localTime: Bool?
         /// The name of the journey.
-        public let name: String
+        public let name: String?
         /// The time when a journey can send messages. QuietTime should be configured first and SendingSchedule should be set to true.
         public let openHours: OpenHours?
         /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
@@ -7146,10 +7205,12 @@ extension Pinpoint {
         public let state: State?
         /// This object is not used or supported.
         public let tags: [String: String]?
+        /// An array of time zone estimation methods, if any, to use for determining an Endpoints time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.  PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country. POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public let timezoneEstimationMethods: [TimezoneEstimationMethodsElement]?
         /// Indicates whether endpoints in quiet hours should enter a wait activity until quiet hours have elapsed.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, applicationId: String, closedDays: ClosedDays? = nil, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, applicationId: String? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, id: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String? = nil, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, timezoneEstimationMethods: [TimezoneEstimationMethodsElement]? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.applicationId = applicationId
             self.closedDays = closedDays
@@ -7170,6 +7231,7 @@ extension Pinpoint {
             self.startCondition = startCondition
             self.state = state
             self.tags = tags
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
 
@@ -7194,27 +7256,28 @@ extension Pinpoint {
             case startCondition = "StartCondition"
             case state = "State"
             case tags = "tags"
+            case timezoneEstimationMethods = "TimezoneEstimationMethods"
             case waitForQuietTime = "WaitForQuietTime"
         }
     }
 
     public struct JourneyRunExecutionActivityMetricsResponse: AWSDecodableShape {
         /// The type of activity that the metric applies to. Possible values are: CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey. HOLDOUT – For a holdout activity, which is an activity that stops a journey for a specified percentage of participants. MESSAGE – For an email activity, which is an activity that sends an email message to participants. MULTI_CONDITIONAL_SPLIT – For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey. RANDOM_SPLIT – For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey. WAIT – For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
-        public let activityType: String
+        public let activityType: String?
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the activity that the metric applies to.
-        public let journeyActivityId: String
+        public let journeyActivityId: String?
         /// The unique identifier for the journey that the metric applies to.
-        public let journeyId: String
+        public let journeyId: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the execution status of the activity for this journey run and updated the data for the metric.
-        public let lastEvaluatedTime: String
+        public let lastEvaluatedTime: String?
         /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see see Standard Amazon Pinpoint analytics metrics in the Amazon Pinpoint Developer Guide.
-        public let metrics: [String: String]
+        public let metrics: [String: String]?
         /// The unique identifier for the journey run that the metric applies to.
-        public let runId: String
+        public let runId: String?
 
-        public init(activityType: String, applicationId: String, journeyActivityId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String], runId: String) {
+        public init(activityType: String? = nil, applicationId: String? = nil, journeyActivityId: String? = nil, journeyId: String? = nil, lastEvaluatedTime: String? = nil, metrics: [String: String]? = nil, runId: String? = nil) {
             self.activityType = activityType
             self.applicationId = applicationId
             self.journeyActivityId = journeyActivityId
@@ -7237,17 +7300,17 @@ extension Pinpoint {
 
     public struct JourneyRunExecutionMetricsResponse: AWSDecodableShape {
         /// The unique identifier for the application that the metric applies to.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier for the journey that the metric applies to.
-        public let journeyId: String
+        public let journeyId: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the journey run and updated the data for the metric.
-        public let lastEvaluatedTime: String
+        public let lastEvaluatedTime: String?
         /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see the Standard Amazon Pinpoint analytics metrics in the Amazon Pinpoint Developer Guide.
-        public let metrics: [String: String]
+        public let metrics: [String: String]?
         /// The unique identifier for the journey run that the metric applies to.
-        public let runId: String
+        public let runId: String?
 
-        public init(applicationId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String], runId: String) {
+        public init(applicationId: String? = nil, journeyId: String? = nil, lastEvaluatedTime: String? = nil, metrics: [String: String]? = nil, runId: String? = nil) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -7266,15 +7329,15 @@ extension Pinpoint {
 
     public struct JourneyRunResponse: AWSDecodableShape {
         /// The time when the journey run was created or scheduled, in ISO 8601 format.
-        public let creationTime: String
+        public let creationTime: String?
         /// The last time the journey run was updated, in ISO 8601 format..
-        public let lastUpdateTime: String
+        public let lastUpdateTime: String?
         /// The unique identifier for the run.
-        public let runId: String
+        public let runId: String?
         /// The current status of the journey run.
-        public let status: JourneyRunStatus
+        public let status: JourneyRunStatus?
 
-        public init(creationTime: String, lastUpdateTime: String, runId: String, status: JourneyRunStatus) {
+        public init(creationTime: String? = nil, lastUpdateTime: String? = nil, runId: String? = nil, status: JourneyRunStatus? = nil) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.runId = runId
@@ -7291,11 +7354,11 @@ extension Pinpoint {
 
     public struct JourneyRunsResponse: AWSDecodableShape {
         /// An array of responses, one for each run of the journey
-        public let item: [JourneyRunResponse]
+        public let item: [JourneyRunResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [JourneyRunResponse], nextToken: String? = nil) {
+        public init(item: [JourneyRunResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -7371,13 +7434,30 @@ extension Pinpoint {
         }
     }
 
+    public struct JourneyTimeframeCap: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maximum value is 100. If set to 0, this limit will not apply.
+        public let cap: Int?
+        /// The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply.
+        public let days: Int?
+
+        public init(cap: Int? = nil, days: Int? = nil) {
+            self.cap = cap
+            self.days = days
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cap = "Cap"
+            case days = "Days"
+        }
+    }
+
     public struct JourneysResponse: AWSDecodableShape {
         /// An array of responses, one for each journey that's associated with the application.
-        public let item: [JourneyResponse]
+        public let item: [JourneyResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [JourneyResponse], nextToken: String? = nil) {
+        public init(item: [JourneyResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -7414,9 +7494,9 @@ extension Pinpoint {
     }
 
     public struct ListJourneysResponse: AWSDecodableShape {
-        public let journeysResponse: JourneysResponse
+        public let journeysResponse: JourneysResponse?
 
-        public init(journeysResponse: JourneysResponse) {
+        public init(journeysResponse: JourneysResponse? = nil) {
             self.journeysResponse = journeysResponse
         }
 
@@ -7430,11 +7510,11 @@ extension Pinpoint {
 
     public struct ListRecommenderConfigurationsResponse: AWSDecodableShape {
         /// An array of responses, one for each recommender model configuration that's associated with your Amazon Pinpoint account.
-        public let item: [RecommenderConfigurationResponse]
+        public let item: [RecommenderConfigurationResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [RecommenderConfigurationResponse], nextToken: String? = nil) {
+        public init(item: [RecommenderConfigurationResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -7463,9 +7543,9 @@ extension Pinpoint {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        public let tagsModel: TagsModel
+        public let tagsModel: TagsModel?
 
-        public init(tagsModel: TagsModel) {
+        public init(tagsModel: TagsModel? = nil) {
             self.tagsModel = tagsModel
         }
 
@@ -7507,9 +7587,9 @@ extension Pinpoint {
     }
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape {
-        public let templateVersionsResponse: TemplateVersionsResponse
+        public let templateVersionsResponse: TemplateVersionsResponse?
 
-        public init(templateVersionsResponse: TemplateVersionsResponse) {
+        public init(templateVersionsResponse: TemplateVersionsResponse? = nil) {
             self.templateVersionsResponse = templateVersionsResponse
         }
 
@@ -7551,9 +7631,9 @@ extension Pinpoint {
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
-        public let templatesResponse: TemplatesResponse
+        public let templatesResponse: TemplatesResponse?
 
-        public init(templatesResponse: TemplatesResponse) {
+        public init(templatesResponse: TemplatesResponse? = nil) {
             self.templatesResponse = templatesResponse
         }
 
@@ -7692,13 +7772,13 @@ extension Pinpoint {
         /// A map of key-value pairs, where each key is an endpoint ID and each value is an EndpointSendConfiguration object. You can use an EndpointSendConfiguration object to tailor the message for an endpoint by specifying settings such as content overrides and message variables.
         public let endpoints: [String: EndpointSendConfiguration]?
         /// The settings and content for the default message and any default messages that you defined for specific channels.
-        public let messageConfiguration: DirectMessageConfiguration
+        public let messageConfiguration: DirectMessageConfiguration?
         /// The message template to use for the message.
         public let templateConfiguration: TemplateConfiguration?
         /// The unique identifier for tracing the message. This identifier is visible to message recipients.
         public let traceId: String?
 
-        public init(addresses: [String: AddressConfiguration]? = nil, context: [String: String]? = nil, endpoints: [String: EndpointSendConfiguration]? = nil, messageConfiguration: DirectMessageConfiguration, templateConfiguration: TemplateConfiguration? = nil, traceId: String? = nil) {
+        public init(addresses: [String: AddressConfiguration]? = nil, context: [String: String]? = nil, endpoints: [String: EndpointSendConfiguration]? = nil, messageConfiguration: DirectMessageConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, traceId: String? = nil) {
             self.addresses = addresses
             self.context = context
             self.endpoints = endpoints
@@ -7719,7 +7799,7 @@ extension Pinpoint {
 
     public struct MessageResponse: AWSDecodableShape {
         /// The unique identifier for the application that was used to send the message.
-        public let applicationId: String
+        public let applicationId: String?
         /// A map that contains a multipart response for each address that the message was sent to. In the map, the endpoint ID is the key and the result is the value.
         public let endpointResult: [String: EndpointMessageResult]?
         /// The identifier for the original request that the message was delivered for.
@@ -7727,7 +7807,7 @@ extension Pinpoint {
         /// A map that contains a multipart response for each address (email address, phone number, or push notification token) that the message was sent to. In the map, the address is the key and the result is the value.
         public let result: [String: MessageResult]?
 
-        public init(applicationId: String, endpointResult: [String: EndpointMessageResult]? = nil, requestId: String? = nil, result: [String: MessageResult]? = nil) {
+        public init(applicationId: String? = nil, endpointResult: [String: EndpointMessageResult]? = nil, requestId: String? = nil, result: [String: MessageResult]? = nil) {
             self.applicationId = applicationId
             self.endpointResult = endpointResult
             self.requestId = requestId
@@ -7744,17 +7824,17 @@ extension Pinpoint {
 
     public struct MessageResult: AWSDecodableShape {
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.   OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.   SUCCESSFUL - The message was successfully delivered to the endpoint address. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
-        public let deliveryStatus: DeliveryStatus
+        public let deliveryStatus: DeliveryStatus?
         /// The unique identifier for the message that was sent.
         public let messageId: String?
         /// The downstream service status code for delivering the message.
-        public let statusCode: Int
+        public let statusCode: Int?
         /// The status message for delivering the message.
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the endpoint's device registration token was updated as part of delivering the message.
         public let updatedToken: String?
 
-        public init(deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int, statusMessage: String? = nil, updatedToken: String? = nil) {
+        public init(deliveryStatus: DeliveryStatus? = nil, messageId: String? = nil, statusCode: Int? = nil, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
             self.statusCode = statusCode
@@ -7773,11 +7853,11 @@ extension Pinpoint {
 
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// The operator to use when comparing metric values. Valid values are: GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and EQUAL.
-        public let comparisonOperator: String
+        public let comparisonOperator: String?
         /// The value to compare.
-        public let value: Double
+        public let value: Double?
 
-        public init(comparisonOperator: String, value: Double) {
+        public init(comparisonOperator: String? = nil, value: Double? = nil) {
             self.comparisonOperator = comparisonOperator
             self.value = value
         }
@@ -7956,11 +8036,11 @@ extension Pinpoint {
 
     public struct OverrideButtonConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Action triggered by the button.
-        public let buttonAction: ButtonAction
+        public let buttonAction: ButtonAction?
         /// Button destination.
         public let link: String?
 
-        public init(buttonAction: ButtonAction, link: String? = nil) {
+        public init(buttonAction: ButtonAction? = nil, link: String? = nil) {
             self.buttonAction = buttonAction
             self.link = link
         }
@@ -7972,9 +8052,9 @@ extension Pinpoint {
     }
 
     public struct PhoneNumberValidateRequest: AWSEncodableShape {
-        public let numberValidateRequest: NumberValidateRequest
+        public let numberValidateRequest: NumberValidateRequest?
 
-        public init(numberValidateRequest: NumberValidateRequest) {
+        public init(numberValidateRequest: NumberValidateRequest? = nil) {
             self.numberValidateRequest = numberValidateRequest
         }
 
@@ -7987,9 +8067,9 @@ extension Pinpoint {
     }
 
     public struct PhoneNumberValidateResponse: AWSDecodableShape {
-        public let numberValidateResponse: NumberValidateResponse
+        public let numberValidateResponse: NumberValidateResponse?
 
-        public init(numberValidateResponse: NumberValidateResponse) {
+        public init(numberValidateResponse: NumberValidateResponse? = nil) {
             self.numberValidateResponse = numberValidateResponse
         }
 
@@ -8134,7 +8214,7 @@ extension Pinpoint {
         /// The message template that's used for the Baidu (Baidu Cloud Push) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let baidu: AndroidPushNotificationTemplate?
         /// The date, in ISO 8601 format, when the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The default message template that's used for push notification channels.
         public let `default`: DefaultPushNotificationTemplate?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
@@ -8142,7 +8222,7 @@ extension Pinpoint {
         /// The message template that's used for the GCM channel, which is used to send notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let gcm: AndroidPushNotificationTemplate?
         /// The date, in ISO 8601 format, when the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The unique identifier for the recommender model that's used by the message template.
         public let recommenderId: String?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
@@ -8150,13 +8230,13 @@ extension Pinpoint {
         /// The custom description of the message template.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
+        public let templateName: String?
         /// The type of channel that the message template is designed for. For a push notification template, this value is PUSH.
-        public let templateType: TemplateType
+        public let templateType: TemplateType?
         /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
         public let version: String?
 
-        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, arn: String? = nil, baidu: AndroidPushNotificationTemplate? = nil, creationDate: String, default: DefaultPushNotificationTemplate? = nil, defaultSubstitutions: String? = nil, gcm: AndroidPushNotificationTemplate? = nil, lastModifiedDate: String, recommenderId: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
+        public init(adm: AndroidPushNotificationTemplate? = nil, apns: APNSPushNotificationTemplate? = nil, arn: String? = nil, baidu: AndroidPushNotificationTemplate? = nil, creationDate: String? = nil, default: DefaultPushNotificationTemplate? = nil, defaultSubstitutions: String? = nil, gcm: AndroidPushNotificationTemplate? = nil, lastModifiedDate: String? = nil, recommenderId: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, version: String? = nil) {
             self.adm = adm
             self.apns = apns
             self.arn = arn
@@ -8196,9 +8276,9 @@ extension Pinpoint {
     public struct PutEventStreamRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let writeEventStream: WriteEventStream
+        public let writeEventStream: WriteEventStream?
 
-        public init(applicationId: String, writeEventStream: WriteEventStream) {
+        public init(applicationId: String, writeEventStream: WriteEventStream? = nil) {
             self.applicationId = applicationId
             self.writeEventStream = writeEventStream
         }
@@ -8214,9 +8294,9 @@ extension Pinpoint {
     }
 
     public struct PutEventStreamResponse: AWSDecodableShape {
-        public let eventStream: EventStream
+        public let eventStream: EventStream?
 
-        public init(eventStream: EventStream) {
+        public init(eventStream: EventStream? = nil) {
             self.eventStream = eventStream
         }
 
@@ -8231,9 +8311,9 @@ extension Pinpoint {
     public struct PutEventsRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let eventsRequest: EventsRequest
+        public let eventsRequest: EventsRequest?
 
-        public init(applicationId: String, eventsRequest: EventsRequest) {
+        public init(applicationId: String, eventsRequest: EventsRequest? = nil) {
             self.applicationId = applicationId
             self.eventsRequest = eventsRequest
         }
@@ -8249,9 +8329,9 @@ extension Pinpoint {
     }
 
     public struct PutEventsResponse: AWSDecodableShape {
-        public let eventsResponse: EventsResponse
+        public let eventsResponse: EventsResponse?
 
-        public init(eventsResponse: EventsResponse) {
+        public init(eventsResponse: EventsResponse? = nil) {
             self.eventsResponse = eventsResponse
         }
 
@@ -8325,11 +8405,11 @@ extension Pinpoint {
 
     public struct RecencyDimension: AWSEncodableShape & AWSDecodableShape {
         /// The duration to use when determining whether an endpoint is active or inactive.
-        public let duration: Duration
+        public let duration: Duration?
         /// The type of recency dimension to use for the segment. Valid values are: ACTIVE, endpoints that were active within the specified duration are included in the segment; and, INACTIVE, endpoints that weren't active within the specified duration are included in the segment.
-        public let recencyType: RecencyType
+        public let recencyType: RecencyType?
 
-        public init(duration: Duration, recencyType: RecencyType) {
+        public init(duration: Duration? = nil, recencyType: RecencyType? = nil) {
             self.duration = duration
             self.recencyType = recencyType
         }
@@ -8344,21 +8424,21 @@ extension Pinpoint {
         /// A map that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let attributes: [String: String]?
         /// The date, in extended ISO 8601 format, when the configuration was created for the recommender model.
-        public let creationDate: String
+        public let creationDate: String?
         /// The custom description of the configuration for the recommender model.
         public let description: String?
         /// The unique identifier for the recommender model configuration.
-        public let id: String
+        public let id: String?
         /// The date, in extended ISO 8601 format, when the configuration for the recommender model was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The custom name of the configuration for the recommender model.
         public let name: String?
         /// The type of Amazon Pinpoint ID that's associated with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Possible values are: PINPOINT_ENDPOINT_ID - Each user in the model is associated with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Each user in the model is associated with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If this value is specified, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
         public let recommendationProviderIdType: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data from the recommender model.
-        public let recommendationProviderRoleArn: String
+        public let recommendationProviderRoleArn: String?
         /// The Amazon Resource Name (ARN) of the recommender model that Amazon Pinpoint retrieves the recommendation data from. This value is the ARN of an Amazon Personalize campaign.
-        public let recommendationProviderUri: String
+        public let recommendationProviderUri: String?
         /// The custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let recommendationsDisplayName: String?
         /// The number of recommended items that are retrieved from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables.
@@ -8366,7 +8446,7 @@ extension Pinpoint {
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to perform additional processing of recommendation data that it retrieves from the recommender model.
         public let recommendationTransformerUri: String?
 
-        public init(attributes: [String: String]? = nil, creationDate: String, description: String? = nil, id: String, lastModifiedDate: String, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String, recommendationProviderUri: String, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
+        public init(attributes: [String: String]? = nil, creationDate: String? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String? = nil, recommendationProviderUri: String? = nil, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
             self.attributes = attributes
             self.creationDate = creationDate
             self.description = description
@@ -8402,9 +8482,9 @@ extension Pinpoint {
         public let applicationId: String
         /// The type of attribute or attributes to remove. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items left in a cart. endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
         public let attributeType: String
-        public let updateAttributesRequest: UpdateAttributesRequest
+        public let updateAttributesRequest: UpdateAttributesRequest?
 
-        public init(applicationId: String, attributeType: String, updateAttributesRequest: UpdateAttributesRequest) {
+        public init(applicationId: String, attributeType: String, updateAttributesRequest: UpdateAttributesRequest? = nil) {
             self.applicationId = applicationId
             self.attributeType = attributeType
             self.updateAttributesRequest = updateAttributesRequest
@@ -8422,9 +8502,9 @@ extension Pinpoint {
     }
 
     public struct RemoveAttributesResponse: AWSDecodableShape {
-        public let attributesResource: AttributesResource
+        public let attributesResource: AttributesResource?
 
-        public init(attributesResource: AttributesResource) {
+        public init(attributesResource: AttributesResource? = nil) {
             self.attributesResource = attributesResource
         }
 
@@ -8438,11 +8518,11 @@ extension Pinpoint {
 
     public struct ResultRow: AWSDecodableShape {
         /// An array of objects that defines the field and field values that were used to group data in a result set that contains multiple results. This value is null if the data in a result set isn’t grouped.
-        public let groupedBys: [ResultRowValue]
+        public let groupedBys: [ResultRowValue]?
         /// An array of objects that provides pre-aggregated values for a standard metric that applies to an application, campaign, or journey.
-        public let values: [ResultRowValue]
+        public let values: [ResultRowValue]?
 
-        public init(groupedBys: [ResultRowValue], values: [ResultRowValue]) {
+        public init(groupedBys: [ResultRowValue]? = nil, values: [ResultRowValue]? = nil) {
             self.groupedBys = groupedBys
             self.values = values
         }
@@ -8455,13 +8535,13 @@ extension Pinpoint {
 
     public struct ResultRowValue: AWSDecodableShape {
         /// The friendly name of the metric whose value is specified by the Value property.
-        public let key: String
+        public let key: String?
         /// The data type of the value specified by the Value property.
-        public let type: String
+        public let type: String?
         /// In a Values object, the value for the metric that the query retrieved data for. In a GroupedBys object, the value for the field that was used to group data in a result set that contains multiple results (Values objects).
-        public let value: String
+        public let value: String?
 
-        public init(key: String, type: String, value: String) {
+        public init(key: String? = nil, type: String? = nil, value: String? = nil) {
             self.key = key
             self.type = type
             self.value = value
@@ -8513,7 +8593,7 @@ extension Pinpoint {
         /// The date and time, in ISO 8601 format, when the SMS channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the SMS channel, this value is SMS.
-        public let platform: String
+        public let platform: String?
         /// The maximum number of promotional messages that you can send through the SMS channel each second.
         public let promotionalMessagesPerSecond: Int?
         /// The identity that displays on recipients' devices when they receive messages from the SMS channel.
@@ -8525,7 +8605,7 @@ extension Pinpoint {
         /// The current version of the SMS channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, promotionalMessagesPerSecond: Int? = nil, senderId: String? = nil, shortCode: String? = nil, transactionalMessagesPerSecond: Int? = nil, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, promotionalMessagesPerSecond: Int? = nil, senderId: String? = nil, shortCode: String? = nil, transactionalMessagesPerSecond: Int? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -8665,11 +8745,11 @@ extension Pinpoint {
         /// The message body that's used in text messages that are based on the message template.
         public let body: String?
         /// The date, in ISO 8601 format, when the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public let defaultSubstitutions: String?
         /// The date, in ISO 8601 format, when the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The unique identifier for the recommender model that's used by the message template.
         public let recommenderId: String?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
@@ -8677,13 +8757,13 @@ extension Pinpoint {
         /// The custom description of the message template.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
+        public let templateName: String?
         /// The type of channel that the message template is designed for. For an SMS template, this value is SMS.
-        public let templateType: TemplateType
+        public let templateType: TemplateType?
         /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
         public let version: String?
 
-        public init(arn: String? = nil, body: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, recommenderId: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
+        public init(arn: String? = nil, body: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, lastModifiedDate: String? = nil, recommenderId: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, version: String? = nil) {
             self.arn = arn
             self.body = body
             self.creationDate = creationDate
@@ -8724,11 +8804,11 @@ extension Pinpoint {
         /// The default quiet time for the campaign. Quiet time is a specific time range when a campaign doesn't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the campaign. The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the campaign. If any of the preceding conditions isn't met, the endpoint will receive messages from the campaign, even if quiet time is enabled.
         public let quietTime: QuietTime?
         /// The scheduled time when the campaign began or will begin. Valid values are: IMMEDIATE, to start the campaign immediately; or, a specific time in ISO 8601 format.
-        public let startTime: String
+        public let startTime: String?
         /// The starting UTC offset for the campaign schedule, if the value of the IsLocalTime property is true. Valid values are: UTC, UTC+01, UTC+02, UTC+03, UTC+03:30, UTC+04, UTC+04:30, UTC+05, UTC+05:30, UTC+05:45, UTC+06, UTC+06:30, UTC+07, UTC+08, UTC+09, UTC+09:30, UTC+10, UTC+10:30, UTC+11, UTC+12, UTC+13, UTC-02, UTC-03, UTC-04, UTC-05, UTC-06, UTC-07, UTC-08, UTC-09, UTC-10, and UTC-11.
         public let timezone: String?
 
-        public init(endTime: String? = nil, eventFilter: CampaignEventFilter? = nil, frequency: Frequency? = nil, isLocalTime: Bool? = nil, quietTime: QuietTime? = nil, startTime: String, timezone: String? = nil) {
+        public init(endTime: String? = nil, eventFilter: CampaignEventFilter? = nil, frequency: Frequency? = nil, isLocalTime: Bool? = nil, quietTime: QuietTime? = nil, startTime: String? = nil, timezone: String? = nil) {
             self.endTime = endTime
             self.eventFilter = eventFilter
             self.frequency = frequency
@@ -8764,9 +8844,9 @@ extension Pinpoint {
 
     public struct SegmentCondition: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the segment to associate with the activity.
-        public let segmentId: String
+        public let segmentId: String?
 
-        public init(segmentId: String) {
+        public init(segmentId: String? = nil) {
             self.segmentId = segmentId
         }
 
@@ -8887,17 +8967,17 @@ extension Pinpoint {
         /// The number of channel types in the endpoint definitions that were imported to create the segment.
         public let channelCounts: [String: Int]?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
-        public let externalId: String
+        public let externalId: String?
         /// The format of the files that were imported to create the segment. Valid values are: CSV, for comma-separated values format; and, JSON, for newline-delimited JSON format.
-        public let format: Format
+        public let format: Format?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location to import endpoint definitions from.
-        public let roleArn: String
+        public let roleArn: String?
         /// The URL of the Amazon Simple Storage Service (Amazon S3) bucket that the endpoint definitions were imported from to create the segment.
-        public let s3Url: String
+        public let s3Url: String?
         /// The number of endpoint definitions that were imported successfully to create the segment.
-        public let size: Int
+        public let size: Int?
 
-        public init(channelCounts: [String: Int]? = nil, externalId: String, format: Format, roleArn: String, s3Url: String, size: Int) {
+        public init(channelCounts: [String: Int]? = nil, externalId: String? = nil, format: Format? = nil, roleArn: String? = nil, s3Url: String? = nil, size: Int? = nil) {
             self.channelCounts = channelCounts
             self.externalId = externalId
             self.format = format
@@ -8935,11 +9015,11 @@ extension Pinpoint {
 
     public struct SegmentReference: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the segment.
-        public let id: String
+        public let id: String?
         /// The version number of the segment.
         public let version: Int?
 
-        public init(id: String, version: Int? = nil) {
+        public init(id: String? = nil, version: Int? = nil) {
             self.id = id
             self.version = version
         }
@@ -8952,15 +9032,15 @@ extension Pinpoint {
 
     public struct SegmentResponse: AWSDecodableShape {
         /// The unique identifier for the application that the segment is associated with.
-        public let applicationId: String
+        public let applicationId: String?
         /// The Amazon Resource Name (ARN) of the segment.
-        public let arn: String
+        public let arn: String?
         /// The date and time when the segment was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The dimension settings for the segment.
         public let dimensions: SegmentDimensions?
         /// The unique identifier for the segment.
-        public let id: String
+        public let id: String?
         /// The settings for the import job that's associated with the segment.
         public let importDefinition: SegmentImportResource?
         /// The date and time when the segment was last modified.
@@ -8970,13 +9050,13 @@ extension Pinpoint {
         /// A list of one or more segment groups that apply to the segment. Each segment group consists of zero or more base segments and the dimensions that are applied to those base segments.
         public let segmentGroups: SegmentGroupList?
         /// The segment type. Valid values are: DIMENSIONAL - A dynamic segment, which is a segment that uses selection criteria that you specify and is based on endpoint data that's reported by your app. Dynamic segments can change over time. IMPORT - A static segment, which is a segment that uses selection criteria that you specify and is based on endpoint definitions that you import from a file. Imported segments are static; they don't change over time.
-        public let segmentType: SegmentType
+        public let segmentType: SegmentType?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the segment. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
         /// The version number of the segment.
         public let version: Int?
 
-        public init(applicationId: String, arn: String, creationDate: String, dimensions: SegmentDimensions? = nil, id: String, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType, tags: [String: String]? = nil, version: Int? = nil) {
+        public init(applicationId: String? = nil, arn: String? = nil, creationDate: String? = nil, dimensions: SegmentDimensions? = nil, id: String? = nil, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.arn = arn
             self.creationDate = creationDate
@@ -9009,11 +9089,11 @@ extension Pinpoint {
 
     public struct SegmentsResponse: AWSDecodableShape {
         /// An array of responses, one for each segment that's associated with the application (Segments resource) or each version of a segment that's associated with the application (Segment Versions resource).
-        public let item: [SegmentResponse]
+        public let item: [SegmentResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [SegmentResponse], nextToken: String? = nil) {
+        public init(item: [SegmentResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -9027,9 +9107,9 @@ extension Pinpoint {
     public struct SendMessagesRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let messageRequest: MessageRequest
+        public let messageRequest: MessageRequest?
 
-        public init(applicationId: String, messageRequest: MessageRequest) {
+        public init(applicationId: String, messageRequest: MessageRequest? = nil) {
             self.applicationId = applicationId
             self.messageRequest = messageRequest
         }
@@ -9045,9 +9125,9 @@ extension Pinpoint {
     }
 
     public struct SendMessagesResponse: AWSDecodableShape {
-        public let messageResponse: MessageResponse
+        public let messageResponse: MessageResponse?
 
-        public init(messageResponse: MessageResponse) {
+        public init(messageResponse: MessageResponse? = nil) {
             self.messageResponse = messageResponse
         }
 
@@ -9062,9 +9142,9 @@ extension Pinpoint {
     public struct SendOTPMessageRequest: AWSEncodableShape {
         /// The unique ID of your Amazon Pinpoint application.
         public let applicationId: String
-        public let sendOTPMessageRequestParameters: SendOTPMessageRequestParameters
+        public let sendOTPMessageRequestParameters: SendOTPMessageRequestParameters?
 
-        public init(applicationId: String, sendOTPMessageRequestParameters: SendOTPMessageRequestParameters) {
+        public init(applicationId: String, sendOTPMessageRequestParameters: SendOTPMessageRequestParameters? = nil) {
             self.applicationId = applicationId
             self.sendOTPMessageRequestParameters = sendOTPMessageRequestParameters
         }
@@ -9083,27 +9163,27 @@ extension Pinpoint {
         /// The attempts allowed to validate an OTP.
         public let allowedAttempts: Int?
         /// The brand name that will be substituted into the OTP message body. Should be owned by calling AWS account.
-        public let brandName: String
+        public let brandName: String?
         /// Channel type for the OTP message. Supported values: [SMS].
-        public let channel: String
+        public let channel: String?
         /// The number of characters in the generated OTP.
         public let codeLength: Int?
         /// The destination identity to send OTP to.
-        public let destinationIdentity: String
+        public let destinationIdentity: String?
         /// A unique Entity ID received from DLT after entity registration is approved.
         public let entityId: String?
         /// The language to be used for the outgoing message body containing the OTP.
         public let language: String?
         /// The origination identity used to send OTP from.
-        public let originationIdentity: String
+        public let originationIdentity: String?
         /// Developer-specified reference identifier. Required to match during OTP verification.
-        public let referenceId: String
+        public let referenceId: String?
         /// A unique Template ID received from DLT after entity registration is approved.
         public let templateId: String?
         /// The time in minutes before the OTP is no longer valid.
         public let validityPeriod: Int?
 
-        public init(allowedAttempts: Int? = nil, brandName: String, channel: String, codeLength: Int? = nil, destinationIdentity: String, entityId: String? = nil, language: String? = nil, originationIdentity: String, referenceId: String, templateId: String? = nil, validityPeriod: Int? = nil) {
+        public init(allowedAttempts: Int? = nil, brandName: String? = nil, channel: String? = nil, codeLength: Int? = nil, destinationIdentity: String? = nil, entityId: String? = nil, language: String? = nil, originationIdentity: String? = nil, referenceId: String? = nil, templateId: String? = nil, validityPeriod: Int? = nil) {
             self.allowedAttempts = allowedAttempts
             self.brandName = brandName
             self.channel = channel
@@ -9133,9 +9213,9 @@ extension Pinpoint {
     }
 
     public struct SendOTPMessageResponse: AWSDecodableShape {
-        public let messageResponse: MessageResponse
+        public let messageResponse: MessageResponse?
 
-        public init(messageResponse: MessageResponse) {
+        public init(messageResponse: MessageResponse? = nil) {
             self.messageResponse = messageResponse
         }
 
@@ -9151,15 +9231,15 @@ extension Pinpoint {
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?
         /// The settings and content for the default message and any default messages that you defined for specific channels.
-        public let messageConfiguration: DirectMessageConfiguration
+        public let messageConfiguration: DirectMessageConfiguration?
         /// The message template to use for the message.
         public let templateConfiguration: TemplateConfiguration?
         /// The unique identifier for tracing the message. This identifier is visible to message recipients.
         public let traceId: String?
         /// A map that associates user IDs with EndpointSendConfiguration objects. You can use an EndpointSendConfiguration object to tailor the message for a user by specifying settings such as content overrides and message variables.
-        public let users: [String: EndpointSendConfiguration]
+        public let users: [String: EndpointSendConfiguration]?
 
-        public init(context: [String: String]? = nil, messageConfiguration: DirectMessageConfiguration, templateConfiguration: TemplateConfiguration? = nil, traceId: String? = nil, users: [String: EndpointSendConfiguration]) {
+        public init(context: [String: String]? = nil, messageConfiguration: DirectMessageConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, traceId: String? = nil, users: [String: EndpointSendConfiguration]? = nil) {
             self.context = context
             self.messageConfiguration = messageConfiguration
             self.templateConfiguration = templateConfiguration
@@ -9178,13 +9258,13 @@ extension Pinpoint {
 
     public struct SendUsersMessageResponse: AWSDecodableShape {
         /// The unique identifier for the application that was used to send the message.
-        public let applicationId: String
+        public let applicationId: String?
         /// The unique identifier that was assigned to the message request.
         public let requestId: String?
         /// An object that indicates which endpoints the message was sent to, for each user. The object lists user IDs and, for each user ID, provides the endpoint IDs that the message was sent to. For each endpoint ID, it provides an EndpointMessageResult object.
         public let result: [String: [String: EndpointMessageResult]]?
 
-        public init(applicationId: String, requestId: String? = nil, result: [String: [String: EndpointMessageResult]]? = nil) {
+        public init(applicationId: String? = nil, requestId: String? = nil, result: [String: [String: EndpointMessageResult]]? = nil) {
             self.applicationId = applicationId
             self.requestId = requestId
             self.result = result
@@ -9200,9 +9280,9 @@ extension Pinpoint {
     public struct SendUsersMessagesRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let sendUsersMessageRequest: SendUsersMessageRequest
+        public let sendUsersMessageRequest: SendUsersMessageRequest?
 
-        public init(applicationId: String, sendUsersMessageRequest: SendUsersMessageRequest) {
+        public init(applicationId: String, sendUsersMessageRequest: SendUsersMessageRequest? = nil) {
             self.applicationId = applicationId
             self.sendUsersMessageRequest = sendUsersMessageRequest
         }
@@ -9218,9 +9298,9 @@ extension Pinpoint {
     }
 
     public struct SendUsersMessagesResponse: AWSDecodableShape {
-        public let sendUsersMessageResponse: SendUsersMessageResponse
+        public let sendUsersMessageResponse: SendUsersMessageResponse?
 
-        public init(sendUsersMessageResponse: SendUsersMessageResponse) {
+        public init(sendUsersMessageResponse: SendUsersMessageResponse? = nil) {
             self.sendUsersMessageResponse = sendUsersMessageResponse
         }
 
@@ -9236,13 +9316,13 @@ extension Pinpoint {
         /// The duration of the session, in milliseconds.
         public let duration: Int?
         /// The unique identifier for the session.
-        public let id: String
+        public let id: String?
         /// The date and time when the session began.
-        public let startTimestamp: String
+        public let startTimestamp: String?
         /// The date and time when the session ended.
         public let stopTimestamp: String?
 
-        public init(duration: Int? = nil, id: String, startTimestamp: String, stopTimestamp: String? = nil) {
+        public init(duration: Int? = nil, id: String? = nil, startTimestamp: String? = nil, stopTimestamp: String? = nil) {
             self.duration = duration
             self.id = id
             self.startTimestamp = startTimestamp
@@ -9261,9 +9341,9 @@ extension Pinpoint {
         /// The type of segment dimension to use. Valid values are: INCLUSIVE, endpoints that match the criteria are included in the segment; and, EXCLUSIVE, endpoints that match the criteria are excluded from the segment.
         public let dimensionType: DimensionType?
         /// The criteria values to use for the segment dimension. Depending on the value of the DimensionType property, endpoints are included or excluded from the segment if their values match the criteria values.
-        public let values: [String]
+        public let values: [String]?
 
-        public init(dimensionType: DimensionType? = nil, values: [String]) {
+        public init(dimensionType: DimensionType? = nil, values: [String]? = nil) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -9356,9 +9436,9 @@ extension Pinpoint {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        public let tagsModel: TagsModel
+        public let tagsModel: TagsModel?
 
-        public init(resourceArn: String, tagsModel: TagsModel) {
+        public init(resourceArn: String, tagsModel: TagsModel? = nil) {
             self.resourceArn = resourceArn
             self.tagsModel = tagsModel
         }
@@ -9375,9 +9455,9 @@ extension Pinpoint {
 
     public struct TagsModel: AWSEncodableShape & AWSDecodableShape {
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, message template, or segment. Each of these resources can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(tags: [String: String]) {
+        public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
 
@@ -9419,6 +9499,8 @@ extension Pinpoint {
     public struct TemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The email template to use for the message.
         public let emailTemplate: Template?
+        /// The InApp template to use for the message. The InApp template object is not supported for SendMessages.
+        public let inAppTemplate: Template?
         /// The push notification template to use for the message.
         public let pushTemplate: Template?
         /// The SMS template to use for the message.
@@ -9426,8 +9508,9 @@ extension Pinpoint {
         /// The voice template to use for the message. This object isn't supported for campaigns.
         public let voiceTemplate: Template?
 
-        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, smsTemplate: Template? = nil, voiceTemplate: Template? = nil) {
+        public init(emailTemplate: Template? = nil, inAppTemplate: Template? = nil, pushTemplate: Template? = nil, smsTemplate: Template? = nil, voiceTemplate: Template? = nil) {
             self.emailTemplate = emailTemplate
+            self.inAppTemplate = inAppTemplate
             self.pushTemplate = pushTemplate
             self.smsTemplate = smsTemplate
             self.voiceTemplate = voiceTemplate
@@ -9435,6 +9518,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case emailTemplate = "EmailTemplate"
+            case inAppTemplate = "InAppTemplate"
             case pushTemplate = "PushTemplate"
             case smsTemplate = "SMSTemplate"
             case voiceTemplate = "VoiceTemplate"
@@ -9466,23 +9550,23 @@ extension Pinpoint {
         /// The Amazon Resource Name (ARN) of the message template. This value isn't included in a TemplateResponse object. To retrieve the ARN of a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the ARN for.
         public let arn: String?
         /// The date, in ISO 8601 format, when the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object isn't included in a TemplateResponse object. To retrieve this object for a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the object for.
         public let defaultSubstitutions: String?
         /// The date, in ISO 8601 format, when the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// A map of key-value pairs that identifies the tags that are associated with the message template. This object isn't included in a TemplateResponse object. To retrieve this object for a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the object for.
         public let tags: [String: String]?
         /// The custom description of the message template. This value isn't included in a TemplateResponse object. To retrieve the description of a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the description for.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
-        public let templateType: TemplateType
+        public let templateName: String?
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
+        public let templateType: TemplateType?
         /// The unique identifier, as an integer, for the active version of the message template.
         public let version: String?
 
-        public init(arn: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil) {
+        public init(arn: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, lastModifiedDate: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, version: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
@@ -9509,21 +9593,21 @@ extension Pinpoint {
 
     public struct TemplateVersionResponse: AWSDecodableShape {
         /// The date, in ISO 8601 format, when the version of the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// A JSON object that specifies the default values that are used for message variables in the version of the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public let defaultSubstitutions: String?
         /// The date, in ISO 8601 format, when the version of the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// The custom description of the version of the message template.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
-        public let templateType: String
+        public let templateName: String?
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
+        public let templateType: String?
         /// The unique identifier for the version of the message template. This value is an integer that Amazon Pinpoint automatically increments and assigns to each new version of a template.
         public let version: String?
 
-        public init(creationDate: String, defaultSubstitutions: String? = nil, lastModifiedDate: String, templateDescription: String? = nil, templateName: String, templateType: String, version: String? = nil) {
+        public init(creationDate: String? = nil, defaultSubstitutions: String? = nil, lastModifiedDate: String? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: String? = nil, version: String? = nil) {
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
             self.lastModifiedDate = lastModifiedDate
@@ -9546,7 +9630,7 @@ extension Pinpoint {
 
     public struct TemplateVersionsResponse: AWSDecodableShape {
         /// An array of responses, one for each version of the message template.
-        public let item: [TemplateVersionResponse]
+        public let item: [TemplateVersionResponse]?
         /// The message that's returned from the API for the request to retrieve information about all the versions of the message template.
         public let message: String?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -9554,7 +9638,7 @@ extension Pinpoint {
         /// The unique identifier for the request to retrieve information about all the versions of the message template.
         public let requestID: String?
 
-        public init(item: [TemplateVersionResponse], message: String? = nil, nextToken: String? = nil, requestID: String? = nil) {
+        public init(item: [TemplateVersionResponse]? = nil, message: String? = nil, nextToken: String? = nil, requestID: String? = nil) {
             self.item = item
             self.message = message
             self.nextToken = nextToken
@@ -9571,11 +9655,11 @@ extension Pinpoint {
 
     public struct TemplatesResponse: AWSDecodableShape {
         /// An array of responses, one for each message template that's associated with your Amazon Pinpoint account and meets any filter criteria that you specified in the request.
-        public let item: [TemplateResponse]
+        public let item: [TemplateResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
-        public init(item: [TemplateResponse], nextToken: String? = nil) {
+        public init(item: [TemplateResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -9590,13 +9674,13 @@ extension Pinpoint {
         /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
         public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The unique identifier for the treatment.
-        public let id: String
+        public let id: String?
         /// The message configuration settings for the treatment.
         public let messageConfiguration: MessageConfiguration?
         /// The schedule settings for the treatment.
         public let schedule: Schedule?
         /// The allocated percentage of users (segment members) that the treatment is sent to.
-        public let sizePercent: Int
+        public let sizePercent: Int?
         /// The current status of the treatment.
         public let state: CampaignState?
         /// The message template to use for the treatment.
@@ -9606,7 +9690,7 @@ extension Pinpoint {
         /// The custom name of the treatment.
         public let treatmentName: String?
 
-        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, state: CampaignState? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, id: String? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int? = nil, state: CampaignState? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.id = id
             self.messageConfiguration = messageConfiguration
@@ -9635,9 +9719,9 @@ extension Pinpoint {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -9653,11 +9737,11 @@ extension Pinpoint {
     }
 
     public struct UpdateAdmChannelRequest: AWSEncodableShape {
-        public let admChannelRequest: ADMChannelRequest
+        public let admChannelRequest: ADMChannelRequest?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(admChannelRequest: ADMChannelRequest, applicationId: String) {
+        public init(admChannelRequest: ADMChannelRequest? = nil, applicationId: String) {
             self.admChannelRequest = admChannelRequest
             self.applicationId = applicationId
         }
@@ -9673,9 +9757,9 @@ extension Pinpoint {
     }
 
     public struct UpdateAdmChannelResponse: AWSDecodableShape {
-        public let admChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse?
 
-        public init(admChannelResponse: ADMChannelResponse) {
+        public init(admChannelResponse: ADMChannelResponse? = nil) {
             self.admChannelResponse = admChannelResponse
         }
 
@@ -9688,11 +9772,11 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsChannelRequest: AWSEncodableShape {
-        public let apnsChannelRequest: APNSChannelRequest
+        public let apnsChannelRequest: APNSChannelRequest?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(apnsChannelRequest: APNSChannelRequest, applicationId: String) {
+        public init(apnsChannelRequest: APNSChannelRequest? = nil, applicationId: String) {
             self.apnsChannelRequest = apnsChannelRequest
             self.applicationId = applicationId
         }
@@ -9708,9 +9792,9 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsChannelResponse: AWSDecodableShape {
-        public let apnsChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse?
 
-        public init(apnsChannelResponse: APNSChannelResponse) {
+        public init(apnsChannelResponse: APNSChannelResponse? = nil) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
@@ -9723,11 +9807,11 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape {
-        public let apnsSandboxChannelRequest: APNSSandboxChannelRequest
+        public let apnsSandboxChannelRequest: APNSSandboxChannelRequest?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(apnsSandboxChannelRequest: APNSSandboxChannelRequest, applicationId: String) {
+        public init(apnsSandboxChannelRequest: APNSSandboxChannelRequest? = nil, applicationId: String) {
             self.apnsSandboxChannelRequest = apnsSandboxChannelRequest
             self.applicationId = applicationId
         }
@@ -9743,9 +9827,9 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsSandboxChannelResponse: AWSDecodableShape {
-        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse?
 
-        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse? = nil) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
@@ -9758,11 +9842,11 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsVoipChannelRequest: AWSEncodableShape {
-        public let apnsVoipChannelRequest: APNSVoipChannelRequest
+        public let apnsVoipChannelRequest: APNSVoipChannelRequest?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(apnsVoipChannelRequest: APNSVoipChannelRequest, applicationId: String) {
+        public init(apnsVoipChannelRequest: APNSVoipChannelRequest? = nil, applicationId: String) {
             self.apnsVoipChannelRequest = apnsVoipChannelRequest
             self.applicationId = applicationId
         }
@@ -9778,9 +9862,9 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsVoipChannelResponse: AWSDecodableShape {
-        public let apnsVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse?
 
-        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse? = nil) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
@@ -9793,11 +9877,11 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape {
-        public let apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
+        public let apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest, applicationId: String) {
+        public init(apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest? = nil, applicationId: String) {
             self.apnsVoipSandboxChannelRequest = apnsVoipSandboxChannelRequest
             self.applicationId = applicationId
         }
@@ -9813,9 +9897,9 @@ extension Pinpoint {
     }
 
     public struct UpdateApnsVoipSandboxChannelResponse: AWSDecodableShape {
-        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse?
 
-        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse? = nil) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
@@ -9830,9 +9914,9 @@ extension Pinpoint {
     public struct UpdateApplicationSettingsRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
+        public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest?
 
-        public init(applicationId: String, writeApplicationSettingsRequest: WriteApplicationSettingsRequest) {
+        public init(applicationId: String, writeApplicationSettingsRequest: WriteApplicationSettingsRequest? = nil) {
             self.applicationId = applicationId
             self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
         }
@@ -9848,9 +9932,9 @@ extension Pinpoint {
     }
 
     public struct UpdateApplicationSettingsResponse: AWSDecodableShape {
-        public let applicationSettingsResource: ApplicationSettingsResource
+        public let applicationSettingsResource: ApplicationSettingsResource?
 
-        public init(applicationSettingsResource: ApplicationSettingsResource) {
+        public init(applicationSettingsResource: ApplicationSettingsResource? = nil) {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
@@ -9878,9 +9962,9 @@ extension Pinpoint {
     public struct UpdateBaiduChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let baiduChannelRequest: BaiduChannelRequest
+        public let baiduChannelRequest: BaiduChannelRequest?
 
-        public init(applicationId: String, baiduChannelRequest: BaiduChannelRequest) {
+        public init(applicationId: String, baiduChannelRequest: BaiduChannelRequest? = nil) {
             self.applicationId = applicationId
             self.baiduChannelRequest = baiduChannelRequest
         }
@@ -9896,9 +9980,9 @@ extension Pinpoint {
     }
 
     public struct UpdateBaiduChannelResponse: AWSDecodableShape {
-        public let baiduChannelResponse: BaiduChannelResponse
+        public let baiduChannelResponse: BaiduChannelResponse?
 
-        public init(baiduChannelResponse: BaiduChannelResponse) {
+        public init(baiduChannelResponse: BaiduChannelResponse? = nil) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
@@ -9915,9 +9999,9 @@ extension Pinpoint {
         public let applicationId: String
         /// The unique identifier for the campaign.
         public let campaignId: String
-        public let writeCampaignRequest: WriteCampaignRequest
+        public let writeCampaignRequest: WriteCampaignRequest?
 
-        public init(applicationId: String, campaignId: String, writeCampaignRequest: WriteCampaignRequest) {
+        public init(applicationId: String, campaignId: String, writeCampaignRequest: WriteCampaignRequest? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.writeCampaignRequest = writeCampaignRequest
@@ -9935,9 +10019,9 @@ extension Pinpoint {
     }
 
     public struct UpdateCampaignResponse: AWSDecodableShape {
-        public let campaignResponse: CampaignResponse
+        public let campaignResponse: CampaignResponse?
 
-        public init(campaignResponse: CampaignResponse) {
+        public init(campaignResponse: CampaignResponse? = nil) {
             self.campaignResponse = campaignResponse
         }
 
@@ -9952,9 +10036,9 @@ extension Pinpoint {
     public struct UpdateEmailChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let emailChannelRequest: EmailChannelRequest
+        public let emailChannelRequest: EmailChannelRequest?
 
-        public init(applicationId: String, emailChannelRequest: EmailChannelRequest) {
+        public init(applicationId: String, emailChannelRequest: EmailChannelRequest? = nil) {
             self.applicationId = applicationId
             self.emailChannelRequest = emailChannelRequest
         }
@@ -9970,9 +10054,9 @@ extension Pinpoint {
     }
 
     public struct UpdateEmailChannelResponse: AWSDecodableShape {
-        public let emailChannelResponse: EmailChannelResponse
+        public let emailChannelResponse: EmailChannelResponse?
 
-        public init(emailChannelResponse: EmailChannelResponse) {
+        public init(emailChannelResponse: EmailChannelResponse? = nil) {
             self.emailChannelResponse = emailChannelResponse
         }
 
@@ -9987,13 +10071,13 @@ extension Pinpoint {
     public struct UpdateEmailTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
-        public let emailTemplateRequest: EmailTemplateRequest
+        public let emailTemplateRequest: EmailTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
 
-        public init(createNewVersion: Bool? = nil, emailTemplateRequest: EmailTemplateRequest, templateName: String, version: String? = nil) {
+        public init(createNewVersion: Bool? = nil, emailTemplateRequest: EmailTemplateRequest? = nil, templateName: String, version: String? = nil) {
             self.createNewVersion = createNewVersion
             self.emailTemplateRequest = emailTemplateRequest
             self.templateName = templateName
@@ -10013,9 +10097,9 @@ extension Pinpoint {
     }
 
     public struct UpdateEmailTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10030,11 +10114,11 @@ extension Pinpoint {
     public struct UpdateEndpointRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        /// The unique identifier for the endpoint.
+        /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
         public let endpointId: String
-        public let endpointRequest: EndpointRequest
+        public let endpointRequest: EndpointRequest?
 
-        public init(applicationId: String, endpointId: String, endpointRequest: EndpointRequest) {
+        public init(applicationId: String, endpointId: String, endpointRequest: EndpointRequest? = nil) {
             self.applicationId = applicationId
             self.endpointId = endpointId
             self.endpointRequest = endpointRequest
@@ -10052,9 +10136,9 @@ extension Pinpoint {
     }
 
     public struct UpdateEndpointResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10069,9 +10153,9 @@ extension Pinpoint {
     public struct UpdateEndpointsBatchRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let endpointBatchRequest: EndpointBatchRequest
+        public let endpointBatchRequest: EndpointBatchRequest?
 
-        public init(applicationId: String, endpointBatchRequest: EndpointBatchRequest) {
+        public init(applicationId: String, endpointBatchRequest: EndpointBatchRequest? = nil) {
             self.applicationId = applicationId
             self.endpointBatchRequest = endpointBatchRequest
         }
@@ -10087,9 +10171,9 @@ extension Pinpoint {
     }
 
     public struct UpdateEndpointsBatchResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10104,9 +10188,9 @@ extension Pinpoint {
     public struct UpdateGcmChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let gcmChannelRequest: GCMChannelRequest
+        public let gcmChannelRequest: GCMChannelRequest?
 
-        public init(applicationId: String, gcmChannelRequest: GCMChannelRequest) {
+        public init(applicationId: String, gcmChannelRequest: GCMChannelRequest? = nil) {
             self.applicationId = applicationId
             self.gcmChannelRequest = gcmChannelRequest
         }
@@ -10122,9 +10206,9 @@ extension Pinpoint {
     }
 
     public struct UpdateGcmChannelResponse: AWSDecodableShape {
-        public let gcmChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse?
 
-        public init(gcmChannelResponse: GCMChannelResponse) {
+        public init(gcmChannelResponse: GCMChannelResponse? = nil) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
@@ -10139,13 +10223,13 @@ extension Pinpoint {
     public struct UpdateInAppTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
-        public let inAppTemplateRequest: InAppTemplateRequest
+        public let inAppTemplateRequest: InAppTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
 
-        public init(createNewVersion: Bool? = nil, inAppTemplateRequest: InAppTemplateRequest, templateName: String, version: String? = nil) {
+        public init(createNewVersion: Bool? = nil, inAppTemplateRequest: InAppTemplateRequest? = nil, templateName: String, version: String? = nil) {
             self.createNewVersion = createNewVersion
             self.inAppTemplateRequest = inAppTemplateRequest
             self.templateName = templateName
@@ -10165,9 +10249,9 @@ extension Pinpoint {
     }
 
     public struct UpdateInAppTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10184,9 +10268,9 @@ extension Pinpoint {
         public let applicationId: String
         /// The unique identifier for the journey.
         public let journeyId: String
-        public let writeJourneyRequest: WriteJourneyRequest
+        public let writeJourneyRequest: WriteJourneyRequest?
 
-        public init(applicationId: String, journeyId: String, writeJourneyRequest: WriteJourneyRequest) {
+        public init(applicationId: String, journeyId: String, writeJourneyRequest: WriteJourneyRequest? = nil) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.writeJourneyRequest = writeJourneyRequest
@@ -10204,9 +10288,9 @@ extension Pinpoint {
     }
 
     public struct UpdateJourneyResponse: AWSDecodableShape {
-        public let journeyResponse: JourneyResponse
+        public let journeyResponse: JourneyResponse?
 
-        public init(journeyResponse: JourneyResponse) {
+        public init(journeyResponse: JourneyResponse? = nil) {
             self.journeyResponse = journeyResponse
         }
 
@@ -10223,9 +10307,9 @@ extension Pinpoint {
         public let applicationId: String
         /// The unique identifier for the journey.
         public let journeyId: String
-        public let journeyStateRequest: JourneyStateRequest
+        public let journeyStateRequest: JourneyStateRequest?
 
-        public init(applicationId: String, journeyId: String, journeyStateRequest: JourneyStateRequest) {
+        public init(applicationId: String, journeyId: String, journeyStateRequest: JourneyStateRequest? = nil) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.journeyStateRequest = journeyStateRequest
@@ -10243,9 +10327,9 @@ extension Pinpoint {
     }
 
     public struct UpdateJourneyStateResponse: AWSDecodableShape {
-        public let journeyResponse: JourneyResponse
+        public let journeyResponse: JourneyResponse?
 
-        public init(journeyResponse: JourneyResponse) {
+        public init(journeyResponse: JourneyResponse? = nil) {
             self.journeyResponse = journeyResponse
         }
 
@@ -10260,13 +10344,13 @@ extension Pinpoint {
     public struct UpdatePushTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
-        public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
+        public let pushNotificationTemplateRequest: PushNotificationTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
 
-        public init(createNewVersion: Bool? = nil, pushNotificationTemplateRequest: PushNotificationTemplateRequest, templateName: String, version: String? = nil) {
+        public init(createNewVersion: Bool? = nil, pushNotificationTemplateRequest: PushNotificationTemplateRequest? = nil, templateName: String, version: String? = nil) {
             self.createNewVersion = createNewVersion
             self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
             self.templateName = templateName
@@ -10286,9 +10370,9 @@ extension Pinpoint {
     }
 
     public struct UpdatePushTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10303,9 +10387,9 @@ extension Pinpoint {
     public struct UpdateRecommenderConfigurationRequest: AWSEncodableShape {
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
         public let recommenderId: String
-        public let updateRecommenderConfiguration: UpdateRecommenderConfigurationShape
+        public let updateRecommenderConfiguration: UpdateRecommenderConfigurationShape?
 
-        public init(recommenderId: String, updateRecommenderConfiguration: UpdateRecommenderConfigurationShape) {
+        public init(recommenderId: String, updateRecommenderConfiguration: UpdateRecommenderConfigurationShape? = nil) {
             self.recommenderId = recommenderId
             self.updateRecommenderConfiguration = updateRecommenderConfiguration
         }
@@ -10321,9 +10405,9 @@ extension Pinpoint {
     }
 
     public struct UpdateRecommenderConfigurationResponse: AWSDecodableShape {
-        public let recommenderConfigurationResponse: RecommenderConfigurationResponse
+        public let recommenderConfigurationResponse: RecommenderConfigurationResponse?
 
-        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
+        public init(recommenderConfigurationResponse: RecommenderConfigurationResponse? = nil) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
@@ -10345,9 +10429,9 @@ extension Pinpoint {
         /// The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data that’s specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Otherwise, messages won’t be sent to the user's endpoint.
         public let recommendationProviderIdType: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data from the recommender model.
-        public let recommendationProviderRoleArn: String
+        public let recommendationProviderRoleArn: String?
         /// The Amazon Resource Name (ARN) of the recommender model to retrieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign.
-        public let recommendationProviderUri: String
+        public let recommendationProviderUri: String?
         /// A custom display name for the standard endpoint or user attribute (RecommendationItems) that temporarily stores recommended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is required if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). These restrictions don't apply to attribute values.
         public let recommendationsDisplayName: String?
         /// The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
@@ -10355,7 +10439,7 @@ extension Pinpoint {
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function to invoke for additional processing of recommendation data that's retrieved from the recommender model.
         public let recommendationTransformerUri: String?
 
-        public init(attributes: [String: String]? = nil, description: String? = nil, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String, recommendationProviderUri: String, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
+        public init(attributes: [String: String]? = nil, description: String? = nil, name: String? = nil, recommendationProviderIdType: String? = nil, recommendationProviderRoleArn: String? = nil, recommendationProviderUri: String? = nil, recommendationsDisplayName: String? = nil, recommendationsPerMessage: Int? = nil, recommendationTransformerUri: String? = nil) {
             self.attributes = attributes
             self.description = description
             self.name = name
@@ -10385,9 +10469,9 @@ extension Pinpoint {
         public let applicationId: String
         /// The unique identifier for the segment.
         public let segmentId: String
-        public let writeSegmentRequest: WriteSegmentRequest
+        public let writeSegmentRequest: WriteSegmentRequest?
 
-        public init(applicationId: String, segmentId: String, writeSegmentRequest: WriteSegmentRequest) {
+        public init(applicationId: String, segmentId: String, writeSegmentRequest: WriteSegmentRequest? = nil) {
             self.applicationId = applicationId
             self.segmentId = segmentId
             self.writeSegmentRequest = writeSegmentRequest
@@ -10405,9 +10489,9 @@ extension Pinpoint {
     }
 
     public struct UpdateSegmentResponse: AWSDecodableShape {
-        public let segmentResponse: SegmentResponse
+        public let segmentResponse: SegmentResponse?
 
-        public init(segmentResponse: SegmentResponse) {
+        public init(segmentResponse: SegmentResponse? = nil) {
             self.segmentResponse = segmentResponse
         }
 
@@ -10422,9 +10506,9 @@ extension Pinpoint {
     public struct UpdateSmsChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let smsChannelRequest: SMSChannelRequest
+        public let smsChannelRequest: SMSChannelRequest?
 
-        public init(applicationId: String, smsChannelRequest: SMSChannelRequest) {
+        public init(applicationId: String, smsChannelRequest: SMSChannelRequest? = nil) {
             self.applicationId = applicationId
             self.smsChannelRequest = smsChannelRequest
         }
@@ -10440,9 +10524,9 @@ extension Pinpoint {
     }
 
     public struct UpdateSmsChannelResponse: AWSDecodableShape {
-        public let smsChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse?
 
-        public init(smsChannelResponse: SMSChannelResponse) {
+        public init(smsChannelResponse: SMSChannelResponse? = nil) {
             self.smsChannelResponse = smsChannelResponse
         }
 
@@ -10457,13 +10541,13 @@ extension Pinpoint {
     public struct UpdateSmsTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
-        public let smsTemplateRequest: SMSTemplateRequest
+        public let smsTemplateRequest: SMSTemplateRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
 
-        public init(createNewVersion: Bool? = nil, smsTemplateRequest: SMSTemplateRequest, templateName: String, version: String? = nil) {
+        public init(createNewVersion: Bool? = nil, smsTemplateRequest: SMSTemplateRequest? = nil, templateName: String, version: String? = nil) {
             self.createNewVersion = createNewVersion
             self.smsTemplateRequest = smsTemplateRequest
             self.templateName = templateName
@@ -10483,9 +10567,9 @@ extension Pinpoint {
     }
 
     public struct UpdateSmsTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10498,13 +10582,13 @@ extension Pinpoint {
     }
 
     public struct UpdateTemplateActiveVersionRequest: AWSEncodableShape {
-        public let templateActiveVersionRequest: TemplateActiveVersionRequest
+        public let templateActiveVersionRequest: TemplateActiveVersionRequest?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.
         public let templateType: String
 
-        public init(templateActiveVersionRequest: TemplateActiveVersionRequest, templateName: String, templateType: String) {
+        public init(templateActiveVersionRequest: TemplateActiveVersionRequest? = nil, templateName: String, templateType: String) {
             self.templateActiveVersionRequest = templateActiveVersionRequest
             self.templateName = templateName
             self.templateType = templateType
@@ -10522,9 +10606,9 @@ extension Pinpoint {
     }
 
     public struct UpdateTemplateActiveVersionResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10539,9 +10623,9 @@ extension Pinpoint {
     public struct UpdateVoiceChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let voiceChannelRequest: VoiceChannelRequest
+        public let voiceChannelRequest: VoiceChannelRequest?
 
-        public init(applicationId: String, voiceChannelRequest: VoiceChannelRequest) {
+        public init(applicationId: String, voiceChannelRequest: VoiceChannelRequest? = nil) {
             self.applicationId = applicationId
             self.voiceChannelRequest = voiceChannelRequest
         }
@@ -10557,9 +10641,9 @@ extension Pinpoint {
     }
 
     public struct UpdateVoiceChannelResponse: AWSDecodableShape {
-        public let voiceChannelResponse: VoiceChannelResponse
+        public let voiceChannelResponse: VoiceChannelResponse?
 
-        public init(voiceChannelResponse: VoiceChannelResponse) {
+        public init(voiceChannelResponse: VoiceChannelResponse? = nil) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
@@ -10578,9 +10662,9 @@ extension Pinpoint {
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
-        public let voiceTemplateRequest: VoiceTemplateRequest
+        public let voiceTemplateRequest: VoiceTemplateRequest?
 
-        public init(createNewVersion: Bool? = nil, templateName: String, version: String? = nil, voiceTemplateRequest: VoiceTemplateRequest) {
+        public init(createNewVersion: Bool? = nil, templateName: String, version: String? = nil, voiceTemplateRequest: VoiceTemplateRequest? = nil) {
             self.createNewVersion = createNewVersion
             self.templateName = templateName
             self.version = version
@@ -10600,9 +10684,9 @@ extension Pinpoint {
     }
 
     public struct UpdateVoiceTemplateResponse: AWSDecodableShape {
-        public let messageBody: MessageBody
+        public let messageBody: MessageBody?
 
-        public init(messageBody: MessageBody) {
+        public init(messageBody: MessageBody? = nil) {
             self.messageBody = messageBody
         }
 
@@ -10630,9 +10714,9 @@ extension Pinpoint {
     public struct VerifyOTPMessageRequest: AWSEncodableShape {
         /// The unique ID of your Amazon Pinpoint application.
         public let applicationId: String
-        public let verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters
+        public let verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters?
 
-        public init(applicationId: String, verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters) {
+        public init(applicationId: String, verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters? = nil) {
             self.applicationId = applicationId
             self.verifyOTPMessageRequestParameters = verifyOTPMessageRequestParameters
         }
@@ -10649,13 +10733,13 @@ extension Pinpoint {
 
     public struct VerifyOTPMessageRequestParameters: AWSEncodableShape {
         /// The destination identity to send OTP to.
-        public let destinationIdentity: String
+        public let destinationIdentity: String?
         /// The OTP the end user provided for verification.
-        public let otp: String
+        public let otp: String?
         /// The reference identifier provided when the OTP was previously sent.
-        public let referenceId: String
+        public let referenceId: String?
 
-        public init(destinationIdentity: String, otp: String, referenceId: String) {
+        public init(destinationIdentity: String? = nil, otp: String? = nil, referenceId: String? = nil) {
             self.destinationIdentity = destinationIdentity
             self.otp = otp
             self.referenceId = referenceId
@@ -10669,9 +10753,9 @@ extension Pinpoint {
     }
 
     public struct VerifyOTPMessageResponse: AWSDecodableShape {
-        public let verificationResponse: VerificationResponse
+        public let verificationResponse: VerificationResponse?
 
-        public init(verificationResponse: VerificationResponse) {
+        public init(verificationResponse: VerificationResponse? = nil) {
             self.verificationResponse = verificationResponse
         }
 
@@ -10714,11 +10798,11 @@ extension Pinpoint {
         /// The date and time, in ISO 8601 format, when the voice channel was last modified.
         public let lastModifiedDate: String?
         /// The type of messaging or notification platform for the channel. For the voice channel, this value is VOICE.
-        public let platform: String
+        public let platform: String?
         /// The current version of the voice channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -10813,27 +10897,27 @@ extension Pinpoint {
         /// The text of the script that's used in messages that are based on the message template, in plain text format.
         public let body: String?
         /// The date, in ISO 8601 format, when the message template was created.
-        public let creationDate: String
+        public let creationDate: String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public let defaultSubstitutions: String?
         /// The code for the language that's used when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide.
         public let languageCode: String?
         /// The date, in ISO 8601 format, when the message template was last modified.
-        public let lastModifiedDate: String
+        public let lastModifiedDate: String?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
         /// The custom description of the message template.
         public let templateDescription: String?
         /// The name of the message template.
-        public let templateName: String
+        public let templateName: String?
         /// The type of channel that the message template is designed for. For a voice template, this value is VOICE.
-        public let templateType: TemplateType
+        public let templateType: TemplateType?
         /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
         public let version: String?
         /// The name of the voice that's used when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(arn: String? = nil, body: String? = nil, creationDate: String, defaultSubstitutions: String? = nil, languageCode: String? = nil, lastModifiedDate: String, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateType: TemplateType, version: String? = nil, voiceId: String? = nil) {
+        public init(arn: String? = nil, body: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, languageCode: String? = nil, lastModifiedDate: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, version: String? = nil, voiceId: String? = nil) {
             self.arn = arn
             self.body = body
             self.creationDate = creationDate
@@ -10904,15 +10988,18 @@ extension Pinpoint {
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
         public let cloudWatchMetricsEnabled: Bool?
         public let eventTaggingEnabled: Bool?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public let journeyLimits: ApplicationSettingsJourneyLimits?
         /// The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
         public let quietTime: QuietTime?
 
-        public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, eventTaggingEnabled: Bool? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
+        public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, eventTaggingEnabled: Bool? = nil, journeyLimits: ApplicationSettingsJourneyLimits? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.campaignHook = campaignHook
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.eventTaggingEnabled = eventTaggingEnabled
+            self.journeyLimits = journeyLimits
             self.limits = limits
             self.quietTime = quietTime
         }
@@ -10921,6 +11008,7 @@ extension Pinpoint {
             case campaignHook = "CampaignHook"
             case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
             case eventTaggingEnabled = "EventTaggingEnabled"
+            case journeyLimits = "JourneyLimits"
             case limits = "Limits"
             case quietTime = "QuietTime"
         }
@@ -11005,11 +11093,11 @@ extension Pinpoint {
 
     public struct WriteEventStream: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name
-        public let destinationStreamArn: String
+        public let destinationStreamArn: String?
         /// The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(destinationStreamArn: String, roleArn: String) {
+        public init(destinationStreamArn: String? = nil, roleArn: String? = nil) {
             self.destinationStreamArn = destinationStreamArn
             self.roleArn = roleArn
         }
@@ -11036,7 +11124,7 @@ extension Pinpoint {
         /// Specifies whether the journey's scheduled start and end times use each participant's local time. To base the schedule on each participant's local time, set this value to true.
         public let localTime: Bool?
         /// The name of the journey. A journey name can contain a maximum of 150 characters. The characters can be alphanumeric characters or symbols, such as underscores (_) or hyphens (-). A journey name can't contain any spaces.
-        public let name: String
+        public let name: String?
         /// The time when journey allow to send messages. QuietTime should be configured first and SendingSchedule should be set to true.
         public let openHours: OpenHours?
         /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
@@ -11055,10 +11143,12 @@ extension Pinpoint {
         public let startCondition: StartCondition?
         /// The status of the journey. Valid values are: DRAFT - Saves the journey and doesn't publish it. ACTIVE - Saves and publishes the journey. Depending on the journey's schedule, the journey starts running immediately or at the scheduled start time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. PAUSED, CANCELLED, COMPLETED, and CLOSED states are not supported in requests to create or update a journey. To cancel, pause, or resume a journey, use the Journey State resource.
         public let state: State?
+        /// An array of time zone estimation methods, if any, to use for determining an Endpoints time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.  PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country. POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public let timezoneEstimationMethods: [TimezoneEstimationMethodsElement]?
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String? = nil, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, timezoneEstimationMethods: [TimezoneEstimationMethodsElement]? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.closedDays = closedDays
             self.creationDate = creationDate
@@ -11076,6 +11166,7 @@ extension Pinpoint {
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
 
@@ -11097,6 +11188,7 @@ extension Pinpoint {
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
+            case timezoneEstimationMethods = "TimezoneEstimationMethods"
             case waitForQuietTime = "WaitForQuietTime"
         }
     }
@@ -11134,7 +11226,7 @@ extension Pinpoint {
         /// The schedule settings for the treatment.
         public let schedule: Schedule?
         /// The allocated percentage of users (segment members) to send the treatment to.
-        public let sizePercent: Int
+        public let sizePercent: Int?
         /// The message template to use for the treatment.
         public let templateConfiguration: TemplateConfiguration?
         /// A custom description of the treatment.
@@ -11142,7 +11234,7 @@ extension Pinpoint {
         /// A custom name for the treatment.
         public let treatmentName: String?
 
-        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int? = nil, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule

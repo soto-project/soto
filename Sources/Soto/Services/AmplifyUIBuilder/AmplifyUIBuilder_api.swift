@@ -151,7 +151,7 @@ public struct AmplifyUIBuilder: AWSService {
         )
     }
 
-    /// Exchanges an access code for a token.
+    ///  This is for internal use.  Amplify uses this action to exchange an access code for a token.
     @Sendable
     public func exchangeCodeForToken(_ input: ExchangeCodeForTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExchangeCodeForTokenResponse {
         return try await self.client.execute(
@@ -196,6 +196,19 @@ public struct AmplifyUIBuilder: AWSService {
         return try await self.client.execute(
             operation: "ExportThemes", 
             path: "/export/app/{appId}/environment/{environmentName}/themes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns an existing code generation job.
+    @Sendable
+    public func getCodegenJob(_ input: GetCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodegenJobResponse {
+        return try await self.client.execute(
+            operation: "GetCodegenJob", 
+            path: "/app/{appId}/environment/{environmentName}/codegen-jobs/{id}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -255,6 +268,19 @@ public struct AmplifyUIBuilder: AWSService {
         )
     }
 
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    @Sendable
+    public func listCodegenJobs(_ input: ListCodegenJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCodegenJobsResponse {
+        return try await self.client.execute(
+            operation: "ListCodegenJobs", 
+            path: "/app/{appId}/environment/{environmentName}/codegen-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of components for a specified Amplify app and backend environment.
     @Sendable
     public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsResponse {
@@ -307,12 +333,25 @@ public struct AmplifyUIBuilder: AWSService {
         )
     }
 
-    /// Refreshes a previously issued access token that might have expired.
+    ///  This is for internal use.  Amplify uses this action to refresh a previously issued access token that might have expired.
     @Sendable
     public func refreshToken(_ input: RefreshTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RefreshTokenResponse {
         return try await self.client.execute(
             operation: "RefreshToken", 
             path: "/tokens/{provider}/refresh", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a code generation job for a specified Amplify app and backend environment.
+    @Sendable
+    public func startCodegenJob(_ input: StartCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCodegenJobResponse {
+        return try await self.client.execute(
+            operation: "StartCodegenJob", 
+            path: "/app/{appId}/environment/{environmentName}/codegen-jobs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -430,6 +469,25 @@ extension AmplifyUIBuilder {
         )
     }
 
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCodegenJobsPaginator(
+        _ input: ListCodegenJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCodegenJobsRequest, ListCodegenJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listCodegenJobs,
+            inputKey: \ListCodegenJobsRequest.nextToken,
+            outputKey: \ListCodegenJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of components for a specified Amplify app and backend environment.
     /// Return PaginatorSequence for operation.
     ///
@@ -513,6 +571,17 @@ extension AmplifyUIBuilder.ExportThemesRequest: AWSPaginateToken {
         return .init(
             appId: self.appId,
             environmentName: self.environmentName,
+            nextToken: token
+        )
+    }
+}
+
+extension AmplifyUIBuilder.ListCodegenJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AmplifyUIBuilder.ListCodegenJobsRequest {
+        return .init(
+            appId: self.appId,
+            environmentName: self.environmentName,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

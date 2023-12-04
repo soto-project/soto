@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Rekognition service.
 ///
-/// This is the API Reference for Amazon Rekognition Image, Amazon Rekognition Custom Labels, Amazon Rekognition Stored Video, Amazon Rekognition Streaming Video. It provides descriptions of actions, data types, common parameters, and common errors.  Amazon Rekognition Image     CompareFaces     CreateCollection     DeleteCollection     DeleteFaces     DescribeCollection     DetectFaces     DetectLabels     DetectModerationLabels     DetectProtectiveEquipment     DetectText     GetCelebrityInfo     IndexFaces     ListCollections     ListFaces     RecognizeCelebrities     SearchFaces     SearchFacesByImage     Amazon Rekognition Custom Labels     CopyProjectVersion     CreateDataset     CreateProject     CreateProjectVersion     DeleteDataset     DeleteProject     DeleteProjectPolicy     DeleteProjectVersion     DescribeDataset     DescribeProjects     DescribeProjectVersions     DetectCustomLabels     DistributeDatasetEntries     ListDatasetEntries     ListDatasetLabels     ListProjectPolicies     PutProjectPolicy     StartProjectVersion     StopProjectVersion     UpdateDatasetEntries     Amazon Rekognition Video Stored Video     GetCelebrityRecognition     GetContentModeration     GetFaceDetection     GetFaceSearch     GetLabelDetection     GetPersonTracking     GetSegmentDetection     GetTextDetection     StartCelebrityRecognition     StartContentModeration     StartFaceDetection     StartFaceSearch     StartLabelDetection     StartPersonTracking     StartSegmentDetection     StartTextDetection     Amazon Rekognition Video Streaming Video     CreateStreamProcessor     DeleteStreamProcessor     DescribeStreamProcessor     ListStreamProcessors     StartStreamProcessor     StopStreamProcessor     UpdateStreamProcessor
+/// This is the API Reference for Amazon Rekognition Image, Amazon Rekognition Custom Labels, Amazon Rekognition Stored Video, Amazon Rekognition Streaming Video. It provides descriptions of actions, data types, common parameters, and common errors.  Amazon Rekognition Image     AssociateFaces     CompareFaces     CreateCollection     CreateUser     DeleteCollection     DeleteFaces     DeleteUser     DescribeCollection     DetectFaces     DetectLabels     DetectModerationLabels     DetectProtectiveEquipment     DetectText     DisassociateFaces     GetCelebrityInfo     IndexFaces     ListCollections     ListFaces     ListUsers     RecognizeCelebrities     SearchFaces     SearchFacesByImage     SearchUsers     SearchUsersByImage     Amazon Rekognition Custom Labels     CopyProjectVersion     CreateDataset     CreateProject     CreateProjectVersion     DeleteDataset     DeleteProject     DeleteProjectPolicy     DeleteProjectVersion     DescribeDataset     DescribeProjects     DescribeProjectVersions     DetectCustomLabels     DistributeDatasetEntries     ListDatasetEntries     ListDatasetLabels     ListProjectPolicies     PutProjectPolicy     StartProjectVersion     StopProjectVersion     UpdateDatasetEntries     Amazon Rekognition Video Stored Video     GetCelebrityRecognition     GetContentModeration     GetFaceDetection     GetFaceSearch     GetLabelDetection     GetPersonTracking     GetSegmentDetection     GetTextDetection     StartCelebrityRecognition     StartContentModeration     StartFaceDetection     StartFaceSearch     StartLabelDetection     StartPersonTracking     StartSegmentDetection     StartTextDetection     Amazon Rekognition Video Streaming Video     CreateStreamProcessor     DeleteStreamProcessor     DescribeStreamProcessor     ListStreamProcessors     StartStreamProcessor     StopStreamProcessor     UpdateStreamProcessor
 public struct Rekognition: AWSService {
     // MARK: Member variables
 
@@ -86,6 +86,19 @@ public struct Rekognition: AWSService {
 
     // MARK: API Calls
 
+    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds. Each FaceId that are present in the FaceIds list is associated with the provided UserID. The maximum number of total FaceIds per UserID is 100.  The UserMatchThreshold parameter specifies the minimum user match confidence required for the face to be associated with a UserID that has at least one FaceID already associated. This ensures that the FaceIds are associated with the right UserID. The value ranges from 0-100 and default value is 75.  If successful, an array of AssociatedFace objects containing the associated FaceIds is returned. If a given face is already associated with the given UserID, it will be ignored and will not be returned in the response. If a given face is already associated to a different UserID, isn't found in the collection, doesn’t meet the UserMatchThreshold, or there are already 100 faces associated with the UserID, it will be returned as part of an array of UnsuccessfulFaceAssociations.  The UserStatus reflects the status of an operation which updates a UserID representation with a list of given faces. The UserStatus can be:    ACTIVE - All associations or disassociations of FaceID(s) for a UserID are complete.   CREATED - A UserID has been created, but has no FaceID(s) associated with it.   UPDATING - A UserID is being updated and there are current associations or disassociations of FaceID(s) taking place.
+    @Sendable
+    public func associateFaces(_ input: AssociateFacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFacesResponse {
+        return try await self.client.execute(
+            operation: "AssociateFaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Compares a face in the source input image with each of the 100 largest faces detected in the target input image.  If the source image contains multiple faces, the service detects the largest face and compares it with each face detected in the target image.   CompareFaces uses machine learning algorithms, which are probabilistic. A false negative is an incorrect prediction that a face in the target image has a low similarity confidence score when compared to the face in the source image. To reduce the probability of false negatives, we recommend that you compare the target image against multiple source images. If you plan to use CompareFaces to make a decision that impacts an individual's rights, privacy, or access to services, we recommend that you pass the result to a human for review and further validation before taking action.  You pass the input and target images either as base64-encoded image bytes or as references to images in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The image must be formatted as a PNG or JPEG file.  In response, the operation returns an array of face matches ordered by similarity score in descending order. For each face match, the response provides a bounding box of the face, facial landmarks, pose details (pitch, roll, and yaw), quality (brightness and sharpness), and confidence value (indicating the level of confidence that the bounding box contains a face). The response also provides a similarity score, which indicates how closely the faces match.   By default, only faces with a similarity score of greater than or equal to 80% are returned in the response. You can change this value by specifying the SimilarityThreshold parameter.   CompareFaces also returns an array of faces that don't match the source image. For each face, it returns a bounding box, confidence value, landmarks, pose details, and quality. The response also returns information about the face in the source image, including the bounding box of the face and confidence value. The QualityFilter input parameter allows you to filter out detected faces that don’t meet a required quality bar. The quality bar is based on a variety of common use cases. Use QualityFilter to set the quality bar by specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected faces, specify NONE. The default value is NONE.  If the image doesn't contain Exif metadata, CompareFaces returns orientation information for the source and target images. Use these values to display the images with the correct image orientation. If no faces are detected in the source or target images, CompareFaces returns an InvalidParameterException error.   This is a stateless API operation. That is, data returned by this operation doesn't persist.  For an example, see Comparing Faces in Images in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:CompareFaces action.
     @Sendable
     public func compareFaces(_ input: CompareFacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompareFacesResponse {
@@ -99,7 +112,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service.   To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy. You attach the project policy to the source project by calling PutProjectPolicy. The project policy gives permission to copy the model version from a trusting AWS account to a trusted account. For more information creating and attaching a project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide.  If you are copying a model version to a project in the same AWS account, you don't need to create a project policy.  To copy a model, the destination project, source project, and source model version must already exist.  Copying a model version takes a while to complete. To get the current status, call DescribeProjectVersions and check the value of Status in the ProjectVersionDescription object. The copy operation has finished when the value of Status is COPYING_COMPLETED. This operation requires permissions to perform the rekognition:CopyProjectVersion action.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service.   To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy. You attach the project policy to the source project by calling PutProjectPolicy. The project policy gives permission to copy the model version from a trusting AWS account to a trusted account. For more information creating and attaching a project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide.  If you are copying a model version to a project in the same AWS account, you don't need to create a project policy.  Copying project versions is supported only for Custom Labels models.  To copy a model, the destination project, source project, and source model version must already exist.  Copying a model version takes a while to complete. To get the current status, call DescribeProjectVersions and check the value of Status in the ProjectVersionDescription object. The copy operation has finished when the value of Status is COPYING_COMPLETED. This operation requires permissions to perform the rekognition:CopyProjectVersion action.
     @Sendable
     public func copyProjectVersion(_ input: CopyProjectVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyProjectVersionResponse {
         return try await self.client.execute(
@@ -125,7 +138,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify train for the value of  DatasetType. To create the test dataset for a project, specify test for the value of DatasetType.  The response from CreateDataset is the Amazon Resource Name (ARN) for the dataset. Creating a dataset takes a while to complete. Use DescribeDataset to check the  current status. The dataset created successfully if the value of Status is CREATE_COMPLETE.  To check if any non-terminal errors occurred, call ListDatasetEntries
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify TRAIN for the value of  DatasetType. To create the test dataset for a project, specify TEST for the value of DatasetType.  The response from CreateDataset is the Amazon Resource Name (ARN) for the dataset. Creating a dataset takes a while to complete. Use DescribeDataset to check the  current status. The dataset created successfully if the value of Status is CREATE_COMPLETE.  To check if any non-terminal errors occurred, call ListDatasetEntries
     /// and check for the presence of errors lists in the JSON Lines. Dataset creation fails if a terminal error occurs (Status = CREATE_FAILED).  Currently, you can't access the terminal error information.   For more information, see Creating dataset in the Amazon Rekognition Custom Labels Developer Guide. This operation requires permissions to perform the rekognition:CreateDataset action. If you want to copy an existing dataset, you also require permission to perform the rekognition:ListDatasetEntries action.
     @Sendable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
@@ -139,7 +152,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. You can use AuditImagesLimit to limit the number of audit images returned.  This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
+    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session.  You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead.  You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
     @Sendable
     public func createFaceLivenessSession(_ input: CreateFaceLivenessSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFaceLivenessSessionResponse {
         return try await self.client.execute(
@@ -152,7 +165,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Creates a new Amazon Rekognition Custom Labels project. A project is a group of resources (datasets, model versions)  that you use to create and manage Amazon Rekognition Custom Labels models.   This operation requires permissions to perform the rekognition:CreateProject action.
+    /// Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can specify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:CreateProject action.
     @Sendable
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectResponse {
         return try await self.client.execute(
@@ -165,7 +178,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Creates a new version of a model and begins training.  Models are managed as part of an Amazon Rekognition Custom Labels project.  The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the version of the model.  Training uses the training and test datasets associated with the project.  For more information, see Creating training and test dataset in the Amazon Rekognition Custom Labels Developer Guide.   You can train a model in a project that doesn't have associated datasets by specifying manifest files in the TrainingData and TestingData fields.  If you open the console after training a model with manifest files, Amazon Rekognition Custom Labels creates the datasets for you using the most recent manifest files. You can no longer train a model version for the project by specifying manifest files.  Instead of training with a project without associated datasets, we recommend that you use the manifest files to create training and test datasets for the project.  Training takes a while to complete. You can get the current status by calling DescribeProjectVersions. Training completed successfully if the value of the Status field is TRAINING_COMPLETED. If training  fails, see Debugging a failed model training in the Amazon Rekognition Custom Labels developer guide.  Once training has successfully completed, call DescribeProjectVersions to get the training results and evaluate the model.  For more information, see Improving a trained Amazon Rekognition Custom Labels model in the Amazon Rekognition Custom Labels developers guide.  After evaluating the model, you start the model by calling StartProjectVersion. This operation requires permissions to perform the rekognition:CreateProjectVersion action.
+    /// Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version.  The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a while to complete. You can get the current status by calling DescribeProjectVersions. Training completed successfully if the value of the Status field is TRAINING_COMPLETED. Once training has successfully completed, call DescribeProjectVersions to get the training results and evaluate the model. This operation requires permissions to perform the rekognition:CreateProjectVersion action.   The following applies only to projects with Amazon Rekognition Custom Labels as the chosen feature:  You can train a model in a project that doesn't have associated datasets by specifying manifest files in the TrainingData and TestingData fields.  If you open the console after training a model with manifest files, Amazon Rekognition Custom Labels creates the datasets for you using the most recent manifest files. You can no longer train a model version for the project by specifying manifest files.  Instead of training with a project without associated datasets, we recommend that you use the manifest files to create training and test datasets for the project.
     @Sendable
     public func createProjectVersion(_ input: CreateProjectVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectVersionResponse {
         return try await self.client.execute(
@@ -191,6 +204,19 @@ public struct Rekognition: AWSService {
         )
     }
 
+    /// Creates a new User within a collection specified by CollectionId. Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly.  Uses a ClientToken, an idempotency token that ensures a call to CreateUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error results from making multiple CreateUser calls.
+    @Sendable
+    public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection. This operation requires permissions to perform the rekognition:DeleteCollection action.
     @Sendable
     public func deleteCollection(_ input: DeleteCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCollectionResponse {
@@ -204,7 +230,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take while. Use DescribeDataset to check the  current status. The dataset is still deleting if the value of Status is DELETE_IN_PROGRESS. If you try to access the dataset after it is deleted, you get a ResourceNotFoundException exception.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take while. Use DescribeDataset to check the  current status. The dataset is still deleting if the value of Status is DELETE_IN_PROGRESS. If you try to access the dataset after it is deleted, you get a ResourceNotFoundException exception.
     ///  You can't delete a dataset while it is creating (Status =  CREATE_IN_PROGRESS) or if the dataset is updating (Status =  UPDATE_IN_PROGRESS). This operation requires permissions to perform the rekognition:DeleteDataset action.
     @Sendable
     public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetResponse {
@@ -231,7 +257,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Deletes an Amazon Rekognition Custom Labels project.  To delete a project you must first delete all models associated  with the project. To delete a model, see DeleteProjectVersion.  DeleteProject is an asynchronous operation. To check if the project is deleted, call DescribeProjects. The project is deleted when the project no longer appears in the response. Be aware that deleting a given project will also delete any ProjectPolicies associated with that project. This operation requires permissions to perform the rekognition:DeleteProject action.
+    /// Deletes a Amazon Rekognition project. To delete a project you must first delete all models or adapters associated with the project. To delete a model or adapter, see DeleteProjectVersion.  DeleteProject is an asynchronous operation. To check if the project is deleted, call DescribeProjects. The project is deleted when the project no longer appears in the response. Be aware that deleting a given project will also delete any ProjectPolicies associated with that project. This operation requires permissions to perform the rekognition:DeleteProject action.
     @Sendable
     public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectResponse {
         return try await self.client.execute(
@@ -244,7 +270,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Deletes an existing project policy. To get a list of project policies attached to a project, call ListProjectPolicies. To attach a project policy to a project, call PutProjectPolicy. This operation requires permissions to perform the rekognition:DeleteProjectPolicy action.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Deletes an existing project policy. To get a list of project policies attached to a project, call ListProjectPolicies. To attach a project policy to a project, call PutProjectPolicy. This operation requires permissions to perform the rekognition:DeleteProjectPolicy action.
     @Sendable
     public func deleteProjectPolicy(_ input: DeleteProjectPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectPolicyResponse {
         return try await self.client.execute(
@@ -257,7 +283,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Deletes an Amazon Rekognition Custom Labels model.   You can't delete a model if it is running or if it is training.  To check the status of a model, use the Status field returned from DescribeProjectVersions. To stop a running model call StopProjectVersion. If the model is training, wait until it finishes. This operation requires permissions to perform the rekognition:DeleteProjectVersion action.
+    /// Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom adapter. You can't delete a project version if it is running or if it is training. To check the status of a project version, use the Status field returned from DescribeProjectVersions. To stop a project version call StopProjectVersion. If the project version is training, wait until it finishes. This operation requires permissions to perform the rekognition:DeleteProjectVersion action.
     @Sendable
     public func deleteProjectVersion(_ input: DeleteProjectVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectVersionResponse {
         return try await self.client.execute(
@@ -283,6 +309,19 @@ public struct Rekognition: AWSService {
         )
     }
 
+    /// Deletes the specified UserID within the collection. Faces that are associated with the UserID are disassociated from the UserID before deleting the specified UserID. If the specified Collection or UserID is already deleted or not found, a ResourceNotFoundException will be thrown. If the action is successful with a 200 response, an empty HTTP body is returned.
+    @Sendable
+    public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes the specified collection. You can use DescribeCollection to get information, such as the number of faces indexed into a collection and the version of the model used by the collection for face detection. For more information, see Describing a Collection in the  Amazon Rekognition Developer Guide.
     @Sendable
     public func describeCollection(_ input: DescribeCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCollectionResponse {
@@ -296,6 +335,7 @@ public struct Rekognition: AWSService {
         )
     }
 
+    ///  This operation applies only to Amazon Rekognition Custom Labels.
     /// Describes an Amazon Rekognition Custom Labels dataset. You can get information such as the current status of a dataset and
     /// statistics about the images and labels in a dataset.
     ///  This operation requires permissions to perform the rekognition:DescribeDataset action.
@@ -311,7 +351,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Lists and describes the versions of a model in an Amazon Rekognition Custom Labels project. You  can specify up to 10 model versions in ProjectVersionArns. If you don't specify a value, descriptions for all model versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
+    /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns. If you don't specify a value, descriptions for all model/adapter versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
     @Sendable
     public func describeProjectVersions(_ input: DescribeProjectVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProjectVersionsResponse {
         return try await self.client.execute(
@@ -324,7 +364,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Gets information about your Amazon Rekognition Custom Labels projects.  This operation requires permissions to perform the rekognition:DescribeProjects action.
+    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:DescribeProjects action.
     @Sendable
     public func describeProjects(_ input: DescribeProjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProjectsResponse {
         return try await self.client.execute(
@@ -350,7 +390,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model.  You specify which version of a model version to use by using the ProjectVersionArn input parameter.  You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.  For each object that the model version detects on an image, the API returns a  (CustomLabel) object in an array (CustomLabels). Each CustomLabel object provides the label name (Name), the level of confidence that the image contains the object (Confidence), and  object location information, if it exists,  for the label on the image (Geometry).  To filter labels that are returned, specify a value for MinConfidence. DetectCustomLabelsLabels only returns labels with a confidence that's higher than the specified value.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model.  You specify which version of a model version to use by using the ProjectVersionArn input parameter.  You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.  For each object that the model version detects on an image, the API returns a  (CustomLabel) object in an array (CustomLabels). Each CustomLabel object provides the label name (Name), the level of confidence that the image contains the object (Confidence), and  object location information, if it exists,  for the label on the image (Geometry).  To filter labels that are returned, specify a value for MinConfidence. DetectCustomLabelsLabels only returns labels with a confidence that's higher than the specified value.
     ///  The value of MinConfidence maps to the assumed threshold values created during training. For more information, see Assumed threshold in the Amazon Rekognition Custom Labels Developer Guide.  Amazon Rekognition Custom Labels metrics expresses an assumed threshold as a floating point value between 0-1. The range of MinConfidence normalizes the threshold value to a percentage value (0-100). Confidence responses from DetectCustomLabels are also returned as a percentage.  You can use MinConfidence to change the precision and recall or your model.  For more information, see  Analyzing an image in the Amazon Rekognition Custom Labels Developer Guide.  If you don't specify a value for MinConfidence,  DetectCustomLabels returns labels based on the assumed threshold of each label. This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectCustomLabels action.  For more information, see  Analyzing an image in the Amazon Rekognition Custom Labels Developer Guide.
     @Sendable
     public func detectCustomLabels(_ input: DetectCustomLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectCustomLabelsResponse {
@@ -377,7 +417,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature.  For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.   Optional Parameters  You can specify one or both of the GENERAL_LABELS and IMAGE_PROPERTIES feature types when calling the DetectLabels API. Including GENERAL_LABELS will ensure the response includes the labels detected in the input image, while including IMAGE_PROPERTIES will ensure the response includes information about the image quality and color. When using GENERAL_LABELS and/or IMAGE_PROPERTIES you can provide filtering criteria to the Settings parameter. You can filter with sets of individual labels or with label categories. You can specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive filters. For more information on filtering see Detecting Labels in an Image. You can specify MinConfidence to control the confidence threshold for the labels returned. The default is 55%. You can also add the MaxLabels parameter to limit the number of labels returned. The default and upper limit is 1000 labels.  Response Elements  For each object, scene, and concept the API returns one or more labels. The API returns the following types of information about labels:   Name - The name of the detected label.    Confidence - The level of confidence in the label assigned to a detected object.    Parents - The ancestor labels for a detected label. DetectLabels returns a hierarchical taxonomy of detected labels. For example, a detected car might be assigned the label car. The label car has two parent labels: Vehicle (its parent) and Transportation (its grandparent). The response includes the all ancestors for a label, where every ancestor is a unique label. In the previous example, Car, Vehicle, and Transportation are returned as unique labels in the response.    Aliases - Possible Aliases for the label.    Categories - The label categories that the detected label belongs to.    BoundingBox — Bounding boxes are described for all instances of detected common object labels, returned in an array of Instance objects. An Instance object contains a BoundingBox object, describing the location of the label on the input image. It also includes the confidence for the accuracy of the detected bounding box.    The API returns the following information regarding the image, as part of the ImageProperties structure:   Quality - Information about the Sharpness, Brightness, and Contrast of the input image, scored between 0 to 100. Image quality is returned for the entire image, as well as the background and the foreground.    Dominant Color - An array of the dominant colors in the image.    Foreground - Information about the sharpness, brightness, and dominant colors of the input image’s foreground.    Background - Information about the sharpness, brightness, and dominant colors of the input image’s background.   The list of returned labels will include at least one label for every detected object, along with information about that label. In the following example, suppose the input image has a lighthouse, the sea, and a rock. The response includes all three labels, one for each object, as well as the confidence in the label:  {Name: lighthouse, Confidence: 98.4629}   {Name: rock,Confidence: 79.2097}   {Name: sea,Confidence: 75.061}  The list of labels can include multiple labels for the same object. For example, if the input image shows a flower (for example, a tulip), the operation might return the following three labels.   {Name: flower,Confidence: 99.0562}   {Name: plant,Confidence: 99.0562}   {Name: tulip,Confidence: 99.0562}  In this example, the detection algorithm more precisely identifies the flower as a tulip.  If the object detected is a person, the operation doesn't provide the same facial details that the DetectFaces operation provides.  This is a stateless API operation that doesn't return any data. This operation requires permissions to perform the rekognition:DetectLabels action.
+    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature.  For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.   Optional Parameters  You can specify one or both of the GENERAL_LABELS and IMAGE_PROPERTIES feature types when calling the DetectLabels API. Including GENERAL_LABELS will ensure the response includes the labels detected in the input image, while including IMAGE_PROPERTIES will ensure the response includes information about the image quality and color. When using GENERAL_LABELS and/or IMAGE_PROPERTIES you can provide filtering criteria to the Settings parameter. You can filter with sets of individual labels or with label categories. You can specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive filters. For more information on filtering see Detecting Labels in an Image. When getting labels, you can specify MinConfidence to control the confidence threshold for the labels returned. The default is 55%. You can also add the MaxLabels parameter to limit the number of labels returned. The default and upper limit is 1000 labels. These arguments are only valid when supplying GENERAL_LABELS as a feature type.  Response Elements  For each object, scene, and concept the API returns one or more labels. The API returns the following types of information about labels:   Name - The name of the detected label.    Confidence - The level of confidence in the label assigned to a detected object.    Parents - The ancestor labels for a detected label. DetectLabels returns a hierarchical taxonomy of detected labels. For example, a detected car might be assigned the label car. The label car has two parent labels: Vehicle (its parent) and Transportation (its grandparent). The response includes the all ancestors for a label, where every ancestor is a unique label. In the previous example, Car, Vehicle, and Transportation are returned as unique labels in the response.    Aliases - Possible Aliases for the label.    Categories - The label categories that the detected label belongs to.    BoundingBox — Bounding boxes are described for all instances of detected common object labels, returned in an array of Instance objects. An Instance object contains a BoundingBox object, describing the location of the label on the input image. It also includes the confidence for the accuracy of the detected bounding box.    The API returns the following information regarding the image, as part of the ImageProperties structure:   Quality - Information about the Sharpness, Brightness, and Contrast of the input image, scored between 0 to 100. Image quality is returned for the entire image, as well as the background and the foreground.    Dominant Color - An array of the dominant colors in the image.    Foreground - Information about the sharpness, brightness, and dominant colors of the input image’s foreground.    Background - Information about the sharpness, brightness, and dominant colors of the input image’s background.   The list of returned labels will include at least one label for every detected object, along with information about that label. In the following example, suppose the input image has a lighthouse, the sea, and a rock. The response includes all three labels, one for each object, as well as the confidence in the label:  {Name: lighthouse, Confidence: 98.4629}   {Name: rock,Confidence: 79.2097}   {Name: sea,Confidence: 75.061}  The list of labels can include multiple labels for the same object. For example, if the input image shows a flower (for example, a tulip), the operation might return the following three labels.   {Name: flower,Confidence: 99.0562}   {Name: plant,Confidence: 99.0562}   {Name: tulip,Confidence: 99.0562}  In this example, the detection algorithm more precisely identifies the flower as a tulip.  If the object detected is a person, the operation doesn't provide the same facial details that the DetectFaces operation provides.  This is a stateless API operation that doesn't return any data. This operation requires permissions to perform the rekognition:DetectLabels action.
     @Sendable
     public func detectLabels(_ input: DetectLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectLabelsResponse {
         return try await self.client.execute(
@@ -390,7 +430,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Detects unsafe content in a specified JPEG or PNG format image. Use DetectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content. To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.
+    /// Detects unsafe content in a specified JPEG or PNG format image. Use DetectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content. To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.  You can specify an adapter to use when retrieving label predictions by providing a ProjectVersionArn to the ProjectVersion argument.
     @Sendable
     public func detectModerationLabels(_ input: DetectModerationLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectModerationLabelsResponse {
         return try await self.client.execute(
@@ -429,7 +469,20 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image.  You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset.  The training dataset must contain the images that you want to split. The test dataset  must be empty. The datasets must belong to the same project. To create training and test datasets for a project, call CreateDataset. Distributing a dataset takes a while to complete. To check the status call DescribeDataset. The operation is complete when the Status field for the training dataset and the test dataset is UPDATE_COMPLETE.  If the dataset split fails, the value of Status is UPDATE_FAILED. This operation requires permissions to perform the rekognition:DistributeDatasetEntries action.
+    /// Removes the association between a Face supplied in an array of FaceIds and the User. If the User is not present already, then a ResourceNotFound exception is thrown. If successful, an array of faces that are disassociated from the User is returned. If a given face is already disassociated from the given UserID, it will be ignored and not be returned in the response. If a given face is already associated with a different User or not found in the collection it will be returned as part of UnsuccessfulDisassociations. You can remove 1 - 100 face IDs from a user at one time.
+    @Sendable
+    public func disassociateFaces(_ input: DisassociateFacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFacesResponse {
+        return try await self.client.execute(
+            operation: "DisassociateFaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image.  You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset.  The training dataset must contain the images that you want to split. The test dataset  must be empty. The datasets must belong to the same project. To create training and test datasets for a project, call CreateDataset. Distributing a dataset takes a while to complete. To check the status call DescribeDataset. The operation is complete when the Status field for the training dataset and the test dataset is UPDATE_COMPLETE.  If the dataset split fails, the value of Status is UPDATE_FAILED. This operation requires permissions to perform the rekognition:DistributeDatasetEntries action.
     @Sendable
     public func distributeDatasetEntries(_ input: DistributeDatasetEntriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DistributeDatasetEntriesResponse {
         return try await self.client.execute(
@@ -481,7 +534,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection. Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling StartFaceDetection which returns a job identifier (JobId). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetFaceDetection and pass the job identifier (JobId) from the initial call to StartFaceDetection.  GetFaceDetection returns an array of detected faces (Faces) sorted by the time the faces were detected.  Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetFaceDetection and populate the NextToken request parameter with the token value returned from the previous call to GetFaceDetection.
+    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection. Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling StartFaceDetection which returns a job identifier (JobId). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetFaceDetection and pass the job identifier (JobId) from the initial call to StartFaceDetection.  GetFaceDetection returns an array of detected faces (Faces) sorted by the time the faces were detected.  Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetFaceDetection and populate the NextToken request parameter with the token value returned from the previous call to GetFaceDetection. Note that for the GetFaceDetection operation, the returned values for FaceOccluded and EyeDirection will always be "null".
     @Sendable
     public func getFaceDetection(_ input: GetFaceDetectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFaceDetectionResponse {
         return try await self.client.execute(
@@ -494,7 +547,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The reference image can optionally be returned.
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100.  The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible.
     @Sendable
     public func getFaceLivenessSessionResults(_ input: GetFaceLivenessSessionResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFaceLivenessSessionResultsResponse {
         return try await self.client.execute(
@@ -533,6 +586,19 @@ public struct Rekognition: AWSService {
         )
     }
 
+    /// Retrieves the results for a given media analysis job.  Takes a JobId returned by StartMediaAnalysisJob.
+    @Sendable
+    public func getMediaAnalysisJob(_ input: GetMediaAnalysisJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaAnalysisJobResponse {
+        return try await self.client.execute(
+            operation: "GetMediaAnalysisJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking. The person path tracking operation is started by a call to StartPersonTracking which returns a job identifier (JobId). When the operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartPersonTracking. To get the results of the person path tracking operation, first check  that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetPersonTracking and pass the job identifier (JobId) from the initial call to StartPersonTracking.  GetPersonTracking returns an array, Persons, of tracked persons and the time(s) their  paths were tracked in the video.    GetPersonTracking only returns the default   facial attributes (BoundingBox, Confidence,  Landmarks, Pose, and Quality). The other facial attributes listed in the Face object of the following response syntax are not returned.  For more information, see FaceDetail in the Amazon Rekognition Developer Guide.  By default, the array is sorted by the time(s) a person's path is tracked in the video. You can sort by tracked persons by specifying INDEX for the SortBy input parameter. Use the MaxResults parameter to limit the number of items returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetPersonTracking and populate the NextToken request parameter with the token value returned from the previous call to GetPersonTracking.
     @Sendable
     public func getPersonTracking(_ input: GetPersonTrackingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPersonTrackingResponse {
@@ -559,7 +625,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by  calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED.  if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by  the time the text was detected, up to 50 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy  of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than  specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous  call to GetTextDetection.
+    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by  calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED.  if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by  the time the text was detected, up to 100 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy  of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than  specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous  call to GetTextDetection.
     @Sendable
     public func getTextDetection(_ input: GetTextDetectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTextDetectionResponse {
         return try await self.client.execute(
@@ -598,6 +664,7 @@ public struct Rekognition: AWSService {
         )
     }
 
+    ///  This operation applies only to Amazon Rekognition Custom Labels.
     /// Lists the entries (images) within a dataset. An entry is a
     /// JSON Line that contains the information for a single image, including
     /// the image location, assigned labels, and object location bounding boxes. For
@@ -615,7 +682,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see  Labeling images.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see  Labeling images.
     ///   Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
     @Sendable
     public func listDatasetLabels(_ input: ListDatasetLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetLabelsResponse {
@@ -642,7 +709,20 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
+    /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
+    @Sendable
+    public func listMediaAnalysisJobs(_ input: ListMediaAnalysisJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaAnalysisJobsResponse {
+        return try await self.client.execute(
+            operation: "ListMediaAnalysisJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
     @Sendable
     public func listProjectPolicies(_ input: ListProjectPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectPoliciesResponse {
         return try await self.client.execute(
@@ -681,7 +761,20 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS account. A project policy specifies that a trusted AWS account can copy a model version from a trusting AWS account to a project in the trusted AWS account. To copy a model version you use the CopyProjectVersion operation. For more information about the format of a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide.  The response from PutProjectPolicy is a revision ID for the project policy. You can attach multiple project policies to a project. You can also update an existing project policy by specifying the policy revision ID of the existing policy. To remove a project policy from a project, call DeleteProjectPolicy. To get a list of project policies attached to a project, call ListProjectPolicies.  You copy a model version by calling CopyProjectVersion. This operation requires permissions to perform the rekognition:PutProjectPolicy action.
+    /// Returns metadata of the User such as UserID in the specified collection. Anonymous User (to reserve faces without any identity) is not returned as part of this request. The results are sorted by system generated primary key ID. If the response is truncated, NextToken is returned in the response that can be used in the subsequent request to retrieve the next set of identities.
+    @Sendable
+    public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS account. A project policy specifies that a trusted AWS account can copy a model version from a trusting AWS account to a project in the trusted AWS account. To copy a model version you use the CopyProjectVersion operation. Only applies to Custom Labels projects. For more information about the format of a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide.  The response from PutProjectPolicy is a revision ID for the project policy. You can attach multiple project policies to a project. You can also update an existing project policy by specifying the policy revision ID of the existing policy. To remove a project policy from a project, call DeleteProjectPolicy. To get a list of project policies attached to a project, call ListProjectPolicies.  You copy a model version by calling CopyProjectVersion. This operation requires permissions to perform the rekognition:PutProjectPolicy action.
     @Sendable
     public func putProjectPolicy(_ input: PutProjectPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutProjectPolicyResponse {
         return try await self.client.execute(
@@ -725,6 +818,32 @@ public struct Rekognition: AWSService {
     public func searchFacesByImage(_ input: SearchFacesByImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFacesByImageResponse {
         return try await self.client.execute(
             operation: "SearchFacesByImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches for UserIDs within a collection based on a FaceId or UserId. This API can be used to find the closest UserID (with a highest similarity) to associate a face. The request must be provided with either FaceId or UserId. The operation returns an array of UserID that match the FaceId or UserId, ordered by similarity score with the highest similarity first.
+    @Sendable
+    public func searchUsers(_ input: SearchUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUsersResponse {
+        return try await self.client.execute(
+            operation: "SearchUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches for UserIDs using a supplied image. It first detects the largest face in the image, and then searches a specified collection for matching UserIDs.  The operation returns an array of UserIDs that match the face in the supplied image, ordered by similarity score with the highest similarity first. It also returns a bounding box for the face found in the input image.  Information about faces detected in the supplied image, but not used for the search, is returned in an array of UnsearchedFace objects. If no valid face is detected in the image, the response will contain an empty UserMatches list and no SearchedFace object.
+    @Sendable
+    public func searchUsersByImage(_ input: SearchUsersByImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUsersByImageResponse {
+        return try await self.client.execute(
+            operation: "SearchUsersByImage", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -798,6 +917,19 @@ public struct Rekognition: AWSService {
         )
     }
 
+    /// Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
+    @Sendable
+    public func startMediaAnalysisJob(_ input: StartMediaAnalysisJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMediaAnalysisJobResponse {
+        return try await self.client.execute(
+            operation: "StartMediaAnalysisJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the asynchronous tracking of a person's path in a stored video. Amazon Rekognition Video can track the path of people in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartPersonTracking returns a job identifier (JobId) which you use to get the results of the operation. When label detection is finished, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel.  To get the results of the person detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetPersonTracking and pass the job identifier (JobId) from the initial call to StartPersonTracking.
     @Sendable
     public func startPersonTracking(_ input: StartPersonTrackingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPersonTrackingResponse {
@@ -811,7 +943,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use DescribeProjectVersions. Once the model is running, you can detect custom labels in new images by calling  DetectCustomLabels.  You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion.  For more information, see Running a trained Amazon Rekognition Custom Labels model in the Amazon Rekognition Custom Labels Guide. This operation requires permissions to perform the  rekognition:StartProjectVersion action.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use DescribeProjectVersions.  Once the model is running, you can detect custom labels in new images by calling  DetectCustomLabels.  You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion.  This operation requires permissions to perform the  rekognition:StartProjectVersion action.
     @Sendable
     public func startProjectVersion(_ input: StartProjectVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProjectVersionResponse {
         return try await self.client.execute(
@@ -863,7 +995,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Stops a running model. The operation might take a while to complete. To check the current status, call DescribeProjectVersions.  This operation requires permissions to perform the rekognition:StopProjectVersion action.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Stops a running model. The operation might take a while to complete. To check the current status, call DescribeProjectVersions. Only applies to Custom Labels projects. This operation requires permissions to perform the rekognition:StopProjectVersion action.
     @Sendable
     public func stopProjectVersion(_ input: StopProjectVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopProjectVersionResponse {
         return try await self.client.execute(
@@ -915,7 +1047,7 @@ public struct Rekognition: AWSService {
         )
     }
 
-    /// Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image,  including the image location, assigned labels, and object location bounding boxes.  For more information,  see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.  If the source-ref field in the JSON line references an existing image, the existing image in the dataset is updated.  If source-ref field doesn't reference an existing image, the image is added as a new image to the dataset.  You specify the changes that you want to make in the Changes input parameter.  There isn't a limit to the number JSON Lines that you can change, but the size of Changes must be less
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image,  including the image location, assigned labels, and object location bounding boxes.  For more information,  see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.  If the source-ref field in the JSON line references an existing image, the existing image in the dataset is updated.  If source-ref field doesn't reference an existing image, the image is added as a new image to the dataset.  You specify the changes that you want to make in the Changes input parameter.  There isn't a limit to the number JSON Lines that you can change, but the size of Changes must be less
     /// than 5MB.  UpdateDatasetEntries returns immediatly, but the dataset update might take a while to complete. Use DescribeDataset to check the  current status. The dataset updated successfully if the value of Status is UPDATE_COMPLETE.  To check if any non-terminal errors occured, call ListDatasetEntries and check for the presence of errors lists in the JSON Lines. Dataset update fails if a terminal error occurs (Status = UPDATE_FAILED).  Currently, you can't access the terminal error information from the Amazon Rekognition Custom Labels SDK.  This operation requires permissions to perform the rekognition:UpdateDatasetEntries action.
     @Sendable
     public func updateDatasetEntries(_ input: UpdateDatasetEntriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetEntriesResponse {
@@ -956,7 +1088,7 @@ extension Rekognition {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Rekognition {
-    /// Lists and describes the versions of a model in an Amazon Rekognition Custom Labels project. You  can specify up to 10 model versions in ProjectVersionArns. If you don't specify a value, descriptions for all model versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
+    /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns. If you don't specify a value, descriptions for all model/adapter versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -975,7 +1107,7 @@ extension Rekognition {
         )
     }
 
-    /// Gets information about your Amazon Rekognition Custom Labels projects.  This operation requires permissions to perform the rekognition:DescribeProjects action.
+    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:DescribeProjects action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1032,7 +1164,7 @@ extension Rekognition {
         )
     }
 
-    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection. Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling StartFaceDetection which returns a job identifier (JobId). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetFaceDetection and pass the job identifier (JobId) from the initial call to StartFaceDetection.  GetFaceDetection returns an array of detected faces (Faces) sorted by the time the faces were detected.  Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetFaceDetection and populate the NextToken request parameter with the token value returned from the previous call to GetFaceDetection.
+    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection. Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling StartFaceDetection which returns a job identifier (JobId). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call  GetFaceDetection and pass the job identifier (JobId) from the initial call to StartFaceDetection.  GetFaceDetection returns an array of detected faces (Faces) sorted by the time the faces were detected.  Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetFaceDetection and populate the NextToken request parameter with the token value returned from the previous call to GetFaceDetection. Note that for the GetFaceDetection operation, the returned values for FaceOccluded and EyeDirection will always be "null".
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1127,7 +1259,7 @@ extension Rekognition {
         )
     }
 
-    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by  calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED.  if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by  the time the text was detected, up to 50 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy  of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than  specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous  call to GetTextDetection.
+    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by  calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED.  if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by  the time the text was detected, up to 100 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy  of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than  specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous  call to GetTextDetection.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1165,6 +1297,7 @@ extension Rekognition {
         )
     }
 
+    ///  This operation applies only to Amazon Rekognition Custom Labels.
     /// Lists the entries (images) within a dataset. An entry is a
     /// JSON Line that contains the information for a single image, including
     /// the image location, assigned labels, and object location bounding boxes. For
@@ -1188,7 +1321,7 @@ extension Rekognition {
         )
     }
 
-    /// Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see  Labeling images.
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see  Labeling images.
     ///   Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -1227,7 +1360,26 @@ extension Rekognition {
         )
     }
 
-    /// Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
+    /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMediaAnalysisJobsPaginator(
+        _ input: ListMediaAnalysisJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMediaAnalysisJobsRequest, ListMediaAnalysisJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listMediaAnalysisJobs,
+            inputKey: \ListMediaAnalysisJobsRequest.nextToken,
+            outputKey: \ListMediaAnalysisJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    ///  This operation applies only to Amazon Rekognition Custom Labels.  Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1264,6 +1416,25 @@ extension Rekognition {
             logger: logger
         )
     }
+
+    /// Returns metadata of the User such as UserID in the specified collection. Anonymous User (to reserve faces without any identity) is not returned as part of this request. The results are sorted by system generated primary key ID. If the response is truncated, NextToken is returned in the response that can be used in the subsequent request to retrieve the next set of identities.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listUsersPaginator(
+        _ input: ListUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUsersRequest, ListUsersResponse> {
+        return .init(
+            input: input,
+            command: self.listUsers,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateToken {
@@ -1280,6 +1451,7 @@ extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateToken {
 extension Rekognition.DescribeProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.DescribeProjectsRequest {
         return .init(
+            features: self.features,
             maxResults: self.maxResults,
             nextToken: token,
             projectNames: self.projectNames
@@ -1411,6 +1583,17 @@ extension Rekognition.ListFacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.ListFacesRequest {
         return .init(
             collectionId: self.collectionId,
+            faceIds: self.faceIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userId: self.userId
+        )
+    }
+}
+
+extension Rekognition.ListMediaAnalysisJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListMediaAnalysisJobsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1430,6 +1613,16 @@ extension Rekognition.ListProjectPoliciesRequest: AWSPaginateToken {
 extension Rekognition.ListStreamProcessorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.ListStreamProcessorsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Rekognition.ListUsersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListUsersRequest {
+        return .init(
+            collectionId: self.collectionId,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS DocDB service.
 ///
-/// Amazon DocumentDB API documentation
+/// Amazon DocumentDB is a fast, reliable, and fully managed database service.  Amazon DocumentDB makes it easy to set up, operate, and scale MongoDB-compatible databases in the cloud.  With Amazon DocumentDB, you can run the same application code and use the same drivers and tools that you use with MongoDB.
 public struct DocDB: AWSService {
     // MARK: Member variables
 
@@ -80,6 +80,9 @@ public struct DocDB: AWSService {
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "rds-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "rds-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "rds-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "rds-fips.us-west-1.amazonaws.com",
             "us-west-2": "rds-fips.us-west-2.amazonaws.com"
         ])

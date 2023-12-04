@@ -26,19 +26,19 @@ import Foundation
 extension Shield {
     // MARK: Enums
 
-    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttackLayer: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttackLayer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case application = "APPLICATION"
         case network = "NETWORK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case destinationUrl = "DESTINATION_URL"
         case referrer = "REFERRER"
         case sourceAsn = "SOURCE_ASN"
@@ -50,20 +50,20 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoRenew: String, CustomStringConvertible, Codable, Sendable {
+    public enum AutoRenew: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectedResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProtectedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
         case classicLoadBalancer = "CLASSIC_LOAD_BALANCER"
         case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
@@ -73,33 +73,33 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case max = "MAX"
         case mean = "MEAN"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case arbitrary = "ARBITRARY"
         case byResourceType = "BY_RESOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ip = "IP"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubscriptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "BITS"
         case bytes = "BYTES"
         case packets = "PACKETS"
@@ -150,8 +150,7 @@ extension Shield {
     }
 
     public struct AssociateDRTRoleRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account.
-        /// 	        Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role.  For more information see Attaching and Detaching IAM Policies.
+        /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role.  For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
 
         public init(roleArn: String) {
@@ -277,7 +276,7 @@ extension Shield {
         public let topContributors: [Contributor]?
         /// The total contributions made to this Shield event by all contributors.
         public let total: Int64?
-        /// The unit used for the Contributor  Value property.
+        /// The unit used for the Contributor Value property.
         public let unit: Unit?
 
         public init(attackLayer: AttackLayer? = nil, attackPropertyIdentifier: AttackPropertyIdentifier? = nil, topContributors: [Contributor]? = nil, total: Int64? = nil, unit: Unit? = nil) {
@@ -344,8 +343,7 @@ extension Shield {
     }
 
     public struct AttackVectorDescription: AWSDecodableShape {
-        /// The attack type. Valid values:
-        /// 	          UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD    HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION
+        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION
         public let vectorType: String
 
         public init(vectorType: String) {
@@ -1035,9 +1033,9 @@ extension Shield {
     public struct ListAttacksRequest: AWSEncodableShape {
         /// The end of the time period for the attacks. This is a timestamp type. The request syntax listing for this call indicates a number type, but you can provide the time in any valid timestamp format setting.
         public let endTime: TimeRange?
-        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response.  The default setting is 20.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
         public let maxResults: Int?
-        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
         /// The ARNs (Amazon Resource Names) of the resources that were attacked. If you leave this blank, all applicable resources for this account will be included.
         public let resourceArns: [String]?
@@ -1094,9 +1092,9 @@ extension Shield {
     public struct ListProtectionGroupsRequest: AWSEncodableShape {
         /// Narrows the set of protection groups that the call retrieves. You can retrieve a single protection group by its name and you can retrieve all protection groups that are configured with specific pattern or aggregation settings. You can provide up to one criteria per filter type. Shield Advanced returns the protection groups that exactly match all of the search criteria that you provide.
         public let inclusionFilters: InclusionProtectionGroupFilters?
-        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response.  The default setting is 20.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
         public let maxResults: Int?
-        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
         public init(inclusionFilters: InclusionProtectionGroupFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1140,9 +1138,9 @@ extension Shield {
     public struct ListProtectionsRequest: AWSEncodableShape {
         /// Narrows the set of protections that the call retrieves. You can retrieve a single protection by providing its name or the ARN (Amazon Resource Name) of its protected resource. You can also retrieve all protections for a specific resource type. You can provide up to one criteria per filter type. Shield Advanced returns protections that exactly match all of the filter criteria that you provide.
         public let inclusionFilters: InclusionProtectionFilters?
-        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response.  The default setting is 20.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
         public let maxResults: Int?
-        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
         public init(inclusionFilters: InclusionProtectionFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1185,9 +1183,9 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupRequest: AWSEncodableShape {
-        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response.  The default setting is 20.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
         public let maxResults: Int?
-        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String

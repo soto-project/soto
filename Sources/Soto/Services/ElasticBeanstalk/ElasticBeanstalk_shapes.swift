@@ -26,14 +26,14 @@ import Foundation
 extension ElasticBeanstalk {
     // MARK: Enums
 
-    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "Pending"
         case running = "Running"
         case scheduled = "Scheduled"
@@ -41,14 +41,14 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceRefresh = "InstanceRefresh"
         case platformUpdate = "PlatformUpdate"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case building = "Building"
         case failed = "Failed"
         case processed = "Processed"
@@ -57,27 +57,27 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
         case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deployed = "deployed"
         case failed = "failed"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealth: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case green = "Green"
         case grey = "Grey"
         case red = "Red"
@@ -85,7 +85,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case applicationMetrics = "ApplicationMetrics"
         case causes = "Causes"
@@ -97,7 +97,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case degraded = "Degraded"
         case info = "Info"
         case noData = "NoData"
@@ -110,13 +110,13 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bundle = "bundle"
         case tail = "tail"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aborting = "Aborting"
         case launching = "Launching"
         case linkingFrom = "LinkingFrom"
@@ -128,7 +128,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSeverity: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -138,7 +138,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancellationFailed = "CancellationFailed"
         case internalFailure = "InternalFailure"
         case invalidEnvironmentState = "InvalidEnvironmentState"
@@ -149,7 +149,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case applicationMetrics = "ApplicationMetrics"
         case availabilityZone = "AvailabilityZone"
@@ -164,7 +164,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlatformStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "Creating"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -173,19 +173,19 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceRepository: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceRepository: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeCommit = "CodeCommit"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case git = "Git"
         case zip = "Zip"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidationSeverity: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValidationSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "error"
         case warning = "warning"
         public var description: String { return self.rawValue }

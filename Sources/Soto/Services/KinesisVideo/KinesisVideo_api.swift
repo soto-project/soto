@@ -98,6 +98,19 @@ public struct KinesisVideo: AWSService {
         )
     }
 
+    /// An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED. You will need to re-try the deletion. When the deletion process has completed successfully, the edge configuration is no longer accessible.
+    @Sendable
+    public func deleteEdgeConfiguration(_ input: DeleteEdgeConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEdgeConfigurationOutput {
+        return try await self.client.execute(
+            operation: "DeleteEdgeConfiguration", 
+            path: "/deleteEdgeConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
     @Sendable
     public func deleteSignalingChannel(_ input: DeleteSignalingChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSignalingChannelOutput {
@@ -124,7 +137,7 @@ public struct KinesisVideo: AWSService {
         )
     }
 
-    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API.  Use this API to get the status of the configuration if the configuration is in sync with the  Edge Agent.
+    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent.
     @Sendable
     public func describeEdgeConfiguration(_ input: DescribeEdgeConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEdgeConfigurationOutput {
         return try await self.client.execute(
@@ -150,7 +163,7 @@ public struct KinesisVideo: AWSService {
         )
     }
 
-    /// Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     @Sendable
     public func describeMappedResourceConfiguration(_ input: DescribeMappedResourceConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMappedResourceConfigurationOutput {
         return try await self.client.execute(
@@ -241,6 +254,19 @@ public struct KinesisVideo: AWSService {
         )
     }
 
+    /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
+    @Sendable
+    public func listEdgeAgentConfigurations(_ input: ListEdgeAgentConfigurationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEdgeAgentConfigurationsOutput {
+        return try await self.client.execute(
+            operation: "ListEdgeAgentConfigurations", 
+            path: "/listEdgeAgentConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     @Sendable
     public func listSignalingChannels(_ input: ListSignalingChannelsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSignalingChannelsOutput {
@@ -293,7 +319,7 @@ public struct KinesisVideo: AWSService {
         )
     }
 
-    /// An asynchronous API that updates a stream’s existing edge configuration.  The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass  component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device.  The SyncStatus will be updated as the edge configuration is acknowledged,  and synced with the Edge Agent.  If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again.  If you invoke this API during the syncing process, a ResourceInUseException will be thrown.  The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+    /// An asynchronous API that updates a stream’s existing edge configuration.  The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass  component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device.  The SyncStatus will be updated as the edge configuration is acknowledged,  and synced with the Edge Agent.  If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again.  If you invoke this API during the syncing process, a ResourceInUseException will be thrown.  The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
     @Sendable
     public func startEdgeConfigurationUpdate(_ input: StartEdgeConfigurationUpdateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEdgeConfigurationUpdateOutput {
         return try await self.client.execute(
@@ -358,7 +384,7 @@ public struct KinesisVideo: AWSService {
         )
     }
 
-    ///  Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN.   The retention period that you specify replaces the current value.  This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:   If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.   If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.
+    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN.  This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:   If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.   If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.
     @Sendable
     public func updateDataRetention(_ input: UpdateDataRetentionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataRetentionOutput {
         return try await self.client.execute(
@@ -384,7 +410,7 @@ public struct KinesisVideo: AWSService {
         )
     }
 
-    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that  can specified :   If the StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.    If the StorageStatus is enabled, the data will be stored in the  StreamARN provided.
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify :   If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled.   If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.     If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connect directly to the storage session. You must call the JoinStorageSession API to trigger an SDP offer send and establish a connection between a peer and the storage session.
     @Sendable
     public func updateMediaStorageConfiguration(_ input: UpdateMediaStorageConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMediaStorageConfigurationOutput {
         return try await self.client.execute(
@@ -450,7 +476,7 @@ extension KinesisVideo {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension KinesisVideo {
-    /// Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -465,6 +491,25 @@ extension KinesisVideo {
             command: self.describeMappedResourceConfiguration,
             inputKey: \DescribeMappedResourceConfigurationInput.nextToken,
             outputKey: \DescribeMappedResourceConfigurationOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEdgeAgentConfigurationsPaginator(
+        _ input: ListEdgeAgentConfigurationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput> {
+        return .init(
+            input: input,
+            command: self.listEdgeAgentConfigurations,
+            inputKey: \ListEdgeAgentConfigurationsInput.nextToken,
+            outputKey: \ListEdgeAgentConfigurationsOutput.nextToken,
             logger: logger
         )
     }
@@ -515,6 +560,16 @@ extension KinesisVideo.DescribeMappedResourceConfigurationInput: AWSPaginateToke
             nextToken: token,
             streamARN: self.streamARN,
             streamName: self.streamName
+        )
+    }
+}
+
+extension KinesisVideo.ListEdgeAgentConfigurationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisVideo.ListEdgeAgentConfigurationsInput {
+        return .init(
+            hubDeviceArn: self.hubDeviceArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

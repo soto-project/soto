@@ -26,7 +26,7 @@ import Foundation
 extension IoTFleetHub {
     // MARK: Enums
 
-    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"

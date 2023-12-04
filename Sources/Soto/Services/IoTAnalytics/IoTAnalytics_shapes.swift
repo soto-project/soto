@@ -26,58 +26,58 @@ import Foundation
 extension IoTAnalytics {
     // MARK: Enums
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acu1 = "ACU_1"
         case acu2 = "ACU_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case container = "CONTAINER"
         case query = "QUERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetContentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetContentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatastoreStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatastoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormatType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReprocessingStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReprocessingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -279,7 +279,7 @@ extension IoTAnalytics {
         public let arn: String?
         /// When the channel was created.
         public let creationTime: Date?
-        /// The last time when a new message arrived in the channel.  IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation.  This feature only applies to messages that arrived in the data store after October 23, 2020.
+        /// The last time when a new message arrived in the channel. IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// When the channel was last updated.
         public let lastUpdateTime: Date?
@@ -427,7 +427,7 @@ extension IoTAnalytics {
         public let channelStorage: ChannelStorageSummary?
         /// When the channel was created.
         public let creationTime: Date?
-        /// The last time when a new message arrived in the channel.  IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation.  This feature only applies to messages that arrived in the data store after October 23, 2020.
+        /// The last time when a new message arrived in the channel. IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// The last time the channel was updated.
         public let lastUpdateTime: Date?
@@ -718,7 +718,7 @@ extension IoTAnalytics {
         public let datastorePartitions: DatastorePartitions?
         /// Where data in a data store is stored.. You can choose serviceManagedS3 storage, customerManagedS3 storage, or iotSiteWiseMultiLayerStorage storage. The default is serviceManagedS3. You can't change the choice of Amazon S3 storage after your data store is created.
         public let datastoreStorage: DatastoreStorage?
-        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet.  The default file format is JSON. You can specify only one format.  You can't change the file format after you create the data store.
+        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
         public let fileFormatConfiguration: FileFormatConfiguration?
         /// How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
@@ -1225,9 +1225,9 @@ extension IoTAnalytics {
         public let creationTime: Date?
         ///  Contains information about the partition dimensions in a data store.
         public let datastorePartitions: DatastorePartitions?
-        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet.  The default file format is JSON. You can specify only one format.  You can't change the file format after you create the data store.
+        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
         public let fileFormatConfiguration: FileFormatConfiguration?
-        /// The last time when a new message arrived in the data store.  IoT Analytics updates this value at most once per minute for Amazon Simple Storage Service one data store. Hence, the lastMessageArrivalTime value is an approximation.  This feature only applies to messages that arrived in the data store after October 23, 2020.
+        /// The last time when a new message arrived in the data store. IoT Analytics updates this value at most once per minute for Amazon Simple Storage Service one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
         public let lastUpdateTime: Date?
@@ -1409,7 +1409,7 @@ extension IoTAnalytics {
         public let datastoreStorage: DatastoreStorageSummary?
         /// The file format of the data in the data store.
         public let fileFormatType: FileFormatType?
-        /// The last time when a new message arrived in the data store.  IoT Analytics updates this value at most once per minute for Amazon Simple Storage Service one data store. Hence, the lastMessageArrivalTime value is an approximation.  This feature only applies to messages that arrived in the data store after October 23, 2020.
+        /// The last time when a new message arrived in the data store. IoT Analytics updates this value at most once per minute for Amazon Simple Storage Service one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
         public let lastUpdateTime: Date?
@@ -3341,7 +3341,7 @@ extension IoTAnalytics {
         public let datastoreName: String
         /// Where data in a data store is stored.. You can choose serviceManagedS3 storage, customerManagedS3 storage, or iotSiteWiseMultiLayerStorage storage. The default is serviceManagedS3. You can't change the choice of Amazon S3 storage after your data store is created.
         public let datastoreStorage: DatastoreStorage?
-        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet.  The default file format is JSON. You can specify only one format.  You can't change the file format after you create the data store.
+        /// Contains the configuration information of file formats.  IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
         public let fileFormatConfiguration: FileFormatConfiguration?
         /// How long, in days, message data is kept for the data store. The retention period can't be updated if the data store's Amazon S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?

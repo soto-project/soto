@@ -26,13 +26,13 @@ import Foundation
 extension Cloud9 {
     // MARK: Enums
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectSsh = "CONNECT_SSH"
         case connectSsm = "CONNECT_SSM"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case created = "CREATED"
         case creating = "CREATING"
@@ -41,7 +41,7 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connecting = "connecting"
         case creating = "creating"
         case deleting = "deleting"
@@ -52,19 +52,19 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "ec2"
         case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabledByCollaborator = "DISABLED_BY_COLLABORATOR"
         case disabledByDefault = "DISABLED_BY_DEFAULT"
         case disabledByOwner = "DISABLED_BY_OWNER"
@@ -79,13 +79,13 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberPermissions: String, CustomStringConvertible, Codable, Sendable {
+    public enum MemberPermissions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case readOnly = "read-only"
         case readWrite = "read-write"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permissions: String, CustomStringConvertible, Codable, Sendable {
+    public enum Permissions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owner = "owner"
         case readOnly = "read-only"
         case readWrite = "read-write"
@@ -105,7 +105,7 @@ extension Cloud9 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. The default Amazon Linux AMI is currently used if the parameter isn't explicitly assigned a value in the request.  In the future the parameter for Amazon Linux will no longer be available when you specify an AMI for your instance. Amazon Linux 2 will then become the default AMI, which is used to launch your instance if no parameter is explicitly defined.  AMI aliases      Amazon Linux (default): amazonlinux-1-x86_64     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64     SSM paths     Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64     Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
+        /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. From December 04, 2023, you will be required to include the imageId parameter for the CreateEnvironmentEC2 action. This change will be reflected across all direct methods of communicating with the API, such as Amazon Web Services SDK, Amazon Web Services CLI and Amazon Web Services CloudFormation. This change will only affect direct API consumers, and not Cloud9 console users. From January 22, 2024, Amazon Linux (AL1) will be removed from the list of available image IDs for Cloud9. This is necessary as AL1 will reach the end of maintenance support in December 2023, and as a result will no longer receive security updates. We recommend using Amazon Linux 2 as the AMI to create your environment as it is fully supported. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04.  AMI aliases     Amazon Linux (default): amazonlinux-1-x86_64    Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64    Ubuntu 22.04:  ubuntu-22.04-x86_64     SSM paths    Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64    Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64    Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64
         public let imageId: String?
         /// The type of instance to connect to the environment (for example, t2.micro).
         public let instanceType: String

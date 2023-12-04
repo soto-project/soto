@@ -26,13 +26,13 @@ import Foundation
 extension IoTDeviceAdvisor {
     // MARK: Enums
 
-    public enum AuthenticationMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case signatureVersion4 = "SignatureVersion4"
         case x509ClientCertificate = "X509ClientCertificate"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -45,7 +45,7 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum SuiteRunStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SuiteRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -58,7 +58,7 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -71,13 +71,13 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advanced = "Advanced"
         case basic = "Basic"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mqttV311 = "MqttV3_1_1"
         case mqttV311Overwebsocket = "MqttV3_1_1_OverWebSocket"
         case mqttV5 = "MqttV5"
@@ -89,17 +89,17 @@ extension IoTDeviceAdvisor {
 
     public struct CreateSuiteDefinitionRequest: AWSEncodableShape {
         /// Creates a Device Advisor test suite with suite definition configuration.
-        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration
+        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
         /// The tags to be attached to the suite definition.
         public let tags: [String: String]?
 
-        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration, tags: [String: String]? = nil) {
+        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, tags: [String: String]? = nil) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionConfiguration.validate(name: "\(name).suiteDefinitionConfiguration")
+            try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -600,11 +600,11 @@ extension IoTDeviceAdvisor {
         /// Suite definition version of the test suite.
         public let suiteDefinitionVersion: String?
         /// Suite run configuration.
-        public let suiteRunConfiguration: SuiteRunConfiguration
+        public let suiteRunConfiguration: SuiteRunConfiguration?
         /// The tags to be attached to the suite run.
         public let tags: [String: String]?
 
-        public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil, suiteRunConfiguration: SuiteRunConfiguration, tags: [String: String]? = nil) {
+        public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil, suiteRunConfiguration: SuiteRunConfiguration? = nil, tags: [String: String]? = nil) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
             self.suiteRunConfiguration = suiteRunConfiguration
@@ -616,7 +616,7 @@ extension IoTDeviceAdvisor {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
             try container.encodeIfPresent(self.suiteDefinitionVersion, forKey: .suiteDefinitionVersion)
-            try container.encode(self.suiteRunConfiguration, forKey: .suiteRunConfiguration)
+            try container.encodeIfPresent(self.suiteRunConfiguration, forKey: .suiteRunConfiguration)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -625,7 +625,7 @@ extension IoTDeviceAdvisor {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
-            try self.suiteRunConfiguration.validate(name: "\(name).suiteRunConfiguration")
+            try self.suiteRunConfiguration?.validate(name: "\(name).suiteRunConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -701,7 +701,7 @@ extension IoTDeviceAdvisor {
 
     public struct SuiteDefinitionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Gets the device permission ARN. This is a required parameter.
-        public let devicePermissionRoleArn: String
+        public let devicePermissionRoleArn: String?
         /// Gets the devices configured.
         public let devices: [DeviceUnderTest]?
         /// Gets the tests intended for qualification in a suite.
@@ -711,11 +711,11 @@ extension IoTDeviceAdvisor {
         /// Sets the MQTT protocol that is configured in the suite definition.
         public let `protocol`: `Protocol`?
         /// Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite,  if intendedForQualification is set to true,  rootGroup can be an empty string. If intendedForQualification is false,  rootGroup cannot be an empty string. If rootGroup is empty, and  intendedForQualification is set to true,  all the qualification tests are included, and the configuration is default.  For a qualification suite, the minimum length is 0, and the maximum is 2048.  For a  non-qualification suite, the minimum length is 1, and the maximum is 2048.
-        public let rootGroup: String
+        public let rootGroup: String?
         /// Gets the suite definition name. This is a required parameter.
-        public let suiteDefinitionName: String
+        public let suiteDefinitionName: String?
 
-        public init(devicePermissionRoleArn: String, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String, suiteDefinitionName: String) {
+        public init(devicePermissionRoleArn: String? = nil, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String? = nil, suiteDefinitionName: String? = nil) {
             self.devicePermissionRoleArn = devicePermissionRoleArn
             self.devices = devices
             self.intendedForQualification = intendedForQualification
@@ -789,18 +789,18 @@ extension IoTDeviceAdvisor {
         /// TRUE if multiple test suites run in parallel.
         public let parallelRun: Bool?
         /// Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN.
-        public let primaryDevice: DeviceUnderTest
+        public let primaryDevice: DeviceUnderTest?
         /// Sets test case list.
         public let selectedTestList: [String]?
 
-        public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest, selectedTestList: [String]? = nil) {
+        public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
             self.parallelRun = parallelRun
             self.primaryDevice = primaryDevice
             self.selectedTestList = selectedTestList
         }
 
         public func validate(name: String) throws {
-            try self.primaryDevice.validate(name: "\(name).primaryDevice")
+            try self.primaryDevice?.validate(name: "\(name).primaryDevice")
             try self.selectedTestList?.forEach {
                 try validate($0, name: "selectedTestList[]", parent: name, max: 36)
                 try validate($0, name: "selectedTestList[]", parent: name, min: 12)
@@ -868,9 +868,9 @@ extension IoTDeviceAdvisor {
         /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// The tags to be attached to the IoT Device Advisor resource.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -879,13 +879,13 @@ extension IoTDeviceAdvisor {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "resourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -998,9 +998,9 @@ extension IoTDeviceAdvisor {
         /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// List of tag keys to remove from the IoT Device Advisor resource.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -1015,7 +1015,7 @@ extension IoTDeviceAdvisor {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -1031,11 +1031,11 @@ extension IoTDeviceAdvisor {
 
     public struct UpdateSuiteDefinitionRequest: AWSEncodableShape {
         /// Updates a Device Advisor test suite with suite definition configuration.
-        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration
+        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
         /// Suite definition ID of the test suite to be updated.
         public let suiteDefinitionId: String
 
-        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration, suiteDefinitionId: String) {
+        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.suiteDefinitionId = suiteDefinitionId
         }
@@ -1043,12 +1043,12 @@ extension IoTDeviceAdvisor {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.suiteDefinitionConfiguration, forKey: .suiteDefinitionConfiguration)
+            try container.encodeIfPresent(self.suiteDefinitionConfiguration, forKey: .suiteDefinitionConfiguration)
             request.encodePath(self.suiteDefinitionId, key: "suiteDefinitionId")
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionConfiguration.validate(name: "\(name).suiteDefinitionConfiguration")
+            try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
         }

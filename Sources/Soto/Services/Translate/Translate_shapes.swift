@@ -26,13 +26,18 @@ import Foundation
 extension Translate {
     // MARK: Enums
 
-    public enum Directionality: String, CustomStringConvertible, Codable, Sendable {
+    public enum Brevity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Directionality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multi = "MULTI"
         case uni = "UNI"
         public var description: String { return self.rawValue }
     }
 
-    public enum DisplayLanguageCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DisplayLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case de = "de"
         case en = "en"
         case es = "es"
@@ -46,18 +51,18 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Formality: String, CustomStringConvertible, Codable, Sendable {
+    public enum Formality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case formal = "FORMAL"
         case informal = "INFORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case completedWithError = "COMPLETED_WITH_ERROR"
         case failed = "FAILED"
@@ -68,19 +73,19 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case overwrite = "OVERWRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParallelDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParallelDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case tmx = "TMX"
         case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParallelDataStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParallelDataStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -89,12 +94,12 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profanity: String, CustomStringConvertible, Codable, Sendable {
+    public enum Profanity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mask = "MASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case tmx = "TMX"
         case tsv = "TSV"
@@ -276,7 +281,7 @@ extension Translate {
     public struct Document: AWSEncodableShape {
         /// The Contentfield type is Binary large object (blob). This object contains the document content converted into base64-encoded binary data.    If you use one of the AWS SDKs, the SDK performs the Base64-encoding on this field before sending the request.
         public let content: AWSBase64Data
-        /// Describes the format of the document. You can specify one of the following:   text/html - The input data consists of HTML content.  Amazon Translate translates only the text in the HTML element.   text/plain - The input data consists of unformatted text.  Amazon Translate translates every character in the content.
+        /// Describes the format of the document. You can specify one of the following:    text/html - The input data consists of HTML content.  Amazon Translate translates only the text in the HTML element.    text/plain - The input data consists of unformatted text.  Amazon Translate translates every character in the content.     application/vnd.openxmlformats-officedocument.wordprocessingml.document - The  input data consists of a Word document (.docx).
         public let contentType: String
 
         public init(content: AWSBase64Data, contentType: String) {
@@ -765,11 +770,11 @@ extension Translate {
 
     public struct ParallelDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The format of the parallel data input file.
-        public let format: ParallelDataFormat
+        public let format: ParallelDataFormat?
         /// The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling.
-        public let s3Uri: String
+        public let s3Uri: String?
 
-        public init(format: ParallelDataFormat, s3Uri: String) {
+        public init(format: ParallelDataFormat? = nil, s3Uri: String? = nil) {
             self.format = format
             self.s3Uri = s3Uri
         }
@@ -891,7 +896,7 @@ extension Translate {
         public let outputDataConfig: OutputDataConfig
         /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see  Customizing your translations with parallel data.
         public let parallelDataNames: [String]?
-        /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+        /// Settings to configure your translation output. You can configure the following options:   Brevity: not supported.   Formality: sets the formality level of the output text.   Profanity: masks profane words and phrases in your translation output.
         public let settings: TranslationSettings?
         /// The language code of the input language. Specify the language if all input documents share the same language. If you don't know the language of the source files, or your input documents contains different source languages, select auto. Amazon Translate auto detects the source language for each input document. For a list of supported language codes, see Supported languages.
         public let sourceLanguageCode: String
@@ -1291,8 +1296,9 @@ extension Translate {
     public struct TranslateDocumentRequest: AWSEncodableShape {
         /// The content and content type for the document to be translated. The document size must not exceed 100 KB.
         public let document: Document
+        /// Settings to configure your translation output. You can configure the following options:   Brevity: not supported.   Formality: sets the formality level of the output text.   Profanity: masks profane words and phrases in your translation output.
         public let settings: TranslationSettings?
-        /// The language code for the language of the source text. Do not use auto, because TranslateDocument does not support language auto-detection. For a list of supported language codes, see Supported languages.
+        /// The language code for the language of the source text. For a list of supported language codes, see Supported languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.  If you specify auto, you must send the TranslateDocument request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
         public let sourceLanguageCode: String
         /// The language code requested for the translated document.   For a list of supported language codes, see Supported languages.
         public let targetLanguageCode: String
@@ -1358,7 +1364,7 @@ extension Translate {
     }
 
     public struct TranslateTextRequest: AWSEncodableShape {
-        /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+        /// Settings to configure your translation output. You can configure the following options:   Brevity: reduces the length of the translated output for most translations.   Formality: sets the formality level of the output text.   Profanity: masks profane words and phrases in your translation output.
         public let settings: TranslationSettings?
         /// The language code for the language of the source text. For a list of language codes, see Supported languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.  If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
         public let sourceLanguageCode: String
@@ -1444,17 +1450,21 @@ extension Translate {
     }
 
     public struct TranslationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Supported languages in the Amazon Translate Developer Guide.
+        /// When you turn on brevity, Amazon Translate reduces the length of the translation output for most translations (when compared with the same translation with brevity turned off). By default, brevity is turned off. If you turn on brevity for a translation request with an unsupported language pair, the translation proceeds with the brevity setting turned off. For the language pairs that brevity supports, see Using brevity in the Amazon Translate Developer Guide.
+        public let brevity: Brevity?
+        /// You can specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Supported languages in the Amazon Translate Developer Guide.
         public let formality: Formality?
-        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see Unsupported languages in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
+        /// You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see Unsupported languages in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public let profanity: Profanity?
 
-        public init(formality: Formality? = nil, profanity: Profanity? = nil) {
+        public init(brevity: Brevity? = nil, formality: Formality? = nil, profanity: Profanity? = nil) {
+            self.brevity = brevity
             self.formality = formality
             self.profanity = profanity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brevity = "Brevity"
             case formality = "Formality"
             case profanity = "Profanity"
         }

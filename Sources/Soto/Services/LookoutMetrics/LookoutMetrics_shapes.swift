@@ -26,25 +26,25 @@ import Foundation
 extension LookoutMetrics {
     // MARK: Enums
 
-    public enum AggregationFunction: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregationFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case avg = "AVG"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlertStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlertStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlertType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AlertType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambda = "LAMBDA"
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectionTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnomalyDetectionTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case failedToSchedule = "FAILED_TO_SCHEDULE"
@@ -53,7 +53,7 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activationFailure = "ACTIVATION_FAILURE"
         case backTestActivationFailure = "BACK_TEST_ACTIVATION_FAILURE"
         case deactivationFailure = "DEACTIVATION_FAILURE"
@@ -61,7 +61,7 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case backTestActivating = "BACK_TEST_ACTIVATING"
@@ -76,20 +76,20 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum CSVFileCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum CSVFileCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Confidence: String, CustomStringConvertible, Codable, Sendable {
+    public enum Confidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataQualityMetricType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataQualityMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backtestInferenceDataEndTimeStamp = "BACKTEST_INFERENCE_DATA_END_TIME_STAMP"
         case backtestInferenceDataStartTimeStamp = "BACKTEST_INFERENCE_DATA_START_TIME_STAMP"
         case backtestTrainingDataEndTimeStamp = "BACKTEST_TRAINING_DATA_END_TIME_STAMP"
@@ -103,12 +103,12 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperation: String, CustomStringConvertible, Codable, Sendable {
+    public enum FilterOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Frequency: String, CustomStringConvertible, Codable, Sendable {
+    public enum Frequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case p1d = "P1D"
         case pt10m = "PT10M"
         case pt1h = "PT1H"
@@ -116,19 +116,19 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum JsonFileCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum JsonFileCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case causeOfInputAnomalyGroup = "CAUSE_OF_INPUT_ANOMALY_GROUP"
         case effectOfInputAnomalyGroup = "EFFECT_OF_INPUT_ANOMALY_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnsFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum SnsFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case longText = "LONG_TEXT"
         case shortText = "SHORT_TEXT"

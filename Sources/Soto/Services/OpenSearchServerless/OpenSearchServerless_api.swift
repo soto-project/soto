@@ -87,6 +87,32 @@ public struct OpenSearchServerless: AWSService {
         )
     }
 
+    /// Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
+    @Sendable
+    public func batchGetEffectiveLifecyclePolicy(_ input: BatchGetEffectiveLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetEffectiveLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "BatchGetEffectiveLifecyclePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
+    @Sendable
+    public func batchGetLifecyclePolicy(_ input: BatchGetLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "BatchGetLifecyclePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func batchGetVpcEndpoint(_ input: BatchGetVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetVpcEndpointResponse {
@@ -118,6 +144,19 @@ public struct OpenSearchServerless: AWSService {
     public func createCollection(_ input: CreateCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCollectionResponse {
         return try await self.client.execute(
             operation: "CreateCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
+    @Sendable
+    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "CreateLifecyclePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -183,6 +222,19 @@ public struct OpenSearchServerless: AWSService {
     public func deleteCollection(_ input: DeleteCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCollectionResponse {
         return try await self.client.execute(
             operation: "DeleteCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
+    @Sendable
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "DeleteLifecyclePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -321,6 +373,19 @@ public struct OpenSearchServerless: AWSService {
         )
     }
 
+    /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
+    @Sendable
+    public func listLifecyclePolicies(_ input: ListLifecyclePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecyclePoliciesResponse {
+        return try await self.client.execute(
+            operation: "ListLifecyclePolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func listSecurityConfigs(_ input: ListSecurityConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityConfigsResponse {
@@ -438,6 +503,19 @@ public struct OpenSearchServerless: AWSService {
         )
     }
 
+    /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
+    @Sendable
+    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "UpdateLifecyclePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func updateSecurityConfig(_ input: UpdateSecurityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityConfigResponse {
@@ -529,6 +607,25 @@ extension OpenSearchServerless {
         )
     }
 
+    /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLifecyclePoliciesPaginator(
+        _ input: ListLifecyclePoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLifecyclePoliciesRequest, ListLifecyclePoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listLifecyclePolicies,
+            inputKey: \ListLifecyclePoliciesRequest.nextToken,
+            outputKey: \ListLifecyclePoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     /// Return PaginatorSequence for operation.
     ///
@@ -604,6 +701,17 @@ extension OpenSearchServerless.ListCollectionsRequest: AWSPaginateToken {
             collectionFilters: self.collectionFilters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension OpenSearchServerless.ListLifecyclePoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> OpenSearchServerless.ListLifecyclePoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resources: self.resources,
+            type: self.type
         )
     }
 }

@@ -87,7 +87,7 @@ public struct CloudWatchLogs: AWSService {
 
     // MARK: API Calls
 
-    /// Associates the specified KMS key with the specified log group. Associating a KMS key with a log group overrides any existing associations between the log group and a KMS key. After a KMS key is associated with a log group, all newly ingested data for the log group is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS keyis still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested.  CloudWatch Logs supports only symmetric KMS keys. Do not use an associate an asymmetric KMS key with your log group. For more information, see Using Symmetric and Asymmetric Keys.  It can take up to 5 minutes for this operation to take effect. If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.
+    /// Associates the specified KMS key with either one log group in the account, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey, you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation.   Specify the logGroupName parameter to cause all log events stored in the log group to be encrypted with that key. Only the log events ingested after the key is associated are encrypted with that key. Associating a KMS key with a log group overrides any existing associations between the log group and a KMS key. After a KMS key is associated with a log group, all newly ingested data for the log group is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. Associating a key with a log group does not cause the results of queries of that log group to be encrypted with that key. To have query results encrypted with a KMS key, you must use an AssociateKmsKey operation with the resourceIdentifier parameter that specifies a query-result resource.    Specify the resourceIdentifier parameter with a query-result resource,  to use that key to encrypt the stored results of all future  StartQuery operations in the account. The response from a  GetQueryResults operation will still return the query results in plain text. Even if you have not associated a key with your query results, the query results are encrypted when stored, using the default CloudWatch Logs method. If you run a query from a monitoring account that queries logs in a source account, the query results key from the monitoring account, if any, is used.    If you delete the key that is used to encrypt log events or log group query results, then all the associated stored log events or query results that were encrypted with that key  will be unencryptable and unusable.   CloudWatch Logs supports only symmetric KMS keys. Do not use an associate an asymmetric KMS key with your log group or query results. For more information, see Using Symmetric and Asymmetric Keys.  It can take up to 5 minutes for this operation to take effect. If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.
     @Sendable
     public func associateKmsKey(_ input: AssociateKmsKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -113,6 +113,19 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
+    /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Kinesis Data Firehose. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. You can't update an existing delivery. You can only create and delete deliveries.
+    @Sendable
+    public func createDelivery(_ input: CreateDeliveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeliveryResponse {
+        return try await self.client.execute(
+            operation: "CreateDelivery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES-256 is supported.  This is an asynchronous call. If all the required information is provided, this  operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate log data for each export task, specify a prefix to be used as the Amazon S3 key prefix for all exported objects.  Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the exported log field data by using Linux utilities.
     @Sendable
     public func createExportTask(_ input: CreateExportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExportTaskResponse {
@@ -126,7 +139,20 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates a log group with the specified name. You can create up to 20,000 log groups per account. You must use the following guidelines when naming a log group:   Log group names must be unique within a Region for an Amazon Web Services account.   Log group names can be between 1 and 512 characters long.   Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen),  '/' (forward slash), '.' (period), and '#' (number sign)   When you create a log group, by default the log events in the log group do not expire. To set a retention policy so that events expire and are deleted after a specified time, use PutRetentionPolicy. If you associate an KMS key with the log group, ingested data is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key with the log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group. For more information, see Using Symmetric and Asymmetric Keys.
+    /// Creates an anomaly detector that regularly scans one or more  log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discovering anomalies in your log event traffic.  An anomaly detector uses machine learning algorithms to scan log events and find patterns.  A pattern is a shared text structure that recurs among your log fields.  Patterns provide a useful tool for  analyzing large sets of logs because a large number of log events can often be compressed into a few patterns. The anomaly detector uses pattern recognition to find anomalies, which are unusual log  events. It uses the evaluationFrequency to compare current log events and patterns with trained baselines.  Fields within a pattern are called tokens. Fields that vary within a pattern, such as a  request ID or timestamp, are referred to as dynamic tokens and represented by .  The following is an example of a pattern:  [INFO] Request time:  ms  This pattern represents log events like [INFO] Request time: 327 ms and other similar log events that differ only by the number, in this csse 327. When the pattern is displayed, the different numbers are replaced by    Any parts of log events that are masked as sensitive data are not scanned for anomalies. For more information about masking sensitive data, see  Help protect sensitive log data with masking.
+    @Sendable
+    public func createLogAnomalyDetector(_ input: CreateLogAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLogAnomalyDetectorResponse {
+        return try await self.client.execute(
+            operation: "CreateLogAnomalyDetector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group:   Log group names must be unique within a Region for an Amazon Web Services account.   Log group names can be between 1 and 512 characters long.   Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen),  '/' (forward slash), '.' (period), and '#' (number sign)   When you create a log group, by default the log events in the log group do not expire. To set a retention policy so that events expire and are deleted after a specified time, use PutRetentionPolicy. If you associate an KMS key with the log group, ingested data is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key with the log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group. For more information, see Using Symmetric and Asymmetric Keys.
     @Sendable
     public func createLogGroup(_ input: CreateLogGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -178,11 +204,76 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
+    /// Deletes s delivery. A delivery is a connection between a logical delivery source and a logical delivery destination. Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the delivery source.
+    @Sendable
+    public func deleteDelivery(_ input: DeleteDeliveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteDelivery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a delivery destination. A delivery is a connection between a logical delivery source and a logical delivery destination. You can't delete a delivery destination if any current deliveries are associated with it. To find whether any deliveries are associated with  this delivery destination, use the DescribeDeliveries operation and check the deliveryDestinationArn field in the results.
+    @Sendable
+    public func deleteDeliveryDestination(_ input: DeleteDeliveryDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteDeliveryDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a delivery destination policy. For more information about these policies, see PutDeliveryDestinationPolicy.
+    @Sendable
+    public func deleteDeliveryDestinationPolicy(_ input: DeleteDeliveryDestinationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteDeliveryDestinationPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a delivery source. A delivery is a connection between a logical delivery source and a logical delivery destination. You can't delete a delivery source if any current deliveries are associated with it. To find whether any deliveries are associated with  this delivery source, use the DescribeDeliveries operation and check the deliverySourceName field in the results.
+    @Sendable
+    public func deleteDeliverySource(_ input: DeleteDeliverySourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteDeliverySource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified destination, and eventually disables all the subscription filters that publish to it. This operation does not delete the  physical resource encapsulated by the destination.
     @Sendable
     public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified CloudWatch Logs anomaly detector.
+    @Sendable
+    public func deleteLogAnomalyDetector(_ input: DeleteLogAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteLogAnomalyDetector", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -287,6 +378,45 @@ public struct CloudWatchLogs: AWSService {
     public func describeAccountPolicies(_ input: DescribeAccountPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountPoliciesResponse {
         return try await self.client.execute(
             operation: "DescribeAccountPolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the deliveries that have been created in the account.
+    @Sendable
+    public func describeDeliveries(_ input: DescribeDeliveriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveriesResponse {
+        return try await self.client.execute(
+            operation: "DescribeDeliveries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the delivery destinations that have been created in the account.
+    @Sendable
+    public func describeDeliveryDestinations(_ input: DescribeDeliveryDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveryDestinationsResponse {
+        return try await self.client.execute(
+            operation: "DescribeDeliveryDestinations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the delivery sources that have been created in the account.
+    @Sendable
+    public func describeDeliverySources(_ input: DescribeDeliverySourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliverySourcesResponse {
+        return try await self.client.execute(
+            operation: "DescribeDeliverySources", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -412,7 +542,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Disassociates the associated KMS key from the specified log group. After the KMS key is disassociated from the log group, CloudWatch Logs stops encrypting newly ingested data for the log group. All previously ingested data remains encrypted, and CloudWatch Logs requires permissions for the KMS key whenever the encrypted data is requested. Note that it can take up to 5 minutes for this operation to take effect.
+    /// Disassociates the specified KMS key from the specified log group or from all CloudWatch Logs Insights query results in the account. When you use DisassociateKmsKey, you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation.   Specify the logGroupName parameter to stop using the KMS key to encrypt future log events ingested and stored in the log group. Instead, they will be encrypted with the default CloudWatch Logs method. The log events that were ingested while the key was associated with the log group are still encrypted with that key. Therefore, CloudWatch Logs will need permissions for the key whenever that data is accessed.   Specify the resourceIdentifier parameter with the query-result resource to stop using the KMS key to encrypt the results of all future StartQuery operations in the account. They will instead be encrypted with the default CloudWatch Logs method. The results from queries that ran while the key was associated with the account are still encrypted with that key. Therefore, CloudWatch Logs will need permissions for the key whenever that data is accessed.   It can take up to 5 minutes for this operation to take effect.
     @Sendable
     public func disassociateKmsKey(_ input: DisassociateKmsKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -443,6 +573,71 @@ public struct CloudWatchLogs: AWSService {
     public func getDataProtectionPolicy(_ input: GetDataProtectionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataProtectionPolicyResponse {
         return try await self.client.execute(
             operation: "GetDataProtectionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns complete information about one delivery. A delivery is a connection between a logical delivery source and a logical delivery destination  You need to specify the delivery id in this operation. You can find the IDs of the deliveries in your account with the   DescribeDeliveries operation.
+    @Sendable
+    public func getDelivery(_ input: GetDeliveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliveryResponse {
+        return try await self.client.execute(
+            operation: "GetDelivery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves complete information about one delivery destination.
+    @Sendable
+    public func getDeliveryDestination(_ input: GetDeliveryDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliveryDestinationResponse {
+        return try await self.client.execute(
+            operation: "GetDeliveryDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the delivery destination policy assigned to the delivery destination that you specify. For more information about delivery destinations and their policies, see  PutDeliveryDestinationPolicy.
+    @Sendable
+    public func getDeliveryDestinationPolicy(_ input: GetDeliveryDestinationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliveryDestinationPolicyResponse {
+        return try await self.client.execute(
+            operation: "GetDeliveryDestinationPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves complete information about one delivery source.
+    @Sendable
+    public func getDeliverySource(_ input: GetDeliverySourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliverySourceResponse {
+        return try await self.client.execute(
+            operation: "GetDeliverySource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about the log anomaly detector that you specify.
+    @Sendable
+    public func getLogAnomalyDetector(_ input: GetLogAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogAnomalyDetectorResponse {
+        return try await self.client.execute(
+            operation: "GetLogAnomalyDetector", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -490,11 +685,37 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. If the value of the Status field in the output is Running, this operation  returns only partial results. If you see a value of Scheduled or Running for the status,  you can retry the operation later to see the final results.  If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start  queries in linked source accounts. For more information, see  CloudWatch cross-account observability.
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. For more information about how long results of previous queries are available, see CloudWatch Logs quotas. If the value of the Status field in the output is Running, this operation  returns only partial results. If you see a value of Scheduled or Running for the status,  you can retry the operation later to see the final results.  If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start  queries in linked source accounts. For more information, see  CloudWatch cross-account observability.
     @Sendable
     public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsResponse {
         return try await self.client.execute(
             operation: "GetQueryResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of anomalies that log anomaly detectors have found. For details about the structure format of each anomaly object that is returned, see the example in this section.
+    @Sendable
+    public func listAnomalies(_ input: ListAnomaliesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomaliesResponse {
+        return try await self.client.execute(
+            operation: "ListAnomalies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the log anomaly detectors in the account.
+    @Sendable
+    public func listLogAnomalyDetectors(_ input: ListLogAnomalyDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogAnomalyDetectorsResponse {
+        return try await self.client.execute(
+            operation: "ListLogAnomalyDetectors", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -556,6 +777,45 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
+    /// Creates or updates a logical delivery destination. A delivery destination is an Amazon Web Services resource that represents an  Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, and Kinesis Data Firehose are supported as logs delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Use PutDeliveryDestination to create a delivery destination, which is a logical object that represents the actual delivery destination.     If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly  one delivery source and one delivery destination. For more  information, see CreateDelivery.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  If you use this operation to update an existing delivery destination, all the current delivery destination parameters are overwritten with the new parameter values that you specify.
+    @Sendable
+    public func putDeliveryDestination(_ input: PutDeliveryDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDeliveryDestinationResponse {
+        return try await self.client.execute(
+            operation: "PutDeliveryDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver  logs cross-account to a specified destination in this account. To configure the delivery of logs from an  Amazon Web Services service in another account to a logs delivery destination in the current account, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   Use this operation in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see CreateDelivery.   Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  The contents of the policy must include two statements. One statement enables general logs delivery, and the other allows delivery to the chosen destination. See the examples for the needed policies.
+    @Sendable
+    public func putDeliveryDestinationPolicy(_ input: PutDeliveryDestinationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDeliveryDestinationPolicyResponse {
+        return try await self.client.execute(
+            operation: "PutDeliveryDestinationPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates or updates a logical delivery source. A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Kinesis Data Firehose. To configure logs delivery between a delivery destination and an Amazon Web Services service that is supported as a delivery source, you must do the following:   Use PutDeliverySource to create a delivery source, which is a logical object that represents the resource that is actually sending the logs.    Use PutDeliveryDestination to create a delivery destination, which is a logical object that represents the actual delivery destination. For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly  one delivery source and one delivery destination. For more  information, see CreateDelivery.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  If you use this operation to update an existing delivery source, all the current delivery source parameters are overwritten with the new parameter values that you specify.
+    @Sendable
+    public func putDeliverySource(_ input: PutDeliverySourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDeliverySourceResponse {
+        return try await self.client.execute(
+            operation: "PutDeliverySource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents. Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call PutSubscriptionFilter against this destination. To enable this, the destination owner must call PutDestinationPolicy after PutDestination. To perform a PutDestination operation, you must also have the  iam:PassRole permission.
     @Sendable
     public func putDestination(_ input: PutDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDestinationResponse {
@@ -595,7 +855,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through PutLogEvents. The maximum number of metric filters that can be associated with a log group is 100. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs disables a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within a certain amount of time. This helps to prevent accidental high charges. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
+    /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through PutLogEvents. The maximum number of metric filters that can be associated with a log group is 100. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
     @Sendable
     public func putMetricFilter(_ input: PutMetricFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -634,7 +894,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn’t immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven’t been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.
+    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn’t immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven’t been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.  When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if  they are not actually deleted until later. These log events marked for deletion are also not  included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
     @Sendable
     public func putRetentionPolicy(_ input: PutRetentionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -647,7 +907,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Amazon Kinesis data stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination that belongs to a different account, for cross-account delivery.   An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the subscription filter, for same-account delivery.   An Lambda function that belongs to the same account as the subscription filter, for same-account delivery.   Each log group can have up to two subscription filters associated with it. If you are updating an existing filter, you must specify the correct name in filterName.  To perform a PutSubscriptionFilter operation for any destination except a Lambda function,  you must also have the  iam:PassRole permission.
+    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Amazon Kinesis data stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination created with PutDestination that belongs to a different account, for cross-account delivery. We currently support Kinesis Data Streams and Kinesis Data Firehose as logical destinations.   An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the subscription filter, for same-account delivery.   An Lambda function that belongs to the same account as the subscription filter, for same-account delivery.   Each log group can have up to two subscription filters associated with it. If you are updating an existing filter, you must specify the correct name in filterName.  To perform a PutSubscriptionFilter operation for any destination except a Lambda function,  you must also have the  iam:PassRole permission.
     @Sendable
     public func putSubscriptionFilter(_ input: PutSubscriptionFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -660,7 +920,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group and time range to query and the query string to use. For more information, see CloudWatch Logs Insights Query Syntax. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
+    /// Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group and time range to query and the query string to use. For more information, see CloudWatch Logs Insights Query Syntax. After you run a query using StartQuery, the query results are stored by CloudWatch Logs.  You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery returns.  If you have associated a KMS key with the query results in this account,  then  StartQuery uses that key to  encrypt the results when it stores them. If no key is associated with query results, the query results are  encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
     @Sendable
     public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryResponse {
         return try await self.client.execute(
@@ -752,6 +1012,32 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
+
+    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress  an anomaly, CloudWatch Logs won’t report new occurrences of that anomaly and won't update that anomaly  with new data. If you suppress a pattern, CloudWatch Logs won’t report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the  same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to  stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
+    @Sendable
+    public func updateAnomaly(_ input: UpdateAnomalyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateAnomaly", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an existing log anomaly detector.
+    @Sendable
+    public func updateLogAnomalyDetector(_ input: UpdateLogAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateLogAnomalyDetector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension CloudWatchLogs {
@@ -767,6 +1053,63 @@ extension CloudWatchLogs {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudWatchLogs {
+    /// Retrieves a list of the deliveries that have been created in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDeliveriesPaginator(
+        _ input: DescribeDeliveriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDeliveriesRequest, DescribeDeliveriesResponse> {
+        return .init(
+            input: input,
+            command: self.describeDeliveries,
+            inputKey: \DescribeDeliveriesRequest.nextToken,
+            outputKey: \DescribeDeliveriesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the delivery destinations that have been created in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDeliveryDestinationsPaginator(
+        _ input: DescribeDeliveryDestinationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDeliveryDestinationsRequest, DescribeDeliveryDestinationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeDeliveryDestinations,
+            inputKey: \DescribeDeliveryDestinationsRequest.nextToken,
+            outputKey: \DescribeDeliveryDestinationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the delivery sources that have been created in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDeliverySourcesPaginator(
+        _ input: DescribeDeliverySourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDeliverySourcesRequest, DescribeDeliverySourcesResponse> {
+        return .init(
+            input: input,
+            command: self.describeDeliverySources,
+            inputKey: \DescribeDeliverySourcesRequest.nextToken,
+            outputKey: \DescribeDeliverySourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all your destinations. The results are ASCII-sorted by destination name.
     /// Return PaginatorSequence for operation.
     ///
@@ -899,6 +1242,71 @@ extension CloudWatchLogs {
             logger: logger
         )
     }
+
+    /// Returns a list of anomalies that log anomaly detectors have found. For details about the structure format of each anomaly object that is returned, see the example in this section.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAnomaliesPaginator(
+        _ input: ListAnomaliesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnomaliesRequest, ListAnomaliesResponse> {
+        return .init(
+            input: input,
+            command: self.listAnomalies,
+            inputKey: \ListAnomaliesRequest.nextToken,
+            outputKey: \ListAnomaliesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of the log anomaly detectors in the account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLogAnomalyDetectorsPaginator(
+        _ input: ListLogAnomalyDetectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLogAnomalyDetectorsRequest, ListLogAnomalyDetectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listLogAnomalyDetectors,
+            inputKey: \ListLogAnomalyDetectorsRequest.nextToken,
+            outputKey: \ListLogAnomalyDetectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension CloudWatchLogs.DescribeDeliveriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeDeliveriesRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension CloudWatchLogs.DescribeDeliveryDestinationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeDeliveryDestinationsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension CloudWatchLogs.DescribeDeliverySourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeDeliverySourcesRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
+    }
 }
 
 extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateToken {
@@ -917,6 +1325,7 @@ extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateToken {
             accountIdentifiers: self.accountIdentifiers,
             includeLinkedAccounts: self.includeLinkedAccounts,
             limit: self.limit,
+            logGroupClass: self.logGroupClass,
             logGroupNamePattern: self.logGroupNamePattern,
             logGroupNamePrefix: self.logGroupNamePrefix,
             nextToken: token
@@ -991,6 +1400,27 @@ extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateToken {
             startFromHead: self.startFromHead,
             startTime: self.startTime,
             unmask: self.unmask
+        )
+    }
+}
+
+extension CloudWatchLogs.ListAnomaliesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.ListAnomaliesRequest {
+        return .init(
+            anomalyDetectorArn: self.anomalyDetectorArn,
+            limit: self.limit,
+            nextToken: token,
+            suppressionState: self.suppressionState
+        )
+    }
+}
+
+extension CloudWatchLogs.ListLogAnomalyDetectorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.ListLogAnomalyDetectorsRequest {
+        return .init(
+            filterLogGroupArn: self.filterLogGroupArn,
+            limit: self.limit,
+            nextToken: token
         )
     }
 }

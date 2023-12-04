@@ -80,6 +80,19 @@ public struct ApplicationInsights: AWSService {
 
     // MARK: API Calls
 
+    /// Adds a workload to a component. Each component can have at most five workloads.
+    @Sendable
+    public func addWorkload(_ input: AddWorkloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddWorkloadResponse {
+        return try await self.client.execute(
+            operation: "AddWorkload", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds an application that is created from a resource group.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
@@ -262,6 +275,19 @@ public struct ApplicationInsights: AWSService {
         )
     }
 
+    /// Describes a workload and its configuration.
+    @Sendable
+    public func describeWorkload(_ input: DescribeWorkloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkloadResponse {
+        return try await self.client.execute(
+            operation: "DescribeWorkload", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the IDs of the applications that you are monitoring.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
@@ -353,6 +379,32 @@ public struct ApplicationInsights: AWSService {
         )
     }
 
+    /// Lists the workloads that are configured on a given component.
+    @Sendable
+    public func listWorkloads(_ input: ListWorkloadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkloadsResponse {
+        return try await self.client.execute(
+            operation: "ListWorkloads", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Remove workload from a component.
+    @Sendable
+    public func removeWorkload(_ input: RemoveWorkloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveWorkloadResponse {
+        return try await self.client.execute(
+            operation: "RemoveWorkload", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria.  Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -423,6 +475,32 @@ public struct ApplicationInsights: AWSService {
     public func updateLogPattern(_ input: UpdateLogPatternRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLogPatternResponse {
         return try await self.client.execute(
             operation: "UpdateLogPattern", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the visibility of the problem or specifies the problem as RESOLVED.
+    @Sendable
+    public func updateProblem(_ input: UpdateProblemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProblemResponse {
+        return try await self.client.execute(
+            operation: "UpdateProblem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds a workload to a component. Each component can have at most five workloads.
+    @Sendable
+    public func updateWorkload(_ input: UpdateWorkloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkloadResponse {
+        return try await self.client.execute(
+            operation: "UpdateWorkload", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -558,11 +636,31 @@ extension ApplicationInsights {
             logger: logger
         )
     }
+
+    /// Lists the workloads that are configured on a given component.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWorkloadsPaginator(
+        _ input: ListWorkloadsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkloadsRequest, ListWorkloadsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkloads,
+            inputKey: \ListWorkloadsRequest.nextToken,
+            outputKey: \ListWorkloadsResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension ApplicationInsights.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListApplicationsRequest {
         return .init(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -572,6 +670,7 @@ extension ApplicationInsights.ListApplicationsRequest: AWSPaginateToken {
 extension ApplicationInsights.ListComponentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListComponentsRequest {
         return .init(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName
@@ -582,6 +681,7 @@ extension ApplicationInsights.ListComponentsRequest: AWSPaginateToken {
 extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListConfigurationHistoryRequest {
         return .init(
+            accountId: self.accountId,
             endTime: self.endTime,
             eventStatus: self.eventStatus,
             maxResults: self.maxResults,
@@ -595,6 +695,7 @@ extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateToken 
 extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternSetsRequest {
         return .init(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName
@@ -605,6 +706,7 @@ extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateToken {
 extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternsRequest {
         return .init(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             patternSetName: self.patternSetName,
@@ -616,12 +718,26 @@ extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateToken {
 extension ApplicationInsights.ListProblemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListProblemsRequest {
         return .init(
+            accountId: self.accountId,
             componentName: self.componentName,
             endTime: self.endTime,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName,
-            startTime: self.startTime
+            startTime: self.startTime,
+            visibility: self.visibility
+        )
+    }
+}
+
+extension ApplicationInsights.ListWorkloadsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListWorkloadsRequest {
+        return .init(
+            accountId: self.accountId,
+            componentName: self.componentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceGroupName: self.resourceGroupName
         )
     }
 }

@@ -73,6 +73,14 @@ public struct LakeFormation: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "us-gov-east-1": "lakeformation.us-gov-east-1.api.aws",
+            "us-gov-west-1": "lakeformation.us-gov-west-1.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-gov-east-1": "lakeformation-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "lakeformation-fips.us-gov-west-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "lakeformation-fips.us-east-1.amazonaws.com",
             "us-east-2": "lakeformation-fips.us-east-2.amazonaws.com",
@@ -189,6 +197,32 @@ public struct LakeFormation: AWSService {
         )
     }
 
+    /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
+    @Sendable
+    public func createLakeFormationIdentityCenterConfiguration(_ input: CreateLakeFormationIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLakeFormationIdentityCenterConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateLakeFormationIdentityCenterConfiguration", 
+            path: "/CreateLakeFormationIdentityCenterConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Enforce Lake Formation permissions for the given databases, tables, and principals.
+    @Sendable
+    public func createLakeFormationOptIn(_ input: CreateLakeFormationOptInRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLakeFormationOptInResponse {
+        return try await self.client.execute(
+            operation: "CreateLakeFormationOptIn", 
+            path: "/CreateLakeFormationOptIn", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a data cell filter.
     @Sendable
     public func deleteDataCellsFilter(_ input: DeleteDataCellsFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataCellsFilterResponse {
@@ -215,6 +249,32 @@ public struct LakeFormation: AWSService {
         )
     }
 
+    /// Deletes an IAM Identity Center connection with Lake Formation.
+    @Sendable
+    public func deleteLakeFormationIdentityCenterConfiguration(_ input: DeleteLakeFormationIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLakeFormationIdentityCenterConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteLakeFormationIdentityCenterConfiguration", 
+            path: "/DeleteLakeFormationIdentityCenterConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
+    @Sendable
+    public func deleteLakeFormationOptIn(_ input: DeleteLakeFormationOptInRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLakeFormationOptInResponse {
+        return try await self.client.execute(
+            operation: "DeleteLakeFormationOptIn", 
+            path: "/DeleteLakeFormationOptIn", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.   The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically  call DeleteObjectsOnCancel before writes. For more information, see  Rolling Back Amazon S3 Writes.
     @Sendable
     public func deleteObjectsOnCancel(_ input: DeleteObjectsOnCancelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteObjectsOnCancelResponse {
@@ -234,6 +294,19 @@ public struct LakeFormation: AWSService {
         return try await self.client.execute(
             operation: "DeregisterResource", 
             path: "/DeregisterResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the instance ARN and application ARN for the connection.
+    @Sendable
+    public func describeLakeFormationIdentityCenterConfiguration(_ input: DescribeLakeFormationIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLakeFormationIdentityCenterConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeLakeFormationIdentityCenterConfiguration", 
+            path: "/DescribeLakeFormationIdentityCenterConfiguration", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -479,6 +552,19 @@ public struct LakeFormation: AWSService {
         )
     }
 
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    @Sendable
+    public func listLakeFormationOptIns(_ input: ListLakeFormationOptInsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLakeFormationOptInsResponse {
+        return try await self.client.execute(
+            operation: "ListLakeFormationOptIns", 
+            path: "/ListLakeFormationOptIns", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
     @Sendable
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
@@ -663,6 +749,19 @@ public struct LakeFormation: AWSService {
         )
     }
 
+    /// Updates the IAM Identity Center connection parameters.
+    @Sendable
+    public func updateLakeFormationIdentityCenterConfiguration(_ input: UpdateLakeFormationIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLakeFormationIdentityCenterConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateLakeFormationIdentityCenterConfiguration", 
+            path: "/UpdateLakeFormationIdentityCenterConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     @Sendable
     public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceResponse {
@@ -807,6 +906,25 @@ extension LakeFormation {
             command: self.listLFTags,
             inputKey: \ListLFTagsRequest.nextToken,
             outputKey: \ListLFTagsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLakeFormationOptInsPaginator(
+        _ input: ListLakeFormationOptInsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLakeFormationOptInsRequest, ListLakeFormationOptInsResponse> {
+        return .init(
+            input: input,
+            command: self.listLakeFormationOptIns,
+            inputKey: \ListLakeFormationOptInsRequest.nextToken,
+            outputKey: \ListLakeFormationOptInsResponse.nextToken,
             logger: logger
         )
     }
@@ -979,6 +1097,17 @@ extension LakeFormation.ListLFTagsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceShareType: self.resourceShareType
+        )
+    }
+}
+
+extension LakeFormation.ListLakeFormationOptInsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListLakeFormationOptInsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            resource: self.resource
         )
     }
 }

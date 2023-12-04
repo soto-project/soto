@@ -107,8 +107,7 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.  The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID     title
-    ///
+    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     @Sendable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
         return try await self.client.execute(
@@ -160,7 +159,7 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case.  A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case.    A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn you must also have  DescribeUser permission on the ARN of the user that you provide.
     @Sendable
     public func createRelatedItem(_ input: CreateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRelatedItemResponse {
         return try await self.client.execute(
@@ -186,7 +185,8 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Deletes a domain.
+    /// Deletes a Cases domain.
+    ///   After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
     @Sendable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
         return try await self.client.execute(
@@ -355,7 +355,7 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// API for adding case event publishing configuration
+    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Amazon Connect Administrator Guide
     @Sendable
     public func putCaseEventConfiguration(_ input: PutCaseEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCaseEventConfigurationResponse {
         return try await self.client.execute(

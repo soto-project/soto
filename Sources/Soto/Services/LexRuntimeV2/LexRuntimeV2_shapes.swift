@@ -26,20 +26,20 @@ import Foundation
 extension LexRuntimeV2 {
     // MARK: Enums
 
-    public enum ConfirmationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfirmationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confirmed = "Confirmed"
         case denied = "Denied"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConversationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConversationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "AUDIO"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case close = "Close"
         case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
@@ -49,14 +49,14 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum InputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dtmf = "DTMF"
         case speech = "Speech"
         case text = "Text"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum IntentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
         case fulfillmentInProgress = "FulfillmentInProgress"
@@ -66,7 +66,13 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InterpretationSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrock = "Bedrock"
+        case lex = "Lex"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customPayload = "CustomPayload"
         case imageResponseCard = "ImageResponseCard"
         case plainText = "PlainText"
@@ -74,14 +80,14 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlaybackInterruptionReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlaybackInterruptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dtmfStartDetected = "DTMF_START_DETECTED"
         case textDetected = "TEXT_DETECTED"
         case voiceStartDetected = "VOICE_START_DETECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -89,14 +95,14 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Shape: String, CustomStringConvertible, Codable, Sendable {
+    public enum Shape: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case composite = "Composite"
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum StyleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StyleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "Default"
         case spellByLetter = "SpellByLetter"
         case spellByWord = "SpellByWord"
@@ -296,7 +302,7 @@ extension LexRuntimeV2 {
             try self.validate(self.contextAttributes, name: "contextAttributes", parent: name, max: 10)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9]_?)+$")
             try self.timeToLive.validate(name: "\(name).timeToLive")
         }
 
@@ -609,7 +615,7 @@ extension LexRuntimeV2 {
         public let slotToElicit: String?
         /// The name of the constituent sub slot of the composite slot  specified in slotToElicit that should be elicited from the user.
         public let subSlotToElicit: ElicitSubSlot?
-        /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex V2.    ElicitIntent - The next action is to elicit an intent from the user.    ElicitSlot - The next action is to elicit a slot value from the user.
+        /// The next action that the bot should take in its interaction with the user. The following values are possible:    Close – Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent – The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate – The next action is determined by Amazon Lex V2.    ElicitIntent – The next action is to elicit an intent from the user.    ElicitSlot – The next action is to elicit a slot value from the user.
         public let type: DialogActionType
 
         public init(slotElicitationStyle: StyleType? = nil, slotToElicit: String? = nil, subSlotToElicit: ElicitSubSlot? = nil, type: DialogActionType) {
@@ -793,13 +799,13 @@ extension LexRuntimeV2 {
     }
 
     public struct Intent: AWSEncodableShape & AWSDecodableShape {
-        /// Contains information about whether fulfillment of the intent has been confirmed.
+        /// Indicates whether the intent has been Confirmed, Denied, or None if the confirmation stage has not yet been reached.
         public let confirmationState: ConfirmationState?
         /// The name of the intent.
         public let name: String
         /// A map of all of the slots for the intent. The name of the slot maps to the value of the slot. If a slot has not been filled, the value is null.
         public let slots: [String: Slot]?
-        /// Contains fulfillment information for the intent.
+        /// Indicates the fulfillment state for the intent. The meanings of each value are as follows:    Failed – The bot failed to fulfill the intent.    Fulfilled – The bot has completed fulfillment of the intent.    FulfillmentInProgress – The bot is in the middle of fulfilling the intent.    InProgress – The bot is in the middle of eliciting the slot values that are necessary to fulfill the intent.    ReadyForFulfillment – The bot has elicited all the slot values for the intent and is ready to fulfill the intent.    Waiting – The bot is waiting for a response from the user (limited to streaming conversations).
         public let state: IntentState?
 
         public init(confirmationState: ConfirmationState? = nil, name: String, slots: [String: Slot]? = nil, state: IntentState? = nil) {
@@ -828,7 +834,7 @@ extension LexRuntimeV2 {
     public struct IntentResultEvent: AWSDecodableShape {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
-        /// Indicates whether the input to the operation was text or speech.
+        /// Indicates whether the input to the operation was text, speech, or from a touch-tone keypad.
         public let inputMode: InputMode?
         /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
@@ -876,19 +882,23 @@ extension LexRuntimeV2 {
     public struct Interpretation: AWSDecodableShape {
         /// A list of intents that might satisfy the user's utterance. The intents are ordered by the confidence score.
         public let intent: Intent?
+        /// Specifies the service that interpreted the input.
+        public let interpretationSource: InterpretationSource?
         /// Determines the threshold where Amazon Lex V2 will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
         public let nluConfidence: ConfidenceScore?
         /// The sentiment expressed in an utterance.  When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public let sentimentResponse: SentimentResponse?
 
-        public init(intent: Intent? = nil, nluConfidence: ConfidenceScore? = nil, sentimentResponse: SentimentResponse? = nil) {
+        public init(intent: Intent? = nil, interpretationSource: InterpretationSource? = nil, nluConfidence: ConfidenceScore? = nil, sentimentResponse: SentimentResponse? = nil) {
             self.intent = intent
+            self.interpretationSource = interpretationSource
             self.nluConfidence = nluConfidence
             self.sentimentResponse = sentimentResponse
         }
 
         private enum CodingKeys: String, CodingKey {
             case intent = "intent"
+            case interpretationSource = "interpretationSource"
             case nluConfidence = "nluConfidence"
             case sentimentResponse = "sentimentResponse"
         }
@@ -1040,11 +1050,11 @@ extension LexRuntimeV2 {
         public let contentType: String?
         /// A list of messages that were last sent to the user. The messages are ordered based on how you return the messages from you Lambda function or the order that the messages are defined in the bot.
         public let messages: String?
-        /// Request-specific information passed between the client application and Amazon Lex V2. These are the same as the requestAttribute parameter in the call to the PutSession operation.
+        /// A base-64-encoded gzipped field that provides request-specific information  passed between the client application and Amazon Lex V2. These are the same as the  requestAttribute parameter in the call to the  PutSession operation.
         public let requestAttributes: String?
         /// The identifier of the session that received the data.
         public let sessionId: String?
-        /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
+        /// A base-64-encoded gzipped field that represents the current state of  the dialog between the user and the bot. Use this to determine the progress  of the conversation and what the next action may be.
         public let sessionState: String?
 
         public init(audioStream: AWSHTTPBody, contentType: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
@@ -1232,7 +1242,7 @@ extension LexRuntimeV2 {
         public let audioStream: AWSHTTPBody
         /// Content type as specified in the responseContentType in the request.
         public let contentType: String?
-        /// Indicates whether the input mode to the operation was text or speech.
+        /// Indicates whether the input mode to the operation was text, speech, or from a touch-tone keypad.
         public let inputMode: String?
         /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex V2 is correctly processing the audio that you send. The inputTranscript field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let inputTranscript: String?
@@ -1655,11 +1665,11 @@ extension LexRuntimeV2 {
     }
 
     public struct Value: AWSEncodableShape & AWSDecodableShape {
-        /// The value that Amazon Lex V2 determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
+        /// The value that Amazon Lex V2 determines for the slot, given the user input. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
         public let interpretedValue: String
-        /// The text of the utterance from the user that was entered for the slot.
+        /// The part of the user's response to the slot elicitation that Amazon Lex V2 determines is relevant to the slot value.
         public let originalValue: String?
-        /// A list of additional values that have been recognized for the slot.
+        /// A list of values that Amazon Lex V2 determines are possible resolutions for the user input. The first value matches the interpretedValue.
         public let resolvedValues: [String]?
 
         public init(interpretedValue: String, originalValue: String? = nil, resolvedValues: [String]? = nil) {

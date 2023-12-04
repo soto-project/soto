@@ -26,7 +26,7 @@ import Foundation
 extension ServerlessApplicationRepository {
     // MARK: Enums
 
-    public enum Capability: String, CustomStringConvertible, Codable, Sendable {
+    public enum Capability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
         case capabilityIam = "CAPABILITY_IAM"
         case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
@@ -34,7 +34,7 @@ extension ServerlessApplicationRepository {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case preparing = "PREPARING"
@@ -45,11 +45,11 @@ extension ServerlessApplicationRepository {
 
     public struct ApplicationDependencySummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the nested application.
-        public let applicationId: String
+        public let applicationId: String?
         /// The semantic version of the nested application.
-        public let semanticVersion: String
+        public let semanticVersion: String?
 
-        public init(applicationId: String, semanticVersion: String) {
+        public init(applicationId: String? = nil, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
         }
@@ -62,15 +62,15 @@ extension ServerlessApplicationRepository {
 
     public struct ApplicationPolicyStatement: AWSEncodableShape & AWSDecodableShape {
         /// For the list of actions supported for this operation, see Application  Permissions.
-        public let actions: [String]
+        public let actions: [String]?
         /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM aws:PrincipalOrgID global condition key.
         public let principalOrgIDs: [String]?
         /// An array of AWS account IDs, or * to make the application public.
-        public let principals: [String]
+        public let principals: [String]?
         /// A unique ID for the statement.
         public let statementId: String?
 
-        public init(actions: [String], principalOrgIDs: [String]? = nil, principals: [String], statementId: String? = nil) {
+        public init(actions: [String]? = nil, principalOrgIDs: [String]? = nil, principals: [String]? = nil, statementId: String? = nil) {
             self.actions = actions
             self.principalOrgIDs = principalOrgIDs
             self.principals = principals
@@ -87,23 +87,23 @@ extension ServerlessApplicationRepository {
 
     public struct ApplicationSummary: AWSDecodableShape {
         /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
+        public let applicationId: String?
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String
+        public let author: String?
         /// The date and time this resource was created.
         public let creationTime: String?
         /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String
+        public let description: String?
         /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
         /// The name of the application.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
-        public let name: String
+        public let name: String?
         /// A valid identifier from https://spdx.org/licenses/.
         public let spdxLicenseId: String?
 
-        public init(applicationId: String, author: String, creationTime: String? = nil, description: String, homePageUrl: String? = nil, labels: [String]? = nil, name: String, spdxLicenseId: String? = nil) {
+        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, name: String? = nil, spdxLicenseId: String? = nil) {
             self.applicationId = applicationId
             self.author = author
             self.creationTime = creationTime
@@ -128,9 +128,9 @@ extension ServerlessApplicationRepository {
 
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-        public let author: String
+        public let author: String?
         /// The description of the application.Minimum length=1. Maximum length=256
-        public let description: String
+        public let description: String?
         /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
@@ -140,7 +140,7 @@ extension ServerlessApplicationRepository {
         /// A link to the S3 object that contains the license of the app that matches the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
         public let licenseUrl: String?
         /// The name of the application that you want to publish.Minimum length=1. Maximum length=140Pattern: "[a-zA-Z0-9\\-]+";
-        public let name: String
+        public let name: String?
         /// A local text readme file in Markdown language that contains a more detailed description of the application and how it works. The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
         public let readmeBody: String?
         /// A link to the S3 object in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
@@ -158,7 +158,7 @@ extension ServerlessApplicationRepository {
         /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
         public let templateUrl: String?
 
-        public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+        public init(author: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String? = nil, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
             self.homePageUrl = homePageUrl
@@ -365,13 +365,13 @@ extension ServerlessApplicationRepository {
         /// The semantic version of the application: https://semver.org/
         public let semanticVersion: String?
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
-        public let stackName: String
+        public let stackName: String?
         /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
         public let tags: [Tag]?
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String?
 
-        public init(applicationId: String, capabilities: [String]? = nil, changeSetName: String? = nil, clientToken: String? = nil, description: String? = nil, notificationArns: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, semanticVersion: String? = nil, stackName: String, tags: [Tag]? = nil, templateId: String? = nil) {
+        public init(applicationId: String, capabilities: [String]? = nil, changeSetName: String? = nil, clientToken: String? = nil, description: String? = nil, notificationArns: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, semanticVersion: String? = nil, stackName: String? = nil, tags: [Tag]? = nil, templateId: String? = nil) {
             self.applicationId = applicationId
             self.capabilities = capabilities
             self.changeSetName = changeSetName
@@ -400,7 +400,7 @@ extension ServerlessApplicationRepository {
             try container.encodeIfPresent(self.resourceTypes, forKey: .resourceTypes)
             try container.encodeIfPresent(self.rollbackConfiguration, forKey: .rollbackConfiguration)
             try container.encodeIfPresent(self.semanticVersion, forKey: .semanticVersion)
-            try container.encode(self.stackName, forKey: .stackName)
+            try container.encodeIfPresent(self.stackName, forKey: .stackName)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.templateId, forKey: .templateId)
         }
@@ -854,15 +854,15 @@ extension ServerlessApplicationRepository {
         /// A numeric value that determines the smallest numeric value that you want to allow for Number types.
         public let minValue: Int?
         /// The name of the parameter.
-        public let name: String
+        public let name: String?
         /// Whether to mask the parameter value whenever anyone makes a call that describes the stack. If you set the value to true, the parameter value is masked with asterisks (*****).
         public let noEcho: Bool?
         /// A list of AWS SAM resources that use this parameter.
-        public let referencedByResources: [String]
+        public let referencedByResources: [String]?
         /// The type of the parameter.Valid values: String | Number | List&lt;Number> | CommaDelimitedList  String: A literal string.For example, users can specify "MyUserName". Number: An integer or float. AWS CloudFormation validates the parameter value as a number. However, when you use the parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a string.For example, users might specify "8888". List&lt;Number>: An array of integers or floats that are separated by commas. AWS CloudFormation validates the parameter value as numbers. However, when you use the parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a list of strings.For example, users might specify "80,20", and then Ref results in ["80","20"]. CommaDelimitedList: An array of literal strings that are separated by commas. The total number of strings should be one more than the total number of commas. Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
         public let type: String?
 
-        public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minLength: Int? = nil, minValue: Int? = nil, name: String, noEcho: Bool? = nil, referencedByResources: [String], type: String? = nil) {
+        public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minLength: Int? = nil, minValue: Int? = nil, name: String? = nil, noEcho: Bool? = nil, referencedByResources: [String]? = nil, type: String? = nil) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
             self.constraintDescription = constraintDescription
@@ -897,11 +897,11 @@ extension ServerlessApplicationRepository {
 
     public struct ParameterValue: AWSEncodableShape {
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
-        public let name: String
+        public let name: String?
         /// The input value associated with the parameter.
-        public let value: String
+        public let value: String?
 
-        public init(name: String, value: String) {
+        public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
         }
@@ -916,9 +916,9 @@ extension ServerlessApplicationRepository {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// An array of policy statements applied to the application.
-        public let statements: [ApplicationPolicyStatement]
+        public let statements: [ApplicationPolicyStatement]?
 
-        public init(applicationId: String, statements: [ApplicationPolicyStatement]) {
+        public init(applicationId: String, statements: [ApplicationPolicyStatement]? = nil) {
             self.applicationId = applicationId
             self.statements = statements
         }
@@ -927,7 +927,7 @@ extension ServerlessApplicationRepository {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "ApplicationId")
-            try container.encode(self.statements, forKey: .statements)
+            try container.encodeIfPresent(self.statements, forKey: .statements)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -967,11 +967,11 @@ extension ServerlessApplicationRepository {
 
     public struct RollbackTrigger: AWSEncodableShape {
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
-        public let arn: String
+        public let arn: String?
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
-        public let type: String
+        public let type: String?
 
-        public init(arn: String, type: String) {
+        public init(arn: String? = nil, type: String? = nil) {
             self.arn = arn
             self.type = type
         }
@@ -984,11 +984,11 @@ extension ServerlessApplicationRepository {
 
     public struct Tag: AWSEncodableShape {
         /// This property corresponds to the content of the same name for the AWS CloudFormation Tag Data Type.
-        public let key: String
+        public let key: String?
         /// This property corresponds to the content of the same name for the AWS CloudFormation  Tag  Data Type.
-        public let value: String
+        public let value: String?
 
-        public init(key: String, value: String) {
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -1003,9 +1003,9 @@ extension ServerlessApplicationRepository {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The AWS Organization ID to unshare the application from.
-        public let organizationId: String
+        public let organizationId: String?
 
-        public init(applicationId: String, organizationId: String) {
+        public init(applicationId: String, organizationId: String? = nil) {
             self.applicationId = applicationId
             self.organizationId = organizationId
         }
@@ -1014,7 +1014,7 @@ extension ServerlessApplicationRepository {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "ApplicationId")
-            try container.encode(self.organizationId, forKey: .organizationId)
+            try container.encodeIfPresent(self.organizationId, forKey: .organizationId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1133,25 +1133,25 @@ extension ServerlessApplicationRepository {
 
     public struct Version: AWSDecodableShape {
         /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
+        public let applicationId: String?
         /// The date and time this resource was created.
-        public let creationTime: String
+        public let creationTime: String?
         /// An array of parameter types supported by the application.
-        public let parameterDefinitions: [ParameterDefinition]
+        public let parameterDefinitions: [ParameterDefinition]?
         /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applications, you must explicitly acknowledge their capabilities by specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you to specify CAPABILITY_IAM or CAPABILITY_NAMED_IAM: AWS::IAM::Group, AWS::IAM::InstanceProfile, AWS::IAM::Policy, and AWS::IAM::Role. If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.The following resources require you to specify CAPABILITY_RESOURCE_POLICY: AWS::Lambda::Permission, AWS::IAM:Policy, AWS::ApplicationAutoScaling::ScalingPolicy, AWS::S3::BucketPolicy, AWS::SQS::QueuePolicy, and AWS::SNS::TopicPolicy.Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND.If your application template contains any of the above resources, we recommend that you review all permissions associated with the application before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail.
-        public let requiredCapabilities: [Capability]
+        public let requiredCapabilities: [Capability]?
         /// Whether all of the AWS resources contained in this application are supported in the region in which it is being retrieved.
-        public let resourcesSupported: Bool
+        public let resourcesSupported: Bool?
         /// The semantic version of the application: https://semver.org/
-        public let semanticVersion: String
+        public let semanticVersion: String?
         /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
         public let sourceCodeArchiveUrl: String?
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
         /// A link to the packaged AWS SAM template of your application.
-        public let templateUrl: String
+        public let templateUrl: String?
 
-        public init(applicationId: String, creationTime: String, parameterDefinitions: [ParameterDefinition], requiredCapabilities: [Capability], resourcesSupported: Bool, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String) {
+        public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.parameterDefinitions = parameterDefinitions
@@ -1178,15 +1178,15 @@ extension ServerlessApplicationRepository {
 
     public struct VersionSummary: AWSDecodableShape {
         /// The application Amazon Resource Name (ARN).
-        public let applicationId: String
+        public let applicationId: String?
         /// The date and time this resource was created.
-        public let creationTime: String
+        public let creationTime: String?
         /// The semantic version of the application: https://semver.org/
-        public let semanticVersion: String
+        public let semanticVersion: String?
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
 
-        public init(applicationId: String, creationTime: String, semanticVersion: String, sourceCodeUrl: String? = nil) {
+        public init(applicationId: String? = nil, creationTime: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.semanticVersion = semanticVersion

@@ -26,7 +26,7 @@ import Foundation
 extension IoTDataPlane {
     // MARK: Enums
 
-    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, Sendable {
+    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case unspecifiedBytes = "UNSPECIFIED_BYTES"
         case utf8Data = "UTF8_DATA"
         public var description: String { return self.rawValue }

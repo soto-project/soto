@@ -112,6 +112,19 @@ public struct Amp: AWSService {
         )
     }
 
+    /// Create a scraper.
+    @Sendable
+    public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
+        return try await self.client.execute(
+            operation: "CreateScraper", 
+            path: "/scrapers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new AMP workspace.
     @Sendable
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
@@ -157,6 +170,19 @@ public struct Amp: AWSService {
         return try await self.client.execute(
             operation: "DeleteRuleGroupsNamespace", 
             path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a scraper.
+    @Sendable
+    public func deleteScraper(_ input: DeleteScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScraperResponse {
+        return try await self.client.execute(
+            operation: "DeleteScraper", 
+            path: "/scrapers/{scraperId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -216,6 +242,19 @@ public struct Amp: AWSService {
         )
     }
 
+    /// Describe an existing scraper.
+    @Sendable
+    public func describeScraper(_ input: DescribeScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScraperResponse {
+        return try await self.client.execute(
+            operation: "DescribeScraper", 
+            path: "/scrapers/{scraperId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes an existing AMP workspace.
     @Sendable
     public func describeWorkspace(_ input: DescribeWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceResponse {
@@ -229,12 +268,38 @@ public struct Amp: AWSService {
         )
     }
 
+    /// Gets a default configuration.
+    @Sendable
+    public func getDefaultScraperConfiguration(_ input: GetDefaultScraperConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultScraperConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetDefaultScraperConfiguration", 
+            path: "/scraperconfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists rule groups namespaces.
     @Sendable
     public func listRuleGroupsNamespaces(_ input: ListRuleGroupsNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleGroupsNamespacesResponse {
         return try await self.client.execute(
             operation: "ListRuleGroupsNamespaces", 
             path: "/workspaces/{workspaceId}/rulegroupsnamespaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all scrapers in a customer account, including scrapers being created or deleted. You may provide filters to return a more specific list of results.
+    @Sendable
+    public func listScrapers(_ input: ListScrapersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScrapersResponse {
+        return try await self.client.execute(
+            operation: "ListScrapers", 
+            path: "/scrapers", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -379,6 +444,25 @@ extension Amp {
         )
     }
 
+    /// Lists all scrapers in a customer account, including scrapers being created or deleted. You may provide filters to return a more specific list of results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listScrapersPaginator(
+        _ input: ListScrapersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScrapersRequest, ListScrapersResponse> {
+        return .init(
+            input: input,
+            command: self.listScrapers,
+            inputKey: \ListScrapersRequest.nextToken,
+            outputKey: \ListScrapersResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all AMP workspaces, including workspaces being created or deleted.
     /// Return PaginatorSequence for operation.
     ///
@@ -410,6 +494,16 @@ extension Amp.ListRuleGroupsNamespacesRequest: AWSPaginateToken {
     }
 }
 
+extension Amp.ListScrapersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Amp.ListScrapersRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Amp.ListWorkspacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Amp.ListWorkspacesRequest {
         return .init(
@@ -424,6 +518,36 @@ extension Amp.ListWorkspacesRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Amp {
+    public func waitUntilScraperActive(
+        _ input: DescribeScraperRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("scraper.status.statusCode", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("scraper.status.statusCode", expected: "CREATION_FAILED")),
+            ],
+            command: self.describeScraper
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilScraperDeleted(
+        _ input: DescribeScraperRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("scraper.status.statusCode", expected: "DELETION_FAILED")),
+            ],
+            command: self.describeScraper
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
     public func waitUntilWorkspaceActive(
         _ input: DescribeWorkspaceRequest,
         maxWaitTime: TimeAmount? = nil,

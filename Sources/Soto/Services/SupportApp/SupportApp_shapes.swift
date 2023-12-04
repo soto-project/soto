@@ -26,13 +26,13 @@ import Foundation
 extension SupportApp {
     // MARK: Enums
 
-    public enum AccountType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case management = "management"
         case member = "member"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case high = "high"
         case none = "none"

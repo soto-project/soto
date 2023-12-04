@@ -59,6 +59,7 @@ public struct Location: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-19",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: LocationErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,12 @@ public struct Location: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-west-1": "geo-fips.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -82,7 +89,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -157,7 +164,7 @@ public struct Location: AWSService {
         )
     }
 
-    /// Uploads position update data for one or more devices to a tracker resource. Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30  days.  Position updates are handled based on the PositionFiltering property of the tracker.  When PositionFiltering is set to TimeBased, updates are evaluated against linked geofence collections,  and location data is stored at a maximum of one position per 30 second interval. If your update frequency is more often than  every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated against linked geofence  collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering is set to AccuracyBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon Location uses the default value { "Horizontal": 0} when accuracy is not provided on a DevicePositionUpdate.
+    /// Uploads position update data for one or more devices to a tracker resource (up to  10 devices per batch). Amazon Location uses the data when it reports the last known device  position and position history. Amazon Location retains location data for 30 days.  Position updates are handled based on the PositionFiltering  property of the tracker. When PositionFiltering is set to  TimeBased, updates are evaluated against linked geofence collections,  and location data is stored at a maximum of one position per 30 second interval.  If your update frequency is more often than every 30 seconds, only one update per  30 seconds is stored for each unique device ID. When PositionFiltering is set to DistanceBased  filtering, location data is stored and evaluated against linked geofence  collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering is set to AccuracyBased  filtering, location data is stored and evaluated against linked geofence  collections only if the device has moved more than the measured accuracy. For  example, if two consecutive updates from a device have a horizontal accuracy of  5 m and 10 m, the second update is neither stored or evaluated if the device has  moved less than 15 m. If PositionFiltering is set to  AccuracyBased filtering, Amazon Location uses the default value  { "Horizontal": 0} when accuracy is not provided on a DevicePositionUpdate.
     @Sendable
     public func batchUpdateDevicePosition(_ input: BatchUpdateDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateDevicePositionResponse {
         return try await self.client.execute(
@@ -208,12 +215,12 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "geofencing.", 
+            hostPrefix: "cp.geofencing.", 
             logger: logger
         )
     }
 
-    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer.  For more information, see Using API keys.
     @Sendable
     public func createKey(_ input: CreateKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyResponse {
         return try await self.client.execute(
@@ -222,7 +229,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -236,7 +243,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "maps.", 
+            hostPrefix: "cp.maps.", 
             logger: logger
         )
     }
@@ -250,7 +257,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "places.", 
+            hostPrefix: "cp.places.", 
             logger: logger
         )
     }
@@ -264,7 +271,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "routes.", 
+            hostPrefix: "cp.routes.", 
             logger: logger
         )
     }
@@ -278,7 +285,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -292,7 +299,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "geofencing.", 
+            hostPrefix: "cp.geofencing.", 
             logger: logger
         )
     }
@@ -306,7 +313,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -320,7 +327,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "maps.", 
+            hostPrefix: "cp.maps.", 
             logger: logger
         )
     }
@@ -334,7 +341,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "places.", 
+            hostPrefix: "cp.places.", 
             logger: logger
         )
     }
@@ -348,7 +355,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "routes.", 
+            hostPrefix: "cp.routes.", 
             logger: logger
         )
     }
@@ -362,7 +369,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -376,12 +383,12 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "geofencing.", 
+            hostPrefix: "cp.geofencing.", 
             logger: logger
         )
     }
 
-    /// Retrieves the API key resource details.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Retrieves the API key resource details.
     @Sendable
     public func describeKey(_ input: DescribeKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyResponse {
         return try await self.client.execute(
@@ -390,7 +397,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -404,7 +411,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "maps.", 
+            hostPrefix: "cp.maps.", 
             logger: logger
         )
     }
@@ -418,7 +425,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "places.", 
+            hostPrefix: "cp.places.", 
             logger: logger
         )
     }
@@ -432,7 +439,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "routes.", 
+            hostPrefix: "cp.routes.", 
             logger: logger
         )
     }
@@ -446,7 +453,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -460,7 +467,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -600,7 +607,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "geofencing.", 
+            hostPrefix: "cp.geofencing.", 
             logger: logger
         )
     }
@@ -619,7 +626,7 @@ public struct Location: AWSService {
         )
     }
 
-    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Lists API key resources in your Amazon Web Services account.
     @Sendable
     public func listKeys(_ input: ListKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeysResponse {
         return try await self.client.execute(
@@ -628,7 +635,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -642,7 +649,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "maps.", 
+            hostPrefix: "cp.maps.", 
             logger: logger
         )
     }
@@ -656,7 +663,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "places.", 
+            hostPrefix: "cp.places.", 
             logger: logger
         )
     }
@@ -670,7 +677,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "routes.", 
+            hostPrefix: "cp.routes.", 
             logger: logger
         )
     }
@@ -684,7 +691,7 @@ public struct Location: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -698,7 +705,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -712,7 +719,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -782,7 +789,7 @@ public struct Location: AWSService {
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -796,7 +803,7 @@ public struct Location: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -810,12 +817,12 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "geofencing.", 
+            hostPrefix: "cp.geofencing.", 
             logger: logger
         )
     }
 
-    /// Updates the specified properties of a given API key resource.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Updates the specified properties of a given API key resource.
     @Sendable
     public func updateKey(_ input: UpdateKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyResponse {
         return try await self.client.execute(
@@ -824,7 +831,7 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "metadata.", 
+            hostPrefix: "cp.metadata.", 
             logger: logger
         )
     }
@@ -838,7 +845,7 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "maps.", 
+            hostPrefix: "cp.maps.", 
             logger: logger
         )
     }
@@ -852,7 +859,7 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "places.", 
+            hostPrefix: "cp.places.", 
             logger: logger
         )
     }
@@ -866,7 +873,7 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "routes.", 
+            hostPrefix: "cp.routes.", 
             logger: logger
         )
     }
@@ -880,7 +887,7 @@ public struct Location: AWSService {
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "tracking.", 
+            hostPrefix: "cp.tracking.", 
             logger: logger
         )
     }
@@ -975,7 +982,7 @@ extension Location {
         )
     }
 
-    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    /// Lists API key resources in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1106,6 +1113,7 @@ extension Location.GetDevicePositionHistoryRequest: AWSPaginateToken {
 extension Location.ListDevicePositionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Location.ListDevicePositionsRequest {
         return .init(
+            filterGeometry: self.filterGeometry,
             maxResults: self.maxResults,
             nextToken: token,
             trackerName: self.trackerName

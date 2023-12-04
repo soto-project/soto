@@ -26,7 +26,7 @@ import Foundation
 extension NetworkManager {
     // MARK: Enums
 
-    public enum AttachmentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttachmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -39,7 +39,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum AttachmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connect = "CONNECT"
         case siteToSiteVpn = "SITE_TO_SITE_VPN"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
@@ -47,14 +47,14 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case add = "ADD"
         case modify = "MODIFY"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSetState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeSetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case executing = "EXECUTING"
         case executionSucceeded = "EXECUTION_SUCCEEDED"
         case failedGeneration = "FAILED_GENERATION"
@@ -64,7 +64,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -72,7 +72,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attachmentMapping = "ATTACHMENT_MAPPING"
         case attachmentPoliciesConfiguration = "ATTACHMENT_POLICIES_CONFIGURATION"
         case attachmentRoutePropagation = "ATTACHMENT_ROUTE_PROPAGATION"
@@ -85,7 +85,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -93,7 +93,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectPeerState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectPeerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -101,7 +101,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -109,25 +109,25 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case down = "DOWN"
         case up = "UP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bgp = "BGP"
         case ipsec = "IPSEC"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoreNetworkPolicyAlias: String, CustomStringConvertible, Codable, Sendable {
+    public enum CoreNetworkPolicyAlias: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoreNetworkState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CoreNetworkState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -135,7 +135,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -143,7 +143,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -151,7 +151,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalNetworkState: String, CustomStringConvertible, Codable, Sendable {
+    public enum GlobalNetworkState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -159,7 +159,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LinkAssociationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LinkAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -167,7 +167,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LinkState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LinkState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -175,7 +175,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeeringState: String, CustomStringConvertible, Codable, Sendable {
+    public enum PeeringState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -183,12 +183,12 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeeringType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PeeringType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case transitGateway = "TRANSIT_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisCompletionReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteAnalysisCompletionReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blackholeRouteForDestinationFound = "BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND"
         case cyclicPathDetected = "CYCLIC_PATH_DETECTED"
         case inactiveRouteForDestinationFound = "INACTIVE_ROUTE_FOR_DESTINATION_FOUND"
@@ -203,38 +203,38 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisCompletionResultCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteAnalysisCompletionResultCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteAnalysisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteState: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case blackhole = "BLACKHOLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteTableType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteTableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case propagated = "PROPAGATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SiteState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SiteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -242,7 +242,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitGatewayConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -250,7 +250,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -259,8 +259,9 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TunnelProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum TunnelProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gre = "GRE"
+        case noEncap = "NO_ENCAP"
         public var description: String { return self.rawValue }
     }
 
@@ -707,10 +708,12 @@ extension NetworkManager {
         public let edgeLocation: String?
         /// The state of the Connect peer.
         public let state: ConnectPeerState?
+        /// The subnet ARN for the Connect peer.
+        public let subnetArn: String?
         /// The list of key-value tags associated with the Connect peer.
         public let tags: [Tag]?
 
-        public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, state: ConnectPeerState? = nil, tags: [Tag]? = nil) {
+        public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, state: ConnectPeerState? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.configuration = configuration
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
@@ -718,6 +721,7 @@ extension NetworkManager {
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
             self.state = state
+            self.subnetArn = subnetArn
             self.tags = tags
         }
 
@@ -729,6 +733,7 @@ extension NetworkManager {
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
             case state = "State"
+            case subnetArn = "SubnetArn"
             case tags = "Tags"
         }
     }
@@ -829,16 +834,19 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The Region where the edge is located.
         public let edgeLocation: String?
+        /// The subnet ARN for the Connect peer summary.
+        public let subnetArn: String?
         /// The list of key-value tags associated with the Connect peer summary.
         public let tags: [Tag]?
 
-        public init(connectAttachmentId: String? = nil, connectPeerId: String? = nil, connectPeerState: ConnectPeerState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, tags: [Tag]? = nil) {
+        public init(connectAttachmentId: String? = nil, connectPeerId: String? = nil, connectPeerState: ConnectPeerState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
             self.connectPeerState = connectPeerState
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.subnetArn = subnetArn
             self.tags = tags
         }
 
@@ -849,6 +857,7 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
+            case subnetArn = "SubnetArn"
             case tags = "Tags"
         }
     }
@@ -1376,19 +1385,22 @@ extension NetworkManager {
         /// A Connect peer core network address.
         public let coreNetworkAddress: String?
         /// The inside IP addresses used for BGP peering.
-        public let insideCidrBlocks: [String]
+        public let insideCidrBlocks: [String]?
         /// The Connect peer address.
         public let peerAddress: String
+        /// The subnet ARN for the Connect peer.
+        public let subnetArn: String?
         /// The tags associated with the peer request.
         public let tags: [Tag]?
 
-        public init(bgpOptions: BgpOptions? = nil, clientToken: String? = CreateConnectPeerRequest.idempotencyToken(), connectAttachmentId: String, coreNetworkAddress: String? = nil, insideCidrBlocks: [String], peerAddress: String, tags: [Tag]? = nil) {
+        public init(bgpOptions: BgpOptions? = nil, clientToken: String? = CreateConnectPeerRequest.idempotencyToken(), connectAttachmentId: String, coreNetworkAddress: String? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.bgpOptions = bgpOptions
             self.clientToken = clientToken
             self.connectAttachmentId = connectAttachmentId
             self.coreNetworkAddress = coreNetworkAddress
             self.insideCidrBlocks = insideCidrBlocks
             self.peerAddress = peerAddress
+            self.subnetArn = subnetArn
             self.tags = tags
         }
 
@@ -1400,13 +1412,15 @@ extension NetworkManager {
             try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, max: 50)
             try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, min: 1)
             try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, pattern: "^[\\s\\S]*$")
-            try self.insideCidrBlocks.forEach {
+            try self.insideCidrBlocks?.forEach {
                 try validate($0, name: "insideCidrBlocks[]", parent: name, max: 256)
                 try validate($0, name: "insideCidrBlocks[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.peerAddress, name: "peerAddress", parent: name, max: 50)
             try self.validate(self.peerAddress, name: "peerAddress", parent: name, min: 1)
             try self.validate(self.peerAddress, name: "peerAddress", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, max: 500)
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1419,6 +1433,7 @@ extension NetworkManager {
             case coreNetworkAddress = "CoreNetworkAddress"
             case insideCidrBlocks = "InsideCidrBlocks"
             case peerAddress = "PeerAddress"
+            case subnetArn = "SubnetArn"
             case tags = "Tags"
         }
     }
@@ -5064,7 +5079,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountStatusList = "OrganizationStatus"
+            case accountStatusList = "AccountStatusList"
             case organizationAwsServiceAccessStatus = "OrganizationAwsServiceAccessStatus"
             case organizationId = "OrganizationId"
             case slrDeploymentStatus = "SLRDeploymentStatus"
@@ -5532,7 +5547,7 @@ extension NetworkManager {
     public struct RouteTableIdentifier: AWSEncodableShape {
         /// The segment edge in a core network.
         public let coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier?
-        /// The ARN of the transit gateway route table.
+        /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String?
 
         public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, transitGatewayRouteTableArn: String? = nil) {

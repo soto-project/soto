@@ -59,6 +59,7 @@ public struct IoTTwinMaker: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-11-29",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
             variantEndpoints: Self.variantEndpoints,
             errorType: IoTTwinMakerErrorType.self,
             middleware: middleware,
@@ -69,6 +70,35 @@ public struct IoTTwinMaker: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "api-ap-northeast-1": "api.iottwinmaker.ap-northeast-1.amazonaws.com",
+        "api-ap-northeast-2": "api.iottwinmaker.ap-northeast-2.amazonaws.com",
+        "api-ap-south-1": "api.iottwinmaker.ap-south-1.amazonaws.com",
+        "api-ap-southeast-1": "api.iottwinmaker.ap-southeast-1.amazonaws.com",
+        "api-ap-southeast-2": "api.iottwinmaker.ap-southeast-2.amazonaws.com",
+        "api-eu-central-1": "api.iottwinmaker.eu-central-1.amazonaws.com",
+        "api-eu-west-1": "api.iottwinmaker.eu-west-1.amazonaws.com",
+        "api-us-east-1": "api.iottwinmaker.us-east-1.amazonaws.com",
+        "api-us-gov-west-1": "api.iottwinmaker.us-gov-west-1.amazonaws.com",
+        "api-us-west-2": "api.iottwinmaker.us-west-2.amazonaws.com",
+        "data-ap-northeast-1": "data.iottwinmaker.ap-northeast-1.amazonaws.com",
+        "data-ap-northeast-2": "data.iottwinmaker.ap-northeast-2.amazonaws.com",
+        "data-ap-south-1": "data.iottwinmaker.ap-south-1.amazonaws.com",
+        "data-ap-southeast-1": "data.iottwinmaker.ap-southeast-1.amazonaws.com",
+        "data-ap-southeast-2": "data.iottwinmaker.ap-southeast-2.amazonaws.com",
+        "data-eu-central-1": "data.iottwinmaker.eu-central-1.amazonaws.com",
+        "data-eu-west-1": "data.iottwinmaker.eu-west-1.amazonaws.com",
+        "data-us-east-1": "data.iottwinmaker.us-east-1.amazonaws.com",
+        "data-us-gov-west-1": "data.iottwinmaker.us-gov-west-1.amazonaws.com",
+        "data-us-west-2": "data.iottwinmaker.us-west-2.amazonaws.com",
+        "fips-api-us-east-1": "api.iottwinmaker-fips.us-east-1.amazonaws.com",
+        "fips-api-us-gov-west-1": "api.iottwinmaker-fips.us-gov-west-1.amazonaws.com",
+        "fips-api-us-west-2": "api.iottwinmaker-fips.us-west-2.amazonaws.com",
+        "fips-data-us-east-1": "data.iottwinmaker-fips.us-east-1.amazonaws.com",
+        "fips-data-us-gov-west-1": "data.iottwinmaker-fips.us-gov-west-1.amazonaws.com",
+        "fips-data-us-west-2": "data.iottwinmaker-fips.us-west-2.amazonaws.com"
+    ]}
 
 
     /// FIPS and dualstack endpoints
@@ -96,6 +126,20 @@ public struct IoTTwinMaker: AWSService {
         )
     }
 
+    /// Cancels the metadata transfer job.
+    @Sendable
+    public func cancelMetadataTransferJob(_ input: CancelMetadataTransferJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataTransferJobResponse {
+        return try await self.client.execute(
+            operation: "CancelMetadataTransferJob", 
+            path: "/metadata-transfer-jobs/{metadataTransferJobId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
     /// Creates a component type.
     @Sendable
     public func createComponentType(_ input: CreateComponentTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentTypeResponse {
@@ -116,6 +160,20 @@ public struct IoTTwinMaker: AWSService {
         return try await self.client.execute(
             operation: "CreateEntity", 
             path: "/workspaces/{workspaceId}/entities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Creates a new metadata transfer job.
+    @Sendable
+    public func createMetadataTransferJob(_ input: CreateMetadataTransferJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMetadataTransferJobResponse {
+        return try await self.client.execute(
+            operation: "CreateMetadataTransferJob", 
+            path: "/metadata-transfer-jobs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -236,7 +294,7 @@ public struct IoTTwinMaker: AWSService {
         )
     }
 
-    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces.  The ExecuteQuery action only works with Amazon Web Services Java SDK2. ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
     @Sendable
     public func executeQuery(_ input: ExecuteQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteQueryResponse {
         return try await self.client.execute(
@@ -270,6 +328,20 @@ public struct IoTTwinMaker: AWSService {
         return try await self.client.execute(
             operation: "GetEntity", 
             path: "/workspaces/{workspaceId}/entities/{entityId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Gets a nmetadata transfer job.
+    @Sendable
+    public func getMetadataTransferJob(_ input: GetMetadataTransferJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetadataTransferJobResponse {
+        return try await self.client.execute(
+            operation: "GetMetadataTransferJob", 
+            path: "/metadata-transfer-jobs/{metadataTransferJobId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -376,12 +448,54 @@ public struct IoTTwinMaker: AWSService {
         )
     }
 
+    /// This API lists the components of an entity.
+    @Sendable
+    public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsResponse {
+        return try await self.client.execute(
+            operation: "ListComponents", 
+            path: "/workspaces/{workspaceId}/entities/{entityId}/components-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
     /// Lists all entities in a workspace.
     @Sendable
     public func listEntities(_ input: ListEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitiesResponse {
         return try await self.client.execute(
             operation: "ListEntities", 
             path: "/workspaces/{workspaceId}/entities-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// Lists the metadata transfer jobs.
+    @Sendable
+    public func listMetadataTransferJobs(_ input: ListMetadataTransferJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetadataTransferJobsResponse {
+        return try await self.client.execute(
+            operation: "ListMetadataTransferJobs", 
+            path: "/metadata-transfer-jobs-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+
+    /// This API lists the properties of a component.
+    @Sendable
+    public func listProperties(_ input: ListPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPropertiesResponse {
+        return try await self.client.execute(
+            operation: "ListProperties", 
+            path: "/workspaces/{workspaceId}/properties-list", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -572,7 +686,7 @@ extension IoTTwinMaker {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTTwinMaker {
-    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces.  The ExecuteQuery action only works with Amazon Web Services Java SDK2. ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -648,6 +762,25 @@ extension IoTTwinMaker {
         )
     }
 
+    /// This API lists the components of an entity.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listComponentsPaginator(
+        _ input: ListComponentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComponentsRequest, ListComponentsResponse> {
+        return .init(
+            input: input,
+            command: self.listComponents,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all entities in a workspace.
     /// Return PaginatorSequence for operation.
     ///
@@ -663,6 +796,44 @@ extension IoTTwinMaker {
             command: self.listEntities,
             inputKey: \ListEntitiesRequest.nextToken,
             outputKey: \ListEntitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the metadata transfer jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMetadataTransferJobsPaginator(
+        _ input: ListMetadataTransferJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetadataTransferJobsRequest, ListMetadataTransferJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listMetadataTransferJobs,
+            inputKey: \ListMetadataTransferJobsRequest.nextToken,
+            outputKey: \ListMetadataTransferJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// This API lists the properties of a component.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPropertiesPaginator(
+        _ input: ListPropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPropertiesRequest, ListPropertiesResponse> {
+        return .init(
+            input: input,
+            command: self.listProperties,
+            inputKey: \ListPropertiesRequest.nextToken,
+            outputKey: \ListPropertiesResponse.nextToken,
             logger: logger
         )
     }
@@ -759,6 +930,7 @@ extension IoTTwinMaker.GetPropertyValueHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTTwinMaker.GetPropertyValueHistoryRequest {
         return .init(
             componentName: self.componentName,
+            componentPath: self.componentPath,
             componentTypeId: self.componentTypeId,
             endTime: self.endTime,
             entityId: self.entityId,
@@ -778,6 +950,7 @@ extension IoTTwinMaker.GetPropertyValueRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTTwinMaker.GetPropertyValueRequest {
         return .init(
             componentName: self.componentName,
+            componentPath: self.componentPath,
             componentTypeId: self.componentTypeId,
             entityId: self.entityId,
             maxResults: self.maxResults,
@@ -801,10 +974,47 @@ extension IoTTwinMaker.ListComponentTypesRequest: AWSPaginateToken {
     }
 }
 
+extension IoTTwinMaker.ListComponentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTTwinMaker.ListComponentsRequest {
+        return .init(
+            componentPath: self.componentPath,
+            entityId: self.entityId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
 extension IoTTwinMaker.ListEntitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTTwinMaker.ListEntitiesRequest {
         return .init(
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension IoTTwinMaker.ListMetadataTransferJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTTwinMaker.ListMetadataTransferJobsRequest {
+        return .init(
+            destinationType: self.destinationType,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceType: self.sourceType
+        )
+    }
+}
+
+extension IoTTwinMaker.ListPropertiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTTwinMaker.ListPropertiesRequest {
+        return .init(
+            componentName: self.componentName,
+            componentPath: self.componentPath,
+            entityId: self.entityId,
             maxResults: self.maxResults,
             nextToken: token,
             workspaceId: self.workspaceId

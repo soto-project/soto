@@ -26,33 +26,35 @@ import Foundation
 extension Health {
     // MARK: Enums
 
-    public enum EntityStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EntityStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case impaired = "IMPAIRED"
+        case pending = "PENDING"
+        case resolved = "RESOLVED"
         case unimpaired = "UNIMPAIRED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventAggregateField: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventAggregateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventTypeCategory = "eventTypeCategory"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventScopeCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventScopeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `public` = "PUBLIC"
         case accountSpecific = "ACCOUNT_SPECIFIC"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closed = "closed"
         case open = "open"
         case upcoming = "upcoming"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventTypeCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventTypeCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountNotification = "accountNotification"
         case investigation = "investigation"
         case issue = "issue"
@@ -61,6 +63,27 @@ extension Health {
     }
 
     // MARK: Shapes
+
+    public struct AccountEntityAggregate: AWSDecodableShape {
+        /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public let accountId: String?
+        /// The number of entities that match the filter criteria for the specified events.
+        public let count: Int?
+        /// The number of affected entities aggregated by the entity status codes.
+        public let statuses: [EntityStatusCode: Int]?
+
+        public init(accountId: String? = nil, count: Int? = nil, statuses: [EntityStatusCode: Int]? = nil) {
+            self.accountId = accountId
+            self.count = count
+            self.statuses = statuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case count = "count"
+            case statuses = "statuses"
+        }
+    }
 
     public struct AffectedEntity: AWSDecodableShape {
         /// The 12-digit Amazon Web Services account number that contains the affected entity.
@@ -192,13 +215,25 @@ extension Health {
         /// retrieve the next batch of results, reissue the search request and include the returned token.
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
+        /// A JSON set of elements including the awsAccountId, eventArn and a set of statusCodes.
+        public let organizationEntityAccountFilters: [EntityAccountFilter]?
         /// A JSON set of elements including the awsAccountId and the eventArn.
-        public let organizationEntityFilters: [EventAccountFilter]
+        public let organizationEntityFilters: [EventAccountFilter]?
 
-        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityFilters: [EventAccountFilter]) {
+        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityAccountFilters: [EntityAccountFilter]? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.organizationEntityAccountFilters = organizationEntityAccountFilters
+            self.organizationEntityFilters = nil
+        }
+
+        @available(*, deprecated, message: "Members organizationEntityFilters have been deprecated")
+        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityAccountFilters: [EntityAccountFilter]? = nil, organizationEntityFilters: [EventAccountFilter]? = nil) {
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationEntityAccountFilters = organizationEntityAccountFilters
             self.organizationEntityFilters = organizationEntityFilters
         }
 
@@ -211,7 +246,12 @@ extension Health {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,10000}$")
-            try self.organizationEntityFilters.forEach {
+            try self.organizationEntityAccountFilters?.forEach {
+                try $0.validate(name: "\(name).organizationEntityAccountFilters[]")
+            }
+            try self.validate(self.organizationEntityAccountFilters, name: "organizationEntityAccountFilters", parent: name, max: 10)
+            try self.validate(self.organizationEntityAccountFilters, name: "organizationEntityAccountFilters", parent: name, min: 1)
+            try self.organizationEntityFilters?.forEach {
                 try $0.validate(name: "\(name).organizationEntityFilters[]")
             }
             try self.validate(self.organizationEntityFilters, name: "organizationEntityFilters", parent: name, max: 10)
@@ -222,6 +262,7 @@ extension Health {
             case locale = "locale"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case organizationEntityAccountFilters = "organizationEntityAccountFilters"
             case organizationEntityFilters = "organizationEntityFilters"
         }
     }
@@ -307,6 +348,51 @@ extension Health {
         private enum CodingKeys: String, CodingKey {
             case entities = "entities"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeEntityAggregatesForOrganizationRequest: AWSEncodableShape {
+        /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public let awsAccountIds: [String]?
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+        public let eventArns: [String]
+
+        public init(awsAccountIds: [String]? = nil, eventArns: [String]) {
+            self.awsAccountIds = awsAccountIds
+            self.eventArns = eventArns
+        }
+
+        public func validate(name: String) throws {
+            try self.awsAccountIds?.forEach {
+                try validate($0, name: "awsAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "awsAccountIds[]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.awsAccountIds, name: "awsAccountIds", parent: name, max: 25)
+            try self.validate(self.awsAccountIds, name: "awsAccountIds", parent: name, min: 1)
+            try self.eventArns.forEach {
+                try validate($0, name: "eventArns[]", parent: name, max: 1600)
+                try validate($0, name: "eventArns[]", parent: name, pattern: "^arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}$")
+            }
+            try self.validate(self.eventArns, name: "eventArns", parent: name, max: 25)
+            try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountIds = "awsAccountIds"
+            case eventArns = "eventArns"
+        }
+    }
+
+    public struct DescribeEntityAggregatesForOrganizationResponse: AWSDecodableShape {
+        /// The list of entity aggregates for each of the specified accounts that are affected by each of the specified events.
+        public let organizationEntityAggregates: [OrganizationEntityAggregate]?
+
+        public init(organizationEntityAggregates: [OrganizationEntityAggregate]? = nil) {
+            self.organizationEntityAggregates = organizationEntityAggregates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationEntityAggregates = "organizationEntityAggregates"
         }
     }
 
@@ -686,6 +772,38 @@ extension Health {
         }
     }
 
+    public struct EntityAccountFilter: AWSEncodableShape {
+        /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public let awsAccountId: String?
+        /// The unique identifier for the event. The event ARN has the
+        /// arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID
+        /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        public let eventArn: String
+        /// A list of entity status codes.
+        public let statusCodes: [EntityStatusCode]?
+
+        public init(awsAccountId: String? = nil, eventArn: String, statusCodes: [EntityStatusCode]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.eventArn = eventArn
+            self.statusCodes = statusCodes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.eventArn, name: "eventArn", parent: name, max: 1600)
+            try self.validate(self.eventArn, name: "eventArn", parent: name, pattern: "^arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}$")
+            try self.validate(self.statusCodes, name: "statusCodes", parent: name, max: 5)
+            try self.validate(self.statusCodes, name: "statusCodes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case eventArn = "eventArn"
+            case statusCodes = "statusCodes"
+        }
+    }
+
     public struct EntityAggregate: AWSDecodableShape {
         /// The number of entities that match the criteria for the specified events.
         public let count: Int?
@@ -693,15 +811,19 @@ extension Health {
         /// arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
+        /// The number of affected entities aggregated by the entity status codes.
+        public let statuses: [EntityStatusCode: Int]?
 
-        public init(count: Int? = nil, eventArn: String? = nil) {
+        public init(count: Int? = nil, eventArn: String? = nil, statuses: [EntityStatusCode: Int]? = nil) {
             self.count = count
             self.eventArn = eventArn
+            self.statuses = statuses
         }
 
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case eventArn = "eventArn"
+            case statuses = "statuses"
         }
     }
 
@@ -749,7 +871,7 @@ extension Health {
             try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, max: 10)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, min: 1)
-            try self.validate(self.statusCodes, name: "statusCodes", parent: name, max: 3)
+            try self.validate(self.statusCodes, name: "statusCodes", parent: name, max: 5)
             try self.validate(self.statusCodes, name: "statusCodes", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0, name: "tags[]", parent: name, max: 50)
@@ -1137,6 +1259,31 @@ extension Health {
             case errorMessage = "errorMessage"
             case errorName = "errorName"
             case eventArn = "eventArn"
+        }
+    }
+
+    public struct OrganizationEntityAggregate: AWSDecodableShape {
+        /// A list of entity aggregates for each of the specified accounts in your organization that are affected by a specific event. If there are no awsAccountIds provided in the request, this field will be empty in the response.
+        public let accounts: [AccountEntityAggregate]?
+        /// The number of entities for the organization that match the filter criteria for the specified events.
+        public let count: Int?
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+        public let eventArn: String?
+        /// The number of affected entities aggregated by the entitiy status codes.
+        public let statuses: [EntityStatusCode: Int]?
+
+        public init(accounts: [AccountEntityAggregate]? = nil, count: Int? = nil, eventArn: String? = nil, statuses: [EntityStatusCode: Int]? = nil) {
+            self.accounts = accounts
+            self.count = count
+            self.eventArn = eventArn
+            self.statuses = statuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "accounts"
+            case count = "count"
+            case eventArn = "eventArn"
+            case statuses = "statuses"
         }
     }
 

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS AccessAnalyzer service.
 ///
-/// Identity and Access Management Access Analyzer helps identify potential resource-access risks by enabling you to identify any policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your Amazon Web Services environment. An external principal can be another Amazon Web Services account, a root user, an IAM user or role, a federated user, an Amazon Web Services service, or an anonymous user. You can also use IAM Access Analyzer to preview and validate public and cross-account access to your resources before deploying permissions changes. This guide describes the Identity and Access Management Access Analyzer operations that you can call programmatically. For general information about IAM Access Analyzer, see Identity and Access Management Access Analyzer in the IAM User Guide. To start using IAM Access Analyzer, you first need to create an analyzer.
+/// Identity and Access Management Access Analyzer helps you to set, verify, and refine your IAM policies by providing a suite of capabilities. Its features include findings for external and unused access, basic and custom policy checks for validating policies, and policy generation to generate fine-grained policies. To start using IAM Access Analyzer to identify external or unused access, you first need to create an analyzer.  External access analyzers help identify potential risks of accessing resources by enabling you to identify any resource policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your Amazon Web Services environment. An external principal can be another Amazon Web Services account, a root user, an IAM user or role, a federated user, an Amazon Web Services service, or an anonymous user. You can also use IAM Access Analyzer to preview public and cross-account access to your resources before deploying permissions changes.  Unused access analyzers help identify potential identity access risks by enabling you to identify unused IAM roles, unused access keys, unused console passwords, and IAM principals with unused service and action-level permissions. Beyond findings, IAM Access Analyzer provides basic and custom policy checks to validate IAM policies before deploying permissions changes. You can use policy generation to refine permissions by attaching a policy generated using access activity logged in CloudTrail logs.  This guide describes the IAM Access Analyzer operations that you can call programmatically. For general information about IAM Access Analyzer, see Identity and Access Management Access Analyzer in the IAM User Guide.
 public struct AccessAnalyzer: AWSService {
     // MARK: Member variables
 
@@ -112,6 +112,32 @@ public struct AccessAnalyzer: AWSService {
             operation: "CancelPolicyGeneration", 
             path: "/policy/generation/{jobId}", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Checks whether the specified access isn't allowed by a policy.
+    @Sendable
+    public func checkAccessNotGranted(_ input: CheckAccessNotGrantedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckAccessNotGrantedResponse {
+        return try await self.client.execute(
+            operation: "CheckAccessNotGranted", 
+            path: "/policy/check-access-not-granted", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Checks whether new access is allowed for an updated policy when compared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the existingPolicyDocument request parameter.
+    @Sendable
+    public func checkNoNewAccess(_ input: CheckNoNewAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckNoNewAccessResponse {
+        return try await self.client.execute(
+            operation: "CheckNoNewAccess", 
+            path: "/policy/check-no-new-access", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -248,6 +274,19 @@ public struct AccessAnalyzer: AWSService {
         )
     }
 
+    /// Retrieves information about the specified finding.
+    @Sendable
+    public func getFindingV2(_ input: GetFindingV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingV2Response {
+        return try await self.client.execute(
+            operation: "GetFindingV2", 
+            path: "/findingv2/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the policy that was generated using StartPolicyGeneration.
     @Sendable
     public func getGeneratedPolicy(_ input: GetGeneratedPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeneratedPolicyResponse {
@@ -332,6 +371,19 @@ public struct AccessAnalyzer: AWSService {
         return try await self.client.execute(
             operation: "ListFindings", 
             path: "/finding", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of findings generated by the specified analyzer. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide.
+    @Sendable
+    public func listFindingsV2(_ input: ListFindingsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsV2Response {
+        return try await self.client.execute(
+            operation: "ListFindingsV2", 
+            path: "/findingv2", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

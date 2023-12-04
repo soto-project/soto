@@ -26,29 +26,29 @@ import Foundation
 extension SagemakerEdge {
     // MARK: Enums
 
-    public enum ChecksumType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChecksumType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sha1 = "SHA1"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fail = "FAIL"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case model = "Model"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case doNothing = "DO_NOTHING"
         case rollbackOnFailure = "ROLLBACK_ON_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deploy = "DEPLOY"
         case undeploy = "UNDEPLOY"
         public var description: String { return self.rawValue }
@@ -257,11 +257,11 @@ extension SagemakerEdge {
 
     public struct GetDeploymentsRequest: AWSEncodableShape {
         /// The name of the fleet that the device belongs to.
-        public let deviceFleetName: String
+        public let deviceFleetName: String?
         /// The unique name of the device you want to get the configuration of active deployments from.
-        public let deviceName: String
+        public let deviceName: String?
 
-        public init(deviceFleetName: String, deviceName: String) {
+        public init(deviceFleetName: String? = nil, deviceName: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceName = deviceName
         }
@@ -296,11 +296,11 @@ extension SagemakerEdge {
 
     public struct GetDeviceRegistrationRequest: AWSEncodableShape {
         /// The name of the fleet that the device belongs to.
-        public let deviceFleetName: String
+        public let deviceFleetName: String?
         /// The unique name of the device you want to get the registration status from.
-        public let deviceName: String
+        public let deviceName: String?
 
-        public init(deviceFleetName: String, deviceName: String) {
+        public init(deviceFleetName: String? = nil, deviceName: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceName = deviceName
         }
@@ -382,17 +382,17 @@ extension SagemakerEdge {
         /// For internal use. Returns a list of SageMaker Edge Manager agent operating metrics.
         public let agentMetrics: [EdgeMetric]?
         /// Returns the version of the agent.
-        public let agentVersion: String
+        public let agentVersion: String?
         /// Returns the result of a deployment on the device.
         public let deploymentResult: DeploymentResult?
         /// The name of the fleet that the device belongs to.
-        public let deviceFleetName: String
+        public let deviceFleetName: String?
         /// The unique name of the device.
-        public let deviceName: String
+        public let deviceName: String?
         /// Returns a list of models deployed on the the device.
         public let models: [Model]?
 
-        public init(agentMetrics: [EdgeMetric]? = nil, agentVersion: String, deploymentResult: DeploymentResult? = nil, deviceFleetName: String, deviceName: String, models: [Model]? = nil) {
+        public init(agentMetrics: [EdgeMetric]? = nil, agentVersion: String? = nil, deploymentResult: DeploymentResult? = nil, deviceFleetName: String? = nil, deviceName: String? = nil, models: [Model]? = nil) {
             self.agentMetrics = agentMetrics
             self.agentVersion = agentVersion
             self.deploymentResult = deploymentResult

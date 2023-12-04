@@ -26,7 +26,7 @@ import Foundation
 extension Honeycode {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case fileEmptyError = "FILE_EMPTY_ERROR"
         case fileNotFoundError = "FILE_NOT_FOUND_ERROR"
@@ -44,7 +44,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accounting = "ACCOUNTING"
         case auto = "AUTO"
         case contact = "CONTACT"
@@ -60,7 +60,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportDataCharacterEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportDataCharacterEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iso88591 = "ISO-8859-1"
         case usAscii = "US-ASCII"
         case utf16 = "UTF-16"
@@ -70,12 +70,12 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportSourceDataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportSourceDataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delimitedText = "DELIMITED_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableDataImportJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TableDataImportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -83,7 +83,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpsertAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpsertAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appended = "APPENDED"
         case updated = "UPDATED"
         public var description: String { return self.rawValue }

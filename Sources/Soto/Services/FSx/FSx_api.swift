@@ -100,7 +100,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the  PENDING or EXECUTING state. When you cancel a task, Amazon FSx does the following.   Any files that FSx has already exported are not reverted.   FSx continues to export any files that are "in-flight" when the cancel operation is received.   FSx does not export any files that have not yet been exported.
+    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the  PENDING or EXECUTING state. When you cancel am export task, Amazon FSx does the following.   Any files that FSx has already exported are not reverted.   FSx continues to export any files that are in-flight when the cancel operation is received.   FSx does not export any files that have not yet been exported.   For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that have already been released will remain in the released state.
     @Sendable
     public func cancelDataRepositoryTask(_ input: CancelDataRepositoryTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDataRepositoryTaskResponse {
         return try await self.client.execute(
@@ -126,6 +126,19 @@ public struct FSx: AWSService {
         )
     }
 
+    /// Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User Guide.
+    @Sendable
+    public func copySnapshotAndUpdateVolume(_ input: CopySnapshotAndUpdateVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotAndUpdateVolumeResponse {
+        return try await self.client.execute(
+            operation: "CopySnapshotAndUpdateVolume", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a backup of an existing Amazon FSx for Windows File Server file system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system. We recommend creating regular backups so that you can restore a file system or volume from a backup if an issue arises with the original file system or volume. For Amazon FSx for Lustre file systems, you can create a backup only for file systems that have the following configuration:   A Persistent deployment type   Are not linked to a data repository   For more information about backups, see the following:   For Amazon FSx for Lustre, see Working with FSx for Lustre backups.   For Amazon FSx for Windows, see Working with FSx for Windows backups.   For Amazon FSx for NetApp ONTAP, see Working with FSx for NetApp ONTAP backups.   For Amazon FSx for OpenZFS, see Working with FSx for OpenZFS backups.   If a backup with the specified client request token exists and the parameters match, this operation returns the description of the existing backup. If a backup with the specified client request token exists and the parameters don't match, this operation returns IncompatibleParameterError. If a backup with the specified client request token doesn't exist, CreateBackup does the following:    Creates a new Amazon FSx backup with an assigned ID, and an initial lifecycle state of CREATING.   Returns the description of the backup.   By using the idempotent operation, you can retry a CreateBackup operation without the risk of creating an extra backup. This approach can be useful when an initial call fails in a way that makes it unclear whether a backup was created. If you use the same client request token and the initial call created a backup, the operation returns a successful result because all the parameters are the same. The CreateBackup operation returns while the backup's lifecycle state is still CREATING. You can check the backup creation status by calling the DescribeBackups operation, which returns the backup state along with other information.
     @Sendable
     public func createBackup(_ input: CreateBackupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackupResponse {
@@ -139,7 +152,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported for all file systems except for Scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You can configure a data repository association for automatic import only, for automatic export only, or for both. To learn more about linking a data repository to your file system, see  Linking your file system to an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
+    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You can configure a data repository association for automatic import only, for automatic export only, or for both. To learn more about linking a data repository to your file system, see  Linking your file system to an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
     @Sendable
     public func createDataRepositoryAssociation(_ input: CreateDataRepositoryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataRepositoryAssociationResponse {
         return try await self.client.execute(
@@ -152,7 +165,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Creates an Amazon FSx for Lustre data repository task. You use data repository tasks to perform bulk operations between your Amazon FSx file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directories, and symbolic links (symlinks) from your FSx file system to a linked data repository. A CreateDataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. To learn more about data repository tasks, see  Data Repository Tasks.  To learn more about linking a data repository to your file system, see  Linking your file system to an S3 bucket.
+    /// Creates an Amazon FSx for Lustre data repository task. A CreateDataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. You use import and export data repository tasks to perform bulk operations between your FSx for Lustre file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directories, and symbolic links (symlinks) from your FSx file system to a linked data repository. You use release data repository tasks to release data from your file system for files that are exported to S3. The metadata of released files remains on the file system so users or applications can still access released files by reading the files again, which will restore data from Amazon S3 to the FSx for Lustre file system. To learn more about data repository tasks, see  Data Repository Tasks.  To learn more about linking a data repository to your file system, see  Linking your file system to an S3 bucket.
     @Sendable
     public func createDataRepositoryTask(_ input: CreateDataRepositoryTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataRepositoryTaskResponse {
         return try await self.client.execute(
@@ -269,7 +282,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported for all file systems except for Scratch_1 deployment type.
+    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
     @Sendable
     public func deleteDataRepositoryAssociation(_ input: DeleteDataRepositoryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataRepositoryAssociationResponse {
         return try await self.client.execute(
@@ -295,7 +308,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleFileSystem operation. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
+    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleFileSystem operation. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first  unmount it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can run an export data repository task. If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
     @Sendable
     public func deleteFileSystem(_ input: DeleteFileSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFileSystemResponse {
         return try await self.client.execute(
@@ -360,7 +373,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1 deployment types. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1 deployment type. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     @Sendable
     public func describeDataRepositoryAssociations(_ input: DescribeDataRepositoryAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataRepositoryAssociationsResponse {
         return try await self.client.execute(
@@ -425,6 +438,19 @@ public struct FSx: AWSService {
         )
     }
 
+    /// Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide.
+    @Sendable
+    public func describeSharedVpcConfiguration(_ input: DescribeSharedVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSharedVpcConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeSharedVpcConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.  Use this operation in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first without a NextToken value. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken value. When using this operation, keep the following in mind:   The operation might return fewer than the MaxResults value of snapshot descriptions while still including a NextToken value.   The order of snapshots returned in the response of one DescribeSnapshots call and the order of backups returned across the responses of a multi-call iteration is unspecified.
     @Sendable
     public func describeSnapshots(_ input: DescribeSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsResponse {
@@ -464,7 +490,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases  from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not  associated with the file system, Amazon FSx responds with a 400 Bad Request. For more information, see  Working with DNS Aliases. The system generated response showing the DNS aliases that  Amazon FSx is attempting to disassociate from the file system.  Use the  API  operation to monitor the status of the aliases Amazon FSx is  disassociating with the file system.
+    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases  from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not  associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see  Working with DNS Aliases. The system generated response showing the DNS aliases that  Amazon FSx is attempting to disassociate from the file system.  Use the  API  operation to monitor the status of the aliases Amazon FSx is  disassociating with the file system.
     @Sendable
     public func disassociateFileSystemAliases(_ input: DisassociateFileSystemAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFileSystemAliasesResponse {
         return try await self.client.execute(
@@ -516,6 +542,19 @@ public struct FSx: AWSService {
         )
     }
 
+    /// After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to  initiate the process of Amazon FSx attempting to reconnect to the file system.
+    @Sendable
+    public func startMisconfiguredStateRecovery(_ input: StartMisconfiguredStateRecoveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMisconfiguredStateRecoveryResponse {
+        return try await self.client.execute(
+            operation: "StartMisconfiguredStateRecovery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Tags an Amazon FSx resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -542,7 +581,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported for all file systems except for Scratch_1 deployment type.
+    /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
     @Sendable
     public func updateDataRepositoryAssociation(_ input: UpdateDataRepositoryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataRepositoryAssociationResponse {
         return try await self.client.execute(
@@ -568,11 +607,24 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     SelfManagedActiveDirectoryConfiguration     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     LustreRootSquashConfiguration     StorageCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
+    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType     ThroughputCapacity     DiskIopsConfiguration     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     LogConfiguration     LustreRootSquashConfiguration     PerUnitStorageThroughput     StorageCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword     HAPairs     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
     @Sendable
     public func updateFileSystem(_ input: UpdateFileSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFileSystemResponse {
         return try await self.client.execute(
             operation: "UpdateFileSystem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide.  We strongly recommend that participant-created Multi-AZ file systems in the shared VPC are deleted before you disable this feature. Once the feature is disabled, these file systems will enter a MISCONFIGURED state and behave like Single-AZ file systems. For more information, see Important considerations before disabling shared VPC support for Multi-AZ file systems.
+    @Sendable
+    public func updateSharedVpcConfiguration(_ input: UpdateSharedVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSharedVpcConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateSharedVpcConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -594,7 +646,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
+    /// Updates an FSx for ONTAP storage virtual machine (SVM).
     @Sendable
     public func updateStorageVirtualMachine(_ input: UpdateStorageVirtualMachineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStorageVirtualMachineResponse {
         return try await self.client.execute(
@@ -653,7 +705,7 @@ extension FSx {
         )
     }
 
-    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1 deployment types. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1 deployment type. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

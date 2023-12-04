@@ -26,7 +26,7 @@ import Foundation
 extension Athena {
     // MARK: Enums
 
-    public enum CalculationExecutionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CalculationExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case canceling = "CANCELING"
         case completed = "COMPLETED"
@@ -38,14 +38,14 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityAllocationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CapacityAllocationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CapacityReservationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
@@ -55,28 +55,28 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnNullable: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColumnNullable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notNull = "NOT_NULL"
         case nullable = "NULLABLE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataCatalogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataCatalogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case glue = "GLUE"
         case hive = "HIVE"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cseKms = "CSE_KMS"
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case creating = "CREATING"
         case failed = "FAILED"
@@ -86,19 +86,19 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case coordinator = "COORDINATOR"
         case gateway = "GATEWAY"
         case worker = "WORKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotebookType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipynb = "IPYNB"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryExecutionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case queued = "QUEUED"
@@ -107,12 +107,12 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3AclOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3AclOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case busy = "BUSY"
         case created = "CREATED"
         case creating = "CREATING"
@@ -124,14 +124,14 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatementType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ddl = "DDL"
         case dml = "DML"
         case utility = "UTILITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkGroupState: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
@@ -652,7 +652,7 @@ extension Athena {
         public let description: String?
         /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
-        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.   Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.   In Regions where Athena engine version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT error.
+        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
         public let parameters: [String: String]?
         /// A list of comma separated tags to add to the data catalog that is created.
         public let tags: [Tag]?
@@ -919,7 +919,7 @@ extension Athena {
     }
 
     public struct CustomerContentEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         public let kmsKey: String
 
         public init(kmsKey: String) {
@@ -942,7 +942,7 @@ extension Athena {
         public let description: String?
         /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
-        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.   Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
+        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
         public let parameters: [String: String]?
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         public let type: DataCatalogType
@@ -3037,18 +3037,21 @@ extension Athena {
         public let queryQueueTimeInMillis: Int64?
         /// Contains information about whether previous query results were reused for the query.
         public let resultReuseInformation: ResultReuseInformation?
+        /// The number of milliseconds that Athena took to preprocess the query before submitting the query to the query engine.
+        public let servicePreProcessingTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public let serviceProcessingTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to run the query.
         public let totalExecutionTimeInMillis: Int64?
 
-        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
+        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
             self.resultReuseInformation = resultReuseInformation
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -3060,6 +3063,7 @@ extension Athena {
             case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
             case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
             case resultReuseInformation = "ResultReuseInformation"
+            case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
             case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
             case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
         }
@@ -3145,15 +3149,18 @@ extension Athena {
         public let queryPlanningTimeInMillis: Int64?
         /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
         public let queryQueueTimeInMillis: Int64?
+        ///  The number of milliseconds that Athena spends on preprocessing before it submits the query to the engine.
+        public let servicePreProcessingTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public let serviceProcessingTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to run the query.
         public let totalExecutionTimeInMillis: Int64?
 
-        public init(engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
+        public init(engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -3162,6 +3169,7 @@ extension Athena {
             case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
             case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
             case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+            case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
             case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
             case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
         }
@@ -3412,7 +3420,7 @@ extension Athena {
 
     public struct SessionConfiguration: AWSDecodableShape {
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The ARN of the execution role used for the session.
+        /// The ARN of the execution role used in a Spark session to access user resources. This property applies only to Spark-enabled workgroups.
         public let executionRole: String?
         /// The idle timeout in seconds for the session.
         public let idleTimeoutSeconds: Int64?
@@ -3514,7 +3522,7 @@ extension Athena {
         public let calculationConfiguration: CalculationConfiguration?
         /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
-        /// A string that contains the code of the calculation.
+        /// A string that contains the code of the calculation. Use this parameter instead of CalculationConfiguration$CodeBlock, which is deprecated.
         public let codeBlock: String?
         /// A description of the calculation.
         public let description: String?
@@ -4282,7 +4290,7 @@ extension Athena {
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
-        /// Role used in a session for accessing the user's resources.
+        /// Role used in a Spark session for accessing the user's resources. This property applies only to Spark-enabled workgroups.
         public let executionRole: String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
@@ -4342,7 +4350,7 @@ extension Athena {
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
-        /// Contains the ARN of the execution role for the workgroup
+        /// The ARN of the execution role used to access user resources. This property applies only to Spark-enabled workgroups.
         public let executionRole: String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?

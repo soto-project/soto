@@ -26,7 +26,7 @@ import Foundation
 extension KendraRanking {
     // MARK: Enums
 
-    public enum RescoreExecutionPlanStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RescoreExecutionPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"

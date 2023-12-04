@@ -113,7 +113,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Creates the connector, which captures the parameters for an outbound connection for the AS2 protocol. The connector is required for sending files to an externally hosted AS2 server. For more details about connectors, see Create AS2 connectors.
+    /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see Create AS2 connectors and Create SFTP connectors.  You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     @Sendable
     public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorResponse {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Deletes the agreement that's specified in the provided ConnectorId.
+    /// Deletes the connector that's specified in the provided ConnectorId.
     @Sendable
     public func deleteConnector(_ input: DeleteConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -659,7 +659,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Begins an outbound file transfer to a remote AS2 server. You specify the ConnectorId and the file paths for where to send the files.
+    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.   For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer.   For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId. Depending on the direction of the transfer, you also specify the following items:   If you are transferring file from a partner's SFTP server to Amazon Web Services storage, you specify one or more RetreiveFilePaths to identify the files you want to transfer, and a LocalDirectoryPath to specify the destination folder.   If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more SendFilePaths to identify the files you want to transfer, and a RemoteDirectoryPath to specify the destination folder.
     @Sendable
     public func startFileTransfer(_ input: StartFileTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFileTransferResponse {
         return try await self.client.execute(
@@ -703,6 +703,19 @@ public struct Transfer: AWSService {
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
+    @Sendable
+    public func testConnection(_ input: TestConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestConnectionResponse {
+        return try await self.client.execute(
+            operation: "TestConnection", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1185,6 +1198,7 @@ extension Transfer {
                 .init(state: .failure, matcher: try! JMESPathMatcher("server.state", expected: "STOP_FAILED")),
             ],
             minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(3600),
             command: self.describeServer
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -1201,6 +1215,7 @@ extension Transfer {
                 .init(state: .failure, matcher: try! JMESPathMatcher("server.state", expected: "START_FAILED")),
             ],
             minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(3600),
             command: self.describeServer
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)

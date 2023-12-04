@@ -360,6 +360,19 @@ public struct DataExchange: AWSService {
         )
     }
 
+    /// The type of event associated with the data set.
+    @Sendable
+    public func sendDataSetNotification(_ input: SendDataSetNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataSetNotificationResponse {
+        return try await self.client.execute(
+            operation: "SendDataSetNotification", 
+            path: "/v1/data-sets/{DataSetId}/notification", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This operation starts a job.
     @Sendable
     public func startJob(_ input: StartJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobResponse {

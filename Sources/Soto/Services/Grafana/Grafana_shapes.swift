@@ -26,7 +26,7 @@ import Foundation
 extension Grafana {
     // MARK: Enums
 
-    public enum AccountAccessType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates that the customer is using Grafana to monitor resources in their current account.
         case currentAccount = "CURRENT_ACCOUNT"
         /// Indicates that the customer is using Grafana to monitor resources in organizational units.
@@ -34,7 +34,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationProviderTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationProviderTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates that AMG workspace has AWS SSO enabled as its authentication provider.
         case awsSso = "AWS_SSO"
         /// Indicates that the AMG workspace has SAML enabled as its authentication provider.
@@ -42,7 +42,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Amazon OpenSearch Service
         case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
         /// Amazon Athena
@@ -64,7 +64,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LicenseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Grafana Enterprise License.
         case enterprise = "ENTERPRISE"
         /// Grafana Enterprise Free Trial License.
@@ -72,13 +72,13 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationDestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// AWS Simple Notification Service
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Customer Managed
         case customerManaged = "CUSTOMER_MANAGED"
         /// Service Managed
@@ -86,7 +86,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum Role: String, CustomStringConvertible, Codable, Sendable {
+    public enum Role: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Role Admin.
         case admin = "ADMIN"
         /// Role Editor.
@@ -96,7 +96,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum SamlConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SamlConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates that SAML on an AMG workspace is enabled and has been configured.
         case configured = "CONFIGURED"
         /// Indicates that SAML on an AMG workspace is enabled but has not been configured.
@@ -104,7 +104,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Add permissions.
         case add = "ADD"
         /// Revoke permissions.
@@ -112,7 +112,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// SSO group.
         case ssoGroup = "SSO_GROUP"
         /// SSO user.
@@ -120,7 +120,7 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Workspace is active.
         case active = "ACTIVE"
         /// Workspace is being created.
@@ -143,6 +143,10 @@ extension Grafana {
         case upgradeFailed = "UPGRADE_FAILED"
         /// Workspace is being upgraded to enterprise.
         case upgrading = "UPGRADING"
+        /// Workspace version update failed.
+        case versionUpdateFailed = "VERSION_UPDATE_FAILED"
+        /// Workspace version is being updated.
+        case versionUpdating = "VERSION_UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -405,7 +409,7 @@ extension Grafana {
         public let clientToken: String?
         /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String?
-        /// Specifies the version of Grafana to support in the new workspace. Supported values are 8.4 and 9.4.
+        /// Specifies the version of Grafana to support in the new workspace. To get a list of supported version, use the ListVersions operation.
         public let grafanaVersion: String?
         /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
         public let networkAccessControl: NetworkAccessConfiguration?
@@ -417,7 +421,7 @@ extension Grafana {
         public let stackSetName: String?
         /// The list of tags associated with the workspace.
         public let tags: [String: String]?
-        /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+        /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.  Connecting to a private VPC is not yet available in the Asia Pacific (Seoul)  Region (ap-northeast-2).
         public let vpcConfiguration: VpcConfiguration?
         /// This parameter is for internal use only, and should not be used.
         public let workspaceDataSources: [DataSourceType]?
@@ -644,13 +648,17 @@ extension Grafana {
     public struct DescribeWorkspaceConfigurationResponse: AWSDecodableShape {
         /// The configuration string for the workspace that you requested. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String
+        /// The supported Grafana version for the workspace.
+        public let grafanaVersion: String?
 
-        public init(configuration: String) {
+        public init(configuration: String, grafanaVersion: String? = nil) {
             self.configuration = configuration
+            self.grafanaVersion = grafanaVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case grafanaVersion = "grafanaVersion"
         }
     }
 
@@ -818,6 +826,52 @@ extension Grafana {
         }
     }
 
+    public struct ListVersionsRequest: AWSEncodableShape {
+        /// The maximum number of results to include in the response.
+        public let maxResults: Int?
+        /// The token to use when requesting the next set of results. You receive this token from a previous ListVersions operation.
+        public let nextToken: String?
+        /// The ID of the workspace to list the available upgrade versions. If not included,  lists all versions of Grafana that are supported for  CreateWorkspace.
+        public let workspaceId: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.workspaceId, key: "workspace-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVersionsResponse: AWSDecodableShape {
+        /// The Grafana versions available to create. If a workspace ID is included in the  request, the Grafana versions to which this workspace can be upgraded.
+        public let grafanaVersions: [String]?
+        /// The token to use in a subsequent ListVersions operation to return the next set of results.
+        public let nextToken: String?
+
+        public init(grafanaVersions: [String]? = nil, nextToken: String? = nil) {
+            self.grafanaVersions = grafanaVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grafanaVersions = "grafanaVersions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListWorkspacesRequest: AWSEncodableShape {
         /// The maximum number of workspaces to include in the results.
         public let maxResults: Int?
@@ -857,9 +911,9 @@ extension Grafana {
     }
 
     public struct NetworkAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration then no IP addresses will be allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see Group CIDR blocks using managed prefix listsin the Amazon Virtual Private Cloud User Guide.
+        /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are  allowed to access the workspace. You create a prefix list using the Amazon VPC  console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see Group CIDR blocks using managed prefix listsin the Amazon Virtual Private Cloud User Guide.
         public let prefixListIds: [String]
-        /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here will be allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see Interface VPC endpoints in the Amazon Managed Grafana User Guide.  The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints will be ignored.
+        /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here are allowed to access the workspace. If you pass in an empty array of strings, then no VPCs are allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see Interface VPC endpoints in the Amazon Managed Grafana User Guide.  The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints are ignored.
         public let vpceIds: [String]
 
         public init(prefixListIds: [String], vpceIds: [String]) {
@@ -1194,11 +1248,14 @@ extension Grafana {
     public struct UpdateWorkspaceConfigurationRequest: AWSEncodableShape {
         /// The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String
+        /// Specifies the version of Grafana to support in the new workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see  the ListVersions operation.
+        public let grafanaVersion: String?
         /// The ID of the workspace to update.
         public let workspaceId: String
 
-        public init(configuration: String, workspaceId: String) {
+        public init(configuration: String, grafanaVersion: String? = nil, workspaceId: String) {
             self.configuration = configuration
+            self.grafanaVersion = grafanaVersion
             self.workspaceId = workspaceId
         }
 
@@ -1206,17 +1263,21 @@ extension Grafana {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.grafanaVersion, forKey: .grafanaVersion)
             request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.configuration, name: "configuration", parent: name, max: 65536)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 2)
+            try self.validate(self.grafanaVersion, name: "grafanaVersion", parent: name, max: 255)
+            try self.validate(self.grafanaVersion, name: "grafanaVersion", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case grafanaVersion = "grafanaVersion"
         }
     }
 
@@ -1374,13 +1435,13 @@ extension Grafana {
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
             }
-            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 100)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 255)
             }
-            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 100)
-            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 6)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {

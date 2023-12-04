@@ -97,6 +97,7 @@ public struct SageMaker: AWSService {
             "eu-west-1": "api-fips.sagemaker.eu-west-1.amazonaws.com",
             "eu-west-2": "api-fips.sagemaker.eu-west-2.amazonaws.com",
             "eu-west-3": "api-fips.sagemaker.eu-west-3.amazonaws.com",
+            "il-central-1": "api-fips.sagemaker.il-central-1.amazonaws.com",
             "me-central-1": "api-fips.sagemaker.me-central-1.amazonaws.com",
             "me-south-1": "api-fips.sagemaker.me-south-1.amazonaws.com",
             "sa-east-1": "api-fips.sagemaker.sa-east-1.amazonaws.com",
@@ -124,7 +125,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see Amazon Web Services Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob    Tags that you add to a SageMaker Studio Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the Tags parameter of CreateDomain or CreateUserProfile.
+    /// Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see Amazon Web Services Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob    Tags that you add to a SageMaker Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the Tags parameter of CreateDomain or CreateUserProfile.
     @Sendable
     public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsOutput {
         return try await self.client.execute(
@@ -189,7 +190,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker Studio upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
+    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     @Sendable
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppResponse {
         return try await self.client.execute(
@@ -228,7 +229,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates an Autopilot job. Find the best-performing model after you run an Autopilot job by calling DescribeAutoMLJob. For information about how to use Autopilot, see Automate Model Development with Amazon SageMaker Autopilot.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.  We recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
     @Sendable
     public func createAutoMLJob(_ input: CreateAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutoMLJobResponse {
         return try await self.client.execute(
@@ -241,11 +242,24 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates an Amazon SageMaker AutoML job that uses non-tabular data such as images or text for Computer Vision or Natural Language Processing problems. Find the resulting model after you run an AutoML job V2 by calling DescribeAutoMLJobV2. To create an AutoMLJob using tabular data, see CreateAutoMLJob.  This API action is callable through SageMaker Canvas only. Calling it directly from the CLI or an SDK results in an error.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.   CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  For the list of available problem types supported by CreateAutoMLJobV2, see AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
     @Sendable
     public func createAutoMLJobV2(_ input: CreateAutoMLJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutoMLJobV2Response {
         return try await self.client.execute(
             operation: "CreateAutoMLJobV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
+    @Sendable
+    public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
+        return try await self.client.execute(
+            operation: "CreateCluster", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -319,7 +333,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All Studio traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a SageMaker Studio app successfully.  For more information, see Connect SageMaker Studio Notebooks to Resources in a VPC.
+    /// Creates a Domain. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the EFS volume is through the specified VPC and subnets. For other traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to the domain. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Amazon SageMaker Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker Studio app successfully.  For more information, see Connect Amazon SageMaker Studio Notebooks to Resources in a VPC.
     @Sendable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
         return try await self.client.execute(
@@ -371,7 +385,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.  Use this API to deploy models using SageMaker hosting services.  For an example that calls this method when deploying a model to SageMaker hosting services, see the Create Endpoint example notebook.   You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web Services account.  When it receives the request, SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.  When SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  To add the IAM role policies for using this API operation, go to the IAM console, and choose Roles in the left navigation pane. Search the IAM role that you want to grant access to use the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to the role.    Option 1: For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role, paste the following Action elements manually into the JSON file of the IAM role:   "Action": ["sagemaker:CreateEndpoint", "sagemaker:CreateEndpointConfig"]   "Resource": [   "arn:aws:sagemaker:region:account-id:endpoint/endpointName"   "arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName"   ]  For more information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
+    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.  Use this API to deploy models using SageMaker hosting services.   You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web Services account.  When it receives the request, SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.  When SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  To add the IAM role policies for using this API operation, go to the IAM console, and choose Roles in the left navigation pane. Search the IAM role that you want to grant access to use the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to the role.    Option 1: For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role, paste the following Action elements manually into the JSON file of the IAM role:   "Action": ["sagemaker:CreateEndpoint", "sagemaker:CreateEndpointConfig"]   "Resource": [   "arn:aws:sagemaker:region:account-id:endpoint/endpointName"   "arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName"   ]  For more information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
     @Sendable
     public func createEndpoint(_ input: CreateEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointOutput {
         return try await self.client.execute(
@@ -410,7 +424,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record.  The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check Amazon Web Services service quotas to see the FeatureGroups quota for your Amazon Web Services account.  You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
+    /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record.  The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check Amazon Web Services service quotas to see the FeatureGroups quota for your Amazon Web Services account. Note that it can take approximately 10-15 minutes to provision an OnlineStore FeatureGroup with the InMemory StorageType.  You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
     @Sendable
     public func createFeatureGroup(_ input: CreateFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFeatureGroupResponse {
         return try await self.client.execute(
@@ -493,6 +507,19 @@ public struct SageMaker: AWSService {
     public func createImageVersion(_ input: CreateImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageVersionResponse {
         return try await self.client.execute(
             operation: "CreateImageVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an inference component, which is a SageMaker hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
+    @Sendable
+    public func createInferenceComponent(_ input: CreateInferenceComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInferenceComponentOutput {
+        return try await self.client.execute(
+            operation: "CreateInferenceComponent", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -696,7 +723,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a URL for a specified UserProfile in a Domain.  When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Creates a URL for a specified UserProfile in a Domain.  When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
     @Sendable
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedDomainUrlResponse {
         return try await self.client.execute(
@@ -761,7 +788,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a new Studio Lifecycle Configuration.
+    /// Creates a new Amazon SageMaker Studio Lifecycle Configuration.
     @Sendable
     public func createStudioLifecycleConfig(_ input: CreateStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStudioLifecycleConfigResponse {
         return try await self.client.execute(
@@ -827,7 +854,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to Amazon SageMaker Studio. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory.
+    /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory.
     @Sendable
     public func createUserProfile(_ input: CreateUserProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserProfileResponse {
         return try await self.client.execute(
@@ -936,6 +963,19 @@ public struct SageMaker: AWSService {
     public func deleteAssociation(_ input: DeleteAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssociationResponse {
         return try await self.client.execute(
             operation: "DeleteAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete a SageMaker HyperPod cluster.
+    @Sendable
+    public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1074,7 +1114,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called.  Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted.
+    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called.  Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted.  Note that it can take approximately 10-15 minutes to delete an OnlineStore FeatureGroup with the InMemory StorageType.
     @Sendable
     public func deleteFeatureGroup(_ input: DeleteFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1157,6 +1197,19 @@ public struct SageMaker: AWSService {
     public func deleteImageVersion(_ input: DeleteImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageVersionResponse {
         return try await self.client.execute(
             operation: "DeleteImageVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an inference component.
+    @Sendable
+    public func deleteInferenceComponent(_ input: DeleteInferenceComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteInferenceComponent", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1360,7 +1413,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Deletes the Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+    /// Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     @Sendable
     public func deleteStudioLifecycleConfig(_ input: DeleteStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1373,7 +1426,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API.   When you call this API to delete tags from a SageMaker Studio Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Studio Domain or User Profile launched before you called this API.
+    /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API.   When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you called this API.
     @Sendable
     public func deleteTags(_ input: DeleteTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTagsOutput {
         return try await self.client.execute(
@@ -1529,7 +1582,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Returns information about an Amazon SageMaker AutoML job.
+    /// Returns information about an AutoML job created by calling CreateAutoMLJob.  AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by DescribeAutoMLJob.
     @Sendable
     public func describeAutoMLJob(_ input: DescribeAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAutoMLJobResponse {
         return try await self.client.execute(
@@ -1542,11 +1595,37 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Returns information about an Amazon SageMaker AutoML V2 job.  This API action is callable through SageMaker Canvas only. Calling it directly from the CLI or an SDK results in an error.
+    /// Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob.
     @Sendable
     public func describeAutoMLJobV2(_ input: DescribeAutoMLJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAutoMLJobV2Response {
         return try await self.client.execute(
             operation: "DescribeAutoMLJobV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information of a SageMaker HyperPod cluster.
+    @Sendable
+    public func describeCluster(_ input: DescribeClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterResponse {
+        return try await self.client.execute(
+            operation: "DescribeCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
+    @Sendable
+    public func describeClusterNode(_ input: DescribeClusterNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterNodeResponse {
+        return try await self.client.execute(
+            operation: "DescribeClusterNode", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1828,6 +1907,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Returns information about an inference component.
+    @Sendable
+    public func describeInferenceComponent(_ input: DescribeInferenceComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInferenceComponentOutput {
+        return try await self.client.execute(
+            operation: "DescribeInferenceComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns details about an inference experiment.
     @Sendable
     public func describeInferenceExperiment(_ input: DescribeInferenceExperimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInferenceExperimentResponse {
@@ -2101,7 +2193,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Describes the Studio Lifecycle Configuration.
+    /// Describes the Amazon SageMaker Studio Lifecycle Configuration.
     @Sendable
     public func describeStudioLifecycleConfig(_ input: DescribeStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStudioLifecycleConfigResponse {
         return try await self.client.execute(
@@ -2309,6 +2401,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
+    @Sendable
+    public func getScalingConfigurationRecommendation(_ input: GetScalingConfigurationRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScalingConfigurationRecommendationResponse {
+        return try await self.client.execute(
+            operation: "GetScalingConfigurationRecommendation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     @Sendable
     public func getSearchSuggestions(_ input: GetSearchSuggestionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSearchSuggestionsResponse {
@@ -2444,6 +2549,32 @@ public struct SageMaker: AWSService {
     public func listCandidatesForAutoMLJob(_ input: ListCandidatesForAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCandidatesForAutoMLJobResponse {
         return try await self.client.execute(
             operation: "ListCandidatesForAutoMLJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster.
+    @Sendable
+    public func listClusterNodes(_ input: ListClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterNodesResponse {
+        return try await self.client.execute(
+            operation: "ListClusterNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the list of SageMaker HyperPod clusters.
+    @Sendable
+    public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
+        return try await self.client.execute(
+            operation: "ListClusters", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2717,6 +2848,19 @@ public struct SageMaker: AWSService {
     public func listImages(_ input: ListImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagesResponse {
         return try await self.client.execute(
             operation: "ListImages", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the inference components in your account and their properties.
+    @Sendable
+    public func listInferenceComponents(_ input: ListInferenceComponentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceComponentsOutput {
+        return try await self.client.execute(
+            operation: "ListInferenceComponents", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3089,6 +3233,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    ///  Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
+    @Sendable
+    public func listResourceCatalogs(_ input: ListResourceCatalogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceCatalogsResponse {
+        return try await self.client.execute(
+            operation: "ListResourceCatalogs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists spaces.
     @Sendable
     public func listSpaces(_ input: ListSpacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSpacesResponse {
@@ -3115,7 +3272,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services Account.
     @Sendable
     public func listStudioLifecycleConfigs(_ input: ListStudioLifecycleConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudioLifecycleConfigsResponse {
         return try await self.client.execute(
@@ -3648,6 +3805,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Update a SageMaker HyperPod cluster.
+    @Sendable
+    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
+        return try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the specified Git repository with the specified values.
     @Sendable
     public func updateCodeRepository(_ input: UpdateCodeRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCodeRepositoryOutput {
@@ -3752,7 +3922,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Updates the feature group.
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration.
     @Sendable
     public func updateFeatureGroup(_ input: UpdateFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFeatureGroupResponse {
         return try await self.client.execute(
@@ -3809,6 +3979,32 @@ public struct SageMaker: AWSService {
     public func updateImageVersion(_ input: UpdateImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImageVersionResponse {
         return try await self.client.execute(
             operation: "UpdateImageVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an inference component.
+    @Sendable
+    public func updateInferenceComponent(_ input: UpdateInferenceComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInferenceComponentOutput {
+        return try await self.client.execute(
+            operation: "UpdateInferenceComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Runtime settings for a model that is deployed with an inference component.
+    @Sendable
+    public func updateInferenceComponentRuntimeConfig(_ input: UpdateInferenceComponentRuntimeConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInferenceComponentRuntimeConfigOutput {
+        return try await self.client.execute(
+            operation: "UpdateInferenceComponentRuntimeConfig", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -4546,6 +4742,25 @@ extension SageMaker {
         )
     }
 
+    /// Lists the inference components in your account and their properties.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInferenceComponentsPaginator(
+        _ input: ListInferenceComponentsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInferenceComponentsInput, ListInferenceComponentsOutput> {
+        return .init(
+            input: input,
+            command: self.listInferenceComponents,
+            inputKey: \ListInferenceComponentsInput.nextToken,
+            outputKey: \ListInferenceComponentsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns the list of all inference experiments.
     /// Return PaginatorSequence for operation.
     ///
@@ -5078,6 +5293,25 @@ extension SageMaker {
         )
     }
 
+    ///  Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourceCatalogsPaginator(
+        _ input: ListResourceCatalogsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceCatalogsRequest, ListResourceCatalogsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceCatalogs,
+            inputKey: \ListResourceCatalogsRequest.nextToken,
+            outputKey: \ListResourceCatalogsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists spaces.
     /// Return PaginatorSequence for operation.
     ///
@@ -5116,7 +5350,7 @@ extension SageMaker {
         )
     }
 
-    /// Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services Account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5751,6 +5985,25 @@ extension SageMaker.ListImagesRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListInferenceComponentsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListInferenceComponentsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            endpointNameEquals: self.endpointNameEquals,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals,
+            variantNameEquals: self.variantNameEquals
+        )
+    }
+}
+
 extension SageMaker.ListInferenceExperimentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListInferenceExperimentsRequest {
         return .init(
@@ -6176,6 +6429,20 @@ extension SageMaker.ListProjectsInput: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListResourceCatalogsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListResourceCatalogsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListSpacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListSpacesRequest {
         return .init(
@@ -6371,6 +6638,7 @@ extension SageMaker.QueryLineageRequest: AWSPaginateToken {
 extension SageMaker.SearchRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.SearchRequest {
         return .init(
+            crossAccountFilterOption: self.crossAccountFilterOption,
             maxResults: self.maxResults,
             nextToken: token,
             resource: self.resource,

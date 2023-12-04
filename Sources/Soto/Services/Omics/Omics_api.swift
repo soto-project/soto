@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Omics service.
 ///
-/// This is the Amazon Omics API Reference. For an introduction to the service, see What is Amazon Omics? in the Amazon Omics User Guide.
+/// This is the AWS HealthOmics API Reference. For an introduction to the service, see What is AWS HealthOmics? in the AWS HealthOmics User Guide.
 public struct Omics: AWSService {
     // MARK: Member variables
 
@@ -76,6 +76,7 @@ public struct Omics: AWSService {
         "eu-central-1": "omics.eu-central-1.amazonaws.com",
         "eu-west-1": "omics.eu-west-1.amazonaws.com",
         "eu-west-2": "omics.eu-west-2.amazonaws.com",
+        "il-central-1": "omics.il-central-1.amazonaws.com",
         "us-east-1": "omics.us-east-1.amazonaws.com",
         "us-west-2": "omics.us-west-2.amazonaws.com"
     ]}
@@ -101,6 +102,20 @@ public struct Omics: AWSService {
             serviceConfig: self.config, 
             input: input, 
             hostPrefix: "control-storage-", 
+            logger: logger
+        )
+    }
+
+    /// Accepts a share for an analytics store.
+    @Sendable
+    public func acceptShare(_ input: AcceptShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptShareResponse {
+        return try await self.client.execute(
+            operation: "AcceptShare", 
+            path: "/share/{shareId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
             logger: logger
         )
     }
@@ -189,6 +204,20 @@ public struct Omics: AWSService {
         )
     }
 
+    /// Creates a new version of an annotation store.
+    @Sendable
+    public func createAnnotationStoreVersion(_ input: CreateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnnotationStoreVersionResponse {
+        return try await self.client.execute(
+            operation: "CreateAnnotationStoreVersion", 
+            path: "/annotationStore/{name}/version", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
     ///  Begins a multipart read set upload.
     @Sendable
     public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultipartReadSetUploadResponse {
@@ -245,6 +274,20 @@ public struct Omics: AWSService {
         )
     }
 
+    ///  Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    @Sendable
+    public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateShareResponse {
+        return try await self.client.execute(
+            operation: "CreateShare", 
+            path: "/share", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
     /// Creates a variant store.
     @Sendable
     public func createVariantStore(_ input: CreateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVariantStoreResponse {
@@ -280,6 +323,20 @@ public struct Omics: AWSService {
             operation: "DeleteAnnotationStore", 
             path: "/annotationStore/{name}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
+    /// Deletes one or multiple versions of an annotation store.
+    @Sendable
+    public func deleteAnnotationStoreVersions(_ input: DeleteAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnnotationStoreVersionsResponse {
+        return try await self.client.execute(
+            operation: "DeleteAnnotationStoreVersions", 
+            path: "/annotationStore/{name}/versions/delete", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             hostPrefix: "analytics-", 
@@ -357,6 +414,20 @@ public struct Omics: AWSService {
         )
     }
 
+    ///  Deletes a share of an analytics store.
+    @Sendable
+    public func deleteShare(_ input: DeleteShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteShareResponse {
+        return try await self.client.execute(
+            operation: "DeleteShare", 
+            path: "/share/{shareId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
     /// Deletes a variant store.
     @Sendable
     public func deleteVariantStore(_ input: DeleteVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVariantStoreResponse {
@@ -405,6 +476,20 @@ public struct Omics: AWSService {
         return try await self.client.execute(
             operation: "GetAnnotationStore", 
             path: "/annotationStore/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the metadata for an annotation store version.
+    @Sendable
+    public func getAnnotationStoreVersion(_ input: GetAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationStoreVersionResponse {
+        return try await self.client.execute(
+            operation: "GetAnnotationStoreVersion", 
+            path: "/annotationStore/{name}/version/{versionName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -595,6 +680,20 @@ public struct Omics: AWSService {
         )
     }
 
+    ///  Retrieves the metadata for a share.
+    @Sendable
+    public func getShare(_ input: GetShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetShareResponse {
+        return try await self.client.execute(
+            operation: "GetShare", 
+            path: "/share/{shareId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
     /// Gets information about a variant import job.
     @Sendable
     public func getVariantImportJob(_ input: GetVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantImportResponse {
@@ -643,6 +742,20 @@ public struct Omics: AWSService {
         return try await self.client.execute(
             operation: "ListAnnotationImportJobs", 
             path: "/import/annotations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
+    /// Lists the versions of an annotation store.
+    @Sendable
+    public func listAnnotationStoreVersions(_ input: ListAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationStoreVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListAnnotationStoreVersions", 
+            path: "/annotationStore/{name}/versions", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -847,6 +960,20 @@ public struct Omics: AWSService {
         )
     }
 
+    ///  Lists all shares associated with an account.
+    @Sendable
+    public func listShares(_ input: ListSharesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSharesResponse {
+        return try await self.client.execute(
+            operation: "ListShares", 
+            path: "/shares", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of tags for a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -973,7 +1100,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Starts a run.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
     @Sendable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
         return try await self.client.execute(
@@ -1035,6 +1162,20 @@ public struct Omics: AWSService {
         return try await self.client.execute(
             operation: "UpdateAnnotationStore", 
             path: "/annotationStore/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
+    }
+
+    /// Updates the description of an annotation store version.
+    @Sendable
+    public func updateAnnotationStoreVersion(_ input: UpdateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnnotationStoreVersionResponse {
+        return try await self.client.execute(
+            operation: "UpdateAnnotationStoreVersion", 
+            path: "/annotationStore/{name}/version/{versionName}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1128,6 +1269,25 @@ extension Omics {
             command: self.listAnnotationImportJobs,
             inputKey: \ListAnnotationImportJobsRequest.nextToken,
             outputKey: \ListAnnotationImportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the versions of an annotation store.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAnnotationStoreVersionsPaginator(
+        _ input: ListAnnotationStoreVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnnotationStoreVersionsRequest, ListAnnotationStoreVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAnnotationStoreVersions,
+            inputKey: \ListAnnotationStoreVersionsRequest.nextToken,
+            outputKey: \ListAnnotationStoreVersionsResponse.nextToken,
             logger: logger
         )
     }
@@ -1398,6 +1558,25 @@ extension Omics {
         )
     }
 
+    ///  Lists all shares associated with an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSharesPaginator(
+        _ input: ListSharesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSharesRequest, ListSharesResponse> {
+        return .init(
+            input: input,
+            command: self.listShares,
+            inputKey: \ListSharesRequest.nextToken,
+            outputKey: \ListSharesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of variant import jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -1462,6 +1641,17 @@ extension Omics.ListAnnotationImportJobsRequest: AWSPaginateToken {
             filter: self.filter,
             ids: self.ids,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Omics.ListAnnotationStoreVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Omics.ListAnnotationStoreVersionsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            name: self.name,
             nextToken: token
         )
     }
@@ -1620,6 +1810,17 @@ extension Omics.ListSequenceStoresRequest: AWSPaginateToken {
     }
 }
 
+extension Omics.ListSharesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Omics.ListSharesRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceOwner: self.resourceOwner
+        )
+    }
+}
+
 extension Omics.ListVariantImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Omics.ListVariantImportJobsRequest {
         return .init(
@@ -1710,6 +1911,43 @@ extension Omics {
             minDelayTime: .seconds(30),
             maxDelayTime: .seconds(600),
             command: self.getAnnotationStore
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilAnnotationStoreVersionCreated(
+        _ input: GetAnnotationStoreVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "UPDATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(600),
+            command: self.getAnnotationStoreVersion
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilAnnotationStoreVersionDeleted(
+        _ input: GetAnnotationStoreVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "DELETING")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(600),
+            command: self.getAnnotationStoreVersion
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }

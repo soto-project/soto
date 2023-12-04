@@ -26,7 +26,7 @@ import Foundation
 extension ElasticInference {
     // MARK: Enums
 
-    public enum LocationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
         case region = "region"

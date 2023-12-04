@@ -246,7 +246,7 @@ public struct MediaConvert: AWSService {
         )
     }
 
-    /// Retrieve the JSON for a specific completed transcoding job.
+    /// Retrieve the JSON for a specific transcoding job.
     @Sendable
     public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobResponse {
         return try await self.client.execute(

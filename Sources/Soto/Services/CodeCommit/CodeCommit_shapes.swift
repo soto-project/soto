@@ -26,26 +26,26 @@ import Foundation
 extension CodeCommit {
     // MARK: Enums
 
-    public enum ApprovalState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApprovalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approve = "APPROVE"
         case revoke = "REVOKE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable, Sendable {
-        case a = "A"
-        case d = "D"
-        case m = "M"
+    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case added = "A"
+        case deleted = "D"
+        case modified = "M"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fileLevel = "FILE_LEVEL"
         case lineLevel = "LINE_LEVEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acceptDestination = "ACCEPT_DESTINATION"
         case acceptSource = "ACCEPT_SOURCE"
         case automerge = "AUTOMERGE"
@@ -53,21 +53,21 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case executable = "EXECUTABLE"
         case normal = "NORMAL"
         case symlink = "SYMLINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fastForwardMerge = "FAST_FORWARD_MERGE"
         case squashMerge = "SQUASH_MERGE"
         case threeWayMerge = "THREE_WAY_MERGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directory = "DIRECTORY"
         case file = "FILE"
         case gitLink = "GIT_LINK"
@@ -75,19 +75,19 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ascending"
         case descending = "descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum OverrideStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OverrideStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case override = "OVERRIDE"
         case revoke = "REVOKE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PullRequestEventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PullRequestEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pullRequestApprovalRuleCreated = "PULL_REQUEST_APPROVAL_RULE_CREATED"
         case pullRequestApprovalRuleDeleted = "PULL_REQUEST_APPROVAL_RULE_DELETED"
         case pullRequestApprovalRuleOverridden = "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
@@ -100,19 +100,19 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closed = "CLOSED"
         case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case after = "AFTER"
         case before = "BEFORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case keepBase = "KEEP_BASE"
         case keepDestination = "KEEP_DESTINATION"
         case keepSource = "KEEP_SOURCE"
@@ -120,7 +120,7 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case createReference = "createReference"
         case deleteReference = "deleteReference"
@@ -128,8 +128,8 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortByEnum: String, CustomStringConvertible, Codable, Sendable {
-        case lastModifiedDate = "lastModifiedDate"
+    public enum SortByEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case modifiedDate = "lastModifiedDate"
         case repositoryName = "repositoryName"
         public var description: String { return self.rawValue }
     }
@@ -306,7 +306,7 @@ extension CodeCommit {
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -353,7 +353,7 @@ extension CodeCommit {
             try self.repositoryNames.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 100)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
-                try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^[\\w\\.-]+$")
             }
         }
 
@@ -439,7 +439,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -527,7 +527,7 @@ extension CodeCommit {
             try self.repositoryNames.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 100)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
-                try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^[\\w\\.-]+$")
             }
         }
 
@@ -589,7 +589,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -627,7 +627,7 @@ extension CodeCommit {
             try self.repositoryNames.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 100)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
-                try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^[\\w\\.-]+$")
             }
         }
 
@@ -949,7 +949,7 @@ extension CodeCommit {
     }
 
     public struct CreateApprovalRuleTemplateInput: AWSEncodableShape {
-        /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination references (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template.  When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
+        /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination references (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template.  When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
         public let approvalRuleTemplateContent: String
         /// The description of the approval rule template. Consider providing a description that explains what this template does and when it might be appropriate to associate it with repositories.
         public let approvalRuleTemplateDescription: String?
@@ -1009,7 +1009,7 @@ extension CodeCommit {
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1062,7 +1062,7 @@ extension CodeCommit {
             }
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1109,7 +1109,7 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestApprovalRuleInput: AWSEncodableShape {
-        /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the AWS CodeCommit User Guide.  When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
+        /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCommit User Guide.  When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
         public let approvalRuleContent: String
         /// The name for the approval rule.
         public let approvalRuleName: String
@@ -1150,7 +1150,7 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestInput: AWSEncodableShape {
-        /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you.
+        /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.  The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an idempotency token is created for you.
         public let clientRequestToken: String?
         /// A description of the pull request.
         public let description: String?
@@ -1198,7 +1198,7 @@ extension CodeCommit {
     public struct CreateRepositoryInput: AWSEncodableShape {
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
         public let repositoryDescription: String?
-        /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix .git is prohibited.
+        /// The name of the new repository to be created.  The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide. The suffix .git is prohibited.
         public let repositoryName: String
         /// One or more tag key-value pairs to use when tagging this repository.
         public let tags: [String: String]?
@@ -1213,7 +1213,7 @@ extension CodeCommit {
             try self.validate(self.repositoryDescription, name: "repositoryDescription", parent: name, max: 1000)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1283,7 +1283,7 @@ extension CodeCommit {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1365,7 +1365,7 @@ extension CodeCommit {
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1460,7 +1460,7 @@ extension CodeCommit {
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1546,7 +1546,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1602,7 +1602,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1734,7 +1734,7 @@ extension CodeCommit {
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1886,6 +1886,30 @@ extension CodeCommit {
         }
     }
 
+    public struct FileVersion: AWSDecodableShape {
+        /// The blob ID of the object that represents the content of the file in this version.
+        public let blobId: String?
+        public let commit: Commit?
+        /// The name and path of the file at which this blob is indexed which contains the data for this version of the file. This value will  vary between file versions if a file is renamed or if its path changes.
+        public let path: String?
+        /// An array of commit IDs that contain more recent versions of this file. If there are no additional versions of the file, this array will be empty.
+        public let revisionChildren: [String]?
+
+        public init(blobId: String? = nil, commit: Commit? = nil, path: String? = nil, revisionChildren: [String]? = nil) {
+            self.blobId = blobId
+            self.commit = commit
+            self.path = path
+            self.revisionChildren = revisionChildren
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blobId = "blobId"
+            case commit = "commit"
+            case path = "path"
+            case revisionChildren = "revisionChildren"
+        }
+    }
+
     public struct Folder: AWSDecodableShape {
         /// The fully qualified path of the folder in the repository.
         public let absolutePath: String?
@@ -1952,7 +1976,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1990,7 +2014,7 @@ extension CodeCommit {
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2103,7 +2127,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2133,9 +2157,9 @@ extension CodeCommit {
     }
 
     public struct GetCommentsForPullRequestInput: AWSEncodableShape {
-        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
+        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made. Requirement is conditional:  afterCommitId must be specified when repositoryName is included.
         public let afterCommitId: String?
-        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
+        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created. Requirement is conditional:  beforeCommitId must be specified when repositoryName is included.
         public let beforeCommitId: String?
         /// A non-zero, non-negative integer used to limit the number of returned results. The default is 100 comments. You can return up to 500 comments with a single request.
         public let maxResults: Int?
@@ -2143,7 +2167,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
-        /// The name of the repository that contains the pull request.
+        /// The name of the repository that contains the pull request. Requirement is conditional: repositoryName must be specified when  beforeCommitId and afterCommitId are included.
         public let repositoryName: String?
 
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pullRequestId: String, repositoryName: String? = nil) {
@@ -2158,7 +2182,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2202,7 +2226,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2253,7 +2277,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2285,7 +2309,7 @@ extension CodeCommit {
     }
 
     public struct GetFileInput: AWSEncodableShape {
-        /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, the head commit is used.
+        /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
         public let commitSpecifier: String?
         /// The fully qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully qualified path to a file named file.md in a folder named examples.
         public let filePath: String
@@ -2301,7 +2325,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2361,7 +2385,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2431,7 +2455,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2500,7 +2524,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2571,7 +2595,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2709,7 +2733,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2741,7 +2765,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2805,7 +2829,7 @@ extension CodeCommit {
     }
 
     public struct ListApprovalRuleTemplatesOutput: AWSDecodableShape {
-        /// The names of all the approval rule templates found in the AWS Region for your AWS account.
+        /// The names of all the approval rule templates found in the Amazon Web Services Region for your Amazon Web Services account.
         public let approvalRuleTemplateNames: [String]?
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -2838,7 +2862,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2879,7 +2903,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2902,6 +2926,58 @@ extension CodeCommit {
         private enum CodingKeys: String, CodingKey {
             case branches = "branches"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFileCommitHistoryRequest: AWSEncodableShape {
+        /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
+        public let commitSpecifier: String?
+        /// The full path of the file whose history you want to retrieve, including the name of the file.
+        public let filePath: String
+        /// A non-zero, non-negative integer used to limit the number of returned results.
+        public let maxResults: Int?
+        /// An enumeration token that allows the operation to batch the results.
+        public let nextToken: String?
+        /// The name of the repository that contains the file.
+        public let repositoryName: String
+
+        public init(commitSpecifier: String? = nil, filePath: String, maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
+            self.commitSpecifier = commitSpecifier
+            self.filePath = filePath
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitSpecifier = "commitSpecifier"
+            case filePath = "filePath"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct ListFileCommitHistoryResponse: AWSDecodableShape {
+        /// An enumeration token that can be used to return the next batch of results.
+        public let nextToken: String?
+        /// An array of FileVersion objects that form a directed acyclic graph (DAG) of the changes to the file made by the commits that changed the file.
+        public let revisionDag: [FileVersion]
+
+        public init(nextToken: String? = nil, revisionDag: [FileVersion]) {
+            self.nextToken = nextToken
+            self.revisionDag = revisionDag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case revisionDag = "revisionDag"
         }
     }
 
@@ -2928,7 +3004,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3001,7 +3077,7 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesInput: AWSEncodableShape {
-        /// An enumeration token that allows the operation to batch the results of the operation.  Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+        /// An enumeration token that allows the operation to batch the results of the operation.  Batch sizes are 1,000 for list repository operations. When the client sends the token back to CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
         /// The order in which to sort the results of a list repositories operation.
         public let order: OrderEnum?
@@ -3022,7 +3098,7 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesOutput: AWSDecodableShape {
-        /// An enumeration token that allows the operation to batch the results of the operation.  Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit,  another page of 1,000 records is retrieved.
+        /// An enumeration token that allows the operation to batch the results of the operation.  Batch sizes are 1,000 for list repository operations. When the client sends the token back to CodeCommit,  another page of 1,000 records is retrieved.
         public let nextToken: String?
         /// Lists the repositories called by the list repositories operation.
         public let repositories: [RepositoryNameIdPair]?
@@ -3113,7 +3189,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3185,7 +3261,7 @@ extension CodeCommit {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3264,7 +3340,7 @@ extension CodeCommit {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3406,7 +3482,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3468,7 +3544,7 @@ extension CodeCommit {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3536,7 +3612,7 @@ extension CodeCommit {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3650,7 +3726,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3729,7 +3805,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4048,7 +4124,7 @@ extension CodeCommit {
     public struct PutCommentReactionInput: AWSEncodableShape {
         /// The ID of the comment to which you want to add or update a reaction.
         public let commentId: String
-        /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in AWS CodeCommit, see the AWS CodeCommit User Guide.
+        /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide.
         public let reactionValue: String
 
         public init(commentId: String, reactionValue: String) {
@@ -4129,7 +4205,7 @@ extension CodeCommit {
             try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6291456)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4180,7 +4256,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.triggers.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
@@ -4277,7 +4353,7 @@ extension CodeCommit {
     }
 
     public struct RepositoryMetadata: AWSDecodableShape {
-        /// The ID of the AWS account associated with the repository.
+        /// The ID of the Amazon Web Services account associated with the repository.
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the repository.
         public let arn: String?
@@ -4349,7 +4425,7 @@ extension CodeCommit {
         public let customData: String?
         /// The ARN of the resource that is the target for a trigger (for example, the ARN of a topic in Amazon SNS).
         public let destinationArn: String
-        /// The repository events that cause the trigger to run actions in another service, such as sending a notification through Amazon SNS.    The valid value "all" cannot be used with any other values.
+        /// The repository events that cause the trigger to run actions in another service, such as sending a notification through Amazon SNS.     The valid value "all" cannot be used with any other values.
         public let events: [RepositoryTriggerEventEnum]
         /// The name of the trigger.
         public let name: String
@@ -4517,7 +4593,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4541,7 +4617,7 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.triggers.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
@@ -4738,9 +4814,9 @@ extension CodeCommit {
     }
 
     public struct UpdateDefaultBranchInput: AWSEncodableShape {
-        /// The name of the branch to set as the default.
+        /// The name of the branch to set as the default branch.
         public let defaultBranchName: String
-        /// The name of the repository to set or change the default branch for.
+        /// The name of the repository for which you want to set or change the default branch.
         public let repositoryName: String
 
         public init(defaultBranchName: String, repositoryName: String) {
@@ -4753,7 +4829,7 @@ extension CodeCommit {
             try self.validate(self.defaultBranchName, name: "defaultBranchName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4767,7 +4843,7 @@ extension CodeCommit {
         public let approvalRuleName: String
         /// The SHA-256 hash signature for the content of the approval rule. You can retrieve this information by using GetPullRequest.
         public let existingRuleContentSha256: String?
-        /// The updated content for the approval rule.  When you update the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
+        /// The updated content for the approval rule.  When you update the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
         public let newRuleContent: String
         /// The system-generated ID of the pull request.
         public let pullRequestId: String
@@ -4941,7 +5017,7 @@ extension CodeCommit {
             try self.validate(self.repositoryDescription, name: "repositoryDescription", parent: name, max: 1000)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4964,10 +5040,10 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.newName, name: "newName", parent: name, max: 100)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
-            try self.validate(self.newName, name: "newName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[\\w\\.-]+$")
             try self.validate(self.oldName, name: "oldName", parent: name, max: 100)
             try self.validate(self.oldName, name: "oldName", parent: name, min: 1)
-            try self.validate(self.oldName, name: "oldName", parent: name, pattern: "[\\w\\.-]+")
+            try self.validate(self.oldName, name: "oldName", parent: name, pattern: "^[\\w\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5208,7 +5284,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     public static var actorDoesNotExistException: Self { .init(.actorDoesNotExistException) }
     /// The content for the approval rule is empty. You must provide some content for an approval rule. The content cannot be null.
     public static var approvalRuleContentRequiredException: Self { .init(.approvalRuleContentRequiredException) }
@@ -5220,17 +5296,17 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var approvalRuleNameRequiredException: Self { .init(.approvalRuleNameRequiredException) }
     /// The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
     public static var approvalRuleTemplateContentRequiredException: Self { .init(.approvalRuleTemplateContentRequiredException) }
-    /// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     public static var approvalRuleTemplateDoesNotExistException: Self { .init(.approvalRuleTemplateDoesNotExistException) }
     /// The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
     public static var approvalRuleTemplateInUseException: Self { .init(.approvalRuleTemplateInUseException) }
-    /// You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+    /// You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     public static var approvalRuleTemplateNameAlreadyExistsException: Self { .init(.approvalRuleTemplateNameAlreadyExistsException) }
     /// An approval rule template name is required, but was not specified.
     public static var approvalRuleTemplateNameRequiredException: Self { .init(.approvalRuleTemplateNameRequiredException) }
     /// An approval state is required, but was not specified.
     public static var approvalStateRequiredException: Self { .init(.approvalStateRequiredException) }
-    /// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     public static var authorDoesNotExistException: Self { .init(.authorDoesNotExistException) }
     /// The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
     public static var beforeCommitIdAndAfterCommitIdAreSameException: Self { .init(.beforeCommitIdAndAfterCommitIdAreSameException) }
@@ -5240,7 +5316,8 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var blobIdRequiredException: Self { .init(.blobIdRequiredException) }
     /// The specified branch does not exist.
     public static var branchDoesNotExistException: Self { .init(.branchDoesNotExistException) }
-    /// Cannot create the branch with the specified name because the commit conflicts with an existing branch with the same name.  Branch names must be unique.
+    /// Cannot create the branch with the specified name because the commit conflicts with an existing branch with the same name.
+    ///  Branch names must be unique.
     public static var branchNameExistsException: Self { .init(.branchNameExistsException) }
     /// The specified branch name is not valid because it is a tag name. Enter the name of a branch in the repository. For a list of valid branch names, use ListBranches.
     public static var branchNameIsTagNameException: Self { .init(.branchNameIsTagNameException) }
@@ -5254,7 +5331,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var clientRequestTokenRequiredException: Self { .init(.clientRequestTokenRequiredException) }
     /// The comment is empty. You must provide some content for a comment. The content cannot be null.
     public static var commentContentRequiredException: Self { .init(.commentContentRequiredException) }
-    /// The comment is too large. Comments are limited to 1,000 characters.
+    /// The comment is too large. Comments are limited to 10,240 characters.
     public static var commentContentSizeLimitExceededException: Self { .init(.commentContentSizeLimitExceededException) }
     /// This comment has already been deleted. You cannot edit or delete a deleted comment.
     public static var commentDeletedException: Self { .init(.commentDeletedException) }
@@ -5310,7 +5387,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var fileNameConflictsWithDirectoryNameException: Self { .init(.fileNameConflictsWithDirectoryNameException) }
     /// The commit cannot be created because a specified file path points to a submodule. Verify that the destination files have valid file paths that do not point to a submodule.
     public static var filePathConflictsWithSubmodulePathException: Self { .init(.filePathConflictsWithSubmodulePathException) }
-    /// The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see AWS CodeCommit User Guide.
+    /// The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see Quotas in the CodeCommit User Guide.
     public static var fileTooLargeException: Self { .init(.fileTooLargeException) }
     /// The commit cannot be created because at least one of the overall changes in the commit results in a  folder whose contents exceed the limit of 6 MB. Either reduce the number and size of your changes, or split the changes across multiple folders.
     public static var folderContentSizeLimitExceededException: Self { .init(.folderContentSizeLimitExceededException) }
@@ -5326,9 +5403,9 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidApprovalRuleNameException: Self { .init(.invalidApprovalRuleNameException) }
     /// The content of the approval rule template is not valid.
     public static var invalidApprovalRuleTemplateContentException: Self { .init(.invalidApprovalRuleTemplateContentException) }
-    /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see AWS CodeCommit User Guide.
+    /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit,  see Quotas in the CodeCommit User Guide.
     public static var invalidApprovalRuleTemplateDescriptionException: Self { .init(.invalidApprovalRuleTemplateDescriptionException) }
-    /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see AWS CodeCommit User Guide.
+    /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see Quotas in the CodeCommit User Guide.
     public static var invalidApprovalRuleTemplateNameException: Self { .init(.invalidApprovalRuleTemplateNameException) }
     /// The state for the approval is not valid. Valid values include APPROVE and REVOKE.
     public static var invalidApprovalStateException: Self { .init(.invalidApprovalStateException) }
@@ -5394,9 +5471,9 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidPullRequestStatusUpdateException: Self { .init(.invalidPullRequestStatusUpdateException) }
     /// The Amazon Resource Name (ARN) of the user or identity is not valid.
     public static var invalidReactionUserArnException: Self { .init(.invalidReactionUserArnException) }
-    /// The value of the reaction is not valid. For more information, see the AWS CodeCommit User Guide.
+    /// The value of the reaction is not valid. For more information, see the CodeCommit User Guide.
     public static var invalidReactionValueException: Self { .init(.invalidReactionValueException) }
-    /// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/master). For more information, see Git Internals - Git References or consult your Git documentation.
+    /// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see Git Internals - Git References or consult your Git documentation.
     public static var invalidReferenceNameException: Self { .init(.invalidReferenceNameException) }
     /// Either the enum is not in a valid format, or the specified file version enum is not valid in respect to the current file version.
     public static var invalidRelativeFileVersionEnumException: Self { .init(.invalidRelativeFileVersionEnumException) }
@@ -5406,8 +5483,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidReplacementTypeException: Self { .init(.invalidReplacementTypeException) }
     /// The specified repository description is not valid.
     public static var invalidRepositoryDescriptionException: Self { .init(.invalidRepositoryDescriptionException) }
-    /// A specified repository name is not valid.
-    ///   This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// A specified repository name is not valid.  This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     public static var invalidRepositoryNameException: Self { .init(.invalidRepositoryNameException) }
     /// One or more branch names specified for the trigger is not valid.
     public static var invalidRepositoryTriggerBranchNameException: Self { .init(.invalidRepositoryTriggerBranchNameException) }
@@ -5419,9 +5495,9 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidRepositoryTriggerEventsException: Self { .init(.invalidRepositoryTriggerEventsException) }
     /// The name of the trigger is not valid.
     public static var invalidRepositoryTriggerNameException: Self { .init(.invalidRepositoryTriggerNameException) }
-    /// The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+    /// The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     public static var invalidRepositoryTriggerRegionException: Self { .init(.invalidRepositoryTriggerRegionException) }
-    /// The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see  CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
+    /// The value for the resource ARN is not valid. For more information about resources in CodeCommit, see  CodeCommit Resources and Operations in the CodeCommit User Guide.
     public static var invalidResourceArnException: Self { .init(.invalidResourceArnException) }
     /// The revision ID is not valid. Use GetPullRequest to determine the value.
     public static var invalidRevisionIdException: Self { .init(.invalidRevisionIdException) }
@@ -5477,7 +5553,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var nameLengthExceededException: Self { .init(.nameLengthExceededException) }
     /// The commit cannot be created because no changes will be made to the repository as a result of this commit. A commit must contain at least one change.
     public static var noChangeException: Self { .init(.noChangeException) }
-    /// The maximum number of approval rule templates has been exceeded for this AWS Region.
+    /// The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
     public static var numberOfRuleTemplatesExceededException: Self { .init(.numberOfRuleTemplatesExceededException) }
     /// The approval rule cannot be added. The pull request has the maximum number of approval rules associated with it.
     public static var numberOfRulesExceededException: Self { .init(.numberOfRulesExceededException) }
@@ -5545,7 +5621,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var repositoryTriggerNameRequiredException: Self { .init(.repositoryTriggerNameRequiredException) }
     /// The list of triggers for the repository is required, but was not specified.
     public static var repositoryTriggersListRequiredException: Self { .init(.repositoryTriggersListRequiredException) }
-    /// A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see  CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
+    /// A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see  CodeCommit Resources and Operations in the CodeCommit User Guide.
     public static var resourceArnRequiredException: Self { .init(.resourceArnRequiredException) }
     /// The commit cannot be created because one of the changes specifies copying or moving a .gitkeep file.
     public static var restrictedSourceFileException: Self { .init(.restrictedSourceFileException) }
@@ -5577,7 +5653,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var tipsDivergenceExceededException: Self { .init(.tipsDivergenceExceededException) }
     /// A pull request title is required. It cannot be empty or null.
     public static var titleRequiredException: Self { .init(.titleRequiredException) }
-    /// The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// The maximum number of tags for an CodeCommit resource has been exceeded.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

@@ -19,10 +19,8 @@
 
 /// Service object for interacting with AWS IoTSecureTunneling service.
 ///
-/// IoT Secure Tunneling
-/// 		       IoT Secure Tunneling creates remote connections to devices deployed in the
-/// 			field.
-/// 		       For more information about how IoT Secure Tunneling works, see IoT
+/// IoT Secure Tunneling IoT Secure Tunneling creates remote connections to devices deployed in the
+/// 			field. For more information about how IoT Secure Tunneling works, see IoT
 /// 				Secure Tunneling.
 public struct IoTSecureTunneling: AWSService {
     // MARK: Member variables
@@ -108,8 +106,7 @@ public struct IoTSecureTunneling: AWSService {
 
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel
     /// 			request is received, we close the WebSocket connections between the client and proxy
-    /// 			server so no data can be transmitted.
-    /// 		       Requires permission to access the CloseTunnel action.
+    /// 			server so no data can be transmitted. Requires permission to access the CloseTunnel action.
     @Sendable
     public func closeTunnel(_ input: CloseTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CloseTunnelResponse {
         return try await self.client.execute(
@@ -122,8 +119,7 @@ public struct IoTSecureTunneling: AWSService {
         )
     }
 
-    /// Gets information about a tunnel identified by the unique tunnel id.
-    /// 		       Requires permission to access the DescribeTunnel action.
+    /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the DescribeTunnel action.
     @Sendable
     public func describeTunnel(_ input: DescribeTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTunnelResponse {
         return try await self.client.execute(
@@ -150,8 +146,7 @@ public struct IoTSecureTunneling: AWSService {
     }
 
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
-    /// 			descending order, newer tunnels will be listed before older tunnels.
-    /// 		       Requires permission to access the ListTunnels action.
+    /// 			descending order, newer tunnels will be listed before older tunnels. Requires permission to access the ListTunnels action.
     @Sendable
     public func listTunnels(_ input: ListTunnelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTunnelsResponse {
         return try await self.client.execute(
@@ -165,8 +160,7 @@ public struct IoTSecureTunneling: AWSService {
     }
 
     /// Creates a new tunnel, and returns two client access tokens for clients to use to
-    /// 			connect to the IoT Secure Tunneling proxy server.
-    /// 		       Requires permission to access the OpenTunnel action.
+    /// 			connect to the IoT Secure Tunneling proxy server. Requires permission to access the OpenTunnel action.
     @Sendable
     public func openTunnel(_ input: OpenTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> OpenTunnelResponse {
         return try await self.client.execute(
@@ -180,14 +174,10 @@ public struct IoTSecureTunneling: AWSService {
     }
 
     /// Revokes the current client access token (CAT) and returns new CAT for clients to
-    /// 			use when reconnecting to secure tunneling to access the same tunnel.
-    /// 		       Requires permission to access the RotateTunnelAccessToken action.
-    ///
-    /// 			         Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel
+    /// 			use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the RotateTunnelAccessToken action.  Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel
     /// 				duration is 12 hours and the tunnel has already been open for 4 hours. When you
     /// 				rotate the access tokens, the new tokens that are generated can only be used for the
     /// 				remaining 8 hours.
-    ///
     @Sendable
     public func rotateTunnelAccessToken(_ input: RotateTunnelAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RotateTunnelAccessTokenResponse {
         return try await self.client.execute(
@@ -241,8 +231,7 @@ extension IoTSecureTunneling {
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTSecureTunneling {
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
-    /// 			descending order, newer tunnels will be listed before older tunnels.
-    /// 		       Requires permission to access the ListTunnels action.
+    /// 			descending order, newer tunnels will be listed before older tunnels. Requires permission to access the ListTunnels action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

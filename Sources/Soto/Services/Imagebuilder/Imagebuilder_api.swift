@@ -90,6 +90,19 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// Cancel a specific image lifecycle policy runtime instance.
+    @Sendable
+    public func cancelLifecycleExecution(_ input: CancelLifecycleExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelLifecycleExecutionResponse {
+        return try await self.client.execute(
+            operation: "CancelLifecycleExecution", 
+            path: "/CancelLifecycleExecution", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new component that can be used to build, validate, test, and assess your
     /// 			image. The component is based on a YAML document that you specify using exactly one of
     /// 			the following methods:   Inline, using the data property in the request body.   A URL that points to a YAML document file stored in Amazon S3, using the
@@ -192,6 +205,19 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// Create a lifecycle policy resource.
+    @Sendable
+    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "CreateLifecyclePolicy", 
+            path: "/CreateLifecyclePolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a component build version.
     @Sendable
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentResponse {
@@ -282,6 +308,19 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "DeleteInfrastructureConfiguration", 
             path: "/DeleteInfrastructureConfiguration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete the specified lifecycle policy resource.
+    @Sendable
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "DeleteLifecyclePolicy", 
+            path: "/DeleteLifecyclePolicy", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -425,6 +464,32 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "GetInfrastructureConfiguration", 
             path: "/GetInfrastructureConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
+    @Sendable
+    public func getLifecycleExecution(_ input: GetLifecycleExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLifecycleExecutionResponse {
+        return try await self.client.execute(
+            operation: "GetLifecycleExecution", 
+            path: "/GetLifecycleExecution", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get details for the specified image lifecycle policy.
+    @Sendable
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "GetLifecyclePolicy", 
+            path: "/GetLifecyclePolicy", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -677,6 +742,45 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+    @Sendable
+    public func listLifecycleExecutionResources(_ input: ListLifecycleExecutionResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecycleExecutionResourcesResponse {
+        return try await self.client.execute(
+            operation: "ListLifecycleExecutionResources", 
+            path: "/ListLifecycleExecutionResources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the lifecycle runtime history for the specified resource.
+    @Sendable
+    public func listLifecycleExecutions(_ input: ListLifecycleExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecycleExecutionsResponse {
+        return try await self.client.execute(
+            operation: "ListLifecycleExecutions", 
+            path: "/ListLifecycleExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get a list of lifecycle policies in your Amazon Web Services account.
+    @Sendable
+    public func listLifecyclePolicies(_ input: ListLifecyclePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecyclePoliciesResponse {
+        return try await self.client.execute(
+            operation: "ListLifecyclePolicies", 
+            path: "/ListLifecyclePolicies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the list of tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -796,6 +900,20 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// Begin asynchronous resource state update for lifecycle changes to the
+    /// 			specified image resources.
+    @Sendable
+    public func startResourceStateUpdate(_ input: StartResourceStateUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceStateUpdateResponse {
+        return try await self.client.execute(
+            operation: "StartResourceStateUpdate", 
+            path: "/StartResourceStateUpdate", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds a tag to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -859,6 +977,19 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "UpdateInfrastructureConfiguration", 
             path: "/UpdateInfrastructureConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the specified lifecycle policy.
+    @Sendable
+    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLifecyclePolicyResponse {
+        return try await self.client.execute(
+            operation: "UpdateLifecyclePolicy", 
+            path: "/UpdateLifecyclePolicy", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -1144,6 +1275,63 @@ extension Imagebuilder {
         )
     }
 
+    /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLifecycleExecutionResourcesPaginator(
+        _ input: ListLifecycleExecutionResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLifecycleExecutionResourcesRequest, ListLifecycleExecutionResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listLifecycleExecutionResources,
+            inputKey: \ListLifecycleExecutionResourcesRequest.nextToken,
+            outputKey: \ListLifecycleExecutionResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Get the lifecycle runtime history for the specified resource.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLifecycleExecutionsPaginator(
+        _ input: ListLifecycleExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLifecycleExecutionsRequest, ListLifecycleExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listLifecycleExecutions,
+            inputKey: \ListLifecycleExecutionsRequest.nextToken,
+            outputKey: \ListLifecycleExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Get a list of lifecycle policies in your Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLifecyclePoliciesPaginator(
+        _ input: ListLifecyclePoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLifecyclePoliciesRequest, ListLifecyclePoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listLifecyclePolicies,
+            inputKey: \ListLifecyclePoliciesRequest.nextToken,
+            outputKey: \ListLifecyclePoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of workflow runtime instance metadata objects for a specific image build
     /// 			version.
     /// Return PaginatorSequence for operation.
@@ -1315,6 +1503,37 @@ extension Imagebuilder.ListImagesRequest: AWSPaginateToken {
 
 extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListInfrastructureConfigurationsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Imagebuilder.ListLifecycleExecutionResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListLifecycleExecutionResourcesRequest {
+        return .init(
+            lifecycleExecutionId: self.lifecycleExecutionId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            parentResourceId: self.parentResourceId
+        )
+    }
+}
+
+extension Imagebuilder.ListLifecycleExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListLifecycleExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Imagebuilder.ListLifecyclePoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListLifecyclePoliciesRequest {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,

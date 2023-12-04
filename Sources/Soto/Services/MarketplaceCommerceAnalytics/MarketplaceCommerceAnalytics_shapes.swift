@@ -26,7 +26,7 @@ import Foundation
 extension MarketplaceCommerceAnalytics {
     // MARK: Enums
 
-    public enum DataSetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerProfileByGeography = "customer_profile_by_geography"
         case customerProfileByIndustry = "customer_profile_by_industry"
         case customerProfileByRevenue = "customer_profile_by_revenue"
@@ -55,7 +55,7 @@ extension MarketplaceCommerceAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportDataSetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SupportDataSetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerSupportContactsData = "customer_support_contacts_data"
         case testCustomerSupportContactsData = "test_customer_support_contacts_data"
         public var description: String { return self.rawValue }
@@ -98,8 +98,11 @@ extension MarketplaceCommerceAnalytics {
             }
             try self.validate(self.customerDefinedValues, name: "customerDefinedValues", parent: name, max: 5)
             try self.validate(self.customerDefinedValues, name: "customerDefinedValues", parent: name, min: 1)
+            try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, max: 63)
             try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, min: 1)
+            try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, max: 2048)
             try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, min: 1)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 256)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
         }
 
@@ -128,19 +131,19 @@ extension MarketplaceCommerceAnalytics {
     }
 
     public struct StartSupportDataExportRequest: AWSEncodableShape {
-        /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
+        /// This target has been deprecated. (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
         public let customerDefinedValues: [String: String]?
-        ///  Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data
+        ///  This target has been deprecated. Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data
         public let dataSetType: SupportDataSetType
-        /// The name (friendly name, not ARN) of the destination S3 bucket.
+        /// This target has been deprecated. The name (friendly name, not ARN) of the destination S3 bucket.
         public let destinationS3BucketName: String
-        /// (Optional) The desired S3 prefix for the published data set, similar to a directory path in standard file systems. For example, if given the bucket name "mybucket" and the prefix "myprefix/mydatasets", the output file "outputfile" would be published to "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory structure does not exist, it will be created. If no prefix is provided, the data set will be published to the S3 bucket root.
+        /// This target has been deprecated. (Optional) The desired S3 prefix for the published data set, similar to a directory path in standard file systems. For example, if given the bucket name "mybucket" and the prefix "myprefix/mydatasets", the output file "outputfile" would be published to "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory structure does not exist, it will be created. If no prefix is provided, the data set will be published to the S3 bucket root.
         public let destinationS3Prefix: String?
-        /// The start date from which to retrieve the data set in UTC.  This parameter only affects the customer_support_contacts_data data set type.
+        /// This target has been deprecated. The start date from which to retrieve the data set in UTC.  This parameter only affects the customer_support_contacts_data data set type.
         public let fromDate: Date
-        /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
+        /// This target has been deprecated. The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
-        /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
+        /// This target has been deprecated. Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
 
         public init(customerDefinedValues: [String: String]? = nil, dataSetType: SupportDataSetType, destinationS3BucketName: String, destinationS3Prefix: String? = nil, fromDate: Date, roleNameArn: String, snsTopicArn: String) {
@@ -162,8 +165,11 @@ extension MarketplaceCommerceAnalytics {
             }
             try self.validate(self.customerDefinedValues, name: "customerDefinedValues", parent: name, max: 5)
             try self.validate(self.customerDefinedValues, name: "customerDefinedValues", parent: name, min: 1)
+            try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, max: 63)
             try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, min: 1)
+            try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, max: 2048)
             try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, min: 1)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 256)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
         }
 
@@ -179,7 +185,7 @@ extension MarketplaceCommerceAnalytics {
     }
 
     public struct StartSupportDataExportResult: AWSDecodableShape {
-        /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
+        /// This target has been deprecated. A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
         public init(dataSetRequestId: String? = nil) {

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS PersonalizeEvents service.
 ///
-/// Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see  Recording Events.
+/// Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see  Recording item interaction events.
 public struct PersonalizeEvents: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,33 @@ public struct PersonalizeEvents: AWSService {
 
     // MARK: API Calls
 
-    /// Records user interaction event data. For more information see  Recording Events.
+    /// Records action interaction event data. An action interaction event is an interaction between a user and an action.  For example, a user taking an action, such a enrolling in a membership program or downloading your app.  For more information about recording action interactions, see Recording action interaction events. For more information about actions in an Actions dataset, see Actions dataset.
+    @Sendable
+    public func putActionInteractions(_ input: PutActionInteractionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "PutActionInteractions", 
+            path: "/action-interactions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds one or more actions to an Actions dataset. For more information see  Importing actions individually.
+    @Sendable
+    public func putActions(_ input: PutActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "PutActions", 
+            path: "/actions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Records item interaction event data. For more information see  Recording item interaction events.
     @Sendable
     public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -87,7 +113,7 @@ public struct PersonalizeEvents: AWSService {
         )
     }
 
-    /// Adds one or more items to an Items dataset. For more information see  Importing Items Incrementally.
+    /// Adds one or more items to an Items dataset. For more information see  Importing items individually.
     @Sendable
     public func putItems(_ input: PutItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -100,7 +126,7 @@ public struct PersonalizeEvents: AWSService {
         )
     }
 
-    /// Adds one or more users to a Users dataset. For more information see  Importing Users Incrementally.
+    /// Adds one or more users to a Users dataset. For more information see  Importing users individually.
     @Sendable
     public func putUsers(_ input: PutUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

@@ -26,19 +26,48 @@ import Foundation
 extension WorkSpaces {
     // MARK: Enums
 
-    public enum AccessPropertyValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessPropertyValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Application: String, CustomStringConvertible, Codable, Sendable {
+    public enum Application: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case microsoftOffice2016 = "Microsoft_Office_2016"
         case microsoftOffice2019 = "Microsoft_Office_2019"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bundle = "BUNDLE"
+        case image = "IMAGE"
+        case workspace = "WORKSPACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insufficientDiskspace = "ValidationError.InsufficientDiskSpace"
+        case insufficientMemory = "ValidationError.InsufficientMemory"
+        case internalServerError = "DeploymentError.InternalServerError"
+        case unsupportedOperatingSystem = "ValidationError.UnsupportedOperatingSystem"
+        case workspaceUnreachable = "DeploymentError.WorkspaceUnreachable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case installing = "INSTALLING"
+        case pendingInstall = "PENDING_INSTALL"
+        case pendingInstallDeployment = "PENDING_INSTALL_DEPLOYMENT"
+        case pendingUninstall = "PENDING_UNINSTALL"
+        case pendingUninstallDeployment = "PENDING_UNINSTALL_DEPLOYMENT"
+        case removed = "REMOVED"
+        case uninstalling = "UNINSTALLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associatedWithOwnerAccount = "ASSOCIATED_WITH_OWNER_ACCOUNT"
         case associatedWithSharedAccount = "ASSOCIATED_WITH_SHARED_ACCOUNT"
         case notAssociated = "NOT_ASSOCIATED"
@@ -47,19 +76,24 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum BundleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BundleAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BundleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case regular = "REGULAR"
         case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateBasedAuthStatusEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateBasedAuthStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientDeviceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClientDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deviceTypeAndroid = "DeviceTypeAndroid"
         case deviceTypeIos = "DeviceTypeIos"
         case deviceTypeLinux = "DeviceTypeLinux"
@@ -69,7 +103,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum Compute: String, CustomStringConvertible, Codable, Sendable {
+    public enum Compute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case graphics = "GRAPHICS"
         case graphicsG4Dn = "GRAPHICS_G4DN"
         case graphicspro = "GRAPHICSPRO"
@@ -82,126 +116,171 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionAliasState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionAliasState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataReplication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noReplication = "NO_REPLICATION"
+        case primaryAsSource = "PRIMARY_AS_SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletableCertificateBasedAuthProperty: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeletableCertificateBasedAuthProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case certificateBasedAuthPropertiesCertificateAuthorityArn = "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletableSamlProperty: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeletableSamlProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case samlPropertiesRelayStateParameterName = "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME"
         case samlPropertiesUserAccessUrl = "SAML_PROPERTIES_USER_ACCESS_URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owned = "OWNED"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogUploadEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogUploadEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case computeType = "COMPUTE_TYPE"
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModificationStateEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModificationStateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateInitiated = "UPDATE_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatingSystemType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperatingSystemName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonLinux2 = "AMAZON_LINUX_2"
+        case ubuntu1804 = "UBUNTU_18_04"
+        case ubuntu2004 = "UBUNTU_20_04"
+        case ubuntu2204 = "UBUNTU_22_04"
+        case unknown = "UNKNOWN"
+        case windows10 = "WINDOWS_10"
+        case windows11 = "WINDOWS_11"
+        case windows7 = "WINDOWS_7"
+        case windowsServer2016 = "WINDOWS_SERVER_2016"
+        case windowsServer2019 = "WINDOWS_SERVER_2019"
+        case windowsServer2022 = "WINDOWS_SERVER_2022"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatingSystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "LINUX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReconnectEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReconnectEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunningMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RunningMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alwaysOn = "ALWAYS_ON"
         case autoStop = "AUTO_STOP"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SamlStatusEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum SamlStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enabledWithDirectoryLoginFallback = "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primary = "PRIMARY"
         case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Tenancy: String, CustomStringConvertible, Codable, Sendable {
+    public enum Tenancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dedicated = "DEDICATED"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceBundleState: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkSpaceApplicationLicenseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case licensed = "LICENSED"
+        case unlicensed = "UNLICENSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkSpaceApplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case error = "ERROR"
+        case pending = "PENDING"
+        case uninstallOnly = "UNINSTALL_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkSpaceAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceBundleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deregistered = "DEREGISTERED"
         case deregistering = "DEREGISTERING"
         case error = "ERROR"
@@ -210,13 +289,43 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adConnector = "AD_CONNECTOR"
         case simpleAd = "SIMPLE_AD"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceImageErrorDetailCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case additionalDrivesAttached = "AdditionalDrivesAttached"
+        case antiVirusInstalled = "AntiVirusInstalled"
+        case autoLogonEnabled = "AutoLogonEnabled"
+        case autoMountDisabled = "AutoMountDisabled"
+        case azureDomainJoined = "AzureDomainJoined"
+        case dhcpDisabled = "DHCPDisabled"
+        case diskFreeSpace = "DiskFreeSpace"
+        case diskSizeExceeded = "DiskSizeExceeded"
+        case domainJoined = "DomainJoined"
+        case firewallEnabled = "FirewallEnabled"
+        case inPlaceUpgrade = "InPlaceUpgrade"
+        case incompatiblePartitioning = "IncompatiblePartitioning"
+        case multipleBootPartition = "MultipleBootPartition"
+        case officeInstalled = "OfficeInstalled"
+        case osNotSupported = "OSNotSupported"
+        case outdatedPowershellVersion = "OutdatedPowershellVersion"
+        case pcoipAgentInstalled = "PCoIPAgentInstalled"
+        case pendingReboot = "PendingReboot"
+        case realtimeUniversalDisabled = "RealTimeUniversalDisabled"
+        case sixtyFourBitOs = "Requires64BitOS"
+        case uefiNotSupported = "UEFINotSupported"
+        case vmwareToolsInstalled = "VMWareToolsInstalled"
+        case windowsUpdatesEnabled = "WindowsUpdatesEnabled"
+        case workspacesByolAccountDisabled = "WorkspacesBYOLAccountDisabled"
+        case workspacesByolAccountNotFound = "WorkspacesBYOLAccountNotFound"
+        case zeroRearmCount = "ZeroRearmCount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
         case byolGraphicsG4DnByop = "BYOL_GRAPHICS_G4DN_BYOP"
@@ -227,20 +336,20 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case dedicated = "DEDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageState: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkspaceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
         case error = "ERROR"
@@ -261,7 +370,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pcoip = "PCOIP"
         case wsp = "WSP"
         public var description: String { return self.rawValue }
@@ -299,6 +408,43 @@ extension WorkSpaces {
             case errorMessage = "ErrorMessage"
             case modificationState = "ModificationState"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct ApplicationResourceAssociation: AWSDecodableShape {
+        /// The identifier of the application.
+        public let applicationId: String?
+        /// The identifier of the associated resource.
+        public let associatedResourceId: String?
+        /// The resource type of the associated resource.
+        public let associatedResourceType: ApplicationAssociatedResourceType?
+        /// The time the association was created.
+        public let created: Date?
+        /// The time the association status was last updated.
+        public let lastUpdatedTime: Date?
+        /// The status of the application resource association.
+        public let state: AssociationState?
+        /// The reason the association deployment failed.
+        public let stateReason: AssociationStateReason?
+
+        public init(applicationId: String? = nil, associatedResourceId: String? = nil, associatedResourceType: ApplicationAssociatedResourceType? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
+            self.applicationId = applicationId
+            self.associatedResourceId = associatedResourceId
+            self.associatedResourceType = associatedResourceType
+            self.created = created
+            self.lastUpdatedTime = lastUpdatedTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case associatedResourceId = "AssociatedResourceId"
+            case associatedResourceType = "AssociatedResourceType"
+            case created = "Created"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -369,6 +515,58 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct AssociateWorkspaceApplicationRequest: AWSEncodableShape {
+        /// The identifier of the application.
+        public let applicationId: String
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(applicationId: String, workspaceId: String) {
+            self.applicationId = applicationId
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^wsa-[0-9a-z]{8,63}$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct AssociateWorkspaceApplicationResult: AWSDecodableShape {
+        /// Information about the association between the specified WorkSpace and the specified application.
+        public let association: WorkspaceResourceAssociation?
+
+        public init(association: WorkspaceResourceAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "Association"
+        }
+    }
+
+    public struct AssociationStateReason: AWSDecodableShape {
+        /// The error code of the association deployment failure.
+        public let errorCode: AssociationErrorCode?
+        /// The error message of the association deployment failure.
+        public let errorMessage: String?
+
+        public init(errorCode: AssociationErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct AuthorizeIpRulesRequest: AWSEncodableShape {
         /// The identifier of the group.
         public let groupId: String
@@ -392,6 +590,43 @@ extension WorkSpaces {
 
     public struct AuthorizeIpRulesResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct BundleResourceAssociation: AWSDecodableShape {
+        /// The identifier of the associated resource.
+        public let associatedResourceId: String?
+        /// The resource type of the associated resources.
+        public let associatedResourceType: BundleAssociatedResourceType?
+        /// The identifier of the bundle.
+        public let bundleId: String?
+        /// The time the association is created.
+        public let created: Date?
+        /// The time the association status was last updated.
+        public let lastUpdatedTime: Date?
+        /// The status of the bundle resource association.
+        public let state: AssociationState?
+        /// The reason the association deployment failed.
+        public let stateReason: AssociationStateReason?
+
+        public init(associatedResourceId: String? = nil, associatedResourceType: BundleAssociatedResourceType? = nil, bundleId: String? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
+            self.associatedResourceId = associatedResourceId
+            self.associatedResourceType = associatedResourceType
+            self.bundleId = bundleId
+            self.created = created
+            self.lastUpdatedTime = lastUpdatedTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceId = "AssociatedResourceId"
+            case associatedResourceType = "AssociatedResourceType"
+            case bundleId = "BundleId"
+            case created = "Created"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
     }
 
     public struct CertificateBasedAuthProperties: AWSEncodableShape & AWSDecodableShape {
@@ -1051,6 +1286,23 @@ extension WorkSpaces {
         }
     }
 
+    public struct DataReplicationSettings: AWSDecodableShape {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public let dataReplication: DataReplication?
+        /// The date and time at which the last successful snapshot was taken of the  primary WorkSpace used for replicating data.
+        public let recoverySnapshotTime: Date?
+
+        public init(dataReplication: DataReplication? = nil, recoverySnapshotTime: Date? = nil) {
+            self.dataReplication = dataReplication
+            self.recoverySnapshotTime = recoverySnapshotTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataReplication = "DataReplication"
+            case recoverySnapshotTime = "RecoverySnapshotTime"
+        }
+    }
+
     public struct DefaultClientBrandingAttributes: AWSDecodableShape {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public let forgotPasswordLink: String?
@@ -1336,6 +1588,40 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct DeployWorkspaceApplicationsRequest: AWSEncodableShape {
+        /// Indicates whether the force flag is applied for the specified WorkSpace. When the force flag is enabled,  it allows previously failed deployments to be retried.
+        public let force: Bool?
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(force: Bool? = nil, workspaceId: String) {
+            self.force = force
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "Force"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct DeployWorkspaceApplicationsResult: AWSDecodableShape {
+        /// The list of deployed associations and information about them.
+        public let deployment: WorkSpaceApplicationDeployment?
+
+        public init(deployment: WorkSpaceApplicationDeployment? = nil) {
+            self.deployment = deployment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployment = "Deployment"
+        }
+    }
+
     public struct DeregisterWorkspaceDirectoryRequest: AWSEncodableShape {
         /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
         public let directoryId: String
@@ -1412,6 +1698,157 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
             case dedicatedTenancySupport = "DedicatedTenancySupport"
+        }
+    }
+
+    public struct DescribeApplicationAssociationsRequest: AWSEncodableShape {
+        /// The identifier of the specified application.
+        public let applicationId: String
+        /// The resource type of the associated resources.
+        public let associatedResourceTypes: [ApplicationAssociatedResourceType]
+        /// The maximum number of associations to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(applicationId: String, associatedResourceTypes: [ApplicationAssociatedResourceType], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.associatedResourceTypes = associatedResourceTypes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^wsa-[0-9a-z]{8,63}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case associatedResourceTypes = "AssociatedResourceTypes"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationAssociationsResult: AWSDecodableShape {
+        /// List of associations and information about them.
+        public let associations: [ApplicationResourceAssociation]?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(associations: [ApplicationResourceAssociation]? = nil, nextToken: String? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationsRequest: AWSEncodableShape {
+        /// The identifiers of one or more applications.
+        public let applicationIds: [String]?
+        /// The compute types supported by the applications.
+        public let computeTypeNames: [Compute]?
+        /// The license availability for the applications.
+        public let licenseType: WorkSpaceApplicationLicenseType?
+        /// The maximum number of applications to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The operating systems supported by the applications.
+        public let operatingSystemNames: [OperatingSystemName]?
+        /// The owner of the applications.
+        public let owner: String?
+
+        public init(applicationIds: [String]? = nil, computeTypeNames: [Compute]? = nil, licenseType: WorkSpaceApplicationLicenseType? = nil, maxResults: Int? = nil, nextToken: String? = nil, operatingSystemNames: [OperatingSystemName]? = nil, owner: String? = nil) {
+            self.applicationIds = applicationIds
+            self.computeTypeNames = computeTypeNames
+            self.licenseType = licenseType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.operatingSystemNames = operatingSystemNames
+            self.owner = owner
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationIds?.forEach {
+                try validate($0, name: "applicationIds[]", parent: name, pattern: "^wsa-[0-9a-z]{8,63}$")
+            }
+            try self.validate(self.applicationIds, name: "applicationIds", parent: name, max: 25)
+            try self.validate(self.applicationIds, name: "applicationIds", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.owner, name: "owner", parent: name, pattern: "^\\d{12}|AMAZON$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIds = "ApplicationIds"
+            case computeTypeNames = "ComputeTypeNames"
+            case licenseType = "LicenseType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case operatingSystemNames = "OperatingSystemNames"
+            case owner = "Owner"
+        }
+    }
+
+    public struct DescribeApplicationsResult: AWSDecodableShape {
+        /// List of information about the specified applications.
+        public let applications: [WorkSpaceApplication]?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(applications: [WorkSpaceApplication]? = nil, nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeBundleAssociationsRequest: AWSEncodableShape {
+        /// The resource types of the associated resource.
+        public let associatedResourceTypes: [BundleAssociatedResourceType]
+        /// The identifier of the bundle.
+        public let bundleId: String
+
+        public init(associatedResourceTypes: [BundleAssociatedResourceType], bundleId: String) {
+            self.associatedResourceTypes = associatedResourceTypes
+            self.bundleId = bundleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceTypes = "AssociatedResourceTypes"
+            case bundleId = "BundleId"
+        }
+    }
+
+    public struct DescribeBundleAssociationsResult: AWSDecodableShape {
+        /// List of information about the specified associations.
+        public let associations: [BundleResourceAssociation]?
+
+        public init(associations: [BundleResourceAssociation]? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
         }
     }
 
@@ -1658,6 +2095,40 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeImageAssociationsRequest: AWSEncodableShape {
+        /// The resource types of the associated resource.
+        public let associatedResourceTypes: [ImageAssociatedResourceType]
+        /// The identifier of the image.
+        public let imageId: String
+
+        public init(associatedResourceTypes: [ImageAssociatedResourceType], imageId: String) {
+            self.associatedResourceTypes = associatedResourceTypes
+            self.imageId = imageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^wsi-[0-9a-z]{9,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceTypes = "AssociatedResourceTypes"
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct DescribeImageAssociationsResult: AWSDecodableShape {
+        /// List of information about the specified associations.
+        public let associations: [ImageResourceAssociation]?
+
+        public init(associations: [ImageResourceAssociation]? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
+        }
+    }
+
     public struct DescribeIpGroupsRequest: AWSEncodableShape {
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]?
@@ -1733,6 +2204,40 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case tagList = "TagList"
+        }
+    }
+
+    public struct DescribeWorkspaceAssociationsRequest: AWSEncodableShape {
+        /// The resource types of the associated resources.
+        public let associatedResourceTypes: [WorkSpaceAssociatedResourceType]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(associatedResourceTypes: [WorkSpaceAssociatedResourceType], workspaceId: String) {
+            self.associatedResourceTypes = associatedResourceTypes
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceTypes = "AssociatedResourceTypes"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct DescribeWorkspaceAssociationsResult: AWSDecodableShape {
+        /// List of information about the specified associations.
+        public let associations: [WorkspaceResourceAssociation]?
+
+        public init(associations: [WorkspaceResourceAssociation]? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
         }
     }
 
@@ -2139,6 +2644,58 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct DisassociateWorkspaceApplicationRequest: AWSEncodableShape {
+        /// The identifier of the application.
+        public let applicationId: String
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(applicationId: String, workspaceId: String) {
+            self.applicationId = applicationId
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^wsa-[0-9a-z]{8,63}$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct DisassociateWorkspaceApplicationResult: AWSDecodableShape {
+        /// Information about the targeted association.
+        public let association: WorkspaceResourceAssociation?
+
+        public init(association: WorkspaceResourceAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "Association"
+        }
+    }
+
+    public struct ErrorDetails: AWSDecodableShape {
+        /// Indicates the error code returned.
+        public let errorCode: WorkspaceImageErrorDetailCode?
+        /// The text of the error message related the error code.
+        public let errorMessage: String?
+
+        public init(errorCode: WorkspaceImageErrorDetailCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct FailedCreateStandbyWorkspacesRequest: AWSDecodableShape {
         /// The error code that is returned if the standby WorkSpace could not be created.
         public let errorCode: String?
@@ -2212,6 +2769,43 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case sharedAccountId = "SharedAccountId"
+        }
+    }
+
+    public struct ImageResourceAssociation: AWSDecodableShape {
+        /// The identifier of the associated resource.
+        public let associatedResourceId: String?
+        /// The resource type of the associated resources.
+        public let associatedResourceType: ImageAssociatedResourceType?
+        /// The time the association is created.
+        public let created: Date?
+        /// The identifier of the image.
+        public let imageId: String?
+        /// The time the association status was last updated.
+        public let lastUpdatedTime: Date?
+        /// The status of the image resource association.
+        public let state: AssociationState?
+        /// The reason the association deployment failed.
+        public let stateReason: AssociationStateReason?
+
+        public init(associatedResourceId: String? = nil, associatedResourceType: ImageAssociatedResourceType? = nil, created: Date? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
+            self.associatedResourceId = associatedResourceId
+            self.associatedResourceType = associatedResourceType
+            self.created = created
+            self.imageId = imageId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceId = "AssociatedResourceId"
+            case associatedResourceType = "AssociatedResourceType"
+            case created = "Created"
+            case imageId = "ImageId"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -2773,12 +3367,15 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspacePropertiesRequest: AWSEncodableShape {
+        /// Indicates the data replication status.
+        public let dataReplication: DataReplication?
         /// The identifier of the WorkSpace.
         public let workspaceId: String
         /// The properties of the WorkSpace.
-        public let workspaceProperties: WorkspaceProperties
+        public let workspaceProperties: WorkspaceProperties?
 
-        public init(workspaceId: String, workspaceProperties: WorkspaceProperties) {
+        public init(dataReplication: DataReplication? = nil, workspaceId: String, workspaceProperties: WorkspaceProperties? = nil) {
+            self.dataReplication = dataReplication
             self.workspaceId = workspaceId
             self.workspaceProperties = workspaceProperties
         }
@@ -2788,6 +3385,7 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataReplication = "DataReplication"
             case workspaceId = "WorkspaceId"
             case workspaceProperties = "WorkspaceProperties"
         }
@@ -3173,6 +3771,8 @@ extension WorkSpaces {
     }
 
     public struct StandbyWorkspace: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public let dataReplication: DataReplication?
         /// The identifier of the directory for the standby WorkSpace.
         public let directoryId: String
         /// The identifier of the standby WorkSpace.
@@ -3182,7 +3782,8 @@ extension WorkSpaces {
         /// The volume encryption key of the standby WorkSpace.
         public let volumeEncryptionKey: String?
 
-        public init(directoryId: String, primaryWorkspaceId: String, tags: [Tag]? = nil, volumeEncryptionKey: String? = nil) {
+        public init(dataReplication: DataReplication? = nil, directoryId: String, primaryWorkspaceId: String, tags: [Tag]? = nil, volumeEncryptionKey: String? = nil) {
+            self.dataReplication = dataReplication
             self.directoryId = directoryId
             self.primaryWorkspaceId = primaryWorkspaceId
             self.tags = tags
@@ -3200,10 +3801,32 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataReplication = "DataReplication"
             case directoryId = "DirectoryId"
             case primaryWorkspaceId = "PrimaryWorkspaceId"
             case tags = "Tags"
             case volumeEncryptionKey = "VolumeEncryptionKey"
+        }
+    }
+
+    public struct StandbyWorkspacesProperties: AWSDecodableShape {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public let dataReplication: DataReplication?
+        /// The date and time at which the last successful snapshot was taken of the  primary WorkSpace used for replicating data.
+        public let recoverySnapshotTime: Date?
+        /// The identifier of the standby WorkSpace
+        public let standbyWorkspaceId: String?
+
+        public init(dataReplication: DataReplication? = nil, recoverySnapshotTime: Date? = nil, standbyWorkspaceId: String? = nil) {
+            self.dataReplication = dataReplication
+            self.recoverySnapshotTime = recoverySnapshotTime
+            self.standbyWorkspaceId = standbyWorkspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataReplication = "DataReplication"
+            case recoverySnapshotTime = "RecoverySnapshotTime"
+            case standbyWorkspaceId = "StandbyWorkspaceId"
         }
     }
 
@@ -3570,11 +4193,71 @@ extension WorkSpaces {
         }
     }
 
+    public struct WorkSpaceApplication: AWSDecodableShape {
+        /// The identifier of the application.
+        public let applicationId: String?
+        /// The time the application is created.
+        public let created: Date?
+        /// The description of the WorkSpace application.
+        public let description: String?
+        /// The license availability for the applications.
+        public let licenseType: WorkSpaceApplicationLicenseType?
+        /// The name of the WorkSpace application.
+        public let name: String?
+        /// The owner of the WorkSpace application.
+        public let owner: String?
+        /// The status of WorkSpace application.
+        public let state: WorkSpaceApplicationState?
+        /// The supported compute types of the WorkSpace application.
+        public let supportedComputeTypeNames: [Compute]?
+        /// The supported operating systems of the WorkSpace application.
+        public let supportedOperatingSystemNames: [OperatingSystemName]?
+
+        public init(applicationId: String? = nil, created: Date? = nil, description: String? = nil, licenseType: WorkSpaceApplicationLicenseType? = nil, name: String? = nil, owner: String? = nil, state: WorkSpaceApplicationState? = nil, supportedComputeTypeNames: [Compute]? = nil, supportedOperatingSystemNames: [OperatingSystemName]? = nil) {
+            self.applicationId = applicationId
+            self.created = created
+            self.description = description
+            self.licenseType = licenseType
+            self.name = name
+            self.owner = owner
+            self.state = state
+            self.supportedComputeTypeNames = supportedComputeTypeNames
+            self.supportedOperatingSystemNames = supportedOperatingSystemNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case created = "Created"
+            case description = "Description"
+            case licenseType = "LicenseType"
+            case name = "Name"
+            case owner = "Owner"
+            case state = "State"
+            case supportedComputeTypeNames = "SupportedComputeTypeNames"
+            case supportedOperatingSystemNames = "SupportedOperatingSystemNames"
+        }
+    }
+
+    public struct WorkSpaceApplicationDeployment: AWSDecodableShape {
+        /// The associations between the applications and the associated resources.
+        public let associations: [WorkspaceResourceAssociation]?
+
+        public init(associations: [WorkspaceResourceAssociation]? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
+        }
+    }
+
     public struct Workspace: AWSDecodableShape {
         /// The identifier of the bundle used to create the WorkSpace.
         public let bundleId: String?
         /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see  Launch a WorkSpace.
         public let computerName: String?
+        /// Indicates the settings of the data replication.
+        public let dataReplicationSettings: DataReplicationSettings?
         /// The identifier of the Directory Service directory for the WorkSpace.
         public let directoryId: String?
         /// The error code that is returned if the WorkSpace cannot be created.
@@ -3589,6 +4272,8 @@ extension WorkSpaces {
         public let relatedWorkspaces: [RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
+        /// The properties of the standby WorkSpace
+        public let standbyWorkspacesProperties: [StandbyWorkspacesProperties]?
         /// The operational state of the WorkSpace.  After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
         public let state: WorkspaceState?
         /// The identifier of the subnet for the WorkSpace.
@@ -3597,16 +4282,17 @@ extension WorkSpaces {
         public let userName: String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties?
 
-        public init(bundleId: String? = nil, computerName: String? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+        public init(bundleId: String? = nil, computerName: String? = nil, dataReplicationSettings: DataReplicationSettings? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, standbyWorkspacesProperties: [StandbyWorkspacesProperties]? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.computerName = computerName
+            self.dataReplicationSettings = dataReplicationSettings
             self.directoryId = directoryId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3614,6 +4300,7 @@ extension WorkSpaces {
             self.modificationStates = modificationStates
             self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
+            self.standbyWorkspacesProperties = standbyWorkspacesProperties
             self.state = state
             self.subnetId = subnetId
             self.userName = userName
@@ -3626,6 +4313,7 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
             case computerName = "ComputerName"
+            case dataReplicationSettings = "DataReplicationSettings"
             case directoryId = "DirectoryId"
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -3633,6 +4321,7 @@ extension WorkSpaces {
             case modificationStates = "ModificationStates"
             case relatedWorkspaces = "RelatedWorkspaces"
             case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+            case standbyWorkspacesProperties = "StandbyWorkspacesProperties"
             case state = "State"
             case subnetId = "SubnetId"
             case userName = "UserName"
@@ -3893,6 +4582,8 @@ extension WorkSpaces {
         public let description: String?
         /// The error code that is returned for the image.
         public let errorCode: String?
+        /// Additional details of the error returned for the image, including the  possible causes of the errors and troubleshooting information.
+        public let errorDetails: [ErrorDetails]?
         /// The text of the error message that is returned for the image.
         public let errorMessage: String?
         /// The identifier of the image.
@@ -3910,10 +4601,11 @@ extension WorkSpaces {
         /// The updates (if any) that are available for the specified image.
         public let updates: UpdateResult?
 
-        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
+        public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorDetails: [ErrorDetails]? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
             self.created = created
             self.description = description
             self.errorCode = errorCode
+            self.errorDetails = errorDetails
             self.errorMessage = errorMessage
             self.imageId = imageId
             self.name = name
@@ -3928,6 +4620,7 @@ extension WorkSpaces {
             case created = "Created"
             case description = "Description"
             case errorCode = "ErrorCode"
+            case errorDetails = "ErrorDetails"
             case errorMessage = "ErrorMessage"
             case imageId = "ImageId"
             case name = "Name"
@@ -3942,6 +4635,8 @@ extension WorkSpaces {
     public struct WorkspaceProperties: AWSEncodableShape & AWSDecodableShape {
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
+        /// The name of the operating system.
+        public let operatingSystemName: OperatingSystemName?
         /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or WSP.   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
@@ -3953,8 +4648,9 @@ extension WorkSpaces {
         /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
-        public init(computeTypeName: Compute? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
+        public init(computeTypeName: Compute? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
+            self.operatingSystemName = operatingSystemName
             self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
             self.runningMode = runningMode
@@ -3964,6 +4660,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case computeTypeName = "ComputeTypeName"
+            case operatingSystemName = "OperatingSystemName"
             case protocols = "Protocols"
             case rootVolumeSizeGib = "RootVolumeSizeGib"
             case runningMode = "RunningMode"
@@ -3985,7 +4682,7 @@ extension WorkSpaces {
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?
@@ -4025,6 +4722,43 @@ extension WorkSpaces {
         }
     }
 
+    public struct WorkspaceResourceAssociation: AWSDecodableShape {
+        /// The identifier of the associated resource.
+        public let associatedResourceId: String?
+        /// The resource types of the associated resource.
+        public let associatedResourceType: WorkSpaceAssociatedResourceType?
+        /// The time the association is created.
+        public let created: Date?
+        /// The time the association status was last updated.
+        public let lastUpdatedTime: Date?
+        /// The status of the WorkSpace resource association.
+        public let state: AssociationState?
+        /// The reason the association deployment failed.
+        public let stateReason: AssociationStateReason?
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String?
+
+        public init(associatedResourceId: String? = nil, associatedResourceType: WorkSpaceAssociatedResourceType? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil, workspaceId: String? = nil) {
+            self.associatedResourceId = associatedResourceId
+            self.associatedResourceType = associatedResourceType
+            self.created = created
+            self.lastUpdatedTime = lastUpdatedTime
+            self.state = state
+            self.stateReason = stateReason
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResourceId = "AssociatedResourceId"
+            case associatedResourceType = "AssociatedResourceType"
+            case created = "Created"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case state = "State"
+            case stateReason = "StateReason"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
     public struct WorkspacesIpGroup: AWSDecodableShape {
         /// The description of the group.
         public let groupDesc: String?
@@ -4057,13 +4791,18 @@ extension WorkSpaces {
 public struct WorkSpacesErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case applicationNotSupportedException = "ApplicationNotSupportedException"
+        case computeNotCompatibleException = "ComputeNotCompatibleException"
+        case incompatibleApplicationsException = "IncompatibleApplicationsException"
         case invalidParameterValuesException = "InvalidParameterValuesException"
         case invalidResourceStateException = "InvalidResourceStateException"
+        case operatingSystemNotCompatibleException = "OperatingSystemNotCompatibleException"
         case operationInProgressException = "OperationInProgressException"
         case operationNotSupportedException = "OperationNotSupportedException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceAssociatedException = "ResourceAssociatedException"
         case resourceCreationFailedException = "ResourceCreationFailedException"
+        case resourceInUseException = "ResourceInUseException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceUnavailableException = "ResourceUnavailableException"
@@ -4092,10 +4831,18 @@ public struct WorkSpacesErrorType: AWSErrorType {
 
     /// The user is not authorized to access a resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The specified application is not supported.
+    public static var applicationNotSupportedException: Self { .init(.applicationNotSupportedException) }
+    /// The compute type of the WorkSpace is not compatible with the application.
+    public static var computeNotCompatibleException: Self { .init(.computeNotCompatibleException) }
+    /// The specified application is not compatible with the resource.
+    public static var incompatibleApplicationsException: Self { .init(.incompatibleApplicationsException) }
     /// One or more parameter values are not valid.
     public static var invalidParameterValuesException: Self { .init(.invalidParameterValuesException) }
     /// The state of the resource is not valid for this operation.
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    /// The operating system of the WorkSpace is not compatible with the application.
+    public static var operatingSystemNotCompatibleException: Self { .init(.operatingSystemNotCompatibleException) }
     /// The properties of this WorkSpace are currently being modified. Try again in a moment.
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
     /// This operation is not supported.
@@ -4106,6 +4853,8 @@ public struct WorkSpacesErrorType: AWSErrorType {
     public static var resourceAssociatedException: Self { .init(.resourceAssociatedException) }
     /// The resource could not be created.
     public static var resourceCreationFailedException: Self { .init(.resourceCreationFailedException) }
+    /// The specified resource is currently in use.
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Your resource limits have been exceeded.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
     /// The resource could not be found.

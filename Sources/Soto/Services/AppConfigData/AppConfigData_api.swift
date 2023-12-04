@@ -60,6 +60,7 @@ public struct AppConfigData: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-11-11",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AppConfigDataErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -71,6 +72,13 @@ public struct AppConfigData: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-east-1": "appconfigdata.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "appconfigdata.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

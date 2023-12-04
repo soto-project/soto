@@ -26,13 +26,13 @@ import Foundation
 extension DocDBElastic {
     // MARK: Enums
 
-    public enum Auth: String, CustomStringConvertible, Codable, Sendable {
+    public enum Auth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case plainText = "PLAIN_TEXT"
         case secretArn = "SECRET_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"

@@ -133,6 +133,19 @@ public struct Wisdom: AWSService {
         )
     }
 
+    /// Creates a Wisdom quick response.
+    @Sendable
+    public func createQuickResponse(_ input: CreateQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuickResponseResponse {
+        return try await self.client.execute(
+            operation: "CreateQuickResponse", 
+            path: "/knowledgeBases/{knowledgeBaseId}/quickResponses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     @Sendable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
@@ -185,12 +198,38 @@ public struct Wisdom: AWSService {
         )
     }
 
+    /// Deletes the quick response import job.
+    @Sendable
+    public func deleteImportJob(_ input: DeleteImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImportJobResponse {
+        return try await self.client.execute(
+            operation: "DeleteImportJob", 
+            path: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the knowledge base.  When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API Reference.
     @Sendable
     public func deleteKnowledgeBase(_ input: DeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseResponse {
         return try await self.client.execute(
             operation: "DeleteKnowledgeBase", 
             path: "/knowledgeBases/{knowledgeBaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a quick response.
+    @Sendable
+    public func deleteQuickResponse(_ input: DeleteQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQuickResponseResponse {
+        return try await self.client.execute(
+            operation: "DeleteQuickResponse", 
+            path: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -250,12 +289,38 @@ public struct Wisdom: AWSService {
         )
     }
 
+    /// Retrieves the started import job.
+    @Sendable
+    public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportJobResponse {
+        return try await self.client.execute(
+            operation: "GetImportJob", 
+            path: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about the knowledge base.
     @Sendable
     public func getKnowledgeBase(_ input: GetKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseResponse {
         return try await self.client.execute(
             operation: "GetKnowledgeBase", 
             path: "/knowledgeBases/{knowledgeBaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the quick response.
+    @Sendable
+    public func getQuickResponse(_ input: GetQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQuickResponseResponse {
+        return try await self.client.execute(
+            operation: "GetQuickResponse", 
+            path: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -328,12 +393,38 @@ public struct Wisdom: AWSService {
         )
     }
 
+    /// Lists information about import jobs.
+    @Sendable
+    public func listImportJobs(_ input: ListImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportJobsResponse {
+        return try await self.client.execute(
+            operation: "ListImportJobs", 
+            path: "/knowledgeBases/{knowledgeBaseId}/importJobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the knowledge bases.
     @Sendable
     public func listKnowledgeBases(_ input: ListKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBasesResponse {
         return try await self.client.execute(
             operation: "ListKnowledgeBases", 
             path: "/knowledgeBases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists information about quick response.
+    @Sendable
+    public func listQuickResponses(_ input: ListQuickResponsesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQuickResponsesResponse {
+        return try await self.client.execute(
+            operation: "ListQuickResponses", 
+            path: "/knowledgeBases/{knowledgeBaseId}/quickResponses", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -406,6 +497,19 @@ public struct Wisdom: AWSService {
         )
     }
 
+    /// Searches existing Wisdom quick responses in a Wisdom knowledge base.
+    @Sendable
+    public func searchQuickResponses(_ input: SearchQuickResponsesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQuickResponsesResponse {
+        return try await self.client.execute(
+            operation: "SearchQuickResponses", 
+            path: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Searches for sessions.
     @Sendable
     public func searchSessions(_ input: SearchSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSessionsResponse {
@@ -425,6 +529,19 @@ public struct Wisdom: AWSService {
         return try await self.client.execute(
             operation: "StartContentUpload", 
             path: "/knowledgeBases/{knowledgeBaseId}/upload", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data.   For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
+    @Sendable
+    public func startImportJob(_ input: StartImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportJobResponse {
+        return try await self.client.execute(
+            operation: "StartImportJob", 
+            path: "/knowledgeBases/{knowledgeBaseId}/importJobs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -477,6 +594,19 @@ public struct Wisdom: AWSService {
         return try await self.client.execute(
             operation: "UpdateKnowledgeBaseTemplateUri", 
             path: "/knowledgeBases/{knowledgeBaseId}/templateUri", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an existing Wisdom quick response.
+    @Sendable
+    public func updateQuickResponse(_ input: UpdateQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuickResponseResponse {
+        return try await self.client.execute(
+            operation: "UpdateQuickResponse", 
+            path: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -555,6 +685,25 @@ extension Wisdom {
         )
     }
 
+    /// Lists information about import jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listImportJobsPaginator(
+        _ input: ListImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListImportJobsRequest, ListImportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listImportJobs,
+            inputKey: \ListImportJobsRequest.nextToken,
+            outputKey: \ListImportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the knowledge bases.
     /// Return PaginatorSequence for operation.
     ///
@@ -570,6 +719,25 @@ extension Wisdom {
             command: self.listKnowledgeBases,
             inputKey: \ListKnowledgeBasesRequest.nextToken,
             outputKey: \ListKnowledgeBasesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists information about quick response.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listQuickResponsesPaginator(
+        _ input: ListQuickResponsesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQuickResponsesRequest, ListQuickResponsesResponse> {
+        return .init(
+            input: input,
+            command: self.listQuickResponses,
+            inputKey: \ListQuickResponsesRequest.nextToken,
+            outputKey: \ListQuickResponsesResponse.nextToken,
             logger: logger
         )
     }
@@ -608,6 +776,25 @@ extension Wisdom {
             command: self.searchContent,
             inputKey: \SearchContentRequest.nextToken,
             outputKey: \SearchContentResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Searches existing Wisdom quick responses in a Wisdom knowledge base.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchQuickResponsesPaginator(
+        _ input: SearchQuickResponsesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchQuickResponsesRequest, SearchQuickResponsesResponse> {
+        return .init(
+            input: input,
+            command: self.searchQuickResponses,
+            inputKey: \SearchQuickResponsesRequest.nextToken,
+            outputKey: \SearchQuickResponsesResponse.nextToken,
             logger: logger
         )
     }
@@ -661,9 +848,29 @@ extension Wisdom.ListContentsRequest: AWSPaginateToken {
     }
 }
 
+extension Wisdom.ListImportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Wisdom.ListImportJobsRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Wisdom.ListKnowledgeBasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Wisdom.ListKnowledgeBasesRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Wisdom.ListQuickResponsesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Wisdom.ListQuickResponsesRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -684,6 +891,18 @@ extension Wisdom.QueryAssistantRequest: AWSPaginateToken {
 extension Wisdom.SearchContentRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Wisdom.SearchContentRequest {
         return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchExpression: self.searchExpression
+        )
+    }
+}
+
+extension Wisdom.SearchQuickResponsesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Wisdom.SearchQuickResponsesRequest {
+        return .init(
+            attributes: self.attributes,
             knowledgeBaseId: self.knowledgeBaseId,
             maxResults: self.maxResults,
             nextToken: token,

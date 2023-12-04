@@ -26,7 +26,7 @@ import Foundation
 extension PaymentCryptography {
     // MARK: Enums
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
@@ -38,13 +38,13 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ansiX924 = "ANSI_X9_24"
         case cmac = "CMAC"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asymmetricKeyPair = "ASYMMETRIC_KEY_PAIR"
         case privateKey = "PRIVATE_KEY"
         case publicKey = "PUBLIC_KEY"
@@ -52,7 +52,7 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyMaterialType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyMaterialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rootPublicKeyCertificate = "ROOT_PUBLIC_KEY_CERTIFICATE"
         case tr31KeyBlock = "TR31_KEY_BLOCK"
         case tr34KeyBlock = "TR34_KEY_BLOCK"
@@ -60,13 +60,13 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyOrigin: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsPaymentCryptography = "AWS_PAYMENT_CRYPTOGRAPHY"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyState: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteComplete = "DELETE_COMPLETE"
@@ -74,7 +74,7 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyUsage: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
         case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
         case tr31D0SymmetricDataEncryptionKey = "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"
@@ -100,12 +100,12 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
-    public enum Tr34KeyBlockFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum Tr34KeyBlockFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case x9Tr342012 = "X9_TR34_2012"
         public var description: String { return self.rawValue }
     }
 
-    public enum WrappedKeyMaterialFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum WrappedKeyMaterialFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case keyCryptogram = "KEY_CRYPTOGRAM"
         case tr31KeyBlock = "TR31_KEY_BLOCK"
         case tr34KeyBlock = "TR34_KEY_BLOCK"

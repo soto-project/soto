@@ -72,6 +72,8 @@ public struct ResourceExplorer2: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
+        "af-south-1": "resource-explorer-2.af-south-1.api.aws",
+        "ap-east-1": "resource-explorer-2.ap-east-1.api.aws",
         "ap-northeast-1": "resource-explorer-2.ap-northeast-1.api.aws",
         "ap-northeast-2": "resource-explorer-2.ap-northeast-2.api.aws",
         "ap-northeast-3": "resource-explorer-2.ap-northeast-3.api.aws",
@@ -79,6 +81,7 @@ public struct ResourceExplorer2: AWSService {
         "ap-south-2": "resource-explorer-2.ap-south-2.api.aws",
         "ap-southeast-1": "resource-explorer-2.ap-southeast-1.api.aws",
         "ap-southeast-2": "resource-explorer-2.ap-southeast-2.api.aws",
+        "ap-southeast-3": "resource-explorer-2.ap-southeast-3.api.aws",
         "ap-southeast-4": "resource-explorer-2.ap-southeast-4.api.aws",
         "ca-central-1": "resource-explorer-2.ca-central-1.api.aws",
         "cn-north-1": "resource-explorer-2.cn-north-1.api.amazonwebservices.com.cn",
@@ -86,9 +89,13 @@ public struct ResourceExplorer2: AWSService {
         "eu-central-1": "resource-explorer-2.eu-central-1.api.aws",
         "eu-central-2": "resource-explorer-2.eu-central-2.api.aws",
         "eu-north-1": "resource-explorer-2.eu-north-1.api.aws",
+        "eu-south-1": "resource-explorer-2.eu-south-1.api.aws",
         "eu-west-1": "resource-explorer-2.eu-west-1.api.aws",
         "eu-west-2": "resource-explorer-2.eu-west-2.api.aws",
         "eu-west-3": "resource-explorer-2.eu-west-3.api.aws",
+        "il-central-1": "resource-explorer-2.il-central-1.api.aws",
+        "me-central-1": "resource-explorer-2.me-central-1.api.aws",
+        "me-south-1": "resource-explorer-2.me-south-1.api.aws",
         "sa-east-1": "resource-explorer-2.sa-east-1.api.aws",
         "us-east-1": "resource-explorer-2.us-east-1.api.aws",
         "us-east-2": "resource-explorer-2.us-east-2.api.aws",
@@ -102,6 +109,8 @@ public struct ResourceExplorer2: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "af-south-1": "resource-explorer-2-fips.af-south-1.api.aws",
+            "ap-east-1": "resource-explorer-2-fips.ap-east-1.api.aws",
             "ap-northeast-1": "resource-explorer-2-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "resource-explorer-2-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "resource-explorer-2-fips.ap-northeast-3.api.aws",
@@ -109,6 +118,7 @@ public struct ResourceExplorer2: AWSService {
             "ap-south-2": "resource-explorer-2-fips.ap-south-2.api.aws",
             "ap-southeast-1": "resource-explorer-2-fips.ap-southeast-1.api.aws",
             "ap-southeast-2": "resource-explorer-2-fips.ap-southeast-2.api.aws",
+            "ap-southeast-3": "resource-explorer-2-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "resource-explorer-2-fips.ap-southeast-4.api.aws",
             "ca-central-1": "resource-explorer-2-fips.ca-central-1.api.aws",
             "cn-north-1": "resource-explorer-2-fips.cn-north-1.api.amazonwebservices.com.cn",
@@ -116,9 +126,13 @@ public struct ResourceExplorer2: AWSService {
             "eu-central-1": "resource-explorer-2-fips.eu-central-1.api.aws",
             "eu-central-2": "resource-explorer-2-fips.eu-central-2.api.aws",
             "eu-north-1": "resource-explorer-2-fips.eu-north-1.api.aws",
+            "eu-south-1": "resource-explorer-2-fips.eu-south-1.api.aws",
             "eu-west-1": "resource-explorer-2-fips.eu-west-1.api.aws",
             "eu-west-2": "resource-explorer-2-fips.eu-west-2.api.aws",
             "eu-west-3": "resource-explorer-2-fips.eu-west-3.api.aws",
+            "il-central-1": "resource-explorer-2-fips.il-central-1.api.aws",
+            "me-central-1": "resource-explorer-2-fips.me-central-1.api.aws",
+            "me-south-1": "resource-explorer-2-fips.me-south-1.api.aws",
             "sa-east-1": "resource-explorer-2-fips.sa-east-1.api.aws",
             "us-east-1": "resource-explorer-2-fips.us-east-1.api.aws",
             "us-east-2": "resource-explorer-2-fips.us-east-2.api.aws",
@@ -221,6 +235,18 @@ public struct ResourceExplorer2: AWSService {
         )
     }
 
+    /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+    @Sendable
+    public func getAccountLevelServiceConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLevelServiceConfigurationOutput {
+        return try await self.client.execute(
+            operation: "GetAccountLevelServiceConfiguration", 
+            path: "/GetAccountLevelServiceConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
     @Sendable
     public func getDefaultView(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultViewOutput {
@@ -264,6 +290,19 @@ public struct ResourceExplorer2: AWSService {
         return try await self.client.execute(
             operation: "ListIndexes", 
             path: "/ListIndexes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+    @Sendable
+    public func listIndexesForMembers(_ input: ListIndexesForMembersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndexesForMembersOutput {
+        return try await self.client.execute(
+            operation: "ListIndexesForMembers", 
+            path: "/ListIndexesForMembers", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -412,6 +451,25 @@ extension ResourceExplorer2 {
         )
     }
 
+    /// Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIndexesForMembersPaginator(
+        _ input: ListIndexesForMembersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIndexesForMembersInput, ListIndexesForMembersOutput> {
+        return .init(
+            input: input,
+            command: self.listIndexesForMembers,
+            inputKey: \ListIndexesForMembersInput.nextToken,
+            outputKey: \ListIndexesForMembersOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     /// Return PaginatorSequence for operation.
     ///
@@ -470,6 +528,16 @@ extension ResourceExplorer2 {
             inputKey: \SearchInput.nextToken,
             outputKey: \SearchOutput.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension ResourceExplorer2.ListIndexesForMembersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListIndexesForMembersInput {
+        return .init(
+            accountIdList: self.accountIdList,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

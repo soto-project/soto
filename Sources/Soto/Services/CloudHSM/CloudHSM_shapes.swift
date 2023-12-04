@@ -26,20 +26,20 @@ import Foundation
 extension CloudHSM {
     // MARK: Enums
 
-    public enum ClientVersion: String, CustomStringConvertible, Codable, Sendable {
-        case clientVersion51 = "5.1"
-        case clientVersion53 = "5.3"
+    public enum ClientVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fiveOne = "5.1"
+        case fiveThree = "5.3"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case degraded = "DEGRADED"
         case ready = "READY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum HsmStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum HsmStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case degraded = "DEGRADED"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -50,7 +50,7 @@ extension CloudHSM {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case production = "PRODUCTION"
         public var description: String { return self.rawValue }
     }
@@ -69,7 +69,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\w :+=./\\\\-]*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w :+=./\\\\-]*$")
             try self.tagList.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
@@ -103,7 +103,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.label, name: "label", parent: name, pattern: "[a-zA-Z0-9_.-]{1,64}")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[a-zA-Z0-9_.-]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -153,13 +153,13 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]{1,64}")
-            try self.validate(self.eniIp, name: "eniIp", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
-            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "[\\w :+=./-]*")
-            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\\+=,\\.\\-@]{1,64}")
-            try self.validate(self.sshKey, name: "sshKey", parent: name, pattern: "[a-zA-Z0-9+/= ._:\\\\@-]*")
-            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "subnet-[0-9a-f]{8}")
-            try self.validate(self.syslogIp, name: "syslogIp", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9]{1,64}$")
+            try self.validate(self.eniIp, name: "eniIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[\\w :+=./-]*$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\\+=,\\.\\-@]{1,64}$")
+            try self.validate(self.sshKey, name: "sshKey", parent: name, pattern: "^[a-zA-Z0-9+/= ._:\\\\@-]*$")
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-[0-9a-f]{8}$")
+            try self.validate(self.syslogIp, name: "syslogIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,8 +201,8 @@ extension CloudHSM {
         public func validate(name: String) throws {
             try self.validate(self.certificate, name: "certificate", parent: name, max: 2400)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 600)
-            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "[\\w :+=./\\n-]*")
-            try self.validate(self.label, name: "label", parent: name, pattern: "[a-zA-Z0-9_.-]{2,64}")
+            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\w :+=./\\n-]*$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[a-zA-Z0-9_.-]{2,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -233,7 +233,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
+            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -263,7 +263,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
+            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,7 +293,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
+            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -323,7 +323,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
+            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,8 +385,8 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            try self.validate(self.hsmSerialNumber, name: "hsmSerialNumber", parent: name, pattern: "\\d{1,16}")
+            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}$")
+            try self.validate(self.hsmSerialNumber, name: "hsmSerialNumber", parent: name, pattern: "^\\d{1,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,8 +499,8 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.certificateFingerprint, name: "certificateFingerprint", parent: name, pattern: "([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]")
-            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
+            try self.validate(self.certificateFingerprint, name: "certificateFingerprint", parent: name, pattern: "^([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]$")
+            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,9 +553,9 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
+            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}$")
             try self.hapgList.forEach {
-                try validate($0, name: "hapgList[]", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
+                try validate($0, name: "hapgList[]", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}$")
             }
         }
 
@@ -613,7 +613,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -647,7 +647,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -681,7 +681,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -715,7 +715,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\w :+=./\\\\-]*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w :+=./\\\\-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -751,10 +751,10 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
-            try self.validate(self.label, name: "label", parent: name, pattern: "[a-zA-Z0-9_.-]{1,64}")
+            try self.validate(self.hapgArn, name: "hapgArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[a-zA-Z0-9_.-]{1,64}$")
             try self.partitionSerialList?.forEach {
-                try validate($0, name: "partitionSerialList[]", parent: name, pattern: "\\d{6,12}")
+                try validate($0, name: "partitionSerialList[]", parent: name, pattern: "^\\d{6,12}$")
             }
         }
 
@@ -802,12 +802,12 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eniIp, name: "eniIp", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
-            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "[\\w :+=./-]*")
-            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\\+=,\\.\\-@]{1,64}")
-            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "subnet-[0-9a-f]{8}")
-            try self.validate(self.syslogIp, name: "syslogIp", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
+            try self.validate(self.eniIp, name: "eniIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[\\w :+=./-]*$")
+            try self.validate(self.hsmArn, name: "hsmArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\\+=,\\.\\-@]{1,64}$")
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-[0-9a-f]{8}$")
+            try self.validate(self.syslogIp, name: "syslogIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -847,8 +847,8 @@ extension CloudHSM {
         public func validate(name: String) throws {
             try self.validate(self.certificate, name: "certificate", parent: name, max: 2400)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 600)
-            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "[\\w :+=./\\n-]*")
-            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
+            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\w :+=./\\n-]*$")
+            try self.validate(self.clientArn, name: "clientArn", parent: name, pattern: "^arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -882,7 +882,7 @@ extension CloudHSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\w :+=./\\\\-]*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w :+=./\\\\-]*$")
             try self.tagKeyList.forEach {
                 try validate($0, name: "tagKeyList[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)

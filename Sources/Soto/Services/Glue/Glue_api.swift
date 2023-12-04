@@ -74,6 +74,14 @@ public struct Glue: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "us-gov-east-1": "glue.us-gov-east-1.api.aws",
+            "us-gov-west-1": "glue.us-gov-west-1.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-gov-east-1": "glue-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "glue-fips.us-gov-west-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "glue-fips.us-east-1.amazonaws.com",
             "us-east-2": "glue-fips.us-east-2.amazonaws.com",
@@ -234,6 +242,19 @@ public struct Glue: AWSService {
     public func batchGetPartition(_ input: BatchGetPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetPartitionResponse {
         return try await self.client.execute(
             operation: "BatchGetPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the configuration for the specified table optimizers.
+    @Sendable
+    public func batchGetTableOptimizer(_ input: BatchGetTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTableOptimizerResponse {
+        return try await self.client.execute(
+            operation: "BatchGetTableOptimizer", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -593,6 +614,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Creates a new table optimizer for a specific function. compaction is the only currently supported optimizer type.
+    @Sendable
+    public func createTableOptimizer(_ input: CreateTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableOptimizerResponse {
+        return try await self.client.execute(
+            operation: "CreateTableOptimizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new trigger.
     @Sendable
     public func createTrigger(_ input: CreateTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTriggerResponse {
@@ -905,6 +939,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
+    @Sendable
+    public func deleteTableOptimizer(_ input: DeleteTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableOptimizerResponse {
+        return try await self.client.execute(
+            operation: "DeleteTableOptimizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a specified version of a table.
     @Sendable
     public func deleteTableVersion(_ input: DeleteTableVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableVersionResponse {
@@ -1053,6 +1100,32 @@ public struct Glue: AWSService {
     public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsForTableResponse {
         return try await self.client.execute(
             operation: "GetColumnStatisticsForTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the associated metadata/information for a task run, given a task run ID.
+    @Sendable
+    public func getColumnStatisticsTaskRun(_ input: GetColumnStatisticsTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsTaskRunResponse {
+        return try await self.client.execute(
+            operation: "GetColumnStatisticsTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about all runs associated with the specified table.
+    @Sendable
+    public func getColumnStatisticsTaskRuns(_ input: GetColumnStatisticsTaskRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsTaskRunsResponse {
+        return try await self.client.execute(
+            operation: "GetColumnStatisticsTaskRuns", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1607,6 +1680,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Returns the configuration of all optimizers associated with a specified table.
+    @Sendable
+    public func getTableOptimizer(_ input: GetTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableOptimizerResponse {
+        return try await self.client.execute(
+            operation: "GetTableOptimizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a specified version of a table.
     @Sendable
     public func getTableVersion(_ input: GetTableVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableVersionResponse {
@@ -1828,6 +1914,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// List all task runs for a particular account.
+    @Sendable
+    public func listColumnStatisticsTaskRuns(_ input: ListColumnStatisticsTaskRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListColumnStatisticsTaskRunsResponse {
+        return try await self.client.execute(
+            operation: "ListColumnStatisticsTaskRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listCrawlers(_ input: ListCrawlersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrawlersResponse {
@@ -2023,6 +2122,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Lists the history of previous optimizer runs for a specific table.
+    @Sendable
+    public func listTableOptimizerRuns(_ input: ListTableOptimizerRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTableOptimizerRunsResponse {
+        return try await self.client.execute(
+            operation: "ListTableOptimizerRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listTriggers(_ input: ListTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTriggersResponse {
@@ -2205,6 +2317,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Starts a column statistics task run, for a specified table and columns.
+    @Sendable
+    public func startColumnStatisticsTaskRun(_ input: StartColumnStatisticsTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartColumnStatisticsTaskRunResponse {
+        return try await self.client.execute(
+            operation: "StartColumnStatisticsTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     @Sendable
     public func startCrawler(_ input: StartCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCrawlerResponse {
@@ -2231,7 +2356,7 @@ public struct Glue: AWSService {
         )
     }
 
-    /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
+    /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
     @Sendable
     public func startDataQualityRuleRecommendationRun(_ input: StartDataQualityRuleRecommendationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataQualityRuleRecommendationRunResponse {
         return try await self.client.execute(
@@ -2340,6 +2465,19 @@ public struct Glue: AWSService {
     public func startWorkflowRun(_ input: StartWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWorkflowRunResponse {
         return try await self.client.execute(
             operation: "StartWorkflowRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops a task run for the specified table.
+    @Sendable
+    public func stopColumnStatisticsTaskRun(_ input: StopColumnStatisticsTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopColumnStatisticsTaskRunResponse {
+        return try await self.client.execute(
+            operation: "StopColumnStatisticsTaskRun", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2673,6 +2811,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Updates the configuration for an existing table optimizer.
+    @Sendable
+    public func updateTableOptimizer(_ input: UpdateTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableOptimizerResponse {
+        return try await self.client.execute(
+            operation: "UpdateTableOptimizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a trigger definition.
     @Sendable
     public func updateTrigger(_ input: UpdateTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTriggerResponse {
@@ -2760,6 +2911,25 @@ extension Glue {
             command: self.getClassifiers,
             inputKey: \GetClassifiersRequest.nextToken,
             outputKey: \GetClassifiersResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about all runs associated with the specified table.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getColumnStatisticsTaskRunsPaginator(
+        _ input: GetColumnStatisticsTaskRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetColumnStatisticsTaskRunsRequest, GetColumnStatisticsTaskRunsResponse> {
+        return .init(
+            input: input,
+            command: self.getColumnStatisticsTaskRuns,
+            inputKey: \GetColumnStatisticsTaskRunsRequest.nextToken,
+            outputKey: \GetColumnStatisticsTaskRunsResponse.nextToken,
             logger: logger
         )
     }
@@ -3144,6 +3314,25 @@ extension Glue {
         )
     }
 
+    /// List all task runs for a particular account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listColumnStatisticsTaskRunsPaginator(
+        _ input: ListColumnStatisticsTaskRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListColumnStatisticsTaskRunsRequest, ListColumnStatisticsTaskRunsResponse> {
+        return .init(
+            input: input,
+            command: self.listColumnStatisticsTaskRuns,
+            inputKey: \ListColumnStatisticsTaskRunsRequest.nextToken,
+            outputKey: \ListColumnStatisticsTaskRunsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
@@ -3391,6 +3580,25 @@ extension Glue {
         )
     }
 
+    /// Lists the history of previous optimizer runs for a specific table.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTableOptimizerRunsPaginator(
+        _ input: ListTableOptimizerRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTableOptimizerRunsRequest, ListTableOptimizerRunsResponse> {
+        return .init(
+            input: input,
+            command: self.listTableOptimizerRuns,
+            inputKey: \ListTableOptimizerRunsRequest.nextToken,
+            outputKey: \ListTableOptimizerRunsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
@@ -3464,6 +3672,17 @@ extension Glue.GetClassifiersRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Glue.GetColumnStatisticsTaskRunsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.GetColumnStatisticsTaskRunsRequest {
+        return .init(
+            databaseName: self.databaseName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tableName: self.tableName
         )
     }
 }
@@ -3692,6 +3911,15 @@ extension Glue.ListBlueprintsRequest: AWSPaginateToken {
     }
 }
 
+extension Glue.ListColumnStatisticsTaskRunsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListColumnStatisticsTaskRunsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Glue.ListCrawlersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListCrawlersRequest {
         return .init(
@@ -3821,6 +4049,19 @@ extension Glue.ListSessionsRequest: AWSPaginateToken {
             nextToken: token,
             requestOrigin: self.requestOrigin,
             tags: self.tags
+        )
+    }
+}
+
+extension Glue.ListTableOptimizerRunsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListTableOptimizerRunsRequest {
+        return .init(
+            catalogId: self.catalogId,
+            databaseName: self.databaseName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tableName: self.tableName,
+            type: self.type
         )
     }
 }

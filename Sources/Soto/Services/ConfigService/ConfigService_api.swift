@@ -1050,7 +1050,8 @@ public struct ConfigService: AWSService {
         )
     }
 
-    /// Returns a list of ConfigurationItems for the specified resource.
+    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type.
+    /// 			For more information, see Selecting Which Resources Config Records.  Returns a list of ConfigurationItems for the specified resource.
     /// 			The list contains details about each state of the resource
     /// 			during the specified time interval. If you specified a retention
     /// 			period to retain your ConfigurationItems between a
@@ -1314,7 +1315,9 @@ public struct ConfigService: AWSService {
     }
 
     /// Creates a delivery channel object to deliver configuration
-    /// 			information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a
+    /// 			information and other compliance information to an Amazon S3 bucket and Amazon SNS topic.
+    /// 			For more information,
+    /// 			see Notifications that Config Sends to an Amazon SNS topic. Before you can create a delivery channel, you must create a
     /// 			configuration recorder. You can use this action to change the Amazon S3 bucket or an
     /// 			Amazon SNS topic of the existing delivery channel. To change the
     /// 			Amazon S3 bucket or an Amazon SNS topic, call this action and
@@ -2384,7 +2387,8 @@ extension ConfigService {
         )
     }
 
-    /// Returns a list of ConfigurationItems for the specified resource.
+    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type.
+    /// 			For more information, see Selecting Which Resources Config Records.  Returns a list of ConfigurationItems for the specified resource.
     /// 			The list contains details about each state of the resource
     /// 			during the specified time interval. If you specified a retention
     /// 			period to retain your ConfigurationItems between a

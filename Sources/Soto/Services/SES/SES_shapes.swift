@@ -26,13 +26,13 @@ import Foundation
 extension SES {
     // MARK: Enums
 
-    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable, Sendable {
+    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rejectMessage = "RejectMessage"
         case useDefaultValue = "UseDefaultValue"
         public var description: String { return self.rawValue }
     }
 
-    public enum BounceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BounceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentRejected = "ContentRejected"
         case doesNotExist = "DoesNotExist"
         case exceededQuota = "ExceededQuota"
@@ -42,7 +42,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDailyQuotaExceeded = "AccountDailyQuotaExceeded"
         case accountSendingPaused = "AccountSendingPaused"
         case accountSuspended = "AccountSuspended"
@@ -60,7 +60,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deliveryOptions = "deliveryOptions"
         case eventDestinations = "eventDestinations"
         case reputationOptions = "reputationOptions"
@@ -68,7 +68,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case pending = "Pending"
         case success = "Success"
@@ -76,14 +76,14 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case emailHeader = "emailHeader"
         case linkTag = "linkTag"
         case messageTag = "messageTag"
         public var description: String { return self.rawValue }
     }
 
-    public enum DsnAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum DsnAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delayed = "delayed"
         case delivered = "delivered"
         case expanded = "expanded"
@@ -92,7 +92,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "bounce"
         case click = "click"
         case complaint = "complaint"
@@ -104,49 +104,49 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "Domain"
         case emailAddress = "EmailAddress"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvocationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "Event"
         case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "Bounce"
         case complaint = "Complaint"
         case delivery = "Delivery"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "Allow"
         case block = "Block"
         public var description: String { return self.rawValue }
     }
 
-    public enum SNSActionEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum SNSActionEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case base64 = "Base64"
         case utf8 = "UTF-8"
         public var description: String { return self.rawValue }
     }
 
-    public enum StopScope: String, CustomStringConvertible, Codable, Sendable {
+    public enum StopScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ruleSet = "RuleSet"
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "Optional"
         case require = "Require"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case notStarted = "NotStarted"
         case pending = "Pending"
@@ -158,9 +158,9 @@ extension SES {
     // MARK: Shapes
 
     public struct AddHeaderAction: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
+        /// The name of the header to add to the incoming message. The name must contain at least one character, and can contain up to 50 characters. It consists of alphanumeric (a–z, A–Z, 0–9) characters and dashes.
         public let headerName: String
-        /// Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
+        /// The content to include in the header. This value can contain up to 2048 characters. It can't contain newline (\n) or carriage return (\r) characters.
         public let headerValue: String
 
         public init(headerName: String, headerValue: String) {
@@ -194,13 +194,13 @@ extension SES {
     public struct BounceAction: AWSEncodableShape & AWSDecodableShape {
         /// Human-readable text to include in the bounce message.
         public let message: String
-        /// The email address of the sender of the bounced email. This is the address from which the bounce message will be sent.
+        /// The email address of the sender of the bounced email. This is the address from which the bounce message is sent.
         public let sender: String
         /// The SMTP reply code, as defined by RFC 5321.
         public let smtpReplyCode: String
         /// The SMTP enhanced status code, as defined by RFC 3463.
         public let statusCode: String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
         public init(message: String, sender: String, smtpReplyCode: String, statusCode: String? = nil, topicArn: String? = nil) {
@@ -275,7 +275,7 @@ extension SES {
         public let error: String?
         /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
         public let messageId: String?
-        /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:    Success: Amazon SES accepted the message, and will attempt to deliver it to the recipients.    MessageRejected: The message was rejected because it contained a virus.    MailFromDomainNotVerified: The sender's email address or domain was not verified.    ConfigurationSetDoesNotExist: The configuration set you specified does not exist.    TemplateDoesNotExist: The template you specified does not exist.    AccountSuspended: Your account has been shut down because of issues related to your email sending practices.    AccountThrottled: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.    AccountDailyQuotaExceeded: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.    InvalidSendingPoolName: The configuration set you specified refers to an IP pool that does not exist.    AccountSendingPaused: Email sending for the Amazon SES account was disabled using the UpdateAccountSendingEnabled operation.    ConfigurationSetSendingPaused: Email sending for this configuration set was disabled using the UpdateConfigurationSetSendingEnabled operation.    InvalidParameterValue: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.    TransientFailure: Amazon SES was unable to process your request because of a temporary issue.    Failed: Amazon SES was unable to process your request. See the error message for additional information.
+        /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:    Success: Amazon SES accepted the message, and attempts to deliver it to the recipients.    MessageRejected: The message was rejected because it contained a virus.    MailFromDomainNotVerified: The sender's email address or domain was not verified.    ConfigurationSetDoesNotExist: The configuration set you specified does not exist.    TemplateDoesNotExist: The template you specified does not exist.    AccountSuspended: Your account has been shut down because of issues related to your email sending practices.    AccountThrottled: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.    AccountDailyQuotaExceeded: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.    InvalidSendingPoolName: The configuration set you specified refers to an IP pool that does not exist.    AccountSendingPaused: Email sending for the Amazon SES account was disabled using the UpdateAccountSendingEnabled operation.    ConfigurationSetSendingPaused: Email sending for this configuration set was disabled using the UpdateConfigurationSetSendingEnabled operation.    InvalidParameterValue: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.    TransientFailure: Amazon SES was unable to process your request because of a temporary issue.    Failed: Amazon SES was unable to process your request. See the error message for additional information.
         public let status: BulkEmailStatus?
 
         public init(error: String? = nil, messageId: String? = nil, status: BulkEmailStatus? = nil) {
@@ -294,7 +294,7 @@ extension SES {
     public struct CloneReceiptRuleSetRequest: AWSEncodableShape {
         /// The name of the rule set to clone.
         public let originalRuleSetName: String
-        /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
+        /// The name of the rule set to create. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let ruleSetName: String
 
         public init(originalRuleSetName: String, ruleSetName: String) {
@@ -327,11 +327,11 @@ extension SES {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
+        /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), at signs (@), or periods (.).   Contain 256 characters or fewer.
         public let defaultDimensionValue: String
-        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
+        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or colons (:).   Contain 256 characters or fewer.
         public let dimensionName: String
-        /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
+        /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, specify messageTag. To use your own email headers, specify emailHeader. To put a custom tag on any link included in your email, specify linkTag.
         public let dimensionValueSource: DimensionValueSource
 
         public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
@@ -380,7 +380,7 @@ extension SES {
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         /// The name of the configuration set that the event destination should be associated with.
         public let configurationSetName: String
-        /// An object that describes the AWS service that email sending event information will be published to.
+        /// An object that describes the Amazon Web Services service that email sending event where information is published.
         public let eventDestination: EventDestination
 
         public init(configurationSetName: String, eventDestination: EventDestination) {
@@ -486,11 +486,11 @@ extension SES {
     }
 
     public struct CreateReceiptRuleRequest: AWSEncodableShape {
-        /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
+        /// The name of an existing rule after which the new rule is placed. If this parameter is null, the new rule is inserted at the beginning of the rule list.
         public let after: String?
         /// A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
         public let rule: ReceiptRule
-        /// The name of the rule set that the receipt rule will be added to.
+        /// The name of the rule set where the receipt rule is added.
         public let ruleSetName: String
 
         public init(after: String? = nil, rule: ReceiptRule, ruleSetName: String) {
@@ -511,7 +511,7 @@ extension SES {
     }
 
     public struct CreateReceiptRuleSetRequest: AWSEncodableShape {
-        /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
+        /// The name of the rule set to create. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let ruleSetName: String
 
         public init(ruleSetName: String) {
@@ -528,7 +528,7 @@ extension SES {
     }
 
     public struct CreateTemplateRequest: AWSEncodableShape {
-        /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+        /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
         public let template: Template
 
         public init(template: Template) {
@@ -612,7 +612,7 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
-        /// The name of the configuration set from which you want to delete the tracking options.
+        /// The name of the configuration set.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
@@ -629,7 +629,7 @@ extension SES {
     }
 
     public struct DeleteCustomVerificationEmailTemplateRequest: AWSEncodableShape {
-        /// The name of the custom verification email template that you want to delete.
+        /// The name of the custom verification email template to delete.
         public let templateName: String
 
         public init(templateName: String) {
@@ -642,7 +642,7 @@ extension SES {
     }
 
     public struct DeleteIdentityPolicyRequest: AWSEncodableShape {
-        /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+        /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
         public let identity: String
         /// The name of the policy to be deleted.
         public let policyName: String
@@ -668,7 +668,7 @@ extension SES {
     }
 
     public struct DeleteIdentityRequest: AWSEncodableShape {
-        /// The identity to be removed from the list of identities for the AWS Account.
+        /// The identity to be removed from the list of identities for the Amazon Web Services account.
         public let identity: String
 
         public init(identity: String) {
@@ -943,10 +943,10 @@ extension SES {
         public let enabled: Bool?
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// The type of email sending events to publish to the event destination.
+        /// The type of email sending events to publish to the event destination.    send - The call was successful and Amazon SES is attempting to deliver the email.    reject - Amazon SES determined that the email contained a virus and rejected it.    bounce - The recipient's mail server permanently rejected the email. This corresponds to a hard bounce.    complaint - The recipient marked the email as spam.    delivery - Amazon SES successfully delivered the email to the recipient's mail server.    open - The recipient received the email and opened it in their email client.    click - The recipient clicked one or more links in the email.    renderingFailure - Amazon SES did not send the email because of a template rendering issue.
         @CustomCoding<StandardArrayCoder<EventType>>
         public var matchingEventTypes: [EventType]
-        /// The name of the event destination. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.
+        /// The name of the event destination. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 64 characters or fewer.
         public let name: String
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
         public let snsDestination: SNSDestination?
@@ -973,7 +973,7 @@ extension SES {
     public struct ExtensionField: AWSEncodableShape {
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let name: String
-        /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
+        /// The value of the header to add. Must contain 2048 characters or fewer, and must not contain newline characters ("\r" or "\n").
         public let value: String
 
         public init(name: String, value: String) {
@@ -988,7 +988,7 @@ extension SES {
     }
 
     public struct GetAccountSendingEnabledResponse: AWSDecodableShape {
-        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
+        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -1001,7 +1001,7 @@ extension SES {
     }
 
     public struct GetCustomVerificationEmailTemplateRequest: AWSEncodableShape {
-        /// The name of the custom verification email template that you want to retrieve.
+        /// The name of the custom verification email template to retrieve.
         public let templateName: String
 
         public init(templateName: String) {
@@ -1131,7 +1131,7 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesRequest: AWSEncodableShape {
-        /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+        /// The identity for which the policies are retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
         public let identity: String
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
         @CustomCoding<StandardArrayCoder<String>>
@@ -1233,7 +1233,7 @@ extension SES {
     }
 
     public struct GetTemplateRequest: AWSEncodableShape {
-        /// The name of the template you want to retrieve.
+        /// The name of the template to retrieve.
         public let templateName: String
 
         public init(templateName: String) {
@@ -1301,19 +1301,19 @@ extension SES {
     }
 
     public struct IdentityNotificationAttributes: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish bounce notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes bounce notifications.
         public let bounceTopic: String
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes complaint notifications.
         public let complaintTopic: String
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish delivery notifications.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes delivery notifications.
         public let deliveryTopic: String
-        /// Describes whether Amazon SES will forward bounce and complaint notifications as email. true indicates that Amazon SES will forward bounce and complaint notifications as email, while false indicates that bounce and complaint notifications will be published only to the specified bounce and complaint Amazon SNS topics.
+        /// Describes whether Amazon SES forwards bounce and complaint notifications as email. true indicates that Amazon SES forwards bounce and complaint notifications as email, while false indicates that bounce and complaint notifications are published only to the specified bounce and complaint Amazon SNS topics.
         public let forwardingEnabled: Bool
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Bounce. A value of true specifies that Amazon SES will include headers in bounce notifications, and a value of false specifies that Amazon SES will not include headers in bounce notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Bounce. A value of true specifies that Amazon SES includes headers in bounce notifications, and a value of false specifies that Amazon SES does not include headers in bounce notifications.
         public let headersInBounceNotificationsEnabled: Bool?
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Complaint. A value of true specifies that Amazon SES will include headers in complaint notifications, and a value of false specifies that Amazon SES will not include headers in complaint notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Complaint. A value of true specifies that Amazon SES includes headers in complaint notifications, and a value of false specifies that Amazon SES does not include headers in complaint notifications.
         public let headersInComplaintNotificationsEnabled: Bool?
-        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES will include headers in delivery notifications, and a value of false specifies that Amazon SES will not include headers in delivery notifications.
+        /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES includes headers in delivery notifications, and a value of false specifies that Amazon SES does not include headers in delivery notifications.
         public let headersInDeliveryNotificationsEnabled: Bool?
 
         public init(bounceTopic: String, complaintTopic: String, deliveryTopic: String, forwardingEnabled: Bool, headersInBounceNotificationsEnabled: Bool? = nil, headersInComplaintNotificationsEnabled: Bool? = nil, headersInDeliveryNotificationsEnabled: Bool? = nil) {
@@ -1372,11 +1372,11 @@ extension SES {
     }
 
     public struct LambdaAction: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function. An example of an Amazon Web Services Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about Amazon Web Services Lambda, see the Amazon Web Services Lambda Developer Guide.
         public let functionArn: String
-        /// The invocation type of the AWS Lambda function. An invocation type of RequestResponse means that the execution of the function will immediately result in a response, and a value of Event means that the function will be invoked asynchronously. The default value is Event. For information about AWS Lambda invocation types, see the AWS Lambda Developer Guide.  There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
+        /// The invocation type of the Amazon Web Services Lambda function. An invocation type of RequestResponse means that the execution of the function immediately results in a response, and a value of Event means that the function is invoked asynchronously. The default value is Event. For information about Amazon Web Services Lambda invocation types, see the Amazon Web Services Lambda Developer Guide.  There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
         public let invocationType: InvocationType?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is executed. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
         public init(functionArn: String, invocationType: InvocationType? = nil, topicArn: String? = nil) {
@@ -1428,7 +1428,7 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesRequest: AWSEncodableShape {
-        /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
+        /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation returns up to 50 results.
         public let maxResults: Int?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         public let nextToken: String?
@@ -1468,7 +1468,7 @@ extension SES {
     }
 
     public struct ListIdentitiesRequest: AWSEncodableShape {
-        /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
+        /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities are listed.
         public let identityType: IdentityType?
         /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
         public let maxItems: Int?
@@ -1507,7 +1507,7 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesRequest: AWSEncodableShape {
-        /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+        /// The identity that is associated with the policy for which the policies are listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
         public let identity: String
 
         public init(identity: String) {
@@ -1583,7 +1583,7 @@ extension SES {
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
-        /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
+        /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 100. If more than 100 items are requested, the page size will automatically set to 100. If you do not specify a value, 10 is the default page size.
         public let maxItems: Int?
         /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
@@ -1600,7 +1600,7 @@ extension SES {
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
-        /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
+        /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next set of email templates within your page size.
         public let nextToken: String?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         @OptionalCustomCoding<StandardArrayCoder<TemplateMetadata>>
@@ -1634,7 +1634,7 @@ extension SES {
     public struct Message: AWSEncodableShape {
         /// The message body.
         public let body: Body
-        /// The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
+        /// The subject of the message: A short summary of the content, which appears in the recipient's inbox.
         public let subject: Content
 
         public init(body: Body, subject: Content) {
@@ -1671,9 +1671,9 @@ extension SES {
     }
 
     public struct MessageTag: AWSEncodableShape {
-        /// The name of the tag. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
+        /// The name of the tag. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 256 characters or fewer.
         public let name: String
-        /// The value of the tag. The value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
+        /// The value of the tag. The value must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 256 characters or fewer.
         public let value: String
 
         public init(name: String, value: String) {
@@ -1688,7 +1688,7 @@ extension SES {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
-        /// The name of the configuration set that you want to specify the delivery options for.
+        /// The name of the configuration set.
         public let configurationSetName: String
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
         public let deliveryOptions: DeliveryOptions?
@@ -1709,7 +1709,7 @@ extension SES {
     }
 
     public struct PutIdentityPolicyRequest: AWSEncodableShape {
-        /// The identity that the policy will apply to. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
+        /// The identity to which that the policy applies. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
         public let identity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
         public let policy: String
@@ -1740,7 +1740,7 @@ extension SES {
     }
 
     public struct RawMessage: AWSEncodableShape {
-        /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an AWS SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide.
+        /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide.
         public let data: AWSBase64Data
 
         public init(data: AWSBase64Data) {
@@ -1757,7 +1757,7 @@ extension SES {
         public let addHeaderAction: AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
         public let bounceAction: BounceAction?
-        /// Calls an AWS Lambda function, and optionally, publishes a notification to Amazon SNS.
+        /// Calls an Amazon Web Services Lambda function, and optionally, publishes a notification to Amazon SNS.
         public let lambdaAction: LambdaAction?
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public let s3Action: S3Action?
@@ -1792,7 +1792,7 @@ extension SES {
     public struct ReceiptFilter: AWSEncodableShape & AWSDecodableShape {
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         public let ipFilter: ReceiptIpFilter
-        /// The name of the IP address filter. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
+        /// The name of the IP address filter. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let name: String
 
         public init(ipFilter: ReceiptIpFilter, name: String) {
@@ -1807,7 +1807,7 @@ extension SES {
     }
 
     public struct ReceiptIpFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
+        /// A single IP address or a range of IP addresses to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
         public let cidr: String
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
         public let policy: ReceiptFilterPolicy
@@ -1829,14 +1829,14 @@ extension SES {
         public var actions: [ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
         public let enabled: Bool?
-        /// The name of the receipt rule. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
+        /// The name of the receipt rule. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or periods (.).    Start and end with a letter or number.   Contain 64 characters or fewer.
         public let name: String
-        /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
+        /// The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule matches all recipients on all verified domains.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var recipients: [String]?
         /// If true, then messages that this receipt rule applies to are scanned for spam and viruses. The default value is false.
         public let scanEnabled: Bool?
-        /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
+        /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES bounces emails that are not received over TLS. The default is Optional.
         public let tlsPolicy: TlsPolicy?
 
         public init(actions: [ReceiptAction]? = nil, enabled: Bool? = nil, name: String, recipients: [String]? = nil, scanEnabled: Bool? = nil, tlsPolicy: TlsPolicy? = nil) {
@@ -1861,7 +1861,7 @@ extension SES {
     public struct ReceiptRuleSetMetadata: AWSDecodableShape {
         /// The date and time the receipt rule set was created.
         public let createdTimestamp: Date?
-        /// The name of the receipt rule set. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
+        /// The name of the receipt rule set. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let name: String?
 
         public init(createdTimestamp: Date? = nil, name: String? = nil) {
@@ -1883,7 +1883,7 @@ extension SES {
         /// Additional X-headers to include in the DSN.
         @OptionalCustomCoding<StandardArrayCoder<ExtensionField>>
         public var extensionFields: [ExtensionField]?
-        /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798.
+        /// The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient is set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798.
         public let finalRecipient: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
         public let lastAttemptDate: Date?
@@ -1914,7 +1914,7 @@ extension SES {
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSEncodableShape {
-        /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
+        /// The specified receipt rule set's receipt rules, in order.
         @CustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]
         /// The name of the receipt rule set to reorder.
@@ -1940,7 +1940,7 @@ extension SES {
         public let lastFreshStart: Date?
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch. If the value is true, reputation metrics are published. If the value is false, reputation metrics are not published. The default value is false.
         public let reputationMetricsEnabled: Bool?
-        /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES will send emails that use the configuration set. If the value is false, Amazon SES will not send emails that use the configuration set. The default value is true. You can change this setting using UpdateConfigurationSetSendingEnabled.
+        /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES sends emails that use the configuration set. If the value is false, Amazon SES does not send emails that use the configuration set. The default value is true. You can change this setting using UpdateConfigurationSetSendingEnabled.
         public let sendingEnabled: Bool?
 
         public init(lastFreshStart: Date? = nil, reputationMetricsEnabled: Bool? = nil, sendingEnabled: Bool? = nil) {
@@ -1957,13 +1957,13 @@ extension SES {
     }
 
     public struct S3Action: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the Amazon S3 bucket that incoming email will be saved to.
+        /// The name of the Amazon S3 bucket for incoming email.
         public let bucketName: String
-        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the AWS KMS Developer Guide. If you do not specify a master key, Amazon SES will not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the AWS SDK for Java and AWS SDK for Ruby only. For more information about client-side encryption using AWS KMS master keys, see the Amazon S3 Developer Guide.
+        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key that you created in Amazon Web Services KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default master key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key that you created in Amazon Web Services KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the Amazon Web Services KMS Developer Guide. If you do not specify a master key, Amazon SES does not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the Amazon Web Services SDK for Java and Amazon Web Services SDK for Ruby only. For more information about client-side encryption using Amazon Web Services KMS master keys, see the Amazon S3 Developer Guide.
         public let kmsKeyArn: String?
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public let objectKeyPrefix: String?
-        /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
         public init(bucketName: String, kmsKeyArn: String? = nil, objectKeyPrefix: String? = nil, topicArn: String? = nil) {
@@ -1984,7 +1984,7 @@ extension SES {
     public struct SNSAction: AWSEncodableShape & AWSDecodableShape {
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public let encoding: SNSActionEncoding?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
         public init(encoding: SNSActionEncoding? = nil, topicArn: String) {
@@ -1999,7 +1999,7 @@ extension SES {
     }
 
     public struct SNSDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicARN: String
 
         public init(topicARN: String) {
@@ -2019,9 +2019,9 @@ extension SES {
         public let bounceSender: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let bounceSenderArn: String?
-        /// Human-readable text for the bounce message to explain the failure. If not specified, the text will be auto-generated based on the bounced recipient information.
+        /// Human-readable text for the bounce message to explain the failure. If not specified, the text is auto-generated based on the bounced recipient information.
         public let explanation: String?
-        /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
+        /// Message-related DSN fields. If not specified, Amazon SES chooses the values.
         public let messageDsn: MessageDsn?
         /// The message ID of the message to be bounced.
         public let originalMessageId: String
@@ -2066,17 +2066,17 @@ extension SES {
         public var defaultTags: [MessageTag]?
         /// A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available. The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let defaultTemplateData: String?
-        /// One or more Destination objects. All of the recipients in a Destination will receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
+        /// One or more Destination objects. All of the recipients in a Destination receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
         @CustomCoding<StandardArrayCoder<BulkEmailDestination>>
         public var destinations: [BulkEmailDestination]
-        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replyToAddresses: [String]?
-        /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+        /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let returnPathArn: String?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For more information about Punycode, see RFC 3492.
         public let source: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let sourceArn: String?
@@ -2122,7 +2122,7 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailResponse: AWSDecodableShape {
-        /// The unique message identifier returned from the SendBulkTemplatedEmail action.
+        /// One object per intended recipient. Check each response object and retry any messages with a failure status. (Note that order of responses will be respective to order of destinations in the request.)Receipt rules enable you to specify which actions
         @CustomCoding<StandardArrayCoder<BulkEmailDestinationStatus>>
         public var status: [BulkEmailDestinationStatus]
 
@@ -2205,14 +2205,14 @@ extension SES {
         public let destination: Destination
         /// The message to be sent.
         public let message: Message
-        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replyToAddresses: [String]?
-        /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+        /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let returnPathArn: String?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For more information about Punycode, see RFC 3492.
         public let source: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let sourceArn: String?
@@ -2270,8 +2270,7 @@ extension SES {
         public let rawMessage: RawMessage
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide.
         public let returnPathArn: String?
-        /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)  Amazon SES does not support the SMTPUTF8 extension, as described inRFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
-        ///  If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
+        /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)  Amazon SES does not support the SMTPUTF8 extension, as described inRFC6531. For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For more information about Punycode, see RFC 3492.  If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints are sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
         public let source: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide.
         public let sourceArn: String?
@@ -2320,14 +2319,14 @@ extension SES {
         public let configurationSetName: String?
         /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
         public let destination: Destination
-        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+        /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replyToAddresses: [String]?
-        /// The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+        /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
         public let returnPath: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let returnPathArn: String?
-        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492. The sender name (also known as the friendly name) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described inRFC 2047. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=.
+        /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531. for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For more information about Punycode, see RFC 3492.
         public let source: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let sourceArn: String?
@@ -2426,7 +2425,7 @@ extension SES {
     }
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSEncodableShape {
-        /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
+        /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
         public let forwardingEnabled: Bool
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
         public let identity: String
@@ -2447,7 +2446,7 @@ extension SES {
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSEncodableShape {
-        /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
+        /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public let enabled: Bool
         /// The identity for which to enable or disable headers in notifications. Examples: user@example.com, example.com.
         public let identity: String
@@ -2472,11 +2471,11 @@ extension SES {
     }
 
     public struct SetIdentityMailFromDomainRequest: AWSEncodableShape {
-        /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
+        /// The action for Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES returns a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMXFailure: BehaviorOnMXFailure?
-        /// The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
+        /// The verified identity.
         public let identity: String
-        /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
+        /// The custom MAIL FROM domain for the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
         public let mailFromDomain: String?
 
         public init(behaviorOnMXFailure: BehaviorOnMXFailure? = nil, identity: String, mailFromDomain: String? = nil) {
@@ -2497,9 +2496,9 @@ extension SES {
     }
 
     public struct SetIdentityNotificationTopicRequest: AWSEncodableShape {
-        /// The identity (email address or domain) that you want to set the Amazon SNS topic for.  You can only specify a verified identity for this parameter.  You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
+        /// The identity (email address or domain) for the Amazon SNS topic.  You can only specify a verified identity for this parameter.  You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public let identity: String
-        /// The type of notifications that will be published to the specified Amazon SNS topic.
+        /// The type of notifications that are published to the specified Amazon SNS topic.
         public let notificationType: NotificationType
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
         public let snsTopic: String?
@@ -2549,7 +2548,7 @@ extension SES {
     public struct StopAction: AWSEncodableShape & AWSDecodableShape {
         /// The scope of the StopAction. The only acceptable value is RuleSet.
         public let scope: StopScope
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
         public init(scope: StopScope, topicArn: String? = nil) {
@@ -2568,9 +2567,9 @@ extension SES {
         public let htmlPart: String?
         /// The subject line of the email.
         public let subjectPart: String?
-        /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+        /// The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
         public let templateName: String
-        /// The email body that will be visible to recipients whose email clients do not display HTML.
+        /// The email body that is visible to recipients whose email clients do not display HTML content.
         public let textPart: String?
 
         public init(htmlPart: String? = nil, subjectPart: String? = nil, templateName: String, textPart: String? = nil) {
@@ -2608,7 +2607,7 @@ extension SES {
     public struct TestRenderTemplateRequest: AWSEncodableShape {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
-        /// The name of the template that you want to render.
+        /// The name of the template to render.
         public let templateName: String
 
         public init(templateData: String, templateName: String) {
@@ -2640,7 +2639,7 @@ extension SES {
     }
 
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
+        /// The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain.
         public let customRedirectDomain: String?
 
         public init(customRedirectDomain: String? = nil) {
@@ -2653,7 +2652,7 @@ extension SES {
     }
 
     public struct UpdateAccountSendingEnabledRequest: AWSEncodableShape {
-        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
+        /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -2666,9 +2665,9 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        /// The name of the configuration set that contains the event destination that you want to update.
+        /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
-        /// The event destination object that you want to apply to the specified configuration set.
+        /// The event destination object.
         public let eventDestination: EventDestination
 
         public init(configurationSetName: String, eventDestination: EventDestination) {
@@ -2687,9 +2686,9 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetReputationMetricsEnabledRequest: AWSEncodableShape {
-        /// The name of the configuration set that you want to update.
+        /// The name of the configuration set to update.
         public let configurationSetName: String
-        /// Describes whether or not Amazon SES will publish reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
+        /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
         public let enabled: Bool
 
         public init(configurationSetName: String, enabled: Bool = false) {
@@ -2704,7 +2703,7 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetSendingEnabledRequest: AWSEncodableShape {
-        /// The name of the configuration set that you want to update.
+        /// The name of the configuration set to update.
         public let configurationSetName: String
         /// Describes whether email sending is enabled or disabled for the configuration set.
         public let enabled: Bool
@@ -2721,7 +2720,7 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
-        /// The name of the configuration set for which you want to update the custom tracking domain.
+        /// The name of the configuration set.
         public let configurationSetName: String
         public let trackingOptions: TrackingOptions
 
@@ -2749,7 +2748,7 @@ extension SES {
         public let successRedirectionURL: String?
         /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
         public let templateContent: String?
-        /// The name of the custom verification email template that you want to update.
+        /// The name of the custom verification email template to update.
         public let templateName: String
         /// The subject line of the custom verification email.
         public let templateSubject: String?
@@ -2851,7 +2850,7 @@ extension SES {
     }
 
     public struct VerifyDomainIdentityResponse: AWSDecodableShape {
-        /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning.
+        /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. The domain's verification status also changes to "Success" when it is DKIM verified.
         public let verificationToken: String
 
         public init(verificationToken: String) {
@@ -2894,9 +2893,9 @@ extension SES {
     }
 
     public struct WorkmailAction: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon WorkMail ARNs use the following format:  arn:aws:workmail:::organization/  You can find the ID of your organization by using the ListOrganizations operation in Amazon WorkMail. Amazon WorkMail organization IDs begin with "m-", followed by a string of alphanumeric characters. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
         public let organizationArn: String
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
         public init(organizationArn: String, topicArn: String? = nil) {
@@ -3002,13 +3001,13 @@ public struct SESErrorType: AWSErrorType {
     public static var invalidDeliveryOptionsException: Self { .init(.invalidDeliveryOptionsException) }
     /// Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
     public static var invalidFirehoseDestinationException: Self { .init(.invalidFirehoseDestinationException) }
-    /// Indicates that the provided AWS Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the Amazon SES Developer Guide.
+    /// Indicates that the provided Amazon Web Services Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the Amazon SES Developer Guide.
     public static var invalidLambdaFunctionException: Self { .init(.invalidLambdaFunctionException) }
     /// Indicates that the provided policy is invalid. Check the error stack for more information about what caused the error.
     public static var invalidPolicyException: Self { .init(.invalidPolicyException) }
     /// Indicates that one or more of the replacement values you provided is invalid. This error may occur when the TemplateData object contains invalid JSON.
     public static var invalidRenderingParameterException: Self { .init(.invalidRenderingParameterException) }
-    /// Indicates that the provided Amazon S3 bucket or AWS KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the Amazon SES Developer Guide.
+    /// Indicates that the provided Amazon S3 bucket or Amazon Web Services KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the Amazon SES Developer Guide.
     public static var invalidS3ConfigurationException: Self { .init(.invalidS3ConfigurationException) }
     /// Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
     public static var invalidSNSDestinationException: Self { .init(.invalidSNSDestinationException) }

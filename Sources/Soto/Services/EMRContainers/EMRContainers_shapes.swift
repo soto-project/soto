@@ -26,12 +26,12 @@ import Foundation
 extension EMRContainers {
     // MARK: Enums
 
-    public enum ContainerProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eks = "EKS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case terminated = "TERMINATED"
@@ -40,7 +40,7 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clusterUnavailable = "CLUSTER_UNAVAILABLE"
         case internalError = "INTERNAL_ERROR"
         case userError = "USER_ERROR"
@@ -48,7 +48,7 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelPending = "CANCEL_PENDING"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -59,19 +59,19 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum PersistentAppUI: String, CustomStringConvertible, Codable, Sendable {
+    public enum PersistentAppUI: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case number = "NUMBER"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualClusterState: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualClusterState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arrested = "ARRESTED"
         case running = "RUNNING"
         case terminated = "TERMINATED"

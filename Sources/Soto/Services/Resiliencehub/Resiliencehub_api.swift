@@ -59,6 +59,7 @@ public struct Resiliencehub: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-04-30",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: ResiliencehubErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,10 +71,17 @@ public struct Resiliencehub: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-east-1": "resiliencehub-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "resiliencehub-fips.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
-    /// Adds the resource mapping for the draft application version. You can also update an existing resource mapping to a new physical resource.
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide.
     @Sendable
     public func addDraftAppVersionResourceMappings(_ input: AddDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDraftAppVersionResourceMappingsResponse {
         return try await self.client.execute(
@@ -86,7 +94,20 @@ public struct Resiliencehub: AWSService {
         )
     }
 
-    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe an Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. For more information about the number of resources supported per application, see Service Quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
+    /// Enables you to include or exclude one or more operational recommendations.
+    @Sendable
+    public func batchUpdateRecommendationStatus(_ input: BatchUpdateRecommendationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateRecommendationStatusResponse {
+        return try await self.client.execute(
+            operation: "BatchUpdateRecommendationStatus", 
+            path: "/batch-update-recommendation-status", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see Service quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     @Sendable
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppResponse {
         return try await self.client.execute(
@@ -138,7 +159,7 @@ public struct Resiliencehub: AWSService {
         )
     }
 
-    /// Creates a resiliency policy for an application.
+    /// Creates a resiliency policy for an application.  Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     @Sendable
     public func createResiliencyPolicy(_ input: CreateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResiliencyPolicyResponse {
         return try await self.client.execute(
@@ -378,6 +399,19 @@ public struct Resiliencehub: AWSService {
         return try await self.client.execute(
             operation: "ListAlarmRecommendations", 
             path: "/list-alarm-recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    @Sendable
+    public func listAppAssessmentComplianceDrifts(_ input: ListAppAssessmentComplianceDriftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentComplianceDriftsResponse {
+        return try await self.client.execute(
+            operation: "ListAppAssessmentComplianceDrifts", 
+            path: "/list-app-assessment-compliance-drifts", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -736,7 +770,7 @@ public struct Resiliencehub: AWSService {
         )
     }
 
-    /// Updates a resiliency policy.
+    /// Updates a resiliency policy.  Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     @Sendable
     public func updateResiliencyPolicy(_ input: UpdateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResiliencyPolicyResponse {
         return try await self.client.execute(
@@ -778,6 +812,25 @@ extension Resiliencehub {
             command: self.listAlarmRecommendations,
             inputKey: \ListAlarmRecommendationsRequest.nextToken,
             outputKey: \ListAlarmRecommendationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// List of compliance drifts that were detected while running an assessment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAppAssessmentComplianceDriftsPaginator(
+        _ input: ListAppAssessmentComplianceDriftsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppAssessmentComplianceDriftsRequest, ListAppAssessmentComplianceDriftsResponse> {
+        return .init(
+            input: input,
+            command: self.listAppAssessmentComplianceDrifts,
+            inputKey: \ListAppAssessmentComplianceDriftsRequest.nextToken,
+            outputKey: \ListAppAssessmentComplianceDriftsResponse.nextToken,
             logger: logger
         )
     }
@@ -1078,6 +1131,16 @@ extension Resiliencehub.ListAlarmRecommendationsRequest: AWSPaginateToken {
     }
 }
 
+extension Resiliencehub.ListAppAssessmentComplianceDriftsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentComplianceDriftsRequest {
+        return .init(
+            assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Resiliencehub.ListAppAssessmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentsRequest {
         return .init(
@@ -1162,8 +1225,10 @@ extension Resiliencehub.ListAppVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppVersionsRequest {
         return .init(
             appArn: self.appArn,
+            endTime: self.endTime,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            startTime: self.startTime
         )
     }
 }
@@ -1172,9 +1237,12 @@ extension Resiliencehub.ListAppsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppsRequest {
         return .init(
             appArn: self.appArn,
+            fromLastAssessmentTime: self.fromLastAssessmentTime,
             maxResults: self.maxResults,
             name: self.name,
-            nextToken: token
+            nextToken: token,
+            reverseOrder: self.reverseOrder,
+            toLastAssessmentTime: self.toLastAssessmentTime
         )
     }
 }

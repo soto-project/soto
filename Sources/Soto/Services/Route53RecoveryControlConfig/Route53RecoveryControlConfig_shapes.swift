@@ -26,14 +26,14 @@ import Foundation
 extension Route53RecoveryControlConfig {
     // MARK: Enums
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case and = "AND"
         case atleast = "ATLEAST"
         case or = "OR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deployed = "DEPLOYED"
         case pending = "PENDING"
         case pendingDeletion = "PENDING_DELETION"
@@ -44,24 +44,27 @@ extension Route53RecoveryControlConfig {
 
     public struct AssertionRule: AWSDecodableShape {
         /// The routing controls that are part of transactions that are evaluated to determine if a request to change a routing control state is allowed. For example, you might include three routing controls, one for each of three Amazon Web Services Regions.
-        public let assertedControls: [String]
+        public let assertedControls: [String]?
         /// The Amazon Resource Name (ARN) of the control panel.
-        public let controlPanelArn: String
+        public let controlPanelArn: String?
         /// Name of the assertion rule. You can use any non-white space character in the name.
-        public let name: String
+        public let name: String?
+        /// The Amazon Web Services account ID of the assertion rule owner.
+        public let owner: String?
         /// The criteria that you set for specific assertion routing controls (AssertedControls) that designate how many routing control states must be ON as the result of a transaction. For example, if you have three assertion routing controls, you might specify ATLEAST 2 for your rule configuration. This means that at least two assertion routing control states must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
-        public let ruleConfig: RuleConfig
+        public let ruleConfig: RuleConfig?
         /// The Amazon Resource Name (ARN) of the assertion rule.
-        public let safetyRuleArn: String
+        public let safetyRuleArn: String?
         /// The deployment status of an assertion rule. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
-        public let status: Status
+        public let status: Status?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, safetyRuleArn: String, status: Status, waitPeriodMs: Int) {
+        public init(assertedControls: [String]? = nil, controlPanelArn: String? = nil, name: String? = nil, owner: String? = nil, ruleConfig: RuleConfig? = nil, safetyRuleArn: String? = nil, status: Status? = nil, waitPeriodMs: Int? = nil) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
+            self.owner = owner
             self.ruleConfig = ruleConfig
             self.safetyRuleArn = safetyRuleArn
             self.status = status
@@ -72,6 +75,7 @@ extension Route53RecoveryControlConfig {
             case assertedControls = "AssertedControls"
             case controlPanelArn = "ControlPanelArn"
             case name = "Name"
+            case owner = "Owner"
             case ruleConfig = "RuleConfig"
             case safetyRuleArn = "SafetyRuleArn"
             case status = "Status"
@@ -81,13 +85,13 @@ extension Route53RecoveryControlConfig {
 
     public struct AssertionRuleUpdate: AWSEncodableShape {
         /// The name of the assertion rule. You can use any non-white space character in the name.
-        public let name: String
+        public let name: String?
         /// The Amazon Resource Name (ARN) of the assertion rule.
-        public let safetyRuleArn: String
+        public let safetyRuleArn: String?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
+        public init(name: String? = nil, safetyRuleArn: String? = nil, waitPeriodMs: Int? = nil) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -116,13 +120,16 @@ extension Route53RecoveryControlConfig {
         public let clusterEndpoints: [ClusterEndpoint]?
         /// The name of the cluster.
         public let name: String?
+        /// The Amazon Web Services account ID of the cluster owner.
+        public let owner: String?
         /// Deployment status of a resource. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
-        public init(clusterArn: String? = nil, clusterEndpoints: [ClusterEndpoint]? = nil, name: String? = nil, status: Status? = nil) {
+        public init(clusterArn: String? = nil, clusterEndpoints: [ClusterEndpoint]? = nil, name: String? = nil, owner: String? = nil, status: Status? = nil) {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
             self.name = name
+            self.owner = owner
             self.status = status
         }
 
@@ -130,6 +137,7 @@ extension Route53RecoveryControlConfig {
             case clusterArn = "ClusterArn"
             case clusterEndpoints = "ClusterEndpoints"
             case name = "Name"
+            case owner = "Owner"
             case status = "Status"
         }
     }
@@ -160,16 +168,19 @@ extension Route53RecoveryControlConfig {
         public let defaultControlPanel: Bool?
         /// The name of the control panel. You can use any non-white space character in the name.
         public let name: String?
+        /// The Amazon Web Services account ID of the control panel owner.
+        public let owner: String?
         /// The number of routing controls in the control panel.
         public let routingControlCount: Int?
         /// The deployment status of control panel. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
-        public init(clusterArn: String? = nil, controlPanelArn: String? = nil, defaultControlPanel: Bool? = nil, name: String? = nil, routingControlCount: Int? = nil, status: Status? = nil) {
+        public init(clusterArn: String? = nil, controlPanelArn: String? = nil, defaultControlPanel: Bool? = nil, name: String? = nil, owner: String? = nil, routingControlCount: Int? = nil, status: Status? = nil) {
             self.clusterArn = clusterArn
             self.controlPanelArn = controlPanelArn
             self.defaultControlPanel = defaultControlPanel
             self.name = name
+            self.owner = owner
             self.routingControlCount = routingControlCount
             self.status = status
         }
@@ -179,6 +190,7 @@ extension Route53RecoveryControlConfig {
             case controlPanelArn = "ControlPanelArn"
             case defaultControlPanel = "DefaultControlPanel"
             case name = "Name"
+            case owner = "Owner"
             case routingControlCount = "RoutingControlCount"
             case status = "Status"
         }
@@ -188,11 +200,11 @@ extension Route53RecoveryControlConfig {
         /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The name of the cluster.
-        public let clusterName: String
+        public let clusterName: String?
         /// The tags associated with the cluster.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
             self.tags = tags
@@ -235,13 +247,13 @@ extension Route53RecoveryControlConfig {
         /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the cluster for the control panel.
-        public let clusterArn: String
+        public let clusterArn: String?
         /// The name of the control panel.
-        public let controlPanelName: String
+        public let controlPanelName: String?
         /// The tags associated with the control panel.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateControlPanelRequest.idempotencyToken(), clusterArn: String, controlPanelName: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateControlPanelRequest.idempotencyToken(), clusterArn: String? = nil, controlPanelName: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterArn = clusterArn
             self.controlPanelName = controlPanelName
@@ -289,13 +301,13 @@ extension Route53RecoveryControlConfig {
         /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the cluster that includes the routing control.
-        public let clusterArn: String
+        public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the control panel that includes the routing control.
         public let controlPanelArn: String?
         /// The name of the routing control.
-        public let routingControlName: String
+        public let routingControlName: String?
 
-        public init(clientToken: String? = CreateRoutingControlRequest.idempotencyToken(), clusterArn: String, controlPanelArn: String? = nil, routingControlName: String) {
+        public init(clientToken: String? = CreateRoutingControlRequest.idempotencyToken(), clusterArn: String? = nil, controlPanelArn: String? = nil, routingControlName: String? = nil) {
             self.clientToken = clientToken
             self.clusterArn = clusterArn
             self.controlPanelArn = controlPanelArn
@@ -602,26 +614,29 @@ extension Route53RecoveryControlConfig {
 
     public struct GatingRule: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control panel.
-        public let controlPanelArn: String
+        public let controlPanelArn: String?
         /// An array of gating routing control Amazon Resource Names (ARNs). For a simple "on/off" switch, specify the ARN for one routing control. The gating routing controls are evaluated by the rule configuration that you specify to determine if the target routing control states can be changed.
-        public let gatingControls: [String]
+        public let gatingControls: [String]?
         /// The name for the gating rule. You can use any non-white space character in the name.
-        public let name: String
+        public let name: String?
+        /// The Amazon Web Services account ID of the gating rule owner.
+        public let owner: String?
         /// The criteria that you set for gating routing controls that designate how many of the routing control states must be ON to allow you to update target routing control states.
-        public let ruleConfig: RuleConfig
+        public let ruleConfig: RuleConfig?
         /// The Amazon Resource Name (ARN) of the gating rule.
-        public let safetyRuleArn: String
+        public let safetyRuleArn: String?
         /// The deployment status of a gating rule. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
-        public let status: Status
+        public let status: Status?
         /// An array of target routing control Amazon Resource Names (ARNs) for which the states can only be updated if the rule configuration that you specify evaluates to true for the gating routing control. As a simple example, if you have a single gating control, it acts as an overall "on/off" switch for a set of target routing controls. You can use this to manually override automated failover, for example.
-        public let targetControls: [String]
+        public let targetControls: [String]?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, safetyRuleArn: String, status: Status, targetControls: [String], waitPeriodMs: Int) {
+        public init(controlPanelArn: String? = nil, gatingControls: [String]? = nil, name: String? = nil, owner: String? = nil, ruleConfig: RuleConfig? = nil, safetyRuleArn: String? = nil, status: Status? = nil, targetControls: [String]? = nil, waitPeriodMs: Int? = nil) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
+            self.owner = owner
             self.ruleConfig = ruleConfig
             self.safetyRuleArn = safetyRuleArn
             self.status = status
@@ -633,6 +648,7 @@ extension Route53RecoveryControlConfig {
             case controlPanelArn = "ControlPanelArn"
             case gatingControls = "GatingControls"
             case name = "Name"
+            case owner = "Owner"
             case ruleConfig = "RuleConfig"
             case safetyRuleArn = "SafetyRuleArn"
             case status = "Status"
@@ -643,13 +659,13 @@ extension Route53RecoveryControlConfig {
 
     public struct GatingRuleUpdate: AWSEncodableShape {
         /// The name for the gating rule. You can use any non-white space character in the name.
-        public let name: String
+        public let name: String?
         /// The Amazon Resource Name (ARN) of the gating rule.
-        public let safetyRuleArn: String
+        public let safetyRuleArn: String?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
+        public init(name: String? = nil, safetyRuleArn: String? = nil, waitPeriodMs: Int? = nil) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -668,6 +684,36 @@ extension Route53RecoveryControlConfig {
             case name = "Name"
             case safetyRuleArn = "SafetyRuleArn"
             case waitPeriodMs = "WaitPeriodMs"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The resource policy.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
@@ -934,17 +980,17 @@ extension Route53RecoveryControlConfig {
 
     public struct NewAssertionRule: AWSEncodableShape {
         /// The routing controls that are part of transactions that are evaluated to determine if a request to change a routing control state is allowed. For example, you might include three routing controls, one for each of three Amazon Web Services Regions.
-        public let assertedControls: [String]
+        public let assertedControls: [String]?
         /// The Amazon Resource Name (ARN) for the control panel.
-        public let controlPanelArn: String
+        public let controlPanelArn: String?
         /// The name of the assertion rule. You can use any non-white space character in the name.
-        public let name: String
+        public let name: String?
         /// The criteria that you set for specific assertion controls (routing controls) that designate how many control states must be ON as the result of a transaction. For example, if you have three assertion controls, you might specify ATLEAST 2 for your rule configuration. This means that at least two assertion controls must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
-        public let ruleConfig: RuleConfig
+        public let ruleConfig: RuleConfig?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, waitPeriodMs: Int = 0) {
+        public init(assertedControls: [String]? = nil, controlPanelArn: String? = nil, name: String? = nil, ruleConfig: RuleConfig? = nil, waitPeriodMs: Int? = nil) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -953,7 +999,7 @@ extension Route53RecoveryControlConfig {
         }
 
         public func validate(name: String) throws {
-            try self.assertedControls.forEach {
+            try self.assertedControls?.forEach {
                 try validate($0, name: "assertedControls[]", parent: name, max: 256)
                 try validate($0, name: "assertedControls[]", parent: name, min: 1)
                 try validate($0, name: "assertedControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
@@ -977,19 +1023,19 @@ extension Route53RecoveryControlConfig {
 
     public struct NewGatingRule: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the control panel.
-        public let controlPanelArn: String
+        public let controlPanelArn: String?
         /// The gating controls for the new gating rule. That is, routing controls that are evaluated by the rule configuration that you specify.
-        public let gatingControls: [String]
+        public let gatingControls: [String]?
         /// The name for the new gating rule.
-        public let name: String
+        public let name: String?
         /// The criteria that you set for specific gating controls (routing controls) that designate how many control states must be ON to allow you to change (set or unset) the target control states.
-        public let ruleConfig: RuleConfig
+        public let ruleConfig: RuleConfig?
         /// Routing controls that can only be set or unset if the specified RuleConfig evaluates to true for the specified GatingControls. For example, say you have three gating controls, one for each of three Amazon Web Services Regions. Now you specify ATLEAST 2 as your RuleConfig. With these settings, you can only change (set or unset) the routing controls that you have specified as TargetControls if that rule evaluates to true. In other words, your ability to change the routing controls that you have specified as TargetControls is gated by the rule that you set for the routing controls in GatingControls.
-        public let targetControls: [String]
+        public let targetControls: [String]?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
-        public let waitPeriodMs: Int
+        public let waitPeriodMs: Int?
 
-        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, targetControls: [String], waitPeriodMs: Int = 0) {
+        public init(controlPanelArn: String? = nil, gatingControls: [String]? = nil, name: String? = nil, ruleConfig: RuleConfig? = nil, targetControls: [String]? = nil, waitPeriodMs: Int? = nil) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
@@ -1002,7 +1048,7 @@ extension Route53RecoveryControlConfig {
             try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, max: 256)
             try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, min: 1)
             try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
-            try self.gatingControls.forEach {
+            try self.gatingControls?.forEach {
                 try validate($0, name: "gatingControls[]", parent: name, max: 256)
                 try validate($0, name: "gatingControls[]", parent: name, min: 1)
                 try validate($0, name: "gatingControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
@@ -1010,7 +1056,7 @@ extension Route53RecoveryControlConfig {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
-            try self.targetControls.forEach {
+            try self.targetControls?.forEach {
                 try validate($0, name: "targetControls[]", parent: name, max: 256)
                 try validate($0, name: "targetControls[]", parent: name, min: 1)
                 try validate($0, name: "targetControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
@@ -1032,14 +1078,17 @@ extension Route53RecoveryControlConfig {
         public let controlPanelArn: String?
         /// The name of the routing control.
         public let name: String?
+        /// The Amazon Web Services account ID of the routing control owner.
+        public let owner: String?
         /// The Amazon Resource Name (ARN) of the routing control.
         public let routingControlArn: String?
         /// The deployment status of a routing control. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
-        public init(controlPanelArn: String? = nil, name: String? = nil, routingControlArn: String? = nil, status: Status? = nil) {
+        public init(controlPanelArn: String? = nil, name: String? = nil, owner: String? = nil, routingControlArn: String? = nil, status: Status? = nil) {
             self.controlPanelArn = controlPanelArn
             self.name = name
+            self.owner = owner
             self.routingControlArn = routingControlArn
             self.status = status
         }
@@ -1047,6 +1096,7 @@ extension Route53RecoveryControlConfig {
         private enum CodingKeys: String, CodingKey {
             case controlPanelArn = "ControlPanelArn"
             case name = "Name"
+            case owner = "Owner"
             case routingControlArn = "RoutingControlArn"
             case status = "Status"
         }
@@ -1071,13 +1121,13 @@ extension Route53RecoveryControlConfig {
 
     public struct RuleConfig: AWSEncodableShape & AWSDecodableShape {
         /// Logical negation of the rule. If the rule would usually evaluate true, it's evaluated as false, and vice versa.
-        public let inverted: Bool
+        public let inverted: Bool?
         /// The value of N, when you specify an ATLEAST rule type. That is, Threshold is the number of controls that must be set when you specify an ATLEAST type.
-        public let threshold: Int
+        public let threshold: Int?
         /// A rule can be one of the following: ATLEAST, AND, or OR.
-        public let type: RuleType
+        public let type: RuleType?
 
-        public init(inverted: Bool, threshold: Int, type: RuleType) {
+        public init(inverted: Bool? = nil, threshold: Int? = nil, type: RuleType? = nil) {
             self.inverted = inverted
             self.threshold = threshold
             self.type = type
@@ -1094,9 +1144,9 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
         /// The tags associated with the resource.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1105,11 +1155,11 @@ extension Route53RecoveryControlConfig {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
             }
@@ -1128,9 +1178,9 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
         /// Keys for the tags to be removed.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -1151,11 +1201,11 @@ extension Route53RecoveryControlConfig {
 
     public struct UpdateControlPanelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the control panel.
-        public let controlPanelArn: String
+        public let controlPanelArn: String?
         /// The name of the control panel.
-        public let controlPanelName: String
+        public let controlPanelName: String?
 
-        public init(controlPanelArn: String, controlPanelName: String) {
+        public init(controlPanelArn: String? = nil, controlPanelName: String? = nil) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
         }
@@ -1190,11 +1240,11 @@ extension Route53RecoveryControlConfig {
 
     public struct UpdateRoutingControlRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the routing control.
-        public let routingControlArn: String
+        public let routingControlArn: String?
         /// The name of the routing control.
-        public let routingControlName: String
+        public let routingControlName: String?
 
-        public init(routingControlArn: String, routingControlName: String) {
+        public init(routingControlArn: String? = nil, routingControlName: String? = nil) {
             self.routingControlArn = routingControlArn
             self.routingControlName = routingControlName
         }

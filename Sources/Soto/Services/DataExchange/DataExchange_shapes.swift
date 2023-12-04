@@ -26,7 +26,7 @@ import Foundation
 extension DataExchange {
     // MARK: Enums
 
-    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiGatewayApi = "API_GATEWAY_API"
         case lakeFormationDataPermission = "LAKE_FORMATION_DATA_PERMISSION"
         case redshiftDataShare = "REDSHIFT_DATA_SHARE"
@@ -35,7 +35,7 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum Code: String, CustomStringConvertible, Codable, Sendable {
+    public enum Code: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
         case internalServerException = "INTERNAL_SERVER_EXCEPTION"
         case malwareDetected = "MALWARE_DETECTED"
@@ -46,12 +46,12 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case describe = "DESCRIBE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorLimitName: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobErrorLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsLakeFormationDataPermissionAssetsPerRevision = "AWS Lake Formation data permission assets per revision"
         case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
         case amazonS3DataAccessAssetsPerRevision = "Amazon S3 data access assets per revision"
@@ -60,48 +60,63 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asset = "ASSET"
         case dataSet = "DATA_SET"
         case revision = "REVISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum LFPermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum LFPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case describe = "DESCRIBE"
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum LFResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LFResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case database = "DATABASE"
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lfTagPolicy = "LFTagPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum Origin: String, CustomStringConvertible, Codable, Sendable {
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataDelay = "DATA_DELAY"
+        case dataUpdate = "DATA_UPDATE"
+        case deprecation = "DEPRECATION"
+        case schemaChange = "SCHEMA_CHANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Origin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case entitled = "ENTITLED"
         case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rest = "REST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum SchemaChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "ADD"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, Sendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case error = "ERROR"
@@ -111,13 +126,13 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case describe = "DESCRIBE"
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createS3DataAccessFromS3Bucket = "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET"
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
@@ -745,6 +760,20 @@ extension DataExchange {
         }
     }
 
+    public struct DataUpdateRequestDetails: AWSEncodableShape {
+        /// A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dataUpdatedAt: Date?
+
+        public init(dataUpdatedAt: Date? = nil) {
+            self.dataUpdatedAt = dataUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataUpdatedAt = "DataUpdatedAt"
+        }
+    }
+
     public struct DatabaseLFTagPolicy: AWSDecodableShape {
         /// A list of LF-tag conditions that apply to database resources.
         public let expression: [LFTag]
@@ -853,6 +882,20 @@ extension DataExchange {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeprecationRequestDetails: AWSEncodableShape {
+        /// A datetime in the future when the data set will be deprecated.
+        @CustomCoding<ISO8601DateCoder>
+        public var deprecationAt: Date
+
+        public init(deprecationAt: Date) {
+            self.deprecationAt = deprecationAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deprecationAt = "DeprecationAt"
+        }
     }
 
     public struct Details: AWSDecodableShape {
@@ -1956,6 +1999,23 @@ extension DataExchange {
         }
     }
 
+    public struct LakeFormationTagPolicyDetails: AWSEncodableShape {
+        /// The underlying Glue database that the notification is referring to.
+        public let database: String?
+        /// The underlying Glue table that the notification is referring to.
+        public let table: String?
+
+        public init(database: String? = nil, table: String? = nil) {
+            self.database = database
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case table = "Table"
+        }
+    }
+
     public struct ListDataSetRevisionsRequest: AWSEncodableShape {
         /// The unique identifier for a data set.
         public let dataSetId: String
@@ -2229,11 +2289,32 @@ extension DataExchange {
         }
     }
 
+    public struct NotificationDetails: AWSEncodableShape {
+        /// Extra details specific to a data update type notification.
+        public let dataUpdate: DataUpdateRequestDetails?
+        /// Extra details specific to a deprecation type notification.
+        public let deprecation: DeprecationRequestDetails?
+        /// Extra details specific to a schema change type notification.
+        public let schemaChange: SchemaChangeRequestDetails?
+
+        public init(dataUpdate: DataUpdateRequestDetails? = nil, deprecation: DeprecationRequestDetails? = nil, schemaChange: SchemaChangeRequestDetails? = nil) {
+            self.dataUpdate = dataUpdate
+            self.deprecation = deprecation
+            self.schemaChange = schemaChange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataUpdate = "DataUpdate"
+            case deprecation = "Deprecation"
+            case schemaChange = "SchemaChange"
+        }
+    }
+
     public struct OriginDetails: AWSDecodableShape {
         /// The product ID of the origin of the data set.
-        public let productId: String
+        public let productId: String?
 
-        public init(productId: String) {
+        public init(productId: String? = nil) {
             self.productId = productId
         }
 
@@ -2265,6 +2346,39 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case dataShareArn = "DataShareArn"
+        }
+    }
+
+    public struct RedshiftDataShareDetails: AWSEncodableShape {
+        /// The ARN of the underlying Redshift data share that is being affected by this notification.
+        public let arn: String
+        /// The database name in the Redshift data share that is being affected by this notification.
+        public let database: String
+        /// A function name in the Redshift database that is being affected by this notification.
+        public let function: String?
+        /// A schema name in the Redshift database that is being affected by this notification.
+        public let schema: String?
+        /// A table name in the Redshift database that is being affected by this notification.
+        public let table: String?
+        /// A view name in the Redshift database that is being affected by this notification.
+        public let view: String?
+
+        public init(arn: String, database: String, function: String? = nil, schema: String? = nil, table: String? = nil, view: String? = nil) {
+            self.arn = arn
+            self.database = database
+            self.function = function
+            self.schema = schema
+            self.table = table
+            self.view = view
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case database = "Database"
+            case function = "Function"
+            case schema = "Schema"
+            case table = "Table"
+            case view = "View"
         }
     }
 
@@ -2609,6 +2723,23 @@ extension DataExchange {
         }
     }
 
+    public struct S3DataAccessDetails: AWSEncodableShape {
+        /// A list of the key prefixes affected by this notification. This can have up to 50 entries.
+        public let keyPrefixes: [String]?
+        /// A list of the keys affected by this notification. This can have up to 50 entries.
+        public let keys: [String]?
+
+        public init(keyPrefixes: [String]? = nil, keys: [String]? = nil) {
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPrefixes = "KeyPrefixes"
+            case keys = "Keys"
+        }
+    }
+
     public struct S3SnapshotAsset: AWSDecodableShape {
         /// The size of the Amazon S3 object that is the object.
         public let size: Double
@@ -2619,6 +2750,66 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case size = "Size"
+        }
+    }
+
+    public struct SchemaChangeDetails: AWSEncodableShape {
+        /// Description of what's changing about this field. This value can be up to 512 characters long.
+        public let description: String?
+        /// Name of the changing field. This value can be up to 255 characters long.
+        public let name: String
+        /// Is the field being added, removed, or modified?
+        public let type: SchemaChangeType
+
+        public init(description: String? = nil, name: String, type: SchemaChangeType) {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct SchemaChangeRequestDetails: AWSEncodableShape {
+        /// List of schema changes happening in the scope of this notification. This can have up to 100 entries.
+        public let changes: [SchemaChangeDetails]?
+        /// A date in the future when the schema change is taking effect.
+        @CustomCoding<ISO8601DateCoder>
+        public var schemaChangeAt: Date
+
+        public init(changes: [SchemaChangeDetails]? = nil, schemaChangeAt: Date) {
+            self.changes = changes
+            self.schemaChangeAt = schemaChangeAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "Changes"
+            case schemaChangeAt = "SchemaChangeAt"
+        }
+    }
+
+    public struct ScopeDetails: AWSEncodableShape {
+        /// Underlying LF resources that will be affected by this notification.
+        public let lakeFormationTagPolicies: [LakeFormationTagPolicyDetails]?
+        /// Underlying Redshift resources that will be affected by this notification.
+        public let redshiftDataShares: [RedshiftDataShareDetails]?
+        /// Underlying S3 resources that will be affected by this notification.
+        public let s3DataAccesses: [S3DataAccessDetails]?
+
+        public init(lakeFormationTagPolicies: [LakeFormationTagPolicyDetails]? = nil, redshiftDataShares: [RedshiftDataShareDetails]? = nil, s3DataAccesses: [S3DataAccessDetails]? = nil) {
+            self.lakeFormationTagPolicies = lakeFormationTagPolicies
+            self.redshiftDataShares = redshiftDataShares
+            self.s3DataAccesses = s3DataAccesses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormationTagPolicies = "LakeFormationTagPolicies"
+            case redshiftDataShares = "RedshiftDataShares"
+            case s3DataAccesses = "S3DataAccesses"
         }
     }
 
@@ -2686,6 +2877,60 @@ extension DataExchange {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct SendDataSetNotificationRequest: AWSEncodableShape {
+        /// Idempotency key for the notification, this key allows us to deduplicate notifications that are sent in quick succession erroneously.
+        public let clientToken: String?
+        /// Free-form text field for providers to add information about their notifications.
+        public let comment: String?
+        /// Affected data set of the notification.
+        public let dataSetId: String
+        /// Extra details specific to this notification type.
+        public let details: NotificationDetails?
+        /// Affected scope of this notification such as the underlying resources affected by the notification event.
+        public let scope: ScopeDetails?
+        /// The type of the notification. Describing the kind of event the notification is alerting you to.
+        public let type: NotificationType
+
+        public init(clientToken: String? = SendDataSetNotificationRequest.idempotencyToken(), comment: String? = nil, dataSetId: String, details: NotificationDetails? = nil, scope: ScopeDetails? = nil, type: NotificationType) {
+            self.clientToken = clientToken
+            self.comment = comment
+            self.dataSetId = dataSetId
+            self.details = details
+            self.scope = scope
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.details, forKey: .details)
+            try container.encodeIfPresent(self.scope, forKey: .scope)
+            try container.encode(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.validate(self.comment, name: "comment", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case comment = "Comment"
+            case details = "Details"
+            case scope = "Scope"
+            case type = "Type"
+        }
+    }
+
+    public struct SendDataSetNotificationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StartJobRequest: AWSEncodableShape {

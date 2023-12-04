@@ -26,27 +26,27 @@ import Foundation
 extension QLDB {
     // MARK: Enums
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         case kmsKeyInaccessible = "KMS_KEY_INACCESSIBLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCause: String, CustomStringConvertible, Codable, Sendable {
+    public enum ErrorCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iamPermissionRevoked = "IAM_PERMISSION_REVOKED"
         case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LedgerState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LedgerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -54,27 +54,27 @@ extension QLDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ionBinary = "ION_BINARY"
         case ionText = "ION_TEXT"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionsMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PermissionsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAll = "ALLOW_ALL"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noEncryption = "NO_ENCRYPTION"
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case completed = "COMPLETED"

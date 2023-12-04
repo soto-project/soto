@@ -95,6 +95,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
+    @Sendable
+    public func associateAnalyticsDataSet(_ input: AssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAnalyticsDataSetResponse {
+        return try await self.client.execute(
+            operation: "AssociateAnalyticsDataSet", 
+            path: "/analytics-data/instance/{InstanceId}/association", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     @Sendable
     public func associateApprovedOrigin(_ input: AssociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -127,6 +140,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "AssociateDefaultVocabulary", 
             path: "/default-vocabulary/{InstanceId}/{LanguageCode}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Associates a connect resource to a flow.
+    @Sendable
+    public func associateFlow(_ input: AssociateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFlowResponse {
+        return try await self.client.execute(
+            operation: "AssociateFlow", 
+            path: "/flow-associations/{InstanceId}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -225,7 +251,72 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
+    /// Associates an agent with a traffic distribution group.
+    @Sendable
+    public func associateTrafficDistributionGroupUser(_ input: AssociateTrafficDistributionGroupUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTrafficDistributionGroupUserResponse {
+        return try await self.client.execute(
+            operation: "AssociateTrafficDistributionGroupUser", 
+            path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
+    @Sendable
+    public func batchAssociateAnalyticsDataSet(_ input: BatchAssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateAnalyticsDataSetResponse {
+        return try await self.client.execute(
+            operation: "BatchAssociateAnalyticsDataSet", 
+            path: "/analytics-data/instance/{InstanceId}/associations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
+    @Sendable
+    public func batchDisassociateAnalyticsDataSet(_ input: BatchDisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateAnalyticsDataSetResponse {
+        return try await self.client.execute(
+            operation: "BatchDisassociateAnalyticsDataSet", 
+            path: "/analytics-data/instance/{InstanceId}/associations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve the flow associations for the given resources.
+    @Sendable
+    public func batchGetFlowAssociation(_ input: BatchGetFlowAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFlowAssociationResponse {
+        return try await self.client.execute(
+            operation: "BatchGetFlowAssociation", 
+            path: "/flow-associations-batch/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.  Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
+    @Sendable
+    public func batchPutContact(_ input: BatchPutContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutContactResponse {
+        return try await self.client.execute(
+            operation: "BatchPutContact", 
+            path: "/contact/batch/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimPhoneNumberResponse {
         return try await self.client.execute(
@@ -277,7 +368,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions.  Question and section identifiers cannot be duplicated within the same evaluation form.
+    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     @Sendable
     public func createEvaluationForm(_ input: CreateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationFormResponse {
         return try await self.client.execute(
@@ -344,6 +435,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Amazon Connect Administrator Guide.
+    @Sendable
+    public func createPersistentContactAssociation(_ input: CreatePersistentContactAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePersistentContactAssociationResponse {
+        return try await self.client.execute(
+            operation: "CreatePersistentContactAssociation", 
+            path: "/contact/persistent-contact-association/{InstanceId}/{InitialContactId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator's Guide.
     @Sendable
     public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptResponse {
@@ -357,7 +461,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @Sendable
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueResponse {
         return try await self.client.execute(
@@ -409,7 +513,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
+    /// Creates a security profile.
     @Sendable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
         return try await self.client.execute(
@@ -435,7 +539,9 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.   The SignInConfig distribution is available only on a
+    /// default TrafficDistributionGroup (see the IsDefault parameter in the
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
     @Sendable
     public func createTrafficDistributionGroup(_ input: CreateTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficDistributionGroupResponse {
         return try await self.client.execute(
@@ -461,7 +567,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see Add Users in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email is required if you are using SAML for identity management. FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
         return try await self.client.execute(
@@ -480,6 +586,32 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "CreateUserHierarchyGroup", 
             path: "/user-hierarchy-groups/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a new view with the possible status of SAVED or PUBLISHED. The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED. An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
+    @Sendable
+    public func createView(_ input: CreateViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateViewResponse {
+        return try await self.client.execute(
+            operation: "CreateView", 
+            path: "/views/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
+    @Sendable
+    public func createViewVersion(_ input: CreateViewVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateViewVersionResponse {
+        return try await self.client.execute(
+            operation: "CreateViewVersion", 
+            path: "/views/{InstanceId}/{ViewId}/versions", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -619,12 +751,38 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Deletes a queue.
+    @Sendable
+    public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteQueue", 
+            path: "/queues/{InstanceId}/{QueueId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a quick connect.
     @Sendable
     public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteQuickConnect", 
             path: "/quick-connects/{InstanceId}/{QuickConnectId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a routing profile.
+    @Sendable
+    public func deleteRoutingProfile(_ input: DeleteRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteRoutingProfile", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -645,7 +803,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
+    /// Deletes a security profile.
     @Sendable
     public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -716,6 +874,32 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "DeleteUserHierarchyGroup", 
             path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
+    @Sendable
+    public func deleteView(_ input: DeleteViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteViewResponse {
+        return try await self.client.execute(
+            operation: "DeleteView", 
+            path: "/views/{InstanceId}/{ViewId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the particular version specified in ViewVersion identifier.
+    @Sendable
+    public func deleteViewVersion(_ input: DeleteViewVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteViewVersionResponse {
+        return try await self.client.execute(
+            operation: "DeleteViewVersion", 
+            path: "/views/{InstanceId}/{ViewId}/versions/{ViewVersion}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -944,7 +1128,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
+    /// Gets basic information about the security profle.
     @Sendable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
         return try await self.client.execute(
@@ -970,7 +1154,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Describes the specified user account. You can find the instance ID in the Amazon Connect console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
+    /// Describes the specified user. You can find the instance ID in the Amazon Connect console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
         return try await self.client.execute(
@@ -1009,6 +1193,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
+    @Sendable
+    public func describeView(_ input: DescribeViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeViewResponse {
+        return try await self.client.execute(
+            operation: "DescribeView", 
+            path: "/views/{InstanceId}/{ViewId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes the specified vocabulary.
     @Sendable
     public func describeVocabulary(_ input: DescribeVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVocabularyResponse {
@@ -1016,6 +1213,19 @@ public struct Connect: AWSService {
             operation: "DescribeVocabulary", 
             path: "/vocabulary/{InstanceId}/{VocabularyId}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Removes the dataset ID associated with a given Amazon Connect instance.
+    @Sendable
+    public func disassociateAnalyticsDataSet(_ input: DisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DisassociateAnalyticsDataSet", 
+            path: "/analytics-data/instance/{InstanceId}/association", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1042,6 +1252,19 @@ public struct Connect: AWSService {
             operation: "DisassociateBot", 
             path: "/instance/{InstanceId}/bot", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Disassociates a connect resource from a flow.
+    @Sendable
+    public func disassociateFlow(_ input: DisassociateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFlowResponse {
+        return try await self.client.execute(
+            operation: "DisassociateFlow", 
+            path: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1139,6 +1362,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Disassociates an agent from a traffic distribution group.
+    @Sendable
+    public func disassociateTrafficDistributionGroupUser(_ input: DisassociateTrafficDistributionGroupUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateTrafficDistributionGroupUserResponse {
+        return try await self.client.execute(
+            operation: "DisassociateTrafficDistributionGroupUser", 
+            path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
     @Sendable
     public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DismissUserContactResponse {
@@ -1191,7 +1427,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Retrieves a token for federation.  This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
+    /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     @Sendable
     public func getFederationToken(_ input: GetFederationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFederationTokenResponse {
         return try await self.client.execute(
@@ -1204,7 +1440,20 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
+    /// Retrieves the flow associated for a given resource.
+    @Sendable
+    public func getFlowAssociation(_ input: GetFlowAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowAssociationResponse {
+        return try await self.client.execute(
+            operation: "GetFlowAssociation", 
+            path: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     @Sendable
     public func getMetricData(_ input: GetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataResponse {
         return try await self.client.execute(
@@ -1217,7 +1466,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     @Sendable
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataV2Response {
         return try await self.client.execute(
@@ -1269,12 +1518,38 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
+    @Sendable
+    public func importPhoneNumber(_ input: ImportPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportPhoneNumberResponse {
+        return try await self.client.execute(
+            operation: "ImportPhoneNumber", 
+            path: "/phone-number/import", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
     @Sendable
     public func listAgentStatuses(_ input: ListAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentStatusResponse {
         return try await self.client.execute(
             operation: "ListAgentStatuses", 
             path: "/agent-status/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Lists the association status of requested dataset ID for a given Amazon Connect instance.
+    @Sendable
+    public func listAnalyticsDataAssociations(_ input: ListAnalyticsDataAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyticsDataAssociationsResponse {
+        return try await self.client.execute(
+            operation: "ListAnalyticsDataAssociations", 
+            path: "/analytics-data/instance/{InstanceId}/association", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1399,6 +1674,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// List the flow association based on the filters.
+    @Sendable
+    public func listFlowAssociations(_ input: ListFlowAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowAssociationsResponse {
+        return try await self.client.execute(
+            operation: "ListFlowAssociations", 
+            path: "/flow-associations-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     @Sendable
     public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHoursOfOperationsResponse {
@@ -1490,7 +1778,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     @Sendable
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersResponse {
         return try await self.client.execute(
@@ -1503,7 +1791,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     @Sendable
     public func listPhoneNumbersV2(_ input: ListPhoneNumbersV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersV2Response {
         return try await self.client.execute(
@@ -1568,6 +1856,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Provides a list of analysis segments for a real-time analysis session.
+    @Sendable
+    public func listRealtimeContactAnalysisSegmentsV2(_ input: ListRealtimeContactAnalysisSegmentsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeContactAnalysisSegmentsV2Response {
+        return try await self.client.execute(
+            operation: "ListRealtimeContactAnalysisSegmentsV2", 
+            path: "/contact/list-real-time-analysis-segments-v2/{InstanceId}/{ContactId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the queues associated with a routing profile.
     @Sendable
     public func listRoutingProfileQueues(_ input: ListRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingProfileQueuesResponse {
@@ -1620,7 +1921,20 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Returns a list of third-party applications in a specific security profile.
+    @Sendable
+    public func listSecurityProfileApplications(_ input: ListSecurityProfileApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfileApplicationsResponse {
+        return try await self.client.execute(
+            operation: "ListSecurityProfileApplications", 
+            path: "/security-profiles-applications/{InstanceId}/{SecurityProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the permissions granted to a security profile.
     @Sendable
     public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilePermissionsResponse {
         return try await self.client.execute(
@@ -1665,6 +1979,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "ListTaskTemplates", 
             path: "/instance/{InstanceId}/task/template", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists traffic distribution group users.
+    @Sendable
+    public func listTrafficDistributionGroupUsers(_ input: ListTrafficDistributionGroupUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficDistributionGroupUsersResponse {
+        return try await self.client.execute(
+            operation: "ListTrafficDistributionGroupUsers", 
+            path: "/traffic-distribution-group/{TrafficDistributionGroupId}/user", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1724,6 +2051,32 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    @Sendable
+    public func listViewVersions(_ input: ListViewVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViewVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListViewVersions", 
+            path: "/views/{InstanceId}/{ViewId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
+    @Sendable
+    public func listViews(_ input: ListViewsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViewsResponse {
+        return try await self.client.execute(
+            operation: "ListViews", 
+            path: "/views/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     @Sendable
     public func monitorContact(_ input: MonitorContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MonitorContactResponse {
@@ -1750,7 +2103,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     public func releasePhoneNumber(_ input: ReleasePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1763,7 +2116,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region. For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
+    /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration information for Amazon Connect resources across Amazon Web Services Regions.  For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
     @Sendable
     public func replicateInstance(_ input: ReplicateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicateInstanceResponse {
         return try await self.client.execute(
@@ -1776,7 +2129,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call. Only voice recordings are supported at this time.
+    /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported.
     @Sendable
     public func resumeContactRecording(_ input: ResumeContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeContactRecordingResponse {
         return try await self.client.execute(
@@ -1828,7 +2181,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQueuesResponse {
         return try await self.client.execute(
@@ -1854,7 +2207,20 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    @Sendable
+    public func searchResourceTags(_ input: SearchResourceTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourceTagsResponse {
+        return try await self.client.execute(
+            operation: "SearchResourceTags", 
+            path: "/search-resource-tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchRoutingProfiles(_ input: SearchRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRoutingProfilesResponse {
         return try await self.client.execute(
@@ -1867,7 +2233,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchSecurityProfiles(_ input: SearchSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSecurityProfilesResponse {
         return try await self.client.execute(
@@ -1880,7 +2246,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Searches users in an Amazon Connect instance, with optional filtering.   AfterContactWorkTimeLimit is returned in milliseconds.
+    /// Searches users in an Amazon Connect instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
     @Sendable
     public func searchUsers(_ input: SearchUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUsersResponse {
         return try await self.client.execute(
@@ -1899,6 +2265,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "SearchVocabularies", 
             path: "/vocabulary-summary/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:   SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat   ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat   When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.  Access to this API is currently restricted to Amazon Pinpoint for supporting SMS integration.
+    @Sendable
+    public func sendChatIntegrationEvent(_ input: SendChatIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendChatIntegrationEventResponse {
+        return try await self.client.execute(
+            operation: "SendChatIntegrationEvent", 
+            path: "/chat-integration-event", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1971,7 +2350,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Initiates a flow to start a new task.
+    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the Amazon Connect Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Amazon Connect cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Amazon Connect service quotas in the Amazon Connect Administrator Guide.
     @Sendable
     public func startTaskContact(_ input: StartTaskContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskContactResponse {
         return try await self.client.execute(
@@ -1984,7 +2363,20 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Ends the specified contact. This call does not work for the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
+    @Sendable
+    public func startWebRTCContact(_ input: StartWebRTCContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWebRTCContactResponse {
+        return try await self.client.execute(
+            operation: "StartWebRTCContact", 
+            path: "/contact/webrtc", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Ends the specified contact. This call does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   Chat and task contacts, however, can be terminated in any state, regardless of initiation method.
     @Sendable
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactResponse {
         return try await self.client.execute(
@@ -2036,7 +2428,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
+    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
     @Sendable
     public func suspendContactRecording(_ input: SuspendContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SuspendContactRecordingResponse {
         return try await self.client.execute(
@@ -2296,6 +2688,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Updates a phone number’s metadata.  To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
+    @Sendable
+    public func updatePhoneNumberMetadata(_ input: UpdatePhoneNumberMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdatePhoneNumberMetadata", 
+            path: "/phone-number/{PhoneNumberId}/metadata", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a prompt.
     @Sendable
     public func updatePrompt(_ input: UpdatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePromptResponse {
@@ -2348,7 +2753,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @Sendable
     public func updateQueueOutboundCallerConfig(_ input: UpdateQueueOutboundCallerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2393,6 +2798,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "UpdateQuickConnectName", 
             path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
+    @Sendable
+    public func updateRoutingProfileAgentAvailabilityTimer(_ input: UpdateRoutingProfileAgentAvailabilityTimerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateRoutingProfileAgentAvailabilityTimer", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/agent-availability-timer", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -2465,7 +2883,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
+    /// Updates a security profile.
     @Sendable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2491,7 +2909,9 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Updates the traffic distribution for a given traffic distribution group.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
+    /// Updates the traffic distribution for a given traffic distribution group.   The SignInConfig distribution is available only on a
+    /// default TrafficDistributionGroup (see the IsDefault parameter in the
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
     @Sendable
     public func updateTrafficDistribution(_ input: UpdateTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficDistributionResponse {
         return try await self.client.execute(
@@ -2594,6 +3014,32 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
+
+    /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
+    @Sendable
+    public func updateViewContent(_ input: UpdateViewContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateViewContentResponse {
+        return try await self.client.execute(
+            operation: "UpdateViewContent", 
+            path: "/views/{InstanceId}/{ViewId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the view metadata. Note that either Name or Description must be provided.
+    @Sendable
+    public func updateViewMetadata(_ input: UpdateViewMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateViewMetadataResponse {
+        return try await self.client.execute(
+            operation: "UpdateViewMetadata", 
+            path: "/views/{InstanceId}/{ViewId}/metadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension Connect {
@@ -2647,7 +3093,7 @@ extension Connect {
         )
     }
 
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
+    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2666,7 +3112,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2875,6 +3321,25 @@ extension Connect {
         )
     }
 
+    /// List the flow association based on the filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFlowAssociationsPaginator(
+        _ input: ListFlowAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowAssociationsRequest, ListFlowAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowAssociations,
+            inputKey: \ListFlowAssociationsRequest.nextToken,
+            outputKey: \ListFlowAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -3008,7 +3473,7 @@ extension Connect {
         )
     }
 
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3027,7 +3492,7 @@ extension Connect {
         )
     }
 
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3122,6 +3587,25 @@ extension Connect {
         )
     }
 
+    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRealtimeContactAnalysisSegmentsV2Paginator(
+        _ input: ListRealtimeContactAnalysisSegmentsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRealtimeContactAnalysisSegmentsV2Request, ListRealtimeContactAnalysisSegmentsV2Response> {
+        return .init(
+            input: input,
+            command: self.listRealtimeContactAnalysisSegmentsV2,
+            inputKey: \ListRealtimeContactAnalysisSegmentsV2Request.nextToken,
+            outputKey: \ListRealtimeContactAnalysisSegmentsV2Response.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the queues associated with a routing profile.
     /// Return PaginatorSequence for operation.
     ///
@@ -3198,7 +3682,26 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// Returns a list of third-party applications in a specific security profile.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSecurityProfileApplicationsPaginator(
+        _ input: ListSecurityProfileApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfileApplicationsRequest, ListSecurityProfileApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listSecurityProfileApplications,
+            inputKey: \ListSecurityProfileApplicationsRequest.nextToken,
+            outputKey: \ListSecurityProfileApplicationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the permissions granted to a security profile.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3251,6 +3754,25 @@ extension Connect {
             command: self.listTaskTemplates,
             inputKey: \ListTaskTemplatesRequest.nextToken,
             outputKey: \ListTaskTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists traffic distribution group users.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTrafficDistributionGroupUsersPaginator(
+        _ input: ListTrafficDistributionGroupUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrafficDistributionGroupUsersRequest, ListTrafficDistributionGroupUsersResponse> {
+        return .init(
+            input: input,
+            command: self.listTrafficDistributionGroupUsers,
+            inputKey: \ListTrafficDistributionGroupUsersRequest.nextToken,
+            outputKey: \ListTrafficDistributionGroupUsersResponse.nextToken,
             logger: logger
         )
     }
@@ -3331,6 +3853,44 @@ extension Connect {
         )
     }
 
+    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listViewVersionsPaginator(
+        _ input: ListViewVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListViewVersionsRequest, ListViewVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listViewVersions,
+            inputKey: \ListViewVersionsRequest.nextToken,
+            outputKey: \ListViewVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listViewsPaginator(
+        _ input: ListViewsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListViewsRequest, ListViewsResponse> {
+        return .init(
+            input: input,
+            command: self.listViews,
+            inputKey: \ListViewsRequest.nextToken,
+            outputKey: \ListViewsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     /// Return PaginatorSequence for operation.
     ///
@@ -3388,7 +3948,7 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3426,7 +3986,26 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchResourceTagsPaginator(
+        _ input: SearchResourceTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchResourceTagsRequest, SearchResourceTagsResponse> {
+        return .init(
+            input: input,
+            command: self.searchResourceTags,
+            inputKey: \SearchResourceTagsRequest.nextToken,
+            outputKey: \SearchResourceTagsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3445,7 +4024,7 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3464,7 +4043,7 @@ extension Connect {
         )
     }
 
-    /// Searches users in an Amazon Connect instance, with optional filtering.   AfterContactWorkTimeLimit is returned in milliseconds.
+    /// Searches users in an Amazon Connect instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3549,6 +4128,7 @@ extension Connect.GetMetricDataV2Request: AWSPaginateToken {
             endTime: self.endTime,
             filters: self.filters,
             groupings: self.groupings,
+            interval: self.interval,
             maxResults: self.maxResults,
             metrics: self.metrics,
             nextToken: token,
@@ -3665,6 +4245,17 @@ extension Connect.ListEvaluationFormsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListFlowAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListFlowAssociationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
         return .init(
@@ -3709,6 +4300,7 @@ extension Connect.ListIntegrationAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListIntegrationAssociationsRequest {
         return .init(
             instanceId: self.instanceId,
+            integrationArn: self.integrationArn,
             integrationType: self.integrationType,
             maxResults: self.maxResults,
             nextToken: token
@@ -3751,6 +4343,7 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
 extension Connect.ListPhoneNumbersV2Request: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListPhoneNumbersV2Request {
         return .init(
+            instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token,
             phoneNumberCountryCodes: self.phoneNumberCountryCodes,
@@ -3804,6 +4397,19 @@ extension Connect.ListQuickConnectsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListRealtimeContactAnalysisSegmentsV2Request: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListRealtimeContactAnalysisSegmentsV2Request {
+        return .init(
+            contactId: self.contactId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outputType: self.outputType,
+            segmentTypes: self.segmentTypes
+        )
+    }
+}
+
 extension Connect.ListRoutingProfileQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListRoutingProfileQueuesRequest {
         return .init(
@@ -3847,6 +4453,17 @@ extension Connect.ListSecurityKeysRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListSecurityProfileApplicationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfileApplicationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
+        )
+    }
+}
+
 extension Connect.ListSecurityProfilePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilePermissionsRequest {
         return .init(
@@ -3876,6 +4493,16 @@ extension Connect.ListTaskTemplatesRequest: AWSPaginateToken {
             name: self.name,
             nextToken: token,
             status: self.status
+        )
+    }
+}
+
+extension Connect.ListTrafficDistributionGroupUsersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListTrafficDistributionGroupUsersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            trafficDistributionGroupId: self.trafficDistributionGroupId
         )
     }
 }
@@ -3921,9 +4548,32 @@ extension Connect.ListUsersRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListViewVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListViewVersionsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewId: self.viewId
+        )
+    }
+}
+
+extension Connect.ListViewsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListViewsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
+        )
+    }
+}
+
 extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.SearchAvailablePhoneNumbersRequest {
         return .init(
+            instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token,
             phoneNumberCountryCode: self.phoneNumberCountryCode,
@@ -3978,6 +4628,18 @@ extension Connect.SearchQuickConnectsRequest: AWSPaginateToken {
             nextToken: token,
             searchCriteria: self.searchCriteria,
             searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchResourceTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchResourceTagsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceTypes: self.resourceTypes,
+            searchCriteria: self.searchCriteria
         )
     }
 }

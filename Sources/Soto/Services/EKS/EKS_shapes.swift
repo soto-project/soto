@@ -26,7 +26,7 @@ import Foundation
 extension EKS {
     // MARK: Enums
 
-    public enum AMITypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum AMITypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664GPU = "AL2_x86_64_GPU"
@@ -42,7 +42,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddonIssueCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AddonIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case admissionRequestDenied = "AdmissionRequestDenied"
         case clusterUnreachable = "ClusterUnreachable"
@@ -54,7 +54,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddonStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AddonStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -66,23 +66,36 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityTypes: String, CustomStringConvertible, Codable, Sendable {
+    public enum CapacityTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterIssueCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClusterIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case clusterUnreachable = "ClusterUnreachable"
         case configurationConflict = "ConfigurationConflict"
+        case ec2SecurityGroupNotFound = "Ec2SecurityGroupNotFound"
+        case ec2ServiceNotSubscribed = "Ec2ServiceNotSubscribed"
+        case ec2SubnetNotFound = "Ec2SubnetNotFound"
+        case iamRoleNotFound = "IamRoleNotFound"
+        case insufficientFreeAddresses = "InsufficientFreeAddresses"
         case internalFailure = "InternalFailure"
+        case kmsGrantRevoked = "KmsGrantRevoked"
+        case kmsKeyDisabled = "KmsKeyDisabled"
+        case kmsKeyMarkedForDeletion = "KmsKeyMarkedForDeletion"
+        case kmsKeyNotFound = "KmsKeyNotFound"
+        case other = "Other"
         case resourceLimitExceeded = "ResourceLimitExceeded"
         case resourceNotFound = "ResourceNotFound"
+        case stsRegionalEndpointDisabled = "StsRegionalEndpointDisabled"
+        case unsupportedVersion = "UnsupportedVersion"
+        case vpcNotFound = "VpcNotFound"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -92,14 +105,14 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorConfigProvider: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectorConfigProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aks = "AKS"
         case anthos = "ANTHOS"
         case ec2 = "EC2"
@@ -112,7 +125,27 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EksAnywhereSubscriptionLicenseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cluster = "Cluster"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EksAnywhereSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case expired = "EXPIRED"
+        case expiring = "EXPIRING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EksAnywhereSubscriptionTermUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case months = "MONTHS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case admissionRequestDenied = "AdmissionRequestDenied"
         case clusterUnreachable = "ClusterUnreachable"
@@ -133,7 +166,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum FargateProfileStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FargateProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -142,13 +175,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpFamily: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case api = "api"
         case audit = "audit"
         case authenticator = "authenticator"
@@ -157,30 +190,44 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
+        case amiIdNotFound = "AmiIdNotFound"
         case asgInstanceLaunchFailures = "AsgInstanceLaunchFailures"
+        case autoScalingGroupInstanceRefreshActive = "AutoScalingGroupInstanceRefreshActive"
         case autoScalingGroupInvalidConfiguration = "AutoScalingGroupInvalidConfiguration"
         case autoScalingGroupNotFound = "AutoScalingGroupNotFound"
+        case autoScalingGroupOptInRequired = "AutoScalingGroupOptInRequired"
+        case autoScalingGroupRateLimitExceeded = "AutoScalingGroupRateLimitExceeded"
         case clusterUnreachable = "ClusterUnreachable"
+        case ec2LaunchTemplateDeletionFailure = "Ec2LaunchTemplateDeletionFailure"
+        case ec2LaunchTemplateInvalidConfiguration = "Ec2LaunchTemplateInvalidConfiguration"
+        case ec2LaunchTemplateMaxLimitExceeded = "Ec2LaunchTemplateMaxLimitExceeded"
         case ec2LaunchTemplateNotFound = "Ec2LaunchTemplateNotFound"
         case ec2LaunchTemplateVersionMismatch = "Ec2LaunchTemplateVersionMismatch"
         case ec2SecurityGroupDeletionFailure = "Ec2SecurityGroupDeletionFailure"
         case ec2SecurityGroupNotFound = "Ec2SecurityGroupNotFound"
         case ec2SubnetInvalidConfiguration = "Ec2SubnetInvalidConfiguration"
+        case ec2SubnetListTooLong = "Ec2SubnetListTooLong"
         case ec2SubnetMissingIpv6Assignment = "Ec2SubnetMissingIpv6Assignment"
         case ec2SubnetNotFound = "Ec2SubnetNotFound"
         case iamInstanceProfileNotFound = "IamInstanceProfileNotFound"
         case iamLimitExceeded = "IamLimitExceeded"
         case iamNodeRoleNotFound = "IamNodeRoleNotFound"
+        case iamThrottling = "IamThrottling"
         case instanceLimitExceeded = "InstanceLimitExceeded"
         case insufficientFreeAddresses = "InsufficientFreeAddresses"
         case internalFailure = "InternalFailure"
+        case limitExceeded = "LimitExceeded"
         case nodeCreationFailure = "NodeCreationFailure"
+        case nodeTerminationFailure = "NodeTerminationFailure"
+        case podEvictionFailure = "PodEvictionFailure"
+        case sourceEc2LaunchTemplateNotFound = "SourceEc2LaunchTemplateNotFound"
+        case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodegroupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NodegroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -191,23 +238,24 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolveConflicts: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResolveConflicts: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case overwrite = "OVERWRITE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaintEffect: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaintEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noExecute = "NO_EXECUTE"
         case noSchedule = "NO_SCHEDULE"
         case preferNoSchedule = "PREFER_NO_SCHEDULE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateParamType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateParamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addonVersion = "AddonVersion"
         case clusterLogging = "ClusterLogging"
+        case configurationValues = "ConfigurationValues"
         case desiredSize = "DesiredSize"
         case encryptionConfig = "EncryptionConfig"
         case endpointPrivateAccess = "EndpointPrivateAccess"
@@ -225,14 +273,16 @@ extension EKS {
         case publicAccessCidrs = "PublicAccessCidrs"
         case releaseVersion = "ReleaseVersion"
         case resolveConflicts = "ResolveConflicts"
+        case securityGroups = "SecurityGroups"
         case serviceAccountRoleArn = "ServiceAccountRoleArn"
+        case subnets = "Subnets"
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
         case version = "Version"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -240,7 +290,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addonUpdate = "AddonUpdate"
         case associateEncryptionConfig = "AssociateEncryptionConfig"
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
@@ -249,6 +299,7 @@ extension EKS {
         case endpointAccessUpdate = "EndpointAccessUpdate"
         case loggingUpdate = "LoggingUpdate"
         case versionUpdate = "VersionUpdate"
+        case vpcConfigUpdate = "VpcConfigUpdate"
         public var description: String { return self.rawValue }
     }
 
@@ -768,7 +819,7 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema in  DescribeAddonConfiguration .
         public let configurationValues: String?
-        /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – Not supported. You can set this value when updating an add-on though. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
+        /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
@@ -910,6 +961,69 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
+        }
+    }
+
+    public struct CreateEksAnywhereSubscriptionRequest: AWSEncodableShape {
+        /// A boolean indicating whether the subscription auto renews at the end of the term.
+        public let autoRenew: Bool?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The number of licenses to purchase with the subscription. Valid values are between 1 and 100. This value can't be changed after creating the subscription.
+        public let licenseQuantity: Int?
+        /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
+        public let licenseType: EksAnywhereSubscriptionLicenseType?
+        /// The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 characters.
+        public let name: String
+        /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags don't propagate to any other resources associated with the subscription.
+        public let tags: [String: String]?
+        /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription.
+        public let term: EksAnywhereSubscriptionTerm
+
+        public init(autoRenew: Bool? = nil, clientRequestToken: String? = CreateEksAnywhereSubscriptionRequest.idempotencyToken(), licenseQuantity: Int? = nil, licenseType: EksAnywhereSubscriptionLicenseType? = nil, name: String, tags: [String: String]? = nil, term: EksAnywhereSubscriptionTerm) {
+            self.autoRenew = autoRenew
+            self.clientRequestToken = clientRequestToken
+            self.licenseQuantity = licenseQuantity
+            self.licenseType = licenseType
+            self.name = name
+            self.tags = tags
+            self.term = term
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRenew = "autoRenew"
+            case clientRequestToken = "clientRequestToken"
+            case licenseQuantity = "licenseQuantity"
+            case licenseType = "licenseType"
+            case name = "name"
+            case tags = "tags"
+            case term = "term"
+        }
+    }
+
+    public struct CreateEksAnywhereSubscriptionResponse: AWSDecodableShape {
+        /// The full description of the subscription.
+        public let subscription: EksAnywhereSubscription?
+
+        public init(subscription: EksAnywhereSubscription? = nil) {
+            self.subscription = subscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "subscription"
         }
     }
 
@@ -1121,6 +1235,72 @@ extension EKS {
         }
     }
 
+    public struct CreatePodIdentityAssociationRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster to create the association in.
+        public let clusterName: String
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        public let namespace: String
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+        public let roleArn: String
+        /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+        public let serviceAccount: String
+        /// The metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, namespace: String, roleArn: String, serviceAccount: String, tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.namespace = namespace
+            self.roleArn = roleArn
+            self.serviceAccount = serviceAccount
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.namespace, forKey: .namespace)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.serviceAccount, forKey: .serviceAccount)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case namespace = "namespace"
+            case roleArn = "roleArn"
+            case serviceAccount = "serviceAccount"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePodIdentityAssociationResponse: AWSDecodableShape {
+        /// The full description of your new association. The description includes an ID for the association. Use the ID of the association in further actions to manage the association.
+        public let association: PodIdentityAssociation?
+
+        public init(association: PodIdentityAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "association"
+        }
+    }
+
     public struct DeleteAddonRequest: AWSEncodableShape {
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
@@ -1194,6 +1374,36 @@ extension EKS {
         }
     }
 
+    public struct DeleteEksAnywhereSubscriptionRequest: AWSEncodableShape {
+        /// The ID of the subscription.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEksAnywhereSubscriptionResponse: AWSDecodableShape {
+        /// The full description of the subscription to be deleted.
+        public let subscription: EksAnywhereSubscription?
+
+        public init(subscription: EksAnywhereSubscription? = nil) {
+            self.subscription = subscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "subscription"
+        }
+    }
+
     public struct DeleteFargateProfileRequest: AWSEncodableShape {
         /// The name of the Amazon EKS cluster associated with the Fargate profile to delete.
         public let clusterName: String
@@ -1259,6 +1469,40 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case nodegroup = "nodegroup"
+        }
+    }
+
+    public struct DeletePodIdentityAssociationRequest: AWSEncodableShape {
+        /// The ID of the association to be deleted.
+        public let associationId: String
+        /// The cluster name that
+        public let clusterName: String
+
+        public init(associationId: String, clusterName: String) {
+            self.associationId = associationId
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "associationId")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePodIdentityAssociationResponse: AWSDecodableShape {
+        /// The full description of the EKS Pod Identity association that was deleted.
+        public let association: PodIdentityAssociation?
+
+        public init(association: PodIdentityAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "association"
         }
     }
 
@@ -1421,7 +1665,7 @@ extension EKS {
     public struct DescribeAddonVersionsResponse: AWSDecodableShape {
         /// The list of available versions with Kubernetes version compatibility and other properties.
         public let addons: [AddonInfo]?
-        /// The nextToken value returned from a previous paginated DescribeAddonVersionsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        /// The nextToken value to include in a future DescribeAddonVersions request. When the results of a DescribeAddonVersions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
         public init(addons: [AddonInfo]? = nil, nextToken: String? = nil) {
@@ -1462,6 +1706,36 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
+        }
+    }
+
+    public struct DescribeEksAnywhereSubscriptionRequest: AWSEncodableShape {
+        /// The ID of the subscription.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeEksAnywhereSubscriptionResponse: AWSDecodableShape {
+        /// The full description of the subscription.
+        public let subscription: EksAnywhereSubscription?
+
+        public init(subscription: EksAnywhereSubscription? = nil) {
+            self.subscription = subscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "subscription"
         }
     }
 
@@ -1569,6 +1843,40 @@ extension EKS {
         }
     }
 
+    public struct DescribePodIdentityAssociationRequest: AWSEncodableShape {
+        /// The ID of the association that you want the description of.
+        public let associationId: String
+        /// The name of the cluster that the association is in.
+        public let clusterName: String
+
+        public init(associationId: String, clusterName: String) {
+            self.associationId = associationId
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "associationId")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribePodIdentityAssociationResponse: AWSDecodableShape {
+        /// The full description of the EKS Pod Identity association.
+        public let association: PodIdentityAssociation?
+
+        public init(association: PodIdentityAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "association"
+        }
+    }
+
     public struct DescribeUpdateRequest: AWSEncodableShape {
         /// The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
         public let addonName: String?
@@ -1648,6 +1956,80 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case update = "update"
+        }
+    }
+
+    public struct EksAnywhereSubscription: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the subscription.
+        public let arn: String?
+        /// A boolean indicating whether or not a subscription will auto renew when it expires.
+        public let autoRenew: Bool?
+        /// The Unix timestamp in seconds for when the subscription was created.
+        public let createdAt: Date?
+        /// The Unix timestamp in seconds for when the subscription is effective.
+        public let effectiveDate: Date?
+        /// The Unix timestamp in seconds for when the subscription will expire or auto renew, depending on the auto renew configuration of the subscription object.
+        public let expirationDate: Date?
+        /// UUID identifying a subscription.
+        public let id: String?
+        /// Amazon Web Services License Manager ARN associated with the subscription.
+        public let licenseArns: [String]?
+        /// The number of licenses included in a subscription. Valid values are between 1 and 100.
+        public let licenseQuantity: Int?
+        /// The type of licenses included in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
+        public let licenseType: EksAnywhereSubscriptionLicenseType?
+        /// The status of a subscription.
+        public let status: String?
+        /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags do not propagate to any other resources associated with the subscription.
+        public let tags: [String: String]?
+        /// An EksAnywhereSubscriptionTerm object.
+        public let term: EksAnywhereSubscriptionTerm?
+
+        public init(arn: String? = nil, autoRenew: Bool? = nil, createdAt: Date? = nil, effectiveDate: Date? = nil, expirationDate: Date? = nil, id: String? = nil, licenseArns: [String]? = nil, licenseQuantity: Int? = nil, licenseType: EksAnywhereSubscriptionLicenseType? = nil, status: String? = nil, tags: [String: String]? = nil, term: EksAnywhereSubscriptionTerm? = nil) {
+            self.arn = arn
+            self.autoRenew = autoRenew
+            self.createdAt = createdAt
+            self.effectiveDate = effectiveDate
+            self.expirationDate = expirationDate
+            self.id = id
+            self.licenseArns = licenseArns
+            self.licenseQuantity = licenseQuantity
+            self.licenseType = licenseType
+            self.status = status
+            self.tags = tags
+            self.term = term
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case autoRenew = "autoRenew"
+            case createdAt = "createdAt"
+            case effectiveDate = "effectiveDate"
+            case expirationDate = "expirationDate"
+            case id = "id"
+            case licenseArns = "licenseArns"
+            case licenseQuantity = "licenseQuantity"
+            case licenseType = "licenseType"
+            case status = "status"
+            case tags = "tags"
+            case term = "term"
+        }
+    }
+
+    public struct EksAnywhereSubscriptionTerm: AWSEncodableShape & AWSDecodableShape {
+        /// The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription.
+        public let duration: Int?
+        /// The term unit of the subscription. Valid value is MONTHS.
+        public let unit: EksAnywhereSubscriptionTermUnit?
+
+        public init(duration: Int? = nil, unit: EksAnywhereSubscriptionTermUnit? = nil) {
+            self.duration = duration
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "duration"
+            case unit = "unit"
         }
     }
 
@@ -1908,9 +2290,9 @@ extension EKS {
     }
 
     public struct ListAddonsResponse: AWSDecodableShape {
-        /// A list of available add-ons.
+        /// A list of installed add-ons.
         public let addons: [String]?
-        /// The nextToken value returned from a previous paginated ListAddonsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        /// The nextToken value to include in a future ListAddons request. When the results of a ListAddons request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
         public init(addons: [String]? = nil, nextToken: String? = nil) {
@@ -1968,6 +2350,53 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clusters = "clusters"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEksAnywhereSubscriptionsRequest: AWSEncodableShape {
+        /// An array of subscription statuses to filter on.
+        public let includeStatus: [EksAnywhereSubscriptionStatus]?
+        /// The maximum number of cluster results returned by ListEksAnywhereSubscriptions in paginated output. When you use this parameter, ListEksAnywhereSubscriptions returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListEksAnywhereSubscriptions request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListEksAnywhereSubscriptions returns up to 10 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListEksAnywhereSubscriptions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(includeStatus: [EksAnywhereSubscriptionStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.includeStatus = includeStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeStatus, key: "includeStatus")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEksAnywhereSubscriptionsResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future ListEksAnywhereSubscriptions request. When the results of a ListEksAnywhereSubscriptions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// A list of all subscription objects in the region, filtered by includeStatus and paginated by nextToken and maxResults.
+        public let subscriptions: [EksAnywhereSubscription]?
+
+        public init(nextToken: String? = nil, subscriptions: [EksAnywhereSubscription]? = nil) {
+            self.nextToken = nextToken
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case subscriptions = "subscriptions"
         }
     }
 
@@ -2051,7 +2480,7 @@ extension EKS {
     public struct ListIdentityProviderConfigsResponse: AWSDecodableShape {
         /// The identity provider configurations for the cluster.
         public let identityProviderConfigs: [IdentityProviderConfig]?
-        /// The nextToken value returned from a previous paginated ListIdentityProviderConfigsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(identityProviderConfigs: [IdentityProviderConfig]? = nil, nextToken: String? = nil) {
@@ -2109,6 +2538,61 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case nodegroups = "nodegroups"
+        }
+    }
+
+    public struct ListPodIdentityAssociationsRequest: AWSEncodableShape {
+        /// The name of the cluster that the associations are in.
+        public let clusterName: String
+        /// The maximum number of EKS Pod Identity association results returned by ListPodIdentityAssociations in paginated output. When you use this parameter, ListPodIdentityAssociations returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListPodIdentityAssociations request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListPodIdentityAssociations returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The name of the Kubernetes namespace inside the cluster that the associations are in.
+        public let namespace: String?
+        /// The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The name of the Kubernetes service account that the associations use.
+        public let serviceAccount: String?
+
+        public init(clusterName: String, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, serviceAccount: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.serviceAccount = serviceAccount
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceAccount, key: "serviceAccount")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPodIdentityAssociationsResponse: AWSDecodableShape {
+        /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full  PodIdentityAssociation :   The IAM role: roleArn    The timestamp that the association was created at: createdAt    The most recent timestamp that the association was modified at:. modifiedAt    The tags on the association: tags
+        public let associations: [PodIdentityAssociationSummary]?
+        /// The nextToken value to include in a future ListPodIdentityAssociations request. When the results of a ListPodIdentityAssociations request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        public init(associations: [PodIdentityAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "associations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2587,8 +3071,82 @@ extension EKS {
         }
     }
 
+    public struct PodIdentityAssociation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let associationArn: String?
+        /// The ID of the association.
+        public let associationId: String?
+        /// The name of the cluster that the association is in.
+        public let clusterName: String?
+        /// The timestamp that the association was created at.
+        public let createdAt: Date?
+        /// The most recent timestamp that the association was modified at
+        public let modifiedAt: Date?
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        public let namespace: String?
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+        public let roleArn: String?
+        /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+        public let serviceAccount: String?
+        /// The metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public let tags: [String: String]?
+
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, namespace: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil) {
+            self.associationArn = associationArn
+            self.associationId = associationId
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.namespace = namespace
+            self.roleArn = roleArn
+            self.serviceAccount = serviceAccount
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationArn = "associationArn"
+            case associationId = "associationId"
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case modifiedAt = "modifiedAt"
+            case namespace = "namespace"
+            case roleArn = "roleArn"
+            case serviceAccount = "serviceAccount"
+            case tags = "tags"
+        }
+    }
+
+    public struct PodIdentityAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let associationArn: String?
+        /// The ID of the association.
+        public let associationId: String?
+        /// The name of the cluster that the association is in.
+        public let clusterName: String?
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        public let namespace: String?
+        /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+        public let serviceAccount: String?
+
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, namespace: String? = nil, serviceAccount: String? = nil) {
+            self.associationArn = associationArn
+            self.associationId = associationId
+            self.clusterName = clusterName
+            self.namespace = namespace
+            self.serviceAccount = serviceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationArn = "associationArn"
+            case associationId = "associationId"
+            case clusterName = "clusterName"
+            case namespace = "namespace"
+            case serviceAccount = "serviceAccount"
+        }
+    }
+
     public struct Provider: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see Allowing Users in Other Accounts to Use a KMS key in the Key Management Service Developer Guide.
+        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide.
         public let keyArn: String?
 
         public init(keyArn: String? = nil) {
@@ -2950,6 +3508,47 @@ extension EKS {
         }
     }
 
+    public struct UpdateEksAnywhereSubscriptionRequest: AWSEncodableShape {
+        /// A boolean indicating whether or not to automatically renew the subscription.
+        public let autoRenew: Bool
+        /// Unique, case-sensitive identifier to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The ID of the subscription.
+        public let id: String
+
+        public init(autoRenew: Bool = false, clientRequestToken: String? = UpdateEksAnywhereSubscriptionRequest.idempotencyToken(), id: String) {
+            self.autoRenew = autoRenew
+            self.clientRequestToken = clientRequestToken
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.autoRenew, forKey: .autoRenew)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.id, key: "id")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRenew = "autoRenew"
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct UpdateEksAnywhereSubscriptionResponse: AWSDecodableShape {
+        /// The full description of the updated subscription.
+        public let subscription: EksAnywhereSubscription?
+
+        public init(subscription: EksAnywhereSubscription? = nil) {
+            self.subscription = subscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "subscription"
+        }
+    }
+
     public struct UpdateLabelsPayload: AWSEncodableShape {
         /// Kubernetes labels to be added or updated.
         public let addOrUpdateLabels: [String: String]?
@@ -3118,6 +3717,51 @@ extension EKS {
         }
     }
 
+    public struct UpdatePodIdentityAssociationRequest: AWSEncodableShape {
+        /// The ID of the association to be updated.
+        public let associationId: String
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster that you want to update the association in.
+        public let clusterName: String
+        /// The new IAM role to change the
+        public let roleArn: String?
+
+        public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, roleArn: String? = nil) {
+            self.associationId = associationId
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "associationId")
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdatePodIdentityAssociationResponse: AWSDecodableShape {
+        /// The full description of the EKS Pod Identity association that was updated.
+        public let association: PodIdentityAssociation?
+
+        public init(association: PodIdentityAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association = "association"
+        }
+    }
+
     public struct UpdateTaintsPayload: AWSEncodableShape {
         /// Kubernetes taints to be added or updated.
         public let addOrUpdateTaints: [Taint]?
@@ -3249,11 +3893,11 @@ public struct EKSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// You don't have permissions to perform the requested operation. The IAM principal making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access management in the IAM User Guide.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an IAM principal that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     public static var clientException: Self { .init(.clientException) }
     /// The specified parameter is invalid. Review the available parameters for the API request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }

@@ -26,24 +26,24 @@ import Foundation
 extension MediaPackageV2 {
     // MARK: Enums
 
-    public enum AdMarkerHls: String, CustomStringConvertible, Codable, Sendable {
+    public enum AdMarkerHls: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daterange = "DATERANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbcs = "CBCS"
         case cenc = "CENC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
         case ts = "TS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DrmSystem: String, CustomStringConvertible, Codable, Sendable {
+    public enum DrmSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clearKeyAes128 = "CLEAR_KEY_AES_128"
         case fairplay = "FAIRPLAY"
         case playready = "PLAYREADY"
@@ -51,7 +51,7 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetAudio1 = "PRESET_AUDIO_1"
         case presetAudio2 = "PRESET_AUDIO_2"
         case presetAudio3 = "PRESET_AUDIO_3"
@@ -60,7 +60,7 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable {
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetVideo1 = "PRESET_VIDEO_1"
         case presetVideo2 = "PRESET_VIDEO_2"
         case presetVideo3 = "PRESET_VIDEO_3"
@@ -74,7 +74,7 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScteFilter: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScteFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `break` = "BREAK"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
         case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
@@ -87,7 +87,7 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
@@ -330,6 +330,7 @@ extension MediaPackageV2 {
     public struct CreateHlsManifestConfiguration: AWSEncodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
+        public let filterConfiguration: FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
@@ -338,8 +339,9 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
 
-        public init(childManifestName: String? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -357,6 +359,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case childManifestName = "ChildManifestName"
+            case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -367,6 +370,7 @@ extension MediaPackageV2 {
     public struct CreateLowLatencyHlsManifestConfiguration: AWSEncodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
+        public let filterConfiguration: FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
@@ -375,8 +379,9 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
 
-        public init(childManifestName: String? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -394,6 +399,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case childManifestName = "ChildManifestName"
+            case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -787,6 +793,31 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct FilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
+        public let end: Date?
+        /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
+        public let manifestFilter: String?
+        /// Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.
+        public let start: Date?
+        /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
+        public let timeDelaySeconds: Int?
+
+        public init(end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
+            self.end = end
+            self.manifestFilter = manifestFilter
+            self.start = start
+            self.timeDelaySeconds = timeDelaySeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case manifestFilter = "ManifestFilter"
+            case start = "Start"
+            case timeDelaySeconds = "TimeDelaySeconds"
+        }
+    }
+
     public struct GetChannelGroupRequest: AWSEncodableShape {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -971,6 +1002,7 @@ extension MediaPackageV2 {
     public struct GetHlsManifestConfiguration: AWSDecodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
+        public let filterConfiguration: FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
@@ -981,8 +1013,9 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
-        public init(childManifestName: String? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -992,6 +1025,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case childManifestName = "ChildManifestName"
+            case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -1003,6 +1037,7 @@ extension MediaPackageV2 {
     public struct GetLowLatencyHlsManifestConfiguration: AWSDecodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
+        public let filterConfiguration: FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
@@ -1013,8 +1048,9 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
-        public init(childManifestName: String? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -1024,6 +1060,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case childManifestName = "ChildManifestName"
+            case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"

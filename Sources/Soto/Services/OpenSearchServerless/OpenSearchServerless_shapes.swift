@@ -26,13 +26,13 @@ import Foundation
 extension OpenSearchServerless {
     // MARK: Enums
 
-    public enum AccessPolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// data policy type
         case data = "data"
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CollectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Collection resource is ready to use
         case active = "ACTIVE"
         /// Creating collection resource
@@ -44,21 +44,35 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CollectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Search collection type
         case search = "SEARCH"
         /// Timeseries collection type
         case timeseries = "TIMESERIES"
+        /// Vectorsearch collection type
+        case vectorsearch = "VECTORSEARCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityConfigType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LifecyclePolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// retention policy type
+        case retention = "retention"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// index resource type
+        case index = "index"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// saml provider
         case saml = "saml"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityPolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SecurityPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// encryption policy type
         case encryption = "encryption"
         /// network policy type
@@ -66,7 +80,15 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StandbyReplicas: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Standby replicas disabled
+        case disabled = "DISABLED"
+        /// Standby replicas enabled
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// VPCEndpoint resource is ready to use
         case active = "ACTIVE"
         /// Deleting VPCEndpoint resource
@@ -141,7 +163,7 @@ extension OpenSearchServerless {
         public let name: String?
         /// The version of the policy.
         public let policyVersion: String?
-        /// The type of access policy. Currently the only available type is data.
+        /// The type of access policy. Currently, the only available type is data.
         public let type: AccessPolicyType?
 
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
@@ -226,6 +248,82 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct BatchGetEffectiveLifecyclePolicyRequest: AWSEncodableShape {
+        /// The unique identifiers of policy types and resource names.
+        public let resourceIdentifiers: [LifecyclePolicyResourceIdentifier]
+
+        public init(resourceIdentifiers: [LifecyclePolicyResourceIdentifier]) {
+            self.resourceIdentifiers = resourceIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifiers.forEach {
+                try $0.validate(name: "\(name).resourceIdentifiers[]")
+            }
+            try self.validate(self.resourceIdentifiers, name: "resourceIdentifiers", parent: name, max: 100)
+            try self.validate(self.resourceIdentifiers, name: "resourceIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifiers = "resourceIdentifiers"
+        }
+    }
+
+    public struct BatchGetEffectiveLifecyclePolicyResponse: AWSDecodableShape {
+        /// A list of lifecycle policies applied to the OpenSearch Serverless indexes.
+        public let effectiveLifecyclePolicyDetails: [EffectiveLifecyclePolicyDetail]?
+        /// A list of resources for which retrieval failed.
+        public let effectiveLifecyclePolicyErrorDetails: [EffectiveLifecyclePolicyErrorDetail]?
+
+        public init(effectiveLifecyclePolicyDetails: [EffectiveLifecyclePolicyDetail]? = nil, effectiveLifecyclePolicyErrorDetails: [EffectiveLifecyclePolicyErrorDetail]? = nil) {
+            self.effectiveLifecyclePolicyDetails = effectiveLifecyclePolicyDetails
+            self.effectiveLifecyclePolicyErrorDetails = effectiveLifecyclePolicyErrorDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectiveLifecyclePolicyDetails = "effectiveLifecyclePolicyDetails"
+            case effectiveLifecyclePolicyErrorDetails = "effectiveLifecyclePolicyErrorDetails"
+        }
+    }
+
+    public struct BatchGetLifecyclePolicyRequest: AWSEncodableShape {
+        /// The unique identifiers of policy types and policy names.
+        public let identifiers: [LifecyclePolicyIdentifier]
+
+        public init(identifiers: [LifecyclePolicyIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 40)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetLifecyclePolicyResponse: AWSDecodableShape {
+        /// A list of lifecycle policies matched to the input policy name and policy type.
+        public let lifecyclePolicyDetails: [LifecyclePolicyDetail]?
+        /// A list of lifecycle policy names and policy types for which retrieval failed.
+        public let lifecyclePolicyErrorDetails: [LifecyclePolicyErrorDetail]?
+
+        public init(lifecyclePolicyDetails: [LifecyclePolicyDetail]? = nil, lifecyclePolicyErrorDetails: [LifecyclePolicyErrorDetail]? = nil) {
+            self.lifecyclePolicyDetails = lifecyclePolicyDetails
+            self.lifecyclePolicyErrorDetails = lifecyclePolicyErrorDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicyDetails = "lifecyclePolicyDetails"
+            case lifecyclePolicyErrorDetails = "lifecyclePolicyErrorDetails"
+        }
+    }
+
     public struct BatchGetVpcEndpointRequest: AWSEncodableShape {
         /// A list of VPC endpoint identifiers.
         public let ids: [String]
@@ -306,12 +404,14 @@ extension OpenSearchServerless {
         public let lastModifiedDate: Int64?
         /// The name of the collection.
         public let name: String?
+        /// Details about an OpenSearch Serverless collection.
+        public let standbyReplicas: StandbyReplicas?
         /// The current status of the collection.
         public let status: CollectionStatus?
         /// The type of collection.
         public let type: CollectionType?
 
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.createdDate = createdDate
@@ -321,6 +421,7 @@ extension OpenSearchServerless {
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
         }
@@ -335,6 +436,7 @@ extension OpenSearchServerless {
             case kmsKeyArn = "kmsKeyArn"
             case lastModifiedDate = "lastModifiedDate"
             case name = "name"
+            case standbyReplicas = "standbyReplicas"
             case status = "status"
             case type = "type"
         }
@@ -482,12 +584,14 @@ extension OpenSearchServerless {
         public let lastModifiedDate: Int64?
         /// The name of the collection.
         public let name: String?
+        /// Creates details about an OpenSearch Serverless collection.
+        public let standbyReplicas: StandbyReplicas?
         /// The current status of the collection.
         public let status: CollectionStatus?
         /// The type of collection.
         public let type: CollectionType?
 
-        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -495,6 +599,7 @@ extension OpenSearchServerless {
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
         }
@@ -507,6 +612,7 @@ extension OpenSearchServerless {
             case kmsKeyArn = "kmsKeyArn"
             case lastModifiedDate = "lastModifiedDate"
             case name = "name"
+            case standbyReplicas = "standbyReplicas"
             case status = "status"
             case type = "type"
         }
@@ -519,15 +625,18 @@ extension OpenSearchServerless {
         public let description: String?
         /// Name of the collection.
         public let name: String
+        /// Indicates whether standby replicas should be used for a collection.
+        public let standbyReplicas: StandbyReplicas?
         /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
         public let tags: [Tag]?
         /// The type of collection.
         public let type: CollectionType?
 
-        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil, type: CollectionType? = nil) {
+        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.name = name
+            self.standbyReplicas = standbyReplicas
             self.tags = tags
             self.type = type
         }
@@ -548,6 +657,7 @@ extension OpenSearchServerless {
             case clientToken = "clientToken"
             case description = "description"
             case name = "name"
+            case standbyReplicas = "standbyReplicas"
             case tags = "tags"
             case type = "type"
         }
@@ -563,6 +673,60 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case createCollectionDetail = "createCollectionDetail"
+        }
+    }
+
+    public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A description of the lifecycle policy.
+        public let description: String?
+        /// The name of the lifecycle policy.
+        public let name: String
+        /// The JSON policy document to use as the content for the lifecycle policy.
+        public let policy: String
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(clientToken: String? = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String, type: LifecyclePolicyType) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.policy = policy
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case type = "type"
+        }
+    }
+
+    public struct CreateLifecyclePolicyResponse: AWSDecodableShape {
+        /// Details about the created lifecycle policy.
+        public let lifecyclePolicyDetail: LifecyclePolicyDetail?
+
+        public init(lifecyclePolicyDetail: LifecyclePolicyDetail? = nil) {
+            self.lifecyclePolicyDetail = lifecyclePolicyDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicyDetail = "lifecyclePolicyDetail"
         }
     }
 
@@ -853,6 +1017,39 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The name of the policy to delete.
+        public let name: String
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(clientToken: String? = DeleteLifecyclePolicyRequest.idempotencyToken(), name: String, type: LifecyclePolicyType) {
+            self.clientToken = clientToken
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSecurityConfigRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -973,10 +1170,68 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct EffectiveLifecyclePolicyDetail: AWSDecodableShape {
+        /// The minimum number of index retention days set. That is an optional param that will return as true if the minimum number of days or  hours is not set to a index resource.
+        public let noMinRetentionPeriod: Bool?
+        /// The name of the lifecycle policy.
+        public let policyName: String?
+        /// The name of the OpenSearch Serverless index resource.
+        public let resource: String?
+        /// The type of OpenSearch Serverless resource. Currently, the only supported resource is index.
+        public let resourceType: ResourceType?
+        /// The minimum number of index retention in days or hours. This is an optional parameter that will return only if it’s set.
+        public let retentionPeriod: String?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType?
+
+        public init(noMinRetentionPeriod: Bool? = nil, policyName: String? = nil, resource: String? = nil, resourceType: ResourceType? = nil, retentionPeriod: String? = nil, type: LifecyclePolicyType? = nil) {
+            self.noMinRetentionPeriod = noMinRetentionPeriod
+            self.policyName = policyName
+            self.resource = resource
+            self.resourceType = resourceType
+            self.retentionPeriod = retentionPeriod
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noMinRetentionPeriod = "noMinRetentionPeriod"
+            case policyName = "policyName"
+            case resource = "resource"
+            case resourceType = "resourceType"
+            case retentionPeriod = "retentionPeriod"
+            case type = "type"
+        }
+    }
+
+    public struct EffectiveLifecyclePolicyErrorDetail: AWSDecodableShape {
+        /// The error code for the request.
+        public let errorCode: String?
+        /// A description of the error. For example, The specified Index resource is not found.
+        public let errorMessage: String?
+        /// The name of OpenSearch Serverless index resource.
+        public let resource: String?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, resource: String? = nil, type: LifecyclePolicyType? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resource = resource
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case resource = "resource"
+            case type = "type"
+        }
+    }
+
     public struct GetAccessPolicyRequest: AWSEncodableShape {
         /// The name of the access policy.
         public let name: String
-        /// Tye type of policy. Currently the only supported value is data.
+        /// Tye type of policy. Currently, the only supported value is data.
         public let type: AccessPolicyType
 
         public init(name: String, type: AccessPolicyType) {
@@ -1033,6 +1288,8 @@ extension OpenSearchServerless {
     public struct GetPoliciesStatsResponse: AWSDecodableShape {
         /// Information about the data access policies in your account.
         public let accessPolicyStats: AccessPolicyStats?
+        /// Information about the lifecycle policies in your account.
+        public let lifecyclePolicyStats: LifecyclePolicyStats?
         /// Information about the security configurations in your account.
         public let securityConfigStats: SecurityConfigStats?
         /// Information about the security policies in your account.
@@ -1040,8 +1297,9 @@ extension OpenSearchServerless {
         /// The total number of OpenSearch Serverless security policies and configurations in your account.
         public let totalPolicyCount: Int64?
 
-        public init(accessPolicyStats: AccessPolicyStats? = nil, securityConfigStats: SecurityConfigStats? = nil, securityPolicyStats: SecurityPolicyStats? = nil, totalPolicyCount: Int64? = nil) {
+        public init(accessPolicyStats: AccessPolicyStats? = nil, lifecyclePolicyStats: LifecyclePolicyStats? = nil, securityConfigStats: SecurityConfigStats? = nil, securityPolicyStats: SecurityPolicyStats? = nil, totalPolicyCount: Int64? = nil) {
             self.accessPolicyStats = accessPolicyStats
+            self.lifecyclePolicyStats = lifecyclePolicyStats
             self.securityConfigStats = securityConfigStats
             self.securityPolicyStats = securityPolicyStats
             self.totalPolicyCount = totalPolicyCount
@@ -1049,6 +1307,7 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case accessPolicyStats = "AccessPolicyStats"
+            case lifecyclePolicyStats = "LifecyclePolicyStats"
             case securityConfigStats = "SecurityConfigStats"
             case securityPolicyStats = "SecurityPolicyStats"
             case totalPolicyCount = "TotalPolicyCount"
@@ -1122,6 +1381,158 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct LifecyclePolicyDetail: AWSDecodableShape {
+        /// The date the lifecycle policy was created.
+        public let createdDate: Int64?
+        /// The description of the lifecycle policy.
+        public let description: String?
+        /// The timestamp of when the lifecycle policy was last modified.
+        public let lastModifiedDate: Int64?
+        /// The name of the lifecycle policy.
+        public let name: String?
+        /// The JSON policy document without any whitespaces.
+        public let policy: String?
+        /// The version of the lifecycle policy.
+        public let policyVersion: String?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType?
+
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
+            self.createdDate = createdDate
+            self.description = description
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.policy = policy
+            self.policyVersion = policyVersion
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
+        }
+    }
+
+    public struct LifecyclePolicyErrorDetail: AWSDecodableShape {
+        /// The error code for the request. For example, NOT_FOUND.
+        public let errorCode: String?
+        /// A description of the error. For example, The specified Lifecycle Policy is not found.
+        public let errorMessage: String?
+        /// The name of the lifecycle policy.
+        public let name: String?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, name: String? = nil, type: LifecyclePolicyType? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct LifecyclePolicyIdentifier: AWSEncodableShape {
+        /// The name of the lifecycle policy.
+        public let name: String
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(name: String, type: LifecyclePolicyType) {
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct LifecyclePolicyResourceIdentifier: AWSEncodableShape {
+        /// The name of the OpenSearch Serverless ilndex resource.
+        public let resource: String
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(resource: String, type: LifecyclePolicyType) {
+            self.resource = resource
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^index/[a-z][a-z0-9-]{3,32}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*|\\*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case type = "type"
+        }
+    }
+
+    public struct LifecyclePolicyStats: AWSDecodableShape {
+        /// The number of retention lifecycle policies in the current account.
+        public let retentionPolicyCount: Int64?
+
+        public init(retentionPolicyCount: Int64? = nil) {
+            self.retentionPolicyCount = retentionPolicyCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionPolicyCount = "RetentionPolicyCount"
+        }
+    }
+
+    public struct LifecyclePolicySummary: AWSDecodableShape {
+        /// The Epoch time when the lifecycle policy was created.
+        public let createdDate: Int64?
+        /// The description of the lifecycle policy.
+        public let description: String?
+        /// The date and time when the lifecycle policy was last modified.
+        public let lastModifiedDate: Int64?
+        /// The name of the lifecycle policy.
+        public let name: String?
+        /// The version of the lifecycle policy.
+        public let policyVersion: String?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType?
+
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
+            self.createdDate = createdDate
+            self.description = description
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.policyVersion = policyVersion
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policyVersion = "policyVersion"
+            case type = "type"
+        }
+    }
+
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20.
         public let maxResults: Int?
@@ -1165,7 +1576,7 @@ extension OpenSearchServerless {
     }
 
     public struct ListCollectionsRequest: AWSEncodableShape {
-        /// List of filter names and values that you can use for requests.
+        ///  A list of filter names and values that you can use for requests.
         public let collectionFilters: CollectionFilters?
         /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
         public let maxResults: Int?
@@ -1202,6 +1613,48 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case collectionSummaries = "collectionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLifecyclePoliciesRequest: AWSEncodableShape {
+        /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of results. The default is 10.
+        public let maxResults: Int?
+        /// If your initial ListLifecyclePolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListLifecyclePolicies operations, which returns results in the next page.
+        public let nextToken: String?
+        /// Resource filters that policies can apply to. Currently, the only supported resource type is index.
+        public let resources: [String]?
+        /// The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resources: [String]? = nil, type: LifecyclePolicyType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resources = resources
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resources = "resources"
+            case type = "type"
+        }
+    }
+
+    public struct ListLifecyclePoliciesResponse: AWSDecodableShape {
+        /// Details about the requested lifecycle policies.
+        public let lifecyclePolicySummaries: [LifecyclePolicySummary]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(lifecyclePolicySummaries: [LifecyclePolicySummary]? = nil, nextToken: String? = nil) {
+            self.lifecyclePolicySummaries = lifecyclePolicySummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicySummaries = "lifecyclePolicySummaries"
             case nextToken = "nextToken"
         }
     }
@@ -1376,7 +1829,7 @@ extension OpenSearchServerless {
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, max: 2048)
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, min: 1)
             try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, pattern: "[\\w+=,.@-]+")
-            try self.validate(self.metadata, name: "metadata", parent: name, max: 20480)
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 51200)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, max: 2048)
@@ -1819,6 +2272,67 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A description of the lifecycle policy.
+        public let description: String?
+        /// The name of the policy.
+        public let name: String
+        /// The JSON policy document to use as the content for the lifecycle policy.
+        public let policy: String?
+        /// The version of the policy being updated.
+        public let policyVersion: String
+        ///  The type of lifecycle policy.
+        public let type: LifecyclePolicyType
+
+        public init(clientToken: String? = UpdateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String? = nil, policyVersion: String, type: LifecyclePolicyType) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.policy = policy
+            self.policyVersion = policyVersion
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try self.validate(self.policyVersion, name: "policyVersion", parent: name, max: 36)
+            try self.validate(self.policyVersion, name: "policyVersion", parent: name, min: 20)
+            try self.validate(self.policyVersion, name: "policyVersion", parent: name, pattern: "^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
+        }
+    }
+
+    public struct UpdateLifecyclePolicyResponse: AWSDecodableShape {
+        /// Details about the updated lifecycle policy.
+        public let lifecyclePolicyDetail: LifecyclePolicyDetail?
+
+        public init(lifecyclePolicyDetail: LifecyclePolicyDetail? = nil) {
+            self.lifecyclePolicyDetail = lifecyclePolicyDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicyDetail = "lifecyclePolicyDetail"
+        }
+    }
+
     public struct UpdateSecurityConfigRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -2178,7 +2692,7 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Thrown when an error internal to the service occurs while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// OCU Limit Exceeded for service limits
+    /// Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
     public static var ocuLimitExceededException: Self { .init(.ocuLimitExceededException) }
     /// Thrown when accessing or deleting a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

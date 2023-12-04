@@ -26,7 +26,7 @@ import Foundation
 extension SimSpaceWeaver {
     // MARK: Enums
 
-    public enum ClockStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClockStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case starting = "STARTING"
         case stopped = "STOPPED"
@@ -35,14 +35,14 @@ extension SimSpaceWeaver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClockTargetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ClockTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecycleManagementStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum LifecycleManagementStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byRequest = "ByRequest"
         case bySpatialSubdivision = "BySpatialSubdivision"
         case perWorker = "PerWorker"
@@ -50,7 +50,7 @@ extension SimSpaceWeaver {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationAppStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationAppStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case started = "STARTED"
         case starting = "STARTING"
@@ -60,14 +60,14 @@ extension SimSpaceWeaver {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationAppTargetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationAppTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -80,7 +80,7 @@ extension SimSpaceWeaver {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationTargetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case started = "STARTED"
         case stopped = "STOPPED"
@@ -104,7 +104,7 @@ extension SimSpaceWeaver {
     }
 
     public struct CreateSnapshotInput: AWSEncodableShape {
-        /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file.
+        /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file. The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
         public let destination: S3Destination
         /// The name of the simulation.
         public let simulation: String
@@ -538,7 +538,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -602,11 +602,11 @@ extension SimSpaceWeaver {
 
     public struct S3Destination: AWSEncodableShape {
         /// The name of an Amazon S3 bucket. For more information about buckets, see Creating, configuring, and working with Amazon S3 buckets in the Amazon Simple Storage Service User Guide.
-        public let bucketName: String?
+        public let bucketName: String
         /// A string prefix for an Amazon S3 object key. It's usually a folder name. For more information about folders in Amazon S3, see Organizing objects in the Amazon S3 console using folders in the Amazon Simple Storage Service User Guide.
         public let objectKeyPrefix: String?
 
-        public init(bucketName: String? = nil, objectKeyPrefix: String? = nil) {
+        public init(bucketName: String, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
         }
@@ -625,11 +625,11 @@ extension SimSpaceWeaver {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The name of an Amazon S3 bucket. For more information about buckets, see Creating, configuring, and working with Amazon S3 buckets in the Amazon Simple Storage Service User Guide.
-        public let bucketName: String?
+        public let bucketName: String
         /// The key name of an object in Amazon S3. For more information about Amazon S3 objects and object keys, see Uploading, downloading, and working with objects in Amazon S3 in the Amazon Simple Storage Service User Guide.
-        public let objectKey: String?
+        public let objectKey: String
 
-        public init(bucketName: String? = nil, objectKey: String? = nil) {
+        public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -862,7 +862,7 @@ extension SimSpaceWeaver {
         public let roleArn: String
         /// The location of the simulation schema in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SchemaS3Location to start your simulation from a schema. If you provide a SchemaS3Location then you can't provide a SnapshotS3Location.
         public let schemaS3Location: S3Location?
-        /// The location of the snapshot .zip file in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SnapshotS3Location to start your simulation from a snapshot. If you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
+        /// The location of the snapshot .zip file in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SnapshotS3Location to start your simulation from a snapshot. The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation. If you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
         public let snapshotS3Location: S3Location?
         /// A list of tags for the simulation. For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
         public let tags: [String: String]?
@@ -890,7 +890,7 @@ extension SimSpaceWeaver {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(?:aws|aws-cn):iam::(\\d{12})?:role\\/(.+)$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):iam::(\\d{12})?:role\\/(.+)$")
             try self.schemaS3Location?.validate(name: "\(name).schemaS3Location")
             try self.snapshotS3Location?.validate(name: "\(name).snapshotS3Location")
             try self.tags?.forEach {
@@ -1038,7 +1038,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1077,7 +1077,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

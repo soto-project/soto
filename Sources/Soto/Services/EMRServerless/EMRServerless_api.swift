@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS EMRServerless service.
 ///
-/// Amazon EMR Serverless is a new deployment option for Amazon EMR. EMR Serverless provides a serverless runtime environment that simplifies running analytics applications using the latest open source frameworks such as Apache Spark and Apache Hive. With EMR Serverless, you don’t have to configure, optimize, secure, or operate clusters to run applications with these frameworks. The API reference to Amazon EMR Serverless is emr-serverless. The emr-serverless prefix is used in the following scenarios:    It is the prefix in the CLI commands for Amazon EMR Serverless. For example, aws emr-serverless start-job-run.   It is the prefix before IAM policy actions for Amazon EMR Serverless. For example, "Action": ["emr-serverless:StartJobRun"]. For more information, see Policy actions for Amazon EMR Serverless.   It is the prefix used in Amazon EMR Serverless service endpoints. For example, emr-serverless.us-east-2.amazonaws.com.
+/// Amazon EMR Serverless is a new deployment option for Amazon EMR. Amazon EMR Serverless provides a serverless runtime environment that simplifies running analytics applications using the latest open source frameworks such as Apache Spark and Apache Hive. With Amazon EMR Serverless, you don’t have to configure, optimize, secure, or operate clusters to run applications with these frameworks. The API reference to Amazon EMR Serverless is emr-serverless. The emr-serverless prefix is used in the following scenarios:    It is the prefix in the CLI commands for Amazon EMR Serverless. For example, aws emr-serverless start-job-run.   It is the prefix before IAM policy actions for Amazon EMR Serverless. For example, "Action": ["emr-serverless:StartJobRun"]. For more information, see Policy actions for Amazon EMR Serverless.   It is the prefix used in Amazon EMR Serverless service endpoints. For example, emr-serverless.us-east-2.amazonaws.com.
 public struct EMRServerless: AWSService {
     // MARK: Member variables
 
@@ -136,7 +136,7 @@ public struct EMRServerless: AWSService {
         )
     }
 
-    /// Returns a URL to access the job run dashboard. The generated URL is valid for one hour, after which you must invoke the API again to generate a new URL.
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     @Sendable
     public func getDashboardForJobRun(_ input: GetDashboardForJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardForJobRunResponse {
         return try await self.client.execute(

@@ -26,21 +26,21 @@ import Foundation
 extension RedshiftServerless {
     // MARK: Enums
 
-    public enum LogExport: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionlog = "connectionlog"
         case useractivitylog = "useractivitylog"
         case userlog = "userlog"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum NamespaceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case modifying = "MODIFYING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case cancelled = "CANCELLED"
         case copying = "COPYING"
@@ -50,27 +50,33 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deactivate = "deactivate"
         case emitMetric = "emit-metric"
         case log = "log"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "daily"
         case monthly = "monthly"
         case weekly = "weekly"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitUsageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageLimitUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crossRegionDatasharing = "cross-region-datasharing"
         case serverlessCompute = "serverless-compute"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkgroupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorkgroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -78,10 +84,76 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum Schedule: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+        case at(Date)
+        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        case cron(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .at:
+                let value = try container.decode(Date.self, forKey: .at)
+                self = .at(value)
+            case .cron:
+                let value = try container.decode(String.self, forKey: .cron)
+                self = .cron(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .at(let value):
+                try container.encode(value, forKey: .at)
+            case .cron(let value):
+                try container.encode(value, forKey: .cron)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case at = "at"
+            case cron = "cron"
+        }
+    }
+
     // MARK: Shapes
 
+    public struct Association: AWSDecodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The expiration time for the certificate.
+        public let customDomainCertificateExpiryTime: Date?
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String?
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainCertificateExpiryTime = "customDomainCertificateExpiryTime"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -142,9 +214,69 @@ extension RedshiftServerless {
         }
     }
 
+    public struct CreateCustomDomainAssociationRequest: AWSEncodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String
+        /// The custom domain name to associate with the workgroup.
+        public let customDomainName: String
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String
+
+        public init(customDomainCertificateArn: String, customDomainName: String, workgroupName: String) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct CreateCustomDomainAssociationResponse: AWSDecodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The expiration time for the certificate.
+        public let customDomainCertificateExpiryTime: Date?
+        /// The custom domain name to associate with the workgroup.
+        public let customDomainName: String?
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainCertificateExpiryTime = "customDomainCertificateExpiryTime"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
     public struct CreateEndpointAccessRequest: AWSEncodableShape {
         /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters.  Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter.  The name can't contain two consecutive hyphens or end with a hyphen.
         public let endpointName: String
+        /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
+        public let ownerAccount: String?
         /// The unique identifers of subnets from which  Amazon Redshift Serverless chooses one to deploy a VPC endpoint.
         public let subnetIds: [String]
         /// The unique identifiers of the security group that defines the ports,  protocols, and sources for inbound traffic that you are authorizing into your endpoint.
@@ -152,15 +284,23 @@ extension RedshiftServerless {
         /// The name of the workgroup to associate with the VPC endpoint.
         public let workgroupName: String
 
-        public init(endpointName: String, subnetIds: [String], vpcSecurityGroupIds: [String]? = nil, workgroupName: String) {
+        public init(endpointName: String, ownerAccount: String? = nil, subnetIds: [String], vpcSecurityGroupIds: [String]? = nil, workgroupName: String) {
             self.endpointName = endpointName
+            self.ownerAccount = ownerAccount
             self.subnetIds = subnetIds
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.workgroupName = workgroupName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 12)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, min: 1)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, pattern: "(\\d{12})")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endpointName = "endpointName"
+            case ownerAccount = "ownerAccount"
             case subnetIds = "subnetIds"
             case vpcSecurityGroupIds = "vpcSecurityGroupIds"
             case workgroupName = "workgroupName"
@@ -181,9 +321,11 @@ extension RedshiftServerless {
     }
 
     public struct CreateNamespaceRequest: AWSEncodableShape {
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+        public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace.
         public let adminUsername: String?
-        /// The password of the administrator for the first database created in the namespace.
+        /// The password of the administrator for the first database created in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
         public let adminUserPassword: String?
         /// The name of the first database created in the namespace.
         public let dbName: String?
@@ -195,12 +337,17 @@ extension RedshiftServerless {
         public let kmsKeyId: String?
         /// The types of logs the namespace can export.  Available export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
+        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+        public let manageAdminPassword: Bool?
         /// The name of the namespace.
         public let namespaceName: String
+        /// The ARN for the Redshift application that integrates with IAM Identity Center.
+        public let redshiftIdcApplicationArn: String?
         /// A list of tag instances.
         public let tags: [Tag]?
 
-        public init(adminUsername: String? = nil, adminUserPassword: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceName: String, tags: [Tag]? = nil) {
+        public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, redshiftIdcApplicationArn: String? = nil, tags: [Tag]? = nil) {
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.adminUserPassword = adminUserPassword
             self.dbName = dbName
@@ -208,7 +355,9 @@ extension RedshiftServerless {
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
             self.logExports = logExports
+            self.manageAdminPassword = manageAdminPassword
             self.namespaceName = namespaceName
+            self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
             self.tags = tags
         }
 
@@ -217,6 +366,8 @@ extension RedshiftServerless {
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.redshiftIdcApplicationArn, name: "redshiftIdcApplicationArn", parent: name, max: 1024)
+            try self.validate(self.redshiftIdcApplicationArn, name: "redshiftIdcApplicationArn", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -224,6 +375,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
             case adminUsername = "adminUsername"
             case adminUserPassword = "adminUserPassword"
             case dbName = "dbName"
@@ -231,7 +383,9 @@ extension RedshiftServerless {
             case iamRoles = "iamRoles"
             case kmsKeyId = "kmsKeyId"
             case logExports = "logExports"
+            case manageAdminPassword = "manageAdminPassword"
             case namespaceName = "namespaceName"
+            case redshiftIdcApplicationArn = "redshiftIdcApplicationArn"
             case tags = "tags"
         }
     }
@@ -246,6 +400,117 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "namespace"
+        }
+    }
+
+    public struct CreateScheduledActionRequest: AWSEncodableShape {
+        /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state  of the scheduled action, see ScheduledAction.
+        public let enabled: Bool?
+        /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
+        public let endTime: Date?
+        /// The name of the namespace for which to create a scheduled action.
+        public let namespaceName: String
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        public let roleArn: String
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: Schedule
+        /// The description of the scheduled action.
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action.
+        public let scheduledActionName: String
+        /// The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger.
+        public let startTime: Date?
+        public let targetAction: TargetAction
+
+        public init(enabled: Bool? = nil, endTime: Date? = nil, namespaceName: String, roleArn: String, schedule: Schedule, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: TargetAction) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.namespaceName = namespaceName
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.targetAction = targetAction
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 60)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 3)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.targetAction.validate(name: "\(name).targetAction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case endTime = "endTime"
+            case namespaceName = "namespaceName"
+            case roleArn = "roleArn"
+            case schedule = "schedule"
+            case scheduledActionDescription = "scheduledActionDescription"
+            case scheduledActionName = "scheduledActionName"
+            case startTime = "startTime"
+            case targetAction = "targetAction"
+        }
+    }
+
+    public struct CreateScheduledActionResponse: AWSDecodableShape {
+        /// The returned ScheduledAction object that describes the properties of a scheduled action.
+        public let scheduledAction: ScheduledActionResponse?
+
+        public init(scheduledAction: ScheduledActionResponse? = nil) {
+            self.scheduledAction = scheduledAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAction = "scheduledAction"
+        }
+    }
+
+    public struct CreateSnapshotCopyConfigurationRequest: AWSEncodableShape {
+        /// The KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
+        public let destinationKmsKeyId: String?
+        /// The destination Amazon Web Services Region that you want to copy snapshots to.
+        public let destinationRegion: String
+        /// The name of the namespace to copy snapshots from.
+        public let namespaceName: String
+        /// The retention period of the snapshots that you copy to the destination Amazon Web Services Region.
+        public let snapshotRetentionPeriod: Int?
+
+        public init(destinationKmsKeyId: String? = nil, destinationRegion: String, namespaceName: String, snapshotRetentionPeriod: Int? = nil) {
+            self.destinationKmsKeyId = destinationKmsKeyId
+            self.destinationRegion = destinationRegion
+            self.namespaceName = namespaceName
+            self.snapshotRetentionPeriod = snapshotRetentionPeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationKmsKeyId = "destinationKmsKeyId"
+            case destinationRegion = "destinationRegion"
+            case namespaceName = "namespaceName"
+            case snapshotRetentionPeriod = "snapshotRetentionPeriod"
+        }
+    }
+
+    public struct CreateSnapshotCopyConfigurationResponse: AWSDecodableShape {
+        /// The snapshot copy configuration object that is returned.
+        public let snapshotCopyConfiguration: SnapshotCopyConfiguration
+
+        public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
+            self.snapshotCopyConfiguration = snapshotCopyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyConfiguration = "snapshotCopyConfiguration"
         }
     }
 
@@ -294,6 +559,43 @@ extension RedshiftServerless {
         }
     }
 
+    public struct CreateSnapshotScheduleActionParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the namespace for which you want to configure a scheduled action to create a snapshot.
+        public let namespaceName: String
+        /// The retention period of the snapshot created by the scheduled action.
+        public let retentionPeriod: Int?
+        /// A string prefix that is attached to the name of the snapshot created by the scheduled action. The final  name of the snapshot is the string prefix appended by the date and time of when the snapshot was created.
+        public let snapshotNamePrefix: String
+        /// An array of Tag objects to associate with the snapshot.
+        public let tags: [Tag]?
+
+        public init(namespaceName: String, retentionPeriod: Int? = nil, snapshotNamePrefix: String, tags: [Tag]? = nil) {
+            self.namespaceName = namespaceName
+            self.retentionPeriod = retentionPeriod
+            self.snapshotNamePrefix = snapshotNamePrefix
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.snapshotNamePrefix, name: "snapshotNamePrefix", parent: name, max: 235)
+            try self.validate(self.snapshotNamePrefix, name: "snapshotNamePrefix", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceName = "namespaceName"
+            case retentionPeriod = "retentionPeriod"
+            case snapshotNamePrefix = "snapshotNamePrefix"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateUsageLimitRequest: AWSEncodableShape {
         /// The limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
         public let amount: Int64
@@ -339,10 +641,12 @@ extension RedshiftServerless {
     public struct CreateWorkgroupRequest: AWSEncodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
+        /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
+        public let maxCapacity: Int?
         /// The name of the namespace to associate with the workgroup.
         public let namespaceName: String
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
@@ -358,10 +662,11 @@ extension RedshiftServerless {
         /// The name of the created workgroup.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.port = port
             self.publiclyAccessible = publiclyAccessible
@@ -388,6 +693,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
@@ -409,6 +715,36 @@ extension RedshiftServerless {
         private enum CodingKeys: String, CodingKey {
             case workgroup = "workgroup"
         }
+    }
+
+    public struct DeleteCustomDomainAssociationRequest: AWSEncodableShape {
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String
+
+        public init(customDomainName: String, workgroupName: String) {
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct DeleteCustomDomainAssociationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteEndpointAccessRequest: AWSEncodableShape {
@@ -492,6 +828,64 @@ extension RedshiftServerless {
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteScheduledActionRequest: AWSEncodableShape {
+        /// The name of the scheduled action to delete.
+        public let scheduledActionName: String
+
+        public init(scheduledActionName: String) {
+            self.scheduledActionName = scheduledActionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 60)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 3)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionName = "scheduledActionName"
+        }
+    }
+
+    public struct DeleteScheduledActionResponse: AWSDecodableShape {
+        /// The deleted scheduled action object.
+        public let scheduledAction: ScheduledActionResponse?
+
+        public init(scheduledAction: ScheduledActionResponse? = nil) {
+            self.scheduledAction = scheduledAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAction = "scheduledAction"
+        }
+    }
+
+    public struct DeleteSnapshotCopyConfigurationRequest: AWSEncodableShape {
+        /// The ID of the snapshot copy configuration to delete.
+        public let snapshotCopyConfigurationId: String
+
+        public init(snapshotCopyConfigurationId: String) {
+            self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyConfigurationId = "snapshotCopyConfigurationId"
+        }
+    }
+
+    public struct DeleteSnapshotCopyConfigurationResponse: AWSDecodableShape {
+        /// The deleted snapshot copy configuration object.
+        public let snapshotCopyConfiguration: SnapshotCopyConfiguration
+
+        public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
+            self.snapshotCopyConfiguration = snapshotCopyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyConfiguration = "snapshotCopyConfiguration"
+        }
     }
 
     public struct DeleteSnapshotRequest: AWSEncodableShape {
@@ -649,26 +1043,33 @@ extension RedshiftServerless {
     }
 
     public struct GetCredentialsRequest: AWSEncodableShape {
+        /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
+        public let customDomainName: String?
         /// The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found  in Reserved Words   in the Amazon Redshift Database Developer Guide
         public let dbName: String?
         /// The number of seconds until the returned temporary password expires. The minimum is 900 seconds, and the maximum is 3600 seconds.
         public let durationSeconds: Int?
         /// The name of the workgroup associated with the database.
-        public let workgroupName: String
+        public let workgroupName: String?
 
-        public init(dbName: String? = nil, durationSeconds: Int? = nil, workgroupName: String) {
+        public init(customDomainName: String? = nil, dbName: String? = nil, durationSeconds: Int? = nil, workgroupName: String? = nil) {
+            self.customDomainName = customDomainName
             self.dbName = dbName
             self.durationSeconds = durationSeconds
             self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customDomainName = "customDomainName"
             case dbName = "dbName"
             case durationSeconds = "durationSeconds"
             case workgroupName = "workgroupName"
@@ -697,6 +1098,57 @@ extension RedshiftServerless {
             case dbUser = "dbUser"
             case expiration = "expiration"
             case nextRefreshTime = "nextRefreshTime"
+        }
+    }
+
+    public struct GetCustomDomainAssociationRequest: AWSEncodableShape {
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String
+
+        public init(customDomainName: String, workgroupName: String) {
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct GetCustomDomainAssociationResponse: AWSDecodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The expiration time for the certificate.
+        public let customDomainCertificateExpiryTime: Date?
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String?
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainCertificateExpiryTime = "customDomainCertificateExpiryTime"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -807,6 +1259,38 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case resourcePolicy = "resourcePolicy"
+        }
+    }
+
+    public struct GetScheduledActionRequest: AWSEncodableShape {
+        /// The name of the scheduled action.
+        public let scheduledActionName: String
+
+        public init(scheduledActionName: String) {
+            self.scheduledActionName = scheduledActionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 60)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 3)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionName = "scheduledActionName"
+        }
+    }
+
+    public struct GetScheduledActionResponse: AWSDecodableShape {
+        /// The returned scheduled action object.
+        public let scheduledAction: ScheduledActionResponse?
+
+        public init(scheduledAction: ScheduledActionResponse? = nil) {
+            self.scheduledAction = scheduledAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAction = "scheduledAction"
         }
     }
 
@@ -928,19 +1412,82 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ListCustomDomainAssociationsRequest: AWSEncodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String?
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+        public let maxResults: Int?
+        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.customDomainCertificateArn, forKey: .customDomainCertificateArn)
+            try container.encodeIfPresent(self.customDomainName, forKey: .customDomainName)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainName = "customDomainName"
+        }
+    }
+
+    public struct ListCustomDomainAssociationsResponse: AWSDecodableShape {
+        /// A list of Association objects.
+        public let associations: [Association]?
+        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(associations: [Association]? = nil, nextToken: String? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "associations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListEndpointAccessRequest: AWSEncodableShape {
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
         public let nextToken: String?
+        /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
+        public let ownerAccount: String?
         /// The unique identifier of the virtual private cloud with access to Amazon Redshift Serverless.
         public let vpcId: String?
         /// The name of the workgroup associated with the VPC endpoint to return.
         public let workgroupName: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, vpcId: String? = nil, workgroupName: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil, vpcId: String? = nil, workgroupName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.ownerAccount = ownerAccount
             self.vpcId = vpcId
             self.workgroupName = workgroupName
         }
@@ -950,11 +1497,19 @@ extension RedshiftServerless {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.ownerAccount, forKey: .ownerAccount)
             try container.encodeIfPresent(self.vpcId, forKey: .vpcId)
             try container.encodeIfPresent(self.workgroupName, forKey: .workgroupName)
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 12)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, min: 1)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, pattern: "(\\d{12})")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case ownerAccount = "ownerAccount"
             case vpcId = "vpcId"
             case workgroupName = "workgroupName"
         }
@@ -1077,6 +1632,110 @@ extension RedshiftServerless {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case recoveryPoints = "recoveryPoints"
+        }
+    }
+
+    public struct ListScheduledActionsRequest: AWSEncodableShape {
+        /// An optional parameter that specifies the maximum number of results to return. Use nextToken to display the next page of results.
+        public let maxResults: Int?
+        /// The name of namespace associated with the scheduled action to retrieve.
+        public let namespaceName: String?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.namespaceName = namespaceName
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespaceName, forKey: .namespaceName)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceName = "namespaceName"
+        }
+    }
+
+    public struct ListScheduledActionsResponse: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// All of the returned scheduled action objects.
+        public let scheduledActions: [String]?
+
+        public init(nextToken: String? = nil, scheduledActions: [String]? = nil) {
+            self.nextToken = nextToken
+            self.scheduledActions = scheduledActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case scheduledActions = "scheduledActions"
+        }
+    }
+
+    public struct ListSnapshotCopyConfigurationsRequest: AWSEncodableShape {
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+        public let maxResults: Int?
+        /// The namespace from which to list all snapshot copy configurations.
+        public let namespaceName: String?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.namespaceName = namespaceName
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespaceName, forKey: .namespaceName)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceName = "namespaceName"
+        }
+    }
+
+    public struct ListSnapshotCopyConfigurationsResponse: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// All of the returned snapshot copy configurations.
+        public let snapshotCopyConfigurations: [SnapshotCopyConfiguration]
+
+        public init(nextToken: String? = nil, snapshotCopyConfigurations: [SnapshotCopyConfiguration]) {
+            self.nextToken = nextToken
+            self.snapshotCopyConfigurations = snapshotCopyConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case snapshotCopyConfigurations = "snapshotCopyConfigurations"
         }
     }
 
@@ -1288,20 +1947,32 @@ extension RedshiftServerless {
         public let maxResults: Int?
         /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
         public let nextToken: String?
+        /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
+        public let ownerAccount: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.ownerAccount = ownerAccount
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.ownerAccount, forKey: .ownerAccount)
         }
 
-        private enum CodingKeys: CodingKey {}
+        public func validate(name: String) throws {
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 12)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, min: 1)
+            try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, pattern: "(\\d{12})")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerAccount = "ownerAccount"
+        }
     }
 
     public struct ListWorkgroupsResponse: AWSDecodableShape {
@@ -1322,6 +1993,10 @@ extension RedshiftServerless {
     }
 
     public struct Namespace: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
+        public let adminPasswordSecretArn: String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+        public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace.
         public let adminUsername: String?
         /// The date of when the namespace was created.
@@ -1345,7 +2020,9 @@ extension RedshiftServerless {
         /// The status of the namespace.
         public let status: NamespaceStatus?
 
-        public init(adminUsername: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
+        public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
+            self.adminPasswordSecretArn = adminPasswordSecretArn
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.creationDate = creationDate
             self.dbName = dbName
@@ -1360,6 +2037,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adminPasswordSecretArn = "adminPasswordSecretArn"
+            case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
             case adminUsername = "adminUsername"
             case creationDate = "creationDate"
             case dbName = "dbName"
@@ -1527,6 +2206,10 @@ extension RedshiftServerless {
     }
 
     public struct RestoreFromSnapshotRequest: AWSEncodableShape {
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+        public let adminPasswordSecretKmsKeyId: String?
+        /// If true, Amazon Redshift uses Secrets Manager to manage the restored  snapshot's admin credentials. If MmanageAdminPassword is false or not set,  Amazon Redshift uses the admin credentials that the namespace or cluster  had at the time the snapshot was taken.
+        public let manageAdminPassword: Bool?
         /// The name of the namespace to restore the snapshot to.
         public let namespaceName: String
         /// The Amazon Web Services account that owns the snapshot.
@@ -1538,7 +2221,9 @@ extension RedshiftServerless {
         /// The name of the workgroup used to restore the snapshot.
         public let workgroupName: String
 
-        public init(namespaceName: String, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil, workgroupName: String) {
+        public init(adminPasswordSecretKmsKeyId: String? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil, workgroupName: String) {
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
+            self.manageAdminPassword = manageAdminPassword
             self.namespaceName = namespaceName
             self.ownerAccount = ownerAccount
             self.snapshotArn = snapshotArn
@@ -1556,6 +2241,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
+            case manageAdminPassword = "manageAdminPassword"
             case namespaceName = "namespaceName"
             case ownerAccount = "ownerAccount"
             case snapshotArn = "snapshotArn"
@@ -1581,6 +2268,67 @@ extension RedshiftServerless {
             case namespace = "namespace"
             case ownerAccount = "ownerAccount"
             case snapshotName = "snapshotName"
+        }
+    }
+
+    public struct RestoreTableFromRecoveryPointRequest: AWSEncodableShape {
+        /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
+        public let activateCaseSensitiveIdentifier: Bool?
+        /// Namespace of the recovery point to restore from.
+        public let namespaceName: String
+        /// The name of the table to create from the restore operation.
+        public let newTableName: String
+        /// The ID of the recovery point to restore the table from.
+        public let recoveryPointId: String
+        /// The name of the source database that contains the table being restored.
+        public let sourceDatabaseName: String
+        /// The name of the source schema that contains the table being restored.
+        public let sourceSchemaName: String?
+        /// The name of the source table being restored.
+        public let sourceTableName: String
+        /// The name of the database to restore the table to.
+        public let targetDatabaseName: String?
+        /// The name of the schema to restore the table to.
+        public let targetSchemaName: String?
+        /// The workgroup to restore the table to.
+        public let workgroupName: String
+
+        public init(activateCaseSensitiveIdentifier: Bool? = nil, namespaceName: String, newTableName: String, recoveryPointId: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, workgroupName: String) {
+            self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
+            self.namespaceName = namespaceName
+            self.newTableName = newTableName
+            self.recoveryPointId = recoveryPointId
+            self.sourceDatabaseName = sourceDatabaseName
+            self.sourceSchemaName = sourceSchemaName
+            self.sourceTableName = sourceTableName
+            self.targetDatabaseName = targetDatabaseName
+            self.targetSchemaName = targetSchemaName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activateCaseSensitiveIdentifier = "activateCaseSensitiveIdentifier"
+            case namespaceName = "namespaceName"
+            case newTableName = "newTableName"
+            case recoveryPointId = "recoveryPointId"
+            case sourceDatabaseName = "sourceDatabaseName"
+            case sourceSchemaName = "sourceSchemaName"
+            case sourceTableName = "sourceTableName"
+            case targetDatabaseName = "targetDatabaseName"
+            case targetSchemaName = "targetSchemaName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct RestoreTableFromRecoveryPointResponse: AWSDecodableShape {
+        public let tableRestoreStatus: TableRestoreStatus?
+
+        public init(tableRestoreStatus: TableRestoreStatus? = nil) {
+            self.tableRestoreStatus = tableRestoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatus = "tableRestoreStatus"
         }
     }
 
@@ -1646,6 +2394,58 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ScheduledActionResponse: AWSDecodableShape {
+        /// The end time of
+        public let endTime: Date?
+        /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
+        public let namespaceName: String?
+        /// An array of timestamps of when the next scheduled actions will trigger.
+        public let nextInvocations: [Date]?
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        public let roleArn: String?
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: Schedule?
+        /// The description of the scheduled action.
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action.
+        public let scheduledActionName: String?
+        /// The uuid of the scheduled action.
+        public let scheduledActionUuid: String?
+        /// The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger.
+        public let startTime: Date?
+        /// The state of the scheduled action.
+        public let state: State?
+        public let targetAction: TargetAction?
+
+        public init(endTime: Date? = nil, namespaceName: String? = nil, nextInvocations: [Date]? = nil, roleArn: String? = nil, schedule: Schedule? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, scheduledActionUuid: String? = nil, startTime: Date? = nil, state: State? = nil, targetAction: TargetAction? = nil) {
+            self.endTime = endTime
+            self.namespaceName = namespaceName
+            self.nextInvocations = nextInvocations
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.scheduledActionUuid = scheduledActionUuid
+            self.startTime = startTime
+            self.state = state
+            self.targetAction = targetAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case namespaceName = "namespaceName"
+            case nextInvocations = "nextInvocations"
+            case roleArn = "roleArn"
+            case schedule = "schedule"
+            case scheduledActionDescription = "scheduledActionDescription"
+            case scheduledActionName = "scheduledActionName"
+            case scheduledActionUuid = "scheduledActionUuid"
+            case startTime = "startTime"
+            case state = "state"
+            case targetAction = "targetAction"
+        }
+    }
+
     public struct Snapshot: AWSDecodableShape {
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a provisioned cluster.
         public let accountsWithProvisionedRestoreAccess: [String]?
@@ -1653,6 +2453,10 @@ extension RedshiftServerless {
         public let accountsWithRestoreAccess: [String]?
         /// The size of the incremental backup in megabytes.
         public let actualIncrementalBackupSizeInMegaBytes: Double?
+        /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
+        public let adminPasswordSecretArn: String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+        public let adminPasswordSecretKmsKeyId: String?
         /// The username of the database within a snapshot.
         public let adminUsername: String?
         /// The size in megabytes of the data that has been backed up to a snapshot.
@@ -1688,10 +2492,12 @@ extension RedshiftServerless {
         /// The total size, in megabytes, of how big the snapshot is.
         public let totalBackupSizeInMegaBytes: Double?
 
-        public init(accountsWithProvisionedRestoreAccess: [String]? = nil, accountsWithRestoreAccess: [String]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, adminUsername: String? = nil, backupProgressInMegaBytes: Double? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotCreateTime: Date? = nil, snapshotName: String? = nil, snapshotRemainingDays: Int? = nil, snapshotRetentionPeriod: Int? = nil, snapshotRetentionStartTime: Date? = nil, status: SnapshotStatus? = nil, totalBackupSizeInMegaBytes: Double? = nil) {
+        public init(accountsWithProvisionedRestoreAccess: [String]? = nil, accountsWithRestoreAccess: [String]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, backupProgressInMegaBytes: Double? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotCreateTime: Date? = nil, snapshotName: String? = nil, snapshotRemainingDays: Int? = nil, snapshotRetentionPeriod: Int? = nil, snapshotRetentionStartTime: Date? = nil, status: SnapshotStatus? = nil, totalBackupSizeInMegaBytes: Double? = nil) {
             self.accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccess
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
+            self.adminPasswordSecretArn = adminPasswordSecretArn
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.backupProgressInMegaBytes = backupProgressInMegaBytes
             self.currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecond
@@ -1715,6 +2521,8 @@ extension RedshiftServerless {
             case accountsWithProvisionedRestoreAccess = "accountsWithProvisionedRestoreAccess"
             case accountsWithRestoreAccess = "accountsWithRestoreAccess"
             case actualIncrementalBackupSizeInMegaBytes = "actualIncrementalBackupSizeInMegaBytes"
+            case adminPasswordSecretArn = "adminPasswordSecretArn"
+            case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
             case adminUsername = "adminUsername"
             case backupProgressInMegaBytes = "backupProgressInMegaBytes"
             case currentBackupRateInMegaBytesPerSecond = "currentBackupRateInMegaBytesPerSecond"
@@ -1735,8 +2543,41 @@ extension RedshiftServerless {
         }
     }
 
+    public struct SnapshotCopyConfiguration: AWSDecodableShape {
+        /// The ID of the KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
+        public let destinationKmsKeyId: String?
+        /// The destination Amazon Web Services Region to copy snapshots to.
+        public let destinationRegion: String?
+        /// The name of the namespace to copy snapshots from in the source Amazon Web Services Region.
+        public let namespaceName: String?
+        /// The ARN of the snapshot copy configuration object.
+        public let snapshotCopyConfigurationArn: String?
+        /// The ID of the snapshot copy configuration object.
+        public let snapshotCopyConfigurationId: String?
+        /// The retention period of snapshots that are copied to the destination Amazon Web Services Region.
+        public let snapshotRetentionPeriod: Int?
+
+        public init(destinationKmsKeyId: String? = nil, destinationRegion: String? = nil, namespaceName: String? = nil, snapshotCopyConfigurationArn: String? = nil, snapshotCopyConfigurationId: String? = nil, snapshotRetentionPeriod: Int? = nil) {
+            self.destinationKmsKeyId = destinationKmsKeyId
+            self.destinationRegion = destinationRegion
+            self.namespaceName = namespaceName
+            self.snapshotCopyConfigurationArn = snapshotCopyConfigurationArn
+            self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
+            self.snapshotRetentionPeriod = snapshotRetentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationKmsKeyId = "destinationKmsKeyId"
+            case destinationRegion = "destinationRegion"
+            case namespaceName = "namespaceName"
+            case snapshotCopyConfigurationArn = "snapshotCopyConfigurationArn"
+            case snapshotCopyConfigurationId = "snapshotCopyConfigurationId"
+            case snapshotRetentionPeriod = "snapshotRetentionPeriod"
+        }
+    }
+
     public struct TableRestoreStatus: AWSDecodableShape {
-        /// A description of the status of the table restore request.  Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        /// A message that explains the returned status. For example, if the status of the operation is FAILED, the message explains why the operation failed.
         public let message: String?
         /// The namespace of the table being restored from.
         public let namespaceName: String?
@@ -1744,6 +2585,8 @@ extension RedshiftServerless {
         public let newTableName: String?
         /// The amount of data restored to the new table so far, in megabytes (MB).
         public let progressInMegaBytes: Int64?
+        /// The ID of the recovery point being restored from.
+        public let recoveryPointId: String?
         /// The time that the table restore request was made,  in Universal Coordinated Time (UTC).
         public let requestTime: Date?
         /// The name of the snapshot being restored from.
@@ -1754,7 +2597,7 @@ extension RedshiftServerless {
         public let sourceSchemaName: String?
         /// The name of the source table being restored from.
         public let sourceTableName: String?
-        /// A value that describes the current state of the table restore request.  Possible values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        /// A value that describes the current state of the table restore request.  Possible values are SUCCEEDED, FAILED, CANCELED, PENDING, and IN_PROGRESS.
         public let status: String?
         /// The ID of the RestoreTableFromSnapshot request.
         public let tableRestoreRequestId: String?
@@ -1767,11 +2610,12 @@ extension RedshiftServerless {
         /// The name of the workgroup being restored from.
         public let workgroupName: String?
 
-        public init(message: String? = nil, namespaceName: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: Date? = nil, snapshotName: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: String? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil, workgroupName: String? = nil) {
+        public init(message: String? = nil, namespaceName: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, recoveryPointId: String? = nil, requestTime: Date? = nil, snapshotName: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: String? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil, workgroupName: String? = nil) {
             self.message = message
             self.namespaceName = namespaceName
             self.newTableName = newTableName
             self.progressInMegaBytes = progressInMegaBytes
+            self.recoveryPointId = recoveryPointId
             self.requestTime = requestTime
             self.snapshotName = snapshotName
             self.sourceDatabaseName = sourceDatabaseName
@@ -1790,6 +2634,7 @@ extension RedshiftServerless {
             case namespaceName = "namespaceName"
             case newTableName = "newTableName"
             case progressInMegaBytes = "progressInMegaBytes"
+            case recoveryPointId = "recoveryPointId"
             case requestTime = "requestTime"
             case snapshotName = "snapshotName"
             case sourceDatabaseName = "sourceDatabaseName"
@@ -1888,6 +2733,64 @@ extension RedshiftServerless {
         public init() {}
     }
 
+    public struct UpdateCustomDomainAssociationRequest: AWSEncodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN). This is optional.
+        public let customDomainCertificateArn: String
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String
+
+        public init(customDomainCertificateArn: String, customDomainName: String, workgroupName: String) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct UpdateCustomDomainAssociationResponse: AWSDecodableShape {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The expiration time for the certificate.
+        public let customDomainCertificateExpiryTime: Date?
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String?
+        /// The name of the workgroup associated with the database.
+        public let workgroupName: String?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainCertificateExpiryTime = "customDomainCertificateExpiryTime"
+            case customDomainName = "customDomainName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
     public struct UpdateEndpointAccessRequest: AWSEncodableShape {
         /// The name of the VPC endpoint to update.
         public let endpointName: String
@@ -1919,9 +2822,11 @@ extension RedshiftServerless {
     }
 
     public struct UpdateNamespaceRequest: AWSEncodableShape {
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+        public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
         public let adminUsername: String?
-        /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername.
+        /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
         public let adminUserPassword: String?
         /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace. This parameter must be updated together with iamRoles.
         public let defaultIamRoleArn: String?
@@ -1931,16 +2836,20 @@ extension RedshiftServerless {
         public let kmsKeyId: String?
         /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
+        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+        public let manageAdminPassword: Bool?
         /// The name of the namespace to update. You can't update the name of a namespace once it is created.
         public let namespaceName: String
 
-        public init(adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceName: String) {
+        public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String) {
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.adminUserPassword = adminUserPassword
             self.defaultIamRoleArn = defaultIamRoleArn
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
             self.logExports = logExports
+            self.manageAdminPassword = manageAdminPassword
             self.namespaceName = namespaceName
         }
 
@@ -1952,12 +2861,14 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
             case adminUsername = "adminUsername"
             case adminUserPassword = "adminUserPassword"
             case defaultIamRoleArn = "defaultIamRoleArn"
             case iamRoles = "iamRoles"
             case kmsKeyId = "kmsKeyId"
             case logExports = "logExports"
+            case manageAdminPassword = "manageAdminPassword"
             case namespaceName = "namespaceName"
         }
     }
@@ -1972,6 +2883,96 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "namespace"
+        }
+    }
+
+    public struct UpdateScheduledActionRequest: AWSEncodableShape {
+        /// Specifies whether to enable the scheduled action.
+        public let enabled: Bool?
+        /// The end time in UTC of the scheduled action to update.
+        public let endTime: Date?
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        public let roleArn: String?
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: Schedule?
+        /// The descripion of the scheduled action to update to.
+        public let scheduledActionDescription: String?
+        /// The name of the scheduled action to update to.
+        public let scheduledActionName: String
+        /// The start time in UTC of the scheduled action to update to.
+        public let startTime: Date?
+        public let targetAction: TargetAction?
+
+        public init(enabled: Bool? = nil, endTime: Date? = nil, roleArn: String? = nil, schedule: Schedule? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: TargetAction? = nil) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.scheduledActionDescription = scheduledActionDescription
+            self.scheduledActionName = scheduledActionName
+            self.startTime = startTime
+            self.targetAction = targetAction
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 60)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 3)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.targetAction?.validate(name: "\(name).targetAction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case endTime = "endTime"
+            case roleArn = "roleArn"
+            case schedule = "schedule"
+            case scheduledActionDescription = "scheduledActionDescription"
+            case scheduledActionName = "scheduledActionName"
+            case startTime = "startTime"
+            case targetAction = "targetAction"
+        }
+    }
+
+    public struct UpdateScheduledActionResponse: AWSDecodableShape {
+        /// The ScheduledAction object that was updated.
+        public let scheduledAction: ScheduledActionResponse?
+
+        public init(scheduledAction: ScheduledActionResponse? = nil) {
+            self.scheduledAction = scheduledAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAction = "scheduledAction"
+        }
+    }
+
+    public struct UpdateSnapshotCopyConfigurationRequest: AWSEncodableShape {
+        /// The ID of the snapshot copy configuration to update.
+        public let snapshotCopyConfigurationId: String
+        /// The new retention period of how long to keep a snapshot in the destination Amazon Web Services Region.
+        public let snapshotRetentionPeriod: Int?
+
+        public init(snapshotCopyConfigurationId: String, snapshotRetentionPeriod: Int? = nil) {
+            self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
+            self.snapshotRetentionPeriod = snapshotRetentionPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyConfigurationId = "snapshotCopyConfigurationId"
+            case snapshotRetentionPeriod = "snapshotRetentionPeriod"
+        }
+    }
+
+    public struct UpdateSnapshotCopyConfigurationResponse: AWSDecodableShape {
+        /// The updated snapshot copy configuration object.
+        public let snapshotCopyConfiguration: SnapshotCopyConfiguration
+
+        public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
+            self.snapshotCopyConfiguration = snapshotCopyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyConfiguration = "snapshotCopyConfiguration"
         }
     }
 
@@ -2042,10 +3043,12 @@ extension RedshiftServerless {
     public struct UpdateWorkgroupRequest: AWSEncodableShape {
         /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
+        public let maxCapacity: Int?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
         /// A value that specifies whether the workgroup can be accessible from a public network.
@@ -2057,10 +3060,11 @@ extension RedshiftServerless {
         /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.maxCapacity = maxCapacity
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
@@ -2078,6 +3082,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case maxCapacity = "maxCapacity"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
@@ -2177,16 +3182,28 @@ extension RedshiftServerless {
     public struct Workgroup: AWSDecodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, , search_path, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The creation date of the workgroup.
         public let creationDate: Date?
+        /// A list of VPCs. Each entry is the unique identifier of a virtual private cloud with access to Amazon Redshift Serverless. If all of the VPCs for the grantee are allowed, it shows an asterisk.
+        public let crossAccountVpcs: [String]?
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public let customDomainCertificateArn: String?
+        /// The expiration time for the certificate.
+        public let customDomainCertificateExpiryTime: Date?
+        /// The custom domain name associated with the workgroup.
+        public let customDomainName: String?
         /// The endpoint that is created from the workgroup.
         public let endpoint: Endpoint?
         /// The value that specifies whether to enable enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
+        public let maxCapacity: Int?
         /// The namespace the workgroup is associated with.
         public let namespaceName: String?
+        /// The patch version of your Amazon Redshift Serverless workgroup. For more information about patch versions, see Cluster versions for Amazon Redshift.
+        public let patchVersion: String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
         /// A value that specifies whether the workgroup  can be accessible from a public network
@@ -2203,14 +3220,22 @@ extension RedshiftServerless {
         public let workgroupId: String?
         /// The name of the workgroup.
         public let workgroupName: String?
+        /// The Amazon Redshift Serverless version of your workgroup. For more information about Amazon Redshift Serverless versions, seeCluster versions for Amazon Redshift.
+        public let workgroupVersion: String?
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
+            self.crossAccountVpcs = crossAccountVpcs
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
+            self.patchVersion = patchVersion
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
@@ -2219,15 +3244,22 @@ extension RedshiftServerless {
             self.workgroupArn = workgroupArn
             self.workgroupId = workgroupId
             self.workgroupName = workgroupName
+            self.workgroupVersion = workgroupVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case creationDate = "creationDate"
+            case crossAccountVpcs = "crossAccountVpcs"
+            case customDomainCertificateArn = "customDomainCertificateArn"
+            case customDomainCertificateExpiryTime = "customDomainCertificateExpiryTime"
+            case customDomainName = "customDomainName"
             case endpoint = "endpoint"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
+            case patchVersion = "patchVersion"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
@@ -2236,6 +3268,23 @@ extension RedshiftServerless {
             case workgroupArn = "workgroupArn"
             case workgroupId = "workgroupId"
             case workgroupName = "workgroupName"
+            case workgroupVersion = "workgroupVersion"
+        }
+    }
+
+    public struct TargetAction: AWSEncodableShape & AWSDecodableShape {
+        public let createSnapshot: CreateSnapshotScheduleActionParameters?
+
+        public init(createSnapshot: CreateSnapshotScheduleActionParameters? = nil) {
+            self.createSnapshot = createSnapshot
+        }
+
+        public func validate(name: String) throws {
+            try self.createSnapshot?.validate(name: "\(name).createSnapshot")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createSnapshot = "createSnapshot"
         }
     }
 }

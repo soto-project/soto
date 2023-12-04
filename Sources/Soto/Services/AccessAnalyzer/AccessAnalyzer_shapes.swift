@@ -26,20 +26,26 @@ import Foundation
 extension AccessAnalyzer {
     // MARK: Enums
 
-    public enum AccessPreviewStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessCheckPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case identityPolicy = "IDENTITY_POLICY"
+        case resourcePolicy = "RESOURCE_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessPreviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case creating = "CREATING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessPreviewStatusReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessPreviewStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalError = "INTERNAL_ERROR"
         case invalidConfiguration = "INVALID_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AclPermission: String, CustomStringConvertible, Codable, Sendable {
+    public enum AclPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -48,7 +54,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalyzerStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnalyzerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case disabled = "DISABLED"
@@ -56,14 +62,26 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingChangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CheckAccessNotGrantedResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CheckNoNewAccessResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case changed = "CHANGED"
         case new = "NEW"
         case unchanged = "UNCHANGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucketAcl = "BUCKET_ACL"
         case policy = "POLICY"
         case s3AccessPoint = "S3_ACCESS_POINT"
@@ -71,20 +89,29 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FindingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case externalAccess = "ExternalAccess"
+        case unusedIAMRole = "UnusedIAMRole"
+        case unusedIAMUserAccessKey = "UnusedIAMUserAccessKey"
+        case unusedIAMUserPassword = "UnusedIAMUserPassword"
+        case unusedPermission = "UnusedPermission"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorizationError = "AUTHORIZATION_ERROR"
         case resourceNotFoundError = "RESOURCE_NOT_FOUND_ERROR"
         case serviceError = "SERVICE_ERROR"
@@ -92,7 +119,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -100,7 +127,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum KmsGrantOperation: String, CustomStringConvertible, Codable, Sendable {
+    public enum KmsGrantOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
         case describeKey = "DescribeKey"
@@ -118,7 +145,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case de = "DE"
         case en = "EN"
         case es = "ES"
@@ -132,20 +159,20 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case identityPolicy = "IDENTITY_POLICY"
         case resourcePolicy = "RESOURCE_POLICY"
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsServiceAccessDisabled = "AWS_SERVICE_ACCESS_DISABLED"
         case delegatedAdministratorDeregistered = "DELEGATED_ADMINISTRATOR_DEREGISTERED"
         case organizationDeleted = "ORGANIZATION_DELETED"
@@ -153,7 +180,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsEC2Snapshot = "AWS::EC2::Snapshot"
         case awsECRRepository = "AWS::ECR::Repository"
         case awsEFSFilesystem = "AWS::EFS::FileSystem"
@@ -164,13 +191,14 @@ extension AccessAnalyzer {
         case awsRDSDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
         case awsRDSDbsnapshot = "AWS::RDS::DBSnapshot"
         case awsS3Bucket = "AWS::S3::Bucket"
+        case awsS3ExpressDirectorybucket = "AWS::S3Express::DirectoryBucket"
         case awsSNSTopic = "AWS::SNS::Topic"
         case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case securityWarning = "SECURITY_WARNING"
         case suggestion = "SUGGESTION"
@@ -178,7 +206,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsIAMAssumerolepolicydocument = "AWS::IAM::AssumeRolePolicyDocument"
         case awsS3Accesspoint = "AWS::S3::AccessPoint"
         case awsS3Bucket = "AWS::S3::Bucket"
@@ -187,9 +215,11 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
+        case accountUnusedAccess = "ACCOUNT_UNUSED_ACCESS"
         case organization = "ORGANIZATION"
+        case organizationUnusedAccess = "ORGANIZATION_UNUSED_ACCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -249,8 +279,10 @@ extension AccessAnalyzer {
         case rdsDbClusterSnapshot(RdsDbClusterSnapshotConfiguration)
         /// The access control configuration is for an Amazon RDS DB snapshot.
         case rdsDbSnapshot(RdsDbSnapshotConfiguration)
-        /// The access control configuration is for an Amazon S3 Bucket.
+        /// The access control configuration is for an Amazon S3 bucket.
         case s3Bucket(S3BucketConfiguration)
+        /// The access control configuration is for an Amazon S3 directory bucket.
+        case s3ExpressDirectoryBucket(S3ExpressDirectoryBucketConfiguration)
         /// The access control configuration is for a Secrets Manager secret.
         case secretsManagerSecret(SecretsManagerSecretConfiguration)
         /// The access control configuration is for an Amazon SNS topic
@@ -292,6 +324,9 @@ extension AccessAnalyzer {
             case .s3Bucket:
                 let value = try container.decode(S3BucketConfiguration.self, forKey: .s3Bucket)
                 self = .s3Bucket(value)
+            case .s3ExpressDirectoryBucket:
+                let value = try container.decode(S3ExpressDirectoryBucketConfiguration.self, forKey: .s3ExpressDirectoryBucket)
+                self = .s3ExpressDirectoryBucket(value)
             case .secretsManagerSecret:
                 let value = try container.decode(SecretsManagerSecretConfiguration.self, forKey: .secretsManagerSecret)
                 self = .secretsManagerSecret(value)
@@ -323,6 +358,8 @@ extension AccessAnalyzer {
                 try container.encode(value, forKey: .rdsDbSnapshot)
             case .s3Bucket(let value):
                 try container.encode(value, forKey: .s3Bucket)
+            case .s3ExpressDirectoryBucket(let value):
+                try container.encode(value, forKey: .s3ExpressDirectoryBucket)
             case .secretsManagerSecret(let value):
                 try container.encode(value, forKey: .secretsManagerSecret)
             case .snsTopic(let value):
@@ -352,9 +389,59 @@ extension AccessAnalyzer {
             case rdsDbClusterSnapshot = "rdsDbClusterSnapshot"
             case rdsDbSnapshot = "rdsDbSnapshot"
             case s3Bucket = "s3Bucket"
+            case s3ExpressDirectoryBucket = "s3ExpressDirectoryBucket"
             case secretsManagerSecret = "secretsManagerSecret"
             case snsTopic = "snsTopic"
             case sqsQueue = "sqsQueue"
+        }
+    }
+
+    public enum FindingDetails: AWSDecodableShape, Sendable {
+        /// The details for an external access analyzer finding.
+        case externalAccessDetails(ExternalAccessDetails)
+        /// The details for an unused access analyzer finding with an unused IAM role finding type.
+        case unusedIamRoleDetails(UnusedIamRoleDetails)
+        /// The details for an unused access analyzer finding with an unused IAM user access key finding type.
+        case unusedIamUserAccessKeyDetails(UnusedIamUserAccessKeyDetails)
+        /// The details for an unused access analyzer finding with an unused IAM user password finding type.
+        case unusedIamUserPasswordDetails(UnusedIamUserPasswordDetails)
+        /// The details for an unused access analyzer finding with an unused permission finding type.
+        case unusedPermissionDetails(UnusedPermissionDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .externalAccessDetails:
+                let value = try container.decode(ExternalAccessDetails.self, forKey: .externalAccessDetails)
+                self = .externalAccessDetails(value)
+            case .unusedIamRoleDetails:
+                let value = try container.decode(UnusedIamRoleDetails.self, forKey: .unusedIamRoleDetails)
+                self = .unusedIamRoleDetails(value)
+            case .unusedIamUserAccessKeyDetails:
+                let value = try container.decode(UnusedIamUserAccessKeyDetails.self, forKey: .unusedIamUserAccessKeyDetails)
+                self = .unusedIamUserAccessKeyDetails(value)
+            case .unusedIamUserPasswordDetails:
+                let value = try container.decode(UnusedIamUserPasswordDetails.self, forKey: .unusedIamUserPasswordDetails)
+                self = .unusedIamUserPasswordDetails(value)
+            case .unusedPermissionDetails:
+                let value = try container.decode(UnusedPermissionDetails.self, forKey: .unusedPermissionDetails)
+                self = .unusedPermissionDetails(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalAccessDetails = "externalAccessDetails"
+            case unusedIamRoleDetails = "unusedIamRoleDetails"
+            case unusedIamUserAccessKeyDetails = "unusedIamUserAccessKeyDetails"
+            case unusedIamUserPasswordDetails = "unusedIamUserPasswordDetails"
+            case unusedPermissionDetails = "unusedPermissionDetails"
         }
     }
 
@@ -451,6 +538,19 @@ extension AccessAnalyzer {
     }
 
     // MARK: Shapes
+
+    public struct Access: AWSEncodableShape {
+        /// A list of actions for the access permissions.
+        public let actions: [String]
+
+        public init(actions: [String]) {
+            self.actions = actions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+        }
+    }
 
     public struct AccessPreview: AWSDecodableShape {
         /// The ARN of the analyzer used to generate the access preview.
@@ -678,6 +778,8 @@ extension AccessAnalyzer {
     public struct AnalyzerSummary: AWSDecodableShape {
         /// The ARN of the analyzer.
         public let arn: String
+        /// Specifies whether the analyzer is an external access or unused access analyzer.
+        public let configuration: AnalyzerConfiguration?
         /// A timestamp for the time at which the analyzer was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -697,8 +799,9 @@ extension AccessAnalyzer {
         /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
         public let type: `Type`
 
-        public init(arn: String, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
+        public init(arn: String, configuration: AnalyzerConfiguration? = nil, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.arn = arn
+            self.configuration = configuration
             self.createdAt = createdAt
             self.lastResourceAnalyzed = lastResourceAnalyzed
             self.lastResourceAnalyzedAt = lastResourceAnalyzedAt
@@ -711,6 +814,7 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case configuration = "configuration"
             case createdAt = "createdAt"
             case lastResourceAnalyzed = "lastResourceAnalyzed"
             case lastResourceAnalyzedAt = "lastResourceAnalyzedAt"
@@ -796,6 +900,90 @@ extension AccessAnalyzer {
 
     public struct CancelPolicyGenerationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CheckAccessNotGrantedRequest: AWSEncodableShape {
+        /// An access object containing the permissions that shouldn't be granted by the specified policy.
+        public let access: [Access]
+        /// The JSON policy document to use as the content for the policy.
+        public let policyDocument: String
+        /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+        public let policyType: AccessCheckPolicyType
+
+        public init(access: [Access], policyDocument: String, policyType: AccessCheckPolicyType) {
+            self.access = access
+            self.policyDocument = policyDocument
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case access = "access"
+            case policyDocument = "policyDocument"
+            case policyType = "policyType"
+        }
+    }
+
+    public struct CheckAccessNotGrantedResponse: AWSDecodableShape {
+        /// The message indicating whether the specified access is allowed.
+        public let message: String?
+        /// A description of the reasoning of the result.
+        public let reasons: [ReasonSummary]?
+        /// The result of the check for whether the access is allowed. If the result is PASS, the specified policy doesn't allow any of the specified permissions in the access object. If the result is FAIL, the specified policy might allow some or all of the permissions in the access object.
+        public let result: CheckAccessNotGrantedResult?
+
+        public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckAccessNotGrantedResult? = nil) {
+            self.message = message
+            self.reasons = reasons
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reasons = "reasons"
+            case result = "result"
+        }
+    }
+
+    public struct CheckNoNewAccessRequest: AWSEncodableShape {
+        /// The JSON policy document to use as the content for the existing policy.
+        public let existingPolicyDocument: String
+        /// The JSON policy document to use as the content for the updated policy.
+        public let newPolicyDocument: String
+        /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+        public let policyType: AccessCheckPolicyType
+
+        public init(existingPolicyDocument: String, newPolicyDocument: String, policyType: AccessCheckPolicyType) {
+            self.existingPolicyDocument = existingPolicyDocument
+            self.newPolicyDocument = newPolicyDocument
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingPolicyDocument = "existingPolicyDocument"
+            case newPolicyDocument = "newPolicyDocument"
+            case policyType = "policyType"
+        }
+    }
+
+    public struct CheckNoNewAccessResponse: AWSDecodableShape {
+        /// The message indicating whether the updated policy allows new access.
+        public let message: String?
+        /// A description of the reasoning of the result.
+        public let reasons: [ReasonSummary]?
+        /// The result of the check for new access. If the result is PASS, no new access is allowed by the updated policy. If the result is FAIL, the updated policy might allow new access.
+        public let result: CheckNoNewAccessResult?
+
+        public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckNoNewAccessResult? = nil) {
+            self.message = message
+            self.reasons = reasons
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reasons = "reasons"
+            case result = "result"
+        }
     }
 
     public struct CloudTrailDetails: AWSEncodableShape {
@@ -903,15 +1091,18 @@ extension AccessAnalyzer {
         public let archiveRules: [InlineArchiveRule]?
         /// A client token.
         public let clientToken: String?
-        /// The tags to apply to the analyzer.
+        /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an external access analyzer, this field is not used.
+        public let configuration: AnalyzerConfiguration?
+        /// An array of key-value pairs to apply to the analyzer.
         public let tags: [String: String]?
-        /// The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
+        /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZTAION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
         public let type: `Type`
 
-        public init(analyzerName: String, archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateAnalyzerRequest.idempotencyToken(), tags: [String: String]? = nil, type: `Type`) {
+        public init(analyzerName: String, archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateAnalyzerRequest.idempotencyToken(), configuration: AnalyzerConfiguration? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.analyzerName = analyzerName
             self.archiveRules = archiveRules
             self.clientToken = clientToken
+            self.configuration = configuration
             self.tags = tags
             self.type = type
         }
@@ -929,6 +1120,7 @@ extension AccessAnalyzer {
             case analyzerName = "analyzerName"
             case archiveRules = "archiveRules"
             case clientToken = "clientToken"
+            case configuration = "configuration"
             case tags = "tags"
             case type = "type"
         }
@@ -1134,6 +1326,35 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ExternalAccessDetails: AWSDecodableShape {
+        /// The action in the analyzed policy statement that an external principal has permission to use.
+        public let action: [String]?
+        /// The condition in the analyzed policy statement that resulted in an external access finding.
+        public let condition: [String: String]
+        /// Specifies whether the external access finding is public.
+        public let isPublic: Bool?
+        /// The external principal that has access to a resource within the zone of trust.
+        public let principal: [String: String]?
+        /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
+        public let sources: [FindingSource]?
+
+        public init(action: [String]? = nil, condition: [String: String], isPublic: Bool? = nil, principal: [String: String]? = nil, sources: [FindingSource]? = nil) {
+            self.action = action
+            self.condition = condition
+            self.isPublic = isPublic
+            self.principal = principal
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case condition = "condition"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case sources = "sources"
+        }
+    }
+
     public struct Finding: AWSDecodableShape {
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
@@ -1151,7 +1372,7 @@ extension AccessAnalyzer {
         public let id: String
         /// Indicates whether the policy that generated the finding allows public access to the resource.
         public let isPublic: Bool?
-        /// The external principal that access to a resource within the zone of trust.
+        /// The external principal that has access to a resource within the zone of trust.
         public let principal: [String: String]?
         /// The resource that an external principal has access to.
         public let resource: String?
@@ -1299,6 +1520,58 @@ extension AccessAnalyzer {
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
             case sources = "sources"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct FindingSummaryV2: AWSDecodableShape {
+        /// The time at which the resource-based policy or IAM entity that generated the finding was analyzed.
+        @CustomCoding<ISO8601DateCoder>
+        public var analyzedAt: Date
+        /// The time at which the finding was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The error that resulted in an Error finding.
+        public let error: String?
+        /// The type of the external access or unused access finding.
+        public let findingType: FindingType?
+        /// The ID of the finding.
+        public let id: String
+        /// The resource that the external principal has access to.
+        public let resource: String?
+        /// The Amazon Web Services account ID that owns the resource.
+        public let resourceOwnerAccount: String
+        /// The type of the resource that the external principal has access to.
+        public let resourceType: ResourceType
+        /// The status of the finding.
+        public let status: FindingStatus
+        /// The time at which the finding was most recently updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(analyzedAt: Date, createdAt: Date, error: String? = nil, findingType: FindingType? = nil, id: String, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: Date) {
+            self.analyzedAt = analyzedAt
+            self.createdAt = createdAt
+            self.error = error
+            self.findingType = findingType
+            self.id = id
+            self.resource = resource
+            self.resourceOwnerAccount = resourceOwnerAccount
+            self.resourceType = resourceType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzedAt = "analyzedAt"
+            case createdAt = "createdAt"
+            case error = "error"
+            case findingType = "findingType"
+            case id = "id"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
             case status = "status"
             case updatedAt = "updatedAt"
         }
@@ -1546,6 +1819,99 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case finding = "finding"
+        }
+    }
+
+    public struct GetFindingV2Request: AWSEncodableShape {
+        /// The ARN of the analyzer that generated the finding.
+        public let analyzerArn: String
+        /// The ID of the finding to retrieve.
+        public let id: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(analyzerArn: String, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.analyzerArn = analyzerArn
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFindingV2Response: AWSDecodableShape {
+        /// The time at which the resource-based policy or IAM entity that generated the finding was analyzed.
+        @CustomCoding<ISO8601DateCoder>
+        public var analyzedAt: Date
+        /// The time at which the finding was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// An error.
+        public let error: String?
+        /// A localized message that explains the finding and provides guidance on how to address it.
+        public let findingDetails: [FindingDetails]
+        /// The type of the finding. For external access analyzers, the type is ExternalAccess. For unused access analyzers, the type can be UnusedIAMRole, UnusedIAMUserAccessKey, UnusedIAMUserPassword, or UnusedPermission.
+        public let findingType: FindingType?
+        /// The ID of the finding to retrieve.
+        public let id: String
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        /// The resource that generated the finding.
+        public let resource: String?
+        /// Tye Amazon Web Services account ID that owns the resource.
+        public let resourceOwnerAccount: String
+        /// The type of the resource identified in the finding.
+        public let resourceType: ResourceType
+        /// The status of the finding.
+        public let status: FindingStatus
+        /// The time at which the finding was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(analyzedAt: Date, createdAt: Date, error: String? = nil, findingDetails: [FindingDetails], findingType: FindingType? = nil, id: String, nextToken: String? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: Date) {
+            self.analyzedAt = analyzedAt
+            self.createdAt = createdAt
+            self.error = error
+            self.findingDetails = findingDetails
+            self.findingType = findingType
+            self.id = id
+            self.nextToken = nextToken
+            self.resource = resource
+            self.resourceOwnerAccount = resourceOwnerAccount
+            self.resourceType = resourceType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzedAt = "analyzedAt"
+            case createdAt = "createdAt"
+            case error = "error"
+            case findingDetails = "findingDetails"
+            case findingType = "findingType"
+            case id = "id"
+            case nextToken = "nextToken"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2043,6 +2409,58 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ListFindingsV2Request: AWSEncodableShape {
+        /// The ARN of the analyzer to retrieve findings from.
+        public let analyzerArn: String
+        /// A filter to match for the findings to return.
+        public let filter: [String: Criterion]?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        public let sort: SortCriteria?
+
+        public init(analyzerArn: String, filter: [String: Criterion]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SortCriteria? = nil) {
+            self.analyzerArn = analyzerArn
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.filter?.forEach {
+                try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn = "analyzerArn"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
+        }
+    }
+
+    public struct ListFindingsV2Response: AWSDecodableShape {
+        /// A list of findings retrieved from the analyzer that match the filter criteria specified, if any.
+        public let findings: [FindingSummaryV2]
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(findings: [FindingSummaryV2], nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListPolicyGenerationsRequest: AWSEncodableShape {
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -2239,6 +2657,27 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ReasonSummary: AWSDecodableShape {
+        /// A description of the reasoning of a result of checking for access.
+        public let description: String?
+        /// The identifier for the reason statement.
+        public let statementId: String?
+        /// The index number of the reason statement.
+        public let statementIndex: Int?
+
+        public init(description: String? = nil, statementId: String? = nil, statementIndex: Int? = nil) {
+            self.description = description
+            self.statementId = statementId
+            self.statementIndex = statementIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case statementId = "statementId"
+            case statementIndex = "statementIndex"
+        }
+    }
+
     public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The access point or multi-region access point policy.
         public let accessPointPolicy: String?
@@ -2310,6 +2749,19 @@ extension AccessAnalyzer {
             case bucketAclGrants = "bucketAclGrants"
             case bucketPolicy = "bucketPolicy"
             case bucketPublicAccessBlock = "bucketPublicAccessBlock"
+        }
+    }
+
+    public struct S3ExpressDirectoryBucketConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The proposed bucket policy for the Amazon S3 directory bucket.
+        public let bucketPolicy: String?
+
+        public init(bucketPolicy: String? = nil) {
+            self.bucketPolicy = bucketPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketPolicy = "bucketPolicy"
         }
     }
 
@@ -2604,6 +3056,105 @@ extension AccessAnalyzer {
         public init() {}
     }
 
+    public struct UnusedAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 180 days.
+        public let unusedAccessAge: Int?
+
+        public init(unusedAccessAge: Int? = nil) {
+            self.unusedAccessAge = unusedAccessAge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unusedAccessAge = "unusedAccessAge"
+        }
+    }
+
+    public struct UnusedAction: AWSDecodableShape {
+        /// The action for which the unused access finding was generated.
+        public let action: String
+        /// The time at which the action was last accessed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAccessed: Date?
+
+        public init(action: String, lastAccessed: Date? = nil) {
+            self.action = action
+            self.lastAccessed = lastAccessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case lastAccessed = "lastAccessed"
+        }
+    }
+
+    public struct UnusedIamRoleDetails: AWSDecodableShape {
+        /// The time at which the role was last accessed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAccessed: Date?
+
+        public init(lastAccessed: Date? = nil) {
+            self.lastAccessed = lastAccessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastAccessed = "lastAccessed"
+        }
+    }
+
+    public struct UnusedIamUserAccessKeyDetails: AWSDecodableShape {
+        /// The ID of the access key for which the unused access finding was generated.
+        public let accessKeyId: String
+        /// The time at which the access key was last accessed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAccessed: Date?
+
+        public init(accessKeyId: String, lastAccessed: Date? = nil) {
+            self.accessKeyId = accessKeyId
+            self.lastAccessed = lastAccessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case lastAccessed = "lastAccessed"
+        }
+    }
+
+    public struct UnusedIamUserPasswordDetails: AWSDecodableShape {
+        /// The time at which the password was last accessed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAccessed: Date?
+
+        public init(lastAccessed: Date? = nil) {
+            self.lastAccessed = lastAccessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastAccessed = "lastAccessed"
+        }
+    }
+
+    public struct UnusedPermissionDetails: AWSDecodableShape {
+        /// A list of unused actions for which the unused access finding was generated.
+        public let actions: [UnusedAction]?
+        /// The time at which the permission last accessed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAccessed: Date?
+        /// The namespace of the Amazon Web Services service that contains the unused actions.
+        public let serviceNamespace: String
+
+        public init(actions: [UnusedAction]? = nil, lastAccessed: Date? = nil, serviceNamespace: String) {
+            self.actions = actions
+            self.lastAccessed = lastAccessed
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case lastAccessed = "lastAccessed"
+            case serviceNamespace = "serviceNamespace"
+        }
+    }
+
     public struct UpdateArchiveRuleRequest: AWSEncodableShape {
         /// The name of the analyzer to update the archive rules for.
         public let analyzerName: String
@@ -2720,7 +3271,7 @@ extension AccessAnalyzer {
         public let nextToken: String?
         /// The JSON policy document to use as the content for the policy.
         public let policyDocument: String
-        /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. They also include service-control policies (SCPs) that are attached to an Amazon Web Services organization, organizational unit (OU), or an account. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+        /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.  Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account.
         public let policyType: PolicyType
         /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY. For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Analyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies.
         public let validatePolicyResourceType: ValidatePolicyResourceType?
@@ -2787,6 +3338,19 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct AnalyzerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account. External access analyzers do not support any configuration.
+        public let unusedAccess: UnusedAccessConfiguration?
+
+        public init(unusedAccess: UnusedAccessConfiguration? = nil) {
+            self.unusedAccess = unusedAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unusedAccess = "unusedAccess"
+        }
+    }
+
     public struct RdsDbClusterSnapshotAttributeValue: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services account IDs that have access to the manual Amazon RDS DB cluster snapshot. If the value all is specified, then the Amazon RDS DB cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.   If the configuration is for an existing Amazon RDS DB cluster snapshot and you do not specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview uses the existing shared accountIds for the snapshot.   If the access preview is for a new resource and you do not specify the specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview considers the snapshot without any attributes.   To propose deletion of existing shared accountIds, you can specify an empty list for accountIds in the RdsDbClusterSnapshotAttributeValue.
         public let accountIds: [String]?
@@ -2822,9 +3386,11 @@ public struct AccessAnalyzerErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidParameterException = "InvalidParameterException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
+        case unprocessableEntityException = "UnprocessableEntityException"
         case validationException = "ValidationException"
     }
 
@@ -2852,12 +3418,16 @@ public struct AccessAnalyzerErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The specified parameter is invalid.
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Service quote met error.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Throttling limit exceeded error.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The specified entity could not be processed.
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
     /// Validation exception error.
     public static var validationException: Self { .init(.validationException) }
 }

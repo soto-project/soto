@@ -532,4 +532,36 @@ extension ElasticLoadBalancing {
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
+
+    public func waitUntilInstanceDeregistered(
+        _ input: DescribeEndPointStateInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instanceStates[].state", expected: "OutOfService")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidInstance")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeInstanceHealth
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilInstanceInService(
+        _ input: DescribeEndPointStateInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instanceStates[].state", expected: "InService")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeInstanceHealth
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
 }

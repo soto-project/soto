@@ -26,12 +26,12 @@ import Foundation
 extension BackupGateway {
     // MARK: Enums
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backupVm = "BACKUP_VM"
         public var description: String { return self.rawValue }
     }
 
-    public enum HypervisorState: String, CustomStringConvertible, Codable, Sendable {
+    public enum HypervisorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case offline = "OFFLINE"
         case online = "ONLINE"
@@ -39,7 +39,7 @@ extension BackupGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case failed = "FAILED"
         case partiallyFailed = "PARTIALLY_FAILED"

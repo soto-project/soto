@@ -152,7 +152,7 @@ public struct Snowball: AWSService {
         )
     }
 
-    /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your Amazon Web Services account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.   Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by Amazon Web Services Region. For more information about Region availability, see Amazon Web Services Regional Services.    Snow Family devices and their capacities.    Device type: SNC1_SSD    Capacity: T14   Description: Snowcone       Device type: SNC1_HDD    Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.        Device type: V3_5C    Capacity: T32   Description: Snowball Edge Compute Optimized without GPU      Device type: V3_5S    Capacity: T240   Description: Snowball Edge Storage Optimized 210TB
+    /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your Amazon Web Services account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.   Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by Amazon Web Services Region. For more information about Region availability, see Amazon Web Services Regional Services.    Snow Family devices and their capacities.    Device type: SNC1_SSD    Capacity: T14   Description: Snowcone       Device type: SNC1_HDD    Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute    This device is replaced with T98.     Device type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.        Snow Family device type: RACK_5U_C    Capacity: T13    Description: Snowblade.     Device type: V3_5S    Capacity: T240   Description: Snowball Edge Storage Optimized 210TB
     @Sendable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResult {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct Snowball: AWSService {
         )
     }
 
-    /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
+    /// This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
     @Sendable
     public func listCompatibleImages(_ input: ListCompatibleImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCompatibleImagesResult {
         return try await self.client.execute(
@@ -365,6 +365,19 @@ public struct Snowball: AWSService {
     public func listLongTermPricing(_ input: ListLongTermPricingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLongTermPricingResult {
         return try await self.client.execute(
             operation: "ListLongTermPricing", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// A list of locations from which the customer can choose to pickup a device.
+    @Sendable
+    public func listPickupLocations(_ input: ListPickupLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPickupLocationsResult {
+        return try await self.client.execute(
+            operation: "ListPickupLocations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -509,7 +522,7 @@ extension Snowball {
         )
     }
 
-    /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
+    /// This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -565,6 +578,25 @@ extension Snowball {
             logger: logger
         )
     }
+
+    /// A list of locations from which the customer can choose to pickup a device.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPickupLocationsPaginator(
+        _ input: ListPickupLocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPickupLocationsRequest, ListPickupLocationsResult> {
+        return .init(
+            input: input,
+            command: self.listPickupLocations,
+            inputKey: \ListPickupLocationsRequest.nextToken,
+            outputKey: \ListPickupLocationsResult.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension Snowball.DescribeAddressesRequest: AWSPaginateToken {
@@ -615,6 +647,15 @@ extension Snowball.ListJobsRequest: AWSPaginateToken {
 
 extension Snowball.ListLongTermPricingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Snowball.ListLongTermPricingRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Snowball.ListPickupLocationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Snowball.ListPickupLocationsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

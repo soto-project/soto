@@ -75,6 +75,32 @@ public struct PI: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new performance analysis report for a specific time period for the DB instance.
+    @Sendable
+    public func createPerformanceAnalysisReport(_ input: CreatePerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePerformanceAnalysisReportResponse {
+        return try await self.client.execute(
+            operation: "CreatePerformanceAnalysisReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a performance analysis report.
+    @Sendable
+    public func deletePerformanceAnalysisReport(_ input: DeletePerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePerformanceAnalysisReportResponse {
+        return try await self.client.execute(
+            operation: "DeletePerformanceAnalysisReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// For a specific time period, retrieve the top N dimension keys for a metric.   Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,  only the first 500 bytes are returned.
     @Sendable
     public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDimensionKeysResponse {
@@ -93,6 +119,19 @@ public struct PI: AWSService {
     public func getDimensionKeyDetails(_ input: GetDimensionKeyDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDimensionKeyDetailsResponse {
         return try await self.client.execute(
             operation: "GetDimensionKeyDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
+    @Sendable
+    public func getPerformanceAnalysisReport(_ input: GetPerformanceAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPerformanceAnalysisReportResponse {
+        return try await self.client.execute(
+            operation: "GetPerformanceAnalysisReport", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -145,6 +184,58 @@ public struct PI: AWSService {
     public func listAvailableResourceMetrics(_ input: ListAvailableResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableResourceMetricsResponse {
         return try await self.client.execute(
             operation: "ListAvailableResourceMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    @Sendable
+    public func listPerformanceAnalysisReports(_ input: ListPerformanceAnalysisReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPerformanceAnalysisReportsResponse {
+        return try await self.client.execute(
+            operation: "ListPerformanceAnalysisReports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds metadata tags to the Amazon RDS Performance Insights resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -242,6 +333,25 @@ extension PI {
             logger: logger
         )
     }
+
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPerformanceAnalysisReportsPaginator(
+        _ input: ListPerformanceAnalysisReportsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPerformanceAnalysisReportsRequest, ListPerformanceAnalysisReportsResponse> {
+        return .init(
+            input: input,
+            command: self.listPerformanceAnalysisReports,
+            inputKey: \ListPerformanceAnalysisReportsRequest.nextToken,
+            outputKey: \ListPerformanceAnalysisReportsResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension PI.DescribeDimensionKeysRequest: AWSPaginateToken {
@@ -297,6 +407,18 @@ extension PI.ListAvailableResourceMetricsRequest: AWSPaginateToken {
             identifier: self.identifier,
             maxResults: self.maxResults,
             metricTypes: self.metricTypes,
+            nextToken: token,
+            serviceType: self.serviceType
+        )
+    }
+}
+
+extension PI.ListPerformanceAnalysisReportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> PI.ListPerformanceAnalysisReportsRequest {
+        return .init(
+            identifier: self.identifier,
+            listTags: self.listTags,
+            maxResults: self.maxResults,
             nextToken: token,
             serviceType: self.serviceType
         )

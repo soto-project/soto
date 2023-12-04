@@ -26,7 +26,14 @@ import Foundation
 extension ServiceQuotas {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppliedLevelEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case all = "ALL"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
         case dependencyServiceError = "DEPENDENCY_SERVICE_ERROR"
         case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
@@ -34,7 +41,7 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case hour = "HOUR"
         case microsecond = "MICROSECOND"
@@ -45,16 +52,24 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum QuotaContextScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approved = "APPROVED"
         case caseClosed = "CASE_CLOSED"
         case caseOpened = "CASE_OPENED"
         case denied = "DENIED"
+        case invalidRequest = "INVALID_REQUEST"
+        case notApproved = "NOT_APPROVED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associated = "ASSOCIATED"
         case disassociated = "DISASSOCIATED"
         public var description: String { return self.rawValue }
@@ -71,11 +86,11 @@ extension ServiceQuotas {
     }
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
-        /// The AWS Region.
+        /// Specifies the Amazon Web Services Region for which the request was made.
         public let awsRegion: String
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
@@ -87,13 +102,13 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
-            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -116,7 +131,7 @@ extension ServiceQuotas {
     }
 
     public struct ErrorReason: AWSDecodableShape {
-        /// Service Quotas returns the following error values:    DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the service or quota.    DEPENDENCY_THROTTLING_ERROR - The service is throttling Service Quotas.    DEPENDENCY_SERVICE_ERROR - The service is not available.    SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
+        /// Service Quotas returns the following error values:    DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Service or quota.    DEPENDENCY_THROTTLING_ERROR - The Amazon Web Service is throttling Service Quotas.     DEPENDENCY_SERVICE_ERROR - The Amazon Web Service is not available.    SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
         public let errorCode: ErrorCode?
         /// The error message.
         public let errorMessage: String?
@@ -133,9 +148,9 @@ extension ServiceQuotas {
     }
 
     public struct GetAWSDefaultServiceQuotaRequest: AWSEncodableShape {
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
         public init(quotaCode: String, serviceCode: String) {
@@ -146,10 +161,10 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -176,7 +191,7 @@ extension ServiceQuotas {
     }
 
     public struct GetAssociationForServiceQuotaTemplateResponse: AWSDecodableShape {
-        /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new accounts in your organization.
+        /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
 
         public init(serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus? = nil) {
@@ -189,7 +204,7 @@ extension ServiceQuotas {
     }
 
     public struct GetRequestedServiceQuotaChangeRequest: AWSEncodableShape {
-        /// The ID of the quota increase request.
+        /// Specifies the ID of the quota increase request.
         public let requestId: String
 
         public init(requestId: String) {
@@ -199,7 +214,7 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
             try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[0-9a-zA-Z][a-zA-Z0-9-]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -221,11 +236,11 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
-        /// The AWS Region.
+        /// Specifies the Amazon Web Services Region for which you made the request.
         public let awsRegion: String
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
@@ -237,13 +252,13 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
-            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -267,12 +282,15 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaRequest: AWSEncodableShape {
-        /// The quota identifier.
+        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        public let contextId: String?
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
-        public init(quotaCode: String, serviceCode: String) {
+        public init(contextId: String? = nil, quotaCode: String, serviceCode: String) {
+            self.contextId = contextId
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
@@ -280,13 +298,14 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -306,11 +325,11 @@ extension ServiceQuotas {
     }
 
     public struct ListAWSDefaultServiceQuotasRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
@@ -326,7 +345,7 @@ extension ServiceQuotas {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -337,7 +356,7 @@ extension ServiceQuotas {
     }
 
     public struct ListAWSDefaultServiceQuotasResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
         /// Information about the quotas.
         public let quotas: [ServiceQuota]?
@@ -354,21 +373,24 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        public let quotaRequestedAtLevel: AppliedLevelEnum?
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
-        /// The status value of the quota increase request.
+        /// Specifies that you want to filter the results to only the requests with the matching status.
         public let status: RequestStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, quotaRequestedAtLevel: AppliedLevelEnum? = nil, serviceCode: String, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.quotaCode = quotaCode
+            self.quotaRequestedAtLevel = quotaRequestedAtLevel
             self.serviceCode = serviceCode
             self.status = status
         }
@@ -380,23 +402,24 @@ extension ServiceQuotas {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case quotaCode = "QuotaCode"
+            case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
             case serviceCode = "ServiceCode"
             case status = "Status"
         }
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryByQuotaResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
         /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
@@ -413,18 +436,21 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The service identifier.
+        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        public let quotaRequestedAtLevel: AppliedLevelEnum?
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
-        /// The status of the quota increase request.
+        /// Specifies that you want to filter the results to only the requests with the matching status.
         public let status: RequestStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.quotaRequestedAtLevel = quotaRequestedAtLevel
             self.serviceCode = serviceCode
             self.status = status
         }
@@ -436,19 +462,20 @@ extension ServiceQuotas {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
             case serviceCode = "ServiceCode"
             case status = "Status"
         }
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
         /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
@@ -465,13 +492,13 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSEncodableShape {
-        /// The AWS Region.
+        /// Specifies the Amazon Web Services Region for which you made the request.
         public let awsRegion: String?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
 
         public init(awsRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
@@ -484,14 +511,14 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
-            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -503,7 +530,7 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotaIncreaseRequestsInTemplateResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
         /// Information about the quota increase requests.
         public let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]?
@@ -520,16 +547,22 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotasRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The service identifier.
+        /// Specifies at which level of granularity that the quota value is applied.
+        public let quotaAppliedAtLevel: AppliedLevelEnum?
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
+        public let quotaCode: String?
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaCode: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.quotaAppliedAtLevel = quotaAppliedAtLevel
+            self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
@@ -538,20 +571,25 @@ extension ServiceQuotas {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case quotaAppliedAtLevel = "QuotaAppliedAtLevel"
+            case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
     }
 
     public struct ListServiceQuotasResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
         /// Information about the quotas.
         public let quotas: [ServiceQuota]?
@@ -568,9 +606,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+        /// Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -592,9 +630,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServicesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
-        /// Information about the services.
+        /// The list of the Amazon Web Service names and service codes.
         public let services: [ServiceInfo]?
 
         public init(nextToken: String? = nil, services: [ServiceInfo]? = nil) {
@@ -609,7 +647,7 @@ extension ServiceQuotas {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas CLI command or the ListServiceQuotas Amazon Web Services API operation.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -619,7 +657,7 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -666,13 +704,13 @@ extension ServiceQuotas {
     }
 
     public struct PutServiceQuotaIncreaseRequestIntoTemplateRequest: AWSEncodableShape {
-        /// The AWS Region.
+        /// Specifies the Amazon Web Services Region to which the template applies.
         public let awsRegion: String
-        /// The new, increased value for the quota.
+        /// Specifies the new, increased value for the quota.
         public let desiredValue: Double
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
         public init(awsRegion: String, desiredValue: Double, quotaCode: String, serviceCode: String) {
@@ -685,15 +723,15 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
-            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10000000000.0)
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0.0)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -717,10 +755,31 @@ extension ServiceQuotas {
         }
     }
 
+    public struct QuotaContextInfo: AWSDecodableShape {
+        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        public let contextId: String?
+        /// Specifies whether the quota applies to an Amazon Web Services account, or to a resource.
+        public let contextScope: QuotaContextScope?
+        /// When the ContextScope is RESOURCE, then this specifies the resource type of the specified resource.
+        public let contextScopeType: String?
+
+        public init(contextId: String? = nil, contextScope: QuotaContextScope? = nil, contextScopeType: String? = nil) {
+            self.contextId = contextId
+            self.contextScope = contextScope
+            self.contextScopeType = contextScopeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
+            case contextScope = "ContextScope"
+            case contextScopeType = "ContextScopeType"
+        }
+    }
+
     public struct QuotaPeriod: AWSDecodableShape {
         /// The time unit.
         public let periodUnit: PeriodUnit?
-        /// The value.
+        /// The value associated with the reported PeriodUnit.
         public let periodValue: Int?
 
         public init(periodUnit: PeriodUnit? = nil, periodValue: Int? = nil) {
@@ -735,14 +794,17 @@ extension ServiceQuotas {
     }
 
     public struct RequestServiceQuotaIncreaseRequest: AWSEncodableShape {
-        /// The new, increased value for the quota.
+        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        public let contextId: String?
+        /// Specifies the new, increased value for the quota.
         public let desiredValue: Double
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
-        public init(desiredValue: Double, quotaCode: String, serviceCode: String) {
+        public init(contextId: String? = nil, desiredValue: Double, quotaCode: String, serviceCode: String) {
+            self.contextId = contextId
             self.desiredValue = desiredValue
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
@@ -753,13 +815,14 @@ extension ServiceQuotas {
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0.0)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
-            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,128}$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
             case desiredValue = "DesiredValue"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
@@ -794,22 +857,26 @@ extension ServiceQuotas {
         public let lastUpdated: Date?
         /// The Amazon Resource Name (ARN) of the quota.
         public let quotaArn: String?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String?
-        /// The quota name.
+        /// The context for this service quota.
+        public let quotaContext: QuotaContextInfo?
+        /// Specifies the quota name.
         public let quotaName: String?
+        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        public let quotaRequestedAtLevel: AppliedLevelEnum?
         /// The IAM identity of the requester.
         public let requester: String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
-        /// The service name.
+        /// Specifies the service name.
         public let serviceName: String?
         /// The state of the quota increase request.
         public let status: RequestStatus?
         /// The unit of measurement.
         public let unit: String?
 
-        public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
+        public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
             self.caseId = caseId
             self.created = created
             self.desiredValue = desiredValue
@@ -818,7 +885,9 @@ extension ServiceQuotas {
             self.lastUpdated = lastUpdated
             self.quotaArn = quotaArn
             self.quotaCode = quotaCode
+            self.quotaContext = quotaContext
             self.quotaName = quotaName
+            self.quotaRequestedAtLevel = quotaRequestedAtLevel
             self.requester = requester
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -835,7 +904,9 @@ extension ServiceQuotas {
             case lastUpdated = "LastUpdated"
             case quotaArn = "QuotaArn"
             case quotaCode = "QuotaCode"
+            case quotaContext = "QuotaContext"
             case quotaName = "QuotaName"
+            case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
             case requester = "Requester"
             case serviceCode = "ServiceCode"
             case serviceName = "ServiceName"
@@ -845,9 +916,9 @@ extension ServiceQuotas {
     }
 
     public struct ServiceInfo: AWSDecodableShape {
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
-        /// The service name.
+        /// Specifies the service name.
         public let serviceName: String?
 
         public init(serviceCode: String? = nil, serviceName: String? = nil) {
@@ -870,15 +941,19 @@ extension ServiceQuotas {
         public let globalQuota: Bool?
         /// The period of time.
         public let period: QuotaPeriod?
+        /// Specifies at which level of granularity that the quota value is applied.
+        public let quotaAppliedAtLevel: AppliedLevelEnum?
         /// The Amazon Resource Name (ARN) of the quota.
         public let quotaArn: String?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String?
-        /// The quota name.
+        /// The context for this service quota.
+        public let quotaContext: QuotaContextInfo?
+        /// Specifies the quota name.
         public let quotaName: String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
-        /// The service name.
+        /// Specifies the service name.
         public let serviceName: String?
         /// The unit of measurement.
         public let unit: String?
@@ -887,13 +962,15 @@ extension ServiceQuotas {
         /// The quota value.
         public let value: Double?
 
-        public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
+        public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
             self.adjustable = adjustable
             self.errorReason = errorReason
             self.globalQuota = globalQuota
             self.period = period
+            self.quotaAppliedAtLevel = quotaAppliedAtLevel
             self.quotaArn = quotaArn
             self.quotaCode = quotaCode
+            self.quotaContext = quotaContext
             self.quotaName = quotaName
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -907,8 +984,10 @@ extension ServiceQuotas {
             case errorReason = "ErrorReason"
             case globalQuota = "GlobalQuota"
             case period = "Period"
+            case quotaAppliedAtLevel = "QuotaAppliedAtLevel"
             case quotaArn = "QuotaArn"
             case quotaCode = "QuotaCode"
+            case quotaContext = "QuotaContext"
             case quotaName = "QuotaName"
             case serviceCode = "ServiceCode"
             case serviceName = "ServiceName"
@@ -919,19 +998,19 @@ extension ServiceQuotas {
     }
 
     public struct ServiceQuotaIncreaseRequestInTemplate: AWSDecodableShape {
-        /// The AWS Region.
+        /// The Amazon Web Services Region.
         public let awsRegion: String?
         /// The new, increased value of the quota.
         public let desiredValue: Double?
         /// Indicates whether the quota is global.
         public let globalQuota: Bool?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String?
-        /// The quota name.
+        /// Specifies the quota name.
         public let quotaName: String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
-        /// The service name.
+        /// Specifies the service name.
         public let serviceName: String?
         /// The unit of measurement.
         public let unit: String?
@@ -985,7 +1064,7 @@ extension ServiceQuotas {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas CLI command or the ListServiceQuotas Amazon Web Services API operation.
         public let resourceARN: String
         /// The tags that you want to add to the resource.
         public let tags: [Tag]
@@ -998,7 +1077,7 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1016,7 +1095,7 @@ extension ServiceQuotas {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas CLI command or the ListServiceQuotas Amazon Web Services API operation.
         public let resourceARN: String
         /// The keys of the tags that you want to remove from the resource.
         public let tagKeys: [String]
@@ -1029,7 +1108,7 @@ extension ServiceQuotas {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1102,11 +1181,11 @@ public struct ServiceQuotasErrorType: AWSErrorType {
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
     /// The resource is in an invalid state.
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
-    /// The account making this call is not a member of an organization.
+    /// The Amazon Web Services account making this call is not a member of an organization.
     public static var noAvailableOrganizationException: Self { .init(.noAvailableOrganizationException) }
     /// The specified resource does not exist.
     public static var noSuchResourceException: Self { .init(.noSuchResourceException) }
-    /// The organization that your account belongs to is not in All Features mode.
+    /// The organization that your Amazon Web Services account belongs to is not in All Features mode.
     public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
     /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     public static var quotaExceededException: Self { .init(.quotaExceededException) }
@@ -1118,7 +1197,7 @@ public struct ServiceQuotasErrorType: AWSErrorType {
     public static var serviceQuotaTemplateNotInUseException: Self { .init(.serviceQuotaTemplateNotInUseException) }
     /// The specified tag is a reserved word and cannot be used.
     public static var tagPolicyViolationException: Self { .init(.tagPolicyViolationException) }
-    /// The Service Quotas template is not available in this AWS Region.
+    /// The Service Quotas template is not available in this Amazon Web Services Region.
     public static var templatesNotAvailableInRegionException: Self { .init(.templatesNotAvailableInRegionException) }
     /// Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

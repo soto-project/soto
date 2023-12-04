@@ -72,6 +72,19 @@ public struct PersonalizeRuntime: AWSService {
 
     // MARK: API Calls
 
+    /// Returns a list of recommended actions in sorted in descending order by prediction score.  Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe.  For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes. For more information about getting action recommendations, see Getting action recommendations.
+    @Sendable
+    public func getActionRecommendations(_ input: GetActionRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetActionRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "GetActionRecommendations", 
+            path: "/action-recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user.  The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING.
     @Sendable
     public func getPersonalizedRanking(_ input: GetPersonalizedRankingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPersonalizedRankingResponse {

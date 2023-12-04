@@ -438,6 +438,19 @@ public struct WorkMail: AWSService {
         )
     }
 
+    /// Returns basic details about an entity in WorkMail.
+    @Sendable
+    public func describeEntity(_ input: DescribeEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEntityResponse {
+        return try await self.client.execute(
+            operation: "DescribeEntity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the data available for the group.
     @Sendable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
@@ -703,6 +716,19 @@ public struct WorkMail: AWSService {
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
         return try await self.client.execute(
             operation: "ListGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns all the groups to which an entity belongs.
+    @Sendable
+    public func listGroupsForEntity(_ input: ListGroupsForEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsForEntityResponse {
+        return try await self.client.execute(
+            operation: "ListGroupsForEntity", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -997,7 +1023,7 @@ public struct WorkMail: AWSService {
         )
     }
 
-    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.    The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
+    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.  The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     @Sendable
     public func testAvailabilityConfiguration(_ input: TestAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestAvailabilityConfigurationResponse {
         return try await self.client.execute(
@@ -1041,6 +1067,19 @@ public struct WorkMail: AWSService {
     public func updateDefaultMailDomain(_ input: UpdateDefaultMailDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDefaultMailDomainResponse {
         return try await self.client.execute(
             operation: "UpdateDefaultMailDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates attibutes in a group.
+    @Sendable
+    public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
+        return try await self.client.execute(
+            operation: "UpdateGroup", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1106,6 +1145,19 @@ public struct WorkMail: AWSService {
     public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceResponse {
         return try await self.client.execute(
             operation: "UpdateResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates data for the user. To have the latest information, it must be preceded by a DescribeUser call. The dataset in the request should be the one expected when performing another DescribeUser call.
+    @Sendable
+    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
+        return try await self.client.execute(
+            operation: "UpdateUser", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1200,6 +1252,25 @@ extension WorkMail {
             command: self.listGroups,
             inputKey: \ListGroupsRequest.nextToken,
             outputKey: \ListGroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns all the groups to which an entity belongs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listGroupsForEntityPaginator(
+        _ input: ListGroupsForEntityRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGroupsForEntityRequest, ListGroupsForEntityResponse> {
+        return .init(
+            input: input,
+            command: self.listGroupsForEntity,
+            inputKey: \ListGroupsForEntityRequest.nextToken,
+            outputKey: \ListGroupsForEntityResponse.nextToken,
             logger: logger
         )
     }
@@ -1408,9 +1479,22 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
     }
 }
 
+extension WorkMail.ListGroupsForEntityRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsForEntityRequest {
+        return .init(
+            entityId: self.entityId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
 extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -1494,6 +1578,7 @@ extension WorkMail.ListResourceDelegatesRequest: AWSPaginateToken {
 extension WorkMail.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListResourcesRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -1504,6 +1589,7 @@ extension WorkMail.ListResourcesRequest: AWSPaginateToken {
 extension WorkMail.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListUsersRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId

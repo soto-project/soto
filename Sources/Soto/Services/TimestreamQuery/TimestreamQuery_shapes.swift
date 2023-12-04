@@ -26,12 +26,12 @@ import Foundation
 extension TimestreamQuery {
     // MARK: Enums
 
-    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -40,13 +40,13 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalarMeasureValueType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalarMeasureValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -55,7 +55,7 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalarType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalarType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case date = "DATE"
@@ -70,7 +70,7 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledQueryRunStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScheduledQueryRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoTriggerFailure = "AUTO_TRIGGER_FAILURE"
         case autoTriggerSuccess = "AUTO_TRIGGER_SUCCESS"
         case manualTriggerFailure = "MANUAL_TRIGGER_FAILURE"
@@ -78,7 +78,7 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledQueryState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScheduledQueryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }

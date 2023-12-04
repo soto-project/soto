@@ -26,7 +26,7 @@ import Foundation
 extension IoTRoboRunner {
     // MARK: Enums
 
-    public enum DestinationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case decommissioned = "DECOMMISSIONED"
         case disabled = "DISABLED"
         case enabled = "ENABLED"

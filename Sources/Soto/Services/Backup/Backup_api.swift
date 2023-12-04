@@ -151,6 +151,19 @@ public struct Backup: AWSService {
         )
     }
 
+    /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the  minimum number of retention days, and optionally can include tags and a creator request  ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    @Sendable
+    public func createLogicallyAirGappedBackupVault(_ input: CreateLogicallyAirGappedBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
+        return try await self.client.execute(
+            operation: "CreateLogicallyAirGappedBackupVault", 
+            path: "/logically-air-gapped-backup-vaults/{BackupVaultName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     @Sendable
     public func createReportPlan(_ input: CreateReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReportPlanOutput {
@@ -158,6 +171,32 @@ public struct Backup: AWSService {
             operation: "CreateReportPlan", 
             path: "/audit/report-plans", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This is the first of two steps to create a restore testing  plan; once this request is successful, finish the procedure with  request CreateRestoreTestingSelection. You must include the parameter RestoreTestingPlan. You may  optionally include CreatorRequestId and Tags.
+    @Sendable
+    public func createRestoreTestingPlan(_ input: CreateRestoreTestingPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRestoreTestingPlanOutput {
+        return try await self.client.execute(
+            operation: "CreateRestoreTestingPlan", 
+            path: "/restore-testing/plans", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This request can be sent after CreateRestoreTestingPlan request  returns successfully. This is the second part of creating a resource testing  plan, and it must be completed sequentially. This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:    ProtectedResourceArns     ProtectedResourceConditions    Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns. Cannot select by both protected resource types AND specific ARNs.  Request will fail if both are included.
+    @Sendable
+    public func createRestoreTestingSelection(_ input: CreateRestoreTestingSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRestoreTestingSelectionOutput {
+        return try await self.client.execute(
+            operation: "CreateRestoreTestingSelection", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}/selections", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -274,6 +313,32 @@ public struct Backup: AWSService {
         return try await self.client.execute(
             operation: "DeleteReportPlan", 
             path: "/audit/report-plans/{ReportPlanName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This request deletes the specified restore testing plan. Deletion can only successfully occur if all associated  restore testing selections are deleted first.
+    @Sendable
+    public func deleteRestoreTestingPlan(_ input: DeleteRestoreTestingPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteRestoreTestingPlan", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Input the Restore Testing Plan name and Restore Testing Selection  name. All testing selections associated with a restore testing plan must  be deleted before the restore testing plan can be deleted.
+    @Sendable
+    public func deleteRestoreTestingSelection(_ input: DeleteRestoreTestingSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteRestoreTestingSelection", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -567,6 +632,58 @@ public struct Backup: AWSService {
         )
     }
 
+    /// This request returns the metadata for the specified restore job.
+    @Sendable
+    public func getRestoreJobMetadata(_ input: GetRestoreJobMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRestoreJobMetadataOutput {
+        return try await self.client.execute(
+            operation: "GetRestoreJobMetadata", 
+            path: "/restore-jobs/{RestoreJobId}/metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This request returns the minimal required set of metadata needed to  start a restore job with secure default settings. BackupVaultName  and RecoveryPointArn are required parameters.  BackupVaultAccountId is an optional parameter.
+    @Sendable
+    public func getRestoreTestingInferredMetadata(_ input: GetRestoreTestingInferredMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRestoreTestingInferredMetadataOutput {
+        return try await self.client.execute(
+            operation: "GetRestoreTestingInferredMetadata", 
+            path: "/restore-testing/inferred-metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns RestoreTestingPlan details for the specified RestoreTestingPlanName. The details are the body of a restore testing plan in JSON format, in addition to plan metadata.
+    @Sendable
+    public func getRestoreTestingPlan(_ input: GetRestoreTestingPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRestoreTestingPlanOutput {
+        return try await self.client.execute(
+            operation: "GetRestoreTestingPlan", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns RestoreTestingSelection, which displays resources  and elements of the restore testing plan.
+    @Sendable
+    public func getRestoreTestingSelection(_ input: GetRestoreTestingSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRestoreTestingSelectionOutput {
+        return try await self.client.execute(
+            operation: "GetRestoreTestingSelection", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the Amazon Web Services resource types supported by Backup.
     @Sendable
     public func getSupportedResourceTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSupportedResourceTypesOutput {
@@ -575,6 +692,19 @@ public struct Backup: AWSService {
             path: "/supported-resource-types", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
+    /// This is a request for a summary of backup jobs created  or running within the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    @Sendable
+    public func listBackupJobSummaries(_ input: ListBackupJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupJobSummariesOutput {
+        return try await self.client.execute(
+            operation: "ListBackupJobSummaries", 
+            path: "/audit/backup-job-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
             logger: logger
         )
     }
@@ -657,6 +787,19 @@ public struct Backup: AWSService {
         )
     }
 
+    /// This request obtains a list of copy jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    @Sendable
+    public func listCopyJobSummaries(_ input: ListCopyJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCopyJobSummariesOutput {
+        return try await self.client.execute(
+            operation: "ListCopyJobSummaries", 
+            path: "/audit/copy-job-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns metadata about your copy jobs.
     @Sendable
     public func listCopyJobs(_ input: ListCopyJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCopyJobsOutput {
@@ -702,6 +845,19 @@ public struct Backup: AWSService {
         return try await self.client.execute(
             operation: "ListProtectedResources", 
             path: "/resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This request lists the protected resources corresponding to each backup vault.
+    @Sendable
+    public func listProtectedResourcesByBackupVault(_ input: ListProtectedResourcesByBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectedResourcesByBackupVaultOutput {
+        return try await self.client.execute(
+            operation: "ListProtectedResourcesByBackupVault", 
+            path: "/backup-vaults/{BackupVaultName}/resources", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -774,12 +930,64 @@ public struct Backup: AWSService {
         )
     }
 
+    /// This request obtains a summary of restore jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    @Sendable
+    public func listRestoreJobSummaries(_ input: ListRestoreJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreJobSummariesOutput {
+        return try await self.client.execute(
+            operation: "ListRestoreJobSummaries", 
+            path: "/audit/restore-job-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     @Sendable
     public func listRestoreJobs(_ input: ListRestoreJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreJobsOutput {
         return try await self.client.execute(
             operation: "ListRestoreJobs", 
             path: "/restore-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn. You can optionally include NextToken, ByStatus, MaxResults, ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore.
+    @Sendable
+    public func listRestoreJobsByProtectedResource(_ input: ListRestoreJobsByProtectedResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreJobsByProtectedResourceOutput {
+        return try await self.client.execute(
+            operation: "ListRestoreJobsByProtectedResource", 
+            path: "/resources/{ResourceArn}/restore-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of restore testing plans.
+    @Sendable
+    public func listRestoreTestingPlans(_ input: ListRestoreTestingPlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreTestingPlansOutput {
+        return try await self.client.execute(
+            operation: "ListRestoreTestingPlans", 
+            path: "/restore-testing/plans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of restore testing selections. Can be filtered  by MaxResults and RestoreTestingPlanName.
+    @Sendable
+    public func listRestoreTestingSelections(_ input: ListRestoreTestingSelectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreTestingSelectionsOutput {
+        return try await self.client.execute(
+            operation: "ListRestoreTestingSelections", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}/selections", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -832,6 +1040,19 @@ public struct Backup: AWSService {
         return try await self.client.execute(
             operation: "PutBackupVaultNotifications", 
             path: "/backup-vaults/{BackupVaultName}/notification-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This request allows you to send your independent self-run  restore test validation results.  RestoreJobId and ValidationStatus  are required. Optionally, you can input a  ValidationStatusMessage.
+    @Sendable
+    public func putRestoreValidationResult(_ input: PutRestoreValidationResultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "PutRestoreValidationResult", 
+            path: "/restore-jobs/{RestoreJobId}/validations", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -1007,6 +1228,32 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
+
+    /// This request will send changes to your specified restore testing  plan. RestoreTestingPlanName  cannot be updated after it is created.  RecoveryPointSelection can contain:    Algorithm     ExcludeVaults     IncludeVaults     RecoveryPointTypes     SelectionWindowDays
+    @Sendable
+    public func updateRestoreTestingPlan(_ input: UpdateRestoreTestingPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRestoreTestingPlanOutput {
+        return try await self.client.execute(
+            operation: "UpdateRestoreTestingPlan", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Most elements except the RestoreTestingSelectionName  can be updated with this request.  RestoreTestingSelection can use either protected  resource ARNs or conditions, but not both. That is, if your selection  has ProtectedResourceArns, requesting an update with the  parameter ProtectedResourceConditions will be  unsuccessful.
+    @Sendable
+    public func updateRestoreTestingSelection(_ input: UpdateRestoreTestingSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRestoreTestingSelectionOutput {
+        return try await self.client.execute(
+            operation: "UpdateRestoreTestingSelection", 
+            path: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension Backup {
@@ -1022,6 +1269,25 @@ extension Backup {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Backup {
+    /// This is a request for a summary of backup jobs created  or running within the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listBackupJobSummariesPaginator(
+        _ input: ListBackupJobSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBackupJobSummariesInput, ListBackupJobSummariesOutput> {
+        return .init(
+            input: input,
+            command: self.listBackupJobSummaries,
+            inputKey: \ListBackupJobSummariesInput.nextToken,
+            outputKey: \ListBackupJobSummariesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these monitoring tools.
     /// Return PaginatorSequence for operation.
     ///
@@ -1136,6 +1402,25 @@ extension Backup {
         )
     }
 
+    /// This request obtains a list of copy jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCopyJobSummariesPaginator(
+        _ input: ListCopyJobSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCopyJobSummariesInput, ListCopyJobSummariesOutput> {
+        return .init(
+            input: input,
+            command: self.listCopyJobSummaries,
+            inputKey: \ListCopyJobSummariesInput.nextToken,
+            outputKey: \ListCopyJobSummariesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns metadata about your copy jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -1208,6 +1493,25 @@ extension Backup {
             command: self.listProtectedResources,
             inputKey: \ListProtectedResourcesInput.nextToken,
             outputKey: \ListProtectedResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// This request lists the protected resources corresponding to each backup vault.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listProtectedResourcesByBackupVaultPaginator(
+        _ input: ListProtectedResourcesByBackupVaultInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput> {
+        return .init(
+            input: input,
+            command: self.listProtectedResourcesByBackupVault,
+            inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken,
+            outputKey: \ListProtectedResourcesByBackupVaultOutput.nextToken,
             logger: logger
         )
     }
@@ -1307,6 +1611,25 @@ extension Backup {
         )
     }
 
+    /// This request obtains a summary of restore jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRestoreJobSummariesPaginator(
+        _ input: ListRestoreJobSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRestoreJobSummariesInput, ListRestoreJobSummariesOutput> {
+        return .init(
+            input: input,
+            command: self.listRestoreJobSummaries,
+            inputKey: \ListRestoreJobSummariesInput.nextToken,
+            outputKey: \ListRestoreJobSummariesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     /// Return PaginatorSequence for operation.
     ///
@@ -1322,6 +1645,63 @@ extension Backup {
             command: self.listRestoreJobs,
             inputKey: \ListRestoreJobsInput.nextToken,
             outputKey: \ListRestoreJobsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn. You can optionally include NextToken, ByStatus, MaxResults, ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRestoreJobsByProtectedResourcePaginator(
+        _ input: ListRestoreJobsByProtectedResourceInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRestoreJobsByProtectedResourceInput, ListRestoreJobsByProtectedResourceOutput> {
+        return .init(
+            input: input,
+            command: self.listRestoreJobsByProtectedResource,
+            inputKey: \ListRestoreJobsByProtectedResourceInput.nextToken,
+            outputKey: \ListRestoreJobsByProtectedResourceOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of restore testing plans.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRestoreTestingPlansPaginator(
+        _ input: ListRestoreTestingPlansInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRestoreTestingPlansInput, ListRestoreTestingPlansOutput> {
+        return .init(
+            input: input,
+            command: self.listRestoreTestingPlans,
+            inputKey: \ListRestoreTestingPlansInput.nextToken,
+            outputKey: \ListRestoreTestingPlansOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of restore testing selections. Can be filtered  by MaxResults and RestoreTestingPlanName.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRestoreTestingSelectionsPaginator(
+        _ input: ListRestoreTestingSelectionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRestoreTestingSelectionsInput, ListRestoreTestingSelectionsOutput> {
+        return .init(
+            input: input,
+            command: self.listRestoreTestingSelections,
+            inputKey: \ListRestoreTestingSelectionsInput.nextToken,
+            outputKey: \ListRestoreTestingSelectionsOutput.nextToken,
             logger: logger
         )
     }
@@ -1346,6 +1726,20 @@ extension Backup {
     }
 }
 
+extension Backup.ListBackupJobSummariesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListBackupJobSummariesInput {
+        return .init(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            messageCategory: self.messageCategory,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
+        )
+    }
+}
+
 extension Backup.ListBackupJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupJobsInput {
         return .init(
@@ -1355,6 +1749,7 @@ extension Backup.ListBackupJobsInput: AWSPaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byMessageCategory: self.byMessageCategory,
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
@@ -1407,8 +1802,24 @@ extension Backup.ListBackupSelectionsInput: AWSPaginateToken {
 extension Backup.ListBackupVaultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupVaultsInput {
         return .init(
+            byShared: self.byShared,
+            byVaultType: self.byVaultType,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Backup.ListCopyJobSummariesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListCopyJobSummariesInput {
+        return .init(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            messageCategory: self.messageCategory,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
         )
     }
 }
@@ -1422,6 +1833,7 @@ extension Backup.ListCopyJobsInput: AWSPaginateToken {
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byDestinationVaultArn: self.byDestinationVaultArn,
+            byMessageCategory: self.byMessageCategory,
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
@@ -1450,6 +1862,17 @@ extension Backup.ListLegalHoldsInput: AWSPaginateToken {
     }
 }
 
+extension Backup.ListProtectedResourcesByBackupVaultInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesByBackupVaultInput {
+        return .init(
+            backupVaultAccountId: self.backupVaultAccountId,
+            backupVaultName: self.backupVaultName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesInput {
         return .init(
@@ -1462,6 +1885,7 @@ extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
 extension Backup.ListRecoveryPointsByBackupVaultInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRecoveryPointsByBackupVaultInput {
         return .init(
+            backupVaultAccountId: self.backupVaultAccountId,
             backupVaultName: self.backupVaultName,
             byBackupPlanId: self.byBackupPlanId,
             byCreatedAfter: self.byCreatedAfter,
@@ -1517,6 +1941,32 @@ extension Backup.ListReportPlansInput: AWSPaginateToken {
     }
 }
 
+extension Backup.ListRestoreJobSummariesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobSummariesInput {
+        return .init(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
+        )
+    }
+}
+
+extension Backup.ListRestoreJobsByProtectedResourceInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobsByProtectedResourceInput {
+        return .init(
+            byRecoveryPointCreationDateAfter: self.byRecoveryPointCreationDateAfter,
+            byRecoveryPointCreationDateBefore: self.byRecoveryPointCreationDateBefore,
+            byStatus: self.byStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )
+    }
+}
+
 extension Backup.ListRestoreJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobsInput {
         return .init(
@@ -1525,9 +1975,29 @@ extension Backup.ListRestoreJobsInput: AWSPaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byRestoreTestingPlanArn: self.byRestoreTestingPlanArn,
             byStatus: self.byStatus,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Backup.ListRestoreTestingPlansInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListRestoreTestingPlansInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Backup.ListRestoreTestingSelectionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Backup.ListRestoreTestingSelectionsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            restoreTestingPlanName: self.restoreTestingPlanName
         )
     }
 }

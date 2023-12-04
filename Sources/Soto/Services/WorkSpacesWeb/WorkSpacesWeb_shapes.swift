@@ -26,24 +26,24 @@ import Foundation
 extension WorkSpacesWeb {
     // MARK: Enums
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iamIdentityCenter = "IAM_Identity_Center"
         case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum BrowserType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BrowserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case chrome = "Chrome"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnabledType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnabledType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case facebook = "Facebook"
         case google = "Google"
         case loginWithAmazon = "LoginWithAmazon"
@@ -53,14 +53,14 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
-    public enum PortalStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PortalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case incomplete = "Incomplete"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum RendererType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RendererType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appStream = "AppStream"
         public var description: String { return self.rawValue }
     }
@@ -372,9 +372,9 @@ extension WorkSpacesWeb {
 
     public struct BrowserSettingsSummary: AWSDecodableShape {
         /// The ARN of the browser settings.
-        public let browserSettingsArn: String?
+        public let browserSettingsArn: String
 
-        public init(browserSettingsArn: String? = nil) {
+        public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
         }
 
@@ -442,6 +442,63 @@ extension WorkSpacesWeb {
             case notValidBefore = "notValidBefore"
             case subject = "subject"
             case thumbprint = "thumbprint"
+        }
+    }
+
+    public struct CookieSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The domain of the cookie.
+        public let domain: String
+        /// The name of the cookie.
+        public let name: String?
+        /// The path of the cookie.
+        public let path: String?
+
+        public init(domain: String, name: String? = nil, path: String? = nil) {
+            self.domain = domain
+            self.name = name
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(\\.?)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)*[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$")
+            try self.validate(self.name, name: "name", parent: name, max: 4096)
+            try self.validate(self.path, name: "path", parent: name, max: 2000)
+            try self.validate(self.path, name: "path", parent: name, pattern: "^/(\\S)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case name = "name"
+            case path = "path"
+        }
+    }
+
+    public struct CookieSynchronizationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of cookie specifications that are allowed to be synchronized to the remote browser.
+        public let allowlist: [CookieSpecification]
+        /// The list of cookie specifications that are blocked from being synchronized to the remote browser.
+        public let blocklist: [CookieSpecification]?
+
+        public init(allowlist: [CookieSpecification], blocklist: [CookieSpecification]? = nil) {
+            self.allowlist = allowlist
+            self.blocklist = blocklist
+        }
+
+        public func validate(name: String) throws {
+            try self.allowlist.forEach {
+                try $0.validate(name: "\(name).allowlist[]")
+            }
+            try self.validate(self.allowlist, name: "allowlist", parent: name, max: 10)
+            try self.blocklist?.forEach {
+                try $0.validate(name: "\(name).blocklist[]")
+            }
+            try self.validate(self.blocklist, name: "blocklist", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowlist = "allowlist"
+            case blocklist = "blocklist"
         }
     }
 
@@ -875,10 +932,16 @@ extension WorkSpacesWeb {
     }
 
     public struct CreateUserSettingsRequest: AWSEncodableShape {
+        /// The additional encryption context of the user settings.
+        public let additionalEncryptionContext: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+        public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType
+        /// The customer managed key used to encrypt sensitive information in the user settings.
+        public let customerManagedKey: String?
         /// The amount of time that a streaming session remains active after users disconnect.
         public let disconnectTimeoutInMinutes: Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -894,9 +957,12 @@ extension WorkSpacesWeb {
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
 
-        public init(clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), copyAllowed: EnabledType, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
+            self.additionalEncryptionContext = additionalEncryptionContext
             self.clientToken = clientToken
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
+            self.customerManagedKey = customerManagedKey
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -907,8 +973,18 @@ extension WorkSpacesWeb {
         }
 
         public func validate(name: String) throws {
+            try self.additionalEncryptionContext?.forEach {
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131072)
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, pattern: "^[\\s\\S]*$")
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131072)
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
+            }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.cookieSynchronizationConfiguration?.validate(name: "\(name).cookieSynchronizationConfiguration")
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, max: 2048)
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, min: 20)
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:kms:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:key\\/[a-zA-Z0-9-]+$")
             try self.validate(self.disconnectTimeoutInMinutes, name: "disconnectTimeoutInMinutes", parent: name, max: 600)
             try self.validate(self.disconnectTimeoutInMinutes, name: "disconnectTimeoutInMinutes", parent: name, min: 1)
             try self.validate(self.idleDisconnectTimeoutInMinutes, name: "idleDisconnectTimeoutInMinutes", parent: name, max: 60)
@@ -920,8 +996,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalEncryptionContext = "additionalEncryptionContext"
             case clientToken = "clientToken"
+            case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
+            case customerManagedKey = "customerManagedKey"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
@@ -989,7 +1068,7 @@ extension WorkSpacesWeb {
         public func validate(name: String) throws {
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, max: 2048)
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, min: 20)
-            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36}){2,}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1376,7 +1455,7 @@ extension WorkSpacesWeb {
         public func validate(name: String) throws {
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, max: 2048)
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, min: 20)
-            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36}){2,}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1577,9 +1656,9 @@ extension WorkSpacesWeb {
         /// The certificate of the trust store certificate.
         public let certificate: Certificate?
         /// The ARN of the trust store certificate.
-        public let trustStoreArn: String?
+        public let trustStoreArn: String
 
-        public init(certificate: Certificate? = nil, trustStoreArn: String? = nil) {
+        public init(certificate: Certificate? = nil, trustStoreArn: String) {
             self.certificate = certificate
             self.trustStoreArn = trustStoreArn
         }
@@ -1725,13 +1804,13 @@ extension WorkSpacesWeb {
 
     public struct IdentityProviderSummary: AWSDecodableShape {
         /// The ARN of the identity provider.
-        public let identityProviderArn: String?
+        public let identityProviderArn: String
         /// The identity provider name.
         public let identityProviderName: String?
         /// The identity provider type.
         public let identityProviderType: IdentityProviderType?
 
-        public init(identityProviderArn: String? = nil, identityProviderName: String? = nil, identityProviderType: IdentityProviderType? = nil) {
+        public init(identityProviderArn: String, identityProviderName: String? = nil, identityProviderType: IdentityProviderType? = nil) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderName = identityProviderName
             self.identityProviderType = identityProviderType
@@ -1785,9 +1864,9 @@ extension WorkSpacesWeb {
         /// The display name of the IP access settings.
         public let displayName: String?
         /// The ARN of IP access settings.
-        public let ipAccessSettingsArn: String?
+        public let ipAccessSettingsArn: String
 
-        public init(creationDate: Date? = nil, description: String? = nil, displayName: String? = nil, ipAccessSettingsArn: String? = nil) {
+        public init(creationDate: Date? = nil, description: String? = nil, displayName: String? = nil, ipAccessSettingsArn: String) {
             self.creationDate = creationDate
             self.description = description
             self.displayName = displayName
@@ -2135,9 +2214,9 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.&gt;
         public let nextToken: String?
         /// The ARN of the trust store.
-        public let trustStoreArn: String?
+        public let trustStoreArn: String
 
-        public init(certificateList: [CertificateSummary]? = nil, nextToken: String? = nil, trustStoreArn: String? = nil) {
+        public init(certificateList: [CertificateSummary]? = nil, nextToken: String? = nil, trustStoreArn: String) {
             self.certificateList = certificateList
             self.nextToken = nextToken
             self.trustStoreArn = trustStoreArn
@@ -2316,11 +2395,11 @@ extension WorkSpacesWeb {
 
     public struct NetworkSettingsSummary: AWSDecodableShape {
         /// The ARN of the network settings.
-        public let networkSettingsArn: String?
+        public let networkSettingsArn: String
         /// The VPC ID of the network settings.
         public let vpcId: String?
 
-        public init(networkSettingsArn: String? = nil, vpcId: String? = nil) {
+        public init(networkSettingsArn: String, vpcId: String? = nil) {
             self.networkSettingsArn = networkSettingsArn
             self.vpcId = vpcId
         }
@@ -2347,7 +2426,7 @@ extension WorkSpacesWeb {
         /// The ARN of the network settings that is associated with the web portal.
         public let networkSettingsArn: String?
         /// The ARN of the web portal.
-        public let portalArn: String?
+        public let portalArn: String
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public let portalEndpoint: String?
         /// The status of the web portal.
@@ -2363,7 +2442,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
-        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, ipAccessSettingsArn: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, ipAccessSettingsArn: String? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
@@ -2416,7 +2495,7 @@ extension WorkSpacesWeb {
         /// The ARN of the network settings that is associated with the web portal.
         public let networkSettingsArn: String?
         /// The ARN of the web portal.
-        public let portalArn: String?
+        public let portalArn: String
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public let portalEndpoint: String?
         /// The status of the web portal.
@@ -2430,7 +2509,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
-        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, ipAccessSettingsArn: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, ipAccessSettingsArn: String? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
@@ -2538,9 +2617,9 @@ extension WorkSpacesWeb {
         /// A list of web portal ARNs that this trust store is associated with.
         public let associatedPortalArns: [String]?
         /// The ARN of the trust store.
-        public let trustStoreArn: String?
+        public let trustStoreArn: String
 
-        public init(associatedPortalArns: [String]? = nil, trustStoreArn: String? = nil) {
+        public init(associatedPortalArns: [String]? = nil, trustStoreArn: String) {
             self.associatedPortalArns = associatedPortalArns
             self.trustStoreArn = trustStoreArn
         }
@@ -2688,7 +2767,7 @@ extension WorkSpacesWeb {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, max: 2048)
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, min: 20)
-            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36}){2,}$")
             try self.identityProviderDetails?.forEach {
                 try validate($0.key, name: "identityProviderDetails.key", parent: name, max: 131072)
                 try validate($0.key, name: "identityProviderDetails.key", parent: name, pattern: "^[\\s\\S]*$")
@@ -3031,6 +3110,8 @@ extension WorkSpacesWeb {
     public struct UpdateUserSettingsRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
+        public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
@@ -3048,8 +3129,9 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
-        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.clientToken = clientToken
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
@@ -3064,6 +3146,7 @@ extension WorkSpacesWeb {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
             try container.encodeIfPresent(self.copyAllowed, forKey: .copyAllowed)
             try container.encodeIfPresent(self.disconnectTimeoutInMinutes, forKey: .disconnectTimeoutInMinutes)
             try container.encodeIfPresent(self.downloadAllowed, forKey: .downloadAllowed)
@@ -3077,6 +3160,7 @@ extension WorkSpacesWeb {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.cookieSynchronizationConfiguration?.validate(name: "\(name).cookieSynchronizationConfiguration")
             try self.validate(self.disconnectTimeoutInMinutes, name: "disconnectTimeoutInMinutes", parent: name, max: 600)
             try self.validate(self.disconnectTimeoutInMinutes, name: "disconnectTimeoutInMinutes", parent: name, min: 1)
             try self.validate(self.idleDisconnectTimeoutInMinutes, name: "idleDisconnectTimeoutInMinutes", parent: name, max: 60)
@@ -3088,6 +3172,7 @@ extension WorkSpacesWeb {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
@@ -3136,9 +3221,9 @@ extension WorkSpacesWeb {
         /// The ARN of the Kinesis stream.
         public let kinesisStreamArn: String?
         /// The ARN of the user access logging settings.
-        public let userAccessLoggingSettingsArn: String?
+        public let userAccessLoggingSettingsArn: String
 
-        public init(kinesisStreamArn: String? = nil, userAccessLoggingSettingsArn: String? = nil) {
+        public init(kinesisStreamArn: String? = nil, userAccessLoggingSettingsArn: String) {
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -3152,6 +3237,8 @@ extension WorkSpacesWeb {
     public struct UserSettings: AWSDecodableShape {
         /// A list of web portal ARNs that this user settings is associated with.
         public let associatedPortalArns: [String]?
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+        public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
@@ -3169,8 +3256,9 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
-        public init(associatedPortalArns: [String]? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.associatedPortalArns = associatedPortalArns
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
@@ -3183,6 +3271,7 @@ extension WorkSpacesWeb {
 
         private enum CodingKeys: String, CodingKey {
             case associatedPortalArns = "associatedPortalArns"
+            case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
@@ -3195,6 +3284,8 @@ extension WorkSpacesWeb {
     }
 
     public struct UserSettingsSummary: AWSDecodableShape {
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+        public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
@@ -3210,9 +3301,10 @@ extension WorkSpacesWeb {
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
-        public let userSettingsArn: String?
+        public let userSettingsArn: String
 
-        public init(copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String? = nil) {
+        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
@@ -3224,6 +3316,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"

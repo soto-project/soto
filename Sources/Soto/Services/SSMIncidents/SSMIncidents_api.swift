@@ -59,6 +59,7 @@ public struct SSMIncidents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: SSMIncidentsErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,8 +71,31 @@ public struct SSMIncidents: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "ssm-incidents-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "ssm-incidents-fips.us-east-1.amazonaws.com",
+            "us-east-2": "ssm-incidents-fips.us-east-2.amazonaws.com",
+            "us-west-1": "ssm-incidents-fips.us-west-1.amazonaws.com",
+            "us-west-2": "ssm-incidents-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
+
+    /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident.
+    @Sendable
+    public func batchGetIncidentFindings(_ input: BatchGetIncidentFindingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetIncidentFindingsOutput {
+        return try await self.client.execute(
+            operation: "BatchGetIncidentFindings", 
+            path: "/batchGetIncidentFindings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
     @Sendable
@@ -242,6 +266,19 @@ public struct SSMIncidents: AWSService {
         )
     }
 
+    /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFormation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident.
+    @Sendable
+    public func listIncidentFindings(_ input: ListIncidentFindingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIncidentFindingsOutput {
+        return try await self.client.execute(
+            operation: "ListIncidentFindings", 
+            path: "/listIncidentFindings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     @Sendable
     public func listIncidentRecords(_ input: ListIncidentRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIncidentRecordsOutput {
@@ -294,7 +331,7 @@ public struct SSMIncidents: AWSService {
         )
     }
 
-    /// Lists the tags that are attached to the specified response plan.
+    /// Lists the tags that are attached to the specified response plan or incident.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -483,6 +520,25 @@ extension SSMIncidents {
         )
     }
 
+    /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFormation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIncidentFindingsPaginator(
+        _ input: ListIncidentFindingsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIncidentFindingsInput, ListIncidentFindingsOutput> {
+        return .init(
+            input: input,
+            command: self.listIncidentFindings,
+            inputKey: \ListIncidentFindingsInput.nextToken,
+            outputKey: \ListIncidentFindingsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     /// Return PaginatorSequence for operation.
     ///
@@ -585,6 +641,16 @@ extension SSMIncidents.GetResourcePoliciesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension SSMIncidents.ListIncidentFindingsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMIncidents.ListIncidentFindingsInput {
+        return .init(
+            incidentRecordArn: self.incidentRecordArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

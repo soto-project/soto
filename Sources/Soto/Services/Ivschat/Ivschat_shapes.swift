@@ -26,25 +26,25 @@ import Foundation
 extension Ivschat {
     // MARK: Enums
 
-    public enum ChatTokenCapability: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChatTokenCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteMessage = "DELETE_MESSAGE"
         case disconnectUser = "DISCONNECT_USER"
         case sendMessage = "SEND_MESSAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CreateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum CreateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FallbackResult: String, CustomStringConvertible, Codable, Sendable {
+    public enum FallbackResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -55,7 +55,7 @@ extension Ivschat {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }

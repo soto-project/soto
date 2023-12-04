@@ -97,6 +97,7 @@ public struct ECR: AWSService {
         "eu-west-1": "api.ecr.eu-west-1.amazonaws.com",
         "eu-west-2": "api.ecr.eu-west-2.amazonaws.com",
         "eu-west-3": "api.ecr.eu-west-3.amazonaws.com",
+        "il-central-1": "api.ecr.il-central-1.amazonaws.com",
         "me-central-1": "api.ecr.me-central-1.amazonaws.com",
         "me-south-1": "api.ecr.me-south-1.amazonaws.com",
         "sa-east-1": "api.ecr.sa-east-1.amazonaws.com",
@@ -135,6 +136,7 @@ public struct ECR: AWSService {
             "eu-west-1": "ecr-fips.eu-west-1.amazonaws.com",
             "eu-west-2": "ecr-fips.eu-west-2.amazonaws.com",
             "eu-west-3": "ecr-fips.eu-west-3.amazonaws.com",
+            "il-central-1": "ecr-fips.il-central-1.amazonaws.com",
             "me-central-1": "ecr-fips.me-central-1.amazonaws.com",
             "me-south-1": "ecr-fips.me-south-1.amazonaws.com",
             "sa-east-1": "ecr-fips.sa-east-1.amazonaws.com",
@@ -214,7 +216,7 @@ public struct ECR: AWSService {
         )
     }
 
-    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an external public registry in your Amazon ECR private registry.
+    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an upstream registry source in your Amazon ECR private registry. For more information, see Using pull through cache rules in the Amazon Elastic Container Registry User Guide.
     @Sendable
     public func createPullThroughCacheRule(_ input: CreatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePullThroughCacheRuleResponse {
         return try await self.client.execute(
@@ -279,7 +281,7 @@ public struct ECR: AWSService {
         )
     }
 
-    /// Deletes a repository. If the repository contains images, you must either delete all images in the repository or use the force option to delete the repository.
+    /// Deletes a repository. If the repository isn't empty, you must either delete the contents of the repository or use the force option to delete the repository and have Amazon ECR delete all of its contents on your behalf.
     @Sendable
     public func deleteRepository(_ input: DeleteRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryResponse {
         return try await self.client.execute(
@@ -513,7 +515,7 @@ public struct ECR: AWSService {
         )
     }
 
-    /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.   This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     @Sendable
     public func putImage(_ input: PutImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImageResponse {
         return try await self.client.execute(
@@ -669,11 +671,37 @@ public struct ECR: AWSService {
         )
     }
 
+    /// Updates an existing pull through cache rule.
+    @Sendable
+    public func updatePullThroughCacheRule(_ input: UpdatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullThroughCacheRuleResponse {
+        return try await self.client.execute(
+            operation: "UpdatePullThroughCacheRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     @Sendable
     public func uploadLayerPart(_ input: UploadLayerPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadLayerPartResponse {
         return try await self.client.execute(
             operation: "UploadLayerPart", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Validates an existing pull through cache rule for an upstream registry that requires authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the syntax, and then validate that authentication to the upstream registry is successful.
+    @Sendable
+    public func validatePullThroughCacheRule(_ input: ValidatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidatePullThroughCacheRuleResponse {
+        return try await self.client.execute(
+            operation: "ValidatePullThroughCacheRule", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

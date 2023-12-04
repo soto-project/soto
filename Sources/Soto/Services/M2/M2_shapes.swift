@@ -26,13 +26,13 @@ import Foundation
 extension M2 {
     // MARK: Enums
 
-    public enum ApplicationDeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationDeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deployed = "Deployed"
         case deploying = "Deploying"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case created = "Created"
         case creating = "Creating"
@@ -47,14 +47,14 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationVersionLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationVersionLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchJobExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case dispatching = "Dispatching"
@@ -67,34 +67,36 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobType: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatchJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jes2 = "JES2"
         case jes3 = "JES3"
         case vse = "VSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSetTaskLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSetTaskLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case creating = "Creating"
+        case failed = "Failed"
         case running = "Running"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deploying = "Deploying"
         case failed = "Failed"
         case succeeded = "Succeeded"
+        case updatingDeployment = "Updating Deployment"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bluage = "bluage"
         case microfocus = "microfocus"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentLifecycle: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -137,6 +139,8 @@ extension M2 {
     public enum BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Specifies a file associated with a specific batch job.
         case fileBatchJobIdentifier(FileBatchJobIdentifier)
+        /// Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs.
+        case s3BatchJobIdentifier(S3BatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
         case scriptBatchJobIdentifier(ScriptBatchJobIdentifier)
 
@@ -153,6 +157,9 @@ extension M2 {
             case .fileBatchJobIdentifier:
                 let value = try container.decode(FileBatchJobIdentifier.self, forKey: .fileBatchJobIdentifier)
                 self = .fileBatchJobIdentifier(value)
+            case .s3BatchJobIdentifier:
+                let value = try container.decode(S3BatchJobIdentifier.self, forKey: .s3BatchJobIdentifier)
+                self = .s3BatchJobIdentifier(value)
             case .scriptBatchJobIdentifier:
                 let value = try container.decode(ScriptBatchJobIdentifier.self, forKey: .scriptBatchJobIdentifier)
                 self = .scriptBatchJobIdentifier(value)
@@ -164,6 +171,8 @@ extension M2 {
             switch self {
             case .fileBatchJobIdentifier(let value):
                 try container.encode(value, forKey: .fileBatchJobIdentifier)
+            case .s3BatchJobIdentifier(let value):
+                try container.encode(value, forKey: .s3BatchJobIdentifier)
             case .scriptBatchJobIdentifier(let value):
                 try container.encode(value, forKey: .scriptBatchJobIdentifier)
             }
@@ -171,6 +180,7 @@ extension M2 {
 
         private enum CodingKeys: String, CodingKey {
             case fileBatchJobIdentifier = "fileBatchJobIdentifier"
+            case s3BatchJobIdentifier = "s3BatchJobIdentifier"
             case scriptBatchJobIdentifier = "scriptBatchJobIdentifier"
         }
     }
@@ -323,6 +333,47 @@ extension M2 {
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case s3Location = "s3Location"
+        }
+    }
+
+    public enum JobIdentifier: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The name of the file that contains the batch job definition.
+        case fileName(String)
+        /// The name of the script that contains the batch job definition.
+        case scriptName(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fileName:
+                let value = try container.decode(String.self, forKey: .fileName)
+                self = .fileName(value)
+            case .scriptName:
+                let value = try container.decode(String.self, forKey: .scriptName)
+                self = .scriptName(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .fileName(let value):
+                try container.encode(value, forKey: .fileName)
+            case .scriptName(let value):
+                try container.encode(value, forKey: .scriptName)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case scriptName = "scriptName"
         }
     }
 
@@ -581,7 +632,7 @@ extension M2 {
         public let kmsKeyId: String?
         /// The unique identifier of the application.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the role associated with the application.
+        /// The Amazon Resource Name (ARN) that identifies a role that the application uses to access Amazon Web Services resources that are not part of the application or are in a different Amazon Web Services account.
         public let roleArn: String?
         /// A list of tags to apply to the application.
         public let tags: [String: String]?
@@ -759,7 +810,7 @@ extension M2 {
         public let kmsKeyId: String?
         /// The name of the runtime environment. Must be unique within the account.
         public let name: String
-        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
         /// Specifies whether the runtime environment is publicly accessible.
         public let publiclyAccessible: Bool?
@@ -792,7 +843,6 @@ extension M2 {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^\\S{1,10}$")
-            try self.highAvailabilityConfig?.validate(name: "\(name).highAvailabilityConfig")
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^\\S{1,20}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, pattern: "^\\S{1,50}$")
@@ -932,19 +982,23 @@ extension M2 {
     public struct DataSetImportTask: AWSDecodableShape {
         /// The status of the data set import task.
         public let status: DataSetTaskLifecycle
+        /// If dataset import failed, the failure reason will show here.
+        public let statusReason: String?
         /// A summary of the data set import task.
         public let summary: DataSetImportSummary
         /// The identifier of the data set import task.
         public let taskId: String
 
-        public init(status: DataSetTaskLifecycle, summary: DataSetImportSummary, taskId: String) {
+        public init(status: DataSetTaskLifecycle, statusReason: String? = nil, summary: DataSetImportSummary, taskId: String) {
             self.status = status
+            self.statusReason = statusReason
             self.summary = summary
             self.taskId = taskId
         }
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+            case statusReason = "statusReason"
             case summary = "summary"
             case taskId = "taskId"
         }
@@ -1582,6 +1636,8 @@ extension M2 {
         public let dataSetName: String
         /// The type of data set. The only supported value is VSAM.
         public let dataSetOrg: DatasetDetailOrgAttributes?
+        /// File size of the dataset.
+        public let fileSize: Int64?
         /// The last time the data set was referenced.
         public let lastReferencedTime: Date?
         /// The last time the data set was updated.
@@ -1591,11 +1647,12 @@ extension M2 {
         /// The length of records in the data set.
         public let recordLength: Int?
 
-        public init(blocksize: Int? = nil, creationTime: Date? = nil, dataSetName: String, dataSetOrg: DatasetDetailOrgAttributes? = nil, lastReferencedTime: Date? = nil, lastUpdatedTime: Date? = nil, location: String? = nil, recordLength: Int? = nil) {
+        public init(blocksize: Int? = nil, creationTime: Date? = nil, dataSetName: String, dataSetOrg: DatasetDetailOrgAttributes? = nil, fileSize: Int64? = nil, lastReferencedTime: Date? = nil, lastUpdatedTime: Date? = nil, location: String? = nil, recordLength: Int? = nil) {
             self.blocksize = blocksize
             self.creationTime = creationTime
             self.dataSetName = dataSetName
             self.dataSetOrg = dataSetOrg
+            self.fileSize = fileSize
             self.lastReferencedTime = lastReferencedTime
             self.lastUpdatedTime = lastUpdatedTime
             self.location = location
@@ -1607,6 +1664,7 @@ extension M2 {
             case creationTime = "creationTime"
             case dataSetName = "dataSetName"
             case dataSetOrg = "dataSetOrg"
+            case fileSize = "fileSize"
             case lastReferencedTime = "lastReferencedTime"
             case lastUpdatedTime = "lastUpdatedTime"
             case location = "location"
@@ -1746,7 +1804,7 @@ extension M2 {
     }
 
     public struct GetEnvironmentResponse: AWSDecodableShape {
-        /// The number of instances included in the runtime environment. A standalone runtime environment has a maxiumum of one instance. Currently, a high availability runtime environment has a maximum of two instances.
+        /// The number of instances included in the runtime environment. A standalone runtime environment has a maximum of one instance. Currently, a high availability runtime environment has a maximum of two instances.
         public let actualCapacity: Int?
         /// The timestamp when the runtime environment was created.
         public let creationTime: Date
@@ -1772,7 +1830,7 @@ extension M2 {
         public let name: String
         /// Indicates the pending maintenance scheduled on this environment.
         public let pendingMaintenance: PendingMaintenance?
-        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// The maintenance window for the runtime environment. If you don't provide a value for the maintenance window, the service assigns a random value.
         public let preferredMaintenanceWindow: String?
         /// Whether applications running in this runtime environment are publicly accessible.
         public let publiclyAccessible: Bool?
@@ -1842,17 +1900,25 @@ extension M2 {
         }
     }
 
+    public struct GetSignedBluinsightsUrlResponse: AWSDecodableShape {
+        /// Single sign-on AWS Blu Insights URL.
+        public let signedBiUrl: String
+
+        public init(signedBiUrl: String) {
+            self.signedBiUrl = signedBiUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signedBiUrl = "signedBiUrl"
+        }
+    }
+
     public struct HighAvailabilityConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of instances in a high availability configuration.
+        /// The number of instances in a high availability configuration. The minimum possible value is 1 and the maximum is 100.
         public let desiredCapacity: Int
 
         public init(desiredCapacity: Int) {
             self.desiredCapacity = desiredCapacity
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, max: 100)
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1884,7 +1950,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -1937,7 +2003,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
@@ -1995,7 +2061,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2070,7 +2136,7 @@ extension M2 {
             try self.validate(self.executionIds, name: "executionIds", parent: name, max: 10)
             try self.validate(self.executionIds, name: "executionIds", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^\\S{1,100}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2119,7 +2185,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2149,14 +2215,17 @@ extension M2 {
         public let applicationId: String
         /// The maximum number of objects to return.
         public let maxResults: Int?
+        /// Filter dataset name matching the specified pattern. Can use * and % as wild cards.
+        public let nameFilter: String?
         /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
         public let nextToken: String?
         /// The prefix of the data set name, which you can use to filter the list of data sets.
         public let prefix: String?
 
-        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, prefix: String? = nil) {
+        public init(applicationId: String, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, prefix: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
+            self.nameFilter = nameFilter
             self.nextToken = nextToken
             self.prefix = prefix
         }
@@ -2166,14 +2235,16 @@ extension M2 {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameFilter, key: "nameFilter")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.prefix, key: "prefix")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameFilter, name: "nameFilter", parent: name, pattern: "^\\S{1,200}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^\\S{1,200}$")
         }
@@ -2222,7 +2293,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2270,7 +2341,7 @@ extension M2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
         }
@@ -2322,7 +2393,7 @@ extension M2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
@@ -2555,6 +2626,27 @@ extension M2 {
         }
     }
 
+    public struct S3BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 bucket that contains the batch job definitions.
+        public let bucket: String
+        /// Identifies the batch job definition. This identifier can also point to any batch job definition that already exists in the application or to one of the batch job definitions within the directory that is specified in keyPrefix.
+        public let identifier: JobIdentifier
+        /// The key prefix that specifies the path to the folder in the S3 bucket that has the batch job definitions.
+        public let keyPrefix: String?
+
+        public init(bucket: String, identifier: JobIdentifier, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.identifier = identifier
+            self.keyPrefix = keyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case identifier = "identifier"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
     public struct ScriptBatchJobDefinition: AWSDecodableShape {
         /// The name of the script containing the batch job definition.
         public let scriptName: String
@@ -2631,10 +2723,10 @@ extension M2 {
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
             try self.jobParams?.forEach {
-                try validate($0.key, name: "jobParams.key", parent: name, max: 8)
+                try validate($0.key, name: "jobParams.key", parent: name, max: 32)
                 try validate($0.key, name: "jobParams.key", parent: name, min: 1)
                 try validate($0.key, name: "jobParams.key", parent: name, pattern: "^[A-Za-z][A-Za-z0-9]{1,7}$")
-                try validate($0.value, name: "jobParams[\"\($0.key)\"]", parent: name, max: 44)
+                try validate($0.value, name: "jobParams[\"\($0.key)\"]", parent: name, max: 80)
             }
             try self.validate(self.jobParams, name: "jobParams", parent: name, max: 500)
         }
@@ -2817,22 +2909,25 @@ extension M2 {
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
         /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
         public let applyDuringMaintenanceWindow: Bool?
-        /// The desired capacity for the runtime environment to update.
+        /// The desired capacity for the runtime environment to update. The minimum possible value is 0 and the maximum is 100.
         public let desiredCapacity: Int?
         /// The version of the runtime engine for the runtime environment.
         public let engineVersion: String?
         /// The unique identifier of the runtime environment that you want to update.
         public let environmentId: String
+        /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are ongoing application-related activities in the environment. If you use this option, be aware that it could lead to data corruption in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is preferredMaintenanceWindow.
+        public let forceUpdate: Bool?
         /// The instance type for the runtime environment to update.
         public let instanceType: String?
-        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
 
-        public init(applyDuringMaintenanceWindow: Bool? = nil, desiredCapacity: Int? = nil, engineVersion: String? = nil, environmentId: String, instanceType: String? = nil, preferredMaintenanceWindow: String? = nil) {
+        public init(applyDuringMaintenanceWindow: Bool? = nil, desiredCapacity: Int? = nil, engineVersion: String? = nil, environmentId: String, forceUpdate: Bool? = nil, instanceType: String? = nil, preferredMaintenanceWindow: String? = nil) {
             self.applyDuringMaintenanceWindow = applyDuringMaintenanceWindow
             self.desiredCapacity = desiredCapacity
             self.engineVersion = engineVersion
             self.environmentId = environmentId
+            self.forceUpdate = forceUpdate
             self.instanceType = instanceType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
         }
@@ -2844,13 +2939,12 @@ extension M2 {
             try container.encodeIfPresent(self.desiredCapacity, forKey: .desiredCapacity)
             try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
             request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.forceUpdate, forKey: .forceUpdate)
             try container.encodeIfPresent(self.instanceType, forKey: .instanceType)
             try container.encodeIfPresent(self.preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, max: 100)
-            try self.validate(self.desiredCapacity, name: "desiredCapacity", parent: name, min: 1)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^\\S{1,10}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^\\S{1,80}$")
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^\\S{1,20}$")
@@ -2860,6 +2954,7 @@ extension M2 {
             case applyDuringMaintenanceWindow = "applyDuringMaintenanceWindow"
             case desiredCapacity = "desiredCapacity"
             case engineVersion = "engineVersion"
+            case forceUpdate = "forceUpdate"
             case instanceType = "instanceType"
             case preferredMaintenanceWindow = "preferredMaintenanceWindow"
         }
@@ -2965,9 +3060,11 @@ public struct M2ErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case executionTimeoutException = "ExecutionTimeoutException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -2994,12 +3091,16 @@ public struct M2ErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The parameters provided in the request conflict with existing resources.
     public static var conflictException: Self { .init(.conflictException) }
+    ///  Failed to connect to server, or didn’t receive response within expected time period.
+    public static var executionTimeoutException: Self { .init(.executionTimeoutException) }
     /// An unexpected error occurred during the processing of the request.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Server cannot process the request at the moment.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The number of requests made exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// One or more parameters provided in the request is not valid.

@@ -26,7 +26,7 @@ import Foundation
 extension AppConfig {
     // MARK: Enums
 
-    public enum ActionPoint: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionPoint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDeploymentBaking = "ON_DEPLOYMENT_BAKING"
         case onDeploymentComplete = "ON_DEPLOYMENT_COMPLETE"
         case onDeploymentRolledBack = "ON_DEPLOYMENT_ROLLED_BACK"
@@ -37,7 +37,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentEventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bakeTimeStarted = "BAKE_TIME_STARTED"
         case deploymentCompleted = "DEPLOYMENT_COMPLETED"
         case deploymentStarted = "DEPLOYMENT_STARTED"
@@ -47,7 +47,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case baking = "BAKING"
         case complete = "COMPLETE"
         case deploying = "DEPLOYING"
@@ -57,7 +57,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deploying = "DEPLOYING"
         case readyForDeployment = "READY_FOR_DEPLOYMENT"
         case rolledBack = "ROLLED_BACK"
@@ -65,19 +65,19 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum GrowthType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GrowthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exponential = "EXPONENTIAL"
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicateTo: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReplicateTo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case ssmDocument = "SSM_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggeredBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum TriggeredBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appconfig = "APPCONFIG"
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case internalError = "INTERNAL_ERROR"
@@ -85,7 +85,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValidatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jsonSchema = "JSON_SCHEMA"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
@@ -262,6 +262,10 @@ extension AppConfig {
         public let description: String?
         /// The configuration profile ID.
         public let id: String?
+        /// The Amazon Resource Name of the Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service.
+        public let kmsKeyArn: String?
+        /// The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.
+        public let kmsKeyIdentifier: String?
         /// The URI location of the configuration.
         public let locationUri: String?
         /// The name of the configuration profile.
@@ -273,10 +277,12 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, type: String? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, locationUri: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.locationUri = locationUri
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
@@ -288,6 +294,8 @@ extension AppConfig {
             case applicationId = "ApplicationId"
             case description = "Description"
             case id = "Id"
+            case kmsKeyArn = "KmsKeyArn"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case locationUri = "LocationUri"
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
@@ -384,7 +392,9 @@ extension AppConfig {
         public let applicationId: String
         /// A description of the configuration profile.
         public let description: String?
-        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Secrets Manager secret, specify the URI in the following format: secrets-manager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
+        /// The identifier for an Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service.
+        public let kmsKeyIdentifier: String?
+        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
@@ -397,9 +407,10 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String, description: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, type: String? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String, description: String? = nil, kmsKeyIdentifier: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.locationUri = locationUri
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
@@ -413,6 +424,7 @@ extension AppConfig {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "ApplicationId")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
             try container.encode(self.locationUri, forKey: .locationUri)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.retrievalRoleArn, forKey: .retrievalRoleArn)
@@ -424,6 +436,8 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.locationUri, name: "locationUri", parent: name, max: 2048)
             try self.validate(self.locationUri, name: "locationUri", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
@@ -446,6 +460,7 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case locationUri = "LocationUri"
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
@@ -593,8 +608,7 @@ extension AppConfig {
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
             try self.parameters?.forEach {
-                try validate($0.key, name: "parameters.key", parent: name, max: 64)
-                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[^\\/#:\\n]{1,64}$")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
@@ -660,11 +674,9 @@ extension AppConfig {
             try self.validate(self.actions, name: "actions", parent: name, max: 5)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, max: 64)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\/#:\\n]{1,64}$")
             try self.parameters?.forEach {
-                try validate($0.key, name: "parameters.key", parent: name, max: 64)
-                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[^\\/#:\\n]{1,64}$")
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
             try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
@@ -887,7 +899,7 @@ extension AppConfig {
         /// The versions number to delete.
         public let versionNumber: Int
 
-        public init(applicationId: String, configurationProfileId: String, versionNumber: Int = 0) {
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
@@ -945,7 +957,7 @@ extension AppConfig {
         public let growthType: GrowthType?
         /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
         public let kmsKeyArn: String?
-        /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+        /// The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.
         public let kmsKeyIdentifier: String?
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
@@ -954,8 +966,10 @@ extension AppConfig {
         public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
 
-        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.appliedExtensions = appliedExtensions
             self.completedAt = completedAt
@@ -977,6 +991,7 @@ extension AppConfig {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1001,13 +1016,14 @@ extension AppConfig {
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+            case versionLabel = "VersionLabel"
         }
     }
 
     public struct DeploymentEvent: AWSDecodableShape {
         /// The list of extensions that were invoked as part of the deployment.
         public let actionInvocations: [ActionInvocation]?
-        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the Amazon CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
+        /// A description of the deployment event. Descriptions include, but are not limited to, the following:   The Amazon Web Services account or the Amazon CloudWatch alarm ARN that initiated a rollback.   The percentage of hosts that received the deployment.   A recommendation to attempt a new deployment (in the case of an internal error).
         public let description: String?
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; and the start or completion of a rollback.
         public let eventType: DeploymentEventType?
@@ -1117,8 +1133,10 @@ extension AppConfig {
         public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
 
-        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.completedAt = completedAt
             self.configurationName = configurationName
             self.configurationVersion = configurationVersion
@@ -1130,6 +1148,7 @@ extension AppConfig {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1144,6 +1163,7 @@ extension AppConfig {
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+            case versionLabel = "VersionLabel"
         }
     }
 
@@ -1593,7 +1613,7 @@ extension AppConfig {
         /// The version.
         public let versionNumber: Int
 
-        public init(applicationId: String, configurationProfileId: String, versionNumber: Int = 0) {
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
@@ -1627,17 +1647,20 @@ extension AppConfig {
         public let contentType: String?
         /// A description of the configuration.
         public let description: String?
+        /// The Amazon Resource Name of the Key Management Service key that was used to encrypt this specific version of the configuration data in the AppConfig hosted configuration store.
+        public let kmsKeyArn: String?
         /// A user-defined label for an AppConfig hosted configuration version.
         public let versionLabel: String?
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSHTTPBody, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSHTTPBody, contentType: String? = nil, description: String? = nil, kmsKeyArn: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
             self.contentType = contentType
             self.description = description
+            self.kmsKeyArn = kmsKeyArn
             self.versionLabel = versionLabel
             self.versionNumber = versionNumber
         }
@@ -1650,6 +1673,7 @@ extension AppConfig {
             self.content = try container.decode(AWSHTTPBody.self)
             self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
             self.description = try response.decodeHeaderIfPresent(String.self, key: "Description")
+            self.kmsKeyArn = try response.decodeHeaderIfPresent(String.self, key: "KmsKeyArn")
             self.versionLabel = try response.decodeHeaderIfPresent(String.self, key: "VersionLabel")
             self.versionNumber = try response.decodeHeaderIfPresent(Int.self, key: "Version-Number")
         }
@@ -1666,16 +1690,19 @@ extension AppConfig {
         public let contentType: String?
         /// A description of the configuration.
         public let description: String?
+        /// The Amazon Resource Name of the Key Management Service key that was used to encrypt this specific version of the configuration data in the AppConfig hosted configuration store.
+        public let kmsKeyArn: String?
         /// A user-defined label for an AppConfig hosted configuration version.
         public let versionLabel: String?
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, kmsKeyArn: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.contentType = contentType
             self.description = description
+            self.kmsKeyArn = kmsKeyArn
             self.versionLabel = versionLabel
             self.versionNumber = versionNumber
         }
@@ -1685,6 +1712,7 @@ extension AppConfig {
             case configurationProfileId = "ConfigurationProfileId"
             case contentType = "ContentType"
             case description = "Description"
+            case kmsKeyArn = "KmsKeyArn"
             case versionLabel = "VersionLabel"
             case versionNumber = "VersionNumber"
         }
@@ -2082,7 +2110,7 @@ extension AppConfig {
         public let applicationId: String
         /// The configuration profile ID.
         public let configurationProfileId: String
-        /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label.
+        /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number.
         public let configurationVersion: String
         /// The deployment strategy ID.
         public let deploymentStrategyId: String
@@ -2286,6 +2314,8 @@ extension AppConfig {
         public let configurationProfileId: String
         /// A description of the configuration profile.
         public let description: String?
+        /// The identifier for a Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service.
+        public let kmsKeyIdentifier: String?
         /// The name of the configuration profile.
         public let name: String?
         /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
@@ -2293,10 +2323,11 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
-        public init(applicationId: String, configurationProfileId: String, description: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, validators: [Validator]? = nil) {
+        public init(applicationId: String, configurationProfileId: String, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.description = description
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.name = name
             self.retrievalRoleArn = retrievalRoleArn
             self.validators = validators
@@ -2308,6 +2339,7 @@ extension AppConfig {
             request.encodePath(self.applicationId, key: "ApplicationId")
             request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.retrievalRoleArn, forKey: .retrievalRoleArn)
             try container.encodeIfPresent(self.validators, forKey: .validators)
@@ -2317,6 +2349,7 @@ extension AppConfig {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
@@ -2330,6 +2363,7 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
             case validators = "Validators"
@@ -2460,8 +2494,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.extensionAssociationId, name: "extensionAssociationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.parameters?.forEach {
-                try validate($0.key, name: "parameters.key", parent: name, max: 64)
-                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[^\\/#:\\n]{1,64}$")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
@@ -2514,8 +2547,7 @@ extension AppConfig {
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
             try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
             try self.parameters?.forEach {
-                try validate($0.key, name: "parameters.key", parent: name, max: 64)
-                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[^\\/#:\\n]{1,64}$")
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
             try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
@@ -2625,7 +2657,7 @@ public struct AppConfigErrorType: AWSErrorType {
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
     /// The requested resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+    /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see Service quotas for AppConfig in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

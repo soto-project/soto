@@ -26,14 +26,14 @@ import Foundation
 extension Inspector {
     // MARK: Enums
 
-    public enum AgentHealth: String, CustomStringConvertible, Codable, Sendable {
+    public enum AgentHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentHealthCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AgentHealthCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case idle = "IDLE"
         case running = "RUNNING"
         case shutdown = "SHUTDOWN"
@@ -43,7 +43,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         case success = "SUCCESS"
@@ -51,7 +51,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentRunState: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssessmentRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case collectingData = "COLLECTING_DATA"
         case completed = "COMPLETED"
@@ -68,12 +68,12 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2Instance = "ec2-instance"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case duplicateArn = "DUPLICATE_ARN"
         case internalError = "INTERNAL_ERROR"
@@ -83,7 +83,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum InspectorEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum InspectorEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
         case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
         case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
@@ -92,43 +92,43 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enUs = "EN_US"
         public var description: String { return self.rawValue }
     }
 
-    public enum PreviewStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PreviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFileFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportFileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case html = "HTML"
         case pdf = "PDF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "FINDING"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case instanceId = "INSTANCE_ID"
         case rulesPackageArn = "RULES_PACKAGE_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case informational = "Informational"
         case low = "Low"
@@ -137,7 +137,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum StopAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum StopAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case skipEvaluation = "SKIP_EVALUATION"
         case startEvaluation = "START_EVALUATION"
         public var description: String { return self.rawValue }
@@ -694,7 +694,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
         public let userAttributesForFindings: [Attribute]?
 
-        public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int = 0, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
+        public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
             self.assessmentTargetArn = assessmentTargetArn
             self.assessmentTemplateName = assessmentTemplateName
             self.durationInSeconds = durationInSeconds
@@ -1507,7 +1507,7 @@ extension Inspector {
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.previewToken, name: "previewToken", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.previewToken, name: "previewToken", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {

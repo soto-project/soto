@@ -26,7 +26,17 @@ import Foundation
 extension CloudWatchLogs {
     // MARK: Enums
 
-    public enum DataProtectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case analyzing = "ANALYZING"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        case initializing = "INITIALIZING"
+        case paused = "PAUSED"
+        case training = "TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataProtectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case archived = "ARCHIVED"
         case deleted = "DELETED"
@@ -34,13 +44,30 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum Distribution: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cwl = "CWL"
+        case fh = "FH"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Distribution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byLogStream = "ByLogStream"
         case random = "Random"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum EvaluationFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fifteenMin = "FIFTEEN_MIN"
+        case fiveMin = "FIVE_MIN"
+        case oneHour = "ONE_HOUR"
+        case oneMin = "ONE_MIN"
+        case tenMin = "TEN_MIN"
+        case thirtyMin = "THIRTY_MIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -50,23 +77,38 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum InheritedProperty: String, CustomStringConvertible, Codable, Sendable {
+    public enum InheritedProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDataProtection = "ACCOUNT_DATA_PROTECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogGroupClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case infrequentAccess = "INFREQUENT_ACCESS"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lastEventTime = "LastEventTime"
         case logStreamName = "LogStreamName"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "json"
+        case parquet = "parquet"
+        case plain = "plain"
+        case raw = "raw"
+        case w3c = "w3c"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dataProtectionPolicy = "DATA_PROTECTION_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case complete = "Complete"
         case failed = "Failed"
@@ -77,12 +119,12 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum StandardUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum StandardUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -110,6 +152,32 @@ extension CloudWatchLogs {
         case terabitsSecond = "Terabits/Second"
         case terabytes = "Terabytes"
         case terabytesSecond = "Terabytes/Second"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case baseline = "Baseline"
+        case suppressed = "Suppressed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case suppressed = "SUPPRESSED"
+        case unsuppressed = "UNSUPPRESSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case infinite = "INFINITE"
+        case limited = "LIMITED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hours = "HOURS"
+        case minutes = "MINUTES"
+        case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
@@ -148,15 +216,151 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct Anomaly: AWSDecodableShape {
+        /// Specifies whether this anomaly is still ongoing.
+        public let active: Bool
+        /// The ARN of the anomaly detector that identified this anomaly.
+        public let anomalyDetectorArn: String
+        /// The unique ID that CloudWatch Logs assigned to this anomaly.
+        public let anomalyId: String
+        /// A human-readable description of the anomaly. This description is generated by CloudWatch Logs.
+        public let description: String
+        /// The date and time when the anomaly detector first saw this anomaly.  It is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let firstSeen: Int64
+        /// A map showing times when the anomaly detector ran, and the number of occurrences of this anomaly that  were detected at each of those runs. The times are specified in epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let histogram: [String: Int64]
+        /// If this anomaly is suppressed, this field is true if the suppression is because the  pattern is suppressed. If false, then only this particular anomaly is suppressed.
+        public let isPatternLevelSuppression: Bool?
+        /// The date and time when the anomaly detector most recently saw this anomaly.  It is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let lastSeen: Int64
+        /// An array of ARNS of the log groups that contained log events considered to be part of this anomaly.
+        public let logGroupArnList: [String]
+        /// An array of sample log event messages that are considered to be part of this anomaly.
+        public let logSamples: [String]
+        /// The ID of the pattern used to help identify this anomaly.
+        public let patternId: String
+        /// The pattern used to help identify this anomaly, in regular expression format.
+        public let patternRegex: String?
+        /// The pattern used to help identify this anomaly, in string format.
+        public let patternString: String
+        /// An array of structures where each structure contains information about one token that makes up the pattern.
+        public let patternTokens: [PatternToken]
+        /// The priority level of this anomaly, as determined by CloudWatch Logs. Priority is computed based on log  severity labels such as FATAL and ERROR and the amount of deviation from the baseline. Possible values are HIGH, MEDIUM, and LOW.
+        public let priority: String?
+        /// Indicates the current state of this anomaly. If it is still being treated as an anomaly, the value is Active. If you have suppressed this anomaly by using the UpdateAnomaly operation, the value is Suppressed. If this behavior is now considered to be normal, the value is Baseline.
+        public let state: State
+        /// Indicates whether this anomaly is currently suppressed. To suppress an anomaly,  use UpdateAnomaly.
+        public let suppressed: Bool?
+        /// If the anomaly is suppressed, this indicates when it was suppressed.
+        public let suppressedDate: Int64?
+        /// If the anomaly is suppressed, this indicates when the suppression will end. If this value is 0,  the anomaly was suppressed with no expiration, with the INFINITE value.
+        public let suppressedUntil: Int64?
+
+        public init(active: Bool, anomalyDetectorArn: String, anomalyId: String, description: String, firstSeen: Int64, histogram: [String: Int64], isPatternLevelSuppression: Bool? = nil, lastSeen: Int64, logGroupArnList: [String], logSamples: [String], patternId: String, patternRegex: String? = nil, patternString: String, patternTokens: [PatternToken], priority: String? = nil, state: State, suppressed: Bool? = nil, suppressedDate: Int64? = nil, suppressedUntil: Int64? = nil) {
+            self.active = active
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyId = anomalyId
+            self.description = description
+            self.firstSeen = firstSeen
+            self.histogram = histogram
+            self.isPatternLevelSuppression = isPatternLevelSuppression
+            self.lastSeen = lastSeen
+            self.logGroupArnList = logGroupArnList
+            self.logSamples = logSamples
+            self.patternId = patternId
+            self.patternRegex = patternRegex
+            self.patternString = patternString
+            self.patternTokens = patternTokens
+            self.priority = priority
+            self.state = state
+            self.suppressed = suppressed
+            self.suppressedDate = suppressedDate
+            self.suppressedUntil = suppressedUntil
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "active"
+            case anomalyDetectorArn = "anomalyDetectorArn"
+            case anomalyId = "anomalyId"
+            case description = "description"
+            case firstSeen = "firstSeen"
+            case histogram = "histogram"
+            case isPatternLevelSuppression = "isPatternLevelSuppression"
+            case lastSeen = "lastSeen"
+            case logGroupArnList = "logGroupArnList"
+            case logSamples = "logSamples"
+            case patternId = "patternId"
+            case patternRegex = "patternRegex"
+            case patternString = "patternString"
+            case patternTokens = "patternTokens"
+            case priority = "priority"
+            case state = "state"
+            case suppressed = "suppressed"
+            case suppressedDate = "suppressedDate"
+            case suppressedUntil = "suppressedUntil"
+        }
+    }
+
+    public struct AnomalyDetector: AWSDecodableShape {
+        /// The ARN of the anomaly detector.
+        public let anomalyDetectorArn: String?
+        /// Specifies the current status of the anomaly detector. To pause an anomaly detector, use the enabled parameter in the UpdateLogAnomalyDetector  operation.
+        public let anomalyDetectorStatus: AnomalyDetectorStatus?
+        /// The number of days used as the life cycle of anomalies. After this time, anomalies are automatically baselined  and the anomaly detector model will treat new occurrences of similar event as normal.
+        public let anomalyVisibilityTime: Int64?
+        /// The date and time when this anomaly detector was created.
+        public let creationTimeStamp: Int64?
+        /// The name of the anomaly detector.
+        public let detectorName: String?
+        /// Specifies how often the anomaly detector runs and look for anomalies.
+        public let evaluationFrequency: EvaluationFrequency?
+        public let filterPattern: String?
+        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        public let kmsKeyId: String?
+        /// The date and time when this anomaly detector was most recently modified.
+        public let lastModifiedTimeStamp: Int64?
+        /// A list of the ARNs of the log groups that this anomaly detector watches.
+        public let logGroupArnList: [String]?
+
+        public init(anomalyDetectorArn: String? = nil, anomalyDetectorStatus: AnomalyDetectorStatus? = nil, anomalyVisibilityTime: Int64? = nil, creationTimeStamp: Int64? = nil, detectorName: String? = nil, evaluationFrequency: EvaluationFrequency? = nil, filterPattern: String? = nil, kmsKeyId: String? = nil, lastModifiedTimeStamp: Int64? = nil, logGroupArnList: [String]? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyDetectorStatus = anomalyDetectorStatus
+            self.anomalyVisibilityTime = anomalyVisibilityTime
+            self.creationTimeStamp = creationTimeStamp
+            self.detectorName = detectorName
+            self.evaluationFrequency = evaluationFrequency
+            self.filterPattern = filterPattern
+            self.kmsKeyId = kmsKeyId
+            self.lastModifiedTimeStamp = lastModifiedTimeStamp
+            self.logGroupArnList = logGroupArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+            case anomalyDetectorStatus = "anomalyDetectorStatus"
+            case anomalyVisibilityTime = "anomalyVisibilityTime"
+            case creationTimeStamp = "creationTimeStamp"
+            case detectorName = "detectorName"
+            case evaluationFrequency = "evaluationFrequency"
+            case filterPattern = "filterPattern"
+            case kmsKeyId = "kmsKeyId"
+            case lastModifiedTimeStamp = "lastModifiedTimeStamp"
+            case logGroupArnList = "logGroupArnList"
+        }
+    }
+
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
-        /// The name of the log group.
-        public let logGroupName: String
+        /// The name of the log group. In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter,  but you can't specify both.
+        public let logGroupName: String?
+        /// Specifies the target for this operation. You must specify one of the following:   Specify the following ARN to have future GetQueryResults operations in this account encrypt the results with the specified KMS key. Replace REGION and ACCOUNT_ID with your Region and account ID.  arn:aws:logs:REGION:ACCOUNT_ID:query-result:*    Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. The log group ARN must be in  the following format. Replace REGION and ACCOUNT_ID with your Region and account ID.  arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME     In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter,  but you can't specify both.
+        public let resourceIdentifier: String?
 
-        public init(kmsKeyId: String, logGroupName: String) {
+        public init(kmsKeyId: String, logGroupName: String? = nil, resourceIdentifier: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
+            self.resourceIdentifier = resourceIdentifier
         }
 
         public func validate(name: String) throws {
@@ -164,11 +368,15 @@ extension CloudWatchLogs {
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[\\w+=/:,.@\\-\\*]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "kmsKeyId"
             case logGroupName = "logGroupName"
+            case resourceIdentifier = "resourceIdentifier"
         }
     }
 
@@ -187,6 +395,55 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
+        }
+    }
+
+    public struct CreateDeliveryRequest: AWSEncodableShape {
+        /// The ARN of the delivery destination to use for this delivery.
+        public let deliveryDestinationArn: String
+        /// The name of the delivery source to use for this delivery.
+        public let deliverySourceName: String
+        /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
+        public let tags: [String: String]?
+
+        public init(deliveryDestinationArn: String, deliverySourceName: String, tags: [String: String]? = nil) {
+            self.deliveryDestinationArn = deliveryDestinationArn
+            self.deliverySourceName = deliverySourceName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, max: 60)
+            try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, min: 1)
+            try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, pattern: "^[\\w-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationArn = "deliveryDestinationArn"
+            case deliverySourceName = "deliverySourceName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDeliveryResponse: AWSDecodableShape {
+        /// A structure that contains information about the delivery that you just created.
+        public let delivery: Delivery?
+
+        public init(delivery: Delivery? = nil) {
+            self.delivery = delivery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delivery = "delivery"
         }
     }
 
@@ -255,16 +512,91 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct CreateLogAnomalyDetectorRequest: AWSEncodableShape {
+        /// The number of days to have visibility on an anomaly. After this time period has elapsed for an anomaly,  it will be automatically baselined and the anomaly detector will treat new occurrences of a similar anomaly as  normal. Therefore,  if you do not correct the cause of an  anomaly during the time period specified in anomalyVisibilityTime, it will be considered normal  going forward and will not be detected as an anomaly.
+        public let anomalyVisibilityTime: Int64?
+        /// A name for this anomaly detector.
+        public let detectorName: String?
+        /// Specifies how often the anomaly detector is to run and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then 15 minutes might be a good setting for  evaluationFrequency .
+        public let evaluationFrequency: EvaluationFrequency?
+        /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see Filter and Pattern Syntax.
+        public let filterPattern: String?
+        /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is  assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If  a key is assigned to an anomaly detector, a user must have permissions for both this key and for the  anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see Use a KMS key with an anomaly detector.
+        public let kmsKeyId: String?
+        /// An array containing the ARNs of the log groups that this anomaly detector will watch. You must specify at least one ARN.
+        public let logGroupArnList: [String]
+        /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
+        public let tags: [String: String]?
+
+        public init(anomalyVisibilityTime: Int64? = nil, detectorName: String? = nil, evaluationFrequency: EvaluationFrequency? = nil, filterPattern: String? = nil, kmsKeyId: String? = nil, logGroupArnList: [String], tags: [String: String]? = nil) {
+            self.anomalyVisibilityTime = anomalyVisibilityTime
+            self.detectorName = detectorName
+            self.evaluationFrequency = evaluationFrequency
+            self.filterPattern = filterPattern
+            self.kmsKeyId = kmsKeyId
+            self.logGroupArnList = logGroupArnList
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyVisibilityTime, name: "anomalyVisibilityTime", parent: name, max: 90)
+            try self.validate(self.anomalyVisibilityTime, name: "anomalyVisibilityTime", parent: name, min: 7)
+            try self.validate(self.detectorName, name: "detectorName", parent: name, min: 1)
+            try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.logGroupArnList.forEach {
+                try validate($0, name: "logGroupArnList[]", parent: name, max: 2048)
+                try validate($0, name: "logGroupArnList[]", parent: name, min: 1)
+                try validate($0, name: "logGroupArnList[]", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyVisibilityTime = "anomalyVisibilityTime"
+            case detectorName = "detectorName"
+            case evaluationFrequency = "evaluationFrequency"
+            case filterPattern = "filterPattern"
+            case kmsKeyId = "kmsKeyId"
+            case logGroupArnList = "logGroupArnList"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateLogAnomalyDetectorResponse: AWSDecodableShape {
+        /// The ARN of the log anomaly detector that you just created.
+        public let anomalyDetectorArn: String?
+
+        public init(anomalyDetectorArn: String? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+        }
+    }
+
     public struct CreateLogGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names.
         public let kmsKeyId: String?
-        /// The name of the log group.
+        /// Use this parameter to specify the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   If you omit this parameter, the default of STANDARD is used. For details about the features supported by each class, see  Log classes
+        public let logGroupClass: LogGroupClass?
+        /// A name for the log group.
         public let logGroupName: String
         /// The key-value pairs to use for the tags. You can grant users access to certain log groups while preventing them from accessing other log groups. To do so, tag your groups and use IAM policies that refer to those tags. To assign tags when  you create a log group, you must have either the logs:TagResource or logs:TagLogGroup permission. For more information about tagging, see  Tagging Amazon Web Services resources. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
-        public init(kmsKeyId: String? = nil, logGroupName: String, tags: [String: String]? = nil) {
+        public init(kmsKeyId: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String, tags: [String: String]? = nil) {
             self.kmsKeyId = kmsKeyId
+            self.logGroupClass = logGroupClass
             self.logGroupName = logGroupName
             self.tags = tags
         }
@@ -287,6 +619,7 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "kmsKeyId"
+            case logGroupClass = "logGroupClass"
             case logGroupName = "logGroupName"
             case tags = "tags"
         }
@@ -354,6 +687,82 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DeleteDeliveryDestinationPolicyRequest: AWSEncodableShape {
+        /// The name of the delivery destination that you want to delete the policy for.
+        public let deliveryDestinationName: String
+
+        public init(deliveryDestinationName: String) {
+            self.deliveryDestinationName = deliveryDestinationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, max: 60)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, min: 1)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationName = "deliveryDestinationName"
+        }
+    }
+
+    public struct DeleteDeliveryDestinationRequest: AWSEncodableShape {
+        /// The name of the delivery destination that you want to delete. You can find a list of delivery destionation names by using the DescribeDeliveryDestinations operation.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DeleteDeliveryRequest: AWSEncodableShape {
+        /// The unique ID of the delivery to delete. You can find the ID of a delivery with the  DescribeDeliveries operation.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct DeleteDeliverySourceRequest: AWSEncodableShape {
+        /// The name of the delivery source that you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct DeleteDestinationRequest: AWSEncodableShape {
         /// The name of the destination.
         public let destinationName: String
@@ -370,6 +779,24 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case destinationName = "destinationName"
+        }
+    }
+
+    public struct DeleteLogAnomalyDetectorRequest: AWSEncodableShape {
+        /// The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors  in your account by using the ListLogAnomalyDetectors operation.
+        public let anomalyDetectorArn: String
+
+        public init(anomalyDetectorArn: String) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
         }
     }
 
@@ -532,6 +959,118 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct Delivery: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
+        public let arn: String?
+        /// The ARN of the delivery destination that is associated with this delivery.
+        public let deliveryDestinationArn: String?
+        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        public let deliveryDestinationType: DeliveryDestinationType?
+        /// The name of the delivery source that is associated with this delivery.
+        public let deliverySourceName: String?
+        /// The unique ID that identifies this delivery in your account.
+        public let id: String?
+        /// The tags that have been assigned to this delivery.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, deliveryDestinationArn: String? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, deliverySourceName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.deliveryDestinationArn = deliveryDestinationArn
+            self.deliveryDestinationType = deliveryDestinationType
+            self.deliverySourceName = deliverySourceName
+            self.id = id
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case deliveryDestinationArn = "deliveryDestinationArn"
+            case deliveryDestinationType = "deliveryDestinationType"
+            case deliverySourceName = "deliverySourceName"
+            case id = "id"
+            case tags = "tags"
+        }
+    }
+
+    public struct DeliveryDestination: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery destination.
+        public let arn: String?
+        /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
+        public let deliveryDestinationConfiguration: DeliveryDestinationConfiguration?
+        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        public let deliveryDestinationType: DeliveryDestinationType?
+        /// The name of this delivery destination.
+        public let name: String?
+        /// The format of the logs that are sent to this delivery destination.
+        public let outputFormat: OutputFormat?
+        /// The tags that have been assigned to this delivery destination.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, deliveryDestinationConfiguration: DeliveryDestinationConfiguration? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, name: String? = nil, outputFormat: OutputFormat? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
+            self.deliveryDestinationType = deliveryDestinationType
+            self.name = name
+            self.outputFormat = outputFormat
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case deliveryDestinationConfiguration = "deliveryDestinationConfiguration"
+            case deliveryDestinationType = "deliveryDestinationType"
+            case name = "name"
+            case outputFormat = "outputFormat"
+            case tags = "tags"
+        }
+    }
+
+    public struct DeliveryDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Amazon Web Services destination that this delivery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Kinesis Data Firehose.
+        public let destinationResourceArn: String
+
+        public init(destinationResourceArn: String) {
+            self.destinationResourceArn = destinationResourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationResourceArn = "destinationResourceArn"
+        }
+    }
+
+    public struct DeliverySource: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery source.
+        public let arn: String?
+        /// The type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
+        public let logType: String?
+        /// The unique name of the delivery source.
+        public let name: String?
+        /// This array contains the ARN of the Amazon Web Services resource that sends logs and is represented by  this delivery source. Currently, only one ARN can be in the array.
+        public let resourceArns: [String]?
+        /// The Amazon Web Services service that is sending logs.
+        public let service: String?
+        /// The tags that have been assigned to this delivery source.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, logType: String? = nil, name: String? = nil, resourceArns: [String]? = nil, service: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.logType = logType
+            self.name = name
+            self.resourceArns = resourceArns
+            self.service = service
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case logType = "logType"
+            case name = "name"
+            case resourceArns = "resourceArns"
+            case service = "service"
+            case tags = "tags"
+        }
+    }
+
     public struct DescribeAccountPoliciesRequest: AWSEncodableShape {
         /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do,  the operation returns the account policy for the specified account. Currently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned.
         public let accountIdentifiers: [String]?
@@ -572,6 +1111,120 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case accountPolicies = "accountPolicies"
+        }
+    }
+
+    public struct DescribeDeliveriesRequest: AWSEncodableShape {
+        /// Optionally specify the maximum number of deliveries to return in the response.
+        public let limit: Int?
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeDeliveriesResponse: AWSDecodableShape {
+        /// An array of structures. Each structure contains information about one delivery in the account.
+        public let deliveries: [Delivery]?
+        public let nextToken: String?
+
+        public init(deliveries: [Delivery]? = nil, nextToken: String? = nil) {
+            self.deliveries = deliveries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveries = "deliveries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeDeliveryDestinationsRequest: AWSEncodableShape {
+        /// Optionally specify the maximum number of delivery destinations to return in the response.
+        public let limit: Int?
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeDeliveryDestinationsResponse: AWSDecodableShape {
+        /// An array of structures. Each structure contains information about one delivery destination in the account.
+        public let deliveryDestinations: [DeliveryDestination]?
+        public let nextToken: String?
+
+        public init(deliveryDestinations: [DeliveryDestination]? = nil, nextToken: String? = nil) {
+            self.deliveryDestinations = deliveryDestinations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinations = "deliveryDestinations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeDeliverySourcesRequest: AWSEncodableShape {
+        /// Optionally specify the maximum number of delivery sources to return in the response.
+        public let limit: Int?
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeDeliverySourcesResponse: AWSDecodableShape {
+        /// An array of structures. Each structure contains information about one delivery source in the account.
+        public let deliverySources: [DeliverySource]?
+        public let nextToken: String?
+
+        public init(deliverySources: [DeliverySource]? = nil, nextToken: String? = nil) {
+            self.deliverySources = deliverySources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverySources = "deliverySources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -678,6 +1331,8 @@ extension CloudWatchLogs {
         public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
+        /// Specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        public let logGroupClass: LogGroupClass?
         /// If you specify a string for this parameter, the operation returns only log groups that have names
         /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
         /// named FooBar, aws/Foo, and GroupFoo would match, but foo,
@@ -688,10 +1343,11 @@ extension CloudWatchLogs {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupNamePattern: String? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupNamePattern: String? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
             self.accountIdentifiers = accountIdentifiers
             self.includeLinkedAccounts = includeLinkedAccounts
             self.limit = limit
+            self.logGroupClass = logGroupClass
             self.logGroupNamePattern = logGroupNamePattern
             self.logGroupNamePrefix = logGroupNamePrefix
             self.nextToken = nextToken
@@ -718,6 +1374,7 @@ extension CloudWatchLogs {
             case accountIdentifiers = "accountIdentifiers"
             case includeLinkedAccounts = "includeLinkedAccounts"
             case limit = "limit"
+            case logGroupClass = "logGroupClass"
             case logGroupNamePattern = "logGroupNamePattern"
             case logGroupNamePrefix = "logGroupNamePrefix"
             case nextToken = "nextToken"
@@ -1091,21 +1748,28 @@ extension CloudWatchLogs {
     }
 
     public struct DisassociateKmsKeyRequest: AWSEncodableShape {
-        /// The name of the log group.
-        public let logGroupName: String
+        /// The name of the log group. In your DisassociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter,  but you can't specify both.
+        public let logGroupName: String?
+        /// Specifies the target for this operation. You must specify one of the following:   Specify the ARN of a log group to stop having CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. After you run this operation, CloudWatch Logs encrypts ingested log events with the default CloudWatch Logs method. The log group ARN must be in  the following format. Replace REGION and ACCOUNT_ID with your Region and account ID.  arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME     Specify the following ARN to stop using this key to encrypt the results of future StartQuery operations in this account. Replace REGION and ACCOUNT_ID with your Region and account ID.  arn:aws:logs:REGION:ACCOUNT_ID:query-result:*    In your DisssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter,  but you can't specify both.
+        public let resourceIdentifier: String?
 
-        public init(logGroupName: String) {
+        public init(logGroupName: String? = nil, resourceIdentifier: String? = nil) {
             self.logGroupName = logGroupName
+            self.resourceIdentifier = resourceIdentifier
         }
 
         public func validate(name: String) throws {
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[\\w+=/:,.@\\-\\*]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case logGroupName = "logGroupName"
+            case resourceIdentifier = "resourceIdentifier"
         }
     }
 
@@ -1371,6 +2035,196 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct GetDeliveryDestinationPolicyRequest: AWSEncodableShape {
+        /// The name of the delivery destination that you want to retrieve the policy of.
+        public let deliveryDestinationName: String
+
+        public init(deliveryDestinationName: String) {
+            self.deliveryDestinationName = deliveryDestinationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, max: 60)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, min: 1)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationName = "deliveryDestinationName"
+        }
+    }
+
+    public struct GetDeliveryDestinationPolicyResponse: AWSDecodableShape {
+        /// The IAM policy for this delivery destination.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+        }
+    }
+
+    public struct GetDeliveryDestinationRequest: AWSEncodableShape {
+        /// The name of the delivery destination that you want to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetDeliveryDestinationResponse: AWSDecodableShape {
+        /// A structure containing information about the delivery destination.
+        public let deliveryDestination: DeliveryDestination?
+
+        public init(deliveryDestination: DeliveryDestination? = nil) {
+            self.deliveryDestination = deliveryDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestination = "deliveryDestination"
+        }
+    }
+
+    public struct GetDeliveryRequest: AWSEncodableShape {
+        /// The ID of the delivery that you want to retrieve.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct GetDeliveryResponse: AWSDecodableShape {
+        /// A structure that contains information about the delivery.
+        public let delivery: Delivery?
+
+        public init(delivery: Delivery? = nil) {
+            self.delivery = delivery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delivery = "delivery"
+        }
+    }
+
+    public struct GetDeliverySourceRequest: AWSEncodableShape {
+        /// The name of the delivery source that you want to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetDeliverySourceResponse: AWSDecodableShape {
+        /// A structure containing information about the delivery source.
+        public let deliverySource: DeliverySource?
+
+        public init(deliverySource: DeliverySource? = nil) {
+            self.deliverySource = deliverySource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverySource = "deliverySource"
+        }
+    }
+
+    public struct GetLogAnomalyDetectorRequest: AWSEncodableShape {
+        /// The ARN of the anomaly detector to retrieve information about. You can find the ARNs of log anomaly detectors  in your account by using the ListLogAnomalyDetectors operation.
+        public let anomalyDetectorArn: String
+
+        public init(anomalyDetectorArn: String) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+        }
+    }
+
+    public struct GetLogAnomalyDetectorResponse: AWSDecodableShape {
+        /// Specifies whether the anomaly detector is currently active. To change its status, use the enabled parameter in the UpdateLogAnomalyDetector  operation.
+        public let anomalyDetectorStatus: AnomalyDetectorStatus?
+        /// The number of days used as the life cycle of anomalies. After this time, anomalies are automatically baselined  and the anomaly detector model will treat new occurrences of similar event as normal.
+        public let anomalyVisibilityTime: Int64?
+        /// The date and time when this anomaly detector was created.
+        public let creationTimeStamp: Int64?
+        /// The name of the log anomaly detector
+        public let detectorName: String?
+        /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate.
+        public let evaluationFrequency: EvaluationFrequency?
+        public let filterPattern: String?
+        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        public let kmsKeyId: String?
+        /// The date and time when this anomaly detector was most recently modified.
+        public let lastModifiedTimeStamp: Int64?
+        /// An array of structures, where each structure contains the ARN of a log group associated with this anomaly detector.
+        public let logGroupArnList: [String]?
+
+        public init(anomalyDetectorStatus: AnomalyDetectorStatus? = nil, anomalyVisibilityTime: Int64? = nil, creationTimeStamp: Int64? = nil, detectorName: String? = nil, evaluationFrequency: EvaluationFrequency? = nil, filterPattern: String? = nil, kmsKeyId: String? = nil, lastModifiedTimeStamp: Int64? = nil, logGroupArnList: [String]? = nil) {
+            self.anomalyDetectorStatus = anomalyDetectorStatus
+            self.anomalyVisibilityTime = anomalyVisibilityTime
+            self.creationTimeStamp = creationTimeStamp
+            self.detectorName = detectorName
+            self.evaluationFrequency = evaluationFrequency
+            self.filterPattern = filterPattern
+            self.kmsKeyId = kmsKeyId
+            self.lastModifiedTimeStamp = lastModifiedTimeStamp
+            self.logGroupArnList = logGroupArnList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorStatus = "anomalyDetectorStatus"
+            case anomalyVisibilityTime = "anomalyVisibilityTime"
+            case creationTimeStamp = "creationTimeStamp"
+            case detectorName = "detectorName"
+            case evaluationFrequency = "evaluationFrequency"
+            case filterPattern = "filterPattern"
+            case kmsKeyId = "kmsKeyId"
+            case lastModifiedTimeStamp = "lastModifiedTimeStamp"
+            case logGroupArnList = "logGroupArnList"
+        }
+    }
+
     public struct GetLogEventsRequest: AWSEncodableShape {
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
@@ -1459,7 +2313,7 @@ extension CloudWatchLogs {
         public let logGroupIdentifier: String?
         /// The name of the log group to search.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
-        /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the most recent 15 minutes up to the current time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
 
         public init(logGroupIdentifier: String? = nil, logGroupName: String? = nil, time: Int64? = nil) {
@@ -1546,20 +2400,24 @@ extension CloudWatchLogs {
     }
 
     public struct GetQueryResultsResponse: AWSDecodableShape {
+        /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when StartQuery stores them.
+        public let encryptionKey: String?
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
-        /// Includes the number of log events scanned by the query, the number of log events that matched the  query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
+        /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the scanned log events. These values reflect the full raw results of the query.
         public let statistics: QueryStatistics?
         /// The status of the most recent running of the query. Possible values are Cancelled,  Complete, Failed, Running, Scheduled,  Timeout, and Unknown. Queries time out after 60 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
         public let status: QueryStatus?
 
-        public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
+        public init(encryptionKey: String? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
+            self.encryptionKey = encryptionKey
             self.results = results
             self.statistics = statistics
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionKey = "encryptionKey"
             case results = "results"
             case statistics = "statistics"
             case status = "status"
@@ -1585,6 +2443,99 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case timestamp = "timestamp"
+        }
+    }
+
+    public struct ListAnomaliesRequest: AWSEncodableShape {
+        /// Use this to optionally limit the results to only the anomalies found by a certain  anomaly detector.
+        public let anomalyDetectorArn: String?
+        /// The maximum number of items to return. If you don't specify a value, the default maximum value of  50 items is used.
+        public let limit: Int?
+        public let nextToken: String?
+        /// You can specify this parameter if you want to the operation to return only anomalies that  are currently either suppressed or unsuppressed.
+        public let suppressionState: SuppressionState?
+
+        public init(anomalyDetectorArn: String? = nil, limit: Int? = nil, nextToken: String? = nil, suppressionState: SuppressionState? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.limit = limit
+            self.nextToken = nextToken
+            self.suppressionState = suppressionState
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case suppressionState = "suppressionState"
+        }
+    }
+
+    public struct ListAnomaliesResponse: AWSDecodableShape {
+        /// An array of structures, where each structure contains information about one anomaly that a log anomaly detector has found.
+        public let anomalies: [Anomaly]?
+        public let nextToken: String?
+
+        public init(anomalies: [Anomaly]? = nil, nextToken: String? = nil) {
+            self.anomalies = anomalies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalies = "anomalies"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLogAnomalyDetectorsRequest: AWSEncodableShape {
+        /// Use this to optionally filter the results to only include anomaly detectors that are associated with the  specified log group.
+        public let filterLogGroupArn: String?
+        /// The maximum number of items to return. If you don't specify a value, the default maximum value of  50 items is used.
+        public let limit: Int?
+        public let nextToken: String?
+
+        public init(filterLogGroupArn: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.filterLogGroupArn = filterLogGroupArn
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterLogGroupArn, name: "filterLogGroupArn", parent: name, max: 2048)
+            try self.validate(self.filterLogGroupArn, name: "filterLogGroupArn", parent: name, min: 1)
+            try self.validate(self.filterLogGroupArn, name: "filterLogGroupArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterLogGroupArn = "filterLogGroupArn"
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLogAnomalyDetectorsResponse: AWSDecodableShape {
+        /// An array of structures, where each structure in the array contains information about one anomaly detector.
+        public let anomalyDetectors: [AnomalyDetector]?
+        public let nextToken: String?
+
+        public init(anomalyDetectors: [AnomalyDetector]? = nil, nextToken: String? = nil) {
+            self.anomalyDetectors = anomalyDetectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectors = "anomalyDetectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1663,6 +2614,8 @@ extension CloudWatchLogs {
         public let inheritedProperties: [InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public let kmsKeyId: String?
+        /// This specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        public let logGroupClass: LogGroupClass?
         /// The name of the log group.
         public let logGroupName: String?
         /// The number of metric filters.
@@ -1671,12 +2624,13 @@ extension CloudWatchLogs {
         /// The number of bytes stored.
         public let storedBytes: Int64?
 
-        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
             self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
+            self.logGroupClass = logGroupClass
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
             self.retentionInDays = retentionInDays
@@ -1689,6 +2643,7 @@ extension CloudWatchLogs {
             case dataProtectionStatus = "dataProtectionStatus"
             case inheritedProperties = "inheritedProperties"
             case kmsKeyId = "kmsKeyId"
+            case logGroupClass = "logGroupClass"
             case logGroupName = "logGroupName"
             case metricFilterCount = "metricFilterCount"
             case retentionInDays = "retentionInDays"
@@ -1881,6 +2836,44 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PatternToken: AWSDecodableShape {
+        /// For a dynamic token, this indicates where in the pattern that this token appears, related to other dynamic tokens. The dynamic token that appears first has a value of 1, the  one that appears second is 2, and so on.
+        public let dynamicTokenPosition: Int?
+        /// Contains the values found for a dynamic token, and the number of times each value was found.
+        public let enumerations: [String: Int64]?
+        /// Specifies whether this is a dynamic token.
+        public let isDynamic: Bool?
+        /// The string represented by this token. If this is a dynamic token, the value will be
+        public let tokenString: String?
+
+        public init(dynamicTokenPosition: Int? = nil, enumerations: [String: Int64]? = nil, isDynamic: Bool? = nil, tokenString: String? = nil) {
+            self.dynamicTokenPosition = dynamicTokenPosition
+            self.enumerations = enumerations
+            self.isDynamic = isDynamic
+            self.tokenString = tokenString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicTokenPosition = "dynamicTokenPosition"
+            case enumerations = "enumerations"
+            case isDynamic = "isDynamic"
+            case tokenString = "tokenString"
+        }
+    }
+
+    public struct Policy: AWSDecodableShape {
+        /// The contents of the delivery destination policy.
+        public let deliveryDestinationPolicy: String?
+
+        public init(deliveryDestinationPolicy: String? = nil) {
+            self.deliveryDestinationPolicy = deliveryDestinationPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationPolicy = "deliveryDestinationPolicy"
+        }
+    }
+
     public struct PutAccountPolicyRequest: AWSEncodableShape {
         /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Kinesis Data Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
         public let policyDocument: String
@@ -1888,7 +2881,7 @@ extension CloudWatchLogs {
         public let policyName: String
         /// Currently the only valid value for this parameter is DATA_PROTECTION_POLICY.
         public let policyType: PolicyType
-        /// Currently the only valid value for this parameter is GLOBAL, which specifies that the data  protection policy applies to all log groups in the account. If you omit this parameter, the default of GLOBAL is used.
+        /// Currently the only valid value for this parameter is ALL, which specifies that the data  protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
         public let scope: Scope?
 
         public init(policyDocument: String, policyName: String, policyType: PolicyType, scope: Scope? = nil) {
@@ -1960,6 +2953,153 @@ extension CloudWatchLogs {
             case lastUpdatedTime = "lastUpdatedTime"
             case logGroupIdentifier = "logGroupIdentifier"
             case policyDocument = "policyDocument"
+        }
+    }
+
+    public struct PutDeliveryDestinationPolicyRequest: AWSEncodableShape {
+        /// The name of the delivery destination to assign this policy to.
+        public let deliveryDestinationName: String
+        /// The contents of the policy.
+        public let deliveryDestinationPolicy: String
+
+        public init(deliveryDestinationName: String, deliveryDestinationPolicy: String) {
+            self.deliveryDestinationName = deliveryDestinationName
+            self.deliveryDestinationPolicy = deliveryDestinationPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, max: 60)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, min: 1)
+            try self.validate(self.deliveryDestinationName, name: "deliveryDestinationName", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.deliveryDestinationPolicy, name: "deliveryDestinationPolicy", parent: name, max: 51200)
+            try self.validate(self.deliveryDestinationPolicy, name: "deliveryDestinationPolicy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationName = "deliveryDestinationName"
+            case deliveryDestinationPolicy = "deliveryDestinationPolicy"
+        }
+    }
+
+    public struct PutDeliveryDestinationPolicyResponse: AWSDecodableShape {
+        /// The contents of the policy that you just created.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+        }
+    }
+
+    public struct PutDeliveryDestinationRequest: AWSEncodableShape {
+        /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
+        public let deliveryDestinationConfiguration: DeliveryDestinationConfiguration
+        /// A name for this delivery destination. This name must be unique for all delivery destinations in your account.
+        public let name: String
+        /// The format for the logs that this delivery destination will receive.
+        public let outputFormat: OutputFormat?
+        /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
+        public let tags: [String: String]?
+
+        public init(deliveryDestinationConfiguration: DeliveryDestinationConfiguration, name: String, outputFormat: OutputFormat? = nil, tags: [String: String]? = nil) {
+            self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
+            self.name = name
+            self.outputFormat = outputFormat
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationConfiguration = "deliveryDestinationConfiguration"
+            case name = "name"
+            case outputFormat = "outputFormat"
+            case tags = "tags"
+        }
+    }
+
+    public struct PutDeliveryDestinationResponse: AWSDecodableShape {
+        /// A structure containing information about the delivery destination that you just created or updated.
+        public let deliveryDestination: DeliveryDestination?
+
+        public init(deliveryDestination: DeliveryDestination? = nil) {
+            self.deliveryDestination = deliveryDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestination = "deliveryDestination"
+        }
+    }
+
+    public struct PutDeliverySourceRequest: AWSEncodableShape {
+        /// Defines the type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
+        public let logType: String
+        /// A name for this delivery source. This name must be unique for all delivery sources in your account.
+        public let name: String
+        /// The ARN of the Amazon Web Services resource that is generating and sending logs.  For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234
+        public let resourceArn: String
+        /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
+        public let tags: [String: String]?
+
+        public init(logType: String, name: String, resourceArn: String, tags: [String: String]? = nil) {
+            self.logType = logType
+            self.name = name
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logType, name: "logType", parent: name, max: 255)
+            try self.validate(self.logType, name: "logType", parent: name, min: 1)
+            try self.validate(self.logType, name: "logType", parent: name, pattern: "^[\\w]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logType = "logType"
+            case name = "name"
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct PutDeliverySourceResponse: AWSDecodableShape {
+        /// A structure containing information about the delivery source that was just created or updated.
+        public let deliverySource: DeliverySource?
+
+        public init(deliverySource: DeliverySource? = nil) {
+            self.deliverySource = deliverySource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverySource = "deliverySource"
         }
     }
 
@@ -2144,6 +3284,9 @@ extension CloudWatchLogs {
     }
 
     public struct PutQueryDefinitionRequest: AWSEncodableShape {
+        /// Used as an idempotency token, to avoid returning an exception if the service receives the same  request twice because of a network
+        ///  error.
+        public let clientToken: String?
         /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
         public let logGroupNames: [String]?
         /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
@@ -2153,7 +3296,8 @@ extension CloudWatchLogs {
         /// The query string to use for this definition.  For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
 
-        public init(logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryString: String) {
+        public init(clientToken: String? = PutQueryDefinitionRequest.idempotencyToken(), logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryString: String) {
+            self.clientToken = clientToken
             self.logGroupNames = logGroupNames
             self.name = name
             self.queryDefinitionId = queryDefinitionId
@@ -2161,6 +3305,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,128}$")
             try self.logGroupNames?.forEach {
                 try validate($0, name: "logGroupNames[]", parent: name, max: 512)
                 try validate($0, name: "logGroupNames[]", parent: name, min: 1)
@@ -2174,6 +3321,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case logGroupNames = "logGroupNames"
             case name = "name"
             case queryDefinitionId = "queryDefinitionId"
@@ -2458,11 +3606,11 @@ extension CloudWatchLogs {
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
         public let limit: Int?
-        /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
+        /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
         public let logGroupIdentifiers: [String]?
-        /// The log group on which to perform the query.  A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
+        /// The log group on which to perform the query.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
         public let logGroupName: String?
-        /// The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
+        /// The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
         public let logGroupNames: [String]?
         /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
@@ -2585,6 +3733,23 @@ extension CloudWatchLogs {
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct SuppressionPeriod: AWSEncodableShape {
+        /// Specifies whether the value of value is in seconds, minutes, or hours.
+        public let suppressionUnit: SuppressionUnit?
+        /// Specifies the number of seconds, minutes or hours to suppress this anomaly. There is no maximum.
+        public let value: Int?
+
+        public init(suppressionUnit: SuppressionUnit? = nil, value: Int? = nil) {
+            self.suppressionUnit = suppressionUnit
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressionUnit = "suppressionUnit"
+            case value = "value"
         }
     }
 
@@ -2747,6 +3912,80 @@ extension CloudWatchLogs {
             case tagKeys = "tagKeys"
         }
     }
+
+    public struct UpdateAnomalyRequest: AWSEncodableShape {
+        /// The ARN of the anomaly detector that this operation is to act on.
+        public let anomalyDetectorArn: String
+        /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation.
+        public let anomalyId: String?
+        /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the ListAnomalies operation.
+        public let patternId: String?
+        /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
+        public let suppressionPeriod: SuppressionPeriod?
+        /// Use this to specify whether the suppression to be temporary or infinite. If you specify LIMITED, you must also specify a suppressionPeriod. If you specify INFINITE, any value for suppressionPeriod is ignored.
+        public let suppressionType: SuppressionType?
+
+        public init(anomalyDetectorArn: String, anomalyId: String? = nil, patternId: String? = nil, suppressionPeriod: SuppressionPeriod? = nil, suppressionType: SuppressionType? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyId = anomalyId
+            self.patternId = patternId
+            self.suppressionPeriod = suppressionPeriod
+            self.suppressionType = suppressionType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.anomalyId, name: "anomalyId", parent: name, max: 36)
+            try self.validate(self.anomalyId, name: "anomalyId", parent: name, min: 36)
+            try self.validate(self.patternId, name: "patternId", parent: name, max: 32)
+            try self.validate(self.patternId, name: "patternId", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+            case anomalyId = "anomalyId"
+            case patternId = "patternId"
+            case suppressionPeriod = "suppressionPeriod"
+            case suppressionType = "suppressionType"
+        }
+    }
+
+    public struct UpdateLogAnomalyDetectorRequest: AWSEncodableShape {
+        /// The ARN of the anomaly detector that you want to update.
+        public let anomalyDetectorArn: String
+        /// The number of days to use as the life cycle of anomalies. After this time, anomalies are automatically baselined  and the anomaly detector model will treat new occurrences of similar event as normal. Therefore, if you do not correct the cause of an  anomaly during this time, it will be considered normal going forward and will not be detected.
+        public let anomalyVisibilityTime: Int64?
+        /// Use this parameter to pause or restart the anomaly detector.
+        public let enabled: Bool
+        /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate.
+        public let evaluationFrequency: EvaluationFrequency?
+        public let filterPattern: String?
+
+        public init(anomalyDetectorArn: String, anomalyVisibilityTime: Int64? = nil, enabled: Bool, evaluationFrequency: EvaluationFrequency? = nil, filterPattern: String? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyVisibilityTime = anomalyVisibilityTime
+            self.enabled = enabled
+            self.evaluationFrequency = evaluationFrequency
+            self.filterPattern = filterPattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.anomalyVisibilityTime, name: "anomalyVisibilityTime", parent: name, max: 90)
+            try self.validate(self.anomalyVisibilityTime, name: "anomalyVisibilityTime", parent: name, min: 7)
+            try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "anomalyDetectorArn"
+            case anomalyVisibilityTime = "anomalyVisibilityTime"
+            case enabled = "enabled"
+            case evaluationFrequency = "evaluationFrequency"
+            case filterPattern = "filterPattern"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2754,6 +3993,8 @@ extension CloudWatchLogs {
 /// Error enum for CloudWatchLogs
 public struct CloudWatchLogsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case dataAlreadyAcceptedException = "DataAlreadyAcceptedException"
         case invalidOperationException = "InvalidOperationException"
         case invalidParameterException = "InvalidParameterException"
@@ -2763,9 +4004,12 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
         case operationAbortedException = "OperationAbortedException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
         case unrecognizedClientException = "UnrecognizedClientException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -2786,6 +4030,10 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have sufficient permissions to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// This operation attempted to create a resource that already exists.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The event was already logged.   PutLogEvents actions are now always accepted and never return DataAlreadyAcceptedException regardless of whether a given batch of log events has already been accepted.
     public static var dataAlreadyAcceptedException: Self { .init(.dataAlreadyAcceptedException) }
     /// The operation is not valid on the specified resource.
@@ -2804,12 +4052,18 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// This request exceeds a service quota.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was throttled because of quota limits.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// A resource can have no more than 50 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
+    /// One of the parameters for the request is not valid.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension CloudWatchLogsErrorType: Equatable {

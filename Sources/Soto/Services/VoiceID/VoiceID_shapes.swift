@@ -26,7 +26,7 @@ import Foundation
 extension VoiceID {
     // MARK: Enums
 
-    public enum AuthenticationDecision: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accept = "ACCEPT"
         case notEnoughSpeech = "NOT_ENOUGH_SPEECH"
         case reject = "REJECT"
@@ -37,45 +37,45 @@ extension VoiceID {
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case suspended = "SUSPENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DuplicateRegistrationAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum DuplicateRegistrationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case registerAsNew = "REGISTER_AS_NEW"
         case skip = "SKIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExistingEnrollmentAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExistingEnrollmentAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case overwrite = "OVERWRITE"
         case skip = "SKIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum FraudDetectionAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum FraudDetectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fail = "FAIL"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FraudDetectionDecision: String, CustomStringConvertible, Codable, Sendable {
+    public enum FraudDetectionDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case highRisk = "HIGH_RISK"
         case lowRisk = "LOW_RISK"
         case notEnoughSpeech = "NOT_ENOUGH_SPEECH"
         public var description: String { return self.rawValue }
     }
 
-    public enum FraudDetectionReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum FraudDetectionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knownFraudster = "KNOWN_FRAUDSTER"
         case voiceSpoofing = "VOICE_SPOOFING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FraudsterRegistrationJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FraudsterRegistrationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case failed = "FAILED"
@@ -84,14 +84,14 @@ extension VoiceID {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerSideEncryptionUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServerSideEncryptionUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpeakerEnrollmentJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SpeakerEnrollmentJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case failed = "FAILED"
@@ -100,7 +100,7 @@ extension VoiceID {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpeakerStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SpeakerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enrolled = "ENROLLED"
         case expired = "EXPIRED"
         case optedOut = "OPTED_OUT"
@@ -108,7 +108,7 @@ extension VoiceID {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamingStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ended = "ENDED"
         case ongoing = "ONGOING"
         case pendingConfiguration = "PENDING_CONFIGURATION"

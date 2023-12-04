@@ -26,7 +26,7 @@ import Foundation
 extension LookoutVision {
     // MARK: Enums
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -40,7 +40,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelHostingStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelHostingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hosted = "HOSTED"
         case hostingFailed = "HOSTING_FAILED"
         case startingHosting = "STARTING_HOSTING"
@@ -49,7 +49,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackagingJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelPackagingJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -57,7 +57,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case hosted = "HOSTED"
         case hostingFailed = "HOSTING_FAILED"
@@ -70,23 +70,23 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDevice: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetDevice: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jetsonXavier = "jetson_xavier"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nvidia = "NVIDIA"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "LINUX"
         public var description: String { return self.rawValue }
     }
@@ -116,11 +116,11 @@ extension LookoutVision {
         /// The location of the manifest file that Amazon Lookout for Vision uses to create the dataset. If you don't specify DatasetSource, an empty dataset is created and the operation  synchronously returns. Later, you can add JSON Lines by calling UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3 location is validated and used to create the dataset. The call to CreateDataset is asynchronous and might take a while to complete. To find out the current status, Check the value of Status returned in a call to DescribeDataset.
         public let datasetSource: DatasetSource?
         /// The type of the dataset. Specify train for a training dataset. Specify test for a test dataset.
-        public let datasetType: String
+        public let datasetType: String?
         /// The name of the project in which you want to create a dataset.
         public let projectName: String
 
-        public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetSource: DatasetSource? = nil, datasetType: String, projectName: String) {
+        public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetSource: DatasetSource? = nil, datasetType: String? = nil, projectName: String) {
             self.clientToken = clientToken
             self.datasetSource = datasetSource
             self.datasetType = datasetType
@@ -132,7 +132,7 @@ extension LookoutVision {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
             try container.encodeIfPresent(self.datasetSource, forKey: .datasetSource)
-            try container.encode(self.datasetType, forKey: .datasetType)
+            try container.encodeIfPresent(self.datasetType, forKey: .datasetType)
             request.encodePath(self.projectName, key: "ProjectName")
         }
 
@@ -169,20 +169,20 @@ extension LookoutVision {
     }
 
     public struct CreateModelRequest: AWSEncodableShape {
-        /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.    An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// A description for the version of the model.
         public let description: String?
         /// The identifier for your AWS KMS key. The key is used to encrypt training and test images copied into the service for model training. Your  source images are unaffected. If this parameter is not specified, the copied images are encrypted by a key that AWS owns and manages.
         public let kmsKeyId: String?
         /// The location where Amazon Lookout for Vision saves the training results.
-        public let outputConfig: OutputConfig
+        public let outputConfig: OutputConfig?
         /// The name of the project in which you want to create a model version.
         public let projectName: String
         /// A set of tags (key-value pairs) that you want to attach to the model.
         public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateModelRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig, projectName: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateModelRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig? = nil, projectName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.kmsKeyId = kmsKeyId
@@ -197,7 +197,7 @@ extension LookoutVision {
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
-            try container.encode(self.outputConfig, forKey: .outputConfig)
+            try container.encodeIfPresent(self.outputConfig, forKey: .outputConfig)
             request.encodePath(self.projectName, key: "ProjectName")
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -212,7 +212,7 @@ extension LookoutVision {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
-            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_\\-]*$")
@@ -244,12 +244,12 @@ extension LookoutVision {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-        /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue might prevent you from  getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project creation requests. You'll need to provide your own value for other use cases.        An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue might prevent you from  getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project creation requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The name for the project.
-        public let projectName: String
+        public let projectName: String?
 
-        public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), projectName: String) {
+        public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), projectName: String? = nil) {
             self.clientToken = clientToken
             self.projectName = projectName
         }
@@ -258,7 +258,7 @@ extension LookoutVision {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
-            try container.encode(self.projectName, forKey: .projectName)
+            try container.encodeIfPresent(self.projectName, forKey: .projectName)
         }
 
         public func validate(name: String) throws {
@@ -410,7 +410,7 @@ extension LookoutVision {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple deletetion requests. You'll need to provide your own value for other use cases.         An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple deletetion requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The type of the dataset to delete. Specify train to delete the training dataset. Specify test to delete the test dataset. To delete the dataset in a single dataset project,  specify train.
         public let datasetType: String
@@ -451,7 +451,7 @@ extension LookoutVision {
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
-        /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The version of the model that you want to delete.
         public let modelVersion: String
@@ -711,15 +711,15 @@ extension LookoutVision {
     public struct DetectAnomaliesRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
         /// The unencrypted image bytes that you want to analyze.
-        public let body: AWSHTTPBody
+        public let body: AWSHTTPBody?
         /// The type of the image passed in Body. Valid values are image/png (PNG format images) and image/jpeg (JPG format images).
-        public let contentType: String
+        public let contentType: String?
         /// The version of the model that you want to use.
         public let modelVersion: String
         /// The name of the project that contains the model version that you want to use.
         public let projectName: String
 
-        public init(body: AWSHTTPBody, contentType: String, modelVersion: String, projectName: String) {
+        public init(body: AWSHTTPBody? = nil, contentType: String? = nil, modelVersion: String, projectName: String) {
             self.body = body
             self.contentType = contentType
             self.modelVersion = modelVersion
@@ -793,16 +793,16 @@ extension LookoutVision {
     }
 
     public struct GreengrassConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.  If you specify TargetDevice, don't specify CompilerOptions.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
+        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.  If you specify TargetDevice, don't specify CompilerOptions. For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
         public let compilerOptions: String?
         ///  A description for the AWS IoT Greengrass component.
         public let componentDescription: String?
         ///  A name for the AWS IoT Greengrass component.
-        public let componentName: String
+        public let componentName: String?
         /// A Version for the AWS IoT Greengrass component. If you don't provide a value, a default value of  Model Version.0.0 is used.
         public let componentVersion: String?
         ///  An S3 location in which Lookout for Vision stores the component artifacts.
-        public let s3OutputLocation: S3Location
+        public let s3OutputLocation: S3Location?
         ///  A set of tags (key-value pairs) that you want to attach to the AWS IoT Greengrass component.
         public let tags: [Tag]?
         /// The target device for the model. Currently the only supported value is jetson_xavier. If you specify TargetDevice, you can't specify TargetPlatform.
@@ -810,7 +810,7 @@ extension LookoutVision {
         /// The target platform for the model. If you specify TargetPlatform, you can't specify TargetDevice.
         public let targetPlatform: TargetPlatform?
 
-        public init(compilerOptions: String? = nil, componentDescription: String? = nil, componentName: String, componentVersion: String? = nil, s3OutputLocation: S3Location, tags: [Tag]? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
+        public init(compilerOptions: String? = nil, componentDescription: String? = nil, componentName: String? = nil, componentVersion: String? = nil, s3OutputLocation: S3Location? = nil, tags: [Tag]? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
             self.compilerOptions = compilerOptions
             self.componentDescription = componentDescription
             self.componentName = componentName
@@ -834,7 +834,7 @@ extension LookoutVision {
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "^([0-9]{1,6})\\.([0-9]{1,6})\\.([0-9]{1,6})$")
-            try self.s3OutputLocation.validate(name: "\(name).s3OutputLocation")
+            try self.s3OutputLocation?.validate(name: "\(name).s3OutputLocation")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -889,13 +889,13 @@ extension LookoutVision {
 
     public struct InputS3Object: AWSEncodableShape {
         /// The Amazon S3 bucket that contains the manifest.
-        public let bucket: String
+        public let bucket: String?
         /// The name and location of the manifest file withiin the bucket.
-        public let key: String
+        public let key: String?
         /// The version ID of the bucket.
         public let versionId: String?
 
-        public init(bucket: String, key: String, versionId: String? = nil) {
+        public init(bucket: String? = nil, key: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
             self.versionId = versionId
@@ -1293,14 +1293,14 @@ extension LookoutVision {
 
     public struct ModelPackagingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration information for the AWS IoT Greengrass component in a model packaging job.
-        public let greengrass: GreengrassConfiguration
+        public let greengrass: GreengrassConfiguration?
 
-        public init(greengrass: GreengrassConfiguration) {
+        public init(greengrass: GreengrassConfiguration? = nil) {
             self.greengrass = greengrass
         }
 
         public func validate(name: String) throws {
-            try self.greengrass.validate(name: "\(name).greengrass")
+            try self.greengrass?.validate(name: "\(name).greengrass")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1443,14 +1443,14 @@ extension LookoutVision {
 
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// The S3 location for the output.
-        public let s3Location: S3Location
+        public let s3Location: S3Location?
 
-        public init(s3Location: S3Location) {
+        public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
 
         public func validate(name: String) throws {
-            try self.s3Location.validate(name: "\(name).s3Location")
+            try self.s3Location?.validate(name: "\(name).s3Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1460,11 +1460,11 @@ extension LookoutVision {
 
     public struct OutputS3Object: AWSDecodableShape {
         /// The bucket that contains the training output.
-        public let bucket: String
+        public let bucket: String?
         /// The location of the training output in the bucket.
-        public let key: String
+        public let key: String?
 
-        public init(bucket: String, key: String) {
+        public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
         }
@@ -1540,11 +1540,11 @@ extension LookoutVision {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The S3 bucket that contains the training or model packaging job output. If you are training a model, the bucket must in your AWS account. If you use an S3 bucket for a model packaging job, the S3 bucket must be in the same AWS Region and AWS account in which you use AWS IoT Greengrass.
-        public let bucket: String
+        public let bucket: String?
         /// The path of the folder, within the S3 bucket, that contains the output.
         public let prefix: String?
 
-        public init(bucket: String, prefix: String? = nil) {
+        public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
         }
@@ -1567,17 +1567,17 @@ extension LookoutVision {
         /// ClientToken is an idempotency token that ensures a call to StartModelPackagingJob completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from StartModelPackagingJob. In this case, safely retry your call to StartModelPackagingJob by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple dataset creation requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModelPackagingJob. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The configuration for the model packaging job.
-        public let configuration: ModelPackagingConfiguration
+        public let configuration: ModelPackagingConfiguration?
         /// A description for the model packaging job.
         public let description: String?
         /// A name for the model packaging job. If you don't supply a value, the service creates a job name for you.
         public let jobName: String?
         /// The version of the model within the project that you want to package.
-        public let modelVersion: String
+        public let modelVersion: String?
         /// The name of the project which contains the version of the model that you want to package.
         public let projectName: String
 
-        public init(clientToken: String? = StartModelPackagingJobRequest.idempotencyToken(), configuration: ModelPackagingConfiguration, description: String? = nil, jobName: String? = nil, modelVersion: String, projectName: String) {
+        public init(clientToken: String? = StartModelPackagingJobRequest.idempotencyToken(), configuration: ModelPackagingConfiguration? = nil, description: String? = nil, jobName: String? = nil, modelVersion: String? = nil, projectName: String) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
@@ -1590,10 +1590,10 @@ extension LookoutVision {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
-            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.jobName, forKey: .jobName)
-            try container.encode(self.modelVersion, forKey: .modelVersion)
+            try container.encodeIfPresent(self.modelVersion, forKey: .modelVersion)
             request.encodePath(self.projectName, key: "ProjectName")
         }
 
@@ -1601,7 +1601,7 @@ extension LookoutVision {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.configuration.validate(name: "\(name).configuration")
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9-_. ()':,;?]+$")
@@ -1638,18 +1638,18 @@ extension LookoutVision {
     }
 
     public struct StartModelRequest: AWSEncodableShape {
-        /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
+        /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
         public let maxInferenceUnits: Int?
         /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing.  Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
-        public let minInferenceUnits: Int
+        public let minInferenceUnits: Int?
         /// The version of the model that you want to start.
         public let modelVersion: String
         /// The name of the project that contains the model that you want to start.
         public let projectName: String
 
-        public init(clientToken: String? = StartModelRequest.idempotencyToken(), maxInferenceUnits: Int? = nil, minInferenceUnits: Int, modelVersion: String, projectName: String) {
+        public init(clientToken: String? = StartModelRequest.idempotencyToken(), maxInferenceUnits: Int? = nil, minInferenceUnits: Int? = nil, modelVersion: String, projectName: String) {
             self.clientToken = clientToken
             self.maxInferenceUnits = maxInferenceUnits
             self.minInferenceUnits = minInferenceUnits
@@ -1662,7 +1662,7 @@ extension LookoutVision {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
             try container.encodeIfPresent(self.maxInferenceUnits, forKey: .maxInferenceUnits)
-            try container.encode(self.minInferenceUnits, forKey: .minInferenceUnits)
+            try container.encodeIfPresent(self.minInferenceUnits, forKey: .minInferenceUnits)
             request.encodePath(self.modelVersion, key: "ModelVersion")
             request.encodePath(self.projectName, key: "ProjectName")
         }
@@ -1752,11 +1752,11 @@ extension LookoutVision {
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key of the tag that is attached to the specified model.
-        public let key: String
+        public let key: String?
         /// The value of the tag that is attached to the specified model.
-        public let value: String
+        public let value: String?
 
-        public init(key: String, value: String) {
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -1779,9 +1779,9 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the model to assign the tags.
         public let resourceArn: String
         /// The key-value tags to assign to the model.
-        public let tags: [Tag]
+        public let tags: [Tag]?
 
-        public init(resourceArn: String, tags: [Tag]) {
+        public init(resourceArn: String, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1790,13 +1790,13 @@ extension LookoutVision {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
@@ -1815,11 +1815,11 @@ extension LookoutVision {
         /// The target accelerator for the model. Currently, Amazon Lookout for Vision only supports NVIDIA (Nvidia graphics processing unit)  and CPU accelerators. If you specify NVIDIA as an accelerator, you must also specify the gpu-code, trt-ver, and cuda-ver compiler options. If you don't specify an accelerator, Lookout for Vision uses the CPU for compilation and we highly recommend that you use the GreengrassConfiguration$CompilerOptions field. For example, you can use the following compiler options for CPU:     mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}
         public let accelerator: TargetPlatformAccelerator?
         /// The target architecture for the model. The currently supported architectures are X86_64 (64-bit version of the x86 instruction set) and ARM_64 (ARMv8 64-bit CPU).
-        public let arch: TargetPlatformArch
+        public let arch: TargetPlatformArch?
         /// The target operating system for the model. Linux is the only operating system that is currently supported.
-        public let os: TargetPlatformOs
+        public let os: TargetPlatformOs?
 
-        public init(accelerator: TargetPlatformAccelerator? = nil, arch: TargetPlatformArch, os: TargetPlatformOs) {
+        public init(accelerator: TargetPlatformAccelerator? = nil, arch: TargetPlatformArch? = nil, os: TargetPlatformOs? = nil) {
             self.accelerator = accelerator
             self.arch = arch
             self.os = os
@@ -1836,9 +1836,9 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the model from which you want to remove tags.
         public let resourceArn: String
         /// A list of the keys of the tags that you want to remove.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -1853,7 +1853,7 @@ extension LookoutVision {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1870,7 +1870,7 @@ extension LookoutVision {
 
     public struct UpdateDatasetEntriesRequest: AWSEncodableShape {
         /// The entries to add to the dataset.
-        public let changes: AWSBase64Data
+        public let changes: AWSBase64Data?
         /// ClientToken is an idempotency token that ensures a call to UpdateDatasetEntries completes only once.  You choose the value to pass. For example, An issue  might prevent you from getting a response from UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple updates with the same dataset entries. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The type of the dataset that you want to update. Specify train to update the training dataset. Specify test to update the test dataset. If you have a single dataset project, specify train.
@@ -1878,7 +1878,7 @@ extension LookoutVision {
         /// The name of the project that contains the dataset that you want to update.
         public let projectName: String
 
-        public init(changes: AWSBase64Data, clientToken: String? = UpdateDatasetEntriesRequest.idempotencyToken(), datasetType: String, projectName: String) {
+        public init(changes: AWSBase64Data? = nil, clientToken: String? = UpdateDatasetEntriesRequest.idempotencyToken(), datasetType: String, projectName: String) {
             self.changes = changes
             self.clientToken = clientToken
             self.datasetType = datasetType
@@ -1888,7 +1888,7 @@ extension LookoutVision {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.changes, forKey: .changes)
+            try container.encodeIfPresent(self.changes, forKey: .changes)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
             request.encodePath(self.datasetType, key: "DatasetType")
             request.encodePath(self.projectName, key: "ProjectName")

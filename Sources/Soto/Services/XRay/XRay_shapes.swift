@@ -26,37 +26,38 @@ import Foundation
 extension XRay {
     // MARK: Enums
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightCategory: String, CustomStringConvertible, Codable, Sendable {
+    public enum InsightCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fault = "FAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InsightState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case closed = "CLOSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SamplingStrategyName: String, CustomStringConvertible, Codable, Sendable {
+    public enum SamplingStrategyName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fixedRate = "FixedRate"
         case partialScan = "PartialScan"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeRangeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TimeRangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "Event"
+        case service = "Service"
         case traceId = "TraceId"
         public var description: String { return self.rawValue }
     }
@@ -1266,7 +1267,7 @@ extension XRay {
         public let samplingStrategy: SamplingStrategy?
         /// The start of the time frame for which to retrieve traces.
         public let startTime: Date
-        /// A parameter to indicate whether to query trace summaries by TraceId or Event time.
+        /// A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
         public let timeRangeType: TimeRangeType?
 
         public init(endTime: Date, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: Date, timeRangeType: TimeRangeType? = nil) {
@@ -2587,10 +2588,12 @@ extension XRay {
         public let revision: Int?
         /// Service IDs from the trace's segment documents.
         public let serviceIds: [ServiceId]?
+        /// The start time of a trace, based on the earliest trace segment start time.
+        public let startTime: Date?
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, startTime: Date? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration
@@ -2610,6 +2613,7 @@ extension XRay {
             self.responseTimeRootCauses = responseTimeRootCauses
             self.revision = revision
             self.serviceIds = serviceIds
+            self.startTime = startTime
             self.users = users
         }
 
@@ -2633,6 +2637,7 @@ extension XRay {
             case responseTimeRootCauses = "ResponseTimeRootCauses"
             case revision = "Revision"
             case serviceIds = "ServiceIds"
+            case startTime = "StartTime"
             case users = "Users"
         }
     }

@@ -211,6 +211,19 @@ public struct Transcribe: AWSService {
         )
     }
 
+    /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName. Job names are case sensitive.
+    @Sendable
+    public func deleteMedicalScribeJob(_ input: DeleteMedicalScribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteMedicalScribeJob", 
+            path: "/medicalscribejobs/{MedicalScribeJobName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     @Sendable
     public func deleteMedicalTranscriptionJob(_ input: DeleteMedicalTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -308,6 +321,19 @@ public struct Transcribe: AWSService {
         return try await self.client.execute(
             operation: "GetCallAnalyticsJob", 
             path: "/callanalyticsjobs/{CallAnalyticsJobName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in MedicalScribeOutput.  If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the  operation.
+    @Sendable
+    public func getMedicalScribeJob(_ input: GetMedicalScribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMedicalScribeJobResponse {
+        return try await self.client.execute(
+            operation: "GetMedicalScribeJob", 
+            path: "/medicalscribejobs/{MedicalScribeJobName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -419,6 +445,19 @@ public struct Transcribe: AWSService {
         )
     }
 
+    /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the  operation.
+    @Sendable
+    public func listMedicalScribeJobs(_ input: ListMedicalScribeJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMedicalScribeJobsResponse {
+        return try await self.client.execute(
+            operation: "ListMedicalScribeJobs", 
+            path: "/medicalscribejobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the  operation.
     @Sendable
     public func listMedicalTranscriptionJobs(_ input: ListMedicalTranscriptionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMedicalTranscriptionJobsResponse {
@@ -510,7 +549,20 @@ public struct Transcribe: AWSService {
         )
     }
 
-    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to How Amazon Transcribe Medical works. To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    MedicalTranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.    LanguageCode: This must be en-US.    OutputBucketName: The Amazon S3 bucket where you want your transcript stored. If you want your output stored in a sub-folder of this bucket, you must also include OutputKey.    Specialty: This must be PRIMARYCARE.    Type: Choose whether your audio is a conversation or a dictation.
+    /// Transcribes patient-clinician conversations and generates clinical notes.  Amazon Web Services HealthScribe automatically provides rich conversation transcripts, identifies speaker roles,  classifies dialogues, extracts medical terms, and generates preliminary clinical notes. To learn more about these features, refer to Amazon Web Services HealthScribe. To make a StartMedicalScribeJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:    DataAccessRoleArn: The ARN of an IAM role with the these minimum permissions: read permission on input file Amazon S3 bucket specified in Media, write permission on the Amazon S3 bucket specified in OutputBucketName, and full permissions on the KMS key specified in OutputEncryptionKMSKeyId (if set). The role should also allow transcribe.amazonaws.com to assume it.     Media (MediaFileUri): The Amazon S3 location of your media file.    MedicalScribeJobName: A custom name you create for your MedicalScribe job that is unique within your Amazon Web Services account.    OutputBucketName: The Amazon S3 bucket where you want your output files stored.    Settings: A MedicalScribeSettings obect  that must set exactly one of ShowSpeakerLabels or ChannelIdentification to true. If ShowSpeakerLabels is true, MaxSpeakerLabels must also be set.     ChannelDefinitions: A MedicalScribeChannelDefinitions array should be set if and only if the ChannelIdentification value of Settings is set to true.
+    @Sendable
+    public func startMedicalScribeJob(_ input: StartMedicalScribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMedicalScribeJobResponse {
+        return try await self.client.execute(
+            operation: "StartMedicalScribeJob", 
+            path: "/medicalscribejobs/{MedicalScribeJobName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to How Amazon Transcribe Medical works. To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    MedicalTranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.    LanguageCode: This must be en-US.    OutputBucketName: The Amazon S3 bucket where you want your transcript stored. If you want your output stored in a sub-folder of this bucket, you must also include OutputKey.    Specialty: This must be PRIMARYCARE.    Type: Choose whether your audio is a conversation or a dictation.
     @Sendable
     public func startMedicalTranscriptionJob(_ input: StartMedicalTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMedicalTranscriptionJobResponse {
         return try await self.client.execute(
@@ -523,7 +575,7 @@ public struct Transcribe: AWSService {
         )
     }
 
-    /// Transcribes the audio from a media file and applies any additional Request Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    TranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.   One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the Supported languages table. If you don't know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
+    /// Transcribes the audio from a media file and applies any additional Request Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    TranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.   One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the Supported languages table. If you do not know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     @Sendable
     public func startTranscriptionJob(_ input: StartTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTranscriptionJobResponse {
         return try await self.client.execute(
@@ -685,6 +737,25 @@ extension Transcribe {
         )
     }
 
+    /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the  operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMedicalScribeJobsPaginator(
+        _ input: ListMedicalScribeJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMedicalScribeJobsRequest, ListMedicalScribeJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listMedicalScribeJobs,
+            inputKey: \ListMedicalScribeJobsRequest.nextToken,
+            outputKey: \ListMedicalScribeJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
@@ -808,6 +879,17 @@ extension Transcribe.ListLanguageModelsRequest: AWSPaginateToken {
             nameContains: self.nameContains,
             nextToken: token,
             statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension Transcribe.ListMedicalScribeJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Transcribe.ListMedicalScribeJobsRequest {
+        return .init(
+            jobNameContains: self.jobNameContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

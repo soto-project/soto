@@ -19,33 +19,7 @@
 
 /// Service object for interacting with AWS Budgets service.
 ///
-/// Use the Amazon Web Services Budgets API to plan your service usage, service costs, and instance reservations. This API reference provides descriptions, syntax, and usage examples for each of the actions and data types for the Amazon Web Services Budgets feature.
-/// 		       Budgets provide you with a way to see the following information:
-///
-/// 				           How close your plan is to your budgeted amount or to the free tier limits
-///
-/// 				           Your usage-to-date, including how much you've used of your Reserved Instances (RIs)
-///
-/// 				           Your current estimated charges from Amazon Web Services, and how much your predicted usage will accrue in charges by the end of the month
-///
-/// 				           How much of your budget has been used
-///
-/// 		       Amazon Web Services updates your budget status several times a day. Budgets track your unblended costs, subscriptions, refunds, and RIs. You can create the following types of budgets:
-///
-/// 				            Cost budgets - Plan how much you want to spend on a service.
-///
-/// 				            Usage budgets - Plan how much you want to use one or more services.
-///
-/// 				            RI utilization budgets - Define a utilization threshold, and receive alerts when your RI usage falls below that threshold. This lets you see if your RIs are unused or under-utilized.
-///
-/// 				            RI coverage budgets - Define a coverage threshold, and receive alerts when the number of your instance hours that are covered by RIs fall below that threshold. This lets you see how much of your instance usage is covered by a reservation.
-///
-/// 		       Service Endpoint
-/// 	        The Amazon Web Services Budgets API provides the following endpoint:
-///
-/// 				           https://budgets.amazonaws.com
-///
-/// 	        For information about costs that are associated with the Amazon Web Services Budgets API, see Amazon Web Services Cost Management Pricing.
+/// Use the Amazon Web Services Budgets API to plan your service usage, service costs, and instance reservations. This API reference provides descriptions, syntax, and usage examples for each of the actions and data types for the Amazon Web Services Budgets feature.  Budgets provide you with a way to see the following information:   How close your plan is to your budgeted amount or to the free tier limits   Your usage-to-date, including how much you've used of your Reserved Instances (RIs)   Your current estimated charges from Amazon Web Services, and how much your predicted usage will accrue in charges by the end of the month   How much of your budget has been used   Amazon Web Services updates your budget status several times a day. Budgets track your unblended costs, subscriptions, refunds, and RIs. You can create the following types of budgets:    Cost budgets - Plan how much you want to spend on a service.    Usage budgets - Plan how much you want to use one or more services.    RI utilization budgets - Define a utilization threshold, and receive alerts when your RI usage falls below that threshold. This lets you see if your RIs are unused or under-utilized.    RI coverage budgets - Define a coverage threshold, and receive alerts when the number of your instance hours that are covered by RIs fall below that threshold. This lets you see how much of your instance usage is covered by a reservation.   Service Endpoint The Amazon Web Services Budgets API provides the following endpoint:   https://budgets.amazonaws.com   For information about costs that are associated with the Amazon Web Services Budgets API, see Amazon Web Services Cost Management Pricing.
 public struct Budgets: AWSService {
     // MARK: Member variables
 
@@ -110,10 +84,7 @@ public struct Budgets: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a budget and, if included, notifications and subscribers.
-    ///
-    /// 			         Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
-    ///
+    /// Creates a budget and, if included, notifications and subscribers.   Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     @Sendable
     public func createBudget(_ input: CreateBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBudgetResponse {
         return try await self.client.execute(
@@ -165,10 +136,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Deletes a budget. You can delete your budget at any time.
-    ///
-    /// 			         Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
-    ///
+    /// Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
     @Sendable
     public func deleteBudget(_ input: DeleteBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBudgetResponse {
         return try await self.client.execute(
@@ -194,10 +162,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Deletes a notification.
-    ///
-    /// 			         Deleting a notification also deletes the subscribers that are associated with the notification.
-    ///
+    /// Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification.
     @Sendable
     public func deleteNotification(_ input: DeleteNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotificationResponse {
         return try await self.client.execute(
@@ -210,10 +175,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Deletes a subscriber.
-    ///
-    /// 			         Deleting the last subscriber to a notification also deletes the notification.
-    ///
+    /// Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the notification.
     @Sendable
     public func deleteSubscriber(_ input: DeleteSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriberResponse {
         return try await self.client.execute(
@@ -226,10 +188,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Describes a budget.
-    ///
-    /// 			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
-    ///
+    /// Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     @Sendable
     public func describeBudget(_ input: DescribeBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetResponse {
         return try await self.client.execute(
@@ -321,10 +280,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Lists the budgets that are associated with an account.
-    ///
-    /// 			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
-    ///
+    /// Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     @Sendable
     public func describeBudgets(_ input: DescribeBudgetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetsResponse {
         return try await self.client.execute(
@@ -376,10 +332,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting.
-    ///
-    /// 			         Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
-    ///
+    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     @Sendable
     public func updateBudget(_ input: UpdateBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBudgetResponse {
         return try await self.client.execute(
@@ -541,10 +494,7 @@ extension Budgets {
         )
     }
 
-    /// Lists the budgets that are associated with an account.
-    ///
-    /// 			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
-    ///
+    /// Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

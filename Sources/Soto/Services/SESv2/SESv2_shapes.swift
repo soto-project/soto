@@ -26,13 +26,20 @@ import Foundation
 extension SESv2 {
     // MARK: Enums
 
-    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable {
+    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rejectMessage = "REJECT_MESSAGE"
         case useDefaultValue = "USE_DEFAULT_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BounceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case permanent = "PERMANENT"
+        case transient = "TRANSIENT"
+        case undetermined = "UNDETERMINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDailyQuotaExceeded = "ACCOUNT_DAILY_QUOTA_EXCEEDED"
         case accountSendingPaused = "ACCOUNT_SENDING_PAUSED"
         case accountSuspended = "ACCOUNT_SUSPENDED"
@@ -50,57 +57,67 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactLanguage: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case en = "EN"
         case ja = "JA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactListImportAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContactListImportAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case disabled = "DISABLED"
         case pendingExpiration = "PENDING_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complaint = "COMPLAINT"
+        case delivery = "DELIVERY"
+        case permanentBounce = "PERMANENT_BOUNCE"
+        case send = "SEND"
+        case transientBounce = "TRANSIENT_BOUNCE"
+        case undeterminedBounce = "UNDETERMINED_BOUNCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case emailHeader = "EMAIL_HEADER"
         case linkTag = "LINK_TAG"
         case messageTag = "MESSAGE_TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable, Sendable {
+    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsSes = "AWS_SES"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimSigningKeyLength: String, CustomStringConvertible, Codable, Sendable {
+    public enum DkimSigningKeyLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsa1024Bit = "RSA_1024_BIT"
         case rsa2048Bit = "RSA_2048_BIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DkimStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -109,7 +126,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EngagementEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case click = "CLICK"
+        case open = "OPEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "BOUNCE"
         case click = "CLICK"
         case complaint = "COMPLAINT"
@@ -123,26 +146,33 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case messageInsights = "MESSAGE_INSIGHTS"
+        case metricsData = "METRICS_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
         case managedDomain = "MANAGED_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportDestinationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contactList = "CONTACT_LIST"
         case suppressionList = "SUPPRESSION_LIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case created = "CREATED"
         case failed = "FAILED"
@@ -150,7 +180,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListRecommendationsFilterKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListRecommendationsFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case impact = "IMPACT"
         case resourceArn = "RESOURCE_ARN"
         case status = "STATUS"
@@ -158,7 +188,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
@@ -166,13 +196,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MailType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MailType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case marketing = "MARKETING"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Metric: String, CustomStringConvertible, Codable, Sendable {
+    public enum Metric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case click = "CLICK"
         case complaint = "COMPLAINT"
         case delivery = "DELIVERY"
@@ -186,37 +216,43 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricDimensionName: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricAggregation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rate = "RATE"
+        case volume = "VOLUME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricDimensionName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationSet = "CONFIGURATION_SET"
         case emailIdentity = "EMAIL_IDENTITY"
         case isp = "ISP"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricNamespace: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetricNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case vdm = "VDM"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationImpact: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationImpact: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fixed = "FIXED"
         case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bimi = "BIMI"
         case dkim = "DKIM"
         case dmarc = "DMARC"
@@ -224,7 +260,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReviewStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case denied = "DENIED"
         case failed = "FAILED"
         case granted = "GRANTED"
@@ -232,37 +268,46 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case managed = "MANAGED"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SuppressionListReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum SuppressionListReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "BOUNCE"
         case complaint = "COMPLAINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "OPTIONAL"
         case require = "REQUIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum VerificationError: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dnsServerError = "DNS_SERVER_ERROR"
+        case hostNotFound = "HOST_NOT_FOUND"
+        case invalidValue = "INVALID_VALUE"
+        case serviceError = "SERVICE_ERROR"
+        case typeNotFound = "TYPE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -271,7 +316,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case done = "DONE"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
@@ -428,6 +473,27 @@ extension SESv2 {
         }
     }
 
+    public struct Bounce: AWSDecodableShape {
+        /// The subtype of the bounce, as determined by SES.
+        public let bounceSubType: String?
+        /// The type of the bounce, as determined by SES. Can be one of UNDETERMINED, TRANSIENT, or PERMANENT
+        public let bounceType: BounceType?
+        /// The status code issued by the reporting Message Transfer Authority (MTA). This field only appears if a delivery status notification (DSN) was attached to the bounce and the Diagnostic-Code was provided in the DSN.
+        public let diagnosticCode: String?
+
+        public init(bounceSubType: String? = nil, bounceType: BounceType? = nil, diagnosticCode: String? = nil) {
+            self.bounceSubType = bounceSubType
+            self.bounceType = bounceType
+            self.diagnosticCode = diagnosticCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bounceSubType = "BounceSubType"
+            case bounceType = "BounceType"
+            case diagnosticCode = "DiagnosticCode"
+        }
+    }
+
     public struct BulkEmailContent: AWSEncodableShape {
         /// The template to use for the bulk email message.
         public let template: Template?
@@ -491,6 +557,31 @@ extension SESv2 {
         }
     }
 
+    public struct CancelExportJobRequest: AWSEncodableShape {
+        /// The export job ID.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelExportJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CloudWatchDestination: AWSEncodableShape & AWSDecodableShape {
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -522,6 +613,23 @@ extension SESv2 {
             case defaultDimensionValue = "DefaultDimensionValue"
             case dimensionName = "DimensionName"
             case dimensionValueSource = "DimensionValueSource"
+        }
+    }
+
+    public struct Complaint: AWSDecodableShape {
+        ///  The value of the Feedback-Type field from the feedback report received from the ISP.
+        public let complaintFeedbackType: String?
+        ///  Can either be null or OnAccountSuppressionList. If the value is OnAccountSuppressionList, SES accepted the message, but didn't attempt to send it because it was on the account-level suppression list.
+        public let complaintSubType: String?
+
+        public init(complaintFeedbackType: String? = nil, complaintSubType: String? = nil) {
+            self.complaintFeedbackType = complaintFeedbackType
+            self.complaintSubType = complaintSubType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complaintFeedbackType = "ComplaintFeedbackType"
+            case complaintSubType = "ComplaintSubType"
         }
     }
 
@@ -976,6 +1084,41 @@ extension SESv2 {
 
     public struct CreateEmailTemplateResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CreateExportJobRequest: AWSEncodableShape {
+        /// The data source for the export job.
+        public let exportDataSource: ExportDataSource
+        /// The destination for the export job.
+        public let exportDestination: ExportDestination
+
+        public init(exportDataSource: ExportDataSource, exportDestination: ExportDestination) {
+            self.exportDataSource = exportDataSource
+            self.exportDestination = exportDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.exportDataSource.validate(name: "\(name).exportDataSource")
+            try self.exportDestination.validate(name: "\(name).exportDestination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportDataSource = "ExportDataSource"
+            case exportDestination = "ExportDestination"
+        }
+    }
+
+    public struct CreateExportJobResponse: AWSDecodableShape {
+        /// A string that represents the export job ID.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
     }
 
     public struct CreateImportJobRequest: AWSEncodableShape {
@@ -1624,7 +1767,7 @@ extension SESv2 {
     }
 
     public struct EmailContent: AWSEncodableShape {
-        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
+        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let raw: RawMessage?
         /// The simple email message. The message consists of a subject and a message body.
         public let simple: Message?
@@ -1645,6 +1788,27 @@ extension SESv2 {
             case raw = "Raw"
             case simple = "Simple"
             case template = "Template"
+        }
+    }
+
+    public struct EmailInsights: AWSDecodableShape {
+        /// The recipient of the email.
+        public let destination: String?
+        /// A list of events associated with the sent email.
+        public let events: [InsightsEvent]?
+        /// The recipient's ISP (e.g., Gmail, Yahoo, etc.).
+        public let isp: String?
+
+        public init(destination: String? = nil, events: [InsightsEvent]? = nil, isp: String? = nil) {
+            self.destination = destination
+            self.events = events
+            self.isp = isp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case events = "Events"
+            case isp = "Isp"
         }
     }
 
@@ -1756,10 +1920,129 @@ extension SESv2 {
         }
     }
 
+    public struct EventDetails: AWSDecodableShape {
+        /// Information about a Bounce event.
+        public let bounce: Bounce?
+        /// Information about a Complaint event.
+        public let complaint: Complaint?
+
+        public init(bounce: Bounce? = nil, complaint: Complaint? = nil) {
+            self.bounce = bounce
+            self.complaint = complaint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bounce = "Bounce"
+            case complaint = "Complaint"
+        }
+    }
+
+    public struct ExportDataSource: AWSEncodableShape & AWSDecodableShape {
+        public let messageInsightsDataSource: MessageInsightsDataSource?
+        public let metricsDataSource: MetricsDataSource?
+
+        public init(messageInsightsDataSource: MessageInsightsDataSource? = nil, metricsDataSource: MetricsDataSource? = nil) {
+            self.messageInsightsDataSource = messageInsightsDataSource
+            self.metricsDataSource = metricsDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.messageInsightsDataSource?.validate(name: "\(name).messageInsightsDataSource")
+            try self.metricsDataSource?.validate(name: "\(name).metricsDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageInsightsDataSource = "MessageInsightsDataSource"
+            case metricsDataSource = "MetricsDataSource"
+        }
+    }
+
+    public struct ExportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The data format of the final export job file, can be one of the following:    CSV - A comma-separated values file.    JSON - A Json file.
+        public let dataFormat: DataFormat
+        /// An Amazon S3 pre-signed URL that points to the generated export file.
+        public let s3Url: String?
+
+        public init(dataFormat: DataFormat, s3Url: String? = nil) {
+            self.dataFormat = dataFormat
+            self.s3Url = s3Url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Url, name: "s3Url", parent: name, pattern: "^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case s3Url = "S3Url"
+        }
+    }
+
+    public struct ExportJobSummary: AWSDecodableShape {
+        /// The timestamp of when the export job was completed.
+        public let completedTimestamp: Date?
+        /// The timestamp of when the export job was created.
+        public let createdTimestamp: Date?
+        /// The source type of the export job.
+        public let exportSourceType: ExportSourceType?
+        /// The export job ID.
+        public let jobId: String?
+        /// The status of the export job.
+        public let jobStatus: JobStatus?
+
+        public init(completedTimestamp: Date? = nil, createdTimestamp: Date? = nil, exportSourceType: ExportSourceType? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.exportSourceType = exportSourceType
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case exportSourceType = "ExportSourceType"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct ExportMetric: AWSEncodableShape & AWSDecodableShape {
+        public let aggregation: MetricAggregation?
+        public let name: Metric?
+
+        public init(aggregation: MetricAggregation? = nil, name: Metric? = nil) {
+            self.aggregation = aggregation
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case name = "Name"
+        }
+    }
+
+    public struct ExportStatistics: AWSDecodableShape {
+        /// The number of records that were exported to the final export file. This value might not be available for all export source types
+        public let exportedRecordsCount: Int?
+        /// The number of records that were processed to generate the final export file.
+        public let processedRecordsCount: Int?
+
+        public init(exportedRecordsCount: Int? = nil, processedRecordsCount: Int? = nil) {
+            self.exportedRecordsCount = exportedRecordsCount
+            self.processedRecordsCount = processedRecordsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportedRecordsCount = "ExportedRecordsCount"
+            case processedRecordsCount = "ProcessedRecordsCount"
+        }
+    }
+
     public struct FailureInfo: AWSDecodableShape {
-        /// A message about why the import job failed.
+        /// A message about why the job failed.
         public let errorMessage: String?
-        /// An Amazon S3 presigned URL that contains all the failed records and related information.
+        /// An Amazon S3 pre-signed URL that contains all the failed records and related information.
         public let failedRecordsS3Url: String?
 
         public init(errorMessage: String? = nil, failedRecordsS3Url: String? = nil) {
@@ -2429,12 +2712,14 @@ extension SESv2 {
         public let policies: [String: String]?
         /// An array of objects that define the tags (keys and values) that are associated with the email identity.
         public let tags: [Tag]?
+        /// An object that contains additional information about the verification status for the identity.
+        public let verificationInfo: VerificationInfo?
         /// The verification status of the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the verification status of the identity.    NOT_STARTED – The verification process hasn't been initiated for the identity.
         public let verificationStatus: VerificationStatus?
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
-        public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verificationStatus: VerificationStatus? = nil, verifiedForSendingStatus: Bool? = nil) {
+        public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verificationInfo: VerificationInfo? = nil, verificationStatus: VerificationStatus? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
@@ -2442,6 +2727,7 @@ extension SESv2 {
             self.mailFromAttributes = mailFromAttributes
             self.policies = policies
             self.tags = tags
+            self.verificationInfo = verificationInfo
             self.verificationStatus = verificationStatus
             self.verifiedForSendingStatus = verifiedForSendingStatus
         }
@@ -2454,6 +2740,7 @@ extension SESv2 {
             case mailFromAttributes = "MailFromAttributes"
             case policies = "Policies"
             case tags = "Tags"
+            case verificationInfo = "VerificationInfo"
             case verificationStatus = "VerificationStatus"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
         }
@@ -2494,6 +2781,72 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case templateContent = "TemplateContent"
             case templateName = "TemplateName"
+        }
+    }
+
+    public struct GetExportJobRequest: AWSEncodableShape {
+        /// The export job ID.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExportJobResponse: AWSDecodableShape {
+        /// The timestamp of when the export job was completed.
+        public let completedTimestamp: Date?
+        /// The timestamp of when the export job was created.
+        public let createdTimestamp: Date?
+        /// The data source of the export job.
+        public let exportDataSource: ExportDataSource?
+        /// The destination of the export job.
+        public let exportDestination: ExportDestination?
+        /// The type of source of the export job.
+        public let exportSourceType: ExportSourceType?
+        /// The failure details about an export job.
+        public let failureInfo: FailureInfo?
+        /// The export job ID.
+        public let jobId: String?
+        /// The status of the export job.
+        public let jobStatus: JobStatus?
+        /// The statistics about the export job.
+        public let statistics: ExportStatistics?
+
+        public init(completedTimestamp: Date? = nil, createdTimestamp: Date? = nil, exportDataSource: ExportDataSource? = nil, exportDestination: ExportDestination? = nil, exportSourceType: ExportSourceType? = nil, failureInfo: FailureInfo? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, statistics: ExportStatistics? = nil) {
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.exportDataSource = exportDataSource
+            self.exportDestination = exportDestination
+            self.exportSourceType = exportSourceType
+            self.failureInfo = failureInfo
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case exportDataSource = "ExportDataSource"
+            case exportDestination = "ExportDestination"
+            case exportSourceType = "ExportSourceType"
+            case failureInfo = "FailureInfo"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+            case statistics = "Statistics"
         }
     }
 
@@ -2560,6 +2913,52 @@ extension SESv2 {
             case jobId = "JobId"
             case jobStatus = "JobStatus"
             case processedRecordsCount = "ProcessedRecordsCount"
+        }
+    }
+
+    public struct GetMessageInsightsRequest: AWSEncodableShape {
+        ///  A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.
+        public let messageId: String
+
+        public init(messageId: String) {
+            self.messageId = messageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.messageId, key: "MessageId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMessageInsightsResponse: AWSDecodableShape {
+        ///  A list of tags, in the form of name/value pairs, that were applied to the email you sent, along with Amazon SES Auto-Tags.
+        public let emailTags: [MessageTag]?
+        /// The from address used to send the message.
+        public let fromEmailAddress: String?
+        /// A set of insights associated with the message.
+        public let insights: [EmailInsights]?
+        /// A unique identifier for the message.
+        public let messageId: String?
+        /// The subject line of the message.
+        public let subject: String?
+
+        public init(emailTags: [MessageTag]? = nil, fromEmailAddress: String? = nil, insights: [EmailInsights]? = nil, messageId: String? = nil, subject: String? = nil) {
+            self.emailTags = emailTags
+            self.fromEmailAddress = fromEmailAddress
+            self.insights = insights
+            self.messageId = messageId
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailTags = "EmailTags"
+            case fromEmailAddress = "FromEmailAddress"
+            case insights = "Insights"
+            case messageId = "MessageId"
+            case subject = "Subject"
         }
     }
 
@@ -2726,6 +3125,27 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case global = "Global"
             case trackedIsps = "TrackedIsps"
+        }
+    }
+
+    public struct InsightsEvent: AWSDecodableShape {
+        /// Details about bounce or complaint events.
+        public let details: EventDetails?
+        /// The timestamp of the event.
+        public let timestamp: Date?
+        /// The type of event:    SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)     DELIVERY - SES successfully delivered the email to the recipient's mail server. Excludes deliveries to the mailbox simulator, and those from emails addressed to more than one recipient.     BOUNCE - Feedback received for delivery failures. Additional details about the bounce are provided in the Details object. Excludes bounces from the mailbox simulator, and those from emails addressed to more than one recipient.     COMPLAINT - Complaint received for the email. Additional details about the complaint are provided in the Details object. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those from emails addressed to more than one recipient.     OPEN - Open event for emails including open trackers. Excludes opens for emails addressed to more than one recipient.    CLICK - Click event for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
+        public let type: EventType?
+
+        public init(details: EventDetails? = nil, timestamp: Date? = nil, type: EventType? = nil) {
+            self.details = details
+            self.timestamp = timestamp
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case timestamp = "Timestamp"
+            case type = "Type"
         }
     }
 
@@ -3109,7 +3529,7 @@ extension SESv2 {
     public struct ListEmailTemplatesRequest: AWSEncodableShape {
         /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
-        /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
+        /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
         public let pageSize: Int?
 
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
@@ -3141,6 +3561,48 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case templatesMetadata = "TemplatesMetadata"
+        }
+    }
+
+    public struct ListExportJobsRequest: AWSEncodableShape {
+        /// A value used to list export jobs that have a certain ExportSourceType.
+        public let exportSourceType: ExportSourceType?
+        /// A value used to list export jobs that have a certain JobStatus.
+        public let jobStatus: JobStatus?
+        /// The pagination token returned from a previous call to ListExportJobs to indicate the position in the list of export jobs.
+        public let nextToken: String?
+        /// Maximum number of export jobs to return at once. Use this parameter to paginate results. If additional export jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent calls to ListExportJobs to retrieve additional export jobs.
+        public let pageSize: Int?
+
+        public init(exportSourceType: ExportSourceType? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.exportSourceType = exportSourceType
+            self.jobStatus = jobStatus
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportSourceType = "ExportSourceType"
+            case jobStatus = "JobStatus"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListExportJobsResponse: AWSDecodableShape {
+        /// A list of the export job summaries.
+        public let exportJobs: [ExportJobSummary]?
+        /// A string token indicating that there might be additional export jobs available to be listed. Use this token to a subsequent call to ListExportJobs with the same parameters to retrieve the next page of export jobs.
+        public let nextToken: String?
+
+        public init(exportJobs: [ExportJobSummary]? = nil, nextToken: String? = nil) {
+            self.exportJobs = exportJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobs = "ExportJobs"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3370,7 +3832,97 @@ extension SESv2 {
         }
     }
 
-    public struct MessageTag: AWSEncodableShape {
+    public struct MessageInsightsDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Represents the end date for the export interval as a timestamp. The end date is inclusive.
+        public let endDate: Date
+        /// Filters for results to be excluded from the export file.
+        public let exclude: MessageInsightsFilters?
+        /// Filters for results to be included in the export file.
+        public let include: MessageInsightsFilters?
+        /// The maximum number of results.
+        public let maxResults: Int?
+        /// Represents the start date for the export interval as a timestamp. The start date is inclusive.
+        public let startDate: Date
+
+        public init(endDate: Date, exclude: MessageInsightsFilters? = nil, include: MessageInsightsFilters? = nil, maxResults: Int? = nil, startDate: Date) {
+            self.endDate = endDate
+            self.exclude = exclude
+            self.include = include
+            self.maxResults = maxResults
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.exclude?.validate(name: "\(name).exclude")
+            try self.include?.validate(name: "\(name).include")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case exclude = "Exclude"
+            case include = "Include"
+            case maxResults = "MaxResults"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct MessageInsightsFilters: AWSEncodableShape & AWSDecodableShape {
+        /// The recipient's email address.
+        public let destination: [String]?
+        /// The from address used to send the message.
+        public let fromEmailAddress: [String]?
+        /// The recipient's ISP (e.g., Gmail, Yahoo, etc.).
+        public let isp: [String]?
+        ///  The last delivery-related event for the email, where the ordering is as follows: SEND BOUNCE DELIVERY COMPLAINT.
+        public let lastDeliveryEvent: [DeliveryEventType]?
+        ///  The last engagement-related event for the email, where the ordering is as follows: OPEN CLICK.   Engagement events are only available if Engagement tracking is enabled.
+        public let lastEngagementEvent: [EngagementEventType]?
+        /// The subject line of the message.
+        public let subject: [String]?
+
+        public init(destination: [String]? = nil, fromEmailAddress: [String]? = nil, isp: [String]? = nil, lastDeliveryEvent: [DeliveryEventType]? = nil, lastEngagementEvent: [EngagementEventType]? = nil, subject: [String]? = nil) {
+            self.destination = destination
+            self.fromEmailAddress = fromEmailAddress
+            self.isp = isp
+            self.lastDeliveryEvent = lastDeliveryEvent
+            self.lastEngagementEvent = lastEngagementEvent
+            self.subject = subject
+        }
+
+        public func validate(name: String) throws {
+            try self.destination?.forEach {
+                try validate($0, name: "destination[]", parent: name, max: 320)
+                try validate($0, name: "destination[]", parent: name, min: 1)
+            }
+            try self.validate(self.destination, name: "destination", parent: name, max: 5)
+            try self.fromEmailAddress?.forEach {
+                try validate($0, name: "fromEmailAddress[]", parent: name, max: 320)
+                try validate($0, name: "fromEmailAddress[]", parent: name, min: 1)
+            }
+            try self.validate(self.fromEmailAddress, name: "fromEmailAddress", parent: name, max: 5)
+            try self.validate(self.isp, name: "isp", parent: name, max: 5)
+            try self.validate(self.lastDeliveryEvent, name: "lastDeliveryEvent", parent: name, max: 5)
+            try self.validate(self.lastEngagementEvent, name: "lastEngagementEvent", parent: name, max: 2)
+            try self.subject?.forEach {
+                try validate($0, name: "subject[]", parent: name, max: 998)
+                try validate($0, name: "subject[]", parent: name, min: 1)
+            }
+            try self.validate(self.subject, name: "subject", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case fromEmailAddress = "FromEmailAddress"
+            case isp = "Isp"
+            case lastDeliveryEvent = "LastDeliveryEvent"
+            case lastEngagementEvent = "LastEngagementEvent"
+            case subject = "Subject"
+        }
+    }
+
+    public struct MessageTag: AWSEncodableShape & AWSDecodableShape {
         /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let name: String
         /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
@@ -3426,6 +3978,46 @@ extension SESv2 {
             case id = "Id"
             case timestamps = "Timestamps"
             case values = "Values"
+        }
+    }
+
+    public struct MetricsDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// An object that contains a mapping between a MetricDimensionName and MetricDimensionValue to filter metrics by. Must contain a least 1 dimension but no more than 3 unique ones.
+        public let dimensions: [MetricDimensionName: [String]]
+        /// Represents the end date for the export interval as a timestamp.
+        public let endDate: Date
+        /// A list of ExportMetric objects to export.
+        public let metrics: [ExportMetric]
+        /// The metrics namespace - e.g., VDM.
+        public let namespace: MetricNamespace
+        /// Represents the start date for the export interval as a timestamp.
+        public let startDate: Date
+
+        public init(dimensions: [MetricDimensionName: [String]], endDate: Date, metrics: [ExportMetric], namespace: MetricNamespace, startDate: Date) {
+            self.dimensions = dimensions
+            self.endDate = endDate
+            self.metrics = metrics
+            self.namespace = namespace
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions.forEach {
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 3)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 10)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case endDate = "EndDate"
+            case metrics = "Metrics"
+            case namespace = "Namespace"
+            case startDate = "StartDate"
         }
     }
 
@@ -4082,7 +4674,7 @@ extension SESv2 {
     }
 
     public struct RawMessage: AWSEncodableShape {
-        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that the Amazon SES supports.   The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
+        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that the Amazon SES supports.   The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let data: AWSBase64Data
 
         public init(data: AWSBase64Data) {
@@ -4196,6 +4788,27 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case caseId = "CaseId"
             case status = "Status"
+        }
+    }
+
+    public struct SOARecord: AWSDecodableShape {
+        /// Administrative contact email from the SOA record.
+        public let adminEmail: String?
+        /// Primary name server specified in the SOA record.
+        public let primaryNameServer: String?
+        /// Serial number from the SOA record.
+        public let serialNumber: Int64?
+
+        public init(adminEmail: String? = nil, primaryNameServer: String? = nil, serialNumber: Int64? = nil) {
+            self.adminEmail = adminEmail
+            self.primaryNameServer = primaryNameServer
+            self.serialNumber = serialNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminEmail = "AdminEmail"
+            case primaryNameServer = "PrimaryNameServer"
+            case serialNumber = "SerialNumber"
         }
     }
 
@@ -4978,6 +5591,31 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case dashboardOptions = "DashboardOptions"
             case guardianOptions = "GuardianOptions"
+        }
+    }
+
+    public struct VerificationInfo: AWSDecodableShape {
+        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:     INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.    TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.    HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).     SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.    DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.
+        public let errorType: VerificationError?
+        /// The last time a verification attempt was made for this identity.
+        public let lastCheckedTimestamp: Date?
+        /// The last time a successful verification was made for this identity.
+        public let lastSuccessTimestamp: Date?
+        /// An object that contains information about the start of authority (SOA) record associated with the identity.
+        public let soaRecord: SOARecord?
+
+        public init(errorType: VerificationError? = nil, lastCheckedTimestamp: Date? = nil, lastSuccessTimestamp: Date? = nil, soaRecord: SOARecord? = nil) {
+            self.errorType = errorType
+            self.lastCheckedTimestamp = lastCheckedTimestamp
+            self.lastSuccessTimestamp = lastSuccessTimestamp
+            self.soaRecord = soaRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorType = "ErrorType"
+            case lastCheckedTimestamp = "LastCheckedTimestamp"
+            case lastSuccessTimestamp = "LastSuccessTimestamp"
+            case soaRecord = "SOARecord"
         }
     }
 

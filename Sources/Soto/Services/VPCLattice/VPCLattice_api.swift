@@ -164,7 +164,7 @@ public struct VPCLattice: AWSService {
         )
     }
 
-    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. Once a security group is added to the VPC association it cannot be removed. You can add or update the security groups being used for the VPC association once a security group is attached. To remove all security groups you must reassociate the VPC.
     @Sendable
     public func createServiceNetworkVpcAssociation(_ input: CreateServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkVpcAssociationResponse {
         return try await self.client.execute(
@@ -203,7 +203,7 @@ public struct VPCLattice: AWSService {
         )
     }
 
-    /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
+    /// Deletes the specified auth policy. If an auth is set to Amazon Web Services_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
     @Sendable
     public func deleteAuthPolicy(_ input: DeleteAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAuthPolicyResponse {
         return try await self.client.execute(
@@ -372,7 +372,7 @@ public struct VPCLattice: AWSService {
         )
     }
 
-    /// Retrieves information about the resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
+    /// Retrieves information about the resource policy. The resource policy is an IAM policy created by AWS RAM on behalf of the resource owner when they share a resource.
     @Sendable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
         return try await self.client.execute(
@@ -593,7 +593,7 @@ public struct VPCLattice: AWSService {
         )
     }
 
-    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines.
+    /// Creates or updates the auth policy.
     @Sendable
     public func putAuthPolicy(_ input: PutAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAuthPolicyResponse {
         return try await self.client.execute(
@@ -723,7 +723,7 @@ public struct VPCLattice: AWSService {
         )
     }
 
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Updates the service network and VPC association. Once you add a security group, it cannot be removed.
     @Sendable
     public func updateServiceNetworkVpcAssociation(_ input: UpdateServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceNetworkVpcAssociationResponse {
         return try await self.client.execute(

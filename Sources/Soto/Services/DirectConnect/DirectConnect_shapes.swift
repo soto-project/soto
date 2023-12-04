@@ -26,13 +26,13 @@ import Foundation
 extension DirectConnect {
     // MARK: Enums
 
-    public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable {
+    public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iPv4 = "ipv4"
         case iPv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum BGPPeerState: String, CustomStringConvertible, Codable, Sendable {
+    public enum BGPPeerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -41,14 +41,14 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum BGPStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BGPStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case down = "down"
         case unknown = "unknown"
         case up = "up"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -61,14 +61,14 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "accepted"
         case deleted = "deleted"
         case requested = "requested"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -77,7 +77,7 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attached = "attached"
         case attaching = "attaching"
         case detached = "detached"
@@ -85,13 +85,13 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case privateVirtualInterface = "PrivateVirtualInterface"
         case transitVirtualInterface = "TransitVirtualInterface"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -99,20 +99,20 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case transitGateway = "transitGateway"
         case virtualPrivateGateway = "virtualPrivateGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, Sendable {
+    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case no = "no"
         case unknown = "unknown"
         case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterconnectState: String, CustomStringConvertible, Codable, Sendable {
+    public enum InterconnectState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -123,7 +123,7 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum LagState: String, CustomStringConvertible, Codable, Sendable {
+    public enum LagState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -134,19 +134,19 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoaContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoaContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pdf = "application/pdf"
         public var description: String { return self.rawValue }
     }
 
-    public enum NniPartnerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum NniPartnerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nonPartner = "nonPartner"
         case v1 = "v1"
         case v2 = "v2"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case confirming = "confirming"
         case deleted = "deleted"

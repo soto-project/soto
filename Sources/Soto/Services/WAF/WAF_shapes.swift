@@ -26,20 +26,20 @@ import Foundation
 extension WAF {
     // MARK: Enums
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insync = "INSYNC"
         case pending = "PENDING"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
@@ -49,12 +49,16 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case country = "Country"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `as` = "AS"
+        case `do` = "DO"
+        case `in` = "IN"
+        case `is` = "IS"
         case ad = "AD"
         case ae = "AE"
         case af = "AF"
@@ -65,7 +69,6 @@ extension WAF {
         case ao = "AO"
         case aq = "AQ"
         case ar = "AR"
-        case `as` = "AS"
         case at = "AT"
         case au = "AU"
         case aw = "AW"
@@ -115,7 +118,6 @@ extension WAF {
         case dj = "DJ"
         case dk = "DK"
         case dm = "DM"
-        case `do` = "DO"
         case dz = "DZ"
         case ec = "EC"
         case ee = "EE"
@@ -159,11 +161,9 @@ extension WAF {
         case ie = "IE"
         case il = "IL"
         case im = "IM"
-        case `in` = "IN"
         case io = "IO"
         case iq = "IQ"
         case ir = "IR"
-        case `is` = "IS"
         case it = "IT"
         case je = "JE"
         case jm = "JM"
@@ -307,13 +307,13 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
-    public enum MatchFieldType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MatchFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allQueryArgs = "ALL_QUERY_ARGS"
         case body = "BODY"
         case header = "HEADER"
@@ -324,7 +324,7 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionalConstraint: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionalConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
         case containsWord = "CONTAINS_WORD"
         case endsWith = "ENDS_WITH"
@@ -333,7 +333,7 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredicateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PredicateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byteMatch = "ByteMatch"
         case geoMatch = "GeoMatch"
         case ipMatch = "IPMatch"
@@ -344,12 +344,12 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum RateKey: String, CustomStringConvertible, Codable, Sendable {
+    public enum RateKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ip = "IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextTransformation: String, CustomStringConvertible, Codable, Sendable {
+    public enum TextTransformation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmdLine = "CMD_LINE"
         case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
         case htmlEntityDecode = "HTML_ENTITY_DECODE"
@@ -359,20 +359,20 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum WafActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WafActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case block = "BLOCK"
         case count = "COUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum WafOverrideActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WafOverrideActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case count = "COUNT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WafRuleType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WafRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case group = "GROUP"
         case rateBased = "RATE_BASED"
         case regular = "REGULAR"
@@ -421,7 +421,7 @@ extension WAF {
             }
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -608,10 +608,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,10 +652,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -696,10 +696,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -739,7 +739,7 @@ extension WAF {
         public let rateLimit: Int64
         public let tags: [Tag]?
 
-        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64 = 0, tags: [Tag]? = nil) {
+        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
             self.name = name
@@ -751,13 +751,13 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
-            try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
@@ -808,10 +808,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -853,10 +853,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -902,13 +902,13 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
-            try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -960,13 +960,13 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
-            try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1014,10 +1014,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,10 +1059,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1106,10 +1106,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
-            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^aws-waf-migration-[0-9A-Za-z\\.\\-_]*")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^aws-waf-migration-[0-9A-Za-z\\.\\-_]*$")
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
-            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,13 +1156,13 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
-            try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1211,10 +1211,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1256,10 +1256,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
-            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: "\\S")
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1297,10 +1297,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
-            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1338,10 +1338,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
-            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1375,7 +1375,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1398,7 +1398,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1424,10 +1424,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1464,10 +1464,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
-            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,10 +1505,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
-            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1545,10 +1545,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
-            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1585,10 +1585,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1626,10 +1626,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
-            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1667,10 +1667,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
-            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1708,10 +1708,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
-            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1749,10 +1749,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
-            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1786,7 +1786,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1827,7 +1827,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.data, name: "data", parent: name, max: 128)
             try self.validate(self.data, name: "data", parent: name, min: 1)
-            try self.validate(self.data, name: "data", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.data, name: "data", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1922,7 +1922,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
-            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1976,7 +1976,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2009,7 +2009,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
-            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2042,7 +2042,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
-            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2077,7 +2077,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2109,7 +2109,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2144,10 +2144,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2184,7 +2184,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2217,7 +2217,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
-            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2250,7 +2250,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
-            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2282,7 +2282,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
-            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2315,7 +2315,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2355,7 +2355,7 @@ extension WAF {
         /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
         public let webAclId: String
 
-        public init(maxItems: Int64 = 0, ruleId: String, timeWindow: TimeWindow, webAclId: String) {
+        public init(maxItems: Int64, ruleId: String, timeWindow: TimeWindow, webAclId: String) {
             self.maxItems = maxItems
             self.ruleId = ruleId
             self.timeWindow = timeWindow
@@ -2367,10 +2367,10 @@ extension WAF {
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
             try self.validate(self.webAclId, name: "webAclId", parent: name, max: 128)
             try self.validate(self.webAclId, name: "webAclId", parent: name, min: 1)
-            try self.validate(self.webAclId, name: "webAclId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.webAclId, name: "webAclId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2418,7 +2418,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
-            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2455,7 +2455,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
-            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2492,7 +2492,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
-            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2529,7 +2529,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
-            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2659,7 +2659,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2726,10 +2726,10 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
-            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2777,7 +2777,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2827,7 +2827,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2874,7 +2874,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2919,7 +2919,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2961,7 +2961,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3008,7 +3008,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3058,7 +3058,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3103,7 +3103,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3149,7 +3149,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3197,7 +3197,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3247,7 +3247,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3297,7 +3297,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3342,10 +3342,10 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3391,7 +3391,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3441,7 +3441,7 @@ extension WAF {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
-            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3488,7 +3488,7 @@ extension WAF {
             try self.logDestinationConfigs.forEach {
                 try validate($0, name: "logDestinationConfigs[]", parent: name, max: 1224)
                 try validate($0, name: "logDestinationConfigs[]", parent: name, min: 1)
-                try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: ".*\\S.*")
+                try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: "\\S")
             }
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, max: 1)
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, min: 1)
@@ -3497,7 +3497,7 @@ extension WAF {
             }
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3531,7 +3531,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.dataId, name: "dataId", parent: name, max: 128)
             try self.validate(self.dataId, name: "dataId", parent: name, min: 1)
-            try self.validate(self.dataId, name: "dataId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.dataId, name: "dataId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3585,10 +3585,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
-            try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "\\S")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3747,7 +3747,7 @@ extension WAF {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
-            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4261,7 +4261,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.key, name: "key", parent: name, pattern: "\\S")
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: ".*")
         }
@@ -4299,7 +4299,7 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "\\S")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4345,11 +4345,11 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "\\S")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: ".*\\S.*")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "\\S")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -4385,10 +4385,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
-            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: "\\S")
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4437,10 +4437,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
-            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: "\\S")
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4486,10 +4486,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
             try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
-            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4527,7 +4527,7 @@ extension WAF {
         /// An array of RuleUpdate objects that you want to insert into or delete from a RateBasedRule.
         public let updates: [RuleUpdate]
 
-        public init(changeToken: String, rateLimit: Int64 = 0, ruleId: String, updates: [RuleUpdate]) {
+        public init(changeToken: String, rateLimit: Int64, ruleId: String, updates: [RuleUpdate]) {
             self.changeToken = changeToken
             self.rateLimit = rateLimit
             self.ruleId = ruleId
@@ -4537,12 +4537,12 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4588,10 +4588,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
-            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4637,10 +4637,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
-            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4687,10 +4687,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
-            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4737,10 +4737,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
-            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4788,10 +4788,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
-            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4839,10 +4839,10 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
-            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4894,13 +4894,13 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.updates?.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
-            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4944,14 +4944,14 @@ extension WAF {
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
-            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: "\\S")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
-            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {

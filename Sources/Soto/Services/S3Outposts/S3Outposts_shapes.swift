@@ -26,13 +26,13 @@ import Foundation
 extension S3Outposts {
     // MARK: Enums
 
-    public enum EndpointAccessType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case customerOwnedIp = "CustomerOwnedIp"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case createFailed = "Create_Failed"
         case deleteFailed = "Delete_Failed"
@@ -357,12 +357,15 @@ extension S3Outposts {
         public let outpostId: String?
         /// Returns the Amazon Web Services account ID of the outpost owner. Useful for comparing owned versus shared outposts.
         public let ownerId: String?
+        /// Specifies the unique S3 on Outposts ARN for use with Resource Access Manager (RAM).
+        public let s3OutpostArn: String?
 
-        public init(capacityInBytes: Int64? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil) {
+        public init(capacityInBytes: Int64? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, s3OutpostArn: String? = nil) {
             self.capacityInBytes = capacityInBytes
             self.outpostArn = outpostArn
             self.outpostId = outpostId
             self.ownerId = ownerId
+            self.s3OutpostArn = s3OutpostArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,6 +373,7 @@ extension S3Outposts {
             case outpostArn = "OutpostArn"
             case outpostId = "OutpostId"
             case ownerId = "OwnerId"
+            case s3OutpostArn = "S3OutpostArn"
         }
     }
 }

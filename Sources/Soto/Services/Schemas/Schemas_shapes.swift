@@ -26,20 +26,20 @@ import Foundation
 extension Schemas {
     // MARK: Enums
 
-    public enum CodeGenerationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CodeGenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiscovererState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DiscovererState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jsonSchemaDraft4 = "JSONSchemaDraft4"
         case openApi3 = "OpenApi3"
         public var description: String { return self.rawValue }
@@ -53,11 +53,11 @@ extension Schemas {
         /// A description for the discoverer.
         public let description: String?
         /// The ARN of the event bus.
-        public let sourceArn: String
+        public let sourceArn: String?
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
-        public init(crossAccount: Bool? = nil, description: String? = nil, sourceArn: String, tags: [String: String]? = nil) {
+        public init(crossAccount: Bool? = nil, description: String? = nil, sourceArn: String? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.description = description
             self.sourceArn = sourceArn
@@ -174,7 +174,7 @@ extension Schemas {
 
     public struct CreateSchemaRequest: AWSEncodableShape {
         /// The source of the schema definition.
-        public let content: String
+        public let content: String?
         /// A description of the schema.
         public let description: String?
         /// The name of the registry.
@@ -184,9 +184,9 @@ extension Schemas {
         /// Tags associated with the schema.
         public let tags: [String: String]?
         /// The type of schema.
-        public let type: `Type`
+        public let type: `Type`?
 
-        public init(content: String, description: String? = nil, registryName: String, schemaName: String, tags: [String: String]? = nil, type: `Type`) {
+        public init(content: String? = nil, description: String? = nil, registryName: String, schemaName: String, tags: [String: String]? = nil, type: `Type`? = nil) {
             self.content = content
             self.description = description
             self.registryName = registryName
@@ -198,12 +198,12 @@ extension Schemas {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.content, forKey: .content)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.registryName, key: "RegistryName")
             request.encodePath(self.schemaName, key: "SchemaName")
             try container.encodeIfPresent(self.tags, forKey: .tags)
-            try container.encode(self.type, forKey: .type)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -623,9 +623,9 @@ extension Schemas {
         public let schemaName: String
         /// Specifying this limits the results to only this schema version.
         public let schemaVersion: String?
-        public let type: String
+        public let type: String?
 
-        public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String) {
+        public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String? = nil) {
             self.registryName = registryName
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
@@ -715,17 +715,17 @@ extension Schemas {
 
     public struct GetDiscoveredSchemaRequest: AWSEncodableShape {
         /// An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events.
-        public let events: [String]
+        public let events: [String]?
         /// The type of event.
-        public let type: `Type`
+        public let type: `Type`?
 
-        public init(events: [String], type: `Type`) {
+        public init(events: [String]? = nil, type: `Type`? = nil) {
             self.events = events
             self.type = type
         }
 
         public func validate(name: String) throws {
-            try self.events.forEach {
+            try self.events?.forEach {
                 try validate($0, name: "events[]", parent: name, max: 100000)
                 try validate($0, name: "events[]", parent: name, min: 1)
             }
@@ -1053,13 +1053,13 @@ extension Schemas {
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// The resource-based policy.
-        public let policy: String
+        public let policy: String?
         /// The name of the registry.
         public let registryName: String?
         /// The revision ID of the policy.
         public let revisionId: String?
 
-        public init(policy: String, registryName: String? = nil, revisionId: String? = nil) {
+        public init(policy: String? = nil, registryName: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.registryName = registryName
             self.revisionId = revisionId
@@ -1068,7 +1068,7 @@ extension Schemas {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.policy, forKey: .policy)
+            try container.encodeIfPresent(self.policy, forKey: .policy)
             request.encodeQuery(self.registryName, key: "registryName")
             try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
         }
@@ -1221,14 +1221,14 @@ extension Schemas {
 
     public struct SearchSchemasRequest: AWSEncodableShape {
         /// Specifying this limits the results to only schemas that include the provided keywords.
-        public let keywords: String
+        public let keywords: String?
         public let limit: Int?
         /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
         public let nextToken: String?
         /// The name of the registry.
         public let registryName: String
 
-        public init(keywords: String, limit: Int? = nil, nextToken: String? = nil, registryName: String) {
+        public init(keywords: String? = nil, limit: Int? = nil, nextToken: String? = nil, registryName: String) {
             self.keywords = keywords
             self.limit = limit
             self.nextToken = nextToken
@@ -1336,9 +1336,9 @@ extension Schemas {
         /// The ARN of the resource.
         public let resourceArn: String
         /// Tags associated with the resource.
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1347,7 +1347,7 @@ extension Schemas {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.resourceArn, key: "ResourceArn")
-            try container.encode(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1359,9 +1359,9 @@ extension Schemas {
         /// The ARN of the resource.
         public let resourceArn: String
         /// Keys of key-value pairs.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }

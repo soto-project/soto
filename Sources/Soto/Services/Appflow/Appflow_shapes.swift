@@ -26,18 +26,18 @@ import Foundation
 extension Appflow {
     // MARK: Enums
 
-    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "None"
         case singleFile = "SingleFile"
         public var description: String { return self.rawValue }
     }
 
-    public enum AmplitudeConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum AmplitudeConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apikey = "APIKEY"
         case basic = "BASIC"
         case custom = "CUSTOM"
@@ -45,23 +45,23 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum CatalogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CatalogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case glue = "GLUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case `public` = "Public"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amplitude = "Amplitude"
         case customconnector = "CustomConnector"
         case customerprofiles = "CustomerProfiles"
@@ -89,20 +89,20 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "Complete"
         case incremental = "Incremental"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataTransferApiType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataTransferApiType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `async` = "ASYNC"
         case automatic = "AUTOMATIC"
         case sync = "SYNC"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatadogConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum DatadogConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -121,7 +121,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum DynatraceConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum DynatraceConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -140,7 +140,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case cancelstarted = "CancelStarted"
         case error = "Error"
@@ -149,14 +149,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FlowStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case deleted = "Deleted"
         case deprecated = "Deprecated"
@@ -166,13 +166,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum GoogleAnalyticsConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum GoogleAnalyticsConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         case projection = "PROJECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum InforNexusConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum InforNexusConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -191,7 +191,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -211,20 +211,20 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authUrl = "AUTH_URL"
         case tokenUrl = "TOKEN_URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
         case jwtBearer = "JWT_BEARER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -249,7 +249,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable {
+    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case concatFormat = "CONCAT_FORMAT"
         case dataType = "DATA_TYPE"
         case destinationDataType = "DESTINATION_DATA_TYPE"
@@ -270,7 +270,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operators: String, CustomStringConvertible, Codable, Sendable {
+    public enum Operators: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -295,7 +295,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -313,13 +313,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PathPrefix: String, CustomStringConvertible, Codable, Sendable {
+    public enum PathPrefix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case executionId = "EXECUTION_ID"
         case schemaVersion = "SCHEMA_VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrefixFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrefixFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case hour = "HOUR"
         case minute = "MINUTE"
@@ -328,14 +328,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrefixType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrefixType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filename = "FILENAME"
         case path = "PATH"
         case pathAndFilename = "PATH_AND_FILENAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case connectorAuthentication = "CONNECTOR_AUTHENTICATION"
         case connectorServer = "CONNECTOR_SERVER"
@@ -344,14 +344,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -375,13 +375,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3InputFileType: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3InputFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -406,7 +406,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -431,14 +431,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, Sendable {
+    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case bulkv2 = "BULKV2"
         case restSync = "REST_SYNC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleFrequencyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ScheduleFrequencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byminute = "BYMINUTE"
         case daily = "DAILY"
         case hourly = "HOURLY"
@@ -448,7 +448,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -473,7 +473,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SingularConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SingularConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -491,7 +491,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SlackConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlackConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -514,13 +514,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedDataTransferType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SupportedDataTransferType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case file = "FILE"
         case record = "RECORD"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TaskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arithmetic = "Arithmetic"
         case filter = "Filter"
         case map = "Map"
@@ -534,7 +534,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrendmicroConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum TrendmicroConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -552,14 +552,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "Event"
         case ondemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
 
-    public enum VeevaConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum VeevaConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -584,7 +584,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum WriteOperationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WriteOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case insert = "INSERT"
         case update = "UPDATE"
@@ -592,7 +592,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case greaterThan = "GREATER_THAN"
@@ -2815,13 +2815,19 @@ extension Appflow {
         public let bytesWritten: Int64?
         ///  Provides any error message information related to the flow run.
         public let errorInfo: ErrorInfo?
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application.
+        public let maxPageSize: Int64?
+        /// The number of processes that Amazon AppFlow ran at the same time when it retrieved your data.
+        public let numParallelProcesses: Int64?
         ///  The number of records processed in the flow run.
         public let recordsProcessed: Int64?
 
-        public init(bytesProcessed: Int64? = nil, bytesWritten: Int64? = nil, errorInfo: ErrorInfo? = nil, recordsProcessed: Int64? = nil) {
+        public init(bytesProcessed: Int64? = nil, bytesWritten: Int64? = nil, errorInfo: ErrorInfo? = nil, maxPageSize: Int64? = nil, numParallelProcesses: Int64? = nil, recordsProcessed: Int64? = nil) {
             self.bytesProcessed = bytesProcessed
             self.bytesWritten = bytesWritten
             self.errorInfo = errorInfo
+            self.maxPageSize = maxPageSize
+            self.numParallelProcesses = numParallelProcesses
             self.recordsProcessed = recordsProcessed
         }
 
@@ -2829,6 +2835,8 @@ extension Appflow {
             case bytesProcessed = "bytesProcessed"
             case bytesWritten = "bytesWritten"
             case errorInfo = "errorInfo"
+            case maxPageSize = "maxPageSize"
+            case numParallelProcesses = "numParallelProcesses"
             case recordsProcessed = "recordsProcessed"
         }
     }
@@ -4107,6 +4115,50 @@ extension Appflow {
         }
     }
 
+    public struct ResetConnectorMetadataCacheRequest: AWSEncodableShape {
+        /// The API version that you specified in the connector profile that you’re resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action.
+        public let apiVersion: String?
+        /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
+        public let connectorEntityName: String?
+        /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
+        public let connectorProfileName: String?
+        /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
+        public let connectorType: ConnectorType?
+        /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
+        public let entitiesPath: String?
+
+        public init(apiVersion: String? = nil, connectorEntityName: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
+            self.apiVersion = apiVersion
+            self.connectorEntityName = connectorEntityName
+            self.connectorProfileName = connectorProfileName
+            self.connectorType = connectorType
+            self.entitiesPath = entitiesPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
+            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, max: 1024)
+            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
+            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, max: 256)
+            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, pattern: "^[\\s\\w/!@#+=,.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiVersion = "apiVersion"
+            case connectorEntityName = "connectorEntityName"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case entitiesPath = "entitiesPath"
+        }
+    }
+
+    public struct ResetConnectorMetadataCacheResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct S3DestinationProperties: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon S3 bucket name in which Amazon AppFlow places the transferred data.
         public let bucketName: String
@@ -4233,6 +4285,8 @@ extension Appflow {
         public let applicationServicePath: String
         ///  The client number for the client creating the connection.
         public let clientNumber: String
+        /// If you set this parameter to true, Amazon AppFlow bypasses the single sign-on (SSO) settings in your SAP account when it accesses your SAP OData instance. Whether you need this option depends on the types of credentials that you applied to your SAP OData connection profile. If your profile uses basic authentication credentials, SAP SSO can prevent Amazon AppFlow from connecting to your account with your username and password. In this case, bypassing SSO makes it possible for Amazon AppFlow to connect successfully. However, if your profile uses OAuth credentials, this parameter has no affect.
+        public let disableSSO: Bool?
         ///  The logon language of SAPOData instance.
         public let logonLanguage: String?
         ///  The SAPOData OAuth properties required for OAuth type authentication.
@@ -4242,10 +4296,11 @@ extension Appflow {
         ///  The SAPOData Private Link service name to be used for private data transfers.
         public let privateLinkServiceName: String?
 
-        public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
+        public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, disableSSO: Bool? = nil, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
             self.applicationHostUrl = applicationHostUrl
             self.applicationServicePath = applicationServicePath
             self.clientNumber = clientNumber
+            self.disableSSO = disableSSO
             self.logonLanguage = logonLanguage
             self.oAuthProperties = oAuthProperties
             self.portNumber = portNumber
@@ -4273,6 +4328,7 @@ extension Appflow {
             case applicationHostUrl = "applicationHostUrl"
             case applicationServicePath = "applicationServicePath"
             case clientNumber = "clientNumber"
+            case disableSSO = "disableSSO"
             case logonLanguage = "logonLanguage"
             case oAuthProperties = "oAuthProperties"
             case portNumber = "portNumber"
@@ -4321,21 +4377,67 @@ extension Appflow {
         public init() {}
     }
 
+    public struct SAPODataPaginationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application. For transfers of OData records, the maximum page size is 3,000. For transfers of data that comes from an ODP provider, the maximum page size is 10,000.
+        public let maxPageSize: Int
+
+        public init(maxPageSize: Int) {
+            self.maxPageSize = maxPageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxPageSize, name: "maxPageSize", parent: name, max: 10000)
+            try self.validate(self.maxPageSize, name: "maxPageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPageSize = "maxPageSize"
+        }
+    }
+
+    public struct SAPODataParallelismConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of processes that Amazon AppFlow runs at the same time when it retrieves your data from your SAP application.
+        public let maxParallelism: Int
+
+        public init(maxParallelism: Int) {
+            self.maxParallelism = maxParallelism
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxParallelism, name: "maxParallelism", parent: name, max: 10)
+            try self.validate(self.maxParallelism, name: "maxParallelism", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxParallelism = "maxParallelism"
+        }
+    }
+
     public struct SAPODataSourceProperties: AWSEncodableShape & AWSDecodableShape {
         ///  The object path specified in the SAPOData flow source.
         public let objectPath: String?
+        /// Sets the page size for each concurrent process that transfers OData records from your SAP instance.
+        public let paginationConfig: SAPODataPaginationConfig?
+        /// Sets the number of concurrent processes that transfers OData records from your SAP instance.
+        public let parallelismConfig: SAPODataParallelismConfig?
 
-        public init(objectPath: String? = nil) {
+        public init(objectPath: String? = nil, paginationConfig: SAPODataPaginationConfig? = nil, parallelismConfig: SAPODataParallelismConfig? = nil) {
             self.objectPath = objectPath
+            self.paginationConfig = paginationConfig
+            self.parallelismConfig = parallelismConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.objectPath, name: "objectPath", parent: name, max: 512)
             try self.validate(self.objectPath, name: "objectPath", parent: name, pattern: "^\\S+$")
+            try self.paginationConfig?.validate(name: "\(name).paginationConfig")
+            try self.parallelismConfig?.validate(name: "\(name).parallelismConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case objectPath = "objectPath"
+            case paginationConfig = "paginationConfig"
+            case parallelismConfig = "parallelismConfig"
         }
     }
 
@@ -4554,17 +4656,21 @@ extension Appflow {
     }
 
     public struct ServiceNowConnectorProfileCredentials: AWSEncodableShape {
+        ///  The OAuth 2.0 credentials required to authenticate the user.
+        public let oAuth2Credentials: OAuth2Credentials?
         ///  The password that corresponds to the user name.
-        public let password: String
+        public let password: String?
         ///  The name of the user.
-        public let username: String
+        public let username: String?
 
-        public init(password: String, username: String) {
+        public init(oAuth2Credentials: OAuth2Credentials? = nil, password: String? = nil, username: String? = nil) {
+            self.oAuth2Credentials = oAuth2Credentials
             self.password = password
             self.username = username
         }
 
         public func validate(name: String) throws {
+            try self.oAuth2Credentials?.validate(name: "\(name).oAuth2Credentials")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
             try self.validate(self.username, name: "username", parent: name, max: 512)
@@ -4572,6 +4678,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case oAuth2Credentials = "oAuth2Credentials"
             case password = "password"
             case username = "username"
         }

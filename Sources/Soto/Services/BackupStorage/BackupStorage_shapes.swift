@@ -26,12 +26,12 @@ import Foundation
 extension BackupStorage {
     // MARK: Enums
 
-    public enum DataChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
-    public enum SummaryChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum SummaryChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case summary = "SUMMARY"
         public var description: String { return self.rawValue }
     }
@@ -429,7 +429,7 @@ extension BackupStorage {
         /// Upload Id for the in-progress upload.
         public let uploadId: String
 
-        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: AWSHTTPBody, length: Int64 = 0, uploadId: String) {
+        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64, data: AWSHTTPBody, length: Int64 = 0, uploadId: String) {
             self.backupJobId = backupJobId
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm

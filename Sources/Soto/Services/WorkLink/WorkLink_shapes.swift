@@ -26,18 +26,18 @@ import Foundation
 extension WorkLink {
     // MARK: Enums
 
-    public enum AuthorizationProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthorizationProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case saml = "SAML"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case signedOut = "SIGNED_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
         case disassociated = "DISASSOCIATED"
@@ -49,7 +49,7 @@ extension WorkLink {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FleetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -59,7 +59,7 @@ extension WorkLink {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case saml = "SAML"
         public var description: String { return self.rawValue }
     }

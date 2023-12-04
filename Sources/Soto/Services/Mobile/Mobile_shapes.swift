@@ -26,7 +26,7 @@ import Foundation
 extension Mobile {
     // MARK: Enums
 
-    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case android = "ANDROID"
         case javascript = "JAVASCRIPT"
         case linux = "LINUX"
@@ -37,7 +37,7 @@ extension Mobile {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProjectState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case importing = "IMPORTING"
         case normal = "NORMAL"
         case syncing = "SYNCING"

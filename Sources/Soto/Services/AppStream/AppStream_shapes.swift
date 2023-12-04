@@ -26,12 +26,12 @@ import Foundation
 extension AppStream {
     // MARK: Enums
 
-    public enum AccessEndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Action: String, CustomStringConvertible, Codable, Sendable {
+    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
         case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
         case domainPasswordSignin = "DOMAIN_PASSWORD_SIGNIN"
@@ -42,19 +42,50 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppVisibility: String, CustomStringConvertible, Codable, Sendable {
+    public enum AppBlockBuilderAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessEndpoints = "ACCESS_ENDPOINTS"
+        case iamRoleArn = "IAM_ROLE_ARN"
+        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderPlatformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case windowsServer2019 = "WINDOWS_SERVER_2019"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppBlockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case associated = "ASSOCIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case launchParameters = "LAUNCH_PARAMETERS"
         case workingDirectory = "WORKING_DIRECTORY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case api = "API"
         case awsAd = "AWS_AD"
         case saml = "SAML"
@@ -62,16 +93,17 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateBasedAuthStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateBasedAuthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enabledNoDirectoryLoginFallback = "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum FleetAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
+        case maxSessionsPerInstance = "MAX_SESSIONS_PER_INSTANCE"
         case sessionScriptS3Location = "SESSION_SCRIPT_S3_LOCATION"
         case usbDeviceFilterStrings = "USB_DEVICE_FILTER_STRINGS"
         case vpcConfiguration = "VPC_CONFIGURATION"
@@ -79,7 +111,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FleetErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
         case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
         case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
@@ -113,7 +145,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetState: String, CustomStringConvertible, Codable, Sendable {
+    public enum FleetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
@@ -121,14 +153,14 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FleetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alwaysOn = "ALWAYS_ON"
         case elastic = "ELASTIC"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageBuilderState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageBuilderState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -143,13 +175,13 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case imageUnavailable = "IMAGE_UNAVAILABLE"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case copying = "COPYING"
         case creating = "CREATING"
@@ -160,26 +192,32 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case resend = "RESEND"
         case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
+    public enum PackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appstream2 = "APPSTREAM2"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX2"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
@@ -187,26 +225,26 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum PreferredProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum PreferredProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionConnectionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum StackAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessEndpoints = "ACCESS_ENDPOINTS"
         case embedHostDomains = "EMBED_HOST_DOMAINS"
         case feedbackUrl = "FEEDBACK_URL"
@@ -222,38 +260,38 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum StackErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageConnectorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StorageConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case googleDrive = "GOOGLE_DRIVE"
         case homefolders = "HOMEFOLDERS"
         case oneDrive = "ONE_DRIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamView: String, CustomStringConvertible, Codable, Sendable {
+    public enum StreamView: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case app = "APP"
         case desktop = "DESKTOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case resourceNotFound = "RESOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageReportSchedule: String, CustomStringConvertible, Codable, Sendable {
+    public enum UsageReportSchedule: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "DAILY"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directoryNotFound = "DIRECTORY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
         case stackNotFound = "STACK_NOT_FOUND"
@@ -261,7 +299,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum VisibilityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum VisibilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         case shared = "SHARED"
@@ -272,11 +310,11 @@ extension AppStream {
 
     public struct AccessEndpoint: AWSEncodableShape & AWSDecodableShape {
         /// The type of interface endpoint.
-        public let endpointType: AccessEndpointType
+        public let endpointType: AccessEndpointType?
         /// The identifier (ID) of the VPC in which the interface endpoint is used.
         public let vpceId: String?
 
-        public init(endpointType: AccessEndpointType, vpceId: String? = nil) {
+        public init(endpointType: AccessEndpointType? = nil, vpceId: String? = nil) {
             self.endpointType = endpointType
             self.vpceId = vpceId
         }
@@ -292,8 +330,10 @@ extension AppStream {
     }
 
     public struct AppBlock: AWSDecodableShape {
+        /// The errors of the app block.
+        public let appBlockErrors: [ErrorDetails]?
         /// The ARN of the app block.
-        public let arn: String
+        public let arn: String?
         /// The created time of the app block.
         public let createdTime: Date?
         /// The description of the app block.
@@ -301,30 +341,143 @@ extension AppStream {
         /// The display name of the app block.
         public let displayName: String?
         /// The name of the app block.
-        public let name: String
-        /// The setup script details of the app block.
-        public let setupScriptDetails: ScriptDetails
+        public let name: String?
+        /// The packaging type of the app block.
+        public let packagingType: PackagingType?
+        /// The post setup script details of the app block. This only applies to app blocks with PackagingType APPSTREAM2.
+        public let postSetupScriptDetails: ScriptDetails?
+        /// The setup script details of the app block. This only applies to app blocks with PackagingType CUSTOM.
+        public let setupScriptDetails: ScriptDetails?
         /// The source S3 location of the app block.
         public let sourceS3Location: S3Location?
+        /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE.  Custom app blocks are always in the ACTIVE state and no action is required to use them.
+        public let state: AppBlockState?
 
-        public init(arn: String, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location? = nil) {
+        public init(appBlockErrors: [ErrorDetails]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String? = nil, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location? = nil, state: AppBlockState? = nil) {
+            self.appBlockErrors = appBlockErrors
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.packagingType = packagingType
+            self.postSetupScriptDetails = postSetupScriptDetails
             self.setupScriptDetails = setupScriptDetails
             self.sourceS3Location = sourceS3Location
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appBlockErrors = "AppBlockErrors"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
             case displayName = "DisplayName"
             case name = "Name"
+            case packagingType = "PackagingType"
+            case postSetupScriptDetails = "PostSetupScriptDetails"
             case setupScriptDetails = "SetupScriptDetails"
             case sourceS3Location = "SourceS3Location"
+            case state = "State"
+        }
+    }
+
+    public struct AppBlockBuilder: AWSDecodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The app block builder errors.
+        public let appBlockBuilderErrors: [ResourceError]?
+        /// The ARN of the app block builder.
+        public let arn: String?
+        /// The creation time of the app block builder.
+        public let createdTime: Date?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Indicates whether default internet access is enabled for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The ARN of the IAM role that is applied to the app block builder.
+        public let iamRoleArn: String?
+        /// The instance type of the app block builder.
+        public let instanceType: String?
+        /// The name of the app block builder.
+        public let name: String?
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: AppBlockBuilderPlatformType?
+        /// The state of the app block builder.
+        public let state: AppBlockBuilderState?
+        /// The state change reason.
+        public let stateChangeReason: AppBlockBuilderStateChangeReason?
+        /// The VPC configuration for the app block builder.
+        public let vpcConfig: VpcConfig?
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appBlockBuilderErrors: [ResourceError]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, state: AppBlockBuilderState? = nil, stateChangeReason: AppBlockBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.appBlockBuilderErrors = appBlockBuilderErrors
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case appBlockBuilderErrors = "AppBlockBuilderErrors"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct AppBlockBuilderAppBlockAssociation: AWSDecodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+
+        public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct AppBlockBuilderStateChangeReason: AWSDecodableShape {
+        /// The state change reason code.
+        public let code: AppBlockBuilderStateChangeReasonCode?
+        /// The state change reason message.
+        public let message: String?
+
+        public init(code: AppBlockBuilderStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -399,11 +552,11 @@ extension AppStream {
 
     public struct ApplicationFleetAssociation: AWSDecodableShape {
         /// The ARN of the application associated with the fleet.
-        public let applicationArn: String
+        public let applicationArn: String?
         /// The name of the fleet associated with the application.
-        public let fleetName: String
+        public let fleetName: String?
 
-        public init(applicationArn: String, fleetName: String) {
+        public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
         }
@@ -416,11 +569,11 @@ extension AppStream {
 
     public struct ApplicationSettings: AWSEncodableShape {
         /// Enables or disables persistent application settings for users during their streaming sessions.
-        public let enabled: Bool
+        public let enabled: Bool?
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack.
         public let settingsGroup: String?
 
-        public init(enabled: Bool = false, settingsGroup: String? = nil) {
+        public init(enabled: Bool? = nil, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.settingsGroup = settingsGroup
         }
@@ -456,13 +609,48 @@ extension AppStream {
         }
     }
 
+    public struct AssociateAppBlockBuilderAppBlockRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+
+        public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct AssociateAppBlockBuilderAppBlockResult: AWSDecodableShape {
+        /// The list of app block builders associated with app blocks.
+        public let appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation?
+
+        public init(appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation? = nil) {
+            self.appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderAppBlockAssociation = "AppBlockBuilderAppBlockAssociation"
+        }
+    }
+
     public struct AssociateApplicationFleetRequest: AWSEncodableShape {
         /// The ARN of the application.
-        public let applicationArn: String
+        public let applicationArn: String?
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
 
-        public init(applicationArn: String, fleetName: String) {
+        public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
         }
@@ -493,13 +681,13 @@ extension AppStream {
 
     public struct AssociateApplicationToEntitlementRequest: AWSEncodableShape {
         /// The identifier of the application.
-        public let applicationIdentifier: String
+        public let applicationIdentifier: String?
         /// The name of the entitlement.
-        public let entitlementName: String
+        public let entitlementName: String?
         /// The name of the stack.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(applicationIdentifier: String, entitlementName: String, stackName: String) {
+        public init(applicationIdentifier: String? = nil, entitlementName: String? = nil, stackName: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.entitlementName = entitlementName
             self.stackName = stackName
@@ -524,11 +712,11 @@ extension AppStream {
 
     public struct AssociateFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
         /// The name of the stack.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(fleetName: String, stackName: String) {
+        public init(fleetName: String? = nil, stackName: String? = nil) {
             self.fleetName = fleetName
             self.stackName = stackName
         }
@@ -550,14 +738,14 @@ extension AppStream {
 
     public struct BatchAssociateUserStackRequest: AWSEncodableShape {
         /// The list of UserStackAssociation objects.
-        public let userStackAssociations: [UserStackAssociation]
+        public let userStackAssociations: [UserStackAssociation]?
 
-        public init(userStackAssociations: [UserStackAssociation]) {
+        public init(userStackAssociations: [UserStackAssociation]? = nil) {
             self.userStackAssociations = userStackAssociations
         }
 
         public func validate(name: String) throws {
-            try self.userStackAssociations.forEach {
+            try self.userStackAssociations?.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, max: 25)
@@ -584,14 +772,14 @@ extension AppStream {
 
     public struct BatchDisassociateUserStackRequest: AWSEncodableShape {
         /// The list of UserStackAssociation objects.
-        public let userStackAssociations: [UserStackAssociation]
+        public let userStackAssociations: [UserStackAssociation]?
 
-        public init(userStackAssociations: [UserStackAssociation]) {
+        public init(userStackAssociations: [UserStackAssociation]? = nil) {
             self.userStackAssociations = userStackAssociations
         }
 
         public func validate(name: String) throws {
-            try self.userStackAssociations.forEach {
+            try self.userStackAssociations?.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, max: 25)
@@ -639,37 +827,57 @@ extension AppStream {
 
     public struct ComputeCapacity: AWSEncodableShape {
         /// The desired number of streaming instances.
-        public let desiredInstances: Int
+        public let desiredInstances: Int?
+        /// The desired number of user sessions for a multi-session fleet. This is not allowed for single-session fleets. When you create a fleet, you must set either the DesiredSessions or DesiredInstances attribute, based on the type of fleet you create. You can’t define both attributes or leave both attributes blank.
+        public let desiredSessions: Int?
 
-        public init(desiredInstances: Int) {
+        public init(desiredInstances: Int? = nil, desiredSessions: Int? = nil) {
             self.desiredInstances = desiredInstances
+            self.desiredSessions = desiredSessions
         }
 
         private enum CodingKeys: String, CodingKey {
             case desiredInstances = "DesiredInstances"
+            case desiredSessions = "DesiredSessions"
         }
     }
 
     public struct ComputeCapacityStatus: AWSDecodableShape {
+        /// The number of user sessions currently being used for streaming sessions. This only applies to multi-session fleets.
+        public let activeUserSessions: Int?
+        /// The total number of session slots that are available for streaming or are currently streaming. ActualUserSessionCapacity = AvailableUserSessionCapacity + ActiveUserSessions This only applies to multi-session fleets.
+        public let actualUserSessions: Int?
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int?
+        /// The number of idle session slots currently available for user sessions. AvailableUserSessionCapacity = ActualUserSessionCapacity - ActiveUserSessions This only applies to multi-session fleets.
+        public let availableUserSessions: Int?
         /// The desired number of streaming instances.
-        public let desired: Int
+        public let desired: Int?
+        /// The total number of sessions slots that are either running or pending. This represents the total number of concurrent streaming sessions your fleet can support in a steady state. DesiredUserSessionCapacity = ActualUserSessionCapacity + PendingUserSessionCapacity This only applies to multi-session fleets.
+        public let desiredUserSessions: Int?
         /// The number of instances in use for streaming.
         public let inUse: Int?
         /// The total number of simultaneous streaming instances that are running.
         public let running: Int?
 
-        public init(available: Int? = nil, desired: Int, inUse: Int? = nil, running: Int? = nil) {
+        public init(activeUserSessions: Int? = nil, actualUserSessions: Int? = nil, available: Int? = nil, availableUserSessions: Int? = nil, desired: Int? = nil, desiredUserSessions: Int? = nil, inUse: Int? = nil, running: Int? = nil) {
+            self.activeUserSessions = activeUserSessions
+            self.actualUserSessions = actualUserSessions
             self.available = available
+            self.availableUserSessions = availableUserSessions
             self.desired = desired
+            self.desiredUserSessions = desiredUserSessions
             self.inUse = inUse
             self.running = running
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeUserSessions = "ActiveUserSessions"
+            case actualUserSessions = "ActualUserSessions"
             case available = "Available"
+            case availableUserSessions = "AvailableUserSessions"
             case desired = "Desired"
+            case desiredUserSessions = "DesiredUserSessions"
             case inUse = "InUse"
             case running = "Running"
         }
@@ -679,13 +887,13 @@ extension AppStream {
         /// The description that the image will have when it is copied to the destination.
         public let destinationImageDescription: String?
         /// The name that the image will have when it is copied to the destination.
-        public let destinationImageName: String
+        public let destinationImageName: String?
         /// The destination region to which the image will be copied. This parameter is required, even if you are copying an image within the same region.
-        public let destinationRegion: String
+        public let destinationRegion: String?
         /// The name of the image to copy.
-        public let sourceImageName: String
+        public let sourceImageName: String?
 
-        public init(destinationImageDescription: String? = nil, destinationImageName: String, destinationRegion: String, sourceImageName: String) {
+        public init(destinationImageDescription: String? = nil, destinationImageName: String? = nil, destinationRegion: String? = nil, sourceImageName: String? = nil) {
             self.destinationImageDescription = destinationImageDescription
             self.destinationImageName = destinationImageName
             self.destinationRegion = destinationRegion
@@ -721,24 +929,152 @@ extension AppStream {
         }
     }
 
+    public struct CreateAppBlockBuilderRequest: AWSEncodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Enables or disables default internet access for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        public let iamRoleArn: String?
+        /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        public let instanceType: String?
+        /// The unique name for the app block builder.
+        public let name: String?
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: AppBlockBuilderPlatformType?
+        /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        public let tags: [String: String]?
+        /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+        public let vpcConfig: VpcConfig?
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.tags = tags
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.accessEndpoints?.forEach {
+                try $0.validate(name: "\(name).accessEndpoints[]")
+            }
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case tags = "Tags"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct CreateAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
+    public struct CreateAppBlockBuilderStreamingURLRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+        /// The time that the streaming URL will be valid, in seconds.  Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
+        public let validity: Int64?
+
+        public init(appBlockBuilderName: String? = nil, validity: Int64? = nil) {
+            self.appBlockBuilderName = appBlockBuilderName
+            self.validity = validity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderName = "AppBlockBuilderName"
+            case validity = "Validity"
+        }
+    }
+
+    public struct CreateAppBlockBuilderStreamingURLResult: AWSDecodableShape {
+        /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
+        public let expires: Date?
+        /// The URL to start the streaming session.
+        public let streamingURL: String?
+
+        public init(expires: Date? = nil, streamingURL: String? = nil) {
+            self.expires = expires
+            self.streamingURL = streamingURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expires = "Expires"
+            case streamingURL = "StreamingURL"
+        }
+    }
+
     public struct CreateAppBlockRequest: AWSEncodableShape {
         /// The description of the app block.
         public let description: String?
         /// The display name of the app block. This is not displayed to the user.
         public let displayName: String?
         /// The name of the app block.
-        public let name: String
-        /// The setup script details of the app block.
-        public let setupScriptDetails: ScriptDetails
+        public let name: String?
+        /// The packaging type of the app block.
+        public let packagingType: PackagingType?
+        /// The post setup script details of the app block. This can only be provided for the APPSTREAM2 PackagingType.
+        public let postSetupScriptDetails: ScriptDetails?
+        /// The setup script details of the app block. This must be provided for the CUSTOM PackagingType.
+        public let setupScriptDetails: ScriptDetails?
         /// The source S3 location of the app block.
-        public let sourceS3Location: S3Location
+        public let sourceS3Location: S3Location?
         /// The tags assigned to the app block.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, displayName: String? = nil, name: String, setupScriptDetails: ScriptDetails, sourceS3Location: S3Location, tags: [String: String]? = nil) {
+        public init(description: String? = nil, displayName: String? = nil, name: String? = nil, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.packagingType = packagingType
+            self.postSetupScriptDetails = postSetupScriptDetails
             self.setupScriptDetails = setupScriptDetails
             self.sourceS3Location = sourceS3Location
             self.tags = tags
@@ -748,8 +1084,9 @@ extension AppStream {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.setupScriptDetails.validate(name: "\(name).setupScriptDetails")
-            try self.sourceS3Location.validate(name: "\(name).sourceS3Location")
+            try self.postSetupScriptDetails?.validate(name: "\(name).postSetupScriptDetails")
+            try self.setupScriptDetails?.validate(name: "\(name).setupScriptDetails")
+            try self.sourceS3Location?.validate(name: "\(name).sourceS3Location")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -765,6 +1102,8 @@ extension AppStream {
             case description = "Description"
             case displayName = "DisplayName"
             case name = "Name"
+            case packagingType = "PackagingType"
+            case postSetupScriptDetails = "PostSetupScriptDetails"
             case setupScriptDetails = "SetupScriptDetails"
             case sourceS3Location = "SourceS3Location"
             case tags = "Tags"
@@ -786,29 +1125,29 @@ extension AppStream {
 
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The app block ARN to which the application should be associated
-        public let appBlockArn: String
+        public let appBlockArn: String?
         /// The description of the application.
         public let description: String?
         /// The display name of the application. This name is visible to users in the application catalog.
         public let displayName: String?
         /// The location in S3 of the application icon.
-        public let iconS3Location: S3Location
+        public let iconS3Location: S3Location?
         /// The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4.
-        public let instanceFamilies: [String]
+        public let instanceFamilies: [String]?
         /// The launch parameters of the application.
         public let launchParameters: String?
         /// The launch path of the application.
-        public let launchPath: String
+        public let launchPath: String?
         /// The name of the application. This name is visible to users when display name is not specified.
-        public let name: String
+        public let name: String?
         /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
-        public let platforms: [PlatformType]
+        public let platforms: [PlatformType]?
         /// The tags assigned to the application.
         public let tags: [String: String]?
         /// The working directory of the application.
         public let workingDirectory: String?
 
-        public init(appBlockArn: String, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location, instanceFamilies: [String], launchParameters: String? = nil, launchPath: String, name: String, platforms: [PlatformType], tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(appBlockArn: String? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, instanceFamilies: [String]? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String? = nil, platforms: [PlatformType]? = nil, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.appBlockArn = appBlockArn
             self.description = description
             self.displayName = displayName
@@ -826,8 +1165,8 @@ extension AppStream {
             try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
-            try self.iconS3Location.validate(name: "\(name).iconS3Location")
-            try self.instanceFamilies.forEach {
+            try self.iconS3Location?.validate(name: "\(name).iconS3Location")
+            try self.instanceFamilies?.forEach {
                 try validate($0, name: "instanceFamilies[]", parent: name, min: 1)
             }
             try self.validate(self.launchParameters, name: "launchParameters", parent: name, min: 1)
@@ -877,13 +1216,13 @@ extension AppStream {
         /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
         public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The fully qualified name of the directory (for example, corp.example.com).
-        public let directoryName: String
+        public let directoryName: String?
         /// The distinguished names of the organizational units for computer accounts.
-        public let organizationalUnitDistinguishedNames: [String]
+        public let organizationalUnitDistinguishedNames: [String]?
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String], serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -892,7 +1231,7 @@ extension AppStream {
 
         public func validate(name: String) throws {
             try self.certificateBasedAuthProperties?.validate(name: "\(name).certificateBasedAuthProperties")
-            try self.organizationalUnitDistinguishedNames.forEach {
+            try self.organizationalUnitDistinguishedNames?.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
             try self.serviceAccountCredentials?.validate(name: "\(name).serviceAccountCredentials")
@@ -921,17 +1260,17 @@ extension AppStream {
 
     public struct CreateEntitlementRequest: AWSEncodableShape {
         /// Specifies whether all or selected apps are entitled.
-        public let appVisibility: AppVisibility
+        public let appVisibility: AppVisibility?
         /// The attributes of the entitlement.
-        public let attributes: [EntitlementAttribute]
+        public let attributes: [EntitlementAttribute]?
         /// The description of the entitlement.
         public let description: String?
         /// The name of the entitlement.
-        public let name: String
+        public let name: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(appVisibility: AppVisibility, attributes: [EntitlementAttribute], description: String? = nil, name: String, stackName: String) {
+        public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
             self.description = description
@@ -940,7 +1279,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.attributes.forEach {
+            try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
@@ -995,13 +1334,15 @@ extension AppStream {
         /// The name of the image used to create the fleet.
         public let imageName: String?
         /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
-        public let instanceType: String
+        public let instanceType: String?
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
-        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
+        /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+        public let maxSessionsPerInstance: Int?
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
-        public let name: String
+        public let name: String?
         /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
@@ -1015,7 +1356,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -1029,6 +1370,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxSessionsPerInstance = maxSessionsPerInstance
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
@@ -1045,7 +1387,7 @@ extension AppStream {
             try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
@@ -1079,6 +1421,7 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case maxConcurrentSessions = "MaxConcurrentSessions"
+            case maxSessionsPerInstance = "MaxSessionsPerInstance"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
@@ -1123,15 +1466,15 @@ extension AppStream {
         /// The name of the image used to create the image builder.
         public let imageName: String?
         /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
-        public let instanceType: String
+        public let instanceType: String?
         /// A unique name for the image builder.
-        public let name: String
+        public let name: String?
         /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let tags: [String: String]?
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, name: String, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
@@ -1207,11 +1550,11 @@ extension AppStream {
 
     public struct CreateImageBuilderStreamingURLRequest: AWSEncodableShape {
         /// The name of the image builder.
-        public let name: String
+        public let name: String?
         /// The time that the streaming URL will be valid, in seconds.  Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
         public let validity: Int64?
 
-        public init(name: String, validity: Int64? = nil) {
+        public init(name: String? = nil, validity: Int64? = nil) {
             self.name = name
             self.validity = validity
         }
@@ -1257,7 +1600,7 @@ extension AppStream {
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
         /// The name of the stack.
-        public let name: String
+        public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
         /// The storage connectors to enable.
@@ -1269,7 +1612,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.description = description
@@ -1350,17 +1693,17 @@ extension AppStream {
         /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant. If your fleet is enabled for the Desktop stream view, you can also choose to launch directly to the operating system desktop. To do so, specify Desktop.
         public let applicationId: String?
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
         /// The session context. For more information, see Session Context in the Amazon AppStream 2.0 Administration Guide.
         public let sessionContext: String?
         /// The name of the stack.
-        public let stackName: String
+        public let stackName: String?
         /// The identifier of the user.
-        public let userId: String
+        public let userId: String?
         /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
         public let validity: Int64?
 
-        public init(applicationId: String? = nil, fleetName: String, sessionContext: String? = nil, stackName: String, userId: String, validity: Int64? = nil) {
+        public init(applicationId: String? = nil, fleetName: String? = nil, sessionContext: String? = nil, stackName: String? = nil, userId: String? = nil, validity: Int64? = nil) {
             self.applicationId = applicationId
             self.fleetName = fleetName
             self.sessionContext = sessionContext
@@ -1410,17 +1753,17 @@ extension AppStream {
         /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
         public let dryRun: Bool?
         /// The name of the image to update.
-        public let existingImageName: String
+        public let existingImageName: String?
         /// The description to display for the new image.
         public let newImageDescription: String?
         /// The name to display for the new image.
         public let newImageDisplayName: String?
         /// The name of the new image. The name must be unique within the AWS account and Region.
-        public let newImageName: String
+        public let newImageName: String?
         /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let newImageTags: [String: String]?
 
-        public init(dryRun: Bool? = nil, existingImageName: String, newImageDescription: String? = nil, newImageDisplayName: String? = nil, newImageName: String, newImageTags: [String: String]? = nil) {
+        public init(dryRun: Bool? = nil, existingImageName: String? = nil, newImageDescription: String? = nil, newImageDisplayName: String? = nil, newImageName: String? = nil, newImageTags: [String: String]? = nil) {
             self.dryRun = dryRun
             self.existingImageName = existingImageName
             self.newImageDescription = newImageDescription
@@ -1494,7 +1837,7 @@ extension AppStream {
 
     public struct CreateUserRequest: AWSEncodableShape {
         /// The authentication type for the user. You must specify USERPOOL.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The first name, or given name, of the user.
         public let firstName: String?
         /// The last name, or surname, of the user.
@@ -1502,9 +1845,9 @@ extension AppStream {
         /// The action to take for the welcome email that is sent to a user after the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent.   The temporary password in the welcome email is valid for only 7 days. If users don’t set their passwords within 7 days, you must send them a new welcome email.
         public let messageAction: MessageAction?
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.
-        public let userName: String
+        public let userName: String?
 
-        public init(authenticationType: AuthenticationType, firstName: String? = nil, lastName: String? = nil, messageAction: MessageAction? = nil, userName: String) {
+        public init(authenticationType: AuthenticationType? = nil, firstName: String? = nil, lastName: String? = nil, messageAction: MessageAction? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.firstName = firstName
             self.lastName = lastName
@@ -1535,11 +1878,32 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DeleteAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteAppBlockBuilderResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAppBlockRequest: AWSEncodableShape {
         /// The name of the app block.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1558,9 +1922,9 @@ extension AppStream {
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         /// The name of the application.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1579,9 +1943,9 @@ extension AppStream {
 
     public struct DeleteDirectoryConfigRequest: AWSEncodableShape {
         /// The name of the directory configuration.
-        public let directoryName: String
+        public let directoryName: String?
 
-        public init(directoryName: String) {
+        public init(directoryName: String? = nil) {
             self.directoryName = directoryName
         }
 
@@ -1596,11 +1960,11 @@ extension AppStream {
 
     public struct DeleteEntitlementRequest: AWSEncodableShape {
         /// The name of the entitlement.
-        public let name: String
+        public let name: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(name: String, stackName: String) {
+        public init(name: String? = nil, stackName: String? = nil) {
             self.name = name
             self.stackName = stackName
         }
@@ -1622,9 +1986,9 @@ extension AppStream {
 
     public struct DeleteFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1643,9 +2007,9 @@ extension AppStream {
 
     public struct DeleteImageBuilderRequest: AWSEncodableShape {
         /// The name of the image builder.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1673,11 +2037,11 @@ extension AppStream {
 
     public struct DeleteImagePermissionsRequest: AWSEncodableShape {
         /// The name of the private image.
-        public let name: String
+        public let name: String?
         /// The 12-digit identifier of the AWS account for which to delete image permissions.
-        public let sharedAccountId: String
+        public let sharedAccountId: String?
 
-        public init(name: String, sharedAccountId: String) {
+        public init(name: String? = nil, sharedAccountId: String? = nil) {
             self.name = name
             self.sharedAccountId = sharedAccountId
         }
@@ -1699,9 +2063,9 @@ extension AppStream {
 
     public struct DeleteImageRequest: AWSEncodableShape {
         /// The name of the image.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1729,9 +2093,9 @@ extension AppStream {
 
     public struct DeleteStackRequest: AWSEncodableShape {
         /// The name of the stack.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -1758,11 +2122,11 @@ extension AppStream {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         /// The authentication type for the user. You must specify USERPOOL.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The email address of the user.  Users' email addresses are case-sensitive.
-        public let userName: String
+        public let userName: String?
 
-        public init(authenticationType: AuthenticationType, userName: String) {
+        public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
         }
@@ -1781,6 +2145,99 @@ extension AppStream {
 
     public struct DeleteUserResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeAppBlockBuilderAppBlockAssociationsRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuilderAppBlockAssociationsResult: AWSDecodableShape {
+        /// This list of app block builders associated with app blocks.
+        public let appBlockBuilderAppBlockAssociations: [AppBlockBuilderAppBlockAssociation]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockBuilderAppBlockAssociations: [AppBlockBuilderAppBlockAssociation]? = nil, nextToken: String? = nil) {
+            self.appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilderAppBlockAssociations = "AppBlockBuilderAppBlockAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuildersRequest: AWSEncodableShape {
+        /// The maximum size of each page of results. The maximum value is 25.
+        public let maxResults: Int?
+        /// The names of the app block builders.
+        public let names: [String]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppBlockBuildersResult: AWSDecodableShape {
+        /// The list that describes one or more app block builders.
+        public let appBlockBuilders: [AppBlockBuilder]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(appBlockBuilders: [AppBlockBuilder]? = nil, nextToken: String? = nil) {
+            self.appBlockBuilders = appBlockBuilders
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilders = "AppBlockBuilders"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeAppBlocksRequest: AWSEncodableShape {
@@ -1971,9 +2428,9 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, stackName: String) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -2101,13 +2558,13 @@ extension AppStream {
         /// The maximum size of each page of results.
         public let maxResults: Int?
         /// The name of the private image for which to describe permissions. The image must be one that you own.
-        public let name: String
+        public let name: String?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The 12-digit identifier of one or more AWS accounts with which the image is shared.
         public let sharedAwsAccountIds: [String]?
 
-        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, sharedAwsAccountIds: [String]? = nil) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, sharedAwsAccountIds: [String]? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -2217,19 +2674,22 @@ extension AppStream {
         /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user.  The default is to authenticate users using a streaming URL.
         public let authenticationType: AuthenticationType?
         /// The name of the fleet. This value is case-sensitive.
-        public let fleetName: String
+        public let fleetName: String?
+        /// The identifier for the instance hosting the session.
+        public let instanceId: String?
         /// The size of each page of results. The default value is 20 and the maximum value is 50.
         public let limit: Int?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The name of the stack. This value is case-sensitive.
-        public let stackName: String
+        public let stackName: String?
         /// The user identifier (ID). If you specify a user ID, you must also specify the authentication type.
         public let userId: String?
 
-        public init(authenticationType: AuthenticationType? = nil, fleetName: String, limit: Int? = nil, nextToken: String? = nil, stackName: String, userId: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, fleetName: String? = nil, instanceId: String? = nil, limit: Int? = nil, nextToken: String? = nil, stackName: String? = nil, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.fleetName = fleetName
+            self.instanceId = instanceId
             self.limit = limit
             self.nextToken = nextToken
             self.stackName = stackName
@@ -2237,9 +2697,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
+            try self.validate(self.fleetName, name: "fleetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.validate(self.userId, name: "userId", parent: name, max: 128)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
         }
@@ -2247,6 +2708,7 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case authenticationType = "AuthenticationType"
             case fleetName = "FleetName"
+            case instanceId = "InstanceId"
             case limit = "Limit"
             case nextToken = "NextToken"
             case stackName = "StackName"
@@ -2408,13 +2870,13 @@ extension AppStream {
 
     public struct DescribeUsersRequest: AWSEncodableShape {
         /// The authentication type for the users in the user pool to describe. You must specify USERPOOL.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The maximum size of each page of results.
         public let maxResults: Int?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(authenticationType: AuthenticationType, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.authenticationType = authenticationType
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2454,13 +2916,13 @@ extension AppStream {
         /// The time the directory configuration was created.
         public let createdTime: Date?
         /// The fully qualified name of the directory (for example, corp.example.com).
-        public let directoryName: String
+        public let directoryName: String?
         /// The distinguished names of the organizational units for computer accounts.
         public let organizationalUnitDistinguishedNames: [String]?
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, createdTime: Date? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, createdTime: Date? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.createdTime = createdTime
             self.directoryName = directoryName
@@ -2479,11 +2941,11 @@ extension AppStream {
 
     public struct DisableUserRequest: AWSEncodableShape {
         /// The authentication type for the user. You must specify USERPOOL.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The email address of the user.  Users' email addresses are case-sensitive.
-        public let userName: String
+        public let userName: String?
 
-        public init(authenticationType: AuthenticationType, userName: String) {
+        public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
         }
@@ -2504,13 +2966,39 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DisassociateAppBlockBuilderAppBlockRequest: AWSEncodableShape {
+        /// The ARN of the app block.
+        public let appBlockArn: String?
+        /// The name of the app block builder.
+        public let appBlockBuilderName: String?
+
+        public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBlockArn, name: "appBlockArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.appBlockBuilderName, name: "appBlockBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockArn = "AppBlockArn"
+            case appBlockBuilderName = "AppBlockBuilderName"
+        }
+    }
+
+    public struct DisassociateAppBlockBuilderAppBlockResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateApplicationFleetRequest: AWSEncodableShape {
         /// The ARN of the application.
-        public let applicationArn: String
+        public let applicationArn: String?
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
 
-        public init(applicationArn: String, fleetName: String) {
+        public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
         }
@@ -2532,13 +3020,13 @@ extension AppStream {
 
     public struct DisassociateApplicationFromEntitlementRequest: AWSEncodableShape {
         /// The identifier of the application to remove from the entitlement.
-        public let applicationIdentifier: String
+        public let applicationIdentifier: String?
         /// The name of the entitlement.
-        public let entitlementName: String
+        public let entitlementName: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(applicationIdentifier: String, entitlementName: String, stackName: String) {
+        public init(applicationIdentifier: String? = nil, entitlementName: String? = nil, stackName: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.entitlementName = entitlementName
             self.stackName = stackName
@@ -2563,11 +3051,11 @@ extension AppStream {
 
     public struct DisassociateFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
         /// The name of the stack.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(fleetName: String, stackName: String) {
+        public init(fleetName: String? = nil, stackName: String? = nil) {
             self.fleetName = fleetName
             self.stackName = stackName
         }
@@ -2610,11 +3098,11 @@ extension AppStream {
 
     public struct EnableUserRequest: AWSEncodableShape {
         /// The authentication type for the user. You must specify USERPOOL.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.
-        public let userName: String
+        public let userName: String?
 
-        public init(authenticationType: AuthenticationType, userName: String) {
+        public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
         }
@@ -2637,9 +3125,9 @@ extension AppStream {
 
     public struct EntitledApplication: AWSDecodableShape {
         /// The identifier of the application.
-        public let applicationIdentifier: String
+        public let applicationIdentifier: String?
 
-        public init(applicationIdentifier: String) {
+        public init(applicationIdentifier: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
         }
 
@@ -2650,9 +3138,9 @@ extension AppStream {
 
     public struct Entitlement: AWSDecodableShape {
         /// Specifies whether all or selected apps are entitled.
-        public let appVisibility: AppVisibility
+        public let appVisibility: AppVisibility?
         /// The attributes of the entitlement.
-        public let attributes: [EntitlementAttribute]
+        public let attributes: [EntitlementAttribute]?
         /// The time when the entitlement was created.
         public let createdTime: Date?
         /// The description of the entitlement.
@@ -2660,11 +3148,11 @@ extension AppStream {
         /// The time when the entitlement was last modified.
         public let lastModifiedTime: Date?
         /// The name of the entitlement.
-        public let name: String
+        public let name: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(appVisibility: AppVisibility, attributes: [EntitlementAttribute], createdTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String, stackName: String) {
+        public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
             self.createdTime = createdTime
@@ -2687,11 +3175,11 @@ extension AppStream {
 
     public struct EntitlementAttribute: AWSEncodableShape & AWSDecodableShape {
         /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into an Amazon AppStream 2.0 SAML application. The following are valid values:   roles   department    organization    groups    title    costCenter    userType
-        public let name: String
+        public let name: String?
         /// A value that is matched to a supported SAML attribute name when a user identity federates into an Amazon AppStream 2.0 SAML application.
-        public let value: String
+        public let value: String?
 
-        public init(name: String, value: String) {
+        public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
         }
@@ -2707,11 +3195,28 @@ extension AppStream {
         }
     }
 
+    public struct ErrorDetails: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct ExpireSessionRequest: AWSEncodableShape {
         /// The identifier of the streaming session.
-        public let sessionId: String
+        public let sessionId: String?
 
-        public init(sessionId: String) {
+        public init(sessionId: String? = nil) {
             self.sessionId = sessionId
         }
 
@@ -2730,9 +3235,9 @@ extension AppStream {
 
     public struct Fleet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the fleet.
-        public let arn: String
+        public let arn: String?
         /// The capacity status for the fleet.
-        public let computeCapacityStatus: ComputeCapacityStatus
+        public let computeCapacityStatus: ComputeCapacityStatus?
         /// The time the fleet was created.
         public let createdTime: Date?
         /// The description to display.
@@ -2758,19 +3263,21 @@ extension AppStream {
         /// The name of the image used to create the fleet.
         public let imageName: String?
         /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
-        public let instanceType: String
+        public let instanceType: String?
         /// The maximum number of concurrent sessions for the fleet.
         public let maxConcurrentSessions: Int?
+        /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+        public let maxSessionsPerInstance: Int?
         /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance.  Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int?
         /// The name of the fleet.
-        public let name: String
+        public let name: String?
         /// The platform of the fleet.
         public let platform: PlatformType?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
         public let sessionScriptS3Location: S3Location?
         /// The current state for the fleet.
-        public let state: FleetState
+        public let state: FleetState?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The USB device filter strings associated with the fleet.
@@ -2778,7 +3285,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -2795,6 +3302,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxSessionsPerInstance = maxSessionsPerInstance
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
@@ -2822,6 +3330,7 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case maxConcurrentSessions = "MaxConcurrentSessions"
+            case maxSessionsPerInstance = "MaxSessionsPerInstance"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
@@ -2874,7 +3383,7 @@ extension AppStream {
         /// The permissions to provide to the destination AWS account for the specified image.
         public let imagePermissions: ImagePermissions?
         /// The name of the image.
-        public let name: String
+        public let name: String?
         /// The operating system platform of the image.
         public let platform: PlatformType?
         /// The release date of the public base image.  For private images, this date is the release date of the base image from which the image was created.
@@ -2886,7 +3395,7 @@ extension AppStream {
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -2953,7 +3462,7 @@ extension AppStream {
         /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
         public let instanceType: String?
         /// The name of the image builder.
-        public let name: String
+        public let name: String?
         public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The operating system platform of the image builder.
         public let platform: PlatformType?
@@ -2964,7 +3473,7 @@ extension AppStream {
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3079,9 +3588,9 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The name of the stack.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(nextToken: String? = nil, stackName: String) {
+        public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
         }
@@ -3116,11 +3625,11 @@ extension AppStream {
 
     public struct ListAssociatedStacksRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let fleetName: String
+        public let fleetName: String?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(fleetName: String, nextToken: String? = nil) {
+        public init(fleetName: String? = nil, nextToken: String? = nil) {
             self.fleetName = fleetName
             self.nextToken = nextToken
         }
@@ -3155,15 +3664,15 @@ extension AppStream {
 
     public struct ListEntitledApplicationsRequest: AWSEncodableShape {
         /// The name of the entitlement.
-        public let entitlementName: String
+        public let entitlementName: String?
         /// The maximum size of each page of results.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(entitlementName: String, maxResults: Int? = nil, nextToken: String? = nil, stackName: String) {
+        public init(entitlementName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.entitlementName = entitlementName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3203,9 +3712,9 @@ extension AppStream {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
+        public let resourceArn: String?
 
-        public init(resourceArn: String) {
+        public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
 
@@ -3271,11 +3780,11 @@ extension AppStream {
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The S3 bucket of the S3 object.
-        public let s3Bucket: String
-        /// The S3 key of the S3 object.
-        public let s3Key: String
+        public let s3Bucket: String?
+        /// The S3 key of the S3 object. This is required when used for the following:   IconS3Location (Actions: CreateApplication and UpdateApplication)   SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)   ScriptDetails (Actions: CreateAppBlock)   SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock)   SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock)
+        public let s3Key: String?
 
-        public init(s3Bucket: String, s3Key: String) {
+        public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -3298,13 +3807,13 @@ extension AppStream {
         /// The runtime parameters passed to the run path for the script.
         public let executableParameters: String?
         /// The run path for the script.
-        public let executablePath: String
+        public let executablePath: String?
         /// The S3 object location for the script.
-        public let scriptS3Location: S3Location
+        public let scriptS3Location: S3Location?
         /// The run timeout, in seconds, for the script.
-        public let timeoutInSeconds: Int
+        public let timeoutInSeconds: Int?
 
-        public init(executableParameters: String? = nil, executablePath: String, scriptS3Location: S3Location, timeoutInSeconds: Int) {
+        public init(executableParameters: String? = nil, executablePath: String? = nil, scriptS3Location: S3Location? = nil, timeoutInSeconds: Int? = nil) {
             self.executableParameters = executableParameters
             self.executablePath = executablePath
             self.scriptS3Location = scriptS3Location
@@ -3314,7 +3823,7 @@ extension AppStream {
         public func validate(name: String) throws {
             try self.validate(self.executableParameters, name: "executableParameters", parent: name, min: 1)
             try self.validate(self.executablePath, name: "executablePath", parent: name, min: 1)
-            try self.scriptS3Location.validate(name: "\(name).scriptS3Location")
+            try self.scriptS3Location?.validate(name: "\(name).scriptS3Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3327,11 +3836,11 @@ extension AppStream {
 
     public struct ServiceAccountCredentials: AWSEncodableShape & AWSDecodableShape {
         /// The user name of the account. This account must have the following privileges: create computer objects,  join computers to the domain, and change/reset the password on descendant computer objects for the  organizational units specified.
-        public let accountName: String
+        public let accountName: String?
         /// The password for the account.
-        public let accountPassword: String
+        public let accountPassword: String?
 
-        public init(accountName: String, accountPassword: String) {
+        public init(accountName: String? = nil, accountPassword: String? = nil) {
             self.accountName = accountName
             self.accountPassword = accountPassword
         }
@@ -3354,27 +3863,30 @@ extension AppStream {
         /// Specifies whether a user is connected to the streaming session.
         public let connectionState: SessionConnectionState?
         /// The name of the fleet for the streaming session.
-        public let fleetName: String
+        public let fleetName: String?
         /// The identifier of the streaming session.
-        public let id: String
+        public let id: String?
+        /// The identifier for the instance hosting the session.
+        public let instanceId: String?
         /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
         public let maxExpirationTime: Date?
         /// The network details for the streaming session.
         public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The name of the stack for the streaming session.
-        public let stackName: String
+        public let stackName: String?
         /// The time when a streaming instance is dedicated for the user.
         public let startTime: Date?
         /// The current state of the streaming session.
-        public let state: SessionState
+        public let state: SessionState?
         /// The identifier of the user for whom the session was created.
-        public let userId: String
+        public let userId: String?
 
-        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String, id: String, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, startTime: Date? = nil, state: SessionState, userId: String) {
+        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String? = nil, id: String? = nil, instanceId: String? = nil, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String? = nil, startTime: Date? = nil, state: SessionState? = nil, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
             self.fleetName = fleetName
             self.id = id
+            self.instanceId = instanceId
             self.maxExpirationTime = maxExpirationTime
             self.networkAccessConfiguration = networkAccessConfiguration
             self.stackName = stackName
@@ -3388,6 +3900,7 @@ extension AppStream {
             case connectionState = "ConnectionState"
             case fleetName = "FleetName"
             case id = "Id"
+            case instanceId = "InstanceId"
             case maxExpirationTime = "MaxExpirationTime"
             case networkAccessConfiguration = "NetworkAccessConfiguration"
             case stackName = "StackName"
@@ -3399,11 +3912,11 @@ extension AppStream {
 
     public struct SharedImagePermissions: AWSDecodableShape {
         /// Describes the permissions for a shared image.
-        public let imagePermissions: ImagePermissions
+        public let imagePermissions: ImagePermissions?
         /// The 12-digit identifier of the AWS account with which the image is shared.
-        public let sharedAccountId: String
+        public let sharedAccountId: String?
 
-        public init(imagePermissions: ImagePermissions, sharedAccountId: String) {
+        public init(imagePermissions: ImagePermissions? = nil, sharedAccountId: String? = nil) {
             self.imagePermissions = imagePermissions
             self.sharedAccountId = sharedAccountId
         }
@@ -3432,7 +3945,7 @@ extension AppStream {
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
         /// The name of the stack.
-        public let name: String
+        public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
         /// The errors for the stack.
@@ -3444,7 +3957,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.arn = arn
@@ -3496,11 +4009,40 @@ extension AppStream {
         }
     }
 
+    public struct StartAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StartAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
     public struct StartFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -3521,9 +4063,9 @@ extension AppStream {
         /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
         public let appstreamAgentVersion: String?
         /// The name of the image builder.
-        public let name: String
+        public let name: String?
 
-        public init(appstreamAgentVersion: String? = nil, name: String) {
+        public init(appstreamAgentVersion: String? = nil, name: String? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.name = name
         }
@@ -3553,11 +4095,40 @@ extension AppStream {
         }
     }
 
+    public struct StopAppBlockBuilderRequest: AWSEncodableShape {
+        /// The name of the app block builder.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StopAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
     public struct StopFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -3576,9 +4147,9 @@ extension AppStream {
 
     public struct StopImageBuilderRequest: AWSEncodableShape {
         /// The name of the image builder.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String? = nil) {
             self.name = name
         }
 
@@ -3606,13 +4177,13 @@ extension AppStream {
 
     public struct StorageConnector: AWSEncodableShape & AWSDecodableShape {
         /// The type of storage connector.
-        public let connectorType: StorageConnectorType
+        public let connectorType: StorageConnectorType?
         /// The names of the domains for the account.
         public let domains: [String]?
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
 
-        public init(connectorType: StorageConnectorType, domains: [String]? = nil, resourceIdentifier: String? = nil) {
+        public init(connectorType: StorageConnectorType? = nil, domains: [String]? = nil, resourceIdentifier: String? = nil) {
             self.connectorType = connectorType
             self.domains = domains
             self.resourceIdentifier = resourceIdentifier
@@ -3650,18 +4221,18 @@ extension AppStream {
 
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
+        public let resourceArn: String?
         /// The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(resourceArn: String, tags: [String: String]) {
+        public init(resourceArn: String? = nil, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.tags.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3684,18 +4255,18 @@ extension AppStream {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String
+        public let resourceArn: String?
         /// The tag keys for the tags to disassociate.
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String? = nil, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.tagKeys.forEach {
+            try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3714,6 +4285,81 @@ extension AppStream {
         public init() {}
     }
 
+    public struct UpdateAppBlockBuilderRequest: AWSEncodableShape {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public let accessEndpoints: [AccessEndpoint]?
+        /// The attributes to delete from the app block builder.
+        public let attributesToDelete: [AppBlockBuilderAttribute]?
+        /// The description of the app block builder.
+        public let description: String?
+        /// The display name of the app block builder.
+        public let displayName: String?
+        /// Enables or disables default internet access for the app block builder.
+        public let enableDefaultInternetAccess: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        public let iamRoleArn: String?
+        /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        public let instanceType: String?
+        /// The unique name for the app block builder.
+        public let name: String?
+        /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
+        public let platform: PlatformType?
+        /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+        public let vpcConfig: VpcConfig?
+
+        public init(accessEndpoints: [AccessEndpoint]? = nil, attributesToDelete: [AppBlockBuilderAttribute]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.attributesToDelete = attributesToDelete
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.accessEndpoints?.forEach {
+                try $0.validate(name: "\(name).accessEndpoints[]")
+            }
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
+            try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case attributesToDelete = "AttributesToDelete"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case iamRoleArn = "IamRoleArn"
+            case instanceType = "InstanceType"
+            case name = "Name"
+            case platform = "Platform"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct UpdateAppBlockBuilderResult: AWSDecodableShape {
+        public let appBlockBuilder: AppBlockBuilder?
+
+        public init(appBlockBuilder: AppBlockBuilder? = nil) {
+            self.appBlockBuilder = appBlockBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBlockBuilder = "AppBlockBuilder"
+        }
+    }
+
     public struct UpdateApplicationRequest: AWSEncodableShape {
         /// The ARN of the app block.
         public let appBlockArn: String?
@@ -3730,11 +4376,11 @@ extension AppStream {
         /// The launch path of the application.
         public let launchPath: String?
         /// The name of the application. This name is visible to users when display name is not specified.
-        public let name: String
+        public let name: String?
         /// The working directory of the application.
         public let workingDirectory: String?
 
-        public init(appBlockArn: String? = nil, attributesToDelete: [ApplicationAttribute]? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String, workingDirectory: String? = nil) {
+        public init(appBlockArn: String? = nil, attributesToDelete: [ApplicationAttribute]? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String? = nil, workingDirectory: String? = nil) {
             self.appBlockArn = appBlockArn
             self.attributesToDelete = attributesToDelete
             self.description = description
@@ -3787,13 +4433,13 @@ extension AppStream {
         /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
         public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The name of the Directory Config object.
-        public let directoryName: String
+        public let directoryName: String?
         /// The distinguished names of the organizational units for computer accounts.
         public let organizationalUnitDistinguishedNames: [String]?
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -3837,11 +4483,11 @@ extension AppStream {
         /// The description of the entitlement.
         public let description: String?
         /// The name of the entitlement.
-        public let name: String
+        public let name: String?
         /// The name of the stack with which the entitlement is associated.
-        public let stackName: String
+        public let stackName: String?
 
-        public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String, stackName: String) {
+        public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
             self.description = description
@@ -3910,7 +4556,9 @@ extension AppStream {
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?
-        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
+        /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+        public let maxSessionsPerInstance: Int?
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String?
@@ -3925,7 +4573,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = nil
@@ -3940,6 +4588,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxSessionsPerInstance = maxSessionsPerInstance
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
@@ -3950,7 +4599,7 @@ extension AppStream {
         }
 
         @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = deleteVpcConfig
@@ -3965,6 +4614,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxSessionsPerInstance = maxSessionsPerInstance
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
@@ -3982,7 +4632,7 @@ extension AppStream {
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
             try self.usbDeviceFilterStrings?.forEach {
                 try validate($0, name: "usbDeviceFilterStrings[]", parent: name, max: 100)
@@ -4006,6 +4656,7 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case maxConcurrentSessions = "MaxConcurrentSessions"
+            case maxSessionsPerInstance = "MaxSessionsPerInstance"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
@@ -4031,13 +4682,13 @@ extension AppStream {
 
     public struct UpdateImagePermissionsRequest: AWSEncodableShape {
         /// The permissions for the image.
-        public let imagePermissions: ImagePermissions
+        public let imagePermissions: ImagePermissions?
         /// The name of the private image.
-        public let name: String
+        public let name: String?
         /// The 12-digit identifier of the AWS account for which you want add or update image permissions.
-        public let sharedAccountId: String
+        public let sharedAccountId: String?
 
-        public init(imagePermissions: ImagePermissions, name: String, sharedAccountId: String) {
+        public init(imagePermissions: ImagePermissions? = nil, name: String? = nil, sharedAccountId: String? = nil) {
             self.imagePermissions = imagePermissions
             self.name = name
             self.sharedAccountId = sharedAccountId
@@ -4077,7 +4728,7 @@ extension AppStream {
         /// The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
         /// The name of the stack.
-        public let name: String
+        public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
         /// The storage connectors to enable.
@@ -4087,7 +4738,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
@@ -4104,7 +4755,7 @@ extension AppStream {
         }
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
@@ -4203,7 +4854,7 @@ extension AppStream {
         /// The ARN of the user.
         public let arn: String?
         /// The authentication type for the user.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The date and time the user was created in the user pool.
         public let createdTime: Date?
         /// Specifies whether the user in the user pool is enabled.
@@ -4217,7 +4868,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive.
         public let userName: String?
 
-        public init(arn: String? = nil, authenticationType: AuthenticationType, createdTime: Date? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
+        public init(arn: String? = nil, authenticationType: AuthenticationType? = nil, createdTime: Date? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
             self.arn = arn
             self.authenticationType = authenticationType
             self.createdTime = createdTime
@@ -4242,11 +4893,11 @@ extension AppStream {
 
     public struct UserSetting: AWSEncodableShape & AWSDecodableShape {
         /// The action that is enabled or disabled.
-        public let action: Action
+        public let action: Action?
         /// Indicates whether the action is enabled or disabled.
-        public let permission: Permission
+        public let permission: Permission?
 
-        public init(action: Action, permission: Permission) {
+        public init(action: Action? = nil, permission: Permission? = nil) {
             self.action = action
             self.permission = permission
         }
@@ -4259,15 +4910,15 @@ extension AppStream {
 
     public struct UserStackAssociation: AWSEncodableShape & AWSDecodableShape {
         /// The authentication type for the user.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// Specifies whether a welcome email is sent to a user after the user is created in the user pool.
         public let sendEmailNotification: Bool?
         /// The name of the stack that is associated with the user.
-        public let stackName: String
+        public let stackName: String?
         /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive.
-        public let userName: String
+        public let userName: String?
 
-        public init(authenticationType: AuthenticationType, sendEmailNotification: Bool? = nil, stackName: String, userName: String) {
+        public init(authenticationType: AuthenticationType? = nil, sendEmailNotification: Bool? = nil, stackName: String? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.sendEmailNotification = sendEmailNotification
             self.stackName = stackName

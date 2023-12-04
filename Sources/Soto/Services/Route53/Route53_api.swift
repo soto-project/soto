@@ -181,18 +181,18 @@ public struct Route53: AWSService {
     /// 			Guide.  Create, Delete, and Upsert  Use ChangeResourceRecordsSetsRequest to perform the following
     /// 			actions:    CREATE: Creates a resource record set that has the specified
     /// 					values.    DELETE: Deletes an existing resource record set that has the
-    /// 					specified values.    UPSERT: If a resource set exists Route 53 updates it with the
-    /// 					values in the request.     Syntaxes for Creating, Updating, and Deleting Resource Record
+    /// 					specified values.    UPSERT: If a resource set doesn't exist, Route 53 creates it. If a resource
+    /// 					set exists Route 53 updates it with the values in the request.     Syntaxes for Creating, Updating, and Deleting Resource Record
     /// 				Sets  The syntax for a request depends on the type of resource record set that you want to
     /// 			create, delete, or update, such as weighted, alias, or failover. The XML elements in
     /// 			your request must appear in the order listed in the syntax.  For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes
     /// 			all of the elements for every kind of resource record set that you can create, delete,
-    /// 			or update by using ChangeResourceRecordSets.   Change Propagation to Route 53 DNS Servers  When you submit a ChangeResourceRecordSets request, Route 53 propagates
-    /// 			your changes to all of the Route 53 authoritative DNS servers. While your changes are
-    /// 			propagating, GetChange returns a status of PENDING. When
-    /// 			propagation is complete, GetChange returns a status of INSYNC.
-    /// 			Changes generally propagate to all Route 53 name servers within 60 seconds. For more
-    /// 			information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request,
+    /// 			or update by using ChangeResourceRecordSets.   Change Propagation to Route 53 DNS Servers  When you submit a ChangeResourceRecordSets request, Route 53 propagates your
+    /// 			changes to all of the Route 53 authoritative DNS servers managing the hosted zone. While
+    /// 			your changes are propagating, GetChange returns a status of
+    /// 				PENDING. When propagation is complete, GetChange returns a
+    /// 			status of INSYNC. Changes generally propagate to all Route 53 name servers
+    /// 			managing the hosted zone within 60 seconds. For more information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request,
     /// 			see Limits in the Amazon Route 53 Developer Guide.
     @Sendable
     public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeResourceRecordSetsResponse {
@@ -443,7 +443,12 @@ public struct Route53: AWSService {
     /// 			associates the resource record sets with a specified domain name (such as example.com)
     /// 			or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for
     /// 			the domain or subdomain name by using the resource record sets that
-    /// 				CreateTrafficPolicyInstance created.
+    /// 				CreateTrafficPolicyInstance created.  After you submit an CreateTrafficPolicyInstance request, there's a
+    /// 				brief delay while Amazon Route 53 creates the resource record sets that are
+    /// 				specified in the traffic policy definition.
+    /// 				Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance
+    /// 				request completed successfully. For more information, see the
+    /// 				State response element.
     @Sendable
     public func createTrafficPolicyInstance(_ input: CreateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyInstanceResponse {
         return try await self.client.execute(
@@ -756,9 +761,9 @@ public struct Route53: AWSService {
 
     /// Returns the current status of a change batch request. The status is one of the
     /// 			following values:    PENDING indicates that the changes in this request have not
-    /// 					propagated to all Amazon Route 53 DNS servers. This is the initial status of all
+    /// 					propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all
     /// 					change batch requests.    INSYNC indicates that the changes have propagated to all Route 53
-    /// 					DNS servers.
+    /// 					DNS servers managing the hosted zone.
     @Sendable
     public func getChange(_ input: GetChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeResponse {
         return try await self.client.execute(
@@ -980,10 +985,10 @@ public struct Route53: AWSService {
         )
     }
 
-    /// Gets information about a specified traffic policy instance.  After you submit a CreateTrafficPolicyInstance or an
-    /// 					UpdateTrafficPolicyInstance request, there's a brief delay while
-    /// 				Amazon Route 53 creates the resource record sets that are specified in the traffic
-    /// 				policy definition. For more information, see the State response
+    /// Gets information about a specified traffic policy instance.
+    /// 				Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the
+    /// 				CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully.
+    /// 				For more information, see the State response
     /// 				element.   In the Route 53 console, traffic policy instances are known as policy
     /// 				records.
     @Sendable
@@ -1369,7 +1374,10 @@ public struct Route53: AWSService {
 
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a
     /// 			specified record name and type. You can optionally specify the IP address of a DNS
-    /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.
+    /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.  The TestDnsAnswer  returns information similar to what you would expect from the answer
+    /// 			section of the dig command. Therefore, if you query for the name
+    /// 			servers of a subdomain that point to the parent name servers, those will not be
+    /// 			returned.
     @Sendable
     public func testDNSAnswer(_ input: TestDNSAnswerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestDNSAnswerResponse {
         return try await self.client.execute(
@@ -1423,7 +1431,10 @@ public struct Route53: AWSService {
         )
     }
 
-    /// Updates the resource record sets in a specified hosted zone that were created based on
+    ///  After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets
+    /// 			that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance confirm
+    /// 			that the
+    /// 			UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element.  Updates the resource record sets in a specified hosted zone that were created based on
     /// 			the settings in a specified traffic policy version. When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS
     /// 			queries for the root resource record set name (such as example.com) while it replaces
     /// 			one group of resource record sets with another. Route 53 performs the following
@@ -1628,6 +1639,7 @@ extension Route53.ListHostedZonesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53.ListHostedZonesRequest {
         return .init(
             delegationSetId: self.delegationSetId,
+            hostedZoneType: self.hostedZoneType,
             marker: token,
             maxItems: self.maxItems
         )

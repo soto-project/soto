@@ -26,7 +26,20 @@ import Foundation
 extension ServiceCatalogAppRegistry {
     // MARK: Enums
 
-    public enum ResourceGroupState: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationTagStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failure = "FAILURE"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applyApplicationTag = "APPLY_APPLICATION_TAG"
+        case skipApplicationTag = "SKIP_APPLICATION_TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -36,13 +49,21 @@ extension ServiceCatalogAppRegistry {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cfnStack = "CFN_STACK"
         case resourceTagValue = "RESOURCE_TAG_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyncAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noAction = "NO_ACTION"
         case startSync = "START_SYNC"
         public var description: String { return self.rawValue }
@@ -68,6 +89,8 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct Application: AWSDecodableShape {
+        ///  A key-value pair that identifies an associated resource.
+        public let applicationTag: [String: String]?
         /// The Amazon resource name (ARN) that specifies the application across services.
         public let arn: String?
         /// The ISO-8601 formatted timestamp of the moment when the application was created.
@@ -85,7 +108,8 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs you can use to associate with the application.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationTag: [String: String]? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.applicationTag = applicationTag
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -96,6 +120,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationTag = "applicationTag"
             case arn = "arn"
             case creationTime = "creationTime"
             case description = "description"
@@ -138,6 +163,31 @@ extension ServiceCatalogAppRegistry {
             case id = "id"
             case lastUpdateTime = "lastUpdateTime"
             case name = "name"
+        }
+    }
+
+    public struct ApplicationTagResult: AWSDecodableShape {
+        ///  The application tag is in the process of being applied to a resource, was successfully applied to a resource, or failed to apply to a resource.
+        public let applicationTagStatus: ApplicationTagStatus?
+        ///  The message returned if the call fails.
+        public let errorMessage: String?
+        ///  A unique pagination token for each page of results. Make the call again with the returned token to retrieve the next page of results.
+        public let nextToken: String?
+        ///  The resources associated with an application
+        public let resources: [ResourcesListItem]?
+
+        public init(applicationTagStatus: ApplicationTagStatus? = nil, errorMessage: String? = nil, nextToken: String? = nil, resources: [ResourcesListItem]? = nil) {
+            self.applicationTagStatus = applicationTagStatus
+            self.errorMessage = errorMessage
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTagStatus = "applicationTagStatus"
+            case errorMessage = "errorMessage"
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -191,21 +241,25 @@ extension ServiceCatalogAppRegistry {
     public struct AssociateResourceRequest: AWSEncodableShape {
         ///  The name, ID, or ARN  of the application.
         public let application: String
+        ///  Determines whether an application tag is applied or skipped.
+        public let options: [AssociationOption]?
         /// The name or ID of the resource of which the application will be associated.
         public let resource: String
         /// The type of resource of which the application will be associated.
         public let resourceType: ResourceType
 
-        public init(application: String, resource: String, resourceType: ResourceType) {
+        public init(application: String, options: [AssociationOption]? = nil, resource: String, resourceType: ResourceType) {
             self.application = application
+            self.options = options
             self.resource = resource
             self.resourceType = resourceType
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.application, key: "application")
+            try container.encodeIfPresent(self.options, forKey: .options)
             request.encodePath(self.resource, key: "resource")
             request.encodePath(self.resourceType, key: "resourceType")
         }
@@ -219,22 +273,28 @@ extension ServiceCatalogAppRegistry {
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^\\S+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case options = "options"
+        }
     }
 
     public struct AssociateResourceResponse: AWSDecodableShape {
         /// The Amazon resource name (ARN) of the application that was augmented with attributes.
         public let applicationArn: String?
+        ///  Determines whether an application tag is applied or skipped.
+        public let options: [AssociationOption]?
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String?
 
-        public init(applicationArn: String? = nil, resourceArn: String? = nil) {
+        public init(applicationArn: String? = nil, options: [AssociationOption]? = nil, resourceArn: String? = nil) {
             self.applicationArn = applicationArn
+            self.options = options
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "applicationArn"
+            case options = "options"
             case resourceArn = "resourceArn"
         }
     }
@@ -288,14 +348,6 @@ extension ServiceCatalogAppRegistry {
         ///   This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication.    The name of the attribute group.
         public let name: String?
 
-        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil) {
-            self.arn = arn
-            self.createdBy = createdBy
-            self.id = id
-            self.name = nil
-        }
-
-        @available(*, deprecated, message: "Members name have been deprecated")
         public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -378,7 +430,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -440,7 +492,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -663,6 +715,8 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct GetApplicationResponse: AWSDecodableShape {
+        ///  A key-value pair that identifies an associated resource.
+        public let applicationTag: [String: String]?
         /// The Amazon resource name (ARN) that specifies the application across services.
         public let arn: String?
         /// The number of top-level resources that were registered as part of this application.
@@ -684,7 +738,8 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs associated with the application.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, associatedResourceCount: Int? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, integrations: Integrations? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationTag: [String: String]? = nil, arn: String? = nil, associatedResourceCount: Int? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, integrations: Integrations? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.applicationTag = applicationTag
             self.arn = arn
             self.associatedResourceCount = associatedResourceCount
             self.creationTime = creationTime
@@ -697,6 +752,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationTag = "applicationTag"
             case arn = "arn"
             case associatedResourceCount = "associatedResourceCount"
             case creationTime = "creationTime"
@@ -712,14 +768,23 @@ extension ServiceCatalogAppRegistry {
     public struct GetAssociatedResourceRequest: AWSEncodableShape {
         ///  The name, ID, or ARN  of the application.
         public let application: String
+        ///  The maximum number of results to return. If the parameter is omitted, it defaults to 25. The value is optional.
+        public let maxResults: Int?
+        ///  A unique pagination token for each page of results.  Make the call again with the returned token to retrieve the next page of results.
+        public let nextToken: String?
         /// The name or ID of the resource associated with the application.
         public let resource: String
+        ///  States whether an application tag is applied, not applied, in the process of being applied, or skipped.
+        public let resourceTagStatus: [ResourceItemStatus]?
         /// The type of resource associated with the application.
         public let resourceType: ResourceType
 
-        public init(application: String, resource: String, resourceType: ResourceType) {
+        public init(application: String, maxResults: Int? = nil, nextToken: String? = nil, resource: String, resourceTagStatus: [ResourceItemStatus]? = nil, resourceType: ResourceType) {
             self.application = application
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.resource = resource
+            self.resourceTagStatus = resourceTagStatus
             self.resourceType = resourceType
         }
 
@@ -727,7 +792,10 @@ extension ServiceCatalogAppRegistry {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.application, key: "application")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.resource, key: "resource")
+            request.encodeQuery(self.resourceTagStatus, key: "resourceTagStatus")
             request.encodePath(self.resourceType, key: "resourceType")
         }
 
@@ -735,23 +803,38 @@ extension ServiceCatalogAppRegistry {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^\\S+$")
+            try self.validate(self.resourceTagStatus, name: "resourceTagStatus", parent: name, max: 4)
+            try self.validate(self.resourceTagStatus, name: "resourceTagStatus", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAssociatedResourceResponse: AWSDecodableShape {
+        ///  The result of the application that's tag applied to a resource.
+        public let applicationTagResult: ApplicationTagResult?
+        ///  Determines whether an application tag is applied or skipped.
+        public let options: [AssociationOption]?
         /// The resource associated with the application.
         public let resource: Resource?
 
-        public init(resource: Resource? = nil) {
+        public init(applicationTagResult: ApplicationTagResult? = nil, options: [AssociationOption]? = nil, resource: Resource? = nil) {
+            self.applicationTagResult = applicationTagResult
+            self.options = options
             self.resource = resource
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationTagResult = "applicationTagResult"
+            case options = "options"
             case resource = "resource"
         }
     }
@@ -840,14 +923,17 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct Integrations: AWSDecodableShape {
+        public let applicationTagResourceGroup: ResourceGroup?
         ///  The information about the resource group integration.
         public let resourceGroup: ResourceGroup?
 
-        public init(resourceGroup: ResourceGroup? = nil) {
+        public init(applicationTagResourceGroup: ResourceGroup? = nil, resourceGroup: ResourceGroup? = nil) {
+            self.applicationTagResourceGroup = applicationTagResourceGroup
             self.resourceGroup = resourceGroup
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationTagResourceGroup = "applicationTagResourceGroup"
             case resourceGroup = "resourceGroup"
         }
     }
@@ -1221,14 +1307,17 @@ extension ServiceCatalogAppRegistry {
         public let arn: String?
         /// The name of the resource.
         public let name: String?
+        ///  Determines whether an application tag is applied or skipped.
+        public let options: [AssociationOption]?
         ///  The details related to the resource.
         public let resourceDetails: ResourceDetails?
         ///  Provides information  about the Service Catalog App Registry resource type.
         public let resourceType: ResourceType?
 
-        public init(arn: String? = nil, name: String? = nil, resourceDetails: ResourceDetails? = nil, resourceType: ResourceType? = nil) {
+        public init(arn: String? = nil, name: String? = nil, options: [AssociationOption]? = nil, resourceDetails: ResourceDetails? = nil, resourceType: ResourceType? = nil) {
             self.arn = arn
             self.name = name
+            self.options = options
             self.resourceDetails = resourceDetails
             self.resourceType = resourceType
         }
@@ -1236,6 +1325,7 @@ extension ServiceCatalogAppRegistry {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case name = "name"
+            case options = "options"
             case resourceDetails = "resourceDetails"
             case resourceType = "resourceType"
         }
@@ -1251,6 +1341,31 @@ extension ServiceCatalogAppRegistry {
 
         private enum CodingKeys: String, CodingKey {
             case resourceGroup = "resourceGroup"
+        }
+    }
+
+    public struct ResourcesListItem: AWSDecodableShape {
+        ///  The message returned if the call fails.
+        public let errorMessage: String?
+        ///  The Amazon resource name (ARN) of the resource.
+        public let resourceArn: String?
+        ///  Provides information about the AppRegistry resource type.
+        public let resourceType: String?
+        ///  The status of the list item.
+        public let status: String?
+
+        public init(errorMessage: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: String? = nil) {
+            self.errorMessage = errorMessage
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case resourceArn = "resourceArn"
+            case resourceType = "resourceType"
+            case status = "status"
         }
     }
 
@@ -1345,7 +1460,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -1386,7 +1501,7 @@ extension ServiceCatalogAppRegistry {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
         }

@@ -76,11 +76,7 @@ public struct SMS: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
-            "us-east-1": "sms-fips.us-east-1.amazonaws.com",
-            "us-east-2": "sms-fips.us-east-2.amazonaws.com",
-            "us-gov-east-1": "sms-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "sms-fips.us-gov-west-1.amazonaws.com",
-            "us-west-1": "sms-fips.us-west-1.amazonaws.com",
             "us-west-2": "sms-fips.us-west-2.amazonaws.com"
         ])
     ]}

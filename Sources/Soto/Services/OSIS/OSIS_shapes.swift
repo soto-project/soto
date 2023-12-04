@@ -26,7 +26,7 @@ import Foundation
 extension OSIS {
     // MARK: Enums
 
-    public enum ChangeProgressStageStatuses: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeProgressStageStatuses: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -34,7 +34,7 @@ extension OSIS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeProgressStatuses: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeProgressStatuses: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -42,7 +42,7 @@ extension OSIS {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -56,7 +56,25 @@ extension OSIS {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpcEndpointServiceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case opensearchServerless = "OPENSEARCH_SERVERLESS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct BufferOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Whether persistent buffering should be enabled.
+        public let persistentBufferEnabled: Bool
+
+        public init(persistentBufferEnabled: Bool) {
+            self.persistentBufferEnabled = persistentBufferEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case persistentBufferEnabled = "PersistentBufferEnabled"
+        }
+    }
 
     public struct ChangeProgressStage: AWSDecodableShape {
         /// A description of the stage.
@@ -128,6 +146,10 @@ extension OSIS {
     }
 
     public struct CreatePipelineRequest: AWSEncodableShape {
+        /// Key-value pairs to configure persistent buffering for the pipeline.
+        public let bufferOptions: BufferOptions?
+        /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: LogPublishingOptions?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -143,7 +165,9 @@ extension OSIS {
         /// Container for the values required to configure VPC access for the pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with a public endpoint.
         public let vpcOptions: VpcOptions?
 
-        public init(logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int, minUnits: Int, pipelineConfigurationBody: String, pipelineName: String, tags: [Tag]? = nil, vpcOptions: VpcOptions? = nil) {
+        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int, minUnits: Int, pipelineConfigurationBody: String, pipelineName: String, tags: [Tag]? = nil, vpcOptions: VpcOptions? = nil) {
+            self.bufferOptions = bufferOptions
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.maxUnits = maxUnits
             self.minUnits = minUnits
@@ -154,10 +178,9 @@ extension OSIS {
         }
 
         public func validate(name: String) throws {
+            try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
             try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
-            try self.validate(self.maxUnits, name: "maxUnits", parent: name, max: 96)
             try self.validate(self.maxUnits, name: "maxUnits", parent: name, min: 1)
-            try self.validate(self.minUnits, name: "minUnits", parent: name, max: 96)
             try self.validate(self.minUnits, name: "minUnits", parent: name, min: 1)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 24000)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, min: 1)
@@ -171,6 +194,8 @@ extension OSIS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bufferOptions = "BufferOptions"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case maxUnits = "MaxUnits"
             case minUnits = "MinUnits"
@@ -219,6 +244,24 @@ extension OSIS {
 
     public struct DeletePipelineResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
+        public let kmsKeyArn: String
+
+        public init(kmsKeyArn: String) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+        }
     }
 
     public struct GetPipelineBlueprintRequest: AWSEncodableShape {
@@ -443,8 +486,10 @@ extension OSIS {
     }
 
     public struct Pipeline: AWSDecodableShape {
+        public let bufferOptions: BufferOptions?
         /// The date and time when the pipeline was created.
         public let createdAt: Date?
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public let ingestEndpointUrls: [String]?
         /// The date and time when the pipeline was last updated.
@@ -461,15 +506,21 @@ extension OSIS {
         public let pipelineConfigurationBody: String?
         /// The name of the pipeline.
         public let pipelineName: String?
+        /// A list of VPC endpoints that OpenSearch Ingestion has created to other AWS services.
+        public let serviceVpcEndpoints: [ServiceVpcEndpoint]?
         /// The current status of the pipeline.
         public let status: PipelineStatus?
         /// The reason for the current status of the pipeline.
         public let statusReason: PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public let tags: [Tag]?
         /// The VPC interface endpoints that have access to the pipeline.
         public let vpcEndpoints: [VpcEndpoint]?
 
-        public init(createdAt: Date? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
+        public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
+            self.bufferOptions = bufferOptions
             self.createdAt = createdAt
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.ingestEndpointUrls = ingestEndpointUrls
             self.lastUpdatedAt = lastUpdatedAt
             self.logPublishingOptions = logPublishingOptions
@@ -478,13 +529,17 @@ extension OSIS {
             self.pipelineArn = pipelineArn
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.serviceVpcEndpoints = serviceVpcEndpoints
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
             self.vpcEndpoints = vpcEndpoints
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bufferOptions = "BufferOptions"
             case createdAt = "CreatedAt"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case ingestEndpointUrls = "IngestEndpointUrls"
             case lastUpdatedAt = "LastUpdatedAt"
             case logPublishingOptions = "LogPublishingOptions"
@@ -493,8 +548,10 @@ extension OSIS {
             case pipelineArn = "PipelineArn"
             case pipelineConfigurationBody = "PipelineConfigurationBody"
             case pipelineName = "PipelineName"
+            case serviceVpcEndpoints = "ServiceVpcEndpoints"
             case status = "Status"
             case statusReason = "StatusReason"
+            case tags = "Tags"
             case vpcEndpoints = "VpcEndpoints"
         }
     }
@@ -558,8 +615,10 @@ extension OSIS {
         /// The current status of the pipeline.
         public let status: PipelineStatus?
         public let statusReason: PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public let tags: [Tag]?
 
-        public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil) {
+        public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
             self.maxUnits = maxUnits
@@ -568,6 +627,7 @@ extension OSIS {
             self.pipelineName = pipelineName
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -579,6 +639,24 @@ extension OSIS {
             case pipelineName = "PipelineName"
             case status = "Status"
             case statusReason = "StatusReason"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ServiceVpcEndpoint: AWSDecodableShape {
+        /// The name of the service for which a VPC endpoint was created.
+        public let serviceName: VpcEndpointServiceName?
+        /// The ID of the VPC endpoint that was created.
+        public let vpcEndpointId: String?
+
+        public init(serviceName: VpcEndpointServiceName? = nil, vpcEndpointId: String? = nil) {
+            self.serviceName = serviceName
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "ServiceName"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -747,6 +825,10 @@ extension OSIS {
     }
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
+        /// Key-value pairs to configure persistent buffering for the pipeline.
+        public let bufferOptions: BufferOptions?
+        /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: LogPublishingOptions?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
@@ -758,7 +840,9 @@ extension OSIS {
         /// The name of the pipeline to update.
         public let pipelineName: String
 
-        public init(logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String) {
+        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String) {
+            self.bufferOptions = bufferOptions
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.maxUnits = maxUnits
             self.minUnits = minUnits
@@ -769,6 +853,8 @@ extension OSIS {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.bufferOptions, forKey: .bufferOptions)
+            try container.encodeIfPresent(self.encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
             try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
             try container.encodeIfPresent(self.maxUnits, forKey: .maxUnits)
             try container.encodeIfPresent(self.minUnits, forKey: .minUnits)
@@ -777,10 +863,9 @@ extension OSIS {
         }
 
         public func validate(name: String) throws {
+            try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
             try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
-            try self.validate(self.maxUnits, name: "maxUnits", parent: name, max: 96)
             try self.validate(self.maxUnits, name: "maxUnits", parent: name, min: 1)
-            try self.validate(self.minUnits, name: "minUnits", parent: name, max: 96)
             try self.validate(self.minUnits, name: "minUnits", parent: name, min: 1)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 24000)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, min: 1)
@@ -790,6 +875,8 @@ extension OSIS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bufferOptions = "BufferOptions"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case maxUnits = "MaxUnits"
             case minUnits = "MinUnits"

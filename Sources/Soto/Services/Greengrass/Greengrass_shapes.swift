@@ -26,7 +26,7 @@ import Foundation
 extension Greengrass {
     // MARK: Enums
 
-    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
         case initializing = "Initializing"
@@ -36,13 +36,13 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inSync = "InSync"
         case outOfSync = "OutOfSync"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forceResetDeployment = "ForceResetDeployment"
         case newDeployment = "NewDeployment"
         case redeployment = "Redeployment"
@@ -50,25 +50,25 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "binary"
         case json = "json"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greengrassContainer = "GreengrassContainer"
         case noContainer = "NoContainer"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerComponent: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggerComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greengrassSystem = "GreengrassSystem"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggerLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -77,31 +77,31 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsCloudWatch = "AWSCloudWatch"
         case fileSystem = "FileSystem"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ro = "ro"
         case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
-    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable, Sendable {
+    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case core = "core"
         case otaAgent = "ota_agent"
         public var description: String { return self.rawValue }
     }
 
-    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable {
+    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "Off"
         case on = "On"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -113,7 +113,7 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aarch64 = "aarch64"
         case armv6l = "armv6l"
         case armv7l = "armv7l"
@@ -121,7 +121,7 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux = "amazon_linux"
         case openwrt = "openwrt"
         case raspbian = "raspbian"
@@ -135,9 +135,9 @@ extension Greengrass {
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The ARN of the role you wish to associate with this group. The existence of the role is not validated.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(groupId: String, roleArn: String) {
+        public init(groupId: String, roleArn: String? = nil) {
             self.groupId = groupId
             self.roleArn = roleArn
         }
@@ -146,7 +146,7 @@ extension Greengrass {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.groupId, key: "GroupId")
-            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -169,9 +169,9 @@ extension Greengrass {
 
     public struct AssociateServiceRoleToAccountRequest: AWSEncodableShape {
         /// The ARN of the service role you wish to associate with your account.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(roleArn: String) {
+        public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
 
@@ -303,13 +303,13 @@ extension Greengrass {
 
     public struct Connector: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the connector.
-        public let connectorArn: String
+        public let connectorArn: String?
         /// A descriptive or arbitrary ID for the connector. This value must be unique within the connector definition version. Max length is 128 characters with pattern [a-zA-Z0-9:_-]+.
-        public let id: String
+        public let id: String?
         /// The parameters or configuration that the connector uses.
         public let parameters: [String: String]?
 
-        public init(connectorArn: String, id: String, parameters: [String: String]? = nil) {
+        public init(connectorArn: String? = nil, id: String? = nil, parameters: [String: String]? = nil) {
             self.connectorArn = connectorArn
             self.id = id
             self.parameters = parameters
@@ -337,15 +337,15 @@ extension Greengrass {
 
     public struct Core: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the certificate associated with the core.
-        public let certificateArn: String
+        public let certificateArn: String?
         /// A descriptive or arbitrary ID for the core. This value must be unique within the core definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String
+        public let id: String?
         /// If true, the core's local shadow is automatically synced with the cloud.
         public let syncShadow: Bool?
         /// The ARN of the thing which is the core.
-        public let thingArn: String
+        public let thingArn: String?
 
-        public init(certificateArn: String, id: String, syncShadow: Bool? = nil, thingArn: String) {
+        public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
             self.certificateArn = certificateArn
             self.id = id
             self.syncShadow = syncShadow
@@ -623,13 +623,13 @@ extension Greengrass {
         /// The ID of the deployment if you wish to redeploy a previous deployment.
         public let deploymentId: String?
         /// The type of deployment. When used for ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
-        public let deploymentType: DeploymentType
+        public let deploymentType: DeploymentType?
         /// The ID of the Greengrass group.
         public let groupId: String
         /// The ID of the group version to be deployed.
         public let groupVersionId: String?
 
-        public init(amznClientToken: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType, groupId: String, groupVersionId: String? = nil) {
+        public init(amznClientToken: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType? = nil, groupId: String, groupVersionId: String? = nil) {
             self.amznClientToken = amznClientToken
             self.deploymentId = deploymentId
             self.deploymentType = deploymentType
@@ -642,7 +642,7 @@ extension Greengrass {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
             try container.encodeIfPresent(self.deploymentId, forKey: .deploymentId)
-            try container.encode(self.deploymentType, forKey: .deploymentType)
+            try container.encodeIfPresent(self.deploymentType, forKey: .deploymentType)
             request.encodePath(self.groupId, key: "GroupId")
             try container.encodeIfPresent(self.groupVersionId, forKey: .groupVersionId)
         }
@@ -960,11 +960,11 @@ extension Greengrass {
         /// Information about the initial version of the group.
         public let initialVersion: GroupVersion?
         /// The name of the group.
-        public let name: String
+        public let name: String?
         /// Tag(s) to add to the new resource.
         public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String, tags: [String: String]? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
@@ -976,7 +976,7 @@ extension Greengrass {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
             try container.encodeIfPresent(self.initialVersion, forKey: .initialVersion)
-            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -1353,14 +1353,14 @@ extension Greengrass {
     public struct CreateSoftwareUpdateJobRequest: AWSEncodableShape {
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
-        public let s3UrlSignerRole: String
-        public let softwareToUpdate: SoftwareToUpdate
+        public let s3UrlSignerRole: String?
+        public let softwareToUpdate: SoftwareToUpdate?
         public let updateAgentLogLevel: UpdateAgentLogLevel?
-        public let updateTargets: [String]
-        public let updateTargetsArchitecture: UpdateTargetsArchitecture
-        public let updateTargetsOperatingSystem: UpdateTargetsOperatingSystem
+        public let updateTargets: [String]?
+        public let updateTargetsArchitecture: UpdateTargetsArchitecture?
+        public let updateTargetsOperatingSystem: UpdateTargetsOperatingSystem?
 
-        public init(amznClientToken: String? = nil, s3UrlSignerRole: String, softwareToUpdate: SoftwareToUpdate, updateAgentLogLevel: UpdateAgentLogLevel? = nil, updateTargets: [String], updateTargetsArchitecture: UpdateTargetsArchitecture, updateTargetsOperatingSystem: UpdateTargetsOperatingSystem) {
+        public init(amznClientToken: String? = nil, s3UrlSignerRole: String? = nil, softwareToUpdate: SoftwareToUpdate? = nil, updateAgentLogLevel: UpdateAgentLogLevel? = nil, updateTargets: [String]? = nil, updateTargetsArchitecture: UpdateTargetsArchitecture? = nil, updateTargetsOperatingSystem: UpdateTargetsOperatingSystem? = nil) {
             self.amznClientToken = amznClientToken
             self.s3UrlSignerRole = s3UrlSignerRole
             self.softwareToUpdate = softwareToUpdate
@@ -1374,12 +1374,12 @@ extension Greengrass {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
-            try container.encode(self.s3UrlSignerRole, forKey: .s3UrlSignerRole)
-            try container.encode(self.softwareToUpdate, forKey: .softwareToUpdate)
+            try container.encodeIfPresent(self.s3UrlSignerRole, forKey: .s3UrlSignerRole)
+            try container.encodeIfPresent(self.softwareToUpdate, forKey: .softwareToUpdate)
             try container.encodeIfPresent(self.updateAgentLogLevel, forKey: .updateAgentLogLevel)
-            try container.encode(self.updateTargets, forKey: .updateTargets)
-            try container.encode(self.updateTargetsArchitecture, forKey: .updateTargetsArchitecture)
-            try container.encode(self.updateTargetsOperatingSystem, forKey: .updateTargetsOperatingSystem)
+            try container.encodeIfPresent(self.updateTargets, forKey: .updateTargets)
+            try container.encodeIfPresent(self.updateTargetsArchitecture, forKey: .updateTargetsArchitecture)
+            try container.encodeIfPresent(self.updateTargetsOperatingSystem, forKey: .updateTargetsOperatingSystem)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1775,15 +1775,15 @@ extension Greengrass {
 
     public struct Device: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the certificate associated with the device.
-        public let certificateArn: String
+        public let certificateArn: String?
         /// A descriptive or arbitrary ID for the device. This value must be unique within the device definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String
+        public let id: String?
         /// If true, the device's local shadow will be automatically synced with the cloud.
         public let syncShadow: Bool?
         /// The thing ARN of the device.
-        public let thingArn: String
+        public let thingArn: String?
 
-        public init(certificateArn: String, id: String, syncShadow: Bool? = nil, thingArn: String) {
+        public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
             self.certificateArn = certificateArn
             self.id = id
             self.syncShadow = syncShadow
@@ -1881,9 +1881,9 @@ extension Greengrass {
         /// The configuration of the Lambda function.
         public let functionConfiguration: FunctionConfiguration?
         /// A descriptive or arbitrary ID for the function. This value must be unique within the function definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String
+        public let id: String?
 
-        public init(functionArn: String? = nil, functionConfiguration: FunctionConfiguration? = nil, id: String) {
+        public init(functionArn: String? = nil, functionConfiguration: FunctionConfiguration? = nil, id: String? = nil) {
             self.functionArn = functionArn
             self.functionConfiguration = functionConfiguration
             self.id = id
@@ -4210,17 +4210,17 @@ extension Greengrass {
 
     public struct Logger: AWSEncodableShape & AWSDecodableShape {
         /// The component that will be subject to logging.
-        public let component: LoggerComponent
+        public let component: LoggerComponent?
         /// A descriptive or arbitrary ID for the logger. This value must be unique within the logger definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String
+        public let id: String?
         /// The level of the logs.
-        public let level: LoggerLevel
+        public let level: LoggerLevel?
         /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
         public let space: Int?
         /// The type of log output which will be used.
-        public let type: LoggerType
+        public let type: LoggerType?
 
-        public init(component: LoggerComponent, id: String, level: LoggerLevel, space: Int? = nil, type: LoggerType) {
+        public init(component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int? = nil, type: LoggerType? = nil) {
             self.component = component
             self.id = id
             self.level = level
@@ -4296,13 +4296,13 @@ extension Greengrass {
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
         /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
-        public let id: String
+        public let id: String?
         /// The descriptive resource name, which is displayed on the AWS IoT Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
-        public let name: String
+        public let name: String?
         /// A container of data for all resource types.
-        public let resourceDataContainer: ResourceDataContainer
+        public let resourceDataContainer: ResourceDataContainer?
 
-        public init(id: String, name: String, resourceDataContainer: ResourceDataContainer) {
+        public init(id: String? = nil, name: String? = nil, resourceDataContainer: ResourceDataContainer? = nil) {
             self.id = id
             self.name = name
             self.resourceDataContainer = resourceDataContainer
@@ -4319,9 +4319,9 @@ extension Greengrass {
         /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public let permission: Permission?
         /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
-        public let resourceId: String
+        public let resourceId: String?
 
-        public init(permission: Permission? = nil, resourceId: String) {
+        public init(permission: Permission? = nil, resourceId: String? = nil) {
             self.permission = permission
             self.resourceId = resourceId
         }
@@ -4376,11 +4376,11 @@ extension Greengrass {
 
     public struct ResourceDownloadOwnerSetting: AWSEncodableShape & AWSDecodableShape {
         /// The group owner of the resource. This is the name of an existing Linux OS group on the system or a GID. The group's permissions are added to the Lambda process.
-        public let groupOwner: String
+        public let groupOwner: String?
         /// The permissions that the group owner has to the resource. Valid values are ''rw'' (read/write) or ''ro'' (read-only).
-        public let groupPermission: Permission
+        public let groupPermission: Permission?
 
-        public init(groupOwner: String, groupPermission: Permission) {
+        public init(groupOwner: String? = nil, groupPermission: Permission? = nil) {
             self.groupOwner = groupOwner
             self.groupPermission = groupPermission
         }
@@ -4465,13 +4465,13 @@ extension Greengrass {
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
-        public let executionRoleArn: String
+        public let executionRoleArn: String?
         /// The URI of the input file contained in the S3 bucket. The execution role must have ''getObject'' permissions on this bucket to access the input file. The input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of group and version IDs and the deployment type. This file must be less than 100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
-        public let inputFileUri: String
+        public let inputFileUri: String?
         /// Tag(s) to add to the new resource.
         public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, executionRoleArn: String, inputFileUri: String, tags: [String: String]? = nil) {
+        public init(amznClientToken: String? = nil, executionRoleArn: String? = nil, inputFileUri: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.executionRoleArn = executionRoleArn
             self.inputFileUri = inputFileUri
@@ -4482,8 +4482,8 @@ extension Greengrass {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.amznClientToken, key: "X-Amzn-Client-Token")
-            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
-            try container.encode(self.inputFileUri, forKey: .inputFileUri)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.inputFileUri, forKey: .inputFileUri)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -4534,15 +4534,15 @@ extension Greengrass {
 
     public struct Subscription: AWSEncodableShape & AWSDecodableShape {
         /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String
+        public let id: String?
         /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
-        public let source: String
+        public let source: String?
         /// The MQTT topic used to route the message.
-        public let subject: String
+        public let subject: String?
         /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
-        public let target: String
+        public let target: String?
 
-        public init(id: String, source: String, subject: String, target: String) {
+        public init(id: String? = nil, source: String? = nil, subject: String? = nil, target: String? = nil) {
             self.id = id
             self.source = source
             self.subject = subject
@@ -4596,9 +4596,9 @@ extension Greengrass {
         /// Synchronization status of the device reported configuration with the desired configuration.
         public let configurationSyncStatus: ConfigurationSyncStatus?
         /// Configure telemetry to be on or off.
-        public let telemetry: Telemetry
+        public let telemetry: Telemetry?
 
-        public init(configurationSyncStatus: ConfigurationSyncStatus? = nil, telemetry: Telemetry) {
+        public init(configurationSyncStatus: ConfigurationSyncStatus? = nil, telemetry: Telemetry? = nil) {
             self.configurationSyncStatus = configurationSyncStatus
             self.telemetry = telemetry
         }
@@ -4611,9 +4611,9 @@ extension Greengrass {
 
     public struct TelemetryConfigurationUpdate: AWSEncodableShape {
         /// Configure telemetry to be on or off.
-        public let telemetry: Telemetry
+        public let telemetry: Telemetry?
 
-        public init(telemetry: Telemetry) {
+        public init(telemetry: Telemetry? = nil) {
             self.telemetry = telemetry
         }
 
@@ -4626,9 +4626,9 @@ extension Greengrass {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// An array of tag keys to delete
-        public let tagKeys: [String]
+        public let tagKeys: [String]?
 
-        public init(resourceArn: String, tagKeys: [String]) {
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }

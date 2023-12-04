@@ -74,7 +74,7 @@ public struct Personalize: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a batch inference job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see  Creating a batch inference job.
+    /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of recommended items for each item ID in the input file. For more information, see Creating a batch inference job .  If you use the Similar-Items recipe, Amazon Personalize can add descriptive themes to batch recommendations.  To generate themes, set the job's mode to THEME_GENERATION and specify the name of the field that contains item names in the input data.  For more information about generating themes, see Batch recommendations with themes from Content Generator .  You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
     @Sendable
     public func createBatchInferenceJob(_ input: CreateBatchInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBatchInferenceJobResponse {
         return try await self.client.execute(
@@ -113,7 +113,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates an empty dataset and adds it to the specified dataset group. Use CreateDatasetImportJob to import your training data to a dataset. There are three types of datasets:   Interactions   Items   Users   Each dataset type has an associated schema with required field types. Only the Interactions dataset is required in order to train a model (also referred to as creating a solution). A dataset can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the dataset, call DescribeDataset.  Related APIs     CreateDatasetGroup     ListDatasets     DescribeDataset     DeleteDataset
+    /// Creates an empty dataset and adds it to the specified dataset group. Use CreateDatasetImportJob to import your training data to a dataset. There are 5 types of datasets:   Item interactions   Items   Users   Action interactions   Actions   Each dataset type has an associated schema with required field types. Only the Item interactions dataset is required in order to train a model (also referred to as creating a solution). A dataset can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the dataset, call DescribeDataset.  Related APIs     CreateDatasetGroup     ListDatasets     DescribeDataset     DeleteDataset
     @Sendable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates an empty dataset group. A dataset group is a container for Amazon Personalize resources. A dataset group can contain at most three datasets, one for each type of dataset:   Interactions   Items   Users   A dataset group can be a Domain dataset group, where you specify a domain and use pre-configured resources like recommenders, or a Custom dataset group, where you use custom resources, such as a solution with a solution version, that you deploy with a campaign. If you start with a Domain dataset group, you can still add custom resources such as solutions and solution versions trained with recipes for custom use cases and deployed with campaigns.  A dataset group can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING   To get the status of the dataset group, call DescribeDatasetGroup. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the creation failed.  You must wait until the status of the dataset group is ACTIVE before adding a dataset to the group.  You can specify an Key Management Service (KMS) key to encrypt the datasets in the group. If you specify a KMS key, you must also include an Identity and Access Management (IAM) role that has permission to access the key.  APIs that require a dataset group ARN in the request     CreateDataset     CreateEventTracker     CreateSolution     Related APIs     ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGroup
+    /// Creates an empty dataset group. A dataset group is a container for Amazon Personalize resources. A dataset group can contain at most three datasets, one for each type of dataset:   Item interactions   Items   Users   Actions   Action interactions   A dataset group can be a Domain dataset group, where you specify a domain and use pre-configured resources like recommenders, or a Custom dataset group, where you use custom resources, such as a solution with a solution version, that you deploy with a campaign. If you start with a Domain dataset group, you can still add custom resources such as solutions and solution versions trained with recipes for custom use cases and deployed with campaigns.  A dataset group can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING   To get the status of the dataset group, call DescribeDatasetGroup. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the creation failed.  You must wait until the status of the dataset group is ACTIVE before adding a dataset to the group.  You can specify an Key Management Service (KMS) key to encrypt the datasets in the group. If you specify a KMS key, you must also include an Identity and Access Management (IAM) role that has permission to access the key.  APIs that require a dataset group ARN in the request     CreateDataset     CreateEventTracker     CreateSolution     Related APIs     ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGroup
     @Sendable
     public func createDatasetGroup(_ input: CreateDatasetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetGroupResponse {
         return try await self.client.execute(
@@ -152,7 +152,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3 Resources.   By default, a dataset import job replaces any existing data in the dataset that you imported in bulk. To add new records without replacing existing data, specify INCREMENTAL for the import mode in the CreateDatasetImportJob operation.   Status  A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import job. The dataset import is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the job failed.  Importing takes time. You must wait until the status shows as ACTIVE before training a model using the dataset.   Related APIs     ListDatasetImportJobs     DescribeDatasetImportJob
+    /// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3 Resources.  If you already created a recommender or deployed a custom solution version with a campaign, how new bulk records influence recommendations depends on the domain use case or recipe that you use. For more information, see How new data influences real-time recommendations.  By default, a dataset import job replaces any existing data in the dataset that you imported in bulk. To add new records without replacing existing data, specify INCREMENTAL for the import mode in the CreateDatasetImportJob operation.   Status  A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   To get the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import job. The dataset import is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the job failed.  Importing takes time. You must wait until the status shows as ACTIVE before training a model using the dataset.   Related APIs     ListDatasetImportJobs     DescribeDatasetImportJob
     @Sendable
     public func createDatasetImportJob(_ input: CreateDatasetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetImportJobResponse {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates an event tracker that you use when adding event data to a specified dataset group using the PutEvents API.  Only one event tracker can be associated with a dataset group. You will get an error if you call CreateEventTracker using the same dataset group as an existing event tracker.  When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the PutEvents operation. Amazon Personalize then appends the event data to the Interactions dataset of the dataset group you specify  in your event tracker.  The event tracker can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the event tracker, call DescribeEventTracker.  The event tracker must be in the ACTIVE state before using the tracking ID.   Related APIs     ListEventTrackers     DescribeEventTracker     DeleteEventTracker
+    /// Creates an event tracker that you use when adding event data to a specified dataset group using the PutEvents API.  Only one event tracker can be associated with a dataset group. You will get an error if you call CreateEventTracker using the same dataset group as an existing event tracker.  When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the PutEvents operation. Amazon Personalize then appends the event data to the Item interactions dataset of the dataset group you specify  in your event tracker.  The event tracker can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the event tracker, call DescribeEventTracker.  The event tracker must be in the ACTIVE state before using the tracking ID.   Related APIs     ListEventTrackers     DescribeEventTracker     DeleteEventTracker
     @Sendable
     public func createEventTracker(_ input: CreateEventTrackerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventTrackerResponse {
         return try await self.client.execute(
@@ -295,7 +295,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Deletes the event tracker. Does not delete the event-interactions dataset from the associated dataset group. For more information on event trackers, see CreateEventTracker.
+    /// Deletes the event tracker. Does not delete the dataset from the dataset group. For more information on event trackers, see CreateEventTracker.
     @Sendable
     public func deleteEventTracker(_ input: DeleteEventTrackerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -893,11 +893,24 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Updates a campaign by either deploying a new solution or changing the value of the campaign's minProvisionedTPS parameter. To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the DescribeCampaign operation.  You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active.   For more information on campaigns, see CreateCampaign.
+    ///  Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS, or modify your campaign's configuration, such as the exploration configuration.  To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the DescribeCampaign operation.  You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active.   For more information about updating a campaign, including code samples, see Updating a campaign. For more information about campaigns, see Creating a campaign.
     @Sendable
     public func updateCampaign(_ input: UpdateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCampaignResponse {
         return try await self.client.execute(
             operation: "UpdateCampaign", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
+    @Sendable
+    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetResponse {
+        return try await self.client.execute(
+            operation: "UpdateDataset", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

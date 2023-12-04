@@ -26,7 +26,23 @@ import Foundation
 extension MarketplaceCatalog {
     // MARK: Enums
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AmiProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productTitle = "ProductTitle"
+        case visibility = "Visibility"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AmiProductVisibilityString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "Public"
+        case draft = "Draft"
+        case limited = "Limited"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applying = "APPLYING"
         case cancelled = "CANCELLED"
         case failed = "FAILED"
@@ -35,25 +51,406 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContainerProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productTitle = "ProductTitle"
+        case visibility = "Visibility"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerProductVisibilityString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "Public"
+        case draft = "Draft"
+        case limited = "Limited"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productTitle = "ProductTitle"
+        case visibility = "Visibility"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataProductVisibilityString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "Public"
+        case draft = "Draft"
+        case limited = "Limited"
+        case restricted = "Restricted"
+        case unavailable = "Unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientError = "CLIENT_ERROR"
         case serverFault = "SERVER_FAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum OwnershipType: String, CustomStringConvertible, Codable, Sendable {
+    public enum OfferSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case availabilityEndDate = "AvailabilityEndDate"
+        case buyerAccounts = "BuyerAccounts"
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case name = "Name"
+        case productId = "ProductId"
+        case releaseDate = "ReleaseDate"
+        case state = "State"
+        case targeting = "Targeting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferStateString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case draft = "Draft"
+        case released = "Released"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferTargetingString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buyerAccounts = "BuyerAccounts"
+        case countryCodes = "CountryCodes"
+        case none = "None"
+        case participatingPrograms = "ParticipatingPrograms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OwnershipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case _self = "SELF"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResaleAuthorizationSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case availabilityEndDate = "AvailabilityEndDate"
+        case createdDate = "CreatedDate"
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case manufacturerAccountId = "ManufacturerAccountId"
+        case manufacturerLegalName = "ManufacturerLegalName"
+        case name = "Name"
+        case offerExtendedStatus = "OfferExtendedStatus"
+        case productId = "ProductId"
+        case productName = "ProductName"
+        case resellerAccountID = "ResellerAccountID"
+        case resellerLegalName = "ResellerLegalName"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResaleAuthorizationStatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case draft = "Draft"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SaaSProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productTitle = "ProductTitle"
+        case visibility = "Visibility"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SaaSProductVisibilityString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "Public"
+        case draft = "Draft"
+        case limited = "Limited"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityTypeFilters: AWSEncodableShape, Sendable {
+        /// A filter for AMI products.
+        case amiProductFilters(AmiProductFilters)
+        /// A filter for container products.
+        case containerProductFilters(ContainerProductFilters)
+        /// A filter for data products.
+        case dataProductFilters(DataProductFilters)
+        /// A filter for offers.
+        case offerFilters(OfferFilters)
+        /// A filter for Resale Authorizations.
+        case resaleAuthorizationFilters(ResaleAuthorizationFilters)
+        /// A filter for SaaS products.
+        case saaSProductFilters(SaaSProductFilters)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .amiProductFilters(let value):
+                try container.encode(value, forKey: .amiProductFilters)
+            case .containerProductFilters(let value):
+                try container.encode(value, forKey: .containerProductFilters)
+            case .dataProductFilters(let value):
+                try container.encode(value, forKey: .dataProductFilters)
+            case .offerFilters(let value):
+                try container.encode(value, forKey: .offerFilters)
+            case .resaleAuthorizationFilters(let value):
+                try container.encode(value, forKey: .resaleAuthorizationFilters)
+            case .saaSProductFilters(let value):
+                try container.encode(value, forKey: .saaSProductFilters)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .amiProductFilters(let value):
+                try value.validate(name: "\(name).amiProductFilters")
+            case .containerProductFilters(let value):
+                try value.validate(name: "\(name).containerProductFilters")
+            case .dataProductFilters(let value):
+                try value.validate(name: "\(name).dataProductFilters")
+            case .offerFilters(let value):
+                try value.validate(name: "\(name).offerFilters")
+            case .resaleAuthorizationFilters(let value):
+                try value.validate(name: "\(name).resaleAuthorizationFilters")
+            case .saaSProductFilters(let value):
+                try value.validate(name: "\(name).saaSProductFilters")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiProductFilters = "AmiProductFilters"
+            case containerProductFilters = "ContainerProductFilters"
+            case dataProductFilters = "DataProductFilters"
+            case offerFilters = "OfferFilters"
+            case resaleAuthorizationFilters = "ResaleAuthorizationFilters"
+            case saaSProductFilters = "SaaSProductFilters"
+        }
+    }
+
+    public enum EntityTypeSort: AWSEncodableShape, Sendable {
+        /// A sort for AMI products.
+        case amiProductSort(AmiProductSort)
+        /// A sort for container products.
+        case containerProductSort(ContainerProductSort)
+        /// A sort for data products.
+        case dataProductSort(DataProductSort)
+        /// A sort for offers.
+        case offerSort(OfferSort)
+        /// A sort for Resale Authorizations.
+        case resaleAuthorizationSort(ResaleAuthorizationSort)
+        /// A sort for SaaS products.
+        case saaSProductSort(SaaSProductSort)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .amiProductSort(let value):
+                try container.encode(value, forKey: .amiProductSort)
+            case .containerProductSort(let value):
+                try container.encode(value, forKey: .containerProductSort)
+            case .dataProductSort(let value):
+                try container.encode(value, forKey: .dataProductSort)
+            case .offerSort(let value):
+                try container.encode(value, forKey: .offerSort)
+            case .resaleAuthorizationSort(let value):
+                try container.encode(value, forKey: .resaleAuthorizationSort)
+            case .saaSProductSort(let value):
+                try container.encode(value, forKey: .saaSProductSort)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiProductSort = "AmiProductSort"
+            case containerProductSort = "ContainerProductSort"
+            case dataProductSort = "DataProductSort"
+            case offerSort = "OfferSort"
+            case resaleAuthorizationSort = "ResaleAuthorizationSort"
+            case saaSProductSort = "SaaSProductSort"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AmiProductEntityIdFilter: AWSEncodableShape {
+        /// A string array of unique entity id values to be filtered on.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct AmiProductFilters: AWSEncodableShape {
+        /// Unique identifier for the AMI product.
+        public let entityId: AmiProductEntityIdFilter?
+        /// The last date on which the AMI product was modified.
+        public let lastModifiedDate: AmiProductLastModifiedDateFilter?
+        /// The title of the AMI product.
+        public let productTitle: AmiProductTitleFilter?
+        /// The visibility of the AMI product.
+        public let visibility: AmiProductVisibilityFilter?
+
+        public init(entityId: AmiProductEntityIdFilter? = nil, lastModifiedDate: AmiProductLastModifiedDateFilter? = nil, productTitle: AmiProductTitleFilter? = nil, visibility: AmiProductVisibilityFilter? = nil) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.productTitle?.validate(name: "\(name).productTitle")
+            try self.visibility?.validate(name: "\(name).visibility")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct AmiProductLastModifiedDateFilter: AWSEncodableShape {
+        /// Dates between which the AMI product was last modified.
+        public let dateRange: AmiProductLastModifiedDateFilterDateRange?
+
+        public init(dateRange: AmiProductLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct AmiProductLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Date after which the AMI product was last modified.
+        public let afterValue: String?
+        /// Date before which the AMI product was last modified.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct AmiProductSort: AWSEncodableShape {
+        /// Field to sort the AMI products by.
+        public let sortBy: AmiProductSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: AmiProductSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct AmiProductSummary: AWSDecodableShape {
+        /// The title of the AMI product.
+        public let productTitle: String?
+        /// The lifecycle of the AMI product.
+        public let visibility: AmiProductVisibilityString?
+
+        public init(productTitle: String? = nil, visibility: AmiProductVisibilityString? = nil) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct AmiProductTitleFilter: AWSEncodableShape {
+        /// A string array of unique product title values to be filtered on.
+        public let valueList: [String]?
+        /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct AmiProductVisibilityFilter: AWSEncodableShape {
+        /// A string array of unique visibility values to be filtered on.
+        public let valueList: [AmiProductVisibilityString]?
+
+        public init(valueList: [AmiProductVisibilityString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
 
     public struct CancelChangeSetRequest: AWSEncodableShape {
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
@@ -105,19 +502,22 @@ extension MarketplaceCatalog {
     public struct Change: AWSEncodableShape {
         /// Optional name for the change.
         public let changeName: String?
-        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information on change types available for single-AMI products, see Working with single-AMI products. Also, for more information on change types available for container-based products, see Working with container products.
+        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information on change types available for single-AMI products, see Working with single-AMI products. Also, for more information about change types available for container-based products, see Working with container products.
         public let changeType: String
-        /// This object contains details specific to the change type of the requested change. For more information on change types available for single-AMI products, see Working with single-AMI products. Also, for more information on change types available for container-based products, see Working with container products.
-        public let details: String
+        /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see Working with single-AMI products. Also, for more information about change types available for container-based products, see Working with container products.
+        public let details: String?
+        /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both.
+        public let detailsDocument: String?
         /// The entity to be changed.
         public let entity: Entity
         /// The tags associated with the change.
         public let entityTags: [Tag]?
 
-        public init(changeName: String? = nil, changeType: String, details: String, entity: Entity, entityTags: [Tag]? = nil) {
+        public init(changeName: String? = nil, changeType: String, details: String? = nil, detailsDocument: String? = nil, entity: Entity, entityTags: [Tag]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
+            self.detailsDocument = detailsDocument
             self.entity = entity
             self.entityTags = entityTags
         }
@@ -144,6 +544,7 @@ extension MarketplaceCatalog {
             case changeName = "ChangeName"
             case changeType = "ChangeType"
             case details = "Details"
+            case detailsDocument = "DetailsDocument"
             case entity = "Entity"
             case entityTags = "EntityTags"
         }
@@ -197,15 +598,18 @@ extension MarketplaceCatalog {
         public let changeType: String?
         /// This object contains details specific to the change type of the requested change.
         public let details: String?
+        /// The JSON value of the details specific to the change type of the requested change.
+        public let detailsDocument: String?
         /// The entity to be changed.
         public let entity: Entity?
         /// An array of ErrorDetail objects associated with the change.
         public let errorDetailList: [ErrorDetail]?
 
-        public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
+        public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, detailsDocument: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
+            self.detailsDocument = detailsDocument
             self.entity = entity
             self.errorDetailList = errorDetailList
         }
@@ -214,13 +618,374 @@ extension MarketplaceCatalog {
             case changeName = "ChangeName"
             case changeType = "ChangeType"
             case details = "Details"
+            case detailsDocument = "DetailsDocument"
             case entity = "Entity"
             case errorDetailList = "ErrorDetailList"
         }
     }
 
+    public struct ContainerProductEntityIdFilter: AWSEncodableShape {
+        /// A string array of unique entity id values to be filtered on.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ContainerProductFilters: AWSEncodableShape {
+        /// Unique identifier for the container product.
+        public let entityId: ContainerProductEntityIdFilter?
+        /// The last date on which the container product was modified.
+        public let lastModifiedDate: ContainerProductLastModifiedDateFilter?
+        /// The title of the container product.
+        public let productTitle: ContainerProductTitleFilter?
+        /// The visibility of the container product.
+        public let visibility: ContainerProductVisibilityFilter?
+
+        public init(entityId: ContainerProductEntityIdFilter? = nil, lastModifiedDate: ContainerProductLastModifiedDateFilter? = nil, productTitle: ContainerProductTitleFilter? = nil, visibility: ContainerProductVisibilityFilter? = nil) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.productTitle?.validate(name: "\(name).productTitle")
+            try self.visibility?.validate(name: "\(name).visibility")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ContainerProductLastModifiedDateFilter: AWSEncodableShape {
+        /// Dates between which the container product was last modified.
+        public let dateRange: ContainerProductLastModifiedDateFilterDateRange?
+
+        public init(dateRange: ContainerProductLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct ContainerProductLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Date after which the container product was last modified.
+        public let afterValue: String?
+        /// Date before which the container product was last modified.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct ContainerProductSort: AWSEncodableShape {
+        /// Field to sort the container products by.
+        public let sortBy: ContainerProductSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: ContainerProductSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ContainerProductSummary: AWSDecodableShape {
+        /// The title of the container product.
+        public let productTitle: String?
+        /// The lifecycle of the product.
+        public let visibility: ContainerProductVisibilityString?
+
+        public init(productTitle: String? = nil, visibility: ContainerProductVisibilityString? = nil) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ContainerProductTitleFilter: AWSEncodableShape {
+        /// A string array of unique product title values to be filtered on.
+        public let valueList: [String]?
+        /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ContainerProductVisibilityFilter: AWSEncodableShape {
+        /// A string array of unique visibility values to be filtered on.
+        public let valueList: [ContainerProductVisibilityString]?
+
+        public init(valueList: [ContainerProductVisibilityString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct DataProductEntityIdFilter: AWSEncodableShape {
+        /// A string array of unique entity id values to be filtered on.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct DataProductFilters: AWSEncodableShape {
+        /// Unique identifier for the data product.
+        public let entityId: DataProductEntityIdFilter?
+        /// The last date on which the data product was modified.
+        public let lastModifiedDate: DataProductLastModifiedDateFilter?
+        /// The title of the data product.
+        public let productTitle: DataProductTitleFilter?
+        /// The visibility of the data product.
+        public let visibility: DataProductVisibilityFilter?
+
+        public init(entityId: DataProductEntityIdFilter? = nil, lastModifiedDate: DataProductLastModifiedDateFilter? = nil, productTitle: DataProductTitleFilter? = nil, visibility: DataProductVisibilityFilter? = nil) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.productTitle?.validate(name: "\(name).productTitle")
+            try self.visibility?.validate(name: "\(name).visibility")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct DataProductLastModifiedDateFilter: AWSEncodableShape {
+        /// Dates between which the data product was last modified.
+        public let dateRange: DataProductLastModifiedDateFilterDateRange?
+
+        public init(dateRange: DataProductLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct DataProductLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Date after which the data product was last modified.
+        public let afterValue: String?
+        /// Date before which the data product was last modified.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct DataProductSort: AWSEncodableShape {
+        /// Field to sort the data products by.
+        public let sortBy: DataProductSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: DataProductSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct DataProductSummary: AWSDecodableShape {
+        /// The title of the data product.
+        public let productTitle: String?
+        /// The lifecycle of the data product.
+        public let visibility: DataProductVisibilityString?
+
+        public init(productTitle: String? = nil, visibility: DataProductVisibilityString? = nil) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct DataProductTitleFilter: AWSEncodableShape {
+        /// A string array of unique product title values to be filtered on.
+        public let valueList: [String]?
+        /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct DataProductVisibilityFilter: AWSEncodableShape {
+        /// A string array of unique visibility values to be filtered on.
+        public let valueList: [DataProductVisibilityString]?
+
+        public init(valueList: [DataProductVisibilityString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+        /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -354,6 +1119,8 @@ extension MarketplaceCatalog {
     public struct DescribeEntityResponse: AWSDecodableShape {
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
+        /// The JSON value of the details specific to the entity.
+        public let detailsDocument: String?
         /// The ARN associated to the unique identifier for the entity referenced in this request.
         public let entityArn: String?
         /// The identifier of the entity, in the format of EntityId@RevisionId.
@@ -363,8 +1130,9 @@ extension MarketplaceCatalog {
         /// The last modified date of the entity, in ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
 
-        public init(details: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
+        public init(details: String? = nil, detailsDocument: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
             self.details = details
+            self.detailsDocument = detailsDocument
             self.entityArn = entityArn
             self.entityIdentifier = entityIdentifier
             self.entityType = entityType
@@ -373,6 +1141,7 @@ extension MarketplaceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
+            case detailsDocument = "DetailsDocument"
             case entityArn = "EntityArn"
             case entityIdentifier = "EntityIdentifier"
             case entityType = "EntityType"
@@ -407,6 +1176,12 @@ extension MarketplaceCatalog {
     }
 
     public struct EntitySummary: AWSDecodableShape {
+        /// An object that contains summary information about the AMI product.
+        public let amiProductSummary: AmiProductSummary?
+        /// An object that contains summary information about the container product.
+        public let containerProductSummary: ContainerProductSummary?
+        /// An object that contains summary information about the data product.
+        public let dataProductSummary: DataProductSummary?
         /// The ARN associated with the unique identifier for the entity.
         public let entityArn: String?
         /// The unique identifier for the entity.
@@ -417,24 +1192,42 @@ extension MarketplaceCatalog {
         public let lastModifiedDate: String?
         /// The name for the entity. This value is not unique. It is defined by the seller.
         public let name: String?
+        /// An object that contains summary information about the offer.
+        public let offerSummary: OfferSummary?
+        /// An object that contains summary information about the Resale Authorization.
+        public let resaleAuthorizationSummary: ResaleAuthorizationSummary?
+        /// An object that contains summary information about the SaaS product.
+        public let saaSProductSummary: SaaSProductSummary?
         /// The visibility status of the entity to buyers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing buyers can view it).
         public let visibility: String?
 
-        public init(entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, visibility: String? = nil) {
+        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
+            self.amiProductSummary = amiProductSummary
+            self.containerProductSummary = containerProductSummary
+            self.dataProductSummary = dataProductSummary
             self.entityArn = entityArn
             self.entityId = entityId
             self.entityType = entityType
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.offerSummary = offerSummary
+            self.resaleAuthorizationSummary = resaleAuthorizationSummary
+            self.saaSProductSummary = saaSProductSummary
             self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amiProductSummary = "AmiProductSummary"
+            case containerProductSummary = "ContainerProductSummary"
+            case dataProductSummary = "DataProductSummary"
             case entityArn = "EntityArn"
             case entityId = "EntityId"
             case entityType = "EntityType"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
+            case offerSummary = "OfferSummary"
+            case resaleAuthorizationSummary = "ResaleAuthorizationSummary"
+            case saaSProductSummary = "SaaSProductSummary"
             case visibility = "Visibility"
         }
     }
@@ -487,7 +1280,7 @@ extension MarketplaceCatalog {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+        /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -588,21 +1381,28 @@ extension MarketplaceCatalog {
     public struct ListEntitiesRequest: AWSEncodableShape {
         /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
-        /// The type of entities to retrieve.
+        /// The type of entities to retrieve. Valid values are: ServerProduct, AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, Seller, ResaleAuthorization.
         public let entityType: String
+        /// A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
+        public let entityTypeFilters: EntityTypeFilters?
+        /// A Union object containing Sort shapes for all EntityTypes. Each EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that EntityType. This can be used to sort the results of the filter query.
+        public let entityTypeSort: EntityTypeSort?
         /// An array of filter objects. Each filter object contains two attributes, filterName and filterValues.
         public let filterList: [Filter]?
         /// Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20.
         public let maxResults: Int?
         /// The value of the next token, if it exists. Null if there are no more results.
         public let nextToken: String?
+        /// Filters the returned set of entities based on their owner. The default is SELF. To list entities shared with you through AWS Resource Access Manager (AWS RAM), set to SHARED. Entities shared through the AWS Marketplace Catalog API PutResourcePolicy operation can't be discovered through the SHARED parameter.
         public let ownershipType: OwnershipType?
         /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
-        public init(catalog: String, entityType: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownershipType: OwnershipType? = nil, sort: Sort? = nil) {
+        public init(catalog: String, entityType: String, entityTypeFilters: EntityTypeFilters? = nil, entityTypeSort: EntityTypeSort? = nil, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownershipType: OwnershipType? = nil, sort: Sort? = nil) {
             self.catalog = catalog
             self.entityType = entityType
+            self.entityTypeFilters = entityTypeFilters
+            self.entityTypeSort = entityTypeSort
             self.filterList = filterList
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -617,6 +1417,7 @@ extension MarketplaceCatalog {
             try self.validate(self.entityType, name: "entityType", parent: name, max: 255)
             try self.validate(self.entityType, name: "entityType", parent: name, min: 1)
             try self.validate(self.entityType, name: "entityType", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.entityTypeFilters?.validate(name: "\(name).entityTypeFilters")
             try self.filterList?.forEach {
                 try $0.validate(name: "\(name).filterList[]")
             }
@@ -633,6 +1434,8 @@ extension MarketplaceCatalog {
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
             case entityType = "EntityType"
+            case entityTypeFilters = "EntityTypeFilters"
+            case entityTypeSort = "EntityTypeSort"
             case filterList = "FilterList"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -642,7 +1445,7 @@ extension MarketplaceCatalog {
     }
 
     public struct ListEntitiesResponse: AWSDecodableShape {
-        ///  Array of EntitySummary object.
+        /// Array of EntitySummary objects.
         public let entitySummaryList: [EntitySummary]?
         /// The value of the next token if it exists. Null if there is no more result.
         public let nextToken: String?
@@ -694,10 +1497,381 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct OfferAvailabilityEndDateFilter: AWSEncodableShape {
+        /// Allows filtering on the AvailabilityEndDate of an offer with date range as input.
+        public let dateRange: OfferAvailabilityEndDateFilterDateRange?
+
+        public init(dateRange: OfferAvailabilityEndDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct OfferAvailabilityEndDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the AvailabilityEndDate of an offer after a date.
+        public let afterValue: String?
+        /// Allows filtering on the AvailabilityEndDate of an offer before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct OfferBuyerAccountsFilter: AWSEncodableShape {
+        /// Allows filtering on the BuyerAccounts of an offer with wild card input.
+        public let wildCardValue: String?
+
+        public init(wildCardValue: String? = nil) {
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct OfferEntityIdFilter: AWSEncodableShape {
+        /// Allows filtering on entity id of an offer with list input.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferFilters: AWSEncodableShape {
+        /// Allows filtering on the AvailabilityEndDate of an offer.
+        public let availabilityEndDate: OfferAvailabilityEndDateFilter?
+        /// Allows filtering on the BuyerAccounts of an offer.
+        public let buyerAccounts: OfferBuyerAccountsFilter?
+        /// Allows filtering on EntityId of an offer.
+        public let entityId: OfferEntityIdFilter?
+        /// Allows filtering on the LastModifiedDate of an offer.
+        public let lastModifiedDate: OfferLastModifiedDateFilter?
+        /// Allows filtering on the Name of an offer.
+        public let name: OfferNameFilter?
+        /// Allows filtering on the ProductId of an offer.
+        public let productId: OfferProductIdFilter?
+        /// Allows filtering on the ReleaseDate of an offer.
+        public let releaseDate: OfferReleaseDateFilter?
+        /// Allows filtering on the State of an offer.
+        public let state: OfferStateFilter?
+        /// Allows filtering on the Targeting of an offer.
+        public let targeting: OfferTargetingFilter?
+
+        public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, state: OfferStateFilter? = nil, targeting: OfferTargetingFilter? = nil) {
+            self.availabilityEndDate = availabilityEndDate
+            self.buyerAccounts = buyerAccounts
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.productId = productId
+            self.releaseDate = releaseDate
+            self.state = state
+            self.targeting = targeting
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityEndDate?.validate(name: "\(name).availabilityEndDate")
+            try self.buyerAccounts?.validate(name: "\(name).buyerAccounts")
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.name?.validate(name: "\(name).name")
+            try self.productId?.validate(name: "\(name).productId")
+            try self.releaseDate?.validate(name: "\(name).releaseDate")
+            try self.state?.validate(name: "\(name).state")
+            try self.targeting?.validate(name: "\(name).targeting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityEndDate = "AvailabilityEndDate"
+            case buyerAccounts = "BuyerAccounts"
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case productId = "ProductId"
+            case releaseDate = "ReleaseDate"
+            case state = "State"
+            case targeting = "Targeting"
+        }
+    }
+
+    public struct OfferLastModifiedDateFilter: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of an offer with date range as input.
+        public let dateRange: OfferLastModifiedDateFilterDateRange?
+
+        public init(dateRange: OfferLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct OfferLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of an offer after a date.
+        public let afterValue: String?
+        /// Allows filtering on the LastModifiedDate of an offer before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct OfferNameFilter: AWSEncodableShape {
+        /// Allows filtering on the Name of an offer with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the Name of an offer with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 150)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 150)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct OfferProductIdFilter: AWSEncodableShape {
+        /// Allows filtering on the ProductId of an offer with list input.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferReleaseDateFilter: AWSEncodableShape {
+        /// Allows filtering on the ReleaseDate of an offer with date range as input.
+        public let dateRange: OfferReleaseDateFilterDateRange?
+
+        public init(dateRange: OfferReleaseDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct OfferReleaseDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the ReleaseDate of offers after a date.
+        public let afterValue: String?
+        /// Allows filtering on the ReleaseDate of offers before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct OfferSort: AWSEncodableShape {
+        /// Allows to sort offers.
+        public let sortBy: OfferSortBy?
+        /// Allows to sort offers.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: OfferSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct OfferStateFilter: AWSEncodableShape {
+        /// Allows filtering on the State of an offer with list input.
+        public let valueList: [OfferStateString]?
+
+        public init(valueList: [OfferStateString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 2)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSummary: AWSDecodableShape {
+        /// The availability end date of the offer.
+        public let availabilityEndDate: String?
+        /// The buyer accounts in the offer.
+        public let buyerAccounts: [String]?
+        /// The name of the offer.
+        public let name: String?
+        /// The product ID of the offer.
+        public let productId: String?
+        /// The release date of the offer.
+        public let releaseDate: String?
+        /// The status of the offer.
+        public let state: OfferStateString?
+        /// The targeting in the offer.
+        public let targeting: [OfferTargetingString]?
+
+        public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, name: String? = nil, productId: String? = nil, releaseDate: String? = nil, state: OfferStateString? = nil, targeting: [OfferTargetingString]? = nil) {
+            self.availabilityEndDate = availabilityEndDate
+            self.buyerAccounts = buyerAccounts
+            self.name = name
+            self.productId = productId
+            self.releaseDate = releaseDate
+            self.state = state
+            self.targeting = targeting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityEndDate = "AvailabilityEndDate"
+            case buyerAccounts = "BuyerAccounts"
+            case name = "Name"
+            case productId = "ProductId"
+            case releaseDate = "ReleaseDate"
+            case state = "State"
+            case targeting = "Targeting"
+        }
+    }
+
+    public struct OfferTargetingFilter: AWSEncodableShape {
+        /// Allows filtering on the Targeting of an offer with list input.
+        public let valueList: [OfferTargetingString]?
+
+        public init(valueList: [OfferTargetingString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 4)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// The policy document to set; formatted in JSON.
         public let policy: String
-        /// The Amazon Resource Name (ARN) of the Entity resource you want to associate with a resource policy.
+        /// The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy.
         public let resourceArn: String
 
         public init(policy: String, resourceArn: String) {
@@ -724,8 +1898,760 @@ extension MarketplaceCatalog {
         public init() {}
     }
 
+    public struct ResaleAuthorizationAvailabilityEndDateFilter: AWSEncodableShape {
+        /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date range as input
+        public let dateRange: ResaleAuthorizationAvailabilityEndDateFilterDateRange?
+        /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date value as input.
+        public let valueList: [String]?
+
+        public init(dateRange: ResaleAuthorizationAvailabilityEndDateFilterDateRange? = nil, valueList: [String]? = nil) {
+            self.dateRange = dateRange
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 20)
+                try validate($0, name: "valueList[]", parent: name, min: 20)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ResaleAuthorizationAvailabilityEndDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization after a date.
+        public let afterValue: String?
+        /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct ResaleAuthorizationCreatedDateFilter: AWSEncodableShape {
+        /// Allows filtering on CreatedDate of a ResaleAuthorization with date range as input.
+        public let dateRange: ResaleAuthorizationCreatedDateFilterDateRange?
+        /// Allows filtering on CreatedDate of a ResaleAuthorization with date value as input.
+        public let valueList: [String]?
+
+        public init(dateRange: ResaleAuthorizationCreatedDateFilterDateRange? = nil, valueList: [String]? = nil) {
+            self.dateRange = dateRange
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 20)
+                try validate($0, name: "valueList[]", parent: name, min: 20)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ResaleAuthorizationCreatedDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on CreatedDate of a ResaleAuthorization after a date.
+        public let afterValue: String?
+        /// Allows filtering on CreatedDate of a ResaleAuthorization before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct ResaleAuthorizationEntityIdFilter: AWSEncodableShape {
+        /// Allows filtering on EntityId of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ResaleAuthorizationFilters: AWSEncodableShape {
+        /// Allows filtering on the AvailabilityEndDate of a ResaleAuthorization.
+        public let availabilityEndDate: ResaleAuthorizationAvailabilityEndDateFilter?
+        /// Allows filtering on the CreatedDate of a ResaleAuthorization.
+        public let createdDate: ResaleAuthorizationCreatedDateFilter?
+        /// Allows filtering on the EntityId of a ResaleAuthorization.
+        public let entityId: ResaleAuthorizationEntityIdFilter?
+        /// Allows filtering on the LastModifiedDate of a ResaleAuthorization.
+        public let lastModifiedDate: ResaleAuthorizationLastModifiedDateFilter?
+        /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization.
+        public let manufacturerAccountId: ResaleAuthorizationManufacturerAccountIdFilter?
+        /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization.
+        public let manufacturerLegalName: ResaleAuthorizationManufacturerLegalNameFilter?
+        /// Allows filtering on the Name of a ResaleAuthorization.
+        public let name: ResaleAuthorizationNameFilter?
+        /// Allows filtering on the OfferExtendedStatus of a ResaleAuthorization.
+        public let offerExtendedStatus: ResaleAuthorizationOfferExtendedStatusFilter?
+        /// Allows filtering on the ProductId of a ResaleAuthorization.
+        public let productId: ResaleAuthorizationProductIdFilter?
+        /// Allows filtering on the ProductName of a ResaleAuthorization.
+        public let productName: ResaleAuthorizationProductNameFilter?
+        /// Allows filtering on the ResellerAccountID of a ResaleAuthorization.
+        public let resellerAccountID: ResaleAuthorizationResellerAccountIDFilter?
+        /// Allows filtering on the ResellerLegalName of a ResaleAuthorization.
+        public let resellerLegalName: ResaleAuthorizationResellerLegalNameFilter?
+        /// Allows filtering on the Status of a ResaleAuthorization.
+        public let status: ResaleAuthorizationStatusFilter?
+
+        public init(availabilityEndDate: ResaleAuthorizationAvailabilityEndDateFilter? = nil, createdDate: ResaleAuthorizationCreatedDateFilter? = nil, entityId: ResaleAuthorizationEntityIdFilter? = nil, lastModifiedDate: ResaleAuthorizationLastModifiedDateFilter? = nil, manufacturerAccountId: ResaleAuthorizationManufacturerAccountIdFilter? = nil, manufacturerLegalName: ResaleAuthorizationManufacturerLegalNameFilter? = nil, name: ResaleAuthorizationNameFilter? = nil, offerExtendedStatus: ResaleAuthorizationOfferExtendedStatusFilter? = nil, productId: ResaleAuthorizationProductIdFilter? = nil, productName: ResaleAuthorizationProductNameFilter? = nil, resellerAccountID: ResaleAuthorizationResellerAccountIDFilter? = nil, resellerLegalName: ResaleAuthorizationResellerLegalNameFilter? = nil, status: ResaleAuthorizationStatusFilter? = nil) {
+            self.availabilityEndDate = availabilityEndDate
+            self.createdDate = createdDate
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.manufacturerAccountId = manufacturerAccountId
+            self.manufacturerLegalName = manufacturerLegalName
+            self.name = name
+            self.offerExtendedStatus = offerExtendedStatus
+            self.productId = productId
+            self.productName = productName
+            self.resellerAccountID = resellerAccountID
+            self.resellerLegalName = resellerLegalName
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityEndDate?.validate(name: "\(name).availabilityEndDate")
+            try self.createdDate?.validate(name: "\(name).createdDate")
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.manufacturerAccountId?.validate(name: "\(name).manufacturerAccountId")
+            try self.manufacturerLegalName?.validate(name: "\(name).manufacturerLegalName")
+            try self.name?.validate(name: "\(name).name")
+            try self.offerExtendedStatus?.validate(name: "\(name).offerExtendedStatus")
+            try self.productId?.validate(name: "\(name).productId")
+            try self.productName?.validate(name: "\(name).productName")
+            try self.resellerAccountID?.validate(name: "\(name).resellerAccountID")
+            try self.resellerLegalName?.validate(name: "\(name).resellerLegalName")
+            try self.status?.validate(name: "\(name).status")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityEndDate = "AvailabilityEndDate"
+            case createdDate = "CreatedDate"
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case manufacturerAccountId = "ManufacturerAccountId"
+            case manufacturerLegalName = "ManufacturerLegalName"
+            case name = "Name"
+            case offerExtendedStatus = "OfferExtendedStatus"
+            case productId = "ProductId"
+            case productName = "ProductName"
+            case resellerAccountID = "ResellerAccountID"
+            case resellerLegalName = "ResellerLegalName"
+            case status = "Status"
+        }
+    }
+
+    public struct ResaleAuthorizationLastModifiedDateFilter: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of a ResaleAuthorization with date range as input.
+        public let dateRange: ResaleAuthorizationLastModifiedDateFilterDateRange?
+
+        public init(dateRange: ResaleAuthorizationLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct ResaleAuthorizationLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of a ResaleAuthorization after a date.
+        public let afterValue: String?
+        /// Allows filtering on the LastModifiedDate of a ResaleAuthorization before a date.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct ResaleAuthorizationManufacturerAccountIdFilter: AWSEncodableShape {
+        /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 12)
+                try validate($0, name: "valueList[]", parent: name, min: 12)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 12)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 12)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationManufacturerLegalNameFilter: AWSEncodableShape {
+        /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationNameFilter: AWSEncodableShape {
+        /// Allows filtering on the Name of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the Name of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationOfferExtendedStatusFilter: AWSEncodableShape {
+        /// Allows filtering on the OfferExtendedStatus of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ResaleAuthorizationProductIdFilter: AWSEncodableShape {
+        /// Allows filtering on the ProductId of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ProductId of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationProductNameFilter: AWSEncodableShape {
+        /// Allows filtering on the ProductName of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ProductName of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationResellerAccountIDFilter: AWSEncodableShape {
+        /// Allows filtering on the ResellerAccountID of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ResellerAccountID of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 12)
+                try validate($0, name: "valueList[]", parent: name, min: 12)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 12)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 12)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationResellerLegalNameFilter: AWSEncodableShape {
+        /// Allows filtering on the ResellerLegalNameProductName of a ResaleAuthorization with list input.
+        public let valueList: [String]?
+        /// Allows filtering on the ResellerLegalName of a ResaleAuthorization with wild card input.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct ResaleAuthorizationSort: AWSEncodableShape {
+        /// Allows to sort ResaleAuthorization.
+        public let sortBy: ResaleAuthorizationSortBy?
+        /// Allows to sort ResaleAuthorization.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: ResaleAuthorizationSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ResaleAuthorizationStatusFilter: AWSEncodableShape {
+        /// Allows filtering on the Status of a ResaleAuthorization with list input.
+        public let valueList: [ResaleAuthorizationStatusString]?
+
+        public init(valueList: [ResaleAuthorizationStatusString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ResaleAuthorizationSummary: AWSDecodableShape {
+        /// The availability end date of the ResaleAuthorization.
+        public let availabilityEndDate: String?
+        /// The created date of the ResaleAuthorization.
+        public let createdDate: String?
+        /// The manufacturer account ID of the ResaleAuthorization.
+        public let manufacturerAccountId: String?
+        /// The manufacturer legal name of the ResaleAuthorization.
+        public let manufacturerLegalName: String?
+        /// The name of the ResaleAuthorization.
+        public let name: String?
+        /// The offer extended status of the ResaleAuthorization
+        public let offerExtendedStatus: String?
+        /// The product ID of the ResaleAuthorization.
+        public let productId: String?
+        /// The product name of the ResaleAuthorization.
+        public let productName: String?
+        /// The reseller account ID of the ResaleAuthorization.
+        public let resellerAccountID: String?
+        /// The reseller legal name of the ResaleAuthorization
+        public let resellerLegalName: String?
+        /// The status of the ResaleAuthorization.
+        public let status: ResaleAuthorizationStatusString?
+
+        public init(availabilityEndDate: String? = nil, createdDate: String? = nil, manufacturerAccountId: String? = nil, manufacturerLegalName: String? = nil, name: String? = nil, offerExtendedStatus: String? = nil, productId: String? = nil, productName: String? = nil, resellerAccountID: String? = nil, resellerLegalName: String? = nil, status: ResaleAuthorizationStatusString? = nil) {
+            self.availabilityEndDate = availabilityEndDate
+            self.createdDate = createdDate
+            self.manufacturerAccountId = manufacturerAccountId
+            self.manufacturerLegalName = manufacturerLegalName
+            self.name = name
+            self.offerExtendedStatus = offerExtendedStatus
+            self.productId = productId
+            self.productName = productName
+            self.resellerAccountID = resellerAccountID
+            self.resellerLegalName = resellerLegalName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityEndDate = "AvailabilityEndDate"
+            case createdDate = "CreatedDate"
+            case manufacturerAccountId = "ManufacturerAccountId"
+            case manufacturerLegalName = "ManufacturerLegalName"
+            case name = "Name"
+            case offerExtendedStatus = "OfferExtendedStatus"
+            case productId = "ProductId"
+            case productName = "ProductName"
+            case resellerAccountID = "ResellerAccountID"
+            case resellerLegalName = "ResellerLegalName"
+            case status = "Status"
+        }
+    }
+
+    public struct SaaSProductEntityIdFilter: AWSEncodableShape {
+        /// A string array of unique entity id values to be filtered on.
+        public let valueList: [String]?
+
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct SaaSProductFilters: AWSEncodableShape {
+        /// Unique identifier for the SaaS product.
+        public let entityId: SaaSProductEntityIdFilter?
+        /// The last date on which the SaaS product was modified.
+        public let lastModifiedDate: SaaSProductLastModifiedDateFilter?
+        /// The title of the SaaS product.
+        public let productTitle: SaaSProductTitleFilter?
+        /// The visibility of the SaaS product.
+        public let visibility: SaaSProductVisibilityFilter?
+
+        public init(entityId: SaaSProductEntityIdFilter? = nil, lastModifiedDate: SaaSProductLastModifiedDateFilter? = nil, productTitle: SaaSProductTitleFilter? = nil, visibility: SaaSProductVisibilityFilter? = nil) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.productTitle?.validate(name: "\(name).productTitle")
+            try self.visibility?.validate(name: "\(name).visibility")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct SaaSProductLastModifiedDateFilter: AWSEncodableShape {
+        /// Dates between which the SaaS product was last modified.
+        public let dateRange: SaaSProductLastModifiedDateFilterDateRange?
+
+        public init(dateRange: SaaSProductLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct SaaSProductLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Date after which the SaaS product was last modified.
+        public let afterValue: String?
+        /// Date before which the SaaS product was last modified.
+        public let beforeValue: String?
+
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct SaaSProductSort: AWSEncodableShape {
+        /// Field to sort the SaaS products by.
+        public let sortBy: SaaSProductSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public let sortOrder: SortOrder?
+
+        public init(sortBy: SaaSProductSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct SaaSProductSummary: AWSDecodableShape {
+        /// The title of the SaaS product.
+        public let productTitle: String?
+        /// The lifecycle of the SaaS product.
+        public let visibility: SaaSProductVisibilityString?
+
+        public init(productTitle: String? = nil, visibility: SaaSProductVisibilityString? = nil) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct SaaSProductTitleFilter: AWSEncodableShape {
+        /// A string array of unique product title values to be filtered on.
+        public let valueList: [String]?
+        /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
+        public let wildCardValue: String?
+
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct SaaSProductVisibilityFilter: AWSEncodableShape {
+        /// A string array of unique visibility values to be filtered on.
+        public let valueList: [SaaSProductVisibilityString]?
+
+        public init(valueList: [SaaSProductVisibilityString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
     public struct Sort: AWSEncodableShape {
-        /// For ListEntities, supported attributes include LastModifiedDate (default), Visibility, EntityId, and Name. For ListChangeSets, supported attributes include StartTime and EndTime.
+        /// For ListEntities, supported attributes include LastModifiedDate (default) and EntityId. In addition to LastModifiedDate and EntityId, each EntityType might support additional fields. For ListChangeSets, supported attributes include StartTime and EndTime.
         public let sortBy: String?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?

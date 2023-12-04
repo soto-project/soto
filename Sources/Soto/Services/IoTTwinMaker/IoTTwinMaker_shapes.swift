@@ -26,65 +26,86 @@ import Foundation
 extension IoTTwinMaker {
     // MARK: Enums
 
-    public enum ColumnType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case edge = "EDGE"
         case node = "NODE"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComponentUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iotsitewise = "iotsitewise"
+        case iottwinmaker = "iottwinmaker"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compositeComponentFailure = "COMPOSITE_COMPONENT_FAILURE"
         case internalFailure = "INTERNAL_FAILURE"
+        case processingError = "PROCESSING_ERROR"
         case syncCreatingError = "SYNC_CREATING_ERROR"
+        case syncDeletingError = "SYNC_DELETING_ERROR"
         case syncInitializingError = "SYNC_INITIALIZING_ERROR"
         case syncProcessingError = "SYNC_PROCESSING_ERROR"
         case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupType: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tabular = "TABULAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterpolationType: String, CustomStringConvertible, Codable, Sendable {
+    public enum InterpolationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, Sendable {
+    public enum MetadataTransferJobState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case validating = "VALIDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderByTime: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrderByTime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParentEntityUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParentEntityUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PricingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case standard = "STANDARD"
         case tieredBundle = "TIERED_BUNDLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingTier: String, CustomStringConvertible, Codable, Sendable {
+    public enum PricingTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tier1 = "TIER_1"
         case tier2 = "TIER_2"
         case tier3 = "TIER_3"
@@ -92,32 +113,39 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyGroupUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PropertyGroupUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyUpdateType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PropertyUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SceneErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SceneErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case matterportError = "MATTERPORT_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case entity = "ENTITY"
         case workspace = "WORKSPACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, Sendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iotsitewise = "iotsitewise"
+        case iottwinmaker = "iottwinmaker"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -126,7 +154,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncJobState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyncJobState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -135,7 +163,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncResourceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyncResourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleted = "DELETED"
         case error = "ERROR"
         case initializing = "INITIALIZING"
@@ -144,13 +172,13 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SyncResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case componentType = "COMPONENT_TYPE"
         case entity = "ENTITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case entityCountUpdate = "ENTITY_COUNT_UPDATE"
         case overwritten = "OVERWRITTEN"
@@ -159,7 +187,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case integer = "INTEGER"
@@ -169,6 +197,106 @@ extension IoTTwinMaker {
         case relationship = "RELATIONSHIP"
         case string = "STRING"
         public var description: String { return self.rawValue }
+    }
+
+    public enum IotSiteWiseSourceConfigurationFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Filter by asset.
+        case filterByAsset(FilterByAsset)
+        /// Filter by asset model.
+        case filterByAssetModel(FilterByAssetModel)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .filterByAsset:
+                let value = try container.decode(FilterByAsset.self, forKey: .filterByAsset)
+                self = .filterByAsset(value)
+            case .filterByAssetModel:
+                let value = try container.decode(FilterByAssetModel.self, forKey: .filterByAssetModel)
+                self = .filterByAssetModel(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .filterByAsset(let value):
+                try container.encode(value, forKey: .filterByAsset)
+            case .filterByAssetModel(let value):
+                try container.encode(value, forKey: .filterByAssetModel)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .filterByAsset(let value):
+                try value.validate(name: "\(name).filterByAsset")
+            case .filterByAssetModel(let value):
+                try value.validate(name: "\(name).filterByAssetModel")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterByAsset = "filterByAsset"
+            case filterByAssetModel = "filterByAssetModel"
+        }
+    }
+
+    public enum IotTwinMakerSourceConfigurationFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Filter by component type.
+        case filterByComponentType(FilterByComponentType)
+        /// Filter by entity.
+        case filterByEntity(FilterByEntity)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .filterByComponentType:
+                let value = try container.decode(FilterByComponentType.self, forKey: .filterByComponentType)
+                self = .filterByComponentType(value)
+            case .filterByEntity:
+                let value = try container.decode(FilterByEntity.self, forKey: .filterByEntity)
+                self = .filterByEntity(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .filterByComponentType(let value):
+                try container.encode(value, forKey: .filterByComponentType)
+            case .filterByEntity(let value):
+                try container.encode(value, forKey: .filterByEntity)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .filterByComponentType(let value):
+                try value.validate(name: "\(name).filterByComponentType")
+            case .filterByEntity(let value):
+                try value.validate(name: "\(name).filterByEntity")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterByComponentType = "filterByComponentType"
+            case filterByEntity = "filterByEntity"
+        }
     }
 
     public enum ListComponentTypesFilter: AWSEncodableShape, Sendable {
@@ -254,6 +382,39 @@ extension IoTTwinMaker {
             case componentTypeId = "componentTypeId"
             case externalId = "externalId"
             case parentEntityId = "parentEntityId"
+        }
+    }
+
+    public enum ListMetadataTransferJobsFilter: AWSEncodableShape, Sendable {
+        /// The filter state.
+        case state(MetadataTransferJobState)
+        /// The workspace Id.
+        case workspaceId(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .state(let value):
+                try container.encode(value, forKey: .state)
+            case .workspaceId(let value):
+                try container.encode(value, forKey: .workspaceId)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .workspaceId(let value):
+                try self.validate(value, name: "workspaceId", parent: name, max: 128)
+                try self.validate(value, name: "workspaceId", parent: name, min: 1)
+                try self.validate(value, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -404,6 +565,58 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct CancelMetadataTransferJobRequest: AWSEncodableShape {
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String
+
+        public init(metadataTransferJobId: String) {
+            self.metadataTransferJobId = metadataTransferJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metadataTransferJobId, key: "metadataTransferJobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, max: 128)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, min: 1)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelMetadataTransferJobResponse: AWSDecodableShape {
+        /// The metadata transfer job ARN.
+        public let arn: String
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String
+        /// The metadata transfer job's progress.
+        public let progress: MetadataTransferJobProgress?
+        /// The metadata transfer job's status.
+        public let status: MetadataTransferJobStatus
+        /// Used to update the DateTime property.
+        public let updateDateTime: Date
+
+        public init(arn: String, metadataTransferJobId: String, progress: MetadataTransferJobProgress? = nil, status: MetadataTransferJobStatus, updateDateTime: Date) {
+            self.arn = arn
+            self.metadataTransferJobId = metadataTransferJobId
+            self.progress = progress
+            self.status = status
+            self.updateDateTime = updateDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case metadataTransferJobId = "metadataTransferJobId"
+            case progress = "progress"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
+        }
+    }
+
     public struct ColumnDescription: AWSDecodableShape {
         /// The name of the column description.
         public let name: String?
@@ -517,10 +730,16 @@ extension IoTTwinMaker {
     }
 
     public struct ComponentResponse: AWSDecodableShape {
+        /// This flag notes whether all compositeComponents are returned in the API  response.
+        public let areAllCompositeComponentsReturned: Bool?
+        /// This flag notes whether all properties of the component are returned in the API response.  The maximum number of properties returned is 800.
+        public let areAllPropertiesReturned: Bool?
         /// The name of the component.
         public let componentName: String?
         /// The ID of the component type.
         public let componentTypeId: String?
+        /// This lists objects that contain information about the compositeComponents.
+        public let compositeComponents: [String: ComponentSummary]?
         /// The name of the property definition set in the request.
         public let definedIn: String?
         /// The description of the component type.
@@ -534,9 +753,12 @@ extension IoTTwinMaker {
         /// The syncSource of the sync job, if this entity was created by a sync job.
         public let syncSource: String?
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil) {
+        public init(areAllCompositeComponentsReturned: Bool? = nil, areAllPropertiesReturned: Bool? = nil, componentName: String? = nil, componentTypeId: String? = nil, compositeComponents: [String: ComponentSummary]? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil) {
+            self.areAllCompositeComponentsReturned = areAllCompositeComponentsReturned
+            self.areAllPropertiesReturned = areAllPropertiesReturned
             self.componentName = componentName
             self.componentTypeId = componentTypeId
+            self.compositeComponents = compositeComponents
             self.definedIn = definedIn
             self.description = description
             self.properties = properties
@@ -546,11 +768,55 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case areAllCompositeComponentsReturned = "areAllCompositeComponentsReturned"
+            case areAllPropertiesReturned = "areAllPropertiesReturned"
             case componentName = "componentName"
             case componentTypeId = "componentTypeId"
+            case compositeComponents = "compositeComponents"
             case definedIn = "definedIn"
             case description = "description"
             case properties = "properties"
+            case propertyGroups = "propertyGroups"
+            case status = "status"
+            case syncSource = "syncSource"
+        }
+    }
+
+    public struct ComponentSummary: AWSDecodableShape {
+        /// The name of the component.
+        public let componentName: String
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
+        /// The ID of the component type.
+        public let componentTypeId: String
+        /// The name of the property definition set in the request.
+        public let definedIn: String?
+        /// The description of the component request.
+        public let description: String?
+        /// The property groups.
+        public let propertyGroups: [String: ComponentPropertyGroupResponse]?
+        /// The status of the component type.
+        public let status: Status
+        /// The syncSource of the sync job, if this entity was created by a sync job.
+        public let syncSource: String?
+
+        public init(componentName: String, componentPath: String? = nil, componentTypeId: String, definedIn: String? = nil, description: String? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status, syncSource: String? = nil) {
+            self.componentName = componentName
+            self.componentPath = componentPath
+            self.componentTypeId = componentTypeId
+            self.definedIn = definedIn
+            self.description = description
+            self.propertyGroups = propertyGroups
+            self.status = status
+            self.syncSource = syncSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "componentName"
+            case componentPath = "componentPath"
+            case componentTypeId = "componentTypeId"
+            case definedIn = "definedIn"
+            case description = "description"
             case propertyGroups = "propertyGroups"
             case status = "status"
             case syncSource = "syncSource"
@@ -643,11 +909,129 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct CompositeComponentRequest: AWSEncodableShape {
+        /// The description of the component type.
+        public let description: String?
+        /// This is an object that maps strings to the properties to set in the component type. Each string in  the mapping must be unique to this object.
+        public let properties: [String: PropertyRequest]?
+        /// The property groups.
+        public let propertyGroups: [String: ComponentPropertyGroupRequest]?
+
+        public init(description: String? = nil, properties: [String: PropertyRequest]? = nil, propertyGroups: [String: ComponentPropertyGroupRequest]? = nil) {
+            self.description = description
+            self.properties = properties
+            self.propertyGroups = propertyGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, min: 1)
+                try validate($0.key, name: "properties.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).properties[\"\($0.key)\"]")
+            }
+            try self.propertyGroups?.forEach {
+                try validate($0.key, name: "propertyGroups.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroups.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroups.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroups[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case properties = "properties"
+            case propertyGroups = "propertyGroups"
+        }
+    }
+
+    public struct CompositeComponentTypeRequest: AWSEncodableShape {
+        /// This is the componentTypeId that the compositeComponentType refers to.
+        public let componentTypeId: String?
+
+        public init(componentTypeId: String? = nil) {
+            self.componentTypeId = componentTypeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentTypeId = "componentTypeId"
+        }
+    }
+
+    public struct CompositeComponentTypeResponse: AWSDecodableShape {
+        /// This is the componentTypeId that this compositeComponentType refers to.
+        public let componentTypeId: String?
+        /// This boolean indicates whether this compositeComponentType is inherited from its parent.
+        public let isInherited: Bool?
+
+        public init(componentTypeId: String? = nil, isInherited: Bool? = nil) {
+            self.componentTypeId = componentTypeId
+            self.isInherited = isInherited
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentTypeId = "componentTypeId"
+            case isInherited = "isInherited"
+        }
+    }
+
+    public struct CompositeComponentUpdateRequest: AWSEncodableShape {
+        /// The description of the component type.
+        public let description: String?
+        /// The property group updates.
+        public let propertyGroupUpdates: [String: ComponentPropertyGroupRequest]?
+        /// An object that maps strings to the properties to set in the component type update. Each string in the mapping must be unique to this object.
+        public let propertyUpdates: [String: PropertyRequest]?
+        /// The update type of the component update request.
+        public let updateType: ComponentUpdateType?
+
+        public init(description: String? = nil, propertyGroupUpdates: [String: ComponentPropertyGroupRequest]? = nil, propertyUpdates: [String: PropertyRequest]? = nil, updateType: ComponentUpdateType? = nil) {
+            self.description = description
+            self.propertyGroupUpdates = propertyGroupUpdates
+            self.propertyUpdates = propertyUpdates
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.propertyGroupUpdates?.forEach {
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroupUpdates[\"\($0.key)\"]")
+            }
+            try self.propertyUpdates?.forEach {
+                try validate($0.key, name: "propertyUpdates.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyUpdates.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyUpdates[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case propertyGroupUpdates = "propertyGroupUpdates"
+            case propertyUpdates = "propertyUpdates"
+            case updateType = "updateType"
+        }
+    }
+
     public struct CreateComponentTypeRequest: AWSEncodableShape {
         /// The ID of the component type.
         public let componentTypeId: String
         /// A friendly name for the component type.
         public let componentTypeName: String?
+        /// This is an object that maps strings to compositeComponentTypes of the componentType.  CompositeComponentType is referenced by componentTypeId.
+        public let compositeComponentTypes: [String: CompositeComponentTypeRequest]?
         /// The description of the component type.
         public let description: String?
         /// Specifies the parent component type to extend.
@@ -664,9 +1048,10 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(componentTypeId: String, componentTypeName: String? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeRequest]? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
+            self.compositeComponentTypes = compositeComponentTypes
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
@@ -682,6 +1067,7 @@ extension IoTTwinMaker {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.componentTypeId, key: "componentTypeId")
             try container.encodeIfPresent(self.componentTypeName, forKey: .componentTypeName)
+            try container.encodeIfPresent(self.compositeComponentTypes, forKey: .compositeComponentTypes)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.extendsFrom, forKey: .extendsFrom)
             try container.encodeIfPresent(self.functions, forKey: .functions)
@@ -698,6 +1084,12 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
             try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, max: 256)
             try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]*")
+            try self.compositeComponentTypes?.forEach {
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, max: 256)
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, min: 1)
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).compositeComponentTypes[\"\($0.key)\"]")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.extendsFrom?.forEach {
@@ -739,6 +1131,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentTypeName = "componentTypeName"
+            case compositeComponentTypes = "compositeComponentTypes"
             case description = "description"
             case extendsFrom = "extendsFrom"
             case functions = "functions"
@@ -773,6 +1166,8 @@ extension IoTTwinMaker {
     public struct CreateEntityRequest: AWSEncodableShape {
         /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
         public let components: [String: ComponentRequest]?
+        /// This is an object that maps strings to compositeComponent updates in the request.  Each key of the map represents the componentPath of the compositeComponent.
+        public let compositeComponents: [String: CompositeComponentRequest]?
         /// The description of the entity.
         public let description: String?
         /// The ID of the entity.
@@ -786,8 +1181,9 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the entity.
         public let workspaceId: String
 
-        public init(components: [String: ComponentRequest]? = nil, description: String? = nil, entityId: String? = nil, entityName: String, parentEntityId: String? = nil, tags: [String: String]? = nil, workspaceId: String) {
+        public init(components: [String: ComponentRequest]? = nil, compositeComponents: [String: CompositeComponentRequest]? = nil, description: String? = nil, entityId: String? = nil, entityName: String, parentEntityId: String? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.components = components
+            self.compositeComponents = compositeComponents
             self.description = description
             self.entityId = entityId
             self.entityName = entityName
@@ -800,6 +1196,7 @@ extension IoTTwinMaker {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.components, forKey: .components)
+            try container.encodeIfPresent(self.compositeComponents, forKey: .compositeComponents)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.entityId, forKey: .entityId)
             try container.encode(self.entityName, forKey: .entityName)
@@ -814,6 +1211,12 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "components.key", parent: name, min: 1)
                 try validate($0.key, name: "components.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).components[\"\($0.key)\"]")
+            }
+            try self.compositeComponents?.forEach {
+                try validate($0.key, name: "compositeComponents.key", parent: name, max: 2048)
+                try validate($0.key, name: "compositeComponents.key", parent: name, min: 1)
+                try validate($0.key, name: "compositeComponents.key", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
+                try $0.value.validate(name: "\(name).compositeComponents[\"\($0.key)\"]")
             }
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
@@ -842,6 +1245,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case components = "components"
+            case compositeComponents = "compositeComponents"
             case description = "description"
             case entityId = "entityId"
             case entityName = "entityName"
@@ -872,6 +1276,70 @@ extension IoTTwinMaker {
             case creationDateTime = "creationDateTime"
             case entityId = "entityId"
             case state = "state"
+        }
+    }
+
+    public struct CreateMetadataTransferJobRequest: AWSEncodableShape {
+        /// The metadata transfer job description.
+        public let description: String?
+        /// The metadata transfer job destination.
+        public let destination: DestinationConfiguration
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String?
+        /// The metadata transfer job sources.
+        public let sources: [SourceConfiguration]
+
+        public init(description: String? = nil, destination: DestinationConfiguration, metadataTransferJobId: String? = nil, sources: [SourceConfiguration]) {
+            self.description = description
+            self.destination = destination
+            self.metadataTransferJobId = metadataTransferJobId
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, max: 128)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, min: 1)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            try self.sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, max: 1)
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case destination = "destination"
+            case metadataTransferJobId = "metadataTransferJobId"
+            case sources = "sources"
+        }
+    }
+
+    public struct CreateMetadataTransferJobResponse: AWSDecodableShape {
+        /// The metadata transfer job ARN.
+        public let arn: String
+        /// The The metadata transfer job creation DateTime property.
+        public let creationDateTime: Date
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String
+        /// The metadata transfer job response status.
+        public let status: MetadataTransferJobStatus
+
+        public init(arn: String, creationDateTime: Date, metadataTransferJobId: String, status: MetadataTransferJobStatus) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.metadataTransferJobId = metadataTransferJobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case metadataTransferJobId = "metadataTransferJobId"
+            case status = "status"
         }
     }
 
@@ -1051,15 +1519,15 @@ extension IoTTwinMaker {
         /// The description of the workspace.
         public let description: String?
         /// The ARN of the execution role associated with the workspace.
-        public let role: String
+        public let role: String?
         /// The ARN of the S3 bucket where resources associated with the workspace are stored.
-        public let s3Location: String
+        public let s3Location: String?
         /// Metadata that you can use to manage the workspace
         public let tags: [String: String]?
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(description: String? = nil, role: String, s3Location: String, tags: [String: String]? = nil, workspaceId: String) {
+        public init(description: String? = nil, role: String? = nil, s3Location: String? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.description = description
             self.role = role
             self.s3Location = s3Location
@@ -1071,8 +1539,8 @@ extension IoTTwinMaker {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
-            try container.encode(self.role, forKey: .role)
-            try container.encode(self.s3Location, forKey: .s3Location)
+            try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.s3Location, forKey: .s3Location)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             request.encodePath(self.workspaceId, key: "workspaceId")
         }
@@ -1441,12 +1909,49 @@ extension IoTTwinMaker {
     }
 
     public struct DeleteWorkspaceResponse: AWSDecodableShape {
-        public init() {}
+        /// The string that specifies the delete result for the workspace.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The metadata transfer job Amazon Web Services IoT TwinMaker configuration.
+        public let iotTwinMakerConfiguration: IotTwinMakerDestinationConfiguration?
+        /// The metadata transfer job S3 configuration. [need to add S3 entity]
+        public let s3Configuration: S3DestinationConfiguration?
+        /// The destination type.
+        public let type: DestinationType
+
+        public init(iotTwinMakerConfiguration: IotTwinMakerDestinationConfiguration? = nil, s3Configuration: S3DestinationConfiguration? = nil, type: DestinationType) {
+            self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
+            self.s3Configuration = s3Configuration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.iotTwinMakerConfiguration?.validate(name: "\(name).iotTwinMakerConfiguration")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotTwinMakerConfiguration = "iotTwinMakerConfiguration"
+            case s3Configuration = "s3Configuration"
+            case type = "type"
+        }
     }
 
     public struct EntityPropertyReference: AWSEncodableShape & AWSDecodableShape {
         /// The name of the component.
         public let componentName: String?
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
         /// The ID of the entity.
         public let entityId: String?
         /// A mapping of external IDs to property names. External IDs uniquely identify properties from external data stores.
@@ -1454,8 +1959,9 @@ extension IoTTwinMaker {
         /// The name of the property.
         public let propertyName: String
 
-        public init(componentName: String? = nil, entityId: String? = nil, externalIdProperty: [String: String]? = nil, propertyName: String) {
+        public init(componentName: String? = nil, componentPath: String? = nil, entityId: String? = nil, externalIdProperty: [String: String]? = nil, propertyName: String) {
             self.componentName = componentName
+            self.componentPath = componentPath
             self.entityId = entityId
             self.externalIdProperty = externalIdProperty
             self.propertyName = propertyName
@@ -1465,6 +1971,9 @@ extension IoTTwinMaker {
             try self.validate(self.componentName, name: "componentName", parent: name, max: 256)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            try self.validate(self.componentPath, name: "componentPath", parent: name, max: 2048)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, min: 1)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
@@ -1483,6 +1992,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "componentName"
+            case componentPath = "componentPath"
             case entityId = "entityId"
             case externalIdProperty = "externalIdProperty"
             case propertyName = "propertyName"
@@ -1500,7 +2010,7 @@ extension IoTTwinMaker {
         public let entityId: String
         /// The name of the entity.
         public let entityName: String
-        /// A Boolean value that specifies whether the entity has child entities or not.
+        /// An eventual Boolean value that specifies whether the entity has child entities or not.
         public let hasChildEntities: Bool?
         /// The ID of the parent entity.
         public let parentEntityId: String?
@@ -1552,7 +2062,7 @@ extension IoTTwinMaker {
     }
 
     public struct ExecuteQueryRequest: AWSEncodableShape {
-        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 50.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1607,6 +2117,112 @@ extension IoTTwinMaker {
             case columnDescriptions = "columnDescriptions"
             case nextToken = "nextToken"
             case rows = "rows"
+        }
+    }
+
+    public struct FilterByAsset: AWSEncodableShape & AWSDecodableShape {
+        /// The external-Id property of an asset.
+        public let assetExternalId: String?
+        /// Filter by asset Id.
+        public let assetId: String?
+        /// Boolean to include the asset model.
+        public let includeAssetModel: Bool?
+        /// Includes sub-assets.[need description hekp for this]
+        public let includeOffspring: Bool?
+
+        public init(assetExternalId: String? = nil, assetId: String? = nil, includeAssetModel: Bool? = nil, includeOffspring: Bool? = nil) {
+            self.assetExternalId = assetExternalId
+            self.assetId = assetId
+            self.includeAssetModel = includeAssetModel
+            self.includeOffspring = includeOffspring
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetExternalId, name: "assetExternalId", parent: name, max: 128)
+            try self.validate(self.assetExternalId, name: "assetExternalId", parent: name, min: 2)
+            try self.validate(self.assetExternalId, name: "assetExternalId", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetExternalId = "assetExternalId"
+            case assetId = "assetId"
+            case includeAssetModel = "includeAssetModel"
+            case includeOffspring = "includeOffspring"
+        }
+    }
+
+    public struct FilterByAssetModel: AWSEncodableShape & AWSDecodableShape {
+        /// The external-Id property of an asset model.
+        public let assetModelExternalId: String?
+        /// The asset model Id.
+        public let assetModelId: String?
+        /// Bolean to include assets.
+        public let includeAssets: Bool?
+        /// Include asset offspring. [need desc.]
+        public let includeOffspring: Bool?
+
+        public init(assetModelExternalId: String? = nil, assetModelId: String? = nil, includeAssets: Bool? = nil, includeOffspring: Bool? = nil) {
+            self.assetModelExternalId = assetModelExternalId
+            self.assetModelId = assetModelId
+            self.includeAssets = includeAssets
+            self.includeOffspring = includeOffspring
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelExternalId, name: "assetModelExternalId", parent: name, max: 128)
+            try self.validate(self.assetModelExternalId, name: "assetModelExternalId", parent: name, min: 2)
+            try self.validate(self.assetModelExternalId, name: "assetModelExternalId", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelExternalId = "assetModelExternalId"
+            case assetModelId = "assetModelId"
+            case includeAssets = "includeAssets"
+            case includeOffspring = "includeOffspring"
+        }
+    }
+
+    public struct FilterByComponentType: AWSEncodableShape & AWSDecodableShape {
+        /// The component type Id.
+        public let componentTypeId: String
+
+        public init(componentTypeId: String) {
+            self.componentTypeId = componentTypeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
+            try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentTypeId = "componentTypeId"
+        }
+    }
+
+    public struct FilterByEntity: AWSEncodableShape & AWSDecodableShape {
+        /// The entity Id.
+        public let entityId: String
+
+        public init(entityId: String) {
+            self.entityId = entityId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "entityId"
         }
     }
 
@@ -1702,6 +2318,8 @@ extension IoTTwinMaker {
         public let componentTypeId: String
         /// The component type name.
         public let componentTypeName: String?
+        /// This is an object that maps strings to compositeComponentTypes of the componentType. CompositeComponentType is referenced by componentTypeId.
+        public let compositeComponentTypes: [String: CompositeComponentTypeResponse]?
         /// The date and time when the component type was created.
         public let creationDateTime: Date
         /// The description of the component type.
@@ -1729,10 +2347,11 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeResponse]? = nil, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
+            self.compositeComponentTypes = compositeComponentTypes
             self.creationDateTime = creationDateTime
             self.description = description
             self.extendsFrom = extendsFrom
@@ -1752,6 +2371,7 @@ extension IoTTwinMaker {
             case arn = "arn"
             case componentTypeId = "componentTypeId"
             case componentTypeName = "componentTypeName"
+            case compositeComponentTypes = "compositeComponentTypes"
             case creationDateTime = "creationDateTime"
             case description = "description"
             case extendsFrom = "extendsFrom"
@@ -1799,6 +2419,8 @@ extension IoTTwinMaker {
     }
 
     public struct GetEntityResponse: AWSDecodableShape {
+        /// This flag notes whether all components are returned in the API response. The maximum number of components returned is 30.
+        public let areAllComponentsReturned: Bool?
         /// The ARN of the entity.
         public let arn: String
         /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
@@ -1824,7 +2446,8 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(arn: String, components: [String: ComponentResponse]? = nil, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool, parentEntityId: String, status: Status, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
+        public init(areAllComponentsReturned: Bool? = nil, arn: String, components: [String: ComponentResponse]? = nil, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool, parentEntityId: String, status: Status, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
+            self.areAllComponentsReturned = areAllComponentsReturned
             self.arn = arn
             self.components = components
             self.creationDateTime = creationDateTime
@@ -1840,6 +2463,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case areAllComponentsReturned = "areAllComponentsReturned"
             case arn = "arn"
             case components = "components"
             case creationDateTime = "creationDateTime"
@@ -1852,6 +2476,82 @@ extension IoTTwinMaker {
             case syncSource = "syncSource"
             case updateDateTime = "updateDateTime"
             case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct GetMetadataTransferJobRequest: AWSEncodableShape {
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String
+
+        public init(metadataTransferJobId: String) {
+            self.metadataTransferJobId = metadataTransferJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metadataTransferJobId, key: "metadataTransferJobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, max: 128)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, min: 1)
+            try self.validate(self.metadataTransferJobId, name: "metadataTransferJobId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMetadataTransferJobResponse: AWSDecodableShape {
+        /// The metadata transfer job ARN.
+        public let arn: String
+        /// The metadata transfer job's creation DateTime property.
+        public let creationDateTime: Date
+        /// The metadata transfer job description.
+        public let description: String?
+        /// The metadata transfer job's destination.
+        public let destination: DestinationConfiguration
+        /// The metadata transfer job Id.
+        public let metadataTransferJobId: String
+        /// The metadata transfer job's role.
+        public let metadataTransferJobRole: String
+        /// The metadata transfer job's progress.
+        public let progress: MetadataTransferJobProgress?
+        /// The metadata transfer job's report URL.
+        public let reportUrl: String?
+        /// The metadata transfer job's sources.
+        public let sources: [SourceConfiguration]
+        /// The metadata transfer job's status.
+        public let status: MetadataTransferJobStatus
+        /// The metadata transfer job's update DateTime property.
+        public let updateDateTime: Date
+
+        public init(arn: String, creationDateTime: Date, description: String? = nil, destination: DestinationConfiguration, metadataTransferJobId: String, metadataTransferJobRole: String, progress: MetadataTransferJobProgress? = nil, reportUrl: String? = nil, sources: [SourceConfiguration], status: MetadataTransferJobStatus, updateDateTime: Date) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.destination = destination
+            self.metadataTransferJobId = metadataTransferJobId
+            self.metadataTransferJobRole = metadataTransferJobRole
+            self.progress = progress
+            self.reportUrl = reportUrl
+            self.sources = sources
+            self.status = status
+            self.updateDateTime = updateDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case destination = "destination"
+            case metadataTransferJobId = "metadataTransferJobId"
+            case metadataTransferJobRole = "metadataTransferJobRole"
+            case progress = "progress"
+            case reportUrl = "reportUrl"
+            case sources = "sources"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -1879,6 +2579,8 @@ extension IoTTwinMaker {
     public struct GetPropertyValueHistoryRequest: AWSEncodableShape {
         /// The name of the component.
         public let componentName: String?
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
         /// The ID of the component type.
         public let componentTypeId: String?
         /// The date and time of the latest property value to return.
@@ -1906,8 +2608,9 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startTime: String? = nil, workspaceId: String) {
+        public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startTime: String? = nil, workspaceId: String) {
             self.componentName = componentName
+            self.componentPath = componentPath
             self.componentTypeId = componentTypeId
             self.endDateTime = nil
             self.endTime = endTime
@@ -1924,8 +2627,9 @@ extension IoTTwinMaker {
         }
 
         @available(*, deprecated, message: "Members endDateTime, startDateTime have been deprecated")
-        public init(componentName: String? = nil, componentTypeId: String? = nil, endDateTime: Date? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startDateTime: Date? = nil, startTime: String? = nil, workspaceId: String) {
+        public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, endDateTime: Date? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startDateTime: Date? = nil, startTime: String? = nil, workspaceId: String) {
             self.componentName = componentName
+            self.componentPath = componentPath
             self.componentTypeId = componentTypeId
             self.endDateTime = endDateTime
             self.endTime = endTime
@@ -1945,6 +2649,7 @@ extension IoTTwinMaker {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.componentName, forKey: .componentName)
+            try container.encodeIfPresent(self.componentPath, forKey: .componentPath)
             try container.encodeIfPresent(self.componentTypeId, forKey: .componentTypeId)
             try container.encodeIfPresent(self.endDateTime, forKey: .endDateTime)
             try container.encodeIfPresent(self.endTime, forKey: .endTime)
@@ -1964,6 +2669,9 @@ extension IoTTwinMaker {
             try self.validate(self.componentName, name: "componentName", parent: name, max: 256)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            try self.validate(self.componentPath, name: "componentPath", parent: name, max: 2048)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, min: 1)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
@@ -1997,6 +2705,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "componentName"
+            case componentPath = "componentPath"
             case componentTypeId = "componentTypeId"
             case endDateTime = "endDateTime"
             case endTime = "endTime"
@@ -2032,6 +2741,8 @@ extension IoTTwinMaker {
     public struct GetPropertyValueRequest: AWSEncodableShape {
         /// The name of the component whose property values the operation returns.
         public let componentName: String?
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
         /// The ID of the component type whose property values the operation returns.
         public let componentTypeId: String?
         /// The ID of the entity whose property values the operation returns.
@@ -2049,8 +2760,9 @@ extension IoTTwinMaker {
         /// The ID of the workspace whose values the operation returns.
         public let workspaceId: String
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, entityId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyGroupName: String? = nil, selectedProperties: [String], tabularConditions: TabularConditions? = nil, workspaceId: String) {
+        public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, entityId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyGroupName: String? = nil, selectedProperties: [String], tabularConditions: TabularConditions? = nil, workspaceId: String) {
             self.componentName = componentName
+            self.componentPath = componentPath
             self.componentTypeId = componentTypeId
             self.entityId = entityId
             self.maxResults = maxResults
@@ -2065,6 +2777,7 @@ extension IoTTwinMaker {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.componentName, forKey: .componentName)
+            try container.encodeIfPresent(self.componentPath, forKey: .componentPath)
             try container.encodeIfPresent(self.componentTypeId, forKey: .componentTypeId)
             try container.encodeIfPresent(self.entityId, forKey: .entityId)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
@@ -2079,6 +2792,9 @@ extension IoTTwinMaker {
             try self.validate(self.componentName, name: "componentName", parent: name, max: 256)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            try self.validate(self.componentPath, name: "componentPath", parent: name, max: 2048)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, min: 1)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
@@ -2107,6 +2823,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "componentName"
+            case componentPath = "componentPath"
             case componentTypeId = "componentTypeId"
             case entityId = "entityId"
             case maxResults = "maxResults"
@@ -2316,19 +3033,22 @@ extension IoTTwinMaker {
         public let creationDateTime: Date
         /// The description of the workspace.
         public let description: String?
+        /// A list of services that are linked to the workspace.
+        public let linkedServices: [String]?
         /// The ARN of the execution role associated with the workspace.
-        public let role: String
+        public let role: String?
         /// The ARN of the S3 bucket where resources associated with the workspace are stored.
-        public let s3Location: String
+        public let s3Location: String?
         /// The date and time when the workspace was last updated.
         public let updateDateTime: Date
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(arn: String, creationDateTime: Date, description: String? = nil, role: String, s3Location: String, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, creationDateTime: Date, description: String? = nil, linkedServices: [String]? = nil, role: String? = nil, s3Location: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.description = description
+            self.linkedServices = linkedServices
             self.role = role
             self.s3Location = s3Location
             self.updateDateTime = updateDateTime
@@ -2339,6 +3059,7 @@ extension IoTTwinMaker {
             case arn = "arn"
             case creationDateTime = "creationDateTime"
             case description = "description"
+            case linkedServices = "linkedServices"
             case role = "role"
             case s3Location = "s3Location"
             case updateDateTime = "updateDateTime"
@@ -2360,6 +3081,70 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case interpolationType = "interpolationType"
             case intervalInSeconds = "intervalInSeconds"
+        }
+    }
+
+    public struct IotSiteWiseSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS IoT SiteWise soucre configuration filters.
+        public let filters: [IotSiteWiseSourceConfigurationFilter]?
+
+        public init(filters: [IotSiteWiseSourceConfigurationFilter]? = nil) {
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct IotTwinMakerDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IoT TwinMaker workspace.
+        public let workspace: String
+
+        public init(workspace: String) {
+            self.workspace = workspace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspace, name: "workspace", parent: name, max: 2048)
+            try self.validate(self.workspace, name: "workspace", parent: name, min: 20)
+            try self.validate(self.workspace, name: "workspace", parent: name, pattern: "^arn:((aws)|(aws-cn)|(aws-us-gov)):iottwinmaker:[a-z0-9-]+:[0-9]{12}:[\\/a-zA-Z0-9_\\-\\.:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspace = "workspace"
+        }
+    }
+
+    public struct IotTwinMakerSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The metadata transfer job AWS IoT TwinMaker source configuration filters.
+        public let filters: [IotTwinMakerSourceConfigurationFilter]?
+        /// The IoT TwinMaker workspace.
+        public let workspace: String
+
+        public init(filters: [IotTwinMakerSourceConfigurationFilter]? = nil, workspace: String) {
+            self.filters = filters
+            self.workspace = workspace
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.workspace, name: "workspace", parent: name, max: 2048)
+            try self.validate(self.workspace, name: "workspace", parent: name, min: 20)
+            try self.validate(self.workspace, name: "workspace", parent: name, pattern: "^arn:((aws)|(aws-cn)|(aws-us-gov)):iottwinmaker:[a-z0-9-]+:[0-9]{12}:[\\/a-zA-Z0-9_\\-\\.:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case workspace = "workspace"
         }
     }
 
@@ -2453,6 +3238,76 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct ListComponentsRequest: AWSEncodableShape {
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
+        /// The ID for the entity whose metadata (component/properties) is returned by the operation.
+        public let entityId: String
+        /// The maximum number of results returned at one time. The default is 25.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The workspace ID.
+        public let workspaceId: String
+
+        public init(componentPath: String? = nil, entityId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.componentPath = componentPath
+            self.entityId = entityId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.componentPath, forKey: .componentPath)
+            request.encodePath(self.entityId, key: "entityId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentPath, name: "componentPath", parent: name, max: 2048)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, min: 1)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentPath = "componentPath"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComponentsResponse: AWSDecodableShape {
+        /// A list of objects that contain information about the components.
+        public let componentSummaries: [ComponentSummary]
+        /// The string that specifies the next page of component results.
+        public let nextToken: String?
+
+        public init(componentSummaries: [ComponentSummary], nextToken: String? = nil) {
+            self.componentSummaries = componentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentSummaries = "componentSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListEntitiesRequest: AWSEncodableShape {
         /// A list of objects that filter the request.  Only one object is accepted as a valid input.
         public let filters: [ListEntitiesFilter]?
@@ -2513,6 +3368,141 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case entitySummaries = "entitySummaries"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMetadataTransferJobsRequest: AWSEncodableShape {
+        /// The metadata transfer job's destination type.
+        public let destinationType: DestinationType
+        /// An object that filters metadata transfer jobs.
+        public let filters: [ListMetadataTransferJobsFilter]?
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The metadata transfer job's source type.
+        public let sourceType: SourceType
+
+        public init(destinationType: DestinationType, filters: [ListMetadataTransferJobsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceType: SourceType) {
+            self.destinationType = destinationType
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationType = "destinationType"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct ListMetadataTransferJobsResponse: AWSDecodableShape {
+        /// The metadata transfer job summaries.
+        public let metadataTransferJobSummaries: [MetadataTransferJobSummary]
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+
+        public init(metadataTransferJobSummaries: [MetadataTransferJobSummary], nextToken: String? = nil) {
+            self.metadataTransferJobSummaries = metadataTransferJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataTransferJobSummaries = "metadataTransferJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPropertiesRequest: AWSEncodableShape {
+        /// The name of the component whose properties are returned by the operation.
+        public let componentName: String?
+        /// This string specifies the path to the composite component, starting from the top-level component.
+        public let componentPath: String?
+        /// The ID for the entity whose metadata (component/properties) is returned by the operation.
+        public let entityId: String
+        /// The maximum number of results returned at one time. The default is 25.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The workspace ID.
+        public let workspaceId: String
+
+        public init(componentName: String? = nil, componentPath: String? = nil, entityId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.componentName = componentName
+            self.componentPath = componentPath
+            self.entityId = entityId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.componentName, forKey: .componentName)
+            try container.encodeIfPresent(self.componentPath, forKey: .componentPath)
+            try container.encode(self.entityId, forKey: .entityId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 256)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            try self.validate(self.componentPath, name: "componentPath", parent: name, max: 2048)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, min: 1)
+            try self.validate(self.componentPath, name: "componentPath", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName = "componentName"
+            case componentPath = "componentPath"
+            case entityId = "entityId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPropertiesResponse: AWSDecodableShape {
+        /// The string that specifies the next page of property results.
+        public let nextToken: String?
+        /// A list of objects that contain information about the properties.
+        public let propertySummaries: [PropertySummary]
+
+        public init(nextToken: String? = nil, propertySummaries: [PropertySummary]) {
+            self.nextToken = nextToken
+            self.propertySummaries = propertySummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case propertySummaries = "propertySummaries"
         }
     }
 
@@ -2780,6 +3770,85 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case workspaceSummaries = "workspaceSummaries"
+        }
+    }
+
+    public struct MetadataTransferJobProgress: AWSDecodableShape {
+        /// The failed count.
+        public let failedCount: Int?
+        /// The skipped count.
+        public let skippedCount: Int?
+        /// The succeeded count.
+        public let succeededCount: Int?
+        /// The total count. [of what]
+        public let totalCount: Int?
+
+        public init(failedCount: Int? = nil, skippedCount: Int? = nil, succeededCount: Int? = nil, totalCount: Int? = nil) {
+            self.failedCount = failedCount
+            self.skippedCount = skippedCount
+            self.succeededCount = succeededCount
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedCount = "failedCount"
+            case skippedCount = "skippedCount"
+            case succeededCount = "succeededCount"
+            case totalCount = "totalCount"
+        }
+    }
+
+    public struct MetadataTransferJobStatus: AWSDecodableShape {
+        /// The metadata transfer job error.
+        public let error: ErrorDetails?
+        /// The queued position.
+        public let queuedPosition: Int?
+        /// The metadata transfer job state.
+        public let state: MetadataTransferJobState?
+
+        public init(error: ErrorDetails? = nil, queuedPosition: Int? = nil, state: MetadataTransferJobState? = nil) {
+            self.error = error
+            self.queuedPosition = queuedPosition
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case queuedPosition = "queuedPosition"
+            case state = "state"
+        }
+    }
+
+    public struct MetadataTransferJobSummary: AWSDecodableShape {
+        /// The metadata transfer job summary ARN.
+        public let arn: String
+        /// The metadata transfer job summary creation DateTime object.
+        public let creationDateTime: Date
+        /// The metadata transfer job summary Id.
+        public let metadataTransferJobId: String
+        /// The metadata transfer job summary progess.
+        public let progress: MetadataTransferJobProgress?
+        /// The metadata transfer job summary status.
+        public let status: MetadataTransferJobStatus
+        /// The metadata transfer job summary update DateTime object
+        public let updateDateTime: Date
+
+        public init(arn: String, creationDateTime: Date, metadataTransferJobId: String, progress: MetadataTransferJobProgress? = nil, status: MetadataTransferJobStatus, updateDateTime: Date) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.metadataTransferJobId = metadataTransferJobId
+            self.progress = progress
+            self.status = status
+            self.updateDateTime = updateDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case metadataTransferJobId = "metadataTransferJobId"
+            case progress = "progress"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3090,18 +4159,47 @@ extension IoTTwinMaker {
     }
 
     public struct PropertyResponse: AWSDecodableShape {
+        /// This flag notes whether all values of a list or map type property are returned in the API response. The maximum number of values per property returned is 50.
+        public let areAllPropertyValuesReturned: Bool?
         /// An object that specifies information about a property.
         public let definition: PropertyDefinitionResponse?
         /// The value of the property.
         public let value: DataValue?
 
-        public init(definition: PropertyDefinitionResponse? = nil, value: DataValue? = nil) {
+        public init(areAllPropertyValuesReturned: Bool? = nil, definition: PropertyDefinitionResponse? = nil, value: DataValue? = nil) {
+            self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
             self.definition = definition
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case areAllPropertyValuesReturned = "areAllPropertyValuesReturned"
             case definition = "definition"
+            case value = "value"
+        }
+    }
+
+    public struct PropertySummary: AWSDecodableShape {
+        /// This flag notes whether all values of a list or map type property are returned in the API  response. The maximum number of values per property returned is 50.
+        public let areAllPropertyValuesReturned: Bool?
+        /// This is the schema for the property.
+        public let definition: PropertyDefinitionResponse?
+        /// This is the name of the property.
+        public let propertyName: String
+        /// This is the value for the property.
+        public let value: DataValue?
+
+        public init(areAllPropertyValuesReturned: Bool? = nil, definition: PropertyDefinitionResponse? = nil, propertyName: String, value: DataValue? = nil) {
+            self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
+            self.definition = definition
+            self.propertyName = propertyName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case areAllPropertyValuesReturned = "areAllPropertyValuesReturned"
+            case definition = "definition"
+            case propertyName = "propertyName"
             case value = "value"
         }
     }
@@ -3248,6 +4346,40 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 destination configuration location.
+        public let location: String
+
+        public init(location: String) {
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, pattern: "(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([/a-zA-Z0-9_-]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+        }
+    }
+
+    public struct S3SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 destination source configuration location.
+        public let location: String
+
+        public init(location: String) {
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, pattern: "(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+)\\/([/.a-zA-Z0-9_-]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+        }
+    }
+
     public struct SceneError: AWSDecodableShape {
         /// The SceneError code.
         public let code: SceneErrorCode?
@@ -3295,6 +4427,37 @@ extension IoTTwinMaker {
             case description = "description"
             case sceneId = "sceneId"
             case updateDateTime = "updateDateTime"
+        }
+    }
+
+    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The source configuration IoT SiteWise configuration.
+        public let iotSiteWiseConfiguration: IotSiteWiseSourceConfiguration?
+        /// The source configuration IoT TwinMaker configuration.
+        public let iotTwinMakerConfiguration: IotTwinMakerSourceConfiguration?
+        /// The source configuration S3 configuration.
+        public let s3Configuration: S3SourceConfiguration?
+        /// The source configuration type.
+        public let type: SourceType
+
+        public init(iotSiteWiseConfiguration: IotSiteWiseSourceConfiguration? = nil, iotTwinMakerConfiguration: IotTwinMakerSourceConfiguration? = nil, s3Configuration: S3SourceConfiguration? = nil, type: SourceType) {
+            self.iotSiteWiseConfiguration = iotSiteWiseConfiguration
+            self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
+            self.s3Configuration = s3Configuration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.iotSiteWiseConfiguration?.validate(name: "\(name).iotSiteWiseConfiguration")
+            try self.iotTwinMakerConfiguration?.validate(name: "\(name).iotTwinMakerConfiguration")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotSiteWiseConfiguration = "iotSiteWiseConfiguration"
+            case iotTwinMakerConfiguration = "iotTwinMakerConfiguration"
+            case s3Configuration = "s3Configuration"
+            case type = "type"
         }
     }
 
@@ -3519,6 +4682,8 @@ extension IoTTwinMaker {
         public let componentTypeId: String
         /// The component type name.
         public let componentTypeName: String?
+        /// This is an object that maps strings to compositeComponentTypes of the componentType.  CompositeComponentType is referenced by componentTypeId.
+        public let compositeComponentTypes: [String: CompositeComponentTypeRequest]?
         /// The description of the component type.
         public let description: String?
         /// Specifies the component type that this component type extends.
@@ -3534,9 +4699,10 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(componentTypeId: String, componentTypeName: String? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeRequest]? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
+            self.compositeComponentTypes = compositeComponentTypes
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
@@ -3551,6 +4717,7 @@ extension IoTTwinMaker {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.componentTypeId, key: "componentTypeId")
             try container.encodeIfPresent(self.componentTypeName, forKey: .componentTypeName)
+            try container.encodeIfPresent(self.compositeComponentTypes, forKey: .compositeComponentTypes)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.extendsFrom, forKey: .extendsFrom)
             try container.encodeIfPresent(self.functions, forKey: .functions)
@@ -3566,6 +4733,12 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
             try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, max: 256)
             try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]*")
+            try self.compositeComponentTypes?.forEach {
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, max: 256)
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, min: 1)
+                try validate($0.key, name: "compositeComponentTypes.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).compositeComponentTypes[\"\($0.key)\"]")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.extendsFrom?.forEach {
@@ -3598,6 +4771,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentTypeName = "componentTypeName"
+            case compositeComponentTypes = "compositeComponentTypes"
             case description = "description"
             case extendsFrom = "extendsFrom"
             case functions = "functions"
@@ -3635,6 +4809,8 @@ extension IoTTwinMaker {
     public struct UpdateEntityRequest: AWSEncodableShape {
         /// An object that maps strings to the component updates in the request. Each string in the mapping must be unique to this object.
         public let componentUpdates: [String: ComponentUpdateRequest]?
+        /// This is an object that maps strings to compositeComponent updates in the request. Each key  of the map represents the componentPath of the compositeComponent.
+        public let compositeComponentUpdates: [String: CompositeComponentUpdateRequest]?
         /// The description of the entity.
         public let description: String?
         /// The ID of the entity.
@@ -3646,8 +4822,9 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the entity.
         public let workspaceId: String
 
-        public init(componentUpdates: [String: ComponentUpdateRequest]? = nil, description: String? = nil, entityId: String, entityName: String? = nil, parentEntityUpdate: ParentEntityUpdateRequest? = nil, workspaceId: String) {
+        public init(componentUpdates: [String: ComponentUpdateRequest]? = nil, compositeComponentUpdates: [String: CompositeComponentUpdateRequest]? = nil, description: String? = nil, entityId: String, entityName: String? = nil, parentEntityUpdate: ParentEntityUpdateRequest? = nil, workspaceId: String) {
             self.componentUpdates = componentUpdates
+            self.compositeComponentUpdates = compositeComponentUpdates
             self.description = description
             self.entityId = entityId
             self.entityName = entityName
@@ -3659,6 +4836,7 @@ extension IoTTwinMaker {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.componentUpdates, forKey: .componentUpdates)
+            try container.encodeIfPresent(self.compositeComponentUpdates, forKey: .compositeComponentUpdates)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.entityId, key: "entityId")
             try container.encodeIfPresent(self.entityName, forKey: .entityName)
@@ -3672,6 +4850,12 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "componentUpdates.key", parent: name, min: 1)
                 try validate($0.key, name: "componentUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).componentUpdates[\"\($0.key)\"]")
+            }
+            try self.compositeComponentUpdates?.forEach {
+                try validate($0.key, name: "compositeComponentUpdates.key", parent: name, max: 2048)
+                try validate($0.key, name: "compositeComponentUpdates.key", parent: name, min: 1)
+                try validate($0.key, name: "compositeComponentUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9/]+$")
+                try $0.value.validate(name: "\(name).compositeComponentUpdates[\"\($0.key)\"]")
             }
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
@@ -3689,6 +4873,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentUpdates = "componentUpdates"
+            case compositeComponentUpdates = "compositeComponentUpdates"
             case description = "description"
             case entityName = "entityName"
             case parentEntityUpdate = "parentEntityUpdate"
@@ -3842,12 +5027,15 @@ extension IoTTwinMaker {
         public let description: String?
         /// The ARN of the execution role associated with the workspace.
         public let role: String?
+        /// The ARN of the S3 bucket where resources associated with the workspace are stored.
+        public let s3Location: String?
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(description: String? = nil, role: String? = nil, workspaceId: String) {
+        public init(description: String? = nil, role: String? = nil, s3Location: String? = nil, workspaceId: String) {
             self.description = description
             self.role = role
+            self.s3Location = s3Location
             self.workspaceId = workspaceId
         }
 
@@ -3856,6 +5044,7 @@ extension IoTTwinMaker {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.s3Location, forKey: .s3Location)
             request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
@@ -3865,6 +5054,8 @@ extension IoTTwinMaker {
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/")
+            try self.validate(self.s3Location, name: "s3Location", parent: name, max: 1024)
+            try self.validate(self.s3Location, name: "s3Location", parent: name, pattern: "(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+$)")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
@@ -3873,6 +5064,7 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case role = "role"
+            case s3Location = "s3Location"
         }
     }
 
@@ -3896,15 +5088,18 @@ extension IoTTwinMaker {
         public let creationDateTime: Date
         /// The description of the workspace.
         public let description: String?
+        /// A list of services that are linked to the workspace.
+        public let linkedServices: [String]?
         /// The date and time when the workspace was last updated.
         public let updateDateTime: Date
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(arn: String, creationDateTime: Date, description: String? = nil, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, creationDateTime: Date, description: String? = nil, linkedServices: [String]? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.description = description
+            self.linkedServices = linkedServices
             self.updateDateTime = updateDateTime
             self.workspaceId = workspaceId
         }
@@ -3913,6 +5108,7 @@ extension IoTTwinMaker {
             case arn = "arn"
             case creationDateTime = "creationDateTime"
             case description = "description"
+            case linkedServices = "linkedServices"
             case updateDateTime = "updateDateTime"
             case workspaceId = "workspaceId"
         }

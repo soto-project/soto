@@ -26,27 +26,27 @@ import Foundation
 extension RoboMaker {
     // MARK: Enums
 
-    public enum Architecture: String, CustomStringConvertible, Codable, Sendable {
+    public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM64"
         case armhf = "ARMHF"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpu = "CPU"
         case gpuAndCpu = "GPU_AND_CPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archive = "Archive"
         case file = "File"
         case prefix = "Prefix"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case badLambdaAssociated = "BadLambdaAssociated"
         case badPermissionError = "BadPermissionError"
         case deploymentFleetDoesNotExist = "DeploymentFleetDoesNotExist"
@@ -74,7 +74,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -84,42 +84,42 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExitBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExitBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fail = "FAIL"
         case restart = "RESTART"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `continue` = "Continue"
         case fail = "Fail"
         public var description: String { return self.rawValue }
     }
 
-    public enum RenderingEngineType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RenderingEngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ogre = "OGRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RobotDeploymentStep: String, CustomStringConvertible, Codable, Sendable {
-        case downloadingExtracting = "DownloadingExtracting"
+    public enum RobotDeploymentStep: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case downloadingExtractingStep = "DownloadingExtracting"
         case executingDownloadCondition = "ExecutingDownloadCondition"
-        case executingPostLaunch = "ExecutingPostLaunch"
-        case executingPreLaunch = "ExecutingPreLaunch"
-        case finished = "Finished"
-        case launching = "Launching"
-        case validating = "Validating"
+        case finishedStep = "Finished"
+        case launchingStep = "Launching"
+        case postLaunchStep = "ExecutingPostLaunch"
+        case preLaunchStep = "ExecutingPreLaunch"
+        case validatingStep = "Validating"
         public var description: String { return self.rawValue }
     }
 
-    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case general = "General"
         case ros = "ROS"
         case ros2 = "ROS2"
         public var description: String { return self.rawValue }
     }
 
-    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dashing = "Dashing"
         case foxy = "Foxy"
         case kinetic = "Kinetic"
@@ -127,7 +127,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum RobotStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum RobotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case deploying = "Deploying"
         case failed = "Failed"
@@ -138,12 +138,12 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationJobBatchErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationJobBatchErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServiceError = "InternalServiceError"
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationJobBatchStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationJobBatchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case canceling = "Canceling"
         case completed = "Completed"
@@ -156,7 +156,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case badPermissionsCloudwatchLogs = "BadPermissionsCloudwatchLogs"
         case badPermissionsRobotApplication = "BadPermissionsRobotApplication"
         case badPermissionsS3Object = "BadPermissionsS3Object"
@@ -191,7 +191,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case completed = "Completed"
         case failed = "Failed"
@@ -205,20 +205,20 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable, Sendable {
+    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gazebo = "Gazebo"
         case rosbagPlay = "RosbagPlay"
         case simulationRuntime = "SimulationRuntime"
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum UploadBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case uploadOnTerminate = "UPLOAD_ON_TERMINATE"
         case uploadRollingAutoRemove = "UPLOAD_ROLLING_AUTO_REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorldExportJobErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorldExportJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case internalServiceError = "InternalServiceError"
         case invalidInput = "InvalidInput"
@@ -228,7 +228,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorldExportJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorldExportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case canceling = "Canceling"
         case completed = "Completed"
@@ -238,7 +238,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorldGenerationJobErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorldGenerationJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allWorldGenerationFailed = "AllWorldGenerationFailed"
         case internalServiceError = "InternalServiceError"
         case invalidInput = "InvalidInput"
@@ -248,7 +248,7 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorldGenerationJobStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WorldGenerationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "Canceled"
         case canceling = "Canceling"
         case completed = "Completed"

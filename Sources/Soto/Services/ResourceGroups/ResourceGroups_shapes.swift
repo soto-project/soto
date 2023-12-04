@@ -26,26 +26,26 @@ import Foundation
 extension ResourceGroups {
     // MARK: Enums
 
-    public enum GroupConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case updateComplete = "UPDATE_COMPLETE"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationType = "configuration-type"
         case resourceType = "resource-type"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupLifecycleEventsDesiredStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupLifecycleEventsDesiredStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupLifecycleEventsStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum GroupLifecycleEventsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case error = "ERROR"
         case inProgress = "IN_PROGRESS"
@@ -53,25 +53,25 @@ extension ResourceGroups {
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudformationStackInactive = "CLOUDFORMATION_STACK_INACTIVE"
         case cloudformationStackNotExisting = "CLOUDFORMATION_STACK_NOT_EXISTING"
         case cloudformationStackUnassumableRole = "CLOUDFORMATION_STACK_UNASSUMABLE_ROLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryType: String, CustomStringConvertible, Codable, Sendable {
+    public enum QueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudformationStack10 = "CLOUDFORMATION_STACK_1_0"
         case tagFilters10 = "TAG_FILTERS_1_0"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceFilterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case resourceType = "resource-type"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatusValue: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }

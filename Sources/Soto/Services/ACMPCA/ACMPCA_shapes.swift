@@ -26,34 +26,34 @@ import Foundation
 extension ACMPCA {
     // MARK: Enums
 
-    public enum AccessMethodType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccessMethodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case caRepository = "CA_REPOSITORY"
         case resourcePkiManifest = "RESOURCE_PKI_MANIFEST"
         case resourcePkiNotify = "RESOURCE_PKI_NOTIFY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case getCertificate = "GetCertificate"
         case issueCertificate = "IssueCertificate"
         case listPermissions = "ListPermissions"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditReportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum AuditReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case failed = "FAILED"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -64,19 +64,19 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case root = "ROOT"
         case subordinate = "SUBORDINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateAuthorityUsageMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum CertificateAuthorityUsageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case generalPurpose = "GENERAL_PURPOSE"
         case shortLivedCertificate = "SHORT_LIVED_CERTIFICATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExtendedKeyUsageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExtendedKeyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case certificateTransparency = "CERTIFICATE_TRANSPARENCY"
         case clientAuth = "CLIENT_AUTH"
         case codeSigning = "CODE_SIGNING"
@@ -89,14 +89,14 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case other = "OTHER"
         case requestTimedOut = "REQUEST_TIMED_OUT"
         case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecPrime256V1 = "EC_prime256v1"
         case ecSecp384R1 = "EC_secp384r1"
         case rsa2048 = "RSA_2048"
@@ -104,24 +104,24 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyStorageSecurityStandard: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyStorageSecurityStandard: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fips1402Level2OrHigher = "FIPS_140_2_LEVEL_2_OR_HIGHER"
         case fips1402Level3OrHigher = "FIPS_140_2_LEVEL_3_OR_HIGHER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyQualifierId: String, CustomStringConvertible, Codable, Sendable {
+    public enum PolicyQualifierId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cps = "CPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case _self = "SELF"
         case otherAccounts = "OTHER_ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RevocationReason: String, CustomStringConvertible, Codable, Sendable {
+    public enum RevocationReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aACompromise = "A_A_COMPROMISE"
         case affiliationChanged = "AFFILIATION_CHANGED"
         case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
@@ -133,13 +133,13 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectAcl: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3ObjectAcl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         case publicRead = "PUBLIC_READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+    public enum SigningAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sha256withecdsa = "SHA256WITHECDSA"
         case sha256withrsa = "SHA256WITHRSA"
         case sha384withecdsa = "SHA384WITHECDSA"
@@ -149,7 +149,7 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidityPeriodType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ValidityPeriodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case absolute = "ABSOLUTE"
         case days = "DAYS"
         case endDate = "END_DATE"
@@ -513,9 +513,9 @@ extension ACMPCA {
         /// 			authorities.
         public let idempotencyToken: String?
         /// Specifies a cryptographic key management compliance standard used for handling CA
-        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web Services Regions do not support the default. When creating a CA in these Regions, you
-        /// 				must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
-        /// 					KeyStorageSecurityStandard. Failure to do this results in an
+        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web Services Regions do not support the default. When creating a CA in these
+        /// 				Regions, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument
+        /// 				for KeyStorageSecurityStandard. Failure to do this results in an
         /// 					InvalidArgsException with the message, "A certificate authority
         /// 				cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see Storage
         /// 					and security compliance of Amazon Web Services Private CA private keys.
@@ -1321,15 +1321,15 @@ extension ACMPCA {
         /// 				subject alternative name or the request will be rejected.
         ///
         public let csr: AWSBase64Data
-        /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you
-        /// 			call IssueCertificate multiple times with the same
-        /// 			idempotency token within one minute, Amazon Web Services Private CA recognizes that you are requesting only
-        /// 			one certificate and will issue only one. If you change the idempotency token for each
-        /// 			call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
+        /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after five  minutes. Therefore, if
+        /// 			you call IssueCertificate multiple times with the same
+        /// 			idempotency token within five minutes, Amazon Web Services Private CA recognizes that you are requesting
+        /// 			only one certificate and will issue only one. If you change the idempotency token for
+        /// 			each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
         /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
-        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) must match the algorithm family of
-        /// 				the CA's secret key.
+        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) must match the algorithm
+        /// 				family of the CA's secret key.
         public let signingAlgorithm: SigningAlgorithm
         /// Specifies a custom configuration template to use when issuing a certificate. If this
         /// 			parameter is not provided, Amazon Web Services Private CA defaults to the

@@ -26,38 +26,38 @@ import Foundation
 extension AppMesh {
     // MARK: Enums
 
-    public enum DefaultGatewayRouteRewrite: String, CustomStringConvertible, Codable, Sendable {
+    public enum DefaultGatewayRouteRewrite: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsResponseType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DnsResponseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case endpoints = "ENDPOINTS"
         case loadbalancer = "LOADBALANCER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DurationUnit: String, CustomStringConvertible, Codable, Sendable {
+    public enum DurationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ms = "ms"
         case s = "s"
         public var description: String { return self.rawValue }
     }
 
-    public enum EgressFilterType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EgressFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAll = "ALLOW_ALL"
         case dropAll = "DROP_ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayRouteStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum GatewayRouteStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "cancelled"
         case deadlineExceeded = "deadline-exceeded"
         case `internal` = "internal"
@@ -66,7 +66,7 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connect = "CONNECT"
         case delete = "DELETE"
         case get = "GET"
@@ -79,13 +79,13 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpScheme: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http = "http"
         case https = "https"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpPreference: String, CustomStringConvertible, Codable, Sendable {
+    public enum IpPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iPv4ONLY = "IPv4_ONLY"
         case iPv4PREFERRED = "IPv4_PREFERRED"
         case iPv6ONLY = "IPv6_ONLY"
@@ -93,21 +93,21 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListenerTlsMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ListenerTlsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case permissive = "PERMISSIVE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum MeshStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum MeshStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum PortProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case grpc = "grpc"
         case http = "http"
         case http2 = "http2"
@@ -115,54 +115,54 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RouteStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionError = "connection-error"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayListenerTlsMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualGatewayListenerTlsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case permissive = "PERMISSIVE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case grpc = "grpc"
         case http = "http"
         case http2 = "http2"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualGatewayStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
@@ -2597,7 +2597,7 @@ extension AppMesh {
     public struct FileAccessLog: AWSEncodableShape & AWSDecodableShape {
         /// The specified format for the logs. The format is either json_format or text_format.
         public let format: LoggingFormat?
-        /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.   The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
+        /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.  The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
         public let path: String
 
         public init(format: LoggingFormat? = nil, path: String) {
@@ -2866,7 +2866,7 @@ extension AppMesh {
         public let hostname: GatewayRouteHostnameMatch?
         /// The gateway route metadata to be matched on.
         public let metadata: [GrpcGatewayRouteMetadata]?
-        /// The port number to match from the request.
+        /// The gateway route port to be matched on.
         public let port: Int?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?

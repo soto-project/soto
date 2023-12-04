@@ -26,7 +26,7 @@ import Foundation
 extension MigrationHubOrchestrator {
     // MARK: Enums
 
-    public enum DataType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case integer = "INTEGER"
         case string = "STRING"
         case stringlist = "STRINGLIST"
@@ -34,7 +34,7 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationWorkflowStatusEnum: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationWorkflowStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
@@ -52,31 +52,31 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum Owner: String, CustomStringConvertible, Codable, Sendable {
+    public enum Owner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsManaged = "AWS_MANAGED"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum PluginHealth: String, CustomStringConvertible, Codable, Sendable {
+    public enum PluginHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunEnvironment: String, CustomStringConvertible, Codable, Sendable {
+    public enum RunEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case onpremise = "ONPREMISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepActionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StepActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automated = "AUTOMATED"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepGroupStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StepGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awaitingDependencies = "AWAITING_DEPENDENCIES"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -88,7 +88,7 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum StepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awaitingDependencies = "AWAITING_DEPENDENCIES"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -99,14 +99,14 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
         case single = "SINGLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         public var description: String { return self.rawValue }
     }

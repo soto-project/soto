@@ -75,12 +75,22 @@ public struct EMR: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "cn-north-1": "elasticmapreduce.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "elasticmapreduce.cn-northwest-1.api.amazonwebservices.com.cn",
+            "us-east-2": "elasticmapreduce.us-east-2.api.aws",
+            "us-gov-east-1": "elasticmapreduce.us-gov-east-1.api.aws",
+            "us-gov-west-1": "elasticmapreduce.us-gov-west-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "elasticmapreduce-fips.ca-central-1.amazonaws.com",
             "us-east-1": "elasticmapreduce-fips.us-east-1.amazonaws.com",
             "us-east-2": "elasticmapreduce-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "elasticmapreduce.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "elasticmapreduce.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "elasticmapreduce.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "elasticmapreduce.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "elasticmapreduce.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "elasticmapreduce-fips.us-west-1.amazonaws.com",
             "us-west-2": "elasticmapreduce-fips.us-west-2.amazonaws.com"
         ])
@@ -522,6 +532,19 @@ public struct EMR: AWSService {
     public func listStudios(_ input: ListStudiosInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudiosOutput {
         return try await self.client.execute(
             operation: "ListStudios", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    @Sendable
+    public func listSupportedInstanceTypes(_ input: ListSupportedInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSupportedInstanceTypesOutput {
+        return try await self.client.execute(
+            operation: "ListSupportedInstanceTypes", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -999,6 +1022,25 @@ extension EMR {
             logger: logger
         )
     }
+
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSupportedInstanceTypesPaginator(
+        _ input: ListSupportedInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput> {
+        return .init(
+            input: input,
+            command: self.listSupportedInstanceTypes,
+            inputKey: \ListSupportedInstanceTypesInput.marker,
+            outputKey: \ListSupportedInstanceTypesOutput.marker,
+            logger: logger
+        )
+    }
 }
 
 extension EMR.ListBootstrapActionsInput: AWSPaginateToken {
@@ -1109,6 +1151,15 @@ extension EMR.ListStudiosInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListStudiosInput {
         return .init(
             marker: token
+        )
+    }
+}
+
+extension EMR.ListSupportedInstanceTypesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMR.ListSupportedInstanceTypesInput {
+        return .init(
+            marker: token,
+            releaseLabel: self.releaseLabel
         )
     }
 }

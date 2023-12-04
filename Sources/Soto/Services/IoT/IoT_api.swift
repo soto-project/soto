@@ -334,7 +334,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.  For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
+    /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     @Sendable
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateFromCsrResponse {
         return try await self.client.execute(
@@ -638,7 +638,9 @@ public struct IoT: AWSService {
     }
 
     /// Create a thing group.  This is a control plane operation. See Authorization for
-    /// 				information about authorizing control plane actions.  Requires permission to access the CreateThingGroup action.
+    /// 				information about authorizing control plane actions. If the ThingGroup that you create has the exact same attributes as an existing
+    /// 					ThingGroup, you will get a 200 success response.
+    /// 			  Requires permission to access the CreateThingGroup action.
     @Sendable
     public func createThingGroup(_ input: CreateThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingGroupResponse {
         return try await self.client.execute(
@@ -911,7 +913,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Deletes a specific version from a software package.  Note: If a package version is designated as default, you must remove the designation from the package using the UpdatePackage action.
+    /// Deletes a specific version from a software package.  Note: If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
     @Sendable
     public func deletePackageVersion(_ input: DeletePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageVersionResponse {
         return try await self.client.execute(
@@ -3193,7 +3195,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Updates the supported fields for a specific package. Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
+    /// Updates the supported fields for a specific software package. Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
     @Sendable
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageResponse {
         return try await self.client.execute(
@@ -3206,7 +3208,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Updates the package configuration. Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
+    /// Updates the software package configuration. Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
     @Sendable
     public func updatePackageConfiguration(_ input: UpdatePackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageConfigurationResponse {
         return try await self.client.execute(

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CloudTrail service.
 ///
-/// CloudTrail This is the CloudTrail API Reference. It provides descriptions of actions, data types, common parameters, and common errors for CloudTrail. CloudTrail is a web service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. The recorded information includes the identity of the user, the start time of the Amazon Web Services API call, the source IP address, the request parameters, and the response elements returned by the service.  As an alternative to the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide programmatic access to CloudTrail. For example, the SDKs handle cryptographically signing requests, managing errors, and retrying requests automatically. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools to Build on Amazon Web Services.  See the CloudTrail User Guide for information about the data that is included with each Amazon Web Services API call listed in the log files.  Actions available for CloudTrail trails  The following actions are available for CloudTrail trails.    AddTags     CreateTrail     DeleteTrail     DescribeTrails     GetEventSelectors     GetInsightSelectors     GetTrail     GetTrailStatus     ListTags     ListTrails     PutEventSelectors     PutInsightSelectors     RemoveTags     StartLogging     StopLogging     UpdateTrail     Actions available for CloudTrail event data stores  The following actions are available for CloudTrail event data stores.    AddTags     CancelQuery     CreateEventDataStore     DeleteEventDataStore     DescribeQuery     GetEventDataStore     GetQueryResults     ListEventDataStores     ListTags     ListQueries     RemoveTags     RestoreEventDataStore     StartEventDataStoreIngestion     StartImport  The following additional actions are available for imports.    GetImport     ListImportFailures     ListImports     StopImport       StartQuery     StartEventDataStoreIngestion     UpdateEventDataStore     Actions available for CloudTrail channels  The following actions are available for CloudTrail channels.    AddTags     CreateChannel     DeleteChannel     DeleteResourcePolicy     GetChannel     GetResourcePolicy     ListChannels     ListTags     PutResourcePolicy     RemoveTags     UpdateChannel     Actions available for managing delegated administrators  The following actions are available for adding or a removing a delegated administrator to manage an Organizations organization’s CloudTrail resources.    DeregisterOrganizationDelegatedAdmin     RegisterOrganizationDelegatedAdmin
+/// CloudTrail This is the CloudTrail API Reference. It provides descriptions of actions, data types, common parameters, and common errors for CloudTrail. CloudTrail is a web service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. The recorded information includes the identity of the user, the start time of the Amazon Web Services API call, the source IP address, the request parameters, and the response elements returned by the service.  As an alternative to the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide programmatic access to CloudTrail. For example, the SDKs handle cryptographically signing requests, managing errors, and retrying requests automatically. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools to Build on Amazon Web Services.  See the CloudTrail User Guide for information about the data that is included with each Amazon Web Services API call listed in the log files.
 public struct CloudTrail: AWSService {
     // MARK: Member variables
 
@@ -165,7 +165,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store; this operation cannot work if TerminationProtectionEnabled is True. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
+    /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED.  You cannot delete an event data store if TerminationProtectionEnabled  is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     @Sendable
     public func deleteEventDataStore(_ input: DeleteEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEventDataStoreResponse {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. You must specify an ARN for EventDataStore, and a value for QueryID.
+    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
     @Sendable
     public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueryResponse {
         return try await self.client.execute(
@@ -235,6 +235,32 @@ public struct CloudTrail: AWSService {
     public func describeTrails(_ input: DescribeTrailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrailsResponse {
         return try await self.client.execute(
             operation: "DescribeTrails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail  removes the metadata associated with the federated event data store in the Glue Data Catalog and removes registration for the federation role ARN and event data store in Lake Formation. No CloudTrail Lake data is deleted  when you disable federation.
+    @Sendable
+    public func disableFederation(_ input: DisableFederationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableFederationResponse {
+        return try await self.client.execute(
+            operation: "DisableFederation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue  Data Catalog and run  SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog  lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a federated database named aws:cloudtrail (if the database doesn't already exist) and a federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in Lake Formation, the service responsible for revoking or granting permissions to the federated resources in the Glue Data Catalog.  For more information about Lake query federation, see Federate an event data store.
+    @Sendable
+    public func enableFederation(_ input: EnableFederationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableFederationResponse {
+        return try await self.client.execute(
+            operation: "EnableFederation", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -295,7 +321,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Describes the settings for the Insights event selectors that you configured for your trail. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events for Trails  in the CloudTrail User Guide.
+    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail or event data store, and if it is, which Insights types are enabled. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  Specify either the EventDataStore parameter to get Insights event selectors for an event data store,  or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see Logging CloudTrail Insights events in the CloudTrail User Guide.
     @Sendable
     public func getInsightSelectors(_ input: GetInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightSelectorsResponse {
         return try await self.client.execute(
@@ -308,7 +334,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
+    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     @Sendable
     public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsResponse {
         return try await self.client.execute(
@@ -464,7 +490,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    /// Looks up management events or CloudTrail Insights events that are captured by CloudTrail.  You can look up events that occurred in a Region within the last 90 days.   LookupEvents returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your  Insights event data store, and you can also view the Lake dashboard for Insights.  Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
     @Sendable
     public func lookupEvents(_ input: LookupEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LookupEventsResponse {
         return try await self.client.execute(
@@ -490,7 +516,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of insight types. The valid Insights event types in this release are ApiErrorRateInsight and ApiCallRateInsight. To log CloudTrail Insights events on API call volume, the trail must log write management events. To log CloudTrail Insights events on API error rate, the trail must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events.
+    /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights.  The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events. You can call GetEventDataStore on an  event data store to check whether the event data store logs management events. For more information, see Logging CloudTrail Insights events in the CloudTrail User Guide.
     @Sendable
     public func putInsightSelectors(_ input: PutInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInsightSelectorsResponse {
         return try await self.client.execute(
@@ -594,7 +620,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket.
+    /// Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket.  StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release,  the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
     @Sendable
     public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryResponse {
         return try await self.client.execute(
@@ -659,7 +685,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 90 and 2557. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and data events in your event data store. For more information about AdvancedEventSelectors, see PutEventSelectorsRequest$AdvancedEventSelectors.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
+    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or Insights events in your event data store. For more information about AdvancedEventSelectors, see AdvancedEventSelectors. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     @Sendable
     public func updateEventDataStore(_ input: UpdateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventDataStoreResponse {
         return try await self.client.execute(
@@ -699,7 +725,7 @@ extension CloudTrail {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudTrail {
-    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
+    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -870,7 +896,7 @@ extension CloudTrail {
         )
     }
 
-    /// Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    /// Looks up management events or CloudTrail Insights events that are captured by CloudTrail.  You can look up events that occurred in a Region within the last 90 days.   LookupEvents returns recent Insights events for trails that enable Insights. To view Insights events for an event data store, you can run queries on your  Insights event data store, and you can also view the Lake dashboard for Insights.  Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

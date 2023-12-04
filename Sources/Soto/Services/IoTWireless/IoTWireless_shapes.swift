@@ -26,31 +26,31 @@ import Foundation
 extension IoTWireless {
     // MARK: Enums
 
-    public enum ApplicationConfigType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ApplicationConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case semtechGeoLocation = "SemtechGeolocation"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatteryLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum BatteryLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "critical"
         case low = "low"
         case normal = "normal"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "Connected"
         case disconnected = "Disconnected"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceProfileType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case loRaWAN = "LoRaWAN"
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case provisioned = "Provisioned"
         case registerednotseen = "RegisteredNotSeen"
         case registeredreachable = "RegisteredReachable"
@@ -58,20 +58,20 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum DlClass: String, CustomStringConvertible, Codable, Sendable {
+    public enum DlClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case classB = "ClassB"
         case classC = "ClassC"
         public var description: String { return self.rawValue }
     }
 
-    public enum DownlinkMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum DownlinkMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case concurrent = "CONCURRENT"
         case sequential = "SEQUENTIAL"
         case usingUplinkGateway = "USING_UPLINK_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Event: String, CustomStringConvertible, Codable, Sendable {
+    public enum Event: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ack = "ack"
         case discovered = "discovered"
         case lost = "lost"
@@ -80,31 +80,31 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationPartnerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventNotificationPartnerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventNotificationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sidewalkAccount = "SidewalkAccount"
         case wirelessDevice = "WirelessDevice"
         case wirelessGateway = "WirelessGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mqttTopic = "MqttTopic"
         case ruleName = "RuleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fragAlgoUnsupported = "FragAlgo_unsupported"
         case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
@@ -119,7 +119,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum FuotaTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum FuotaTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteWaiting = "Delete_Waiting"
         case fuotaDone = "FuotaDone"
         case fuotaSessionWaiting = "FuotaSession_Waiting"
@@ -128,7 +128,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentifierType: String, CustomStringConvertible, Codable, Sendable {
+    public enum IdentifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case devEui = "DevEui"
         case gatewayEui = "GatewayEui"
         case partnerAccountId = "PartnerAccountId"
@@ -137,7 +137,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -147,14 +147,14 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case error = "ERROR"
         case info = "INFO"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customCommandIdGet = "CUSTOM_COMMAND_ID_GET"
         case customCommandIdNotify = "CUSTOM_COMMAND_ID_NOTIFY"
         case customCommandIdResp = "CUSTOM_COMMAND_ID_RESP"
@@ -162,13 +162,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum MulticastFrameInfo: String, CustomStringConvertible, Codable, Sendable {
+    public enum MulticastFrameInfo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnboardStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum OnboardStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case initialized = "INITIALIZED"
         case onboarded = "ONBOARDED"
@@ -176,52 +176,52 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartnerType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PartnerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionConfigurationFec: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionConfigurationFec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case rose = "ROSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case wirelessDevice = "WirelessDevice"
         case wirelessGateway = "WirelessGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionSolverProvider: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionSolverProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case semtech = "Semtech"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionSolverType: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositionSolverType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gnss = "GNSS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositioningConfigStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum PositioningConfigStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlg: String, CustomStringConvertible, Codable, Sendable {
+    public enum SigningAlg: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ed25519 = "Ed25519"
         case p256r1 = "P256r1"
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedRfRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum SupportedRfRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case as9231 = "AS923-1"
         case as9232 = "AS923-2"
         case as9233 = "AS923-3"
@@ -238,7 +238,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessDeviceEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case downlinkData = "Downlink_Data"
         case join = "Join"
         case registration = "Registration"
@@ -247,13 +247,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceFrameInfo: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessDeviceFrameInfo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case devEui = "DevEui"
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
         case thingName = "ThingName"
@@ -261,7 +261,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceSidewalkStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessDeviceSidewalkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case provisioned = "PROVISIONED"
         case registered = "REGISTERED"
@@ -269,37 +269,37 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case loRaWAN = "LoRaWAN"
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case certificate = "Certificate"
         case cupsRequest = "CUPS_Request"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayIdType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gatewayEui = "GatewayEui"
         case thingName = "ThingName"
         case wirelessGatewayId = "WirelessGatewayId"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayServiceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cups = "CUPS"
         case lns = "LNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayTaskDefinitionType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayTaskDefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case firstRetry = "FIRST_RETRY"
@@ -309,7 +309,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayType: String, CustomStringConvertible, Codable, Sendable {
+    public enum WirelessGatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case loRaWAN = "LoRaWAN"
         public var description: String { return self.rawValue }
     }
@@ -1911,7 +1911,7 @@ extension IoTWireless {
     public struct DeregisterWirelessDeviceRequest: AWSEncodableShape {
         /// The identifier of the wireless device to deregister from AWS IoT Wireless.
         public let identifier: String
-        /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN  or Sidewalk.
+        /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN or Sidewalk.
         public let wirelessDeviceType: WirelessDeviceType?
 
         public init(identifier: String, wirelessDeviceType: WirelessDeviceType? = nil) {
@@ -2703,7 +2703,7 @@ extension IoTWireless {
         public let multicastGroups: [String]?
         public let name: String?
         public let traceContent: TraceContent?
-        /// List of wireless gateway resources that have been added to the network analyzer configuration.
+        /// List of wireless device resources that have been added to the network analyzer configuration.
         public let wirelessDevices: [String]?
         /// List of wireless gateway resources that have been added to the network analyzer configuration.
         public let wirelessGateways: [String]?
@@ -2852,7 +2852,7 @@ extension IoTWireless {
 
     public struct GetPositionEstimateResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
+        /// The position information of the resource, displayed as a JSON payload. The payload is of type blob and uses the GeoJSON format, which a format that's used to encode geographic data structures. A sample payload contains the timestamp information, the WGS84 coordinates of the location, and the accuracy and confidence level. For more information and examples, see Resolve device location (console).
         public let geoJsonPayload: AWSHTTPBody
 
         public init(geoJsonPayload: AWSHTTPBody) {
@@ -3642,17 +3642,17 @@ extension IoTWireless {
     }
 
     public struct Gnss: AWSEncodableShape {
-        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above  the WGS84 reference ellipsoid.
+        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above the WGS84 reference ellipsoid.
         public let assistAltitude: Float?
         /// Optional assistance position information, specified using latitude and longitude values in degrees. The coordinates are inside the WGS84 reference frame.
         public let assistPosition: [Float]?
-        /// Optional parameter that gives an estimate of the time when the GNSS scan information is  taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
+        /// Optional parameter that gives an estimate of the time when the GNSS scan information is taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
         public let captureTime: Float?
         /// Optional value that gives the capture time estimate accuracy, in seconds. If capture time accuracy is not specified, default value of 300 is used.
         public let captureTimeAccuracy: Float?
         /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal notation.
         public let payload: String
-        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution  problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
+        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
         public let use2DSolver: Bool?
 
         public init(assistAltitude: Float? = nil, assistPosition: [Float]? = nil, captureTime: Float? = nil, captureTimeAccuracy: Float? = nil, payload: String, use2DSolver: Bool? = nil) {
@@ -4015,7 +4015,7 @@ extension IoTWireless {
         public let destinationName: String?
         /// List of wireless devices in an import task and their onboarding status.
         public let importedWirelessDeviceList: [ImportedWirelessDevice]?
-        /// The token to use to get the next set of results, or null if there are no additional  results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
         public init(destinationName: String? = nil, importedWirelessDeviceList: [ImportedWirelessDevice]? = nil, nextToken: String? = nil) {
@@ -4501,7 +4501,7 @@ extension IoTWireless {
     }
 
     public struct ListWirelessDeviceImportTasksResponse: AWSDecodableShape {
-        /// The token to use to get the next set of results, or null if there are no additional  results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// List of import tasks and summary information of onboarding status of devices in each import task.
         public let wirelessDeviceImportTaskList: [WirelessDeviceImportTask]?
@@ -4800,7 +4800,7 @@ extension IoTWireless {
         public let factoryPresetFreqsList: [Int]?
         /// The MAC version (such as OTAA 1.1 or OTAA 1.0.3) to use with this device profile.
         public let macVersion: String?
-        /// The MaxDutyCycle value.
+        /// The MaxDutyCycle value. It ranges from 0 to 15.
         public let maxDutyCycle: Int?
         /// The MaxEIRP value.
         public let maxEirp: Int?
@@ -5665,23 +5665,28 @@ extension IoTWireless {
         public let appKey: String?
         /// The GenAppKey value.
         public let genAppKey: String?
+        /// The JoinEUI value.
+        public let joinEui: String?
 
-        public init(appEui: String? = nil, appKey: String? = nil, genAppKey: String? = nil) {
+        public init(appEui: String? = nil, appKey: String? = nil, genAppKey: String? = nil, joinEui: String? = nil) {
             self.appEui = appEui
             self.appKey = appKey
             self.genAppKey = genAppKey
+            self.joinEui = joinEui
         }
 
         public func validate(name: String) throws {
             try self.validate(self.appEui, name: "appEui", parent: name, pattern: "^[a-fA-F0-9]{16}$")
             try self.validate(self.appKey, name: "appKey", parent: name, pattern: "^[a-fA-F0-9]{32}$")
             try self.validate(self.genAppKey, name: "genAppKey", parent: name, pattern: "^[a-fA-F0-9]{32}$")
+            try self.validate(self.joinEui, name: "joinEui", parent: name, pattern: "^[a-fA-F0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case appEui = "AppEui"
             case appKey = "AppKey"
             case genAppKey = "GenAppKey"
+            case joinEui = "JoinEui"
         }
     }
 
@@ -6642,7 +6647,7 @@ extension IoTWireless {
 
     public struct StartSingleWirelessDeviceImportTaskRequest: AWSEncodableShape {
         public let clientRequestToken: String?
-        /// The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import  task that will be onboarded to AWS IoT Wireless.
+        /// The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless.
         public let destinationName: String
         /// The name of the wireless device for which an import task is being started.
         public let deviceName: String?
@@ -6836,7 +6841,7 @@ extension IoTWireless {
     public struct TdscdmaNmrObj: AWSEncodableShape {
         /// Cell parameters for TD-SCDMA network measurement reports object.
         public let cellParams: Int
-        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it  propagates through space.
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
         public let pathLoss: Int?
         /// Code power of the received signal, measured in decibel-milliwatts (dBm).
         public let rscp: Int?
@@ -7307,7 +7312,7 @@ extension IoTWireless {
         public let description: String?
         /// Multicast group resources to add to the network analyzer configuration. Provide the MulticastGroupId of the resource to add in the input array.
         public let multicastGroupsToAdd: [String]?
-        /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resource to remove in the input array.
+        /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resources to remove in the input array.
         public let multicastGroupsToRemove: [String]?
         public let traceContent: TraceContent?
         /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array.
@@ -7521,7 +7526,7 @@ extension IoTWireless {
     }
 
     public struct UpdateResourcePositionRequest: AWSEncodableShape {
-        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
+        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
         public let geoJsonPayload: AWSHTTPBody?
         /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
@@ -7778,7 +7783,7 @@ extension IoTWireless {
     }
 
     public struct WcdmaNmrObj: AWSEncodableShape {
-        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as  it propagates through space.
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
         public let pathLoss: Int?
         /// Primary Scrambling Code.
         public let psc: Int
@@ -7826,7 +7831,7 @@ extension IoTWireless {
         public let mcc: Int
         /// Mobile Network Code.
         public let mnc: Int
-        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as  it propagates through space.
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
         public let pathLoss: Int?
         /// Received Signal Code Power (signal power) (dBm).
         public let rscp: Int?
@@ -7927,17 +7932,17 @@ extension IoTWireless {
         /// The time at which the import task was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
-        /// The name of the Sidewalk destination that that describes the IoT rule to route messages from the device in  the import task that will be onboarded to AWS IoT Wireless
+        /// The name of the Sidewalk destination that that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless
         public let destinationName: String?
         /// The summary information of count of wireless devices in an import task that failed to onboarded to the import task.
         public let failedImportedDeviceCount: Int64?
         /// The ID of the wireless device import task.
         public let id: String?
-        /// The summary information of count of wireless devices that are waiting for the control log to be  added to an import task.
+        /// The summary information of count of wireless devices that are waiting for the control log to be added to an import task.
         public let initializedImportedDeviceCount: Int64?
         /// The summary information of count of wireless devices in an import task that have been onboarded to the import task.
         public let onboardedImportedDeviceCount: Int64?
-        /// The summary information of count of wireless devices in an import task that are waiting in the queue  to be onboarded.
+        /// The summary information of count of wireless devices in an import task that are waiting in the queue to be onboarded.
         public let pendingImportedDeviceCount: Int64?
         /// The Sidewalk-related information of the wireless device import task.
         public let sidewalk: SidewalkGetStartImportInfo?

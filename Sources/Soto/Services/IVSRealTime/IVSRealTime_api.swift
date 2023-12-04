@@ -19,9 +19,11 @@
 
 /// Service object for interacting with AWS IVSRealTime service.
 ///
-///  Introduction  The Amazon Interactive Video Service (IVS) stage API is REST compatible, using a standard HTTP
+///  Introduction  The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
 /// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.  Terminology:   The IVS stage API sometimes is referred to as the IVS RealTime API.   A participant token is an authorization token used to publish/subscribe to a stage.   A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID There is a 1:1 mapping between participant tokens and participants.    Resources  The following resources contain information about your IVS live stream (see Getting Started with Amazon IVS):    Stage — A stage is a virtual space where multiple participants can exchange audio and video in real time.    Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS stage API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.  Stages Endpoints     CreateParticipantToken — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.    CreateStage — Creates a new stage (and optionally participant tokens).    DeleteStage — Shuts down and deletes the specified stage (disconnecting all participants).    DisconnectParticipant — Disconnects a specified participant and revokes the participant permanently from a specified stage.    GetParticipant — Gets information about the specified participant token.    GetStage — Gets information for the specified stage.    GetStageSession — Gets information for the specified stage session.    ListParticipantEvents — Lists events for a specified participant that occurred during a specified stage session.    ListParticipants — Lists all participants in a specified stage session.    ListStages — Gets summary information about all stages in your account, in the AWS region where the API request is processed.    ListStageSessions — Gets all sessions for a specified stage.    UpdateStage — Updates a stage’s configuration.    Tags Endpoints     ListTagsForResource — Gets information about AWS tags for the specified ARN.    TagResource — Adds or updates tags for the AWS resource with the specified ARN.    UntagResource — Removes tags from the resource with the specified ARN.
+/// 	  including errors.  Terminology:   A stage  is a virtual space where participants can exchange video in real time.   A participant token is a token that authenticates a participant when they join a stage.   A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   Server-side composition: The composition process composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition endpoints support this process.   Server-side composition: A composition controls the look of the outputs, including how participants are positioned in the video.    Resources  The following resources contain information about your IVS live stream (see Getting Started with Amazon IVS Real-Time Streaming):    Stage — A stage is a virtual space where participants can exchange video in real time.    Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.  Stages Endpoints     CreateParticipantToken — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.    CreateStage — Creates a new stage (and optionally participant tokens).    DeleteStage — Shuts down and deletes the specified stage (disconnecting all participants).    DisconnectParticipant — Disconnects a specified participant and revokes the participant permanently from a specified stage.    GetParticipant — Gets information about the specified participant token.    GetStage — Gets information for the specified stage.    GetStageSession — Gets information for the specified stage session.    ListParticipantEvents — Lists events for a specified participant that occurred during a specified stage session.    ListParticipants — Lists all participants in a specified stage session.    ListStages — Gets summary information about all stages in your account, in the AWS region where the API request is processed.    ListStageSessions — Gets all sessions for a specified stage.    UpdateStage — Updates a stage’s configuration.    Composition Endpoints     GetComposition — Gets information about the specified Composition resource.    ListCompositions — Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.    StartComposition — Starts a Composition from a stage based on the configuration provided in the request.    StopComposition — Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.    EncoderConfiguration Endpoints     CreateEncoderConfiguration — Creates an EncoderConfiguration object.    DeleteEncoderConfiguration — Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.    GetEncoderConfiguration — Gets information about the specified EncoderConfiguration resource.    ListEncoderConfigurations — Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.    StorageConfiguration Endpoints     CreateStorageConfiguration — Creates a new storage configuration, used to enable
+/// 		recording to Amazon S3.    DeleteStorageConfiguration — Deletes the storage configuration for the specified ARN.    GetStorageConfiguration — Gets the storage configuration for the specified ARN.    ListStorageConfigurations — Gets summary information about all storage configurations in your
+/// 		account, in the AWS region where the API request is processed.    Tags Endpoints     ListTagsForResource — Gets information about AWS tags for the specified ARN.    TagResource — Adds or updates tags for the AWS resource with the specified ARN.    UntagResource — Removes tags from the resource with the specified ARN.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -76,6 +78,19 @@ public struct IVSRealTime: AWSService {
 
     // MARK: API Calls
 
+    /// Creates an EncoderConfiguration object.
+    @Sendable
+    public func createEncoderConfiguration(_ input: CreateEncoderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEncoderConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateEncoderConfiguration", 
+            path: "/CreateEncoderConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     @Sendable
     public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateParticipantTokenResponse {
@@ -102,6 +117,34 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Creates a new storage configuration, used to enable recording to Amazon S3.
+    /// 	  When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
+    /// 	  This will ensure that IVS has sufficient permissions to write content to the provided bucket.
+    @Sendable
+    public func createStorageConfiguration(_ input: CreateStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStorageConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateStorageConfiguration", 
+            path: "/CreateStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
+    @Sendable
+    public func deleteEncoderConfiguration(_ input: DeleteEncoderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEncoderConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteEncoderConfiguration", 
+            path: "/DeleteEncoderConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Shuts down and deletes the specified stage (disconnecting all participants).
     @Sendable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResponse {
@@ -115,12 +158,53 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException).
+    /// 	  To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
+    /// 	  then use DeleteStorageConfiguration.
+    @Sendable
+    public func deleteStorageConfiguration(_ input: DeleteStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStorageConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteStorageConfiguration", 
+            path: "/DeleteStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
     @Sendable
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectParticipantResponse {
         return try await self.client.execute(
             operation: "DisconnectParticipant", 
             path: "/DisconnectParticipant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get information about the specified Composition resource.
+    @Sendable
+    public func getComposition(_ input: GetCompositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCompositionResponse {
+        return try await self.client.execute(
+            operation: "GetComposition", 
+            path: "/GetComposition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information about the specified EncoderConfiguration resource.
+    @Sendable
+    public func getEncoderConfiguration(_ input: GetEncoderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncoderConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetEncoderConfiguration", 
+            path: "/GetEncoderConfiguration", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -160,6 +244,45 @@ public struct IVSRealTime: AWSService {
         return try await self.client.execute(
             operation: "GetStageSession", 
             path: "/GetStageSession", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the storage configuration for the specified ARN.
+    @Sendable
+    public func getStorageConfiguration(_ input: GetStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetStorageConfiguration", 
+            path: "/GetStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
+    @Sendable
+    public func listCompositions(_ input: ListCompositionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCompositionsResponse {
+        return try await self.client.execute(
+            operation: "ListCompositions", 
+            path: "/ListCompositions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
+    @Sendable
+    public func listEncoderConfigurations(_ input: ListEncoderConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEncoderConfigurationsResponse {
+        return try await self.client.execute(
+            operation: "ListEncoderConfigurations", 
+            path: "/ListEncoderConfigurations", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -219,6 +342,20 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Gets summary information about all storage configurations in your account,
+    /// 	  in the AWS region where the API request is processed.
+    @Sendable
+    public func listStorageConfigurations(_ input: ListStorageConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageConfigurationsResponse {
+        return try await self.client.execute(
+            operation: "ListStorageConfigurations", 
+            path: "/ListStorageConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information about AWS tags for the specified ARN.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -226,6 +363,32 @@ public struct IVSRealTime: AWSService {
             operation: "ListTagsForResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this endpoint returns successfully. Composition stops and the resource is deleted:   When StopComposition is called.   After a 1-minute timeout, when all participants are disconnected from the stage.   After a 1-minute timeout, if there are no participants in the stage when StartComposition is called.   When broadcasting to the IVS channel fails and all retries are exhausted.   When broadcasting is disconnected and all attempts to reconnect are exhausted.
+    @Sendable
+    public func startComposition(_ input: StartCompositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCompositionResponse {
+        return try await self.client.execute(
+            operation: "StartComposition", 
+            path: "/StartComposition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
+    @Sendable
+    public func stopComposition(_ input: StopCompositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCompositionResponse {
+        return try await self.client.execute(
+            operation: "StopComposition", 
+            path: "/StopComposition", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -285,6 +448,44 @@ extension IVSRealTime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IVSRealTime {
+    /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCompositionsPaginator(
+        _ input: ListCompositionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCompositionsRequest, ListCompositionsResponse> {
+        return .init(
+            input: input,
+            command: self.listCompositions,
+            inputKey: \ListCompositionsRequest.nextToken,
+            outputKey: \ListCompositionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEncoderConfigurationsPaginator(
+        _ input: ListEncoderConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEncoderConfigurationsRequest, ListEncoderConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listEncoderConfigurations,
+            inputKey: \ListEncoderConfigurationsRequest.nextToken,
+            outputKey: \ListEncoderConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists events for a specified participant that occurred during a specified stage session.
     /// Return PaginatorSequence for operation.
     ///
@@ -360,6 +561,46 @@ extension IVSRealTime {
             logger: logger
         )
     }
+
+    /// Gets summary information about all storage configurations in your account,
+    /// 	  in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listStorageConfigurationsPaginator(
+        _ input: ListStorageConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStorageConfigurationsRequest, ListStorageConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listStorageConfigurations,
+            inputKey: \ListStorageConfigurationsRequest.nextToken,
+            outputKey: \ListStorageConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension IVSRealTime.ListCompositionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListCompositionsRequest {
+        return .init(
+            filterByEncoderConfigurationArn: self.filterByEncoderConfigurationArn,
+            filterByStageArn: self.filterByStageArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IVSRealTime.ListEncoderConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListEncoderConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
 }
 
 extension IVSRealTime.ListParticipantEventsRequest: AWSPaginateToken {
@@ -400,6 +641,15 @@ extension IVSRealTime.ListStageSessionsRequest: AWSPaginateToken {
 
 extension IVSRealTime.ListStagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IVSRealTime.ListStagesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IVSRealTime.ListStorageConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListStorageConfigurationsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

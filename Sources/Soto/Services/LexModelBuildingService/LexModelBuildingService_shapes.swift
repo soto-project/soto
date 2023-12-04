@@ -26,14 +26,14 @@ import Foundation
 extension LexModelBuildingService {
     // MARK: Enums
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case facebook = "Facebook"
         case kik = "Kik"
         case slack = "Slack"
@@ -41,137 +41,137 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customPayload = "CustomPayload"
         case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }
 
-    public enum Destination: String, CustomStringConvertible, Codable, Sendable {
+    public enum Destination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatchLogs = "CLOUDWATCH_LOGS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ExportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alexaSkillsKit = "ALEXA_SKILLS_KIT"
         case lex = "LEX"
         public var description: String { return self.rawValue }
     }
 
-    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable, Sendable {
+    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeHook = "CodeHook"
         case returnIntent = "ReturnIntent"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
-        case deDE = "de-DE"
-        case enAU = "en-AU"
-        case enGB = "en-GB"
-        case enIN = "en-IN"
-        case enUS = "en-US"
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enIn = "en-IN"
+        case enUs = "en-US"
         case es419 = "es-419"
-        case esES = "es-ES"
-        case esUS = "es-US"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case itIT = "it-IT"
-        case jaJP = "ja-JP"
-        case koKR = "ko-KR"
+        case esEs = "es-ES"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "AUDIO"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failOnConflict = "FAIL_ON_CONFLICT"
         case overwriteLatest = "OVERWRITE_LATEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationAlertType: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationAlertType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationSortAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case migrationDateTime = "MIGRATION_DATE_TIME"
         case v1BotName = "V1_BOT_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum MigrationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createNew = "CREATE_NEW"
         case updateExisting = "UPDATE_EXISTING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObfuscationSetting: String, CustomStringConvertible, Codable, Sendable {
+    public enum ObfuscationSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultObfuscation = "DEFAULT_OBFUSCATION"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessBehavior: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProcessBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case save = "SAVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bot = "BOT"
         case intent = "INTENT"
         case slotType = "SLOT_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "Optional"
         case required = "Required"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable, Sendable {
+    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case originalValue = "ORIGINAL_VALUE"
         case topResolution = "TOP_RESOLUTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case building = "BUILDING"
         case failed = "FAILED"
         case notBuilt = "NOT_BUILT"
@@ -180,7 +180,7 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case detected = "Detected"
         case missed = "Missed"
         public var description: String { return self.rawValue }
@@ -235,7 +235,6 @@ extension LexModelBuildingService {
         /// Provides information necessary to communicate with the messaging platform.
         public let botConfiguration: [String: String]?
         /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio.
-        ///
         public let botName: String?
         /// The date that the association between the Amazon Lex bot and the channel was created.
         public let createdDate: Date?
@@ -2866,8 +2865,7 @@ extension LexModelBuildingService {
         public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
         public let intents: [Intent]?
-        ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.
-        ///  The default is en-US.
+        ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.  The default is en-US.
         public let locale: Locale
         /// The name of the bot. The name is not case sensitive.
         public let name: String
@@ -3061,8 +3059,7 @@ extension LexModelBuildingService {
         public let description: String?
         ///  Specifies a Lambda function to invoke for each user input. You can invoke this Lambda function to personalize user interaction.  For example, suppose your bot determines that the user is John. Your Lambda function might retrieve John's information from a backend database and prepopulate some of the values. For example, if you find that John is gluten intolerant, you might set the corresponding intent slot, GlutenIntolerant, to true. You might find John's phone number and set the corresponding session attribute.
         public let dialogCodeHook: CodeHook?
-        /// Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink. The action that Amazon Lex takes depends on the user's response, as follows:   If the user says "Yes" it responds with the clarification prompt that is configured for the bot.   if the user says "Yes" and continues with an utterance that triggers an intent it starts a conversation for the intent.   If the user says "No" it responds with the rejection statement configured for the the follow-up prompt.   If it doesn't recognize the utterance it repeats the follow-up prompt again.
-        ///  The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one.
+        /// Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink. The action that Amazon Lex takes depends on the user's response, as follows:   If the user says "Yes" it responds with the clarification prompt that is configured for the bot.   if the user says "Yes" and continues with an utterance that triggers an intent it starts a conversation for the intent.   If the user says "No" it responds with the rejection statement configured for the the follow-up prompt.   If it doesn't recognize the utterance it repeats the follow-up prompt again.   The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one.
         public let followUpPrompt: FollowUpPrompt?
         /// Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.  You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria).
         public let fulfillmentActivity: FulfillmentActivity?
@@ -3078,8 +3075,7 @@ extension LexModelBuildingService {
         public let parentIntentSignature: String?
         /// When the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither.
         public let rejectionStatement: Statement?
-        /// An array of utterances (strings) that a user might say to signal the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".
-        ///  In each utterance, a slot name is enclosed in curly braces.
+        /// An array of utterances (strings) that a user might say to signal the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".  In each utterance, a slot name is enclosed in curly braces.
         public let sampleUtterances: [String]?
         /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works.
         public let slots: [Slot]?

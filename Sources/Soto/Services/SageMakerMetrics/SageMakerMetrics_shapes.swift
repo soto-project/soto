@@ -26,7 +26,7 @@ import Foundation
 extension SageMakerMetrics {
     // MARK: Enums
 
-    public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, Sendable {
+    public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conflictError = "CONFLICT_ERROR"
         case internalError = "INTERNAL_ERROR"
         case metricLimitExceeded = "METRIC_LIMIT_EXCEEDED"
@@ -55,17 +55,17 @@ extension SageMakerMetrics {
 
     public struct BatchPutMetricsRequest: AWSEncodableShape {
         /// A list of raw metric values to put.
-        public let metricData: [RawMetricData]
+        public let metricData: [RawMetricData]?
         /// The name of the Trial Component to associate with the metrics.
-        public let trialComponentName: String
+        public let trialComponentName: String?
 
-        public init(metricData: [RawMetricData], trialComponentName: String) {
+        public init(metricData: [RawMetricData]? = nil, trialComponentName: String? = nil) {
             self.metricData = metricData
             self.trialComponentName = trialComponentName
         }
 
         public func validate(name: String) throws {
-            try self.metricData.forEach {
+            try self.metricData?.forEach {
                 try $0.validate(name: "\(name).metricData[]")
             }
             try self.validate(self.metricData, name: "metricData", parent: name, max: 10)
@@ -96,15 +96,15 @@ extension SageMakerMetrics {
 
     public struct RawMetricData: AWSEncodableShape {
         /// The name of the metric.
-        public let metricName: String
+        public let metricName: String?
         /// The metric step (epoch).
         public let step: Int?
         /// The time that the metric was recorded.
-        public let timestamp: Date
+        public let timestamp: Date?
         /// The metric value.
-        public let value: Double
+        public let value: Double?
 
-        public init(metricName: String, step: Int? = nil, timestamp: Date, value: Double = 0) {
+        public init(metricName: String? = nil, step: Int? = nil, timestamp: Date? = nil, value: Double? = nil) {
             self.metricName = metricName
             self.step = step
             self.timestamp = timestamp

@@ -26,7 +26,7 @@ import Foundation
 extension Route53 {
     // MARK: Enums
 
-    public enum AccountLimitType: String, CustomStringConvertible, Codable, Sendable {
+    public enum AccountLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
         case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
         case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
@@ -35,26 +35,26 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
         case upsert = "UPSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insync = "INSYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable, Sendable {
+    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteIfExists = "DELETE_IF_EXISTS"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum CloudWatchRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
@@ -77,6 +77,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -92,7 +93,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
         case greaterThanThreshold = "GreaterThanThreshold"
         case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
@@ -100,7 +101,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum HealthCheckRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apNortheast1 = "ap-northeast-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
@@ -112,7 +113,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HealthCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case calculated = "CALCULATED"
         case cloudwatchMetric = "CLOUDWATCH_METRIC"
         case http = "HTTP"
@@ -124,20 +125,25 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case maxRrsetsByZone = "MAX_RRSETS_BY_ZONE"
         case maxVpcsAssociatedByZone = "MAX_VPCS_ASSOCIATED_BY_ZONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum HostedZoneType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case privateHostedZone = "PrivateHostedZone"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "Healthy"
         case lastKnownStatus = "LastKnownStatus"
         case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
 
-    public enum RRType: String, CustomStringConvertible, Codable, Sendable {
+    public enum RRType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case a = "A"
         case aaaa = "AAAA"
         case caa = "CAA"
@@ -154,7 +160,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResettableElementName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResettableElementName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case childHealthChecks = "ChildHealthChecks"
         case fullyQualifiedDomainName = "FullyQualifiedDomainName"
         case regions = "Regions"
@@ -162,13 +168,13 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primary = "PRIMARY"
         case secondary = "SECONDARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
@@ -191,6 +197,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -201,12 +208,12 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case maxZonesByReusableDelegationSet = "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
         public var description: String { return self.rawValue }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, Sendable {
+    public enum Statistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -215,13 +222,13 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TagResourceType: String, CustomStringConvertible, Codable, Sendable {
+    public enum TagResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthcheck = "healthcheck"
         case hostedzone = "hostedzone"
         public var description: String { return self.rawValue }
     }
 
-    public enum VPCRegion: String, CustomStringConvertible, Codable, Sendable {
+    public enum VPCRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
@@ -243,6 +250,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
@@ -1089,7 +1097,8 @@ extension Route53 {
         /// 						CallerReference as an existing health check but with different
         /// 					settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique
         /// 						CallerReference but settings identical to an existing health
-        /// 					check, Route 53 creates the health check.
+        /// 					check, Route 53 creates the health check.   Route 53 does not store the CallerReference for a deleted health check indefinitely.
+        /// 			The CallerReference for a deleted health check will be deleted after a number of days.
         public let callerReference: String
         /// A complex type that contains settings for a new health check.
         public let healthCheckConfig: HealthCheckConfig
@@ -1143,7 +1152,10 @@ extension Route53 {
         public let callerReference: String
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that
         /// 				Amazon Route 53 assigned to the reusable delegation set when you created it.
-        /// 			For more information about reusable delegation sets, see CreateReusableDelegationSet.
+        /// 			For more information about reusable delegation sets, see CreateReusableDelegationSet. If you are using a reusable delegation set to create a public hosted zone for a subdomain,
+        /// 			make sure that the parent hosted zone doesn't use one or more of the same name servers.
+        /// 			If you have overlapping nameservers, the operation will cause a
+        /// 				ConflictingDomainsExist error.
         public let delegationSetId: String?
         /// (Optional) A complex type that contains the following optional values:   For public and private hosted zones, an optional comment   For private hosted zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone element, omit
         /// 				HostedZoneConfig and the other elements.
@@ -2129,7 +2141,7 @@ extension Route53 {
         /// 			or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
         /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1
-        /// 				alpha-2.
+        /// 				alpha-2. Route 53 also supports the contry code UA forr Ukraine.
         public let countryCode: String?
         /// For geolocation resource record sets, the two-letter code for a state of the United
         /// 			States. Route 53 doesn't support any other values for SubdivisionCode. For
@@ -2346,7 +2358,7 @@ extension Route53 {
         /// 			continent. Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America
         public let continentCode: String?
         /// Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1
-        /// 				alpha-2.
+        /// 				alpha-2. Route 53 also supports the contry code UA forr Ukraine.
         public let countryCode: String?
         /// The code for the subdivision, such as a particular state within the United States. For
         /// 			a list of US state abbreviations, see Appendix B: Two–Letter State and
@@ -3718,9 +3730,9 @@ extension Route53 {
         /// 				false, there are no more health checks to get.
         public let marker: String?
         /// The maximum number of health checks that you want ListHealthChecks to
-        /// 			return in response to the current request. Amazon Route 53 returns a maximum of 100
-        /// 			items. If you set MaxItems to a value greater than 100, Route 53 returns
-        /// 			only the first 100 health checks.
+        /// 			return in response to the current request. Amazon Route 53 returns a maximum of 1000
+        /// 			items. If you set MaxItems to a value greater than 1000, Route 53 returns
+        /// 			only the first 1000 health checks.
         public let maxItems: Int?
 
         public init(marker: String? = nil, maxItems: Int? = nil) {
@@ -3963,6 +3975,9 @@ extension Route53 {
         /// 			that are associated with a reusable delegation set, specify the ID of that reusable
         /// 			delegation set.
         public let delegationSetId: String?
+        /// 			(Optional) Specifies if the hosted zone is private.
+        ///
+        public let hostedZoneType: HostedZoneType?
         /// If the value of IsTruncated in the previous response was
         /// 				true, you have more hosted zones. To get more hosted zones, submit
         /// 			another ListHostedZones request.  For the value of marker, specify the value of NextMarker
@@ -3977,8 +3992,9 @@ extension Route53 {
         /// 			will return if you submit another request.
         public let maxItems: Int?
 
-        public init(delegationSetId: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
+        public init(delegationSetId: String? = nil, hostedZoneType: HostedZoneType? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.delegationSetId = delegationSetId
+            self.hostedZoneType = hostedZoneType
             self.marker = marker
             self.maxItems = maxItems
         }
@@ -3987,6 +4003,7 @@ extension Route53 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.delegationSetId, key: "delegationsetid")
+            request.encodeQuery(self.hostedZoneType, key: "hostedzonetype")
             request.encodeQuery(self.marker, key: "marker")
             request.encodeQuery(self.maxItems, key: "maxitems")
         }

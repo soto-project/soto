@@ -26,13 +26,13 @@ import Foundation
 extension Firehose {
     // MARK: Enums
 
-    public enum AmazonOpenSearchServerlessS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AmazonOpenSearchServerlessS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allDocuments = "AllDocuments"
         case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable, Sendable {
+    public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noRotation = "NoRotation"
         case oneDay = "OneDay"
         case oneHour = "OneHour"
@@ -41,13 +41,13 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum AmazonopensearchserviceS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum AmazonopensearchserviceS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allDocuments = "AllDocuments"
         case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case hadoopSnappy = "HADOOP_SNAPPY"
         case snappy = "Snappy"
@@ -56,13 +56,25 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentEncoding: String, CustomStringConvertible, Codable, Sendable {
+    public enum Connectivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `private` = "PRIVATE"
+        case `public` = "PUBLIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DefaultDocumentIdFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case firehoseDefault = "FIREHOSE_DEFAULT"
+        case noDocumentId = "NO_DOCUMENT_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case disablingFailed = "DISABLING_FAILED"
@@ -72,7 +84,7 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createEniFailed = "CREATE_ENI_FAILED"
         case createKmsGrantFailed = "CREATE_KMS_GRANT_FAILED"
         case deleteEniFailed = "DELETE_ENI_FAILED"
@@ -91,7 +103,7 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case creatingFailed = "CREATING_FAILED"
@@ -100,13 +112,14 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStreamType: String, CustomStringConvertible, Codable, Sendable {
+    public enum DeliveryStreamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directPut = "DirectPut"
         case kinesisStreamAsSource = "KinesisStreamAsSource"
+        case mskAsSource = "MSKAsSource"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable, Sendable {
+    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noRotation = "NoRotation"
         case oneDay = "OneDay"
         case oneHour = "OneHour"
@@ -115,64 +128,65 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allDocuments = "AllDocuments"
         case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum HECEndpointType: String, CustomStringConvertible, Codable, Sendable {
+    public enum HECEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "Event"
         case raw = "Raw"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allData = "AllData"
         case failedDataOnly = "FailedDataOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedCmk = "AWS_OWNED_CMK"
         case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
         public var description: String { return self.rawValue }
     }
 
-    public enum NoEncryptionConfig: String, CustomStringConvertible, Codable, Sendable {
+    public enum NoEncryptionConfig: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noEncryption = "NoEncryption"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrcCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrcCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case snappy = "SNAPPY"
         case zlib = "ZLIB"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrcFormatVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum OrcFormatVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v011 = "V0_11"
         case v012 = "V0_12"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParquetCompression: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParquetCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case snappy = "SNAPPY"
         case uncompressed = "UNCOMPRESSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParquetWriterVersion: String, CustomStringConvertible, Codable, Sendable {
+    public enum ParquetWriterVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1 = "V1"
         case v2 = "V2"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessorParameterName: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProcessorParameterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bufferIntervalInSeconds = "BufferIntervalInSeconds"
         case bufferSizeInMb = "BufferSizeInMBs"
+        case compressionFormat = "CompressionFormat"
         case delimiter = "Delimiter"
         case jsonParsingEngine = "JsonParsingEngine"
         case lambdaArn = "LambdaArn"
@@ -183,27 +197,28 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessorType: String, CustomStringConvertible, Codable, Sendable {
+    public enum ProcessorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appendDelimiterToRecord = "AppendDelimiterToRecord"
+        case decompression = "Decompression"
         case lambda = "Lambda"
         case metadataExtraction = "MetadataExtraction"
         case recordDeAggregation = "RecordDeAggregation"
         public var description: String { return self.rawValue }
     }
 
-    public enum RedshiftS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum RedshiftS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum S3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allEvents = "AllEvents"
         case failedEventsOnly = "FailedEventsOnly"
         public var description: String { return self.rawValue }
@@ -309,7 +324,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The Serverless offering for Amazon OpenSearch Service retry options.
         public let retryOptions: AmazonOpenSearchServerlessRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
         public let roleARN: String?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: AmazonOpenSearchServerlessS3BackupMode?
@@ -446,6 +461,8 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
         public let domainARN: String?
         /// The ElasticsearAmazon OpenSearch Service index name.
@@ -464,10 +481,11 @@ extension Firehose {
         public let typeName: String?
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -507,6 +525,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -526,6 +545,8 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon OpenSearch Service.
         public let clusterEndpoint: String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain.
         public let domainARN: String?
         /// The Amazon OpenSearch Service index name.
@@ -544,10 +565,11 @@ extension Firehose {
         public let typeName: String?
         public let vpcConfigurationDescription: VpcConfigurationDescription?
 
-        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: AmazonopensearchserviceS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -564,6 +586,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -583,6 +606,8 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN.
         public let domainARN: String?
         /// The Amazon OpenSearch Service index name.
@@ -598,10 +623,11 @@ extension Firehose {
         /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.  If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public let typeName: String?
 
-        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
+        public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -638,6 +664,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -664,6 +691,29 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
+    public struct AuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of connectivity used to access the Amazon MSK cluster.
+        public let connectivity: Connectivity
+        /// The ARN of the role used to access the Amazon MSK cluster.
+        public let roleARN: String
+
+        public init(connectivity: Connectivity, roleARN: String) {
+            self.connectivity = connectivity
+            self.roleARN = roleARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectivity = "Connectivity"
+            case roleARN = "RoleARN"
         }
     }
 
@@ -769,17 +819,17 @@ extension Firehose {
         public let httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration?
         /// When a Kinesis data stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
         public let kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration?
+        public let mskSourceConfiguration: MSKSourceConfiguration?
         /// The destination in Amazon Redshift. You can specify only one destination.
         public let redshiftDestinationConfiguration: RedshiftDestinationConfiguration?
         /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
         public let s3DestinationConfiguration: S3DestinationConfiguration?
         /// The destination in Splunk. You can specify only one destination.
         public let splunkDestinationConfiguration: SplunkDestinationConfiguration?
-        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
-        ///  You can specify up to 50 tags when creating a delivery stream.
+        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
@@ -789,6 +839,7 @@ extension Firehose {
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
             self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
+            self.mskSourceConfiguration = mskSourceConfiguration
             self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
             self.s3DestinationConfiguration = nil
             self.splunkDestinationConfiguration = splunkDestinationConfiguration
@@ -796,7 +847,7 @@ extension Firehose {
         }
 
         @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
@@ -806,6 +857,7 @@ extension Firehose {
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
             self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
+            self.mskSourceConfiguration = mskSourceConfiguration
             self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
             self.s3DestinationConfiguration = s3DestinationConfiguration
             self.splunkDestinationConfiguration = splunkDestinationConfiguration
@@ -823,6 +875,7 @@ extension Firehose {
             try self.extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
             try self.httpEndpointDestinationConfiguration?.validate(name: "\(name).httpEndpointDestinationConfiguration")
             try self.kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
+            try self.mskSourceConfiguration?.validate(name: "\(name).mskSourceConfiguration")
             try self.redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
             try self.s3DestinationConfiguration?.validate(name: "\(name).s3DestinationConfiguration")
             try self.splunkDestinationConfiguration?.validate(name: "\(name).splunkDestinationConfiguration")
@@ -843,6 +896,7 @@ extension Firehose {
             case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
             case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
             case kinesisStreamSourceConfiguration = "KinesisStreamSourceConfiguration"
+            case mskSourceConfiguration = "MSKSourceConfiguration"
             case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
             case s3DestinationConfiguration = "S3DestinationConfiguration"
             case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
@@ -1138,6 +1192,19 @@ extension Firehose {
         }
     }
 
+    public struct DocumentIdOptions: AWSEncodableShape & AWSDecodableShape {
+        /// When the FIREHOSE_DEFAULT option is chosen, Kinesis Data Firehose generates a unique document ID for each record based on a unique internal identifier. The generated document ID is stable across multiple delivery attempts, which helps prevent the same record from being indexed multiple times with different document IDs. When the NO_DOCUMENT_ID option is chosen, Kinesis Data Firehose does not include any document IDs in the requests it sends to the Amazon OpenSearch Service. This causes the Amazon OpenSearch Service domain to generate document IDs. In case of multiple delivery attempts, this may cause the same record to be indexed more than once with different document IDs. This option enables write-heavy operations, such as the ingestion of logs and observability data, to consume less resources in the Amazon OpenSearch Service domain, resulting in improved performance.
+        public let defaultDocumentIdFormat: DefaultDocumentIdFormat
+
+        public init(defaultDocumentIdFormat: DefaultDocumentIdFormat) {
+            self.defaultDocumentIdFormat = defaultDocumentIdFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultDocumentIdFormat = "DefaultDocumentIdFormat"
+        }
+    }
+
     public struct DynamicPartitioningConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies that the dynamic partitioning is enabled for this Kinesis Data Firehose delivery stream.
         public let enabled: Bool?
@@ -1190,8 +1257,9 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
-        ///  Specify either ClusterEndpoint or DomainARN.
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String
@@ -1207,16 +1275,16 @@ extension Firehose {
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
-        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
-        ///  For Elasticsearch 7.x, don't specify a TypeName.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time. For Elasticsearch 7.x, don't specify a TypeName.
         public let typeName: String?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon destination.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -1256,6 +1324,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -1276,8 +1345,9 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
-        ///  Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
+        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
@@ -1295,13 +1365,14 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription?
         /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public let typeName: String?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon OpenSearch or the Amazon OpenSearch Serverless destination.
         public let vpcConfigurationDescription: VpcConfigurationDescription?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -1318,6 +1389,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -1338,8 +1410,9 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
-        ///  Specify either ClusterEndpoint or DomainARN.
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public let documentIdOptions: DocumentIdOptions?
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
@@ -1353,14 +1426,14 @@ extension Firehose {
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
-        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.
-        ///  If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public let typeName: String?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, documentIdOptions: DocumentIdOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -1397,6 +1470,7 @@ extension Firehose {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterEndpoint = "ClusterEndpoint"
+            case documentIdOptions = "DocumentIdOptions"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -2178,6 +2252,62 @@ extension Firehose {
         }
     }
 
+    public struct MSKSourceConfiguration: AWSEncodableShape {
+        /// The authentication configuration of the Amazon MSK cluster.
+        public let authenticationConfiguration: AuthenticationConfiguration
+        /// The ARN of the Amazon MSK cluster.
+        public let mskClusterARN: String
+        /// The topic name within the Amazon MSK cluster.
+        public let topicName: String
+
+        public init(authenticationConfiguration: AuthenticationConfiguration, mskClusterARN: String, topicName: String) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.mskClusterARN = mskClusterARN
+            self.topicName = topicName
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationConfiguration.validate(name: "\(name).authenticationConfiguration")
+            try self.validate(self.mskClusterARN, name: "mskClusterARN", parent: name, max: 512)
+            try self.validate(self.mskClusterARN, name: "mskClusterARN", parent: name, min: 1)
+            try self.validate(self.mskClusterARN, name: "mskClusterARN", parent: name, pattern: "^arn:")
+            try self.validate(self.topicName, name: "topicName", parent: name, max: 255)
+            try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
+            try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^[a-zA-Z0-9\\\\._\\\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
+            case mskClusterARN = "MSKClusterARN"
+            case topicName = "TopicName"
+        }
+    }
+
+    public struct MSKSourceDescription: AWSDecodableShape {
+        /// The authentication configuration of the Amazon MSK cluster.
+        public let authenticationConfiguration: AuthenticationConfiguration?
+        /// Kinesis Data Firehose starts retrieving records from the topic within the Amazon MSK cluster starting with this timestamp.
+        public let deliveryStartTimestamp: Date?
+        /// The ARN of the Amazon MSK cluster.
+        public let mskClusterARN: String?
+        /// The topic name within the Amazon MSK cluster.
+        public let topicName: String?
+
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, deliveryStartTimestamp: Date? = nil, mskClusterARN: String? = nil, topicName: String? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.deliveryStartTimestamp = deliveryStartTimestamp
+            self.mskClusterARN = mskClusterARN
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
+            case deliveryStartTimestamp = "DeliveryStartTimestamp"
+            case mskClusterARN = "MSKClusterARN"
+            case topicName = "TopicName"
+        }
+    }
+
     public struct OpenXJsonSerDe: AWSEncodableShape & AWSDecodableShape {
         /// When set to true, which is the default, Kinesis Data Firehose converts JSON keys to lowercase before deserializing them.
         public let caseInsensitive: Bool?
@@ -2571,7 +2701,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
             try self.copyCommand.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -2694,7 +2824,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
             try self.copyCommand?.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -2996,13 +3126,17 @@ extension Firehose {
     public struct SourceDescription: AWSDecodableShape {
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
+        /// The configuration description for the Amazon MSK cluster to be used as the source for a delivery stream.
+        public let mskSourceDescription: MSKSourceDescription?
 
-        public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil) {
+        public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil, mskSourceDescription: MSKSourceDescription? = nil) {
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
+            self.mskSourceDescription = mskSourceDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case kinesisStreamSourceDescription = "KinesisStreamSourceDescription"
+            case mskSourceDescription = "MSKSourceDescription"
         }
     }
 

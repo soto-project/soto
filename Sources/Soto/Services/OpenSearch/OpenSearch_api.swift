@@ -74,6 +74,40 @@ public struct OpenSearch: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "aos.af-south-1.api.aws",
+            "ap-east-1": "aos.ap-east-1.api.aws",
+            "ap-northeast-1": "aos.ap-northeast-1.api.aws",
+            "ap-northeast-2": "aos.ap-northeast-2.api.aws",
+            "ap-northeast-3": "aos.ap-northeast-3.api.aws",
+            "ap-south-1": "aos.ap-south-1.api.aws",
+            "ap-south-2": "aos.ap-south-2.api.aws",
+            "ap-southeast-1": "aos.ap-southeast-1.api.aws",
+            "ap-southeast-2": "aos.ap-southeast-2.api.aws",
+            "ap-southeast-3": "aos.ap-southeast-3.api.aws",
+            "ap-southeast-4": "aos.ap-southeast-4.api.aws",
+            "ca-central-1": "aos.ca-central-1.api.aws",
+            "cn-north-1": "aos.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "aos.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "aos.eu-central-1.api.aws",
+            "eu-central-2": "aos.eu-central-2.api.aws",
+            "eu-north-1": "aos.eu-north-1.api.aws",
+            "eu-south-1": "aos.eu-south-1.api.aws",
+            "eu-south-2": "aos.eu-south-2.api.aws",
+            "eu-west-1": "aos.eu-west-1.api.aws",
+            "eu-west-2": "aos.eu-west-2.api.aws",
+            "eu-west-3": "aos.eu-west-3.api.aws",
+            "il-central-1": "aos.il-central-1.api.aws",
+            "me-central-1": "aos.me-central-1.api.aws",
+            "me-south-1": "aos.me-south-1.api.aws",
+            "sa-east-1": "aos.sa-east-1.api.aws",
+            "us-east-1": "aos.us-east-1.api.aws",
+            "us-east-2": "aos.us-east-2.api.aws",
+            "us-gov-east-1": "aos.us-gov-east-1.api.aws",
+            "us-gov-west-1": "aos.us-gov-west-1.api.aws",
+            "us-west-1": "aos.us-west-1.api.aws",
+            "us-west-2": "aos.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "es-fips.us-east-1.amazonaws.com",
             "us-east-2": "es-fips.us-east-2.amazonaws.com",
@@ -93,6 +127,19 @@ public struct OpenSearch: AWSService {
             operation: "AcceptInboundConnection", 
             path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds the data source on the domain.
+    @Sendable
+    public func addDataSource(_ input: AddDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDataSourceResponse {
+        return try await self.client.execute(
+            operation: "AddDataSource", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/dataSource", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -197,6 +244,19 @@ public struct OpenSearch: AWSService {
             operation: "CreateVpcEndpoint", 
             path: "/2021-01-01/opensearch/vpcEndpoints", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the data source.
+    @Sendable
+    public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
+        return try await self.client.execute(
+            operation: "DeleteDataSource", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -489,6 +549,32 @@ public struct OpenSearch: AWSService {
         )
     }
 
+    /// Describes the data source details.
+    @Sendable
+    public func getDataSource(_ input: GetDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceResponse {
+        return try await self.client.execute(
+            operation: "GetDataSource", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// The status of the maintenance action.
+    @Sendable
+    public func getDomainMaintenanceStatus(_ input: GetDomainMaintenanceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainMaintenanceStatusResponse {
+        return try await self.client.execute(
+            operation: "GetDomainMaintenanceStatus", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     @Sendable
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionHistoryResponse {
@@ -521,6 +607,32 @@ public struct OpenSearch: AWSService {
         return try await self.client.execute(
             operation: "GetUpgradeStatus", 
             path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// A list of the data source details of the domain.
+    @Sendable
+    public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
+        return try await self.client.execute(
+            operation: "ListDataSources", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/dataSource", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// A list of maintenance actions for the domain.
+    @Sendable
+    public func listDomainMaintenances(_ input: ListDomainMaintenancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainMaintenancesResponse {
+        return try await self.client.execute(
+            operation: "ListDomainMaintenances", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenances", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -710,6 +822,19 @@ public struct OpenSearch: AWSService {
         )
     }
 
+    /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
+    @Sendable
+    public func startDomainMaintenance(_ input: StartDomainMaintenanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDomainMaintenanceResponse {
+        return try await self.client.execute(
+            operation: "StartDomainMaintenance", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service.
     @Sendable
     public func startServiceSoftwareUpdate(_ input: StartServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartServiceSoftwareUpdateResponse {
@@ -723,7 +848,20 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
+    /// Updates the data source on the domain.
+    @Sendable
+    public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
+        return try await self.client.execute(
+            operation: "UpdateDataSource", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     @Sendable
     public func updateDomainConfig(_ input: UpdateDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainConfigResponse {
         return try await self.client.execute(
@@ -954,6 +1092,25 @@ extension OpenSearch {
         )
     }
 
+    /// A list of maintenance actions for the domain.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDomainMaintenancesPaginator(
+        _ input: ListDomainMaintenancesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainMaintenancesRequest, ListDomainMaintenancesResponse> {
+        return .init(
+            input: input,
+            command: self.listDomainMaintenances,
+            inputKey: \ListDomainMaintenancesRequest.nextToken,
+            outputKey: \ListDomainMaintenancesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
@@ -1126,6 +1283,18 @@ extension OpenSearch.GetUpgradeHistoryRequest: AWSPaginateToken {
             domainName: self.domainName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension OpenSearch.ListDomainMaintenancesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> OpenSearch.ListDomainMaintenancesRequest {
+        return .init(
+            action: self.action,
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

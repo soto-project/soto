@@ -35,6 +35,7 @@
                 "ApplicationId": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the nested application.</p>",
                         "smithy.api#jsonName": "applicationId",
                         "smithy.api#required": {}
@@ -43,6 +44,7 @@
                 "SemanticVersion": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The semantic version of the nested application.</p>",
                         "smithy.api#jsonName": "semanticVersion",
                         "smithy.api#required": {}
@@ -59,6 +61,7 @@
                 "Actions": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>For the list of actions supported for this operation, see <a href=\"https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions\">Application \n Permissions</a>.</p>",
                         "smithy.api#jsonName": "actions",
                         "smithy.api#required": {}
@@ -74,6 +77,7 @@
                 "Principals": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>An array of AWS account IDs, or * to make the application public.</p>",
                         "smithy.api#jsonName": "principals",
                         "smithy.api#required": {}
@@ -97,6 +101,7 @@
                 "ApplicationId": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The application Amazon Resource Name (ARN).</p>",
                         "smithy.api#jsonName": "applicationId",
                         "smithy.api#required": {}
@@ -105,6 +110,7 @@
                 "Author": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The name of the author publishing the app.</p><p>Minimum length=1. Maximum length=127.</p><p>Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$\";</p>",
                         "smithy.api#jsonName": "author",
                         "smithy.api#required": {}
@@ -120,6 +126,7 @@
                 "Description": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The description of the application.</p><p>Minimum length=1. Maximum length=256</p>",
                         "smithy.api#jsonName": "description",
                         "smithy.api#required": {}
@@ -142,6 +149,7 @@
                 "Name": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The name of the application.</p><p>Minimum length=1. Maximum length=140</p><p>Pattern: \"[a-zA-Z0-9\\\\-]+\";</p>",
                         "smithy.api#jsonName": "name",
                         "smithy.api#required": {}
@@ -279,6 +287,7 @@
                 "Author": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The name of the author publishing the app.</p><p>Minimum length=1. Maximum length=127.</p><p>Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$\";</p>",
                         "smithy.api#jsonName": "author",
                         "smithy.api#required": {}
@@ -287,6 +296,7 @@
                 "Description": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The description of the application.</p><p>Minimum length=1. Maximum length=256</p>",
                         "smithy.api#jsonName": "description",
                         "smithy.api#required": {}
@@ -323,6 +333,7 @@
                 "Name": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The name of the application that you want to publish.</p><p>Minimum length=1. Maximum length=140</p><p>Pattern: \"[a-zA-Z0-9\\\\-]+\";</p>",
                         "smithy.api#jsonName": "name",
                         "smithy.api#required": {}
@@ -430,7 +441,6 @@
                 "IsVerifiedAuthor": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether the author of this application has been verified. This means means that AWS has made a good faith review, as a reasonable and prudent service provider, of the information provided by the requester and has confirmed that the requester's identity is as claimed.</p>",
                         "smithy.api#jsonName": "isVerifiedAuthor"
                     }
@@ -609,7 +619,6 @@
                 "ResourcesSupported": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether all of the AWS resources contained in this application are supported in the region\n in which it is being retrieved.</p>",
                         "smithy.api#jsonName": "resourcesSupported"
                     }
@@ -755,6 +764,7 @@
                 "StackName": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>This property corresponds to the parameter of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet\">CreateChangeSet</a>\n </i> API.</p>",
                         "smithy.api#jsonName": "stackName",
                         "smithy.api#required": {}
@@ -1169,7 +1179,6 @@
                 "IsVerifiedAuthor": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether the author of this application has been verified. This means means that AWS has made a good faith review, as a reasonable and prudent service provider, of the information provided by the requester and has confirmed that the requester's identity is as claimed.</p>",
                         "smithy.api#jsonName": "isVerifiedAuthor"
                     }
@@ -1420,7 +1429,6 @@
                 "MaxItems": {
                     "target": "com.amazonaws.serverlessapplicationrepository#MaxItems",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total number of items to return.</p>",
                         "smithy.api#httpQuery": "maxItems"
                     }
@@ -1519,7 +1527,6 @@
                 "MaxItems": {
                     "target": "com.amazonaws.serverlessapplicationrepository#MaxItems",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total number of items to return.</p>",
                         "smithy.api#httpQuery": "maxItems"
                     }
@@ -1600,7 +1607,6 @@
                 "MaxItems": {
                     "target": "com.amazonaws.serverlessapplicationrepository#MaxItems",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total number of items to return.</p>",
                         "smithy.api#httpQuery": "maxItems"
                     }
@@ -1642,7 +1648,6 @@
         "com.amazonaws.serverlessapplicationrepository#MaxItems": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -1714,7 +1719,6 @@
                 "MaxLength": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>An integer value that determines the largest number of characters that you want to allow for String types.</p>",
                         "smithy.api#jsonName": "maxLength"
                     }
@@ -1722,7 +1726,6 @@
                 "MaxValue": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>A numeric value that determines the largest numeric value that you want to allow for Number types.</p>",
                         "smithy.api#jsonName": "maxValue"
                     }
@@ -1730,7 +1733,6 @@
                 "MinLength": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>An integer value that determines the smallest number of characters that you want to allow for String types.</p>",
                         "smithy.api#jsonName": "minLength"
                     }
@@ -1738,7 +1740,6 @@
                 "MinValue": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>A numeric value that determines the smallest numeric value that you want to allow for Number types.</p>",
                         "smithy.api#jsonName": "minValue"
                     }
@@ -1746,6 +1747,7 @@
                 "Name": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The name of the parameter.</p>",
                         "smithy.api#jsonName": "name",
                         "smithy.api#required": {}
@@ -1754,7 +1756,6 @@
                 "NoEcho": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether to mask the parameter value whenever anyone makes a call that describes the stack. If you set the\n value to true, the parameter value is masked with asterisks (*****).</p>",
                         "smithy.api#jsonName": "noEcho"
                     }
@@ -1762,6 +1763,7 @@
                 "ReferencedByResources": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>A list of AWS SAM resources that use this parameter.</p>",
                         "smithy.api#jsonName": "referencedByResources",
                         "smithy.api#required": {}
@@ -1785,6 +1787,7 @@
                 "Name": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation\n uses the default value that is specified in your template.</p>",
                         "smithy.api#jsonName": "name",
                         "smithy.api#required": {}
@@ -1793,6 +1796,7 @@
                 "Value": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The input value associated with the parameter.</p>",
                         "smithy.api#jsonName": "value",
                         "smithy.api#required": {}
@@ -1851,6 +1855,7 @@
                 "Statements": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOfApplicationPolicyStatement",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>An array of policy statements applied to the application.</p>",
                         "smithy.api#jsonName": "statements",
                         "smithy.api#required": {}
@@ -1882,7 +1887,6 @@
                 "MonitoringTimeInMinutes": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>This property corresponds to the content of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration\">RollbackConfiguration</a>\n </i> Data Type.</p>",
                         "smithy.api#jsonName": "monitoringTimeInMinutes"
                     }
@@ -1905,6 +1909,7 @@
                 "Arn": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>This property corresponds to the content of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger\">RollbackTrigger</a>\n </i> Data Type.</p>",
                         "smithy.api#jsonName": "arn",
                         "smithy.api#required": {}
@@ -1913,6 +1918,7 @@
                 "Type": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>This property corresponds to the content of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger\">RollbackTrigger</a>\n </i> Data Type.</p>",
                         "smithy.api#jsonName": "type",
                         "smithy.api#required": {}
@@ -1976,6 +1982,7 @@
                     "arnNamespace": "serverlessrepo",
                     "cloudFormationName": "ServerlessApplicationRepository",
                     "cloudTrailEventSource": "serverlessapplicationrepository.amazonaws.com",
+                    "docId": "serverlessrepo-2017-09-08",
                     "endpointPrefix": "serverlessrepo"
                 },
                 "aws.auth#sigv4": {
@@ -2026,7 +2033,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -2044,9 +2050,212 @@
                                     "type": "error"
                                 },
                                 {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
                                     "conditions": [],
-                                    "type": "tree",
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://serverlessrepo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        },
+                                                                        "aws-us-gov"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://serverlessrepo.{Region}.amazonaws.com",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://serverlessrepo-fips.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -2059,341 +2268,65 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                            "type": "error"
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "endpoint": {
-                                                "url": {
-                                                    "ref": "Endpoint"
-                                                },
-                                                "properties": {},
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "conditions": [],
-                            "type": "tree",
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "isSet",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "aws.partition",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "Region"
-                                                        }
-                                                    ],
-                                                    "assign": "PartitionResult"
-                                                }
-                                            ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
+                                                                true,
                                                                 {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
+                                                                    "fn": "getAttr",
                                                                     "argv": [
-                                                                        true,
                                                                         {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://serverlessrepo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseFIPS"
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsFIPS"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [
-                                                                                {
-                                                                                    "fn": "stringEquals",
-                                                                                    "argv": [
-                                                                                        "aws-us-gov",
-                                                                                        {
-                                                                                            "fn": "getAttr",
-                                                                                            "argv": [
-                                                                                                {
-                                                                                                    "ref": "PartitionResult"
-                                                                                                },
-                                                                                                "name"
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "endpoint": {
-                                                                                "url": "https://serverlessrepo.{Region}.amazonaws.com",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
+                                                                            "ref": "PartitionResult"
                                                                         },
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://serverlessrepo-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
+                                                                        "supportsDualStack"
                                                                     ]
                                                                 }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                                            "type": "error"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "UseDualStack"
-                                                                },
-                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "booleanEquals",
-                                                                    "argv": [
-                                                                        true,
-                                                                        {
-                                                                            "fn": "getAttr",
-                                                                            "argv": [
-                                                                                {
-                                                                                    "ref": "PartitionResult"
-                                                                                },
-                                                                                "supportsDualStack"
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "type": "tree",
-                                                            "rules": [
-                                                                {
-                                                                    "conditions": [],
-                                                                    "type": "tree",
-                                                                    "rules": [
-                                                                        {
-                                                                            "conditions": [],
-                                                                            "endpoint": {
-                                                                                "url": "https://serverlessrepo.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                                "properties": {},
-                                                                                "headers": {}
-                                                                            },
-                                                                            "type": "endpoint"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
                                                             "conditions": [],
-                                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                                            "type": "error"
+                                                            "endpoint": {
+                                                                "url": "https://serverlessrepo.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "stringEquals",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "Region"
-                                                                        },
-                                                                        "us-gov-east-1"
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "endpoint": {
-                                                                "url": "https://serverlessrepo.us-gov-east-1.amazonaws.com",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        },
-                                                        {
-                                                            "conditions": [
-                                                                {
-                                                                    "fn": "stringEquals",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "Region"
-                                                                        },
-                                                                        "us-gov-west-1"
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "endpoint": {
-                                                                "url": "https://serverlessrepo.us-gov-west-1.amazonaws.com",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        },
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://serverlessrepo.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
+                                        },
+                                        {
+                                            "conditions": [],
+                                            "endpoint": {
+                                                "url": "https://serverlessrepo.{Region}.{PartitionResult#dnsSuffix}",
+                                                "properties": {},
+                                                "headers": {}
+                                            },
+                                            "type": "endpoint"
                                         }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "error": "Invalid Configuration: Missing Region",
-                                    "type": "error"
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [],
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
@@ -2408,8 +2341,8 @@
                             },
                             "params": {
                                 "Region": "ap-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2421,8 +2354,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2434,8 +2367,8 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2447,8 +2380,8 @@
                             },
                             "params": {
                                 "Region": "ap-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2460,8 +2393,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2473,8 +2406,8 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2486,8 +2419,8 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2499,8 +2432,8 @@
                             },
                             "params": {
                                 "Region": "eu-central-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2512,8 +2445,8 @@
                             },
                             "params": {
                                 "Region": "eu-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2525,8 +2458,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2538,8 +2471,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2551,8 +2484,8 @@
                             },
                             "params": {
                                 "Region": "eu-west-3",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2564,8 +2497,8 @@
                             },
                             "params": {
                                 "Region": "me-south-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2577,8 +2510,8 @@
                             },
                             "params": {
                                 "Region": "sa-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2590,8 +2523,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2603,8 +2536,8 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2616,8 +2549,8 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2629,8 +2562,8 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2642,8 +2575,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2655,8 +2588,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2668,8 +2601,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2681,8 +2614,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2694,8 +2627,8 @@
                             },
                             "params": {
                                 "Region": "cn-northwest-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2707,8 +2640,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2720,8 +2653,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2733,8 +2666,8 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2746,8 +2679,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2759,8 +2692,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2772,8 +2705,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2785,8 +2718,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2798,8 +2731,8 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2811,8 +2744,19 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
-                                "UseDualStack": true,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2824,8 +2768,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2837,8 +2792,19 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2850,8 +2816,19 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": true
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -2863,8 +2840,8 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
-                                "UseDualStack": false,
-                                "UseFIPS": false
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2876,8 +2853,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -2889,8 +2866,8 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
                                 "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -2901,8 +2878,8 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": false,
                                 "UseFIPS": true,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -2913,9 +2890,15 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
-                                "UseDualStack": true,
                                 "UseFIPS": false,
+                                "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
@@ -2952,6 +2935,7 @@
                 "Key": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>This property corresponds to the content of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag\">Tag</a>\n </i> Data Type.</p>",
                         "smithy.api#jsonName": "key",
                         "smithy.api#required": {}
@@ -2960,6 +2944,7 @@
                 "Value": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>This property corresponds to the content of the same name for the <i>AWS CloudFormation <a href=\"https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag\">\n Tag</a>\n </i>\n Data Type.</p>",
                         "smithy.api#jsonName": "value",
                         "smithy.api#required": {}
@@ -3042,6 +3027,7 @@
                 "OrganizationId": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The AWS Organization ID to unshare the application from.</p>",
                         "smithy.api#jsonName": "organizationId",
                         "smithy.api#required": {}
@@ -3188,7 +3174,6 @@
                 "IsVerifiedAuthor": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether the author of this application has been verified. This means means that AWS has made a good faith review, as a reasonable and prudent service provider, of the information provided by the requester and has confirmed that the requester's identity is as claimed.</p>",
                         "smithy.api#jsonName": "isVerifiedAuthor"
                     }
@@ -3253,6 +3238,7 @@
                 "ApplicationId": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The application Amazon Resource Name (ARN).</p>",
                         "smithy.api#jsonName": "applicationId",
                         "smithy.api#required": {}
@@ -3261,6 +3247,7 @@
                 "CreationTime": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The date and time this resource was created.</p>",
                         "smithy.api#jsonName": "creationTime",
                         "smithy.api#required": {}
@@ -3269,6 +3256,7 @@
                 "ParameterDefinitions": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOfParameterDefinition",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>An array of parameter types supported by the application.</p>",
                         "smithy.api#jsonName": "parameterDefinitions",
                         "smithy.api#required": {}
@@ -3277,6 +3265,7 @@
                 "RequiredCapabilities": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__listOfCapability",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>A list of values that you must specify before you can deploy certain applications.\n Some applications might include resources that can affect permissions in your AWS\n account, for example, by creating new AWS Identity and Access Management (IAM) users.\n For those applications, you must explicitly acknowledge their capabilities by\n specifying this parameter.</p><p>The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,\n CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.</p><p>The following resources require you to specify CAPABILITY_IAM or\n CAPABILITY_NAMED_IAM:\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html\">AWS::IAM::Group</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html\">AWS::IAM::InstanceProfile</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html\">AWS::IAM::Policy</a>, and\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html\">AWS::IAM::Role</a>.\n If the application contains IAM resources, you can specify either CAPABILITY_IAM\n or CAPABILITY_NAMED_IAM. If the application contains IAM resources\n with custom names, you must specify CAPABILITY_NAMED_IAM.</p><p>The following resources require you to specify CAPABILITY_RESOURCE_POLICY:\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html\">AWS::Lambda::Permission</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html\">AWS::IAM:Policy</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html\">AWS::ApplicationAutoScaling::ScalingPolicy</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html\">AWS::S3::BucketPolicy</a>,\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html\">AWS::SQS::QueuePolicy</a>, and\n <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html\">AWS::SNS::TopicPolicy</a>.</p><p>Applications that contain one or more nested applications require you to specify\n CAPABILITY_AUTO_EXPAND.</p><p>If your application template contains any of the above resources, we recommend that you review\n all permissions associated with the application before deploying. If you don't specify\n this parameter for an application that requires capabilities, the call will fail.</p>",
                         "smithy.api#jsonName": "requiredCapabilities",
                         "smithy.api#required": {}
@@ -3285,7 +3274,7 @@
                 "ResourcesSupported": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>Whether all of the AWS resources contained in this application are supported in the region\n in which it is being retrieved.</p>",
                         "smithy.api#jsonName": "resourcesSupported",
                         "smithy.api#required": {}
@@ -3294,6 +3283,7 @@
                 "SemanticVersion": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The semantic version of the application:</p><p>\n <a href=\"https://semver.org/\">https://semver.org/</a>\n </p>",
                         "smithy.api#jsonName": "semanticVersion",
                         "smithy.api#required": {}
@@ -3316,6 +3306,7 @@
                 "TemplateUrl": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>A link to the packaged AWS SAM template of your application.</p>",
                         "smithy.api#jsonName": "templateUrl",
                         "smithy.api#required": {}
@@ -3332,6 +3323,7 @@
                 "ApplicationId": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The application Amazon Resource Name (ARN).</p>",
                         "smithy.api#jsonName": "applicationId",
                         "smithy.api#required": {}
@@ -3340,6 +3332,7 @@
                 "CreationTime": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The date and time this resource was created.</p>",
                         "smithy.api#jsonName": "creationTime",
                         "smithy.api#required": {}
@@ -3348,6 +3341,7 @@
                 "SemanticVersion": {
                     "target": "com.amazonaws.serverlessapplicationrepository#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The semantic version of the application:</p><p>\n <a href=\"https://semver.org/\">https://semver.org/</a>\n </p>",
                         "smithy.api#jsonName": "semanticVersion",
                         "smithy.api#required": {}
@@ -3366,16 +3360,10 @@
             }
         },
         "com.amazonaws.serverlessapplicationrepository#__boolean": {
-            "type": "boolean",
-            "traits": {
-                "smithy.api#default": false
-            }
+            "type": "boolean"
         },
         "com.amazonaws.serverlessapplicationrepository#__integer": {
-            "type": "integer",
-            "traits": {
-                "smithy.api#default": 0
-            }
+            "type": "integer"
         },
         "com.amazonaws.serverlessapplicationrepository#__listOfApplicationDependencySummary": {
             "type": "list",

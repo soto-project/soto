@@ -26,13 +26,20 @@ import Foundation
 extension MWAA {
     // MARK: Enums
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum EndpointManagement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case creatingSnapshot = "CREATING_SNAPSHOT"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case pending = "PENDING"
         case rollingBack = "ROLLING_BACK"
         case unavailable = "UNAVAILABLE"
         case updateFailed = "UPDATE_FAILED"
@@ -40,7 +47,7 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "CRITICAL"
         case debug = "DEBUG"
         case error = "ERROR"
@@ -49,7 +56,7 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -80,14 +87,14 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebserverAccessMode: String, CustomStringConvertible, Codable, Sendable {
+    public enum WebserverAccessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case privateOnly = "PRIVATE_ONLY"
         case publicOnly = "PUBLIC_ONLY"
         public var description: String { return self.rawValue }
@@ -138,10 +145,12 @@ extension MWAA {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA).
+        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String
+        /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
+        public let endpointManagement: EndpointManagement?
         /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see Amazon MWAA environment class.
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
@@ -176,15 +185,16 @@ extension MWAA {
         public let startupScriptS3Path: String?
         /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
-        /// The Apache Airflow Web server access mode. For more information, see Apache Airflow access modes.
+        /// Defines the access mode for the Apache Airflow web server. For more information, see Apache Airflow access modes.
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
+            self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
             self.kmsKey = kmsKey
@@ -212,6 +222,7 @@ extension MWAA {
             try container.encodeIfPresent(self.airflowConfigurationOptions, forKey: .airflowConfigurationOptions)
             try container.encodeIfPresent(self.airflowVersion, forKey: .airflowVersion)
             try container.encode(self.dagS3Path, forKey: .dagS3Path)
+            try container.encodeIfPresent(self.endpointManagement, forKey: .endpointManagement)
             try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.kmsKey, forKey: .kmsKey)
@@ -300,6 +311,7 @@ extension MWAA {
             case airflowConfigurationOptions = "AirflowConfigurationOptions"
             case airflowVersion = "AirflowVersion"
             case dagS3Path = "DagS3Path"
+            case endpointManagement = "EndpointManagement"
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
             case kmsKey = "KmsKey"
@@ -421,14 +433,20 @@ extension MWAA {
     public struct Environment: AWSDecodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
+        /// The queue ARN for the environment's Celery Executor. Amazon MWAA uses a Celery Executor to distribute tasks across multiple workers. When you create an environment in a shared VPC, you must provide access to the Celery Executor queue from your VPC.
+        public let celeryExecutorQueue: String?
         /// The day and time the environment was created.
         public let createdAt: Date?
         /// The relative path to the DAGs folder in your Amazon S3 bucket. For example, s3://mwaa-environment/dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String?
+        /// The VPC endpoint for the environment's Amazon RDS database.
+        public let databaseVpcEndpointService: String?
+        /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints in your VPC.
+        public let endpointManagement: EndpointManagement?
         /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see Amazon MWAA environment class.
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
@@ -465,23 +483,28 @@ extension MWAA {
         public let startupScriptS3ObjectVersion: String?
         /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see Using a startup script.
         public let startupScriptS3Path: String?
-        /// The status of the Amazon MWAA environment. Valid values:    CREATING - Indicates the request to create the environment is in progress.    CREATING_SNAPSHOT - Indicates the request to update environment details, or upgrade the environment version, is in progress and Amazon MWAA is creating a storage volume snapshot of the Amazon RDS database cluster associated with the environment. A database snapshot is a backup created at a specific point in time. Amazon MWAA uses snapshots to recover environment metadata if the process to update or upgrade an environment fails.    CREATE_FAILED - Indicates the request to create the environment failed, and the environment could not be created.    AVAILABLE - Indicates the request was successful and the environment is ready to use.    UPDATING - Indicates the request to update the environment is in progress.    ROLLING_BACK - Indicates the request to update environment details, or upgrade the environment version, failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.    DELETING - Indicates the request to delete the environment is in progress.    DELETED - Indicates the request to delete the environment is complete, and the environment has been deleted.    UNAVAILABLE - Indicates the request failed, but the environment was unable to rollback and is not in a stable state.    UPDATE_FAILED - Indicates the request to update the environment failed, and the environment has rolled back successfully and is ready to use.   We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. For more information, see Amazon MWAA troubleshooting.
+        /// The status of the Amazon MWAA environment. Valid values:    CREATING - Indicates the request to create the environment is in progress.    CREATING_SNAPSHOT - Indicates the request to update environment details, or upgrade the environment version, is in progress and Amazon MWAA is creating a storage volume snapshot of the Amazon RDS database cluster associated with the environment. A database snapshot is a backup created at a specific point in time. Amazon MWAA uses snapshots to recover environment metadata if the process to update or upgrade an environment fails.    CREATE_FAILED - Indicates the request to create the environment failed, and the environment could not be created.    AVAILABLE - Indicates the request was successful and the environment is ready to use.    PENDING - Indicates the request was successful, but the process to create the environment is paused until you create the required VPC endpoints in your VPC. After you create the VPC endpoints, the process resumes.    UPDATING - Indicates the request to update the environment is in progress.    ROLLING_BACK - Indicates the request to update environment details, or upgrade the environment version, failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.    DELETING - Indicates the request to delete the environment is in progress.    DELETED - Indicates the request to delete the environment is complete, and the environment has been deleted.    UNAVAILABLE - Indicates the request failed, but the environment was unable to rollback and is not in a stable state.    UPDATE_FAILED - Indicates the request to update the environment failed, and the environment has rolled back successfully and is ready to use.   We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. For more information, see Amazon MWAA troubleshooting.
         public let status: EnvironmentStatus?
         /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
-        /// The Apache Airflow Web server access mode. For more information, see Apache Airflow access modes.
+        /// The Apache Airflow web server access mode. For more information, see Apache Airflow access modes.
         public let webserverAccessMode: WebserverAccessMode?
         /// The Apache Airflow Web server host name for the Amazon MWAA environment. For more information, see Accessing the Apache Airflow UI.
         public let webserverUrl: String?
+        /// The VPC endpoint for the environment's web server.
+        public let webserverVpcEndpointService: String?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
+            self.celeryExecutorQueue = celeryExecutorQueue
             self.createdAt = createdAt
             self.dagS3Path = dagS3Path
+            self.databaseVpcEndpointService = databaseVpcEndpointService
+            self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
             self.kmsKey = kmsKey
@@ -504,6 +527,7 @@ extension MWAA {
             self.tags = tags
             self.webserverAccessMode = webserverAccessMode
             self.webserverUrl = webserverUrl
+            self.webserverVpcEndpointService = webserverVpcEndpointService
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
         }
 
@@ -511,8 +535,11 @@ extension MWAA {
             case airflowConfigurationOptions = "AirflowConfigurationOptions"
             case airflowVersion = "AirflowVersion"
             case arn = "Arn"
+            case celeryExecutorQueue = "CeleryExecutorQueue"
             case createdAt = "CreatedAt"
             case dagS3Path = "DagS3Path"
+            case databaseVpcEndpointService = "DatabaseVpcEndpointService"
+            case endpointManagement = "EndpointManagement"
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
             case kmsKey = "KmsKey"
@@ -535,6 +562,7 @@ extension MWAA {
             case tags = "Tags"
             case webserverAccessMode = "WebserverAccessMode"
             case webserverUrl = "WebserverUrl"
+            case webserverVpcEndpointService = "WebserverVpcEndpointService"
             case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
         }
     }
@@ -982,7 +1010,7 @@ extension MWAA {
     public struct UpdateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
+        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String?
