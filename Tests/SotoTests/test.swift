@@ -18,28 +18,56 @@ import NIOCore
 @testable import SotoCore
 import XCTest
 
-@available(*, noasync, message: "runThrowingTask() can block indefinitely")
-func runThrowingTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async throws -> T) throws -> T {
-    let promise = eventLoop.makePromise(of: T.self)
-    Task {
-        do {
-            let result = try await task()
-            promise.succeed(result)
-        } catch {
-            promise.fail(error)
-        }
-    }
-    return try promise.futureResult.wait()
+/// Internal class used by syncAwait
+private class SendableBox<Value>: @unchecked Sendable {
+    var value: Value?
 }
 
-@available(*, noasync, message: "runTask() can block indefinitely")
-func runTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async -> T) -> T {
-    let promise = eventLoop.makePromise(of: T.self)
-    Task {
-        let result = await task()
-        promise.succeed(result)
+extension Task where Failure == Error {
+    /// Performs an async task in a sync context and wait for result.
+    ///
+    /// Not to be used in production code.
+    ///
+    /// - Note: This function blocks the thread until the given operation is finished. The caller is responsible for managing multithreading.
+    @available(*, noasync, message: "synchronous() can block indefinitely")
+    internal func syncAwait() throws -> Success {
+        let semaphore = DispatchSemaphore(value: 0)
+        let resultBox = SendableBox<Result<Success, Failure>>()
+
+        Task<Void, Never> {
+            resultBox.value = await self.result
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+        switch resultBox.value! {
+        case .success(let value):
+            return value
+        case .failure(let error):
+            throw error
+        }
     }
-    return try! promise.futureResult.wait()
+}
+
+extension Task where Failure == Never {
+    /// Performs an async task in a sync context and wait for result.
+    ///
+    /// Not to be used in production code.
+    ///
+    /// - Note: This function blocks the thread until the given operation is finished. The caller is responsible for managing multithreading.
+    @available(*, noasync, message: "synchronous() can block indefinitely")
+    internal func syncAwait() -> Success {
+        let semaphore = DispatchSemaphore(value: 0)
+        let resultBox = SendableBox<Success>()
+
+        Task<Void, Never> {
+            resultBox.value = await self.value
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+        return resultBox.value!
+    }
 }
 
 /// Provide various test environment variables
@@ -96,20 +124,33 @@ func XCTTestAsset<T>(
     try await delete(asset)
 }
 
-/// Test for specific error being thrown when running some code
-func XCTAsyncExpectError<E: Error & Equatable>(
-    _ expectedError: E,
+func XCTAsyncAssertNoThrow(
     _ expression: () async throws -> Void,
-    _ message: @autoclosure () -> String = "",
+    _ message: @autoclosure @escaping () -> String = "",
     file: StaticString = #filePath,
     line: UInt = #line
 ) async {
     do {
         _ = try await expression()
-        XCTFail("\(file):\(line) was expected to throw an error but it didn't")
+    } catch {
+        XCTFail("\(file):\(line) \(message()) Threw error \(error)")
+    }
+}
+
+/// Test for specific error being thrown when running some code
+func XCTAsyncExpectError<E: Error & Equatable>(
+    _ expectedError: E,
+    _ expression: () async throws -> Void,
+    _ message: @autoclosure @escaping () -> String = "",
+    file: StaticString = #filePath,
+    line: UInt = #line
+) async {
+    do {
+        _ = try await expression()
+        XCTFail("\(file):\(line) \(message()) Expected to throw an error but it didn't")
     } catch let error as E where error == expectedError {
     } catch {
-        XCTFail("\(file):\(line) expected error \(expectedError) but got \(error)")
+        XCTFail("\(file):\(line) \(message()) Expected error \(expectedError) but got \(error)")
     }
 }
 

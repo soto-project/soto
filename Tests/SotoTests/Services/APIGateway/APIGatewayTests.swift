@@ -47,19 +47,23 @@ class APIGatewayTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
-        /// If we create a rest api for each test, when we delete them APIGateway will
-        /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            let response = try await self.createRestApi(name: self.restApiName)
-            Self.restApiId = try XCTUnwrap(response.id)
-        })
+        Task {
+            /// If we create a rest api for each test, when we delete them APIGateway will
+            /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
+            await XCTAsyncAssertNoThrow {
+                let response = try await self.createRestApi(name: self.restApiName)
+                Self.restApiId = try XCTUnwrap(response.id)
+            }
+        }.syncAwait()
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            _ = try await self.deleteRestApi(id: self.restApiId)
-        })
-        XCTAssertNoThrow(try self.client.syncShutdown())
+        Task {
+            await XCTAsyncAssertNoThrow {
+                _ = try await self.deleteRestApi(id: self.restApiId)
+                try await self.client.shutdown()
+            }
+        }.syncAwait()
     }
 
     static func createRestApi(name: String) async throws -> APIGateway.RestApi {
