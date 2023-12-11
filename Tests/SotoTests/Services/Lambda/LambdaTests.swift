@@ -122,27 +122,30 @@ class LambdaTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
 
         // create an IAM role
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            let response = try await Self.createIAMRole()
-            // IAM needs some time after Role creation,
-            // before the role can be attached to a Lambda function
-            // https://stackoverflow.com/a/37438525/663360
-            print("Sleeping 20 secs, waiting for IAM Role to be ready")
-            try await Task.sleep(nanoseconds: 20_000_000_000)
-            try await Self.createLambdaFunction(roleArn: response.role.arn)
-
-        })
+        Task {
+            await XCTAsyncAssertNoThrow {
+                let response = try await Self.createIAMRole()
+                // IAM needs some time after Role creation,
+                // before the role can be attached to a Lambda function
+                // https://stackoverflow.com/a/37438525/663360
+                print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                try await Task.sleep(nanoseconds: 20_000_000_000)
+                try await Self.createLambdaFunction(roleArn: response.role.arn)
+            }
+        }.syncAwait()
     }
 
     override class func tearDown() {
         // Role and lambda function are not created with Localstack
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            if !TestEnvironment.isUsingLocalstack {
-                try await Self.deleteLambdaFunction()
-                try await Self.deleteIAMRole()
+        Task {
+            await XCTAsyncAssertNoThrow {
+                if !TestEnvironment.isUsingLocalstack {
+                    try await Self.deleteLambdaFunction()
+                    try await Self.deleteIAMRole()
+                }
+                try await Self.client.shutdown()
             }
-        })
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        }.syncAwait()
     }
 
     // MARK: TESTS

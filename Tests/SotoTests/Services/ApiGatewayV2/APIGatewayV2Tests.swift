@@ -47,22 +47,26 @@ class APIGatewayV2Tests: XCTestCase {
         }
         /// If we create a rest api for each test, when we delete them APIGateway will throttle
         /// and we will most likely not delete the all APIs so we create one API to be used by all tests
-        XCTAssertNoThrow(try runThrowingTask(on: Self.client.eventLoopGroup.any()) {
-            do {
-                Self.restApiId = try await self.createRestApi(name: self.restApiName)
-            } catch {
-                print("Failed to create APIGateway rest api, error: \(error)")
-                throw error
+        Task {
+            await XCTAsyncAssertNoThrow {
+                do {
+                    Self.restApiId = try await self.createRestApi(name: self.restApiName)
+                } catch {
+                    print("Failed to create APIGateway rest api, error: \(error)")
+                    throw error
+                }
             }
-        })
+        }.syncAwait()
     }
 
     override class func tearDown() {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        XCTAssertNoThrow(try runThrowingTask(on: Self.client.eventLoopGroup.any()) {
-            _ = try await self.deleteRestApi(id: self.restApiId)
-        })
-        XCTAssertNoThrow(try self.client.syncShutdown())
+        Task {
+            await XCTAsyncAssertNoThrow {
+                _ = try await self.deleteRestApi(id: self.restApiId)
+                try await self.client.shutdown()
+            }
+        }.syncAwait()
     }
 
     static func createRestApi(name: String) async throws -> String {

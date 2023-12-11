@@ -39,35 +39,39 @@ class DynamoDBTests: XCTestCase {
         )
         /// If we create a rest api for each test, when we delete them APIGateway will
         /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            try await withThrowingTaskGroup(of: Void.self) { group in
-                group.addTask {
-                    self.tableName = TestEnvironment.generateResourceName("soto-dynamodb-tests")
-                    _ = try await Self.createTable(
-                        name: self.tableName,
-                        attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
-                        keySchema: [.init(attributeName: "id", keyType: .hash)]
-                    )
+        Task {
+            await XCTAsyncAssertNoThrow {
+                try await withThrowingTaskGroup(of: Void.self) { group in
+                    group.addTask {
+                        self.tableName = TestEnvironment.generateResourceName("soto-dynamodb-tests")
+                        _ = try await Self.createTable(
+                            name: self.tableName,
+                            attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
+                            keySchema: [.init(attributeName: "id", keyType: .hash)]
+                        )
+                    }
+                    group.addTask {
+                        self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
+                        _ = try await Self.createTable(
+                            name: self.tableWithValueName,
+                            attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+                            keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+                        )
+                    }
+                    try await group.waitForAll()
                 }
-                group.addTask {
-                    self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
-                    _ = try await Self.createTable(
-                        name: self.tableWithValueName,
-                        attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
-                        keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
-                    )
-                }
-                try await group.waitForAll()
             }
-        })
+        }.syncAwait()
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
-            _ = try await Self.deleteTable(name: self.tableName)
-            _ = try await Self.deleteTable(name: self.tableWithValueName)
-        })
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        Task {
+            await XCTAsyncAssertNoThrow {
+                _ = try await Self.deleteTable(name: self.tableName)
+                _ = try await Self.deleteTable(name: self.tableWithValueName)
+                try await Self.client.shutdown()
+            }
+        }.syncAwait()
     }
 
     static func createTable(
