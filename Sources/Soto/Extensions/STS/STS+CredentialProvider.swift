@@ -58,7 +58,7 @@ extension STS {
             requestProvider: RequestProvider<STS.AssumeRoleRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
-            httpClient: HTTPClient
+            httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
@@ -84,7 +84,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>, region: Region, httpClient: HTTPClient) {
+        init(requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>, region: Region, httpClient: any AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -109,7 +109,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>, region: Region, httpClient: HTTPClient) {
+        init(requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>, region: Region, httpClient: any AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -140,8 +140,7 @@ extension STS {
 
             self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
                 requestProvider: .dynamic {
-                    let eventLoop = context.httpClient.eventLoopGroup.any()
-                    let token = try await Self.loadTokenFile(tokenFile, on: eventLoop)
+                    let token = try await Self.loadTokenFile(tokenFile)
                     return STS.AssumeRoleWithWebIdentityRequest(
                         roleArn: roleArn,
                         roleSessionName: sessionName ?? UUID().uuidString,
@@ -154,42 +153,32 @@ extension STS {
         }
 
         func shutdown() async throws {
-            return try await webIdentityProvider.shutdown()
+            return try await self.webIdentityProvider.shutdown()
         }
 
         /// get credentials
         func getCredential(logger: Logger) async throws -> Credential {
-            return try await webIdentityProvider.getCredential(logger: logger)
+            return try await self.webIdentityProvider.getCredential(logger: logger)
         }
 
         /// Load web identity token file
-        static func loadTokenFile(_ tokenFile: String, on eventLoop: EventLoop) async throws -> String {
+        static func loadTokenFile(_ tokenFile: String) async throws -> String {
             let threadPool = NIOThreadPool(numberOfThreads: 1)
             threadPool.start()
             defer { threadPool.shutdownGracefully { _ in }}
             let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
-            let fileBuffer = try await loadFile(path: tokenFile, on: eventLoop, using: fileIO).get()
+            let fileBuffer = try await loadFile(path: tokenFile, using: fileIO)
             let token = String(buffer: fileBuffer)
             return token
         }
 
         /// Load a file from disk without blocking the current thread
         /// - Returns: Event loop future with file contents in a byte-buffer
-        static func loadFile(path: String, on eventLoop: EventLoop, using fileIO: NonBlockingFileIO) -> EventLoopFuture<ByteBuffer> {
-            return fileIO.openFile(path: path, eventLoop: eventLoop)
-                .flatMap { handle, region in
-                    let handleTransfer = NIOLoopBound(handle, eventLoop: eventLoop)
-                    return fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
-                        .flatMapErrorThrowing { error in
-                            try? handleTransfer.value.close()
-                            throw error
-                        }
-                        .flatMapThrowing { byteBuffer in
-                            try handleTransfer.value.close()
-                            return byteBuffer
-                        }
-                }
+        static func loadFile(path: String, using fileIO: NonBlockingFileIO) async throws -> ByteBuffer {
+            return try await fileIO.withFileRegion(path: path) { region in
+                return try await fileIO.read(fileRegion: region, allocator: ByteBufferAllocator())
+            }
         }
     }
 
@@ -199,7 +188,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetFederationTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: HTTPClient) {
+        init(requestProvider: RequestProvider<STS.GetFederationTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: any AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -224,7 +213,7 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetSessionTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: HTTPClient) {
+        init(requestProvider: RequestProvider<STS.GetSessionTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: any AWSHTTPClient) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
