@@ -154,7 +154,7 @@ extension S3Tests {
                     abortOnFail: false,
                     logger: TestEnvironment.logger
                 ) {
-                    guard $0 < 0.45 else { throw CancelError() }
+                    guard $0 < 0.55 else { throw CancelError() }
                     print("Progress \($0 * 100)")
                 }
 
