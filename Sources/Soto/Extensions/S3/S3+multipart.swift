@@ -256,10 +256,11 @@ extension S3 {
         filename: String,
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
+        fileSystem: FileSystem = .shared,
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        return try await FileSystem.shared.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
+        return try await fileSystem.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
             let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
             let length = try await Double(fileHandle.info().size)
             @Sendable func percentProgress(_ value: Int) async throws {
@@ -332,10 +333,11 @@ extension S3 {
         filename: String,
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
+        fileSystem: FileSystem = .shared,
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        return try await FileSystem.shared.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
+        return try await fileSystem.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
             let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
             let length = try await Double(fileHandle.info().size)
             @Sendable func percentProgress(_ value: Int) async throws {
