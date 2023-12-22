@@ -28,7 +28,7 @@ extension CognitoIdentity {
             identityPoolId: String,
             identityProvider: IdentityProviderFactory,
             region: Region,
-            httpClient: HTTPClient,
+            httpClient: any AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled
         ) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)

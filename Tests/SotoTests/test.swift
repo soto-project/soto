@@ -198,3 +198,15 @@ extension AsyncSequence where Element == ByteBuffer {
         return .init(base: self, process: process)
     }
 }
+
+func withTeardown<Value>(_ process: () async throws -> Value, teardown: () async -> Void) async throws -> Value {
+    let result: Value
+    do {
+        result = try await process()
+    } catch {
+        await teardown()
+        throw error
+    }
+    await teardown()
+    return result
+}

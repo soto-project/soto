@@ -24,20 +24,17 @@ public struct FileByteBufferAsyncSequence: AsyncSequence {
     let fileIO: NonBlockingFileIO
     let chunkSize: Int
     let byteBufferAllocator: ByteBufferAllocator
-    let eventLoop: EventLoop
 
     public init(
         _ fileHandle: NIOFileHandle,
         fileIO: NonBlockingFileIO,
         chunkSize: Int,
-        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
-        eventLoop: EventLoop
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator()
     ) {
         self.fileHandle = fileHandle
         self.fileIO = fileIO
         self.chunkSize = chunkSize
         self.byteBufferAllocator = byteBufferAllocator
-        self.eventLoop = eventLoop
     }
 
     public struct AsyncIterator: AsyncIteratorProtocol {
@@ -46,16 +43,14 @@ public struct FileByteBufferAsyncSequence: AsyncSequence {
         let chunkSize: Int
         let fileIO: NonBlockingFileIO
         let byteBufferAllocator: ByteBufferAllocator
-        let eventLoop: EventLoop
 
         public mutating func next() async throws -> ByteBuffer? {
             let byteBuffer = try await self.fileIO.read(
                 fileHandle: self.fileHandle,
                 fromOffset: Int64(self.offset),
                 byteCount: 64 * 1024,
-                allocator: self.byteBufferAllocator,
-                eventLoop: self.eventLoop
-            ).get()
+                allocator: self.byteBufferAllocator
+            )
             let size = byteBuffer.readableBytes
             guard size > 0 else {
                 return nil
@@ -70,8 +65,7 @@ public struct FileByteBufferAsyncSequence: AsyncSequence {
             fileHandle: self.fileHandle,
             chunkSize: self.chunkSize,
             fileIO: self.fileIO,
-            byteBufferAllocator: self.byteBufferAllocator,
-            eventLoop: self.eventLoop
+            byteBufferAllocator: self.byteBufferAllocator
         )
     }
 }
