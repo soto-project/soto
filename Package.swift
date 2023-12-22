@@ -19,7 +19,7 @@ import PackageDescription
 let package = Package(
     name: "soto",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v10_15),
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6),
@@ -373,7 +373,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", branch: "urlsession")
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "aws-http-client")
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),

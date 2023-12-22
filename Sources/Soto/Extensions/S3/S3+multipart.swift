@@ -16,7 +16,6 @@ import Atomics
 import Logging
 import NIOConcurrencyHelpers
 import NIOCore
-import NIOFileSystem
 import NIOPosix
 import SotoCore
 
@@ -179,17 +178,18 @@ extension S3 {
         return try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
             let progressValue = ManagedAtomic(0)
 
-            return try await self.multipartDownload(
+            let result = try await self.multipartDownload(
                 input,
                 partSize: partSize,
                 concurrentDownloads: concurrentDownloads,
                 logger: logger
             ) { byteBuffer, fileSize in
                 let bufferSize = byteBuffer.readableBytes
-                _ = try await fileIO.write(fileHandle: fileHandle, buffer: byteBuffer)
+                try await fileIO.write(fileHandle: fileHandle, buffer: byteBuffer)
                 let progressIntValue = progressValue.wrappingIncrementThenLoad(by: bufferSize, ordering: .relaxed)
                 try await progress(Double(progressIntValue) / Double(fileSize))
             }
+            return result
         }
     }
 
@@ -256,20 +256,25 @@ extension S3 {
         filename: String,
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
-        fileSystem: FileSystem = .shared,
+        threadPool: NIOThreadPool = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        return try await fileSystem.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
-            let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
-            let length = try await Double(fileHandle.info().size)
+        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        return try await fileIO.withFileRegion(path: filename) { fileRegion in
+            let fileSequence = FileByteBufferAsyncSequence(
+                fileRegion.fileHandle,
+                fileIO: fileIO,
+                chunkSize: partSize
+            )
+            let length = Double(fileRegion.readableBytes)
             @Sendable func percentProgress(_ value: Int) async throws {
                 try await progress(Double(value) / length)
             }
             return try await self.multipartUpload(
                 input,
                 partSize: partSize,
-                bufferSequence: chunks,
+                bufferSequence: fileSequence,
                 concurrentUploads: concurrentUploads,
                 abortOnFail: abortOnFail,
                 logger: logger,
@@ -333,20 +338,26 @@ extension S3 {
         filename: String,
         concurrentUploads: Int = 4,
         abortOnFail: Bool = true,
-        fileSystem: FileSystem = .shared,
+        threadPool: NIOThreadPool = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        return try await fileSystem.withFileHandle(forReadingAt: FilePath(filename)) { fileHandle in
-            let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
-            let length = try await Double(fileHandle.info().size)
+        let fileIO = NonBlockingFileIO(threadPool: threadPool)
+        return try await fileIO.withFileRegion(path: filename) { fileRegion in
+            let fileSequence = FileByteBufferAsyncSequence(
+                fileRegion.fileHandle,
+                fileIO: fileIO,
+                chunkSize: partSize
+            )
+            // let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
+            let length = Double(fileRegion.readableBytes)
             @Sendable func percentProgress(_ value: Int) async throws {
                 try await progress(Double(value) / length)
             }
             return try await self.resumeMultipartUpload(
                 input,
                 partSize: partSize,
-                bufferSequence: chunks,
+                bufferSequence: fileSequence,
                 concurrentUploads: concurrentUploads,
                 abortOnFail: abortOnFail,
                 logger: logger,

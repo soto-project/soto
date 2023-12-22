@@ -20,12 +20,12 @@ env:
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DISABLE_LOCALSTACK : "false"
   AWS_ENABLE_LOGGING : "true"
-  AWS_LOG_LEVEL: "trace"
+  AWS_LOG_LEVEL: "debug"
   STRICT_CONCURRENCY: "true"
 
 jobs:
   macos:
-    runs-on: macOS-latest
+    runs-on: macOS-13
     steps:
     - name: Checkout
       uses: actions/checkout@v2
