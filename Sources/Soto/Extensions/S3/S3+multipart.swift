@@ -51,6 +51,7 @@ extension S3 {
     /// - parameters:
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
+    ///     - concurrentDownloads: How many downloads can you have running at one time
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
     /// - returns: The complete file size once the multipart download has finished.
     public func multipartDownload(
@@ -158,6 +159,7 @@ extension S3 {
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
     ///     - filename: Filename to save download to
+    ///     - concurrentDownloads: How many downloads can you have running at one time
     ///     - threadPool: Thread pool used to save file
     ///     - logger: logger
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value
@@ -167,6 +169,7 @@ extension S3 {
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
+        concurrentDownloads: Int = 4,
         threadPool: NIOThreadPool = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
@@ -181,6 +184,7 @@ extension S3 {
             downloaded = try await self.multipartDownload(
                 input,
                 partSize: partSize,
+                concurrentDownloads: concurrentDownloads,
                 logger: logger
             ) { byteBuffer, fileSize in
                 let bufferSize = byteBuffer.readableBytes
