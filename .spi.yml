@@ -2,3 +2,4 @@ version: 1
 builder:
   configs:
   - target: SotoS3
+    scheme: SotoS3
