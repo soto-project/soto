@@ -8,11 +8,9 @@ on:
     paths:
     - '**.swift'
   pull_request:
-    branches:
-    - main
-    - 7.x.x
     paths:
-    - '**.swift'
+      - '**.swift'
+      - '**.yml'
   workflow_dispatch:
 
 env:
