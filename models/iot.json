@@ -94,6 +94,9 @@
                     "target": "com.amazonaws.iot#CreateCertificateFromCsr"
                 },
                 {
+                    "target": "com.amazonaws.iot#CreateCertificateProvider"
+                },
+                {
                     "target": "com.amazonaws.iot#CreateCustomMetric"
                 },
                 {
@@ -188,6 +191,9 @@
                 },
                 {
                     "target": "com.amazonaws.iot#DeleteCertificate"
+                },
+                {
+                    "target": "com.amazonaws.iot#DeleteCertificateProvider"
                 },
                 {
                     "target": "com.amazonaws.iot#DeleteCustomMetric"
@@ -299,6 +305,9 @@
                 },
                 {
                     "target": "com.amazonaws.iot#DescribeCertificate"
+                },
+                {
+                    "target": "com.amazonaws.iot#DescribeCertificateProvider"
                 },
                 {
                     "target": "com.amazonaws.iot#DescribeCustomMetric"
@@ -476,6 +485,9 @@
                 },
                 {
                     "target": "com.amazonaws.iot#ListCACertificates"
+                },
+                {
+                    "target": "com.amazonaws.iot#ListCertificateProviders"
                 },
                 {
                     "target": "com.amazonaws.iot#ListCertificates"
@@ -718,6 +730,9 @@
                     "target": "com.amazonaws.iot#UpdateCertificate"
                 },
                 {
+                    "target": "com.amazonaws.iot#UpdateCertificateProvider"
+                },
+                {
                     "target": "com.amazonaws.iot#UpdateCustomMetric"
                 },
                 {
@@ -840,7 +855,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -883,7 +897,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -896,7 +911,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -910,7 +924,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -933,7 +946,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -968,7 +980,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -979,14 +990,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -1000,14 +1013,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -1016,11 +1027,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -1031,14 +1042,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -1052,7 +1065,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -1072,7 +1084,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -1083,14 +1094,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -1176,9 +1189,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -2772,7 +2787,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 }
@@ -4400,6 +4415,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n            Suppresses alerts.\n        </p>"
                     }
+                },
+                "exportMetric": {
+                    "target": "com.amazonaws.iot#ExportMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Value indicates exporting metrics related to the behavior when it is true.</p>"
+                    }
                 }
             },
             "traits": {
@@ -4622,6 +4643,9 @@
             }
         },
         "com.amazonaws.iot#Boolean": {
+            "type": "boolean"
+        },
+        "com.amazonaws.iot#Boolean2": {
             "type": "boolean",
             "traits": {
                 "smithy.api#default": false
@@ -5475,6 +5499,84 @@
                     "max": 65536
                 },
                 "smithy.api#pattern": "^[\\s\\S]*$"
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderAccountDefaultForOperations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.iot#CertificateProviderOperation"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2048
+                }
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderFunctionArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^[\\s\\S]*$"
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[\\w=,@-]+$"
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderOperation": {
+            "type": "enum",
+            "members": {
+                "CreateCertificateFromCsr": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CreateCertificateFromCsr"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.iot#CertificateProviderSummary": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>"
+                    }
+                },
+                "certificateProviderArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the certificate provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The certificate provider summary.</p>"
+            }
+        },
+        "com.amazonaws.iot#CertificateProviders": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.iot#CertificateProviderSummary"
             }
         },
         "com.amazonaws.iot#CertificateSigningRequest": {
@@ -6508,6 +6610,109 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.iot#CreateCertificateProvider": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.iot#CreateCertificateProviderRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.iot#CreateCertificateProviderResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.iot#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.iot#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ResourceAlreadyExistsException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ServiceUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.iot#UnauthorizedException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to\n         customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For\n         more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html\">Customizing certificate\n            signing using Amazon Web Services IoT Core certificate provider</a> from <i>Amazon Web Services IoT Core Developer\n            Guide</i>.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateCertificateProvider</a> action.</p>\n         <important>\n            <p>After you create a certificate provider, the behavior of <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr\">\n                  <code>CreateCertificateFromCsr</code> API for fleet provisioning</a> will\n            change and all API calls to <code>CreateCertificateFromCsr</code> will invoke the\n            certificate provider to create the certificates. It can take up to a few minutes for\n            this behavior to change after a certificate provider is created.</p>\n         </important>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/certificate-providers/{certificateProviderName}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.iot#CreateCertificateProviderRequest": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "lambdaFunctionArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderFunctionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the Lambda function that defines the authentication logic.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "accountDefaultForOperations": {
+                    "target": "com.amazonaws.iot#CertificateProviderAccountDefaultForOperations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of the operations that the certificate provider will use to generate certificates. \n         Valid value: <code>CreateCertificateFromCsr</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientToken": {
+                    "target": "com.amazonaws.iot#ClientToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A string that you can optionally pass in the <code>CreateCertificateProvider</code> request to make sure \n         the request is idempotent.</p>",
+                        "smithy.api#idempotencyToken": {}
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.iot#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metadata which can be used to manage the certificate provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#CreateCertificateProviderResponse": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>"
+                    }
+                },
+                "certificateProviderArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the certificate provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.iot#CreateCustomMetric": {
             "type": "operation",
             "input": {
@@ -6797,6 +7002,12 @@
                     "target": "com.amazonaws.iot#TlsConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>An object that specifies the TLS configuration for a domain.</p>"
+                    }
+                },
+                "serverCertificateConfig": {
+                    "target": "com.amazonaws.iot#ServerCertificateConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The server certificate configuration.</p>"
                     }
                 }
             },
@@ -7213,7 +7424,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>"
                     }
                 },
                 "jobTemplateArn": {
@@ -7243,7 +7454,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n        job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle\">Package version lifecycle</a>. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n        Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -7383,7 +7594,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle\">Package version lifecycle</a>.</p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -8347,9 +8558,8 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled",
+                    "target": "com.amazonaws.iot#Enabled2",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True to enable the provisioning template, otherwise false.</p>"
                     }
                 },
@@ -8784,6 +8994,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Metadata that can be used to manage the security profile.</p>"
                     }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
+                    }
                 }
             },
             "traits": {
@@ -8990,7 +9206,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Create a thing group.</p>\n         <note>\n            <p>This is a control plane operation. See <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html\">Authorization</a> for\n\t\t\t\tinformation about authorizing control plane actions.</p>\n         </note>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateThingGroup</a> action.</p>",
+                "smithy.api#documentation": "<p>Create a thing group.</p>\n         <note>\n            <p>This is a control plane operation. See <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html\">Authorization</a> for\n\t\t\t\tinformation about authorizing control plane actions.</p>\n            <p>If the <code>ThingGroup</code> that you create has the exact same attributes as an existing\n\t\t\t\t\t<code>ThingGroup</code>, you will get a 200 success response.\n\t\t\t</p>\n         </note>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateThingGroup</a> action.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/thing-groups/{thingGroupName}",
@@ -9875,6 +10091,69 @@
                 }
             }
         },
+        "com.amazonaws.iot#DeleteCertificateProvider": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.iot#DeleteCertificateProviderRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.iot#DeleteCertificateProviderResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.iot#DeleteConflictException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ServiceUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.iot#UnauthorizedException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes a certificate provider.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteCertificateProvider</a> action.\n      </p>\n         <p>If you delete the certificate provider resource, the behavior of\n            <code>CreateCertificateFromCsr</code> will resume, and IoT will create\n         certificates signed by IoT from a certificate signing request (CSR).</p>",
+                "smithy.api#http": {
+                    "method": "DELETE",
+                    "uri": "/certificate-providers/{certificateProviderName}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.iot#DeleteCertificateProviderRequest": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#DeleteCertificateProviderResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.iot#DeleteCertificateRequest": {
             "type": "structure",
             "members": {
@@ -10308,7 +10587,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 }
@@ -10339,7 +10618,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 }
@@ -10393,6 +10672,12 @@
             },
             "traits": {
                 "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#DeleteMetricsExportConfig": {
+            "type": "boolean",
+            "traits": {
+                "smithy.api#default": false
             }
         },
         "com.amazonaws.iot#DeleteMitigationAction": {
@@ -12320,6 +12605,103 @@
                 }
             }
         },
+        "com.amazonaws.iot#DescribeCertificateProvider": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.iot#DescribeCertificateProviderRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.iot#DescribeCertificateProviderResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.iot#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ServiceUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.iot#UnauthorizedException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes a certificate provider.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeCertificateProvider</a> action.\n      </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/certificate-providers/{certificateProviderName}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.iot#DescribeCertificateProviderRequest": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#DescribeCertificateProviderResponse": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>"
+                    }
+                },
+                "certificateProviderArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the certificate provider.</p>"
+                    }
+                },
+                "lambdaFunctionArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderFunctionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Lambda function ARN that's associated with the certificate provider.</p>"
+                    }
+                },
+                "accountDefaultForOperations": {
+                    "target": "com.amazonaws.iot#CertificateProviderAccountDefaultForOperations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of the operations that the certificate provider will use to generate certificates. \n         Valid value: <code>CreateCertificateFromCsr</code>.</p>"
+                    }
+                },
+                "creationDate": {
+                    "target": "com.amazonaws.iot#DateType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date-time string that indicates when the certificate provider was created.</p>"
+                    }
+                },
+                "lastModifiedDate": {
+                    "target": "com.amazonaws.iot#DateType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date-time string that indicates when the certificate provider was last updated.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.iot#DescribeCertificateRequest": {
             "type": "structure",
             "members": {
@@ -12768,6 +13150,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>An object that specifies the TLS configuration for a domain.</p>"
                     }
+                },
+                "serverCertificateConfig": {
+                    "target": "com.amazonaws.iot#ServerCertificateConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The server certificate configuration.</p>"
+                    }
                 }
             },
             "traits": {
@@ -12797,7 +13185,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a unique endpoint specific to the Amazon Web Services account making the call.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeEndpoint</a> action.</p>",
+                "smithy.api#documentation": "<p>Returns or creates a unique endpoint specific to the Amazon Web Services account making the\n         call.</p>\n         <note>\n            <p>The first time <code>DescribeEndpoint</code> is called, an endpoint is created. All subsequent calls to <code>DescribeEndpoint</code> return the same endpoint.</p>\n         </note>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeEndpoint</a> action.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/endpoint",
@@ -13369,7 +13757,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle\">Package version lifecycle</a>.</p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -13680,9 +14068,8 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled",
+                    "target": "com.amazonaws.iot#Enabled2",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the provisioning template is enabled, otherwise false.</p>"
                     }
                 },
@@ -14070,6 +14457,12 @@
                     "target": "com.amazonaws.iot#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time the security profile was last modified.</p>"
+                    }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
                     }
                 }
             },
@@ -15742,6 +16135,9 @@
                 "smithy.api#documentation": "<p>Parameters used when defining a mitigation action that enable Amazon Web Services IoT Core logging.</p>"
             }
         },
+        "com.amazonaws.iot#EnableOCSPCheck": {
+            "type": "boolean"
+        },
         "com.amazonaws.iot#EnableTopicRule": {
             "type": "operation",
             "input": {
@@ -15798,6 +16194,9 @@
             "traits": {
                 "smithy.api#default": false
             }
+        },
+        "com.amazonaws.iot#Enabled2": {
+            "type": "boolean"
         },
         "com.amazonaws.iot#EnabledBoolean": {
             "type": "boolean"
@@ -16002,7 +16401,6 @@
                 "incrementFactor": {
                     "target": "com.amazonaws.iot#IncrementFactor",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The exponential factor to increase the rate of rollout for a job.</p>\n         <p>Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55).</p>",
                         "smithy.api#required": {}
                     }
@@ -16018,6 +16416,9 @@
             "traits": {
                 "smithy.api#documentation": "<p>Allows you to create an exponential rate of rollout for a job.</p>"
             }
+        },
+        "com.amazonaws.iot#ExportMetric": {
+            "type": "boolean"
         },
         "com.amazonaws.iot#FailedChecksCount": {
             "type": "integer"
@@ -16443,6 +16844,32 @@
         },
         "com.amazonaws.iot#GenericLongValue": {
             "type": "long"
+        },
+        "com.amazonaws.iot#GeoLocationTarget": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.iot#TargetFieldName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>name</code> of the geolocation target field. If the target field is part of a\n      named shadow, you must select the named shadow using the <code>namedShadow</code> filter.</p>"
+                    }
+                },
+                "order": {
+                    "target": "com.amazonaws.iot#TargetFieldOrder",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>order</code> of the geolocation target field. This field is optional. The\n      default value is <code>LatLon</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A geolocation target that you select to index. Each geolocation target contains a\n        <code>name</code> and <code>order</code> key-value pair that specifies the geolocation\n      target fields.</p>"
+            }
+        },
+        "com.amazonaws.iot#GeoLocationsFilter": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.iot#GeoLocationTarget"
+            }
         },
         "com.amazonaws.iot#GetBehaviorModelTrainingSummaries": {
             "type": "operation",
@@ -17663,7 +18090,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Gets a registration code used to register a CA certificate with IoT.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetRegistrationCode</a> action.</p>",
+                "smithy.api#documentation": "<p>Gets a registration code used to register a CA certificate with IoT.</p>\n         <p>IoT will create a registration code as part of this API call if the registration\n         code doesn't exist or has been deleted. If you already have a registration code, this API\n         call will return the same registration code.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetRegistrationCode</a> action.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/registrationcode",
@@ -18229,7 +18656,6 @@
         "com.amazonaws.iot#IncrementFactor": {
             "type": "double",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1.1,
                     "max": 5
@@ -18302,10 +18728,16 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase \n      the limit, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits\">Amazon Web Services IoT Device Management \n        Quotas</a> in the <i>Amazon Web Services General Reference</i>.\n    </p>"
                     }
+                },
+                "geoLocations": {
+                    "target": "com.amazonaws.iot#GeoLocationsFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of geolocation targets that you select to index. The default maximum number of\n      geolocation targets for indexing is <code>1</code>. To increase the limit, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits\">Amazon Web Services IoT Device\n        Management Quotas</a> in the <i>Amazon Web Services General Reference</i>.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter.\n      To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to be <code>ON</code> and \n      specify your shadow names in <code>filter</code>.</p>"
+                "smithy.api#documentation": "<p>Provides additional selections for named shadows and geolocation data. </p>\n         <p>To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to\n      be ON and specify your shadow names in <code>namedShadowNames</code> filter.</p>\n         <p>To add geolocation data to your fleet indexing configuration: </p>\n         <ul>\n            <li>\n               <p>If you store geolocation data in a class/unnamed shadow, set\n            <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and specify your\n          geolocation data in <code>geoLocations</code> filter. </p>\n            </li>\n            <li>\n               <p>If you store geolocation data in a named shadow, set\n            <code>namedShadowIndexingMode</code> to be <code>ON</code>, add the shadow name in\n            <code>namedShadowNames</code> filter, and specify your geolocation data in\n            <code>geoLocations</code> filter. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html\">Managing fleet\n            indexing</a>.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.iot#InlineDocument": {
@@ -18709,7 +19141,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>"
                     }
                 },
                 "jobTemplateArn": {
@@ -18751,7 +19183,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle\">Package version lifecycle</a>.The package version must be in either the Published or Deprecated state when the job deploys. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle\">Package version lifecycle</a>.</p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -20594,6 +21026,83 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.iot#ListCertificateProviders": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.iot#ListCertificateProvidersRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.iot#ListCertificateProvidersResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.iot#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ServiceUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.iot#UnauthorizedException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists all your certificate providers in your Amazon Web Services account.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListCertificateProviders</a> action.\n      </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/certificate-providers",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.iot#ListCertificateProvidersRequest": {
+            "type": "structure",
+            "members": {
+                "nextToken": {
+                    "target": "com.amazonaws.iot#Marker",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token for the next set of results, or <code>null</code> if there are no more results.</p>",
+                        "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "ascendingOrder": {
+                    "target": "com.amazonaws.iot#AscendingOrder",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Returns the list of certificate providers in ascending alphabetical order.</p>",
+                        "smithy.api#httpQuery": "isAscendingOrder"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#ListCertificateProvidersResponse": {
+            "type": "structure",
+            "members": {
+                "certificateProviders": {
+                    "target": "com.amazonaws.iot#CertificateProviders",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of certificate providers in your Amazon Web Services account.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.iot#Marker",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token for the next set of results, or <code>null</code> if there are no more results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.iot#ListCertificates": {
             "type": "operation",
             "input": {
@@ -21546,7 +22055,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 },
@@ -21757,7 +22266,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at this time. For\n                more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 }
@@ -25292,18 +25801,6 @@
                     "traits": {
                         "smithy.api#enumValue": "PRINCIPAL_ID"
                     }
-                },
-                "EVENT_TYPE": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "EVENT_TYPE"
-                    }
-                },
-                "DEVICE_DEFENDER": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "DEVICE_DEFENDER"
-                    }
                 }
             }
         },
@@ -25459,7 +25956,6 @@
         "com.amazonaws.iot#MaxBuckets": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 10000
@@ -25621,6 +26117,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The dimension of a metric. This can't be used with custom metrics.</p>"
                     }
+                },
+                "exportMetric": {
+                    "target": "com.amazonaws.iot#ExportMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value indicates exporting metrics related to the <code>MetricToRetain </code> when it's true.</p>"
+                    }
                 }
             },
             "traits": {
@@ -25669,6 +26171,28 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The value to be compared with the <code>metric</code>.</p>"
+            }
+        },
+        "com.amazonaws.iot#MetricsExportConfig": {
+            "type": "structure",
+            "members": {
+                "mqttTopic": {
+                    "target": "com.amazonaws.iot#MqttTopic",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The MQTT topic that Device Defender Detect should publish messages to for metrics\n      export.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "roleArn": {
+                    "target": "com.amazonaws.iot#RoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This role ARN has permission to publish MQTT messages, after which Device Defender Detect\n      can assume the role and publish messages on your behalf.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Set configurations for metrics export.</p>"
             }
         },
         "com.amazonaws.iot#Minimum": {
@@ -25996,6 +26520,15 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 65535
+                }
+            }
+        },
+        "com.amazonaws.iot#MqttTopic": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 512
                 }
             }
         },
@@ -27103,9 +27636,8 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled",
+                    "target": "com.amazonaws.iot#Enabled2",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the fleet provision template is enabled, otherwise false.</p>"
                     }
                 },
@@ -29057,9 +29589,9 @@
                     }
                 },
                 "maxResults": {
-                    "target": "com.amazonaws.iot#QueryMaxResults",
+                    "target": "com.amazonaws.iot#SearchQueryMaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of results to return at one time.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of results to return per page at one time. This maximum number\n      cannot exceed 100. The response might contain fewer results but will never contain more. You\n      can use <a href=\"https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken\">\n               <code>nextToken</code>\n            </a> to retrieve the next set of results until\n        <code>nextToken</code> returns <code>NULL</code>.</p>"
                     }
                 },
                 "queryVersion": {
@@ -29097,6 +29629,14 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.iot#SearchQueryMaxResults": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1
+                }
             }
         },
         "com.amazonaws.iot#SearchableAttributes": {
@@ -29238,6 +29778,20 @@
                     "min": 0,
                     "max": 1
                 }
+            }
+        },
+        "com.amazonaws.iot#ServerCertificateConfig": {
+            "type": "structure",
+            "members": {
+                "enableOCSPCheck": {
+                    "target": "com.amazonaws.iot#EnableOCSPCheck",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server\n         certificate check is enabled or not.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-domain-ocsp-config.html\">Configuring OCSP server-certificate stapling in domain\n         configuration</a> from Amazon Web Services IoT Core Developer Guide.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The server certificate configuration.</p>"
             }
         },
         "com.amazonaws.iot#ServerCertificateStatus": {
@@ -29672,7 +30226,7 @@
                     "min": 1,
                     "max": 64
                 },
-                "smithy.api#pattern": "^[a-zA-Z0-9:_-]+$"
+                "smithy.api#pattern": "^[$a-zA-Z0-9:_-]+$"
             }
         },
         "com.amazonaws.iot#SigV4Authorization": {
@@ -30803,6 +31357,26 @@
                 "target": "com.amazonaws.iot#AuditCheckName"
             }
         },
+        "com.amazonaws.iot#TargetFieldName": {
+            "type": "string"
+        },
+        "com.amazonaws.iot#TargetFieldOrder": {
+            "type": "enum",
+            "members": {
+                "LatLon": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LatLon"
+                    }
+                },
+                "LonLat": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LonLat"
+                    }
+                }
+            }
+        },
         "com.amazonaws.iot#TargetSelection": {
             "type": "enum",
             "members": {
@@ -31018,7 +31592,6 @@
                 "maxBuckets": {
                     "target": "com.amazonaws.iot#MaxBuckets",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The number of buckets to return in the response. Default to 10.</p>"
                     }
                 }
@@ -31305,7 +31878,6 @@
                 "connected": {
                     "target": "com.amazonaws.iot#Boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not\n      connected.</p>"
                     }
                 },
@@ -31485,7 +32057,7 @@
                 "managedFields": {
                     "target": "com.amazonaws.iot#Fields",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>\n         <note>\n            <p>You can't modify managed fields by updating fleet indexing configuration.</p>\n         </note>"
                     }
                 },
                 "customFields": {
@@ -31636,7 +32208,7 @@
                 "managedFields": {
                     "target": "com.amazonaws.iot#Fields",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service.</p>"
+                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>\n         <note>\n            <p>You can't modify managed fields by updating fleet indexing configuration.</p>\n         </note>"
                     }
                 },
                 "customFields": {
@@ -31648,7 +32220,7 @@
                 "filter": {
                     "target": "com.amazonaws.iot#IndexingFilter",
                     "traits": {
-                        "smithy.api#documentation": "<p>Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter.\n      To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to be <code>ON</code> and \n      specify your shadow names in <code>filter</code>.</p>"
+                        "smithy.api#documentation": "<p>Provides additional selections for named shadows and geolocation data. </p>\n         <p>To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to\n      be ON and specify your shadow names in <code>namedShadowNames</code> filter.</p>\n         <p>To add geolocation data to your fleet indexing configuration: </p>\n         <ul>\n            <li>\n               <p>If you store geolocation data in a class/unnamed shadow, set\n          <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and specify your\n          geolocation data in <code>geoLocations</code> filter. </p>\n            </li>\n            <li>\n               <p>If you store geolocation data in a named shadow, set <code>namedShadowIndexingMode</code>\n          to be <code>ON</code>, add the shadow name in <code>namedShadowNames</code> filter, and\n          specify your geolocation data in <code>geoLocations</code> filter. For more information, see\n          <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html\">Managing fleet indexing</a>.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -31753,7 +32325,7 @@
             "type": "structure",
             "members": {
                 "deprecated": {
-                    "target": "com.amazonaws.iot#Boolean",
+                    "target": "com.amazonaws.iot#Boolean2",
                     "traits": {
                         "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether the thing type is deprecated. If <b>true</b>, no new things could be\n\t\t\tassociated with this type.</p>"
@@ -33074,6 +33646,91 @@
                 }
             }
         },
+        "com.amazonaws.iot#UpdateCertificateProvider": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.iot#UpdateCertificateProviderRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.iot#UpdateCertificateProviderResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.iot#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.iot#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ServiceUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.iot#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.iot#UnauthorizedException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates a certificate provider.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateCertificateProvider</a> action.\n      </p>",
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/certificate-providers/{certificateProviderName}",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.iot#UpdateCertificateProviderRequest": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "lambdaFunctionArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderFunctionArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Lambda function ARN that's associated with the certificate provider.</p>"
+                    }
+                },
+                "accountDefaultForOperations": {
+                    "target": "com.amazonaws.iot#CertificateProviderAccountDefaultForOperations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of the operations that the certificate provider will use to generate certificates. \n         Valid value: <code>CreateCertificateFromCsr</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#UpdateCertificateProviderResponse": {
+            "type": "structure",
+            "members": {
+                "certificateProviderName": {
+                    "target": "com.amazonaws.iot#CertificateProviderName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the certificate provider.</p>"
+                    }
+                },
+                "certificateProviderArn": {
+                    "target": "com.amazonaws.iot#CertificateProviderArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the certificate provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.iot#UpdateCertificateRequest": {
             "type": "structure",
             "members": {
@@ -33384,6 +34041,12 @@
                     "target": "com.amazonaws.iot#TlsConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>An object that specifies the TLS configuration for a domain.</p>"
+                    }
+                },
+                "serverCertificateConfig": {
+                    "target": "com.amazonaws.iot#ServerCertificateConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The server certificate configuration.</p>"
                     }
                 }
             },
@@ -33815,7 +34478,7 @@
                 "namespaceId": {
                     "target": "com.amazonaws.iot#NamespaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is in public preview.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The namespace used to indicate that a job is a customer-managed job.</p>\n         <p>When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that \n            contain the value in the following format.</p>\n         <p>\n            <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>\n         </p>\n         <note>\n            <p>The <code>namespaceId</code> feature is only supported by IoT Greengrass at\n                this time. For more information, see <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html\">Setting\n                    up IoT Greengrass core devices.</a>\n            </p>\n         </note>",
                         "smithy.api#httpQuery": "namespaceId"
                     }
                 },
@@ -33919,6 +34582,9 @@
             },
             "errors": [
                 {
+                    "target": "com.amazonaws.iot#ConflictException"
+                },
+                {
                     "target": "com.amazonaws.iot#InternalServerException"
                 },
                 {
@@ -33950,6 +34616,9 @@
                 "target": "com.amazonaws.iot#UpdatePackageConfigurationResponse"
             },
             "errors": [
+                {
+                    "target": "com.amazonaws.iot#ConflictException"
+                },
                 {
                     "target": "com.amazonaws.iot#InternalServerException"
                 },
@@ -34057,6 +34726,9 @@
                 "target": "com.amazonaws.iot#UpdatePackageVersionResponse"
             },
             "errors": [
+                {
+                    "target": "com.amazonaws.iot#ConflictException"
+                },
                 {
                     "target": "com.amazonaws.iot#InternalServerException"
                 },
@@ -34189,9 +34861,8 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled",
+                    "target": "com.amazonaws.iot#Enabled2",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True to enable the provisioning template, otherwise false.</p>"
                     }
                 },
@@ -34506,6 +35177,19 @@
                         "smithy.api#documentation": "<p>The expected version of the security profile. A new version is generated whenever\n        the security profile is updated. If you specify a value that is different from the actual\n        version, a <code>VersionConflictException</code> is thrown.</p>",
                         "smithy.api#httpQuery": "expectedVersion"
                     }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
+                    }
+                },
+                "deleteMetricsExportConfig": {
+                    "target": "com.amazonaws.iot#DeleteMetricsExportConfig",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Set the value as true to delete metrics export related configurations.</p>"
+                    }
                 }
             },
             "traits": {
@@ -34577,6 +35261,12 @@
                     "target": "com.amazonaws.iot#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time the security profile was last modified.</p>"
+                    }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
                     }
                 }
             },

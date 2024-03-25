@@ -167,7 +167,7 @@
                 "Engine": {
                     "target": "com.amazonaws.polly#Engine",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code> or <code>neural</code>)\n      used by Amazon Polly when processing input text for speech synthesis. </p>",
+                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code>, <code>neural</code> or\n      <code>long-form</code>) used by Amazon Polly when processing input text for\n      speech synthesis. </p>",
                         "smithy.api#httpQuery": "Engine"
                     }
                 },
@@ -231,6 +231,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "neural"
+                    }
+                },
+                "LONG_FORM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "long-form"
                     }
                 }
             }
@@ -1270,7 +1276,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -1313,7 +1318,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -1326,7 +1332,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -1340,7 +1345,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -1363,7 +1367,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -1398,7 +1401,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -1409,14 +1411,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -1430,14 +1434,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -1446,11 +1448,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -1461,14 +1463,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -1482,7 +1486,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -1502,7 +1505,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -1513,14 +1515,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -1531,9 +1535,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -2400,7 +2406,7 @@
                 "Engine": {
                     "target": "com.amazonaws.polly#Engine",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code> or <code>neural</code>)\n      for Amazon Polly to use when processing input text for speech synthesis. Using a\n      voice that is not supported for the engine selected will result in an\n      error.</p>"
+                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code>, <code>neural</code> or\n      <code>long-form</code>) for Amazon Polly to use when processing input text for\n      speech synthesis. Using a voice that is not supported for the engine\n      selected will result in an error.</p>"
                     }
                 },
                 "LanguageCode": {
@@ -2438,7 +2444,7 @@
                 "SampleRate": {
                     "target": "com.amazonaws.polly#SampleRate",
                     "traits": {
-                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
+                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\". The default value for long-form voices\n      is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
                     }
                 },
                 "SnsTopicArn": {
@@ -2498,7 +2504,7 @@
                 "Engine": {
                     "target": "com.amazonaws.polly#Engine",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code> or <code>neural</code>)\n      for Amazon Polly to use when processing input text for speech synthesis. Using a\n      voice that is not supported for the engine selected will result in an\n      error.</p>"
+                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code>, <code>neural</code> or\n      <code>long-form</code>) for Amazon Polly to use when processing input text for\n      speech synthesis. Using a voice that is not supported for the engine\n      selected will result in an error.</p>"
                     }
                 },
                 "TaskId": {
@@ -2559,7 +2565,7 @@
                 "SampleRate": {
                     "target": "com.amazonaws.polly#SampleRate",
                     "traits": {
-                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
+                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\". The default value for long-form voices\n      is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
                     }
                 },
                 "SpeechMarkTypes": {
@@ -2683,7 +2689,7 @@
                 "Engine": {
                     "target": "com.amazonaws.polly#Engine",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code> or <code>neural</code>)\n      for Amazon Polly to use when processing input text for speech synthesis. For\n      information on Amazon Polly voices and which voices are available in\n      standard-only, NTTS-only, and both standard and NTTS formats, see <a href=\"https://docs.aws.amazon.com/polly/latest/dg/voicelist.html\">Available Voices</a>.</p>\n         <p>\n            <b>NTTS-only voices</b>\n         </p>\n         <p>When using NTTS-only voices such as Kevin (en-US), this parameter is\n      required and must be set to <code>neural</code>. If the engine is not\n      specified, or is set to <code>standard</code>, this will result in an\n      error. </p>\n         <p>Type: String</p>\n         <p>Valid Values: <code>standard</code> | <code>neural</code>\n         </p>\n         <p>Required: Yes</p>\n         <p>\n            <b>Standard voices</b>\n         </p>\n         <p>For standard voices, this is not required; the engine parameter\n      defaults to <code>standard</code>. If the engine is not specified, or is\n      set to <code>standard</code> and an NTTS-only voice is selected, this will\n      result in an error. </p>"
+                        "smithy.api#documentation": "<p>Specifies the engine (<code>standard</code>, <code>neural</code> or\n      <code>long-form</code>) for Amazon Polly to use when processing input text for\n      speech synthesis. For information on Amazon Polly voices and which voices are\n      available for each engine, see <a href=\"https://docs.aws.amazon.com/polly/latest/dg/voicelist.html\">Available Voices</a>.</p>\n         <p>\n            <b>NTTS-only voices</b>\n         </p>\n         <p>When using NTTS-only voices such as Kevin (en-US), this parameter is\n      required and must be set to <code>neural</code>. If the engine is not\n      specified, or is set to <code>standard</code>, this will result in an\n      error. </p>\n         <p>\n            <b>long-form-only voices</b>\n         </p>\n         <p>When using long-form-only voices such as Danielle (en-US), this\n      parameter is required and must be set to <code>long-form</code>. If the\n      engine is not specified, or is set to <code>standard</code> or\n      <code>neural</code>, this will result in an error. </p>\n         <p>Type: String</p>\n         <p>Valid Values: <code>standard</code> | <code>neural</code> |\n      <code>long-form</code>\n         </p>\n         <p>Required: Yes</p>\n         <p>\n            <b>Standard voices</b>\n         </p>\n         <p>For standard voices, this is not required; the engine parameter\n      defaults to <code>standard</code>. If the engine is not specified, or is\n      set to <code>standard</code> and an NTTS-only voice is selected, this will\n      result in an error. </p>"
                     }
                 },
                 "LanguageCode": {
@@ -2708,7 +2714,7 @@
                 "SampleRate": {
                     "target": "com.amazonaws.polly#SampleRate",
                     "traits": {
-                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
+                        "smithy.api#documentation": "<p>The audio frequency specified in Hz.</p>\n         <p>The valid values for mp3 and ogg_vorbis are \"8000\", \"16000\", \"22050\",\n      and \"24000\". The default value for standard voices is \"22050\". The default\n      value for neural voices is \"24000\". The default value for long-form voices\n      is \"24000\".</p>\n         <p>Valid values for pcm are \"8000\" and \"16000\" The default value is\n      \"16000\". </p>"
                     }
                 },
                 "SpeechMarkTypes": {
@@ -2912,7 +2918,7 @@
                 "SupportedEngines": {
                     "target": "com.amazonaws.polly#EngineList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies which engines (<code>standard</code> or <code>neural</code>)\n      that are supported by a given voice.</p>"
+                        "smithy.api#documentation": "<p>Specifies which engines (<code>standard</code>, <code>neural</code> or\n      <code>long-form</code>) are supported by a given voice.</p>"
                     }
                 }
             },
@@ -3479,6 +3485,24 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Zayd"
+                    }
+                },
+                "Danielle": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Danielle"
+                    }
+                },
+                "Gregory": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Gregory"
+                    }
+                },
+                "Burcu": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Burcu"
                     }
                 }
             }

@@ -57,7 +57,8 @@
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
                         "smithy.api#default": 0,
-                        "smithy.api#documentation": "<p>How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.</p>"
+                        "smithy.api#documentation": "<p>How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.</p>",
+                        "smithy.api#required": {}
                     }
                 },
                 "Slate": {
@@ -93,6 +94,31 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediatailor#KeyValuePair"
+            }
+        },
+        "com.amazonaws.mediatailor#AdBreakOpportunities": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.mediatailor#AdBreakOpportunity"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The list of ad break opportunities detected within the VOD source.</p>"
+            }
+        },
+        "com.amazonaws.mediatailor#AdBreakOpportunity": {
+            "type": "structure",
+            "members": {
+                "OffsetMillis": {
+                    "target": "com.amazonaws.mediatailor#__long",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The offset in milliseconds from the start of the VOD source at which an ad marker was detected.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A location at which a zero-duration ad marker was detected in a VOD source manifest.</p>"
             }
         },
         "com.amazonaws.mediatailor#AdMarkerPassthrough": {
@@ -197,6 +223,79 @@
                         "smithy.api#enumValue": "INFO"
                     }
                 }
+            }
+        },
+        "com.amazonaws.mediatailor#AlternateMedia": {
+            "type": "structure",
+            "members": {
+                "SourceLocationName": {
+                    "target": "com.amazonaws.mediatailor#__string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the source location for alternateMedia.</p>"
+                    }
+                },
+                "LiveSourceName": {
+                    "target": "com.amazonaws.mediatailor#__string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the live source for alternateMedia.</p>"
+                    }
+                },
+                "VodSourceName": {
+                    "target": "com.amazonaws.mediatailor#__string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the VOD source for alternateMedia.</p>"
+                    }
+                },
+                "ClipRange": {
+                    "target": "com.amazonaws.mediatailor#ClipRange"
+                },
+                "ScheduledStartTimeMillis": {
+                    "target": "com.amazonaws.mediatailor#__long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time that the alternateMedia is scheduled to start, in epoch milliseconds.</p>"
+                    }
+                },
+                "AdBreaks": {
+                    "target": "com.amazonaws.mediatailor#__listOfAdBreak",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Ad break configuration parameters defined in AlternateMedia.</p>"
+                    }
+                },
+                "DurationMillis": {
+                    "target": "com.amazonaws.mediatailor#__long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The duration of the alternateMedia in milliseconds.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A playlist of media (VOD and/or live) to be played instead of the default media on a particular program.</p>"
+            }
+        },
+        "com.amazonaws.mediatailor#AudienceMedia": {
+            "type": "structure",
+            "members": {
+                "Audience": {
+                    "target": "com.amazonaws.mediatailor#__string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Audience defined in AudienceMedia.</p>"
+                    }
+                },
+                "AlternateMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAlternateMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AlternateMedia defined in AudienceMedia.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An AudienceMedia object contains an Audience and a list of AlternateMedia.</p>"
+            }
+        },
+        "com.amazonaws.mediatailor#Audiences": {
+            "type": "list",
+            "member": {
+                "target": "smithy.api#String"
             }
         },
         "com.amazonaws.mediatailor#AvailMatchingCriteria": {
@@ -376,6 +475,12 @@
                         "smithy.api#documentation": "<p>The log configuration.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
+                    }
                 }
             },
             "traits": {
@@ -494,9 +599,15 @@
                 "EndOffsetMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
+                        "smithy.api#addedDefault": {},
                         "smithy.api#default": 0,
-                        "smithy.api#documentation": "<p>The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the program.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the program.</p>"
+                    }
+                },
+                "StartOffsetMillis": {
+                    "target": "com.amazonaws.mediatailor#__long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The start offset of the clip range, in milliseconds. This offset truncates the start at the number of milliseconds into the duration of the VOD source.</p>"
                     }
                 }
             },
@@ -714,6 +825,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The tier of the channel.</p>"
                     }
+                },
+                "TimeShiftConfiguration": {
+                    "target": "com.amazonaws.mediatailor#TimeShiftConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time-shifted viewing configuration you want to associate to the channel.\n        </p>"
+                    }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
+                    }
                 }
             }
         },
@@ -785,6 +908,18 @@
                         "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The tier of the channel.</p>",
                         "smithy.api#unstable": {}
+                    }
+                },
+                "TimeShiftConfiguration": {
+                    "target": "com.amazonaws.mediatailor#TimeShiftConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time-shifted viewing configuration assigned to the channel.\n        </p>"
+                    }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
                     }
                 }
             }
@@ -1058,6 +1193,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The name that's used to refer to a VOD source.</p>"
                     }
+                },
+                "AudienceMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAudienceMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AudienceMedia defined in program.</p>"
+                    }
                 }
             }
         },
@@ -1127,8 +1268,13 @@
                 "DurationMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The duration of the live program in milliseconds.</p>"
+                    }
+                },
+                "AudienceMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAudienceMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AudienceMedia defined in program.</p>"
                     }
                 }
             }
@@ -1409,28 +1555,24 @@
                 "ManifestWindowSeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total duration (in seconds) of each manifest. Minimum value: <code>30</code> seconds. Maximum value: <code>3600</code> seconds.</p>"
                     }
                 },
                 "MinBufferTimeSeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Minimum amount of content (measured in seconds) that a player must keep available in the buffer. Minimum value: <code>2</code> seconds. Maximum value: <code>60</code> seconds.</p>"
                     }
                 },
                 "MinUpdatePeriodSeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest. Minimum value: <code>2</code> seconds. Maximum value: <code>60</code> seconds.</p>"
                     }
                 },
                 "SuggestedPresentationDelaySeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Amount of time (in seconds) that the player should be from the live point at the end of the manifest. Minimum value: <code>2</code> seconds. Maximum value: <code>60</code> seconds.</p>"
                     }
                 }
@@ -1872,6 +2014,18 @@
                         "smithy.api#documentation": "<p>The log configuration for the channel.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "TimeShiftConfiguration": {
+                    "target": "com.amazonaws.mediatailor#TimeShiftConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time-shifted viewing configuration for the channel.\n        </p>"
+                    }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
+                    }
                 }
             }
         },
@@ -2069,6 +2223,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The duration of the live program in milliseconds.</p>"
                     }
+                },
+                "AudienceMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAudienceMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AudienceMedia defined in program.</p>"
+                    }
                 }
             }
         },
@@ -2205,6 +2365,12 @@
         "com.amazonaws.mediatailor#DescribeVodSourceResponse": {
             "type": "structure",
             "members": {
+                "AdBreakOpportunities": {
+                    "target": "com.amazonaws.mediatailor#AdBreakOpportunities",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ad break opportunities within the VOD source.</p>"
+                    }
+                },
                 "Arn": {
                     "target": "com.amazonaws.mediatailor#__string",
                     "traits": {
@@ -2354,7 +2520,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of channel schedules that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> channel schedules, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -2364,6 +2529,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>(Optional) If the playback configuration has more than <code>MaxResults</code> channel schedules, use <code>NextToken</code> to get the second and subsequent pages of results.</p>\n         <p>For the first <code>GetChannelScheduleRequest</code> request, omit this value.</p>\n         <p>For the second and subsequent requests, get the value of <code>NextToken</code> from the previous response and specify that value for <code>NextToken</code> in the request.</p>\n         <p>If the previous response didn't include a <code>NextToken</code> element, there are no more channel schedules to get.</p>",
                         "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "Audience": {
+                    "target": "com.amazonaws.mediatailor#__string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The single audience for GetChannelScheduleRequest.</p>",
+                        "smithy.api#httpQuery": "audience"
                     }
                 }
             }
@@ -2488,7 +2660,6 @@
                 "PersonalizationThresholdSeconds": {
                     "target": "com.amazonaws.mediatailor#__integerMin1",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to <i>ad replacement</i> in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html\">Ad Behavior in AWS Elemental MediaTailor</a>.</p>"
                     }
                 },
@@ -2637,7 +2808,6 @@
                 "ManifestWindowSeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The total duration (in seconds) of each manifest. Minimum value: <code>30</code> seconds. Maximum value: <code>3600</code> seconds.</p>"
                     }
                 },
@@ -2757,7 +2927,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> alerts, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -2826,7 +2995,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> channels, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -2887,7 +3055,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> live sources, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -2956,7 +3123,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> playback configurations, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "MaxResults"
                     }
@@ -3020,7 +3186,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#__integerMin1Max100",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> prefetch schedules, use the value of <code>NextToken</code> in the response to get the next page of results.</p>"
                     }
                 },
@@ -3093,7 +3258,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p> The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> source locations, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -3202,7 +3366,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediatailor#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p> The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than <code>MaxResults</code> VOD sources, use the value of <code>NextToken</code> in the response to get the next page of results.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -3253,7 +3416,6 @@
                 "MaxDurationSeconds": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.</p>"
                     }
                 }
@@ -3421,7 +3583,6 @@
         "com.amazonaws.mediatailor#MaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -3548,7 +3709,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -3591,7 +3751,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -3604,7 +3765,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -3618,7 +3778,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -3641,7 +3800,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -3676,7 +3834,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -3687,14 +3844,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -3708,14 +3867,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -3724,11 +3881,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -3739,14 +3896,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -3760,7 +3919,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -3780,7 +3938,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -3791,14 +3948,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -3809,9 +3968,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -4354,7 +4515,6 @@
                 "PersonalizationThresholdSeconds": {
                     "target": "com.amazonaws.mediatailor#__integerMin1",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to <i>ad replacement</i> in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html\">Ad Behavior in AWS Elemental MediaTailor</a>.</p>"
                     }
                 },
@@ -4740,7 +4900,6 @@
                 "PersonalizationThresholdSeconds": {
                     "target": "com.amazonaws.mediatailor#__integerMin1",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to <i>ad replacement</i> in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html\">Ad Behavior in AWS Elemental MediaTailor</a>.</p>"
                     }
                 },
@@ -4843,7 +5002,6 @@
                 "PersonalizationThresholdSeconds": {
                     "target": "com.amazonaws.mediatailor#__integerMin1",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to <i>ad replacement</i> in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html\">Ad Behavior in AWS Elemental MediaTailor</a>.</p>"
                     }
                 },
@@ -5005,7 +5163,6 @@
                 "ApproximateDurationSeconds": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The approximate duration of the ad break, in seconds.</p>"
                     }
                 },
@@ -5059,7 +5216,6 @@
                 "ApproximateDurationSeconds": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The approximate duration of this program, in seconds.</p>"
                     }
                 },
@@ -5120,6 +5276,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The name of the VOD source.</p>"
                     }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in ScheduleEntry.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5139,6 +5301,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "FILLER_SLATE"
+                    }
+                },
+                "ALTERNATE_MEDIA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALTERNATE_MEDIA"
                     }
                 }
             }
@@ -5381,28 +5549,24 @@
                 "AvailNum": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>This is written to <code>splice_insert.avail_num</code>, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is <code>0</code>. Values must be between <code>0</code> and <code>256</code>, inclusive.</p>"
                     }
                 },
                 "AvailsExpected": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>This is written to <code>splice_insert.avails_expected</code>, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is <code>0</code>. Values must be between <code>0</code> and <code>256</code>, inclusive.</p>"
                     }
                 },
                 "SpliceEventId": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>This is written to <code>splice_insert.splice_event_id</code>, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is <code>1</code>.</p>"
                     }
                 },
                 "UniqueProgramId": {
                     "target": "com.amazonaws.mediatailor#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>This is written to <code>splice_insert.unique_program_id</code>, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is <code>0</code>. Values must be between <code>0</code> and <code>256</code>, inclusive.</p>"
                     }
                 }
@@ -5541,6 +5705,21 @@
                 }
             }
         },
+        "com.amazonaws.mediatailor#TimeShiftConfiguration": {
+            "type": "structure",
+            "members": {
+                "MaxTimeDelaySeconds": {
+                    "target": "com.amazonaws.mediatailor#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The maximum time delay for time-shifted viewing. The minimum allowed maximum time delay is 0 seconds, \n            and the maximum allowed maximum time delay is 21600 seconds (6 hours).\n        </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            The configuration for time-shifted viewing.\n        </p>"
+            }
+        },
         "com.amazonaws.mediatailor#TimeSignalMessage": {
             "type": "structure",
             "members": {
@@ -5561,7 +5740,6 @@
                 "DurationMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The duration of the live program in seconds.</p>"
                     }
                 },
@@ -5581,7 +5759,6 @@
                 "ScheduledStartTimeMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The date and time that the program is scheduled to start, in epoch milliseconds.</p>"
                     }
                 },
@@ -5699,6 +5876,18 @@
                         "smithy.api#documentation": "<p>The channel's output properties.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "TimeShiftConfiguration": {
+                    "target": "com.amazonaws.mediatailor#TimeShiftConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time-shifted viewing configuration you want to associate to the channel.\n        </p>"
+                    }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
+                    }
                 }
             }
         },
@@ -5770,6 +5959,18 @@
                         "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The tier associated with this Channel.</p>",
                         "smithy.api#unstable": {}
+                    }
+                },
+                "TimeShiftConfiguration": {
+                    "target": "com.amazonaws.mediatailor#TimeShiftConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time-shifted viewing configuration for the channel.\n        </p>"
+                    }
+                },
+                "Audiences": {
+                    "target": "com.amazonaws.mediatailor#Audiences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of audiences defined in channel.</p>"
                     }
                 }
             }
@@ -5917,6 +6118,12 @@
                         "smithy.api#documentation": "<p>The schedule configuration settings.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "AudienceMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAudienceMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AudienceMedia defined in program.</p>"
+                    }
                 }
             }
         },
@@ -5980,7 +6187,6 @@
                 "DurationMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The duration of the live program in milliseconds.</p>"
                     }
                 },
@@ -5988,6 +6194,12 @@
                     "target": "com.amazonaws.mediatailor#__timestampUnix",
                     "traits": {
                         "smithy.api#documentation": "<p>The scheduled start time for this Program.</p>"
+                    }
+                },
+                "AudienceMedia": {
+                    "target": "com.amazonaws.mediatailor#__listOfAudienceMedia",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of AudienceMedia defined in program.</p>"
                     }
                 }
             }
@@ -6018,14 +6230,12 @@
                 "ScheduledStartTimeMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The date and time that the program is scheduled to start, in epoch milliseconds.</p>"
                     }
                 },
                 "DurationMillis": {
                     "target": "com.amazonaws.mediatailor#__long",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The duration of the live program in seconds.</p>"
                     }
                 }
@@ -6341,21 +6551,14 @@
             }
         },
         "com.amazonaws.mediatailor#__boolean": {
-            "type": "boolean",
-            "traits": {
-                "smithy.api#default": false
-            }
+            "type": "boolean"
         },
         "com.amazonaws.mediatailor#__integer": {
-            "type": "integer",
-            "traits": {
-                "smithy.api#default": 0
-            }
+            "type": "integer"
         },
         "com.amazonaws.mediatailor#__integerMin1": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1
                 }
@@ -6364,7 +6567,6 @@
         "com.amazonaws.mediatailor#__integerMin1Max100": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 100
@@ -6381,6 +6583,18 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediatailor#Alert"
+            }
+        },
+        "com.amazonaws.mediatailor#__listOfAlternateMedia": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.mediatailor#AlternateMedia"
+            }
+        },
+        "com.amazonaws.mediatailor#__listOfAudienceMedia": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.mediatailor#AudienceMedia"
             }
         },
         "com.amazonaws.mediatailor#__listOfAvailMatchingCriteria": {
@@ -6450,10 +6664,7 @@
             }
         },
         "com.amazonaws.mediatailor#__long": {
-            "type": "long",
-            "traits": {
-                "smithy.api#default": 0
-            }
+            "type": "long"
         },
         "com.amazonaws.mediatailor#__mapOf__string": {
             "type": "map",

@@ -356,6 +356,9 @@
                     "target": "com.amazonaws.mgn#ApplicationResource"
                 },
                 {
+                    "target": "com.amazonaws.mgn#ConnectorResource"
+                },
+                {
                     "target": "com.amazonaws.mgn#ExportResource"
                 },
                 {
@@ -449,7 +452,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -492,7 +494,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -505,7 +508,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -519,7 +521,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -542,7 +543,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -577,7 +577,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -588,14 +587,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -609,14 +610,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -625,11 +624,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -640,14 +639,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -661,7 +662,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -681,7 +681,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -692,14 +691,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -710,9 +711,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -1807,6 +1810,161 @@
                 "target": "com.amazonaws.mgn#ErrorDetails"
             }
         },
+        "com.amazonaws.mgn#Connector": {
+            "type": "structure",
+            "members": {
+                "connectorID": {
+                    "target": "com.amazonaws.mgn#ConnectorID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector ID.</p>"
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.mgn#ConnectorName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector name.</p>"
+                    }
+                },
+                "ssmInstanceID": {
+                    "target": "com.amazonaws.mgn#SsmInstanceID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM instance ID.</p>"
+                    }
+                },
+                "arn": {
+                    "target": "com.amazonaws.mgn#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector arn.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.mgn#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector tags.</p>"
+                    }
+                },
+                "ssmCommandConfig": {
+                    "target": "com.amazonaws.mgn#ConnectorSsmCommandConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM command config.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#references": [
+                    {
+                        "resource": "com.amazonaws.mgn#ConnectorResource"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.mgn#ConnectorArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 27,
+                    "max": 100
+                },
+                "smithy.api#pattern": "^arn:[\\w-]+:mgn:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:connector\\/(connector-[0-9a-zA-Z]{17})$"
+            }
+        },
+        "com.amazonaws.mgn#ConnectorID": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 27,
+                    "max": 27
+                },
+                "smithy.api#pattern": "^connector-[0-9a-zA-Z]{17}$"
+            }
+        },
+        "com.amazonaws.mgn#ConnectorIDsFilter": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.mgn#ConnectorID"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 20
+                }
+            }
+        },
+        "com.amazonaws.mgn#ConnectorName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[A-Za-z0-9_-]+$"
+            }
+        },
+        "com.amazonaws.mgn#ConnectorResource": {
+            "type": "resource",
+            "identifiers": {
+                "connectorID": {
+                    "target": "com.amazonaws.mgn#ConnectorID"
+                }
+            },
+            "create": {
+                "target": "com.amazonaws.mgn#CreateConnector"
+            },
+            "update": {
+                "target": "com.amazonaws.mgn#UpdateConnector"
+            },
+            "delete": {
+                "target": "com.amazonaws.mgn#DeleteConnector"
+            },
+            "list": {
+                "target": "com.amazonaws.mgn#ListConnectors"
+            },
+            "traits": {
+                "aws.api#arn": {
+                    "template": "connector/{connectorID}"
+                }
+            }
+        },
+        "com.amazonaws.mgn#ConnectorSsmCommandConfig": {
+            "type": "structure",
+            "members": {
+                "s3OutputEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM command config S3 output enabled.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "outputS3BucketName": {
+                    "target": "com.amazonaws.mgn#S3BucketName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM command config output S3 bucket name.</p>"
+                    }
+                },
+                "cloudWatchOutputEnabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM command config CloudWatch output enabled.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "cloudWatchLogGroupName": {
+                    "target": "com.amazonaws.mgn#CloudWatchLogGroupName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Connector SSM command config CloudWatch log group name.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Connector SSM command config.</p>"
+            }
+        },
+        "com.amazonaws.mgn#ConnectorsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.mgn#Connector"
+            }
+        },
         "com.amazonaws.mgn#Cpus": {
             "type": "list",
             "member": {
@@ -1876,6 +2034,66 @@
                         "smithy.api#documentation": "<p>Account ID.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.mgn#CreateConnector": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mgn#CreateConnectorRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mgn#Connector"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mgn#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Create Connector.</p>",
+                "smithy.api#http": {
+                    "uri": "/CreateConnector",
+                    "method": "POST",
+                    "code": 201
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.mgn#CreateConnectorRequest": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.mgn#ConnectorName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Create Connector request name.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ssmInstanceID": {
+                    "target": "com.amazonaws.mgn#SsmInstanceID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Create Connector request SSM instance ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.mgn#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Create Connector request tags.</p>"
+                    }
+                },
+                "ssmCommandConfig": {
+                    "target": "com.amazonaws.mgn#ConnectorSsmCommandConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Create Connector request SSM command config.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mgn#CreateLaunchConfigurationTemplate": {
@@ -2612,6 +2830,50 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.mgn#DeleteConnector": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mgn#DeleteConnectorRequest"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mgn#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Delete Connector.</p>",
+                "smithy.api#http": {
+                    "uri": "/DeleteConnector",
+                    "method": "POST",
+                    "code": 204
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.mgn#DeleteConnectorRequest": {
+            "type": "structure",
+            "members": {
+                "connectorID": {
+                    "target": "com.amazonaws.mgn#ConnectorID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Delete Connector request connector ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.mgn#DeleteJob": {
             "type": "operation",
             "input": {
@@ -2941,7 +3203,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Request to describe Job log item maximum results.</p>"
                     }
                 },
@@ -3020,7 +3281,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Request to describe job log items by max results.</p>"
                     }
                 },
@@ -3140,7 +3400,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum results to be returned in DescribeLaunchConfigurationTemplates.</p>"
                     }
                 },
@@ -3216,7 +3475,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Request to describe Replication Configuration template by max results.</p>"
                     }
                 },
@@ -3289,7 +3547,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Request to filter Source Servers list by maximum results.</p>"
                     }
                 },
@@ -3427,7 +3684,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum results to be returned in DescribeVcenterClients.</p>",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -4547,7 +4803,6 @@
         "com.amazonaws.mgn#Iops": {
             "type": "long",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 100,
                     "max": 64000
@@ -5187,14 +5442,12 @@
                 "iops": {
                     "target": "com.amazonaws.mgn#Iops",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Launch template disk iops configuration.</p>"
                     }
                 },
                 "throughput": {
                     "target": "com.amazonaws.mgn#Throughput",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Launch template disk throughput configuration.</p>"
                     }
                 }
@@ -5541,7 +5794,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum results to return when listing applications.</p>"
                     }
                 },
@@ -5602,6 +5854,98 @@
                 }
             }
         },
+        "com.amazonaws.mgn#ListConnectors": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mgn#ListConnectorsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mgn#ListConnectorsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mgn#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>List Connectors.</p>",
+                "smithy.api#http": {
+                    "uri": "/ListConnectors",
+                    "method": "POST",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "pageSize": "maxResults",
+                    "items": "items"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.mgn#ListConnectorsRequest": {
+            "type": "structure",
+            "members": {
+                "filters": {
+                    "target": "com.amazonaws.mgn#ListConnectorsRequestFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List Connectors Request filters.</p>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.mgn#MaxResultsType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List Connectors Request max results.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.mgn#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List Connectors Request next token.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.mgn#ListConnectorsRequestFilters": {
+            "type": "structure",
+            "members": {
+                "connectorIDs": {
+                    "target": "com.amazonaws.mgn#ConnectorIDsFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List Connectors Request Filters connector IDs.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>List Connectors Request Filters.</p>"
+            }
+        },
+        "com.amazonaws.mgn#ListConnectorsResponse": {
+            "type": "structure",
+            "members": {
+                "items": {
+                    "target": "com.amazonaws.mgn#ConnectorsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List connectors response items.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.mgn#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List connectors response next token.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.mgn#ListExportErrors": {
             "type": "operation",
             "input": {
@@ -5647,7 +5991,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>List export errors request max results.</p>"
                     }
                 },
@@ -5720,7 +6063,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>List export request max results.</p>"
                     }
                 },
@@ -5826,7 +6168,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>List import errors request max results.</p>"
                     }
                 },
@@ -5905,7 +6246,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>List imports request max results.</p>"
                     }
                 },
@@ -5992,7 +6332,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>List managed accounts request max results.</p>"
                     }
                 },
@@ -6081,7 +6420,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum amount of items to return when listing source server post migration custom actions.</p>"
                     }
                 },
@@ -6225,7 +6563,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum amount of items to return when listing template post migration custom actions.</p>"
                     }
                 },
@@ -6295,7 +6632,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.mgn#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum results to return when listing waves.</p>"
                     }
                 },
@@ -6425,7 +6761,6 @@
         "com.amazonaws.mgn#MaxResultsType": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 1000
@@ -6493,7 +6828,6 @@
         "com.amazonaws.mgn#OrderType": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1001,
                     "max": 10000
@@ -6772,7 +7106,6 @@
                 "order": {
                     "target": "com.amazonaws.mgn#OrderType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Source server post migration custom action order.</p>",
                         "smithy.api#required": {}
                     }
@@ -6799,7 +7132,6 @@
                 "timeoutSeconds": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Source server post migration custom action timeout in seconds.</p>"
                     }
                 },
@@ -6899,7 +7231,6 @@
                 "order": {
                     "target": "com.amazonaws.mgn#OrderType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Template post migration custom action order.</p>",
                         "smithy.api#required": {}
                     }
@@ -6926,7 +7257,6 @@
                 "timeoutSeconds": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Template post migration custom action timeout in seconds.</p>"
                     }
                 },
@@ -7691,6 +8021,16 @@
                 }
             }
         },
+        "com.amazonaws.mgn#SecretArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 20,
+                    "max": 100
+                },
+                "smithy.api#pattern": "^arn:[\\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:secret:(.+)$"
+            }
+        },
         "com.amazonaws.mgn#SecurityGroupID": {
             "type": "string",
             "traits": {
@@ -7737,7 +8077,6 @@
                 "quotaValue": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Exceeded the service quota value.</p>"
                     }
                 }
@@ -7894,6 +8233,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Source server fqdn for action framework.</p>"
                     }
+                },
+                "connectorAction": {
+                    "target": "com.amazonaws.mgn#SourceServerConnectorAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Server connector action.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7928,7 +8273,6 @@
                 "order": {
                     "target": "com.amazonaws.mgn#OrderType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Source server post migration custom action order.</p>"
                     }
                 },
@@ -7947,7 +8291,6 @@
                 "timeoutSeconds": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Source server post migration custom action timeout in seconds.</p>"
                     }
                 },
@@ -8009,6 +8352,26 @@
                 "smithy.api#documentation": "<p>Source server post migration custom action filters.</p>"
             }
         },
+        "com.amazonaws.mgn#SourceServerConnectorAction": {
+            "type": "structure",
+            "members": {
+                "credentialsSecretArn": {
+                    "target": "com.amazonaws.mgn#SecretArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Server connector action credentials secret arn.</p>"
+                    }
+                },
+                "connectorArn": {
+                    "target": "com.amazonaws.mgn#ConnectorArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Source Server connector action connector arn.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Source Server connector action.</p>"
+            }
+        },
         "com.amazonaws.mgn#SourceServerID": {
             "type": "string",
             "traits": {
@@ -8025,6 +8388,9 @@
                 "sourceServerID": {
                     "target": "com.amazonaws.mgn#SourceServerID"
                 }
+            },
+            "update": {
+                "target": "com.amazonaws.mgn#UpdateSourceServer"
             },
             "delete": {
                 "target": "com.amazonaws.mgn#DeleteSourceServer"
@@ -8128,7 +8494,6 @@
                 "timeoutSeconds": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>AWS Systems Manager Document timeout seconds.</p>"
                     }
                 },
@@ -8244,6 +8609,16 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>AWS Systems Manager Document external parameter.</p>"
+            }
+        },
+        "com.amazonaws.mgn#SsmInstanceID": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 19,
+                    "max": 20
+                },
+                "smithy.api#pattern": "(^i-[0-9a-zA-Z]{17}$)|(^mi-[0-9a-zA-Z]{17}$)"
             }
         },
         "com.amazonaws.mgn#SsmParameterStoreParameter": {
@@ -8701,7 +9076,6 @@
         "com.amazonaws.mgn#StrictlyPositiveInteger": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1
                 }
@@ -8853,7 +9227,6 @@
                 "order": {
                     "target": "com.amazonaws.mgn#OrderType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Template post migration custom action order.</p>"
                     }
                 },
@@ -8872,7 +9245,6 @@
                 "timeoutSeconds": {
                     "target": "com.amazonaws.mgn#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Template post migration custom action timeout in seconds.</p>"
                     }
                 },
@@ -9053,7 +9425,6 @@
         "com.amazonaws.mgn#Throughput": {
             "type": "long",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 125,
                     "max": 1000
@@ -9280,6 +9651,62 @@
                         "smithy.api#documentation": "<p>Account ID.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.mgn#UpdateConnector": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mgn#UpdateConnectorRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mgn#Connector"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mgn#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#UninitializedAccountException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Update Connector.</p>",
+                "smithy.api#http": {
+                    "uri": "/UpdateConnector",
+                    "method": "POST",
+                    "code": 200
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.mgn#UpdateConnectorRequest": {
+            "type": "structure",
+            "members": {
+                "connectorID": {
+                    "target": "com.amazonaws.mgn#ConnectorID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Connector request connector ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.mgn#ConnectorName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Connector request name.</p>"
+                    }
+                },
+                "ssmCommandConfig": {
+                    "target": "com.amazonaws.mgn#ConnectorSsmCommandConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Connector request SSM command config.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mgn#UpdateLaunchConfiguration": {
@@ -9780,6 +10207,35 @@
                 }
             }
         },
+        "com.amazonaws.mgn#UpdateSourceServer": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.mgn#UpdateSourceServerRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.mgn#SourceServer"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.mgn#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.mgn#UninitializedAccountException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Update Source Server.</p>",
+                "smithy.api#http": {
+                    "uri": "/UpdateSourceServer",
+                    "method": "POST",
+                    "code": 200
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
         "com.amazonaws.mgn#UpdateSourceServerReplicationType": {
             "type": "operation",
             "input": {
@@ -9834,6 +10290,33 @@
                         "smithy.api#documentation": "<p>Account ID on which to update replication type.</p>"
                     }
                 }
+            }
+        },
+        "com.amazonaws.mgn#UpdateSourceServerRequest": {
+            "type": "structure",
+            "members": {
+                "accountID": {
+                    "target": "com.amazonaws.mgn#AccountID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Source Server request account ID.</p>"
+                    }
+                },
+                "sourceServerID": {
+                    "target": "com.amazonaws.mgn#SourceServerID",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Source Server request source server ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "connectorAction": {
+                    "target": "com.amazonaws.mgn#SourceServerConnectorAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Update Source Server request connector action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mgn#UpdateWave": {

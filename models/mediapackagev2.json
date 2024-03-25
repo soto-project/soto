@@ -57,7 +57,7 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>Any descriptive information that you want to add to the channel group for future identification purposes.</p>"
                     }
@@ -98,11 +98,14 @@
                 "aws.api#arn": {
                     "template": "channelGroup/{ChannelGroupName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "ChannelGroup"
+                },
                 "aws.iam#conditionKeys": [
                     "aws:ResourceTag/${TagKey}"
                 ],
                 "aws.iam#disableConditionKeyInference": {},
-                "smithy.api#documentation": "Represents a channel group that facilitates the grouping of multiple channels"
+                "smithy.api#documentation": "<p>Represents a channel group that facilitates the grouping of multiple channels.</p>"
             }
         },
         "com.amazonaws.mediapackagev2#ChannelGroupsList": {
@@ -156,7 +159,7 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>Any descriptive information that you want to add to the channel for future identification purposes.</p>"
                     }
@@ -189,7 +192,10 @@
                 "aws.api#arn": {
                     "template": "channelGroup/{ChannelGroupName}/channel/{ChannelName}"
                 },
-                "smithy.api#documentation": "Represents a resource-based policy that allows or denies access to a channel"
+                "aws.cloudformation#cfnResource": {
+                    "name": "ChannelPolicy"
+                },
+                "smithy.api#documentation": "<p>Represents a resource-based policy that allows or denies access to a channel.</p>"
             }
         },
         "com.amazonaws.mediapackagev2#ChannelResource": {
@@ -229,11 +235,14 @@
                 "aws.api#arn": {
                     "template": "channelGroup/{ChannelGroupName}/channel/{ChannelName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "Channel"
+                },
                 "aws.iam#conditionKeys": [
                     "aws:ResourceTag/${TagKey}"
                 ],
                 "aws.iam#disableConditionKeyInference": {},
-                "smithy.api#documentation": "Represents an entry point into AWS Elemental MediaPackage for an ABR video content stream sent from an upstream encoder such as AWS Elemental MediaLive. The channel continuously analyzes the content that it receives and prepares it to be distributed to consumers via one or more origin endpoints"
+                "smithy.api#documentation": "<p>Represents an entry point into AWS Elemental MediaPackage for an ABR video content stream sent from an upstream encoder such as AWS Elemental MediaLive. The channel continuously analyzes the content that it receives and prepares it to be distributed to consumers via one or more origin endpoints.</p>"
             }
         },
         "com.amazonaws.mediapackagev2#CmafEncryptionMethod": {
@@ -385,6 +394,7 @@
                                     "Url": "https://abcde-2.ingest.vwxyz.mediapackagev2.us-west-2.amazonaws.com/v1/exampleChannelGroup/exampleChannel/index"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -455,6 +465,7 @@
                             "EgressDomain": "abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com",
                             "CreatedAt": "2022-10-18T09:36:00.00Z",
                             "ModifiedAt": "2022-10-18T09:36:00.00Z",
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -496,6 +507,7 @@
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>A comma-separated list of tag key:value pairs that you define. For example:</p>\n         <p>\n            <code>\"Key1\": \"Value1\",</code>\n         </p>\n         <p>\n            <code>\"Key2\": \"Value2\"</code>\n         </p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -543,8 +555,15 @@
                         "smithy.api#required": {}
                     }
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel group.</p>"
                     }
@@ -552,6 +571,7 @@
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel group.</p>"
                     }
                 }
@@ -595,6 +615,7 @@
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>A comma-separated list of tag key:value pairs that you define. For example:</p>\n         <p>\n            <code>\"Key1\": \"Value1\",</code>\n         </p>\n         <p>\n            <code>\"Key2\": \"Value2\"</code>\n         </p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -643,7 +664,7 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel.</p>"
                     }
@@ -651,9 +672,17 @@
                 "IngestEndpoints": {
                     "target": "com.amazonaws.mediapackagev2#IngestEndpointList"
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel.</p>"
                     }
                 }
@@ -686,8 +715,7 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The total duration (in seconds) of the manifest's content.</p>",
                         "smithy.api#range": {
-                            "min": 30,
-                            "max": 900
+                            "min": 30
                         }
                     }
                 },
@@ -700,6 +728,9 @@
                             "max": 1209600
                         }
                     }
+                },
+                "FilterConfiguration": {
+                    "target": "com.amazonaws.mediapackagev2#FilterConfiguration"
                 }
             },
             "traits": {
@@ -736,8 +767,7 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The total duration (in seconds) of the manifest's content.</p>",
                         "smithy.api#range": {
-                            "min": 30,
-                            "max": 900
+                            "min": 30
                         }
                     }
                 },
@@ -750,6 +780,9 @@
                             "max": 1209600
                         }
                     }
+                },
+                "FilterConfiguration": {
+                    "target": "com.amazonaws.mediapackagev2#FilterConfiguration"
                 }
             },
             "traits": {
@@ -973,6 +1006,7 @@
                                     "Url": "https://abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com/out/v1/exampleChannelGroup/exampleChannel/exampleOriginEndpointTS/exampleLLManifest2.m3u8"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -1147,6 +1181,7 @@
                                     "Url": "https://abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com/out/v1/exampleChannelGroup/exampleChannel/exampleOriginEndpointCMAF/exampleLLManifest2.m3u8"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -1227,18 +1262,21 @@
                 "HlsManifests": {
                     "target": "com.amazonaws.mediapackagev2#CreateHlsManifests",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>An HTTP live streaming (HLS) manifest configuration.</p>"
                     }
                 },
                 "LowLatencyHlsManifests": {
                     "target": "com.amazonaws.mediapackagev2#CreateLowLatencyHlsManifests",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>A low-latency HLS manifest configuration.</p>"
                     }
                 },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>A comma-separated list of tag key:value pairs that you define. For example:</p>\n         <p>\n            <code>\"Key1\": \"Value1\",</code>\n         </p>\n         <p>\n            <code>\"Key2\": \"Value2\"</code>\n         </p>"
                     }
                 }
@@ -1330,9 +1368,17 @@
                         "smithy.api#documentation": "<p>A low-latency HLS manifest configuration.</p>"
                     }
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the origin endpoint.</p>"
                     }
                 }
@@ -1852,6 +1898,56 @@
                 "smithy.api#documentation": "<p>The encryption type.</p>"
             }
         },
+        "com.amazonaws.mediapackagev2#EntityTag": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\S]+$"
+            }
+        },
+        "com.amazonaws.mediapackagev2#FilterConfiguration": {
+            "type": "structure",
+            "members": {
+                "ManifestFilter": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.</p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 1024
+                        }
+                    }
+                },
+                "Start": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.</p>"
+                    }
+                },
+                "End": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.</p>"
+                    }
+                },
+                "TimeDelaySeconds": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.</p>",
+                        "smithy.api#range": {
+                            "min": 0,
+                            "max": 1209600
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest. </p>"
+            }
+        },
         "com.amazonaws.mediapackagev2#GetChannel": {
             "type": "operation",
             "input": {
@@ -1904,6 +2000,7 @@
                                     "Url": "https://abcde-2.ingest.vwxyz.mediapackagev2.us-west-2.amazonaws.com/v1/exampleChannelGroup/exampleChannel/index"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -1959,6 +2056,7 @@
                             "EgressDomain": "abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com",
                             "CreatedAt": "2022-10-18T09:36:00.00Z",
                             "ModifiedAt": "2022-10-18T09:36:00.00Z",
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -2028,14 +2126,22 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel group.</p>"
+                    }
+                },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
                     }
                 },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel group.</p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -2136,7 +2242,7 @@
                     }
                 },
                 "Policy": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#PolicyText",
                     "traits": {
                         "smithy.api#documentation": "<p>The policy assigned to the channel.</p>",
                         "smithy.api#required": {}
@@ -2210,7 +2316,7 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel.</p>"
                     }
@@ -2218,9 +2324,17 @@
                 "IngestEndpoints": {
                     "target": "com.amazonaws.mediapackagev2#IngestEndpointList"
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel.</p>"
                     }
                 }
@@ -2266,6 +2380,9 @@
                 },
                 "ScteHls": {
                     "target": "com.amazonaws.mediapackagev2#ScteHls"
+                },
+                "FilterConfiguration": {
+                    "target": "com.amazonaws.mediapackagev2#FilterConfiguration"
                 }
             },
             "traits": {
@@ -2315,6 +2432,9 @@
                 },
                 "ScteHls": {
                     "target": "com.amazonaws.mediapackagev2#ScteHls"
+                },
+                "FilterConfiguration": {
+                    "target": "com.amazonaws.mediapackagev2#FilterConfiguration"
                 }
             },
             "traits": {
@@ -2449,6 +2569,7 @@
                                     "Url": "https://abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com/out/v1/exampleChannelGroup/exampleChannel/exampleOriginEndpointTS/exampleLLManifest2.m3u8"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -2550,28 +2671,28 @@
             "type": "structure",
             "members": {
                 "ChannelGroupName": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceName",
                     "traits": {
                         "smithy.api#documentation": "<p>The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "ChannelName": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceName",
                     "traits": {
                         "smithy.api#documentation": "<p>The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "OriginEndpointName": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceName",
                     "traits": {
                         "smithy.api#documentation": "<p>The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "Policy": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#PolicyText",
                     "traits": {
                         "smithy.api#documentation": "<p>The policy assigned to the origin endpoint.</p>",
                         "smithy.api#required": {}
@@ -2696,9 +2817,17 @@
                         "smithy.api#documentation": "<p>A low-latency HLS manifest configuration.</p>"
                     }
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the origin endpoint.</p>"
                     }
                 }
@@ -2878,6 +3007,9 @@
                 },
                 {
                     "target": "com.amazonaws.mediapackagev2#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.mediapackagev2#ResourceNotFoundException"
                 },
                 {
                     "target": "com.amazonaws.mediapackagev2#ThrottlingException"
@@ -3415,7 +3547,10 @@
                 "aws.api#arn": {
                     "template": "channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}"
                 },
-                "smithy.api#documentation": "Represents a resource policy that allows or denies access to an origin endpoint"
+                "aws.cloudformation#cfnResource": {
+                    "name": "OriginEndpointPolicy"
+                },
+                "smithy.api#documentation": "<p>Represents a resource policy that allows or denies access to an origin endpoint.</p>"
             }
         },
         "com.amazonaws.mediapackagev2#OriginEndpointResource": {
@@ -3455,11 +3590,14 @@
                 "aws.api#arn": {
                     "template": "channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "OriginEndpoint"
+                },
                 "aws.iam#conditionKeys": [
                     "aws:ResourceTag/${TagKey}"
                 ],
                 "aws.iam#disableConditionKeyInference": {},
-                "smithy.api#documentation": "Represents an origin endpoint that is associated with a channel, offering a dynamically repackaged version of its content through various streaming media protocols. The content can be efficiently disseminated to end-users via a Content Delivery Network (CDN), like Amazon CloudFront"
+                "smithy.api#documentation": "<p>Represents an origin endpoint that is associated with a channel, offering a dynamically repackaged version of its content through various streaming media protocols. The content can be efficiently disseminated to end-users via a Content Delivery Network (CDN), like Amazon CloudFront.</p>"
             }
         },
         "com.amazonaws.mediapackagev2#OriginEndpointsList": {
@@ -4286,6 +4424,7 @@
                                     "Url": "https://abcde-2.ingest.vwxyz.mediapackagev2.us-west-2.amazonaws.com/v1/exampleChannelGroup/exampleChannel/index"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -4346,6 +4485,7 @@
                             "EgressDomain": "abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com",
                             "CreatedAt": "2022-10-18T09:36:00.00Z",
                             "ModifiedAt": "2022-10-18T10:36:00.00Z",
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -4370,6 +4510,14 @@
                         "smithy.api#documentation": "<p>The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.</p>",
+                        "smithy.api#httpHeader": "x-amzn-update-if-match"
                     }
                 },
                 "Description": {
@@ -4422,14 +4570,22 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel group.</p>"
+                    }
+                },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
                     }
                 },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel group.</p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -4456,6 +4612,14 @@
                         "smithy.api#documentation": "<p>The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. </p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.</p>",
+                        "smithy.api#httpHeader": "x-amzn-update-if-match"
                     }
                 },
                 "Description": {
@@ -4508,7 +4672,7 @@
                     }
                 },
                 "Description": {
-                    "target": "smithy.api#String",
+                    "target": "com.amazonaws.mediapackagev2#ResourceDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description for your channel.</p>"
                     }
@@ -4516,9 +4680,17 @@
                 "IngestEndpoints": {
                     "target": "com.amazonaws.mediapackagev2#IngestEndpointList"
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the channel.</p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -4729,6 +4901,7 @@
                                     "Url": "https://abcde.egress.vwxyz.mediapackagev2.us-west-2.amazonaws.com/out/v1/exampleChannelGroup/exampleChannel/exampleOriginEndpointTS/exampleLLManifest2.m3u8"
                                 }
                             ],
+                            "ETag": "GlfT+dwAyGIR4wuy8nKWl1RDPwSrjQej9qUutLZxoxk=",
                             "Tags": {
                                 "key1": "value1",
                                 "key2": "value2"
@@ -4803,13 +4976,23 @@
                 "HlsManifests": {
                     "target": "com.amazonaws.mediapackagev2#CreateHlsManifests",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>An HTTP live streaming (HLS) manifest configuration.</p>"
                     }
                 },
                 "LowLatencyHlsManifests": {
                     "target": "com.amazonaws.mediapackagev2#CreateLowLatencyHlsManifests",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>A low-latency HLS manifest configuration.</p>"
+                    }
+                },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.</p>",
+                        "smithy.api#httpHeader": "x-amzn-update-if-match"
                     }
                 }
             },
@@ -4900,9 +5083,17 @@
                         "smithy.api#documentation": "<p>A low-latency HLS manifest configuration.</p>"
                     }
                 },
+                "ETag": {
+                    "target": "com.amazonaws.mediapackagev2#EntityTag",
+                    "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
+                        "smithy.api#documentation": "<p>The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.mediapackagev2#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The comma-separated list of tag key:value pairs assigned to the origin endpoint.</p>",
                         "smithy.api#jsonName": "tags"
                     }
@@ -5136,6 +5327,24 @@
                     "traits": {
                         "smithy.api#enumValue": "MEMBER_DOES_NOT_MATCH_PATTERN"
                     }
+                },
+                "INVALID_MANIFEST_FILTER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INVALID_MANIFEST_FILTER"
+                    }
+                },
+                "INVALID_TIME_DELAY_SECONDS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INVALID_TIME_DELAY_SECONDS"
+                    }
+                },
+                "END_TIME_EARLIER_THAN_START_TIME": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "END_TIME_EARLIER_THAN_START_TIME"
+                    }
                 }
             }
         },
@@ -5261,7 +5470,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -5280,7 +5488,6 @@
                                 },
                                 {
                                     "conditions": [],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -5308,13 +5515,14 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -5327,7 +5535,6 @@
                                             ]
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -5341,7 +5548,6 @@
                                                     "assign": "PartitionResult"
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -5364,7 +5570,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
@@ -5399,11 +5604,9 @@
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -5414,16 +5617,19 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [
@@ -5437,14 +5643,12 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
                                                                 {
                                                                     "fn": "booleanEquals",
                                                                     "argv": [
-                                                                        true,
                                                                         {
                                                                             "fn": "getAttr",
                                                                             "argv": [
@@ -5453,15 +5657,14 @@
                                                                                 },
                                                                                 "supportsFIPS"
                                                                             ]
-                                                                        }
+                                                                        },
+                                                                        true
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -5472,16 +5675,19 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "FIPS is enabled but this partition does not support FIPS",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [
@@ -5495,7 +5701,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
@@ -5515,11 +5720,9 @@
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -5530,20 +5733,22 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "DualStack is enabled but this partition does not support DualStack",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -5554,18 +5759,22 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 },
                                 {
                                     "conditions": [],
                                     "error": "Invalid Configuration: Missing Region",
                                     "type": "error"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         }
                     ]
                 },

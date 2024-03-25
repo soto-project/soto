@@ -36,6 +36,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to abort multipart read set uploads",
                 "smithy.api#documentation": "<p>\n      Stops a multipart upload.\n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -820,6 +821,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to batch delete Read Sets in the given Sequence Store",
                 "smithy.api#documentation": "<p>Deletes one or more read sets.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -1106,6 +1108,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to complete a multipart read set upload",
                 "smithy.api#documentation": "<p>\n      Concludes a multipart upload once you have uploaded all the components.\n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "storage-"
@@ -1559,6 +1562,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to create a multipart read set upload",
                 "smithy.api#documentation": "<p>\n      Begins a multipart read set upload. \n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -1616,8 +1620,7 @@
                 "referenceArn": {
                     "target": "com.amazonaws.omics#ReferenceArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ARN of the reference.\n    </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>\n      The ARN of the reference.\n    </p>"
                     }
                 },
                 "name": {
@@ -1755,6 +1758,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to create a Reference Store",
                 "aws.iam#conditionKeys": [
                     "aws:RequestTag/${TagKey}",
                     "aws:TagKeys"
@@ -2025,6 +2029,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to create a Sequence Store",
                 "aws.iam#conditionKeys": [
                     "aws:RequestTag/${TagKey}",
                     "aws:TagKeys"
@@ -2454,7 +2459,7 @@
                 "storageCapacity": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p>A storage capacity for the workflow in gigabytes.</p>",
+                        "smithy.api#documentation": "<p>A storage capacity for the workflow in gibibytes.</p>",
                         "smithy.api#range": {
                             "min": 0,
                             "max": 100000
@@ -2737,6 +2742,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to delete a Reference in the given Reference Store",
                 "smithy.api#documentation": "<p>Deletes a genome reference.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -2812,6 +2818,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to delete a Reference Store",
                 "smithy.api#documentation": "<p>Deletes a genome reference store.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -3005,6 +3012,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to delete a Sequence Store",
                 "smithy.api#documentation": "<p>Deletes a sequence store.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -3266,6 +3274,51 @@
                 }
             }
         },
+        "com.amazonaws.omics#ETag": {
+            "type": "structure",
+            "members": {
+                "algorithm": {
+                    "target": "com.amazonaws.omics#ETagAlgorithm",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The algorithm used to calculate the read set’s ETag(s). </p>"
+                    }
+                },
+                "source1": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ETag hash calculated on Source1 of the read set.\n    </p>"
+                    }
+                },
+                "source2": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The ETag hash calculated on Source2 of the read set.\n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      The entity tag (ETag) is a hash of the object representing its semantic content.\n    </p>"
+            }
+        },
+        "com.amazonaws.omics#ETagAlgorithm": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "FASTQ_MD5up",
+                        "name": "FASTQ_MD5UP"
+                    },
+                    {
+                        "value": "BAM_MD5up",
+                        "name": "BAM_MD5UP"
+                    },
+                    {
+                        "value": "CRAM_MD5up",
+                        "name": "CRAM_MD5UP"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.omics#Encoding": {
             "type": "string",
             "traits": {
@@ -3285,6 +3338,12 @@
                         "documentation": "KMS"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.omics#EngineLogStream": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
             }
         },
         "com.amazonaws.omics#EscapeChar": {
@@ -3505,6 +3564,10 @@
                     {
                         "value": "CRAM",
                         "name": "CRAM"
+                    },
+                    {
+                        "value": "UBAM",
+                        "name": "UBAM"
                     }
                 ]
             }
@@ -4340,6 +4403,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get a Read Set in the given Sequence Store",
                 "smithy.api#documentation": "<p>Gets a file from a read set.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "storage-"
@@ -4380,6 +4444,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Read Set activation job for the given Sequence Store",
                 "smithy.api#documentation": "<p>Gets information about a read set activation job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -4579,6 +4644,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Read Set export job for the given Sequence Store",
                 "smithy.api#documentation": "<p>Gets information about a read set export job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -4785,6 +4851,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Read Set import job for the given Sequence Store",
                 "smithy.api#documentation": "<p>Gets information about a read set import job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -4992,6 +5059,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Read Set in the given Sequence Store",
                 "smithy.api#documentation": "<p>Gets details about a read set.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -5127,6 +5195,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n      The creation type of the read set.\n    </p>"
                     }
+                },
+                "etag": {
+                    "target": "com.amazonaws.omics#ETag",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The entity tag (ETag) is a hash of the object meant to represent its semantic content.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -5225,6 +5299,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get a Reference in the given Reference Store",
                 "smithy.api#documentation": "<p>Gets a reference file.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "storage-"
@@ -5265,6 +5340,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Reference import job for the given Reference Store",
                 "smithy.api#documentation": "<p>Gets information about a reference import job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -5472,6 +5548,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Reference in the given Reference Store",
                 "smithy.api#documentation": "<p>Gets information about a genome reference's metadata.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -5680,6 +5757,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Reference Store",
                 "smithy.api#documentation": "<p>Gets information about a reference store.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -6253,6 +6331,30 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The run's retention mode.</p>"
                     }
+                },
+                "failureReason": {
+                    "target": "com.amazonaws.omics#RunFailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The reason a run has failed. \n    </p>"
+                    }
+                },
+                "logLocation": {
+                    "target": "com.amazonaws.omics#RunLogLocation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The location of the run log. \n    </p>"
+                    }
+                },
+                "uuid": {
+                    "target": "com.amazonaws.omics#RunUuid",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The universally unique identifier for a run. \n    </p>"
+                    }
+                },
+                "runOutputUri": {
+                    "target": "com.amazonaws.omics#RunOutputUri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The destination for workflow outputs.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -6438,7 +6540,7 @@
                 "id": {
                     "target": "com.amazonaws.omics#RunId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The task's ID.</p>",
+                        "smithy.api#documentation": "<p>The workflow run ID.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -6539,6 +6641,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n      The instance type for a task. \n    </p>"
                     }
+                },
+                "failureReason": {
+                    "target": "com.amazonaws.omics#TaskFailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The reason a task has failed. \n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -6574,6 +6682,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to get details about a Sequence Store",
                 "smithy.api#documentation": "<p>Gets information about a sequence store.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8213,7 +8322,8 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>\n      Lists all multipart read set uploads and their statuses. \n    </p>",
+                "aws.iam#actionPermissionDescription": "Grants permission to list multipart read set uploads",
+                "smithy.api#documentation": "<p>\n      Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.\n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
                 },
@@ -8313,6 +8423,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Read Set activation jobs for the given Sequence Store",
                 "smithy.api#documentation": "<p>Retrieves a list of read set activation jobs.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8419,6 +8530,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Read Set export jobs for the given Sequence Store",
                 "smithy.api#documentation": "<p>Retrieves a list of read set export jobs.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8525,6 +8637,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Read Set import jobs for the given Sequence Store",
                 "smithy.api#documentation": "<p>Retrieves a list of read set import jobs.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8637,6 +8750,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list read set upload parts",
                 "smithy.api#documentation": "<p>\n      This operation will list all parts in a requested multipart upload for a sequence store.\n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8758,6 +8872,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Read Sets in the given Sequence Store",
                 "smithy.api#documentation": "<p>Retrieves a list of read sets.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8865,6 +8980,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Reference import jobs for the given Reference Store",
                 "smithy.api#documentation": "<p>Retrieves a list of reference import jobs.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -8968,6 +9084,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Reference Stores",
                 "smithy.api#documentation": "<p>Retrieves a list of reference stores.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -9067,6 +9184,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list References in the given Reference Store",
                 "smithy.api#documentation": "<p>Retrieves a list of references.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -9511,6 +9629,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to list Sequence Stores",
                 "smithy.api#documentation": "<p>Retrieves a list of sequence stores.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -10375,7 +10494,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -10394,7 +10512,6 @@
                                 },
                                 {
                                     "conditions": [],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -10422,13 +10539,14 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -10441,7 +10559,6 @@
                                             ]
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -10455,7 +10572,6 @@
                                                     "assign": "PartitionResult"
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -10478,7 +10594,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
@@ -10513,11 +10628,9 @@
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -10528,16 +10641,19 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [
@@ -10551,14 +10667,12 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
                                                                 {
                                                                     "fn": "booleanEquals",
                                                                     "argv": [
-                                                                        true,
                                                                         {
                                                                             "fn": "getAttr",
                                                                             "argv": [
@@ -10567,15 +10681,14 @@
                                                                                 },
                                                                                 "supportsFIPS"
                                                                             ]
-                                                                        }
+                                                                        },
+                                                                        true
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -10586,16 +10699,19 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "FIPS is enabled but this partition does not support FIPS",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [
@@ -10609,7 +10725,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [
@@ -10629,11 +10744,9 @@
                                                                     ]
                                                                 }
                                                             ],
-                                                            "type": "tree",
                                                             "rules": [
                                                                 {
                                                                     "conditions": [],
-                                                                    "type": "tree",
                                                                     "rules": [
                                                                         {
                                                                             "conditions": [],
@@ -10644,20 +10757,22 @@
                                                                             },
                                                                             "type": "endpoint"
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    "type": "tree"
                                                                 }
-                                                            ]
+                                                            ],
+                                                            "type": "tree"
                                                         },
                                                         {
                                                             "conditions": [],
                                                             "error": "DualStack is enabled but this partition does not support DualStack",
                                                             "type": "error"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -10668,18 +10783,22 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 },
                                 {
                                     "conditions": [],
                                     "error": "Invalid Configuration: Missing Region",
                                     "type": "error"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         }
                     ]
                 },
@@ -11338,7 +11457,7 @@
                     }
                 },
                 "referenceArn": {
-                    "target": "com.amazonaws.omics#ReferenceArn",
+                    "target": "com.amazonaws.omics#ReferenceArnFilter",
                     "traits": {
                         "smithy.api#documentation": "<p>A genome reference ARN to filter on.</p>"
                     }
@@ -11562,6 +11681,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n      The creation type of the read set.\n    </p>"
                     }
+                },
+                "etag": {
+                    "target": "com.amazonaws.omics#ETag",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The entity tag (ETag) is a hash of the object representing  its semantic content.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -11639,7 +11764,8 @@
                 "aws.iam#disableConditionKeyInference": {},
                 "aws.iam#iamResource": {
                     "name": "readSet"
-                }
+                },
+                "smithy.api#documentation": "Represents a resource that stores a single genomic sequence file"
             }
         },
         "com.amazonaws.omics#ReadSetStatus": {
@@ -11787,6 +11913,16 @@
                     "max": 127
                 },
                 "smithy.api#pattern": "^arn:.+$"
+            }
+        },
+        "com.amazonaws.omics#ReferenceArnFilter": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 127
+                },
+                "smithy.api#pattern": "^$|^arn:.+$"
             }
         },
         "com.amazonaws.omics#ReferenceDescription": {
@@ -12073,7 +12209,8 @@
                 "aws.iam#disableConditionKeyInference": {},
                 "aws.iam#iamResource": {
                     "name": "reference"
-                }
+                },
+                "smithy.api#documentation": "Represents a resource that stores a single genomic reference file"
             }
         },
         "com.amazonaws.omics#ReferenceStatus": {
@@ -12265,7 +12402,8 @@
                 "aws.iam#disableConditionKeyInference": {},
                 "aws.iam#iamResource": {
                     "name": "referenceStore"
-                }
+                },
+                "smithy.api#documentation": "Represents a resource that stores genomic reference data"
             }
         },
         "com.amazonaws.omics#ReferenceStreamingBlob": {
@@ -12383,6 +12521,16 @@
                     "min": 0,
                     "max": 32
                 }
+            }
+        },
+        "com.amazonaws.omics#RunFailureReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
             }
         },
         "com.amazonaws.omics#RunGroupArn": {
@@ -12692,6 +12840,32 @@
                 }
             }
         },
+        "com.amazonaws.omics#RunLogLocation": {
+            "type": "structure",
+            "members": {
+                "engineLogStream": {
+                    "target": "com.amazonaws.omics#EngineLogStream",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The log stream ARN for the engine log. \n    </p>"
+                    }
+                },
+                "runLogStream": {
+                    "target": "com.amazonaws.omics#RunLogStream",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The log stream ARN for the run log. \n    </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n      The URI for the run log. \n    </p>"
+            }
+        },
+        "com.amazonaws.omics#RunLogStream": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
+            }
+        },
         "com.amazonaws.omics#RunName": {
             "type": "string",
             "traits": {
@@ -12707,7 +12881,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 128
+                    "max": 750
                 },
                 "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
             }
@@ -12887,6 +13061,16 @@
             "type": "timestamp",
             "traits": {
                 "smithy.api#timestampFormat": "date-time"
+            }
+        },
+        "com.amazonaws.omics#RunUuid": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
             }
         },
         "com.amazonaws.omics#S3Destination": {
@@ -13225,7 +13409,8 @@
                 "aws.iam#disableConditionKeyInference": {},
                 "aws.iam#iamResource": {
                     "name": "sequenceStore"
-                }
+                },
+                "smithy.api#documentation": "Represents a resource that stores genomic sequence data"
             }
         },
         "com.amazonaws.omics#ServiceQuotaExceededException": {
@@ -13570,6 +13755,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to start a Read Set activation job from the given Sequence Store",
                 "smithy.api#documentation": "<p>Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read\n       sets after 30 days.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -13703,6 +13889,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to start a Read Set export job from the given Sequence Store",
                 "smithy.api#documentation": "<p>Exports a read set to Amazon S3.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -13836,6 +14023,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to start a Read Set import job into the given Sequence Store",
                 "smithy.api#documentation": "<p>Starts a read set import job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -13970,8 +14158,7 @@
                 "referenceArn": {
                     "target": "com.amazonaws.omics#ReferenceArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The source's reference ARN.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The source's reference ARN.</p>"
                     }
                 },
                 "name": {
@@ -14035,6 +14222,7 @@
                 }
             ],
             "traits": {
+                "aws.iam#actionPermissionDescription": "Grants permission to start a Reference import job into the given Reference Store",
                 "smithy.api#documentation": "<p>Starts a reference import job.</p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
@@ -14343,6 +14531,18 @@
                     "target": "com.amazonaws.omics#TagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>The run's tags.</p>"
+                    }
+                },
+                "uuid": {
+                    "target": "com.amazonaws.omics#RunUuid",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The universally unique identifier for a run. \n    </p>"
+                    }
+                },
+                "runOutputUri": {
+                    "target": "com.amazonaws.omics#RunOutputUri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The destination for workflow outputs.\n    </p>"
                     }
                 }
             },
@@ -14705,6 +14905,16 @@
                     "template": "tag/{tagKey}"
                 },
                 "aws.iam#disableConditionKeyInference": {}
+            }
+        },
+        "com.amazonaws.omics#TaskFailureReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
             }
         },
         "com.amazonaws.omics#TaskId": {
@@ -15682,6 +15892,7 @@
             ],
             "traits": {
                 "aws.auth#unsignedPayload": {},
+                "aws.iam#actionPermissionDescription": "Grants permission to upload read set parts",
                 "smithy.api#documentation": "<p>\n      This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten. \n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "storage-"
