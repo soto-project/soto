@@ -28,7 +28,7 @@ jobs:
     runs-on: macOS-13
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: SPM build
       run: swift build
 
@@ -37,10 +37,9 @@ jobs:
     strategy:
       matrix:
         image:
-          - swift:5.7
           - swift:5.8
           - swift:5.9
-          - swiftlang/swift:nightly-5.10-jammy
+          - swift:5.10
     services:
       localstack:
         image: localstack/localstack
@@ -50,7 +49,7 @@ jobs:
         LOCALSTACK_ENDPOINT : "http://localstack:4566"
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Test Resource Prefix
       # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
       run: |
