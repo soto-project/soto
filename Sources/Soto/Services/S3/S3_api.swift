@@ -513,6 +513,35 @@ public struct S3: AWSService {
         )
     }
 
+    enum S3PostCondition: Encodable {
+        case match(String, String)
+        case rule(String, String, String)
+
+        public func encode(to encoder: Encoder) throws {
+            switch self {
+                case let .rule(rule, field, value):
+                    let condition = [rule, field, value]
+                    var container = encoder.singleValueContainer()
+                    try container.encode(condition)
+
+                case let .match(field, value):
+                    let condition = [field: value]
+                    var container = encoder.singleValueContainer()
+                    try container.encode(condition)
+            }
+        }
+    }
+
+    public struct S3PresignedPost: Encodable {
+        let expiration: Date
+        let conditions: [S3PostCondition]
+    }
+
+    @Sendable
+    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [S3PostCondition]) -> S3PresignedPost {
+       // TODO: Implement the function 
+    }
+
     ///  This operation is not supported by directory buckets.  This implementation of the GET action uses the accelerate subresource to return the Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to and from Amazon S3. To use this operation, you must have permission to perform the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. You set the Transfer Acceleration state of an existing bucket to Enabled or Suspended by using the PutBucketAccelerateConfiguration operation.  A GET accelerate request does not return a state value for a bucket that has no transfer acceleration state. A bucket has no Transfer Acceleration state if a state has never been set on the bucket.  For more information about transfer acceleration, see Transfer Acceleration in the Amazon S3 User Guide. The following operations are related to GetBucketAccelerateConfiguration:    PutBucketAccelerateConfiguration
     @Sendable
     public func getBucketAccelerateConfiguration(_ input: GetBucketAccelerateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketAccelerateConfigurationOutput {
