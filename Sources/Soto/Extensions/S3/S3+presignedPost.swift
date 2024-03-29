@@ -1,4 +1,18 @@
+import Atomics
+import Logging
+import NIOConcurrencyHelpers
+import NIOCore
+import NIOPosix
+import SotoCore
+import Foundation
+
 import Crypto
+
+extension S3ErrorType {
+    public enum presignedPost: Error {
+        case badURL
+    }
+}
 
 extension S3 {
     public struct PostPolicy: Encodable {
@@ -43,40 +57,45 @@ extension S3 {
 
     /// 
     @Sendable
-    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval) -> PresignedPostResponse {
+    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
         var conditions = conditions
 
         // Update endpoint URL to include the bucket
-        var url = URL(from: self.config.endpoint)
-        url.host = [bucket, url.host].joined(separator: ".")
+        guard let url = URL(string: "https://\(bucket).\(endpoint)/") else {
+            throw S3ErrorType.presignedPost.badURL
+        }
 
         // Gather canonical values
         let algorithm = "AWS4-HMAC-SHA256" // Get signature version from client?
+
         let date = Date.now
-        let region = self.config.region
+        let longDate = longDateFormat(date: date)
+        let shortDate = shortDateFormat(date: date)
+
+        let credential = await getCredential(date: shortDate)
 
         // Add required conditions
         conditions.append(.match("bucket", bucket))
         conditions.append(.match("key", key))
         conditions.append(.match("x-amz-algorithm", algorithm))
-        conditions.append(.match("x-amz-date", "")) // TODO
-        conditions.append(.match("x-amz-credential", getCredential()))
+        conditions.append(.match("x-amz-date", longDate)) // TODO
+        conditions.append(.match("x-amz-credential", credential))
 
         // Add required fields
         fields["key"] = key
         fields["x-amz-algorithm"] = algorithm
-        fields["x-amz-date"] = "" // TODO
-        fields["x-amz-credential"] = getCredential()
+        fields["x-amz-date"] = longDate // TODO
+        fields["x-amz-credential"] = credential
 
         // Create the policy and add to fields
-        let policy = PostPolicy(expiration: date.adding(expiresIn), conditions: conditions)
+        let policy = PostPolicy(expiration: date.addingTimeInterval(expiresIn), conditions: conditions)
         let stringToSign = policy.stringToSign()
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        let signature = getSignature(policy: stringToSign)
+        let signature = await getSignature(policy: stringToSign, date: shortDate)
         fields["x-amz-signature"] = signature
 
         // Create the response
@@ -85,10 +104,10 @@ extension S3 {
         return presignedPostResponse
     }
 
-    private func signingKey(date: String) -> SymmetricKey {
+    private func signingKey(date: String) async -> SymmetricKey {
         let credentials = await client.credentialProvider.getCredential()
-        let name = client.config.name
-        let region = client.config.region
+        let name = config.service
+        let region = config.region.rawValue
 
         let kDate = HMAC<SHA256>.authenticationCode(for: [UInt8](date.utf8), using: SymmetricKey(data: Array("AWS4\(credentials.secretAccessKey)".utf8)))
         let kRegion = HMAC<SHA256>.authenticationCode(for: [UInt8](region.utf8), using: SymmetricKey(data: kDate))
@@ -97,22 +116,39 @@ extension S3 {
         return SymmetricKey(data: kSigning)
     }
 
-    private func getSignature(policy: String, date: String) -> String {
-        let key = signingKey(date: date)
-        let signature = HMAC<SHA256>.authenticationCode(for: Data(stringToSign.utf8), using: key)
+    private func getSignature(policy: String, date: String) async -> String {
+        let key = await signingKey(date: date)
+        let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
-    private func getCredential() -> String {
+    private func getCredential(date: String) async -> String {
         let credentials = await client.credentialProvider.getCredential()
 
         let accessKeyID = credentials.accessKeyID
-        let date = date
-        let region = config.region
-        let service = config.name
+        let region = config.region.rawValue
+        let service = config.service
 
         let credential = "\(accessKeyID)/\(date)/\(region)/\(service)"
         return credential
+    }
+
+    private func shortDateFormat(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyyMMdd"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        return dateFormatter.string(from: date)
+    }
+
+    private func longDateFormat(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        return dateFormatter.string(from: date)
     }
 
 }
