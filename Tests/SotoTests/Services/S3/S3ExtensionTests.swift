@@ -383,4 +383,6 @@ extension S3Tests {
         let request2 = try AWSHTTPRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", method: .PUT, input: input2, configuration: s3.config)
         XCTAssertEqual(request2.headers["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
     }
+
+
 }
