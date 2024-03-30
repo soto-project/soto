@@ -7,7 +7,7 @@ import Crypto
 
 extension S3ErrorType {
     public enum presignedPost: Error {
-        case badURL
+        case malformedBucketURL
     }
 }
 
@@ -19,10 +19,8 @@ extension S3 {
         func stringToSign() throws -> String {
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
-            let policyData = try? encoder.encode(self)
-            guard let base64encoded = policyData?.base64EncodedString() else {
-                throw S3ErrorType.presignedPost.badURL
-            }
+            let policyData = try encoder.encode(self)
+            let base64encoded = policyData.base64EncodedString()
 
             return base64encoded
         }
@@ -61,7 +59,7 @@ extension S3 {
 
         // Update endpoint URL to include the bucket
         guard let url = URL(string: "https://\(bucket).\(endpoint)/") else {
-            throw S3ErrorType.presignedPost.badURL
+            throw S3ErrorType.presignedPost.malformedBucketURL
         }
 
         // Gather canonical values
@@ -71,9 +69,7 @@ extension S3 {
         let longDate = longDateFormat(date: date)
         let shortDate = shortDateFormat(date: date)
 
-        guard let credential = try? await getCredential(date: shortDate) else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let credential = try await getCredential(date: shortDate)
 
         // Add required conditions
         conditions.append(.match("bucket", bucket))
@@ -90,16 +86,12 @@ extension S3 {
 
         // Create the policy and add to fields
         let policy = PostPolicy(expiration: date.addingTimeInterval(expiresIn), conditions: conditions)
-        guard let stringToSign = try? policy.stringToSign() else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let stringToSign = try policy.stringToSign()
 
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        guard let signature = try? await getSignature(policy: stringToSign, date: shortDate) else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let signature = try await getSignature(policy: stringToSign, date: shortDate)
         fields["x-amz-signature"] = signature
 
         // Create the response
@@ -109,9 +101,7 @@ extension S3 {
     }
 
     private func signingKey(date: String) async throws -> SymmetricKey {
-        guard let credentials = try? await client.getCredential() else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let credentials = try await client.getCredential()
         let name = config.signingName
         let region = config.region.rawValue
 
@@ -123,17 +113,13 @@ extension S3 {
     }
 
     private func getSignature(policy: String, date: String) async throws -> String {
-        guard let key = try? await signingKey(date: date) else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let key = try await signingKey(date: date)
         let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
     private func getCredential(date: String) async throws -> String {
-        guard let credentials = try? await client.getCredential() else {
-            throw S3ErrorType.presignedPost.badURL
-        }
+        let credentials = try await client.getCredential()
 
         let accessKeyID = credentials.accessKeyId
         let region = config.region.rawValue
