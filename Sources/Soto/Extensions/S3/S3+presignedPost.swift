@@ -1,12 +1,9 @@
-import Atomics
+
 import Logging
-import NIOConcurrencyHelpers
-import NIOCore
-import NIOPosix
-import SotoCore
 import Foundation
 
 import Crypto
+@_spi(SotoInternal) import SotoSignerV4
 
 extension S3ErrorType {
     public enum presignedPost: Error {
@@ -19,12 +16,12 @@ extension S3 {
         let expiration: Date
         let conditions: [PostPolicyCondition]
 
-        func stringToSign() -> String {
+        func stringToSign() throws -> String {
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
             let policyData = try? encoder.encode(self)
             guard let base64encoded = policyData?.base64EncodedString() else {
-                // Couldn't make a string to sign
+                throw S3ErrorType.presignedPost.badURL
             }
 
             return base64encoded
@@ -74,28 +71,35 @@ extension S3 {
         let longDate = longDateFormat(date: date)
         let shortDate = shortDateFormat(date: date)
 
-        let credential = await getCredential(date: shortDate)
+        guard let credential = try? await getCredential(date: shortDate) else {
+            throw S3ErrorType.presignedPost.badURL
+        }
 
         // Add required conditions
         conditions.append(.match("bucket", bucket))
         conditions.append(.match("key", key))
         conditions.append(.match("x-amz-algorithm", algorithm))
-        conditions.append(.match("x-amz-date", longDate)) // TODO
+        conditions.append(.match("x-amz-date", longDate))
         conditions.append(.match("x-amz-credential", credential))
 
         // Add required fields
         fields["key"] = key
         fields["x-amz-algorithm"] = algorithm
-        fields["x-amz-date"] = longDate // TODO
+        fields["x-amz-date"] = longDate
         fields["x-amz-credential"] = credential
 
         // Create the policy and add to fields
         let policy = PostPolicy(expiration: date.addingTimeInterval(expiresIn), conditions: conditions)
-        let stringToSign = policy.stringToSign()
+        guard let stringToSign = try? policy.stringToSign() else {
+            throw S3ErrorType.presignedPost.badURL
+        }
+
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        let signature = await getSignature(policy: stringToSign, date: shortDate)
+        guard let signature = try? await getSignature(policy: stringToSign, date: shortDate) else {
+            throw S3ErrorType.presignedPost.badURL
+        }
         fields["x-amz-signature"] = signature
 
         // Create the response
@@ -104,9 +108,11 @@ extension S3 {
         return presignedPostResponse
     }
 
-    private func signingKey(date: String) async -> SymmetricKey {
-        let credentials = await client.credentialProvider.getCredential()
-        let name = config.service
+    private func signingKey(date: String) async throws -> SymmetricKey {
+        guard let credentials = try? await client.getCredential() else {
+            throw S3ErrorType.presignedPost.badURL
+        }
+        let name = config.signingName
         let region = config.region.rawValue
 
         let kDate = HMAC<SHA256>.authenticationCode(for: [UInt8](date.utf8), using: SymmetricKey(data: Array("AWS4\(credentials.secretAccessKey)".utf8)))
@@ -116,18 +122,22 @@ extension S3 {
         return SymmetricKey(data: kSigning)
     }
 
-    private func getSignature(policy: String, date: String) async -> String {
-        let key = await signingKey(date: date)
+    private func getSignature(policy: String, date: String) async throws -> String {
+        guard let key = try? await signingKey(date: date) else {
+            throw S3ErrorType.presignedPost.badURL
+        }
         let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
-    private func getCredential(date: String) async -> String {
-        let credentials = await client.credentialProvider.getCredential()
+    private func getCredential(date: String) async throws -> String {
+        guard let credentials = try? await client.getCredential() else {
+            throw S3ErrorType.presignedPost.badURL
+        }
 
-        let accessKeyID = credentials.accessKeyID
+        let accessKeyID = credentials.accessKeyId
         let region = config.region.rawValue
-        let service = config.service
+        let service = config.signingName
 
         let credential = "\(accessKeyID)/\(date)/\(region)/\(service)"
         return credential
