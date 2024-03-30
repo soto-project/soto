@@ -7,6 +7,7 @@ import Crypto
 
 extension S3ErrorType {
     public enum presignedPost: Error {
+        case malformedEndpointURL
         case malformedBucketURL
     }
 }
@@ -73,28 +74,50 @@ extension S3 {
     ///     Note that if you include a condition, you must specify the a valid value in the fields dictionary as well. A value will not be added automatically to the fields dictionary based on the conditions.
     ///   - expiresIn: The number of seconds the presigned post is valid for.
     /// - Returns: An encodable PresignedPostResponse with two properties: url and fields. Url is the url to post to. Fields is a dictionary filled with the form fields and respective values to use when submitting the post.
-    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval) async throws -> PresignedPostResponse {
+    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval, now: Date = Date.now) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
         var conditions = conditions
 
         // Update endpoint URL to include the bucket
-        guard let url = URL(string: "https://\(bucket).\(endpoint)/") else {
+        guard let url = URL(string: endpoint) else {
+            throw S3ErrorType.presignedPost.malformedEndpointURL
+        }
+
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            throw S3ErrorType.presignedPost.malformedEndpointURL
+        }
+
+        guard let host = components.host else {
+            throw S3ErrorType.presignedPost.malformedEndpointURL
+        }
+
+        components.host = "\(bucket).\(host)"
+
+        guard let url = components.url else {
             throw S3ErrorType.presignedPost.malformedBucketURL
         }
 
         // Gather canonical values
         let algorithm = "AWS4-HMAC-SHA256" // Get signature version from client?
 
-        let date = Date.now
+        let date = now
         let longDate = longDateFormat(date: date)
         let shortDate = shortDateFormat(date: date)
 
         let credential = try await getCredential(date: shortDate)
 
+        var keyCondition: PostPolicyCondition
+        let suffix = "${filename}"
+        if key.hasSuffix(suffix) {
+            keyCondition = .rule("starts-with", "$key", String(key.dropLast(suffix.count)))
+        } else {
+            keyCondition = .match("key", key)
+        }
+
         // Add required conditions
         conditions.append(.match("bucket", bucket))
-        conditions.append(.match("key", key))
+        conditions.append(keyCondition)
         conditions.append(.match("x-amz-algorithm", algorithm))
         conditions.append(.match("x-amz-date", longDate))
         conditions.append(.match("x-amz-credential", credential))
