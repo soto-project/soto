@@ -12,6 +12,7 @@ extension S3ErrorType {
 }
 
 extension S3 {
+    /// An encodable struct that represents acceptable values for the fields supplied in a presigned POST request
     public struct PostPolicy: Encodable {
         let expiration: Date
         let conditions: [PostPolicyCondition]
@@ -26,6 +27,7 @@ extension S3 {
         }
     }
 
+    /// A condition for use in a PostPolicy, which can represent an exact match on the value for a particular field, or a rule that allows for other types of matches, eg. "starts-with"
     public enum PostPolicyCondition: Encodable {
         case match(String, String)
         case rule(String, String, String)
@@ -45,6 +47,7 @@ extension S3 {
         }
     }
 
+    /// An encodable struct that represents the URL and form fields to use in a presigned POST request to S3
     public struct PresignedPostResponse: Encodable {
         let url: URL
         let fields: [String: String]
