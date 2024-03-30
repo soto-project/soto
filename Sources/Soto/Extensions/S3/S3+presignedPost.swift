@@ -50,8 +50,26 @@ extension S3 {
         let fields: [String: String]
     }
 
+    ///  Builds the url and the form fields used for a presigned s3 post 
+    /// - Parameters:
+    ///   - key: Key name, optionally add ${filename} to the end to attach the submitted filename. Note that key related conditions and fields are filled out for you and should not be included in the Fields or Conditions parameter. 
+    ///   - bucket: The name of the bucket to presign the post to. Note that bucket related conditions should not be included in the conditions parameter.
+    ///   - fields: A dictionary of prefilled form fields to build on top of. Elements that may be included are acl, Cache-Control, Content-Type, Content-Disposition, Content-Encoding, Expires, success_action_redirect, redirect, success_action_status, and x-amz-meta-.
     /// 
-    @Sendable
+    ///     Note that if a particular element is included in the fields dictionary it will not be automatically added to the conditions list. You must specify a condition for the element as well.
+    ///   - conditions: A list of conditions to include in the policy. Each element can be either a match or a rule. For example:
+    /// 
+    ///     ```
+    ///     [
+    ///         .match("acl", "public-read"), .rule("content-length-range", "2", "5"), .rule("starts-with", "$success_action_redirect", "")
+    ///     ]
+    ///     ```
+    ///
+    ///     Conditions that are included may pertain to acl, content-length-range, Cache-Control, Content-Type, Content-Disposition, Content-Encoding, Expires, success_action_redirect, redirect, success_action_status, and/or x-amz-meta-.
+    ///
+    ///     Note that if you include a condition, you must specify the a valid value in the fields dictionary as well. A value will not be added automatically to the fields dictionary based on the conditions.
+    ///   - expiresIn: The number of seconds the presigned post is valid for.
+    /// - Returns: An encodable PresignedPostResponse with two properties: url and fields. Url is the url to post to. Fields is a dictionary filled with the form fields and respective values to use when submitting the post.
     public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
