@@ -174,7 +174,7 @@ extension STS {
         }
 
         /// Load a file from disk without blocking the current thread
-        /// - Returns: Event loop future with file contents in a byte-buffer
+        /// - Returns: file contents in a byte-buffer
         static func loadFile(path: String, using fileIO: NonBlockingFileIO) async throws -> ByteBuffer {
             return try await fileIO.withFileRegion(path: path) { region in
                 return try await fileIO.read(fileRegion: region, allocator: ByteBufferAllocator())
