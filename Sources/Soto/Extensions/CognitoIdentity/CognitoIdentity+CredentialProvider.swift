@@ -96,7 +96,7 @@ extension CredentialProviderFactory {
     /// For the `identityProvider` parameter construct a struct conforming to `IdentityProvider` as follows
     /// ```
     /// struct MyIdentityProvider: IdentityProvider {
-    ///     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams> {
+    ///     func getIdentity(logger: Logger) async throws -> CognitoIdentity.IdentityParams {
     ///         // code to call backend to return the identity id and token. When backend call completes fill out a
     ///         // `CognitoIdentity.IdentityParams` struct with the details.
     ///     }

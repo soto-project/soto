@@ -159,7 +159,7 @@ extension IdentityProviderFactory {
     ///             authParameters: ["USERNAME": "my-username", "PASSWORD": "my-password"],
     ///             clientId: "my-client-id"
     ///         )
-    ///         return cognitoIdentityProvider.initiateAuth(request, logger: context.logger, on: context.eventLoop)
+    ///         return cognitoIdentityProvider.initiateAuth(request, logger: context.logger)
     ///             .flatMapThrowing { response in
     ///                 guard let idToken = response.authenticationResult?.idToken else { throw CredentialProviderError.noProvider }
     ///                 return [userPoolIdentityProvider: idToken]

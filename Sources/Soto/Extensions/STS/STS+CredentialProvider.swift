@@ -265,7 +265,7 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRole request struct
+    ///   - requestProvider: Function that returns an AssumeRole request struct
     public static func stsAssumeRole(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
@@ -302,7 +302,7 @@ extension CredentialProviderFactory {
     ///
     /// - Parameters:
     ///   - region: Region to run request in
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
+    ///   - requestProvider: Function that returns an AssumeRoleWithSAML request struct
     public static func stsSAML(
         region: Region,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithSAMLRequest
@@ -333,7 +333,7 @@ extension CredentialProviderFactory {
     ///
     /// - Parameters:
     ///   - region: Region to run request in
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
+    ///   - requestProvider: Function that returns an AssumeRoleWithWebIdentity request struct
     public static func stsWebIdentity(
         region: Region,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithWebIdentityRequest
@@ -417,7 +417,7 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with a SessionToken request structure
+    ///   - requestProvider: Function that returns a SessionToken request structure
     public static func stsSessionToken(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
