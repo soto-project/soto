@@ -59,7 +59,7 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         concurrentDownloads: Int = 4,
         logger: Logger = AWSClient.loggingDisabled,
-        outputStream: @escaping @Sendable (ByteBuffer, Int64) async throws -> Void
+        outputStream: @escaping (ByteBuffer, Int64) async throws -> Void
     ) async throws -> Int64 {
         // get object size before downloading
         let headRequest = S3.HeadObjectRequest(
@@ -84,11 +84,11 @@ extension S3 {
             /// Structure used to store downloaded buffers and then save them as and when
             /// needed
             struct DownloadedBuffers {
-                let outputStream: @Sendable (ByteBuffer) async throws -> Void
+                let outputStream: (ByteBuffer) async throws -> Void
                 var buffers: [ByteBuffer?]
                 var bufferSavedIndex: Int
 
-                init(numberOfBuffers: Int, outputStream: @escaping @Sendable (ByteBuffer) async throws -> Void) {
+                init(numberOfBuffers: Int, outputStream: @escaping (ByteBuffer) async throws -> Void) {
                     self.outputStream = outputStream
                     self.buffers = Array(repeating: nil, count: numberOfBuffers)
                     self.bufferSavedIndex = 0
@@ -340,7 +340,7 @@ extension S3 {
         abortOnFail: Bool = true,
         threadPool: NIOThreadPool = .singleton,
         logger: Logger = AWSClient.loggingDisabled,
-        progress: @escaping (Double) async throws -> Void = { _ in }
+        progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         return try await fileIO.withFileRegion(path: filename) { fileRegion in
