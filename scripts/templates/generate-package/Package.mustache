@@ -1,10 +1,10 @@
 {{%CONTENT_TYPE:TEXT}}
-// swift-tools-version:5.7
+// swift-tools-version:5.8
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -15,6 +15,10 @@
 //===----------------------------------------------------------------------===//
 
 import PackageDescription
+
+let swiftSettings: [SwiftSetting] = [
+    .enableExperimentalFeature("StrictConcurrency=complete"),
+]
 
 let package = Package(
     name: "soto",
@@ -35,10 +39,10 @@ let package = Package(
     targets: [
 {{#targets}}
 {{#hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"]){{^last()}},{{/last()}}
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"], swiftSettings: swiftSettings){{^last()}},{{/last()}}
 {{/hasExtension}}
 {{^hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}"),
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: swiftSettings),
 {{/hasExtension}}
 {{/targets}}
 
