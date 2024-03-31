@@ -1,5 +1,5 @@
 {{%CONTENT_TYPE:TEXT}}
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -52,11 +52,3 @@ let package = Package(
         )
     ]
 )
-
-if ProcessInfo.processInfo.environment["STRICT_CONCURRENCY"] == "true" {
-    for target in package.targets {
-        if !target.isTest {
-            target.swiftSettings = [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]
-        }
-    }
-}
