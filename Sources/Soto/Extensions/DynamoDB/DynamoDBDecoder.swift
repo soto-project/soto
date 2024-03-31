@@ -37,7 +37,7 @@ private struct _DecoderStorage {
     }
 
     /// return the attribute at the top of the storage
-    var topAttribute: DynamoDB.AttributeValue { return attributes.last! }
+    var topAttribute: DynamoDB.AttributeValue { return self.attributes.last! }
 
     /// push a new attribute onto the storage
     mutating func pushAttribute(_ attribute: DynamoDB.AttributeValue) {
@@ -183,7 +183,7 @@ private class _DynamoDBDecoder: Decoder {
             self.decoder.codingPath.append(key)
             defer { self.decoder.codingPath.removeLast() }
 
-            return UKDC(attribute: try self.getValue(forKey: key), decoder: self.decoder)
+            return try UKDC(attribute: self.getValue(forKey: key), decoder: self.decoder)
         }
 
         func _superDecoder(forKey key: CodingKey) throws -> Decoder {
@@ -438,7 +438,7 @@ private class _DynamoDBDecoder: Decoder {
             self.decoder.codingPath.append(DynamoDBCodingKey(index: self.currentIndex))
             defer { self.decoder.codingPath.removeLast() }
 
-            return UKDC(attribute: try self.getAttributeValue(), decoder: self.decoder)
+            return try UKDC(attribute: self.getAttributeValue(), decoder: self.decoder)
         }
 
         mutating func superDecoder() throws -> Decoder {

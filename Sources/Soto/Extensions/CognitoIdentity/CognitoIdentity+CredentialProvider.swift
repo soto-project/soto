@@ -34,7 +34,7 @@ extension CognitoIdentity {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.identityPoolId = identityPoolId
-            let context = IdentityProviderFactory.Context(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
+            let context = IdentityProviderFactory.Context(cognitoIdentity: self.cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
             self.identityProvider = identityProvider.createProvider(context: context)
         }
 
@@ -59,7 +59,7 @@ extension CognitoIdentity {
         }
 
         func shutdown() async throws {
-            try await identityProvider.shutdown()
+            try await self.identityProvider.shutdown()
             try await self.client.shutdown()
         }
     }
