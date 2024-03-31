@@ -13,8 +13,8 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
-import Foundation
 import NIOFoundationCompat
+import NIOPosix
 @testable import SotoCore
 @testable import SotoS3
 import XCTest
@@ -65,8 +65,7 @@ extension S3Tests {
                 logger: TestEnvironment.logger
             ) { print("Progress \($0 * 100)%") }
             XCTAssertEqual(size, Int64(buffer.readableBytes))
-            XCTAssert(FileManager.default.fileExists(atPath: filename))
-            try FileManager.default.removeItem(atPath: filename)
+            try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename)
         }
     }
 
@@ -78,35 +77,43 @@ extension S3Tests {
                 _ = try await Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
             }
         }
-        try FileManager.default.removeItem(atPath: name)
+        try? await NonBlockingFileIO(threadPool: .singleton).remove(path: name)
+    }
+
+    func testStuff(_ process: () async throws -> Void) async throws {
+        try await process()
     }
 
     func testMultipartUploadFile() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let buffer = Self.randomBytes!
-        let data = Data(buffer: buffer)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
-
-        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
-        defer {
-            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        let fileIO = NonBlockingFileIO(threadPool: .singleton)
+        await XCTAsyncAssertNoThrow {
+            try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
+                try await fileIO.write(fileHandle: fileHandle, buffer: buffer)
+            }
         }
 
-        try await testBucket(name) { name in
-            let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-            _ = try await s3.multipartUpload(
-                request,
-                partSize: 5 * 1024 * 1024,
-                filename: filename,
-                logger: TestEnvironment.logger
-            ) {
-                print("Progress \($0 * 100)%")
-            }
+        try await withTeardown {
+            try await testBucket(name) { name in
+                let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+                _ = try await s3.multipartUpload(
+                    request,
+                    partSize: 5 * 1024 * 1024,
+                    filename: filename,
+                    logger: TestEnvironment.logger
+                ) {
+                    print("Progress \($0 * 100)%")
+                }
 
-            let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
-            let responseBody = try await getResponse.body.collect(upTo: .max)
-            XCTAssertEqual(responseBody, buffer)
+                let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
+                let responseBody = try await getResponse.body.collect(upTo: .max)
+                XCTAssertEqual(responseBody, buffer)
+            }
+        } teardown: {
+            await XCTAsyncAssertNoThrow { try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename) }
         }
     }
 
@@ -137,55 +144,61 @@ extension S3Tests {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
         let buffer = Self.randomBytes!
-        let data = Data(buffer: buffer)
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUpload"
 
-        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
-        defer {
-            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
-        }
-        try await testBucket(name) { name in
-            do {
-                let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-                _ = try await s3.multipartUpload(
-                    request,
-                    filename: filename,
-                    abortOnFail: false,
-                    logger: TestEnvironment.logger
-                ) {
-                    guard $0 < 0.45 else { throw CancelError() }
-                    print("Progress \($0 * 100)")
-                }
-
-                XCTFail("First multipartUpload was successful")
-            } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
-                do {
-                    _ = try await s3.resumeMultipartUpload(
-                        resumeRequest,
-                        partSize: 5 * 1024 * 1024,
-                        filename: filename,
-                        abortOnFail: false,
-                        logger: TestEnvironment.logger
-                    ) {
-                        guard $0 < 0.95 else { throw CancelError() }
-                        print("Progress \($0 * 100)")
-                    }
-                } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
-                    _ = try await s3.resumeMultipartUpload(
-                        resumeRequest,
-                        partSize: 5 * 1024 * 1024,
-                        filename: filename,
-                        abortOnFail: false,
-                        logger: TestEnvironment.logger
-                    ) {
-                        print("Progress \($0 * 100)")
-                    }
-                }
+        let fileIO = NonBlockingFileIO(threadPool: .singleton)
+        await XCTAsyncAssertNoThrow {
+            try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
+                try await fileIO.write(fileHandle: fileHandle, buffer: buffer)
             }
-            let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
-            let responseBody = try await getResponse.body.collect(upTo: .max)
-            XCTAssertEqual(responseBody, buffer)
+        }
+
+        try await withTeardown {
+            try await testBucket(name) { name in
+                do {
+                    let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
+                    _ = try await s3.multipartUpload(
+                        request,
+                        filename: filename,
+                        abortOnFail: false,
+                        logger: TestEnvironment.logger
+                    ) {
+                        guard $0 < 0.55 else { throw CancelError() }
+                        print("Progress \($0 * 100)")
+                    }
+
+                    XCTFail("First multipartUpload was successful")
+                } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
+                    do {
+                        _ = try await s3.resumeMultipartUpload(
+                            resumeRequest,
+                            partSize: 5 * 1024 * 1024,
+                            filename: filename,
+                            abortOnFail: false,
+                            logger: TestEnvironment.logger
+                        ) {
+                            guard $0 < 0.95 else { throw CancelError() }
+                            print("Progress \($0 * 100)")
+                        }
+                    } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
+                        _ = try await s3.resumeMultipartUpload(
+                            resumeRequest,
+                            partSize: 5 * 1024 * 1024,
+                            filename: filename,
+                            abortOnFail: false,
+                            logger: TestEnvironment.logger
+                        ) {
+                            print("Progress \($0 * 100)")
+                        }
+                    }
+                }
+                let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
+                let responseBody = try await getResponse.body.collect(upTo: .max)
+                XCTAssertEqual(responseBody, buffer)
+            }
+        } teardown: {
+            await XCTAsyncAssertNoThrow { try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename) }
         }
     }
 

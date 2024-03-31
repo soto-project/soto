@@ -186,7 +186,7 @@ final class DynamoDBCoderTests: XCTestCase {
                 var testContainer = try container.nestedUnkeyedContainer(forKey: .test)
                 var indices: [Int] = []
                 while !testContainer.isAtEnd {
-                    indices.append(try testContainer.decode(Int.self))
+                    try indices.append(testContainer.decode(Int.self))
                 }
                 self.indices = indices
                 self.selected = try container.decode(Int.self, forKey: .selected)

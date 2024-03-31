@@ -28,13 +28,13 @@ extension CognitoIdentity {
             identityPoolId: String,
             identityProvider: IdentityProviderFactory,
             region: Region,
-            httpClient: HTTPClient,
+            httpClient: any AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled
         ) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.identityPoolId = identityPoolId
-            let context = IdentityProviderFactory.Context(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
+            let context = IdentityProviderFactory.Context(cognitoIdentity: self.cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
             self.identityProvider = identityProvider.createProvider(context: context)
         }
 
@@ -59,7 +59,7 @@ extension CognitoIdentity {
         }
 
         func shutdown() async throws {
-            try await identityProvider.shutdown()
+            try await self.identityProvider.shutdown()
             try await self.client.shutdown()
         }
     }
@@ -96,7 +96,7 @@ extension CredentialProviderFactory {
     /// For the `identityProvider` parameter construct a struct conforming to `IdentityProvider` as follows
     /// ```
     /// struct MyIdentityProvider: IdentityProvider {
-    ///     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams> {
+    ///     func getIdentity(logger: Logger) async throws -> CognitoIdentity.IdentityParams {
     ///         // code to call backend to return the identity id and token. When backend call completes fill out a
     ///         // `CognitoIdentity.IdentityParams` struct with the details.
     ///     }

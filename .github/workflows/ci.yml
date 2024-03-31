@@ -8,11 +8,9 @@ on:
     paths:
     - '**.swift'
   pull_request:
-    branches:
-    - main
-    - 7.x.x
     paths:
-    - '**.swift'
+      - '**.swift'
+      - '**.yml'
   workflow_dispatch:
 
 env:
@@ -20,15 +18,15 @@ env:
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DISABLE_LOCALSTACK : "false"
   AWS_ENABLE_LOGGING : "true"
-  AWS_LOG_LEVEL: "trace"
+  AWS_LOG_LEVEL: "debug"
   STRICT_CONCURRENCY: "true"
 
 jobs:
   macos:
-    runs-on: macOS-latest
+    runs-on: macOS-13
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: SPM build
       run: swift build
 
@@ -37,10 +35,9 @@ jobs:
     strategy:
       matrix:
         image:
-          - swift:5.7
           - swift:5.8
           - swift:5.9
-          - swiftlang/swift:nightly-5.10-jammy
+          - swift:5.10
     services:
       localstack:
         image: localstack/localstack
@@ -50,7 +47,7 @@ jobs:
         LOCALSTACK_ENDPOINT : "http://localstack:4566"
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Test Resource Prefix
       # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
       run: |

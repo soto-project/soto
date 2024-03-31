@@ -14,7 +14,6 @@
 
 import AsyncHTTPClient
 import Atomics
-import Foundation
 import NIOCore
 import NIOPosix
 import SotoCore
