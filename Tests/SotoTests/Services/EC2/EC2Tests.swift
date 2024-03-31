@@ -53,6 +53,8 @@ class EC2Tests: XCTestCase {
     }
 
     func testDescribeInstanceTypes() async throws {
+        // Localstack returns unknown values
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         let describeTypesPaginator = Self.ec2.describeInstanceTypesPaginator(.init(), logger: TestEnvironment.logger)
         _ = try await describeTypesPaginator.reduce([]) { $0 + ($1.instanceTypes ?? []) }
     }
