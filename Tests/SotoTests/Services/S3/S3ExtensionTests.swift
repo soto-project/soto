@@ -391,6 +391,8 @@ extension S3Tests {
         let client = AWSClient(credentialProvider: .static(accessKeyId: "AKIAIOSFODNN7EXAMPLE", secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"), httpClientProvider: .createNew)
         let s3 = S3(client: client, region: .useast1)
 
+        defer { try? client.syncShutdown() }
+
         let fields = [
             "acl": "public-read",
             "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
@@ -432,7 +434,6 @@ extension S3Tests {
         XCTAssertEqual(presignedPost.fields["x-amz-algorithm"], expectedAlgorithm)
         XCTAssertEqual(presignedPost.fields["x-amz-date"], expectedDate)
 
-        try? await client.shutdown()
         // Boto3 Output
         // {'url': 'https://sigv4examplebucket.s3.amazonaws.com/', 'fields': {'acl': 'public-read', 'success_action_redirect': 'http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html', 'x-amz-meta-uuid': '14365123651274', 'x-amz-server-side-encryption': 'AES256', 'key': 'user/user1/${filename}', 'AWSAccessKeyId': 'AKIAIOSFODNN7EXAMPLE', 'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjQtMDQtMDJUMDM6NTE6MDBaIiwgImNvbmRpdGlvbnMiOiBbeyJhY2wiOiAicHVibGljLXJlYWQifSwgeyJzdWNjZXNzX2FjdGlvbl9yZWRpcmVjdCI6ICJodHRwOi8vc2lndjRleGFtcGxlYnVja2V0LnMzLmFtYXpvbmF3cy5jb20vc3VjY2Vzc2Z1bF91cGxvYWQuaHRtbCJ9LCB7IngtYW16LW1ldGEtdXVpZCI6ICIxNDM2NTEyMzY1MTI3NCJ9LCB7IngtYW16LXNlcnZlci1zaWRlLWVuY3J5cHRpb24iOiAiQUVTMjU2In0sIFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICJpbWFnZS8iXSwgWyJzdGFydHMtd2l0aCIsICIkeC1hbXotbWV0YS10YWciLCAiIl0sIHsiYnVja2V0IjogInNpZ3Y0ZXhhbXBsZWJ1Y2tldCJ9LCBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAidXNlci91c2VyMS8iXV19', 'signature': 'sSXUD8RpSI7x/Vo/SJ0vTtc98Qo='}
     }
