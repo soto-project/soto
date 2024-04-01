@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Logging
 import Foundation
+import Logging
 
 import Crypto
 @_spi(SotoInternal) import SotoSignerV4
@@ -48,15 +48,15 @@ extension S3 {
 
         public func encode(to encoder: Encoder) throws {
             switch self {
-                case let .match(field, value):
-                    let condition = [field: value]
-                    var container = encoder.singleValueContainer()
-                    try container.encode(condition)
+            case .match(let field, let value):
+                let condition = [field: value]
+                var container = encoder.singleValueContainer()
+                try container.encode(condition)
 
-                case let .rule(rule, field, value):
-                    let condition = [rule, field, value]
-                    var container = encoder.singleValueContainer()
-                    try container.encode(condition)
+            case .rule(let rule, let field, let value):
+                let condition = [rule, field, value]
+                var container = encoder.singleValueContainer()
+                try container.encode(condition)
             }
         }
     }
@@ -67,15 +67,15 @@ extension S3 {
         let fields: [String: String]
     }
 
-    ///  Builds the url and the form fields used for a presigned s3 post 
+    ///  Builds the url and the form fields used for a presigned s3 post
     /// - Parameters:
-    ///   - key: Key name, optionally add ${filename} to the end to attach the submitted filename. Note that key related conditions and fields are filled out for you and should not be included in the Fields or Conditions parameter. 
+    ///   - key: Key name, optionally add ${filename} to the end to attach the submitted filename. Note that key related conditions and fields are filled out for you and should not be included in the Fields or Conditions parameter.
     ///   - bucket: The name of the bucket to presign the post to. Note that bucket related conditions should not be included in the conditions parameter.
     ///   - fields: A dictionary of prefilled form fields to build on top of. Elements that may be included are acl, Cache-Control, Content-Type, Content-Disposition, Content-Encoding, Expires, success_action_redirect, redirect, success_action_status, and x-amz-meta-.
-    /// 
+    ///
     ///     Note that if a particular element is included in the fields dictionary it will not be automatically added to the conditions list. You must specify a condition for the element as well.
     ///   - conditions: A list of conditions to include in the policy. Each element can be either a match or a rule. For example:
-    /// 
+    ///
     ///     ```
     ///     [
     ///         .match("acl", "public-read"), .rule("content-length-range", "2", "5"), .rule("starts-with", "$success_action_redirect", "")
@@ -125,8 +125,8 @@ extension S3 {
         // Gather canonical values
         let algorithm = "AWS4-HMAC-SHA256" // Get signature version from client?
 
-        let longDate = longDateFormat(date: date)
-        let shortDate = shortDateFormat(date: date)
+        let longDate = self.longDateFormat(date: date)
+        let shortDate = self.shortDateFormat(date: date)
 
         let clientCredentials = try await client.getCredential()
         let presignedPostCredential = try await getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
@@ -160,7 +160,7 @@ extension S3 {
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        let signingKey = try await signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey))
+        let signingKey = try await signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey)
         let signature = try await getSignature(policy: stringToSign, signingKey: signingKey)
         fields["x-amz-signature"] = signature
 
@@ -212,5 +212,4 @@ extension S3 {
 
         return dateFormatter.string(from: date)
     }
-
 }
