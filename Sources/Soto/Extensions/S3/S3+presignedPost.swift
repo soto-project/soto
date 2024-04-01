@@ -74,10 +74,21 @@ extension S3 {
     ///     Note that if you include a condition, you must specify the a valid value in the fields dictionary as well. A value will not be added automatically to the fields dictionary based on the conditions.
     ///   - expiresIn: The number of seconds the presigned post is valid for.
     /// - Returns: An encodable PresignedPostResponse with two properties: url and fields. Url is the url to post to. Fields is a dictionary filled with the form fields and respective values to use when submitting the post.
-    public func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions: [PostPolicyCondition] = [], expiresIn: TimeInterval, now: Date = Date.now) async throws -> PresignedPostResponse {
+    public func generatePresignedPost(
+        key: String,
+        bucket: String,
+        fields: [String: String] = [:],
+        conditions userConditions: [PostPolicyCondition] = [],
+        expiresIn: TimeInterval
+    ) async throws -> PresignedPostResponse {
+        try await self.generatePresignedPost(key: key, bucket: bucket, fields: fields, conditions: userConditions, expiresIn: expiresIn, date: Date.now)
+    }
+
+    // Private API adds date argument for testing
+    private func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions userConditions: [PostPolicyCondition] = [], expiresIn: TimeInterval, date: Date = Date.now) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
-        var conditions = conditions
+        var conditions: [PostPolicyCondition] = []
 
         // Update endpoint URL to include the bucket
         guard let url = URL(string: endpoint) else {
@@ -101,11 +112,11 @@ extension S3 {
         // Gather canonical values
         let algorithm = "AWS4-HMAC-SHA256" // Get signature version from client?
 
-        let date = now
         let longDate = longDateFormat(date: date)
         let shortDate = shortDateFormat(date: date)
 
-        let credential = try await getCredential(date: shortDate)
+        let clientCredentials = try await client.getCredential()
+        let presignedPostCredential = try await getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
 
         var keyCondition: PostPolicyCondition
         let suffix = "${filename}"
@@ -118,15 +129,16 @@ extension S3 {
         // Add required conditions
         conditions.append(.match("bucket", bucket))
         conditions.append(keyCondition)
+        conditions.append(contentsOf: userConditions)
         conditions.append(.match("x-amz-algorithm", algorithm))
         conditions.append(.match("x-amz-date", longDate))
-        conditions.append(.match("x-amz-credential", credential))
+        conditions.append(.match("x-amz-credential", presignedPostCredential))
 
         // Add required fields
         fields["key"] = key
         fields["x-amz-algorithm"] = algorithm
         fields["x-amz-date"] = longDate
-        fields["x-amz-credential"] = credential
+        fields["x-amz-credential"] = presignedPostCredential
 
         // Create the policy and add to fields
         let policy = PostPolicy(expiration: date.addingTimeInterval(expiresIn), conditions: conditions)
@@ -135,7 +147,8 @@ extension S3 {
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        let signature = try await getSignature(policy: stringToSign, date: shortDate)
+        let signingKey = try await signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey))
+        let signature = try await getSignature(policy: stringToSign, signingKey: signingKey)
         fields["x-amz-signature"] = signature
 
         // Create the response
@@ -144,7 +157,7 @@ extension S3 {
         return presignedPostResponse
     }
 
-    private func signingKey(date: String) async throws -> SymmetricKey {
+    private func signingKey(date: String, secretAccessKey: String) async throws -> SymmetricKey {
         let credentials = try await client.getCredential()
         let name = config.signingName
         let region = config.region.rawValue
@@ -156,20 +169,16 @@ extension S3 {
         return SymmetricKey(data: kSigning)
     }
 
-    private func getSignature(policy: String, date: String) async throws -> String {
-        let key = try await signingKey(date: date)
+    private func getSignature(policy: String, signingKey key: SymmetricKey) async throws -> String {
         let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
-    private func getCredential(date: String) async throws -> String {
-        let credentials = try await client.getCredential()
-
-        let accessKeyID = credentials.accessKeyId
+    private func getPresignedPostCredential(date: String, accessKeyId: String) async throws -> String {
         let region = config.region.rawValue
         let service = config.signingName
 
-        let credential = "\(accessKeyID)/\(date)/\(region)/\(service)"
+        let credential = "\(accessKeyId)/\(date)/\(region)/\(service)/aws4_request"
         return credential
     }
 
