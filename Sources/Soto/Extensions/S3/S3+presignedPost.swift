@@ -26,7 +26,8 @@ extension S3ErrorType {
 }
 
 extension S3 {
-    /// An encodable struct that represents acceptable values for the fields supplied in a presigned POST request
+    /// An encodable struct that represents acceptable values for the fields
+    /// supplied in a presigned POST request
     public struct PostPolicy: Encodable {
         let expiration: Date
         let conditions: [PostPolicyCondition]
@@ -41,7 +42,9 @@ extension S3 {
         }
     }
 
-    /// A condition for use in a PostPolicy, which can represent an exact match on the value for a particular field, or a rule that allows for other types of matches, eg. "starts-with"
+    /// A condition for use in a PostPolicy, which can represent an exact match
+    /// on the value for a particular field, or a rule that allows for other
+    /// types of matches, eg. "starts-with"
     public enum PostPolicyCondition: Encodable {
         case match(String, String)
         case rule(String, String, String)
@@ -61,7 +64,8 @@ extension S3 {
         }
     }
 
-    /// An encodable struct that represents the URL and form fields to use in a presigned POST request to S3
+    /// An encodable struct that represents the URL and form fields to use in a
+    /// presigned POST request to S3
     public struct PresignedPostResponse: Encodable {
         let url: URL
         let fields: [String: String]
@@ -69,39 +73,72 @@ extension S3 {
 
     ///  Builds the url and the form fields used for a presigned s3 post
     /// - Parameters:
-    ///   - key: Key name, optionally add ${filename} to the end to attach the submitted filename. Note that key related conditions and fields are filled out for you and should not be included in the Fields or Conditions parameter.
-    ///   - bucket: The name of the bucket to presign the post to. Note that bucket related conditions should not be included in the conditions parameter.
-    ///   - fields: A dictionary of prefilled form fields to build on top of. Elements that may be included are acl, Cache-Control, Content-Type, Content-Disposition, Content-Encoding, Expires, success_action_redirect, redirect, success_action_status, and x-amz-meta-.
+    ///   - key: Key name, optionally add ${filename} to the end to attach the
+    ///     submitted filename. Note that key related conditions and fields are
+    ///     filled out for you and should not be included in the Fields or
+    ///     Conditions parameter.
+    ///   - bucket: The name of the bucket to presign the post to. Note that
+    ///     bucket related conditions should not be included in the conditions parameter.
+    ///   - fields: A dictionary of prefilled form fields to build on top of.
+    ///     Elements that may be included are acl, Cache-Control, Content-Type,
+    ///     Content-Disposition, Content-Encoding, Expires,
+    ///     success_action_redirect, redirect, success_action_status, and x-amz-meta-.
     ///
-    ///     Note that if a particular element is included in the fields dictionary it will not be automatically added to the conditions list. You must specify a condition for the element as well.
-    ///   - conditions: A list of conditions to include in the policy. Each element can be either a match or a rule. For example:
+    ///     Note that if a particular element is included in the fields
+    ///     dictionary it will not be automatically added to the conditions
+    ///     list. You must specify a condition for the element as well.
+    ///   - conditions: A list of conditions to include in the policy. Each
+    ///     element can be either a match or a rule. For example:
     ///
     ///     ```
     ///     [
-    ///         .match("acl", "public-read"), .rule("content-length-range", "2", "5"), .rule("starts-with", "$success_action_redirect", "")
+    ///         .match("acl", "public-read"),
+    ///         .rule("content-length-range", "2", "5"),
+    ///         .rule("starts-with", "$success_action_redirect", "")
     ///     ]
     ///     ```
     ///
-    ///     Conditions that are included may pertain to acl, content-length-range, Cache-Control, Content-Type, Content-Disposition, Content-Encoding, Expires, success_action_redirect, redirect, success_action_status, and/or x-amz-meta-.
+    ///     Conditions that are included may pertain to acl, content-length-range,
+    ///     Cache-Control, Content-Type, Content-Disposition, Content-Encoding,
+    ///     Expires, success_action_redirect, redirect, success_action_status,
+    ///     and/or x-amz-meta-.
     ///
-    ///     Note that if you include a condition, you must specify the a valid value in the fields dictionary as well. A value will not be added automatically to the fields dictionary based on the conditions.
+    ///     Note that if you include a condition, you must specify the a valid
+    ///     value in the fields dictionary as well. A value will not be added
+    ///     automatically to the fields dictionary based on the conditions.
     ///   - expiresIn: The number of seconds the presigned post is valid for.
-    /// - Returns: An encodable PresignedPostResponse with two properties: url and fields. Url is the url to post to. Fields is a dictionary filled with the form fields and respective values to use when submitting the post.
+    /// - Returns: An encodable PresignedPostResponse with two properties: url
+    ///   and fields. Url is the url to post to. Fields is a dictionary filled
+    ///   with the form fields and respective values to use when submitting the post.
     public func generatePresignedPost(
         key: String,
         bucket: String,
         fields: [String: String] = [:],
-        conditions userConditions: [PostPolicyCondition] = [],
+        conditions: [PostPolicyCondition] = [],
         expiresIn: TimeInterval
     ) async throws -> PresignedPostResponse {
-        try await self.generatePresignedPost(key: key, bucket: bucket, fields: fields, conditions: userConditions, expiresIn: expiresIn, date: Date.now)
+        try await self.generatePresignedPost(
+            key: key,
+            bucket: bucket,
+            fields: fields,
+            conditions: conditions,
+            expiresIn: expiresIn,
+            date: Date.now
+        )
     }
 
     // Private API adds date argument for testing
-    private func generatePresignedPost(key: String, bucket: String, fields: [String: String] = [:], conditions userConditions: [PostPolicyCondition] = [], expiresIn: TimeInterval, date: Date = Date.now) async throws -> PresignedPostResponse {
+    private func generatePresignedPost(
+        key: String,
+        bucket: String,
+        fields: [String: String] = [:],
+        conditions: [PostPolicyCondition] = [],
+        expiresIn: TimeInterval,
+        date: Date = Date.now
+    ) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
-        var conditions: [PostPolicyCondition] = []
+        var conditions: [PostPolicyCondition] = conditions
 
         // Update endpoint URL to include the bucket
         guard let url = URL(string: endpoint) else {
@@ -142,7 +179,6 @@ extension S3 {
         // Add required conditions
         conditions.append(.match("bucket", bucket))
         conditions.append(keyCondition)
-        conditions.append(contentsOf: userConditions)
         conditions.append(.match("x-amz-algorithm", algorithm))
         conditions.append(.match("x-amz-date", longDate))
         conditions.append(.match("x-amz-credential", presignedPostCredential))
