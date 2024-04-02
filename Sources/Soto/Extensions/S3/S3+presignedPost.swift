@@ -128,7 +128,7 @@ extension S3 {
     }
 
     // Private API adds date argument for testing
-    private func generatePresignedPost(
+    func generatePresignedPost(
         key: String,
         bucket: String,
         fields: [String: String] = [:],
@@ -206,7 +206,7 @@ extension S3 {
         return presignedPostResponse
     }
 
-    private func signingKey(date: String, secretAccessKey: String) async throws -> SymmetricKey {
+    func signingKey(date: String, secretAccessKey: String) async throws -> SymmetricKey {
         let credentials = try await client.getCredential()
         let name = config.signingName
         let region = config.region.rawValue
@@ -218,12 +218,12 @@ extension S3 {
         return SymmetricKey(data: kSigning)
     }
 
-    private func getSignature(policy: String, signingKey key: SymmetricKey) async throws -> String {
+    func getSignature(policy: String, signingKey key: SymmetricKey) async throws -> String {
         let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
-    private func getPresignedPostCredential(date: String, accessKeyId: String) async throws -> String {
+    func getPresignedPostCredential(date: String, accessKeyId: String) async throws -> String {
         let region = config.region.rawValue
         let service = config.signingName
 
