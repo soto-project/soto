@@ -123,7 +123,7 @@ extension S3 {
             fields: fields,
             conditions: conditions,
             expiresIn: expiresIn,
-            date: Date.now
+            date: Date()
         )
     }
 
@@ -134,7 +134,7 @@ extension S3 {
         fields: [String: String] = [:],
         conditions: [PostPolicyCondition] = [],
         expiresIn: TimeInterval,
-        date: Date = Date.now
+        date: Date = Date()
     ) async throws -> PresignedPostResponse {
         // Copy the fields and conditions to a variable
         var fields = fields
