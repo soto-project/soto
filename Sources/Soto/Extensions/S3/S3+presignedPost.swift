@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -166,7 +166,7 @@ extension S3 {
         let shortDate = self.shortDateFormat(date: date)
 
         let clientCredentials = try await client.getCredential()
-        let presignedPostCredential = try await getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
+        let presignedPostCredential = getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
 
         var keyCondition: PostPolicyCondition
         let suffix = "${filename}"
@@ -196,8 +196,8 @@ extension S3 {
         fields["Policy"] = stringToSign
 
         // Create the signature and add to fields
-        let signingKey = try await signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey)
-        let signature = try await getSignature(policy: stringToSign, signingKey: signingKey)
+        let signingKey = signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey)
+        let signature = getSignature(policy: stringToSign, signingKey: signingKey)
         fields["x-amz-signature"] = signature
 
         // Create the response
@@ -206,24 +206,23 @@ extension S3 {
         return presignedPostResponse
     }
 
-    func signingKey(date: String, secretAccessKey: String) async throws -> SymmetricKey {
-        let credentials = try await client.getCredential()
+    func signingKey(date: String, secretAccessKey: String) -> SymmetricKey {
         let name = config.signingName
         let region = config.region.rawValue
 
-        let kDate = HMAC<SHA256>.authenticationCode(for: [UInt8](date.utf8), using: SymmetricKey(data: Array("AWS4\(credentials.secretAccessKey)".utf8)))
+        let kDate = HMAC<SHA256>.authenticationCode(for: [UInt8](date.utf8), using: SymmetricKey(data: Array("AWS4\(secretAccessKey)".utf8)))
         let kRegion = HMAC<SHA256>.authenticationCode(for: [UInt8](region.utf8), using: SymmetricKey(data: kDate))
         let kService = HMAC<SHA256>.authenticationCode(for: [UInt8](name.utf8), using: SymmetricKey(data: kRegion))
         let kSigning = HMAC<SHA256>.authenticationCode(for: [UInt8]("aws4_request".utf8), using: SymmetricKey(data: kService))
         return SymmetricKey(data: kSigning)
     }
 
-    func getSignature(policy: String, signingKey key: SymmetricKey) async throws -> String {
+    func getSignature(policy: String, signingKey key: SymmetricKey) -> String {
         let signature = HMAC<SHA256>.authenticationCode(for: [UInt8](policy.utf8), using: key).hexDigest()
         return signature
     }
 
-    func getPresignedPostCredential(date: String, accessKeyId: String) async throws -> String {
+    func getPresignedPostCredential(date: String, accessKeyId: String) -> String {
         let region = config.region.rawValue
         let service = config.signingName
 
