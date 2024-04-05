@@ -231,20 +231,31 @@ extension S3 {
     }
 
     private func shortDateFormat(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyyMMdd"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions.insert(.withYear)
+        formatter.formatOptions.insert(.withMonth)
+        formatter.formatOptions.insert(.withDay)
+        formatter.formatOptions.remove(.withTime)
+        formatter.formatOptions.remove(.withTimeZone)
+        formatter.formatOptions.remove(.withDashSeparatorInDate)
 
-        return dateFormatter.string(from: date)
+        let formattedDate = formatter.string(from: date)
+
+        return formattedDate
     }
 
     private func longDateFormat(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions.insert(.withYear)
+        formatter.formatOptions.insert(.withMonth)
+        formatter.formatOptions.insert(.withDay)
+        formatter.formatOptions.insert(.withTime)
+        formatter.formatOptions.insert(.withTimeZone)
+        formatter.formatOptions.remove(.withDashSeparatorInDate)
+        formatter.formatOptions.remove(.withColonSeparatorInTime)
 
-        return dateFormatter.string(from: date)
+        let formattedDate = formatter.string(from: date)
+
+        return formattedDate
     }
 }
