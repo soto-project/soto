@@ -166,7 +166,7 @@ extension S3 {
         let shortDate = self.shortDateFormat(date: date)
 
         let clientCredentials = try await client.getCredential()
-        let presignedPostCredential = getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
+        let presignedPostCredential = self.getPresignedPostCredential(date: shortDate, accessKeyId: clientCredentials.accessKeyId)
 
         var keyCondition: PostPolicyCondition
         let suffix = "${filename}"
@@ -197,7 +197,7 @@ extension S3 {
 
         // Create the signature and add to fields
         let signingKey = signingKey(date: shortDate, secretAccessKey: clientCredentials.secretAccessKey)
-        let signature = getSignature(policy: stringToSign, signingKey: signingKey)
+        let signature = self.getSignature(policy: stringToSign, signingKey: signingKey)
         fields["x-amz-signature"] = signature
 
         // Create the response
